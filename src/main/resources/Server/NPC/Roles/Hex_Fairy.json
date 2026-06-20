@@ -1,0 +1,15 @@
+{
+  "Type": "Variant",
+  "Reference": "Template_Hex_Creature",
+  "Modify": {
+    "Appearance": "Hex_Fairy",
+    "DropHexItem": "Hex_Fairy_Block",
+    "NameTranslationKey": { "Compute": "NameTranslationKey" }
+  },
+  "Parameters": {
+    "NameTranslationKey": {
+      "Value": "server.npcRoles.Hex_Fairy.name",
+      "Description": "Translation key for NPC name display"
+    }
+  }
+}

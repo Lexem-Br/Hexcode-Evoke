@@ -1,0 +1,77 @@
+{
+  "TranslationProperties": {
+    "Name": "Hex Mannequin Item"
+  },
+  "Icon": "Icons/ItemsGenerated/Hex_Mannequin_Block.png",
+  "Recipe": {
+    "TimeSeconds": 1,
+    "Input": [
+      {
+        "ResourceTypeId": "Wood_Trunk",
+        "Quantity": 2
+      },
+      {
+        "ItemId": "Ingredient_Stick",
+        "Quantity": 10
+      },
+      {
+        "ItemId": "Ingredient_Leather_Light",
+        "Quantity": 1
+      },
+      {
+        "ItemId": "Ingredient_Life_Essence",
+        "Quantity": 10
+      }
+    ],
+    "BenchRequirement": [
+      {
+        "Id": "Arcanebench",
+        "Categories": [
+          "Arcane_Hexcode"
+        ]
+      }
+    ]
+  },
+  "BlockType": {
+    "Material": "Solid",
+    "DrawType": "Model",
+    "Opacity": "Transparent",
+    "CustomModel": "NPC/MISC/Mannequin/Models/Model.blockymodel",
+    "CustomModelTexture": [
+      {
+        "Texture": "NPC/MISC/Mannequin/Models/Model_Default.png",
+        "Weight": 0
+      }
+    ],
+    "HitboxType": "Plant_Tall_Full",
+    "VariantRotation": "NESW",
+    "Flags": {},
+    "Gathering": {
+      "Breaking": {
+        "GatherType": "Woods"
+      }
+    },
+    "BlockSoundSetId": "Wood",
+    "PhysicalMaterialId": "Wood",
+    "ParticleColor": "#65482d",
+    "BlockParticleSetId": "Wood",
+    "TextureComputedColor": "#67412B",
+    "RequiresAlphaBlending": false,
+    "CustomModelScale": 0.5
+  },
+  "PlayerAnimationsId": "Block",
+  "IconProperties": {
+    "Scale": 0.4,
+    "Rotation": [
+      0,
+      325,
+      355
+    ],
+    "Translation": [
+      -4,
+      -90
+    ]
+  },
+  "ItemSoundSetId": "ISS_Blocks_Wood",
+  "Quality": "Rare"
+}

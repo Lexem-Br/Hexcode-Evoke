@@ -1,0 +1,519 @@
+{
+  "StartState": "Idle",
+  "DefaultSubState": "Default",
+  "Type": "Abstract",
+  "Parameters": {
+    "Appearance": {
+      "Value": "Hex_Fairy",
+      "Description": "Model to be used."
+    },
+    "ApplySeparation": {
+      "Value": true,
+      "Description": "When set to false, NPCs wont try to avoid each other or player, it can lead to them stacking together, but can help to avoid jerky-like movemenet in enclosed space."
+    },
+    "ViewRange": {
+      "Value": 15,
+      "Description": "The range from which the target will be seen. If zero, sight will be disabled."
+    },
+    "ViewSector": {
+      "Value": 180,
+      "Description": "The view sector within which the target needs to be to be seen."
+    },
+    "HearingRange": {
+      "Value": 8,
+      "Description": "The range from which the target will be heard. If zero, hearing will be disabled."
+    },
+    "AbsoluteDetectionRange": {
+      "Value": 2,
+      "Description": "The range at which a target is guaranteed to be detected. If zero, abosulte detection will be disabled."
+    },
+    "AlertedRange": {
+      "Value": 30,
+      "Description": "A range within which the player can be seen/sensed when the NPC is alerted to their presence"
+    },
+    "DropList": {
+      "Value": "Empty",
+      "Description": "Drop Items"
+    },
+    "MaxSpeed": {
+      "Value": 10,
+      "Description": "Maximum walking speed"
+    },
+    "MaxClimbHeight": {
+      "Value": 3,
+      "Description": "Max climb height"
+    },
+    "MaxDropHeight": {
+      "Value": 5,
+      "Description": "Max drop height"
+    },
+    "RunThreshold": {
+      "Value": 0.3,
+      "Description": "Relative speed at which run animation should be used. A value of 1 disables run animations"
+    },
+    "DefaultHotbarSlot": {
+      "Value": 0,
+      "Description": "Default hotbar slot to equip (i.e. weapon)."
+    },
+    "DefaultOffHandSlot": {
+      "Value": -1,
+      "Description": "Default off-hand item slot. -1 for nothing."
+    },
+    "UseCombatActionEvaluator": {
+      "Value": false,
+      "Description": "Whether to use the Combat Action Evaluator via an accompanying CombatConfig. This completely replaces all other combat behavior but still uses movement properties such as strafe durations and move speeds."
+    },
+    "Attack": {
+      "Value": "Root_NPC_Attack_Melee",
+      "Description": "The attack to use."
+    },
+    "AttackDistance": {
+      "Value": 2,
+      "Description": "The distance at which an NPC will execute attacks"
+    },
+    "DesiredAttackDistanceRange": {
+      "Value": [
+        1.5,
+        1.5
+      ],
+      "Description": "The distance within which the NPC wants to be from its target while attacking. The max value should be lower than AttackDistance."
+    },
+    "AttackPauseRange": {
+      "Value": [
+        1.5,
+        2
+      ],
+      "Description": "The range for absolute minimum time before an NPC can execute a second attack (or block)."
+    },
+    "CombatRelativeTurnSpeed": {
+      "Value": 1.5,
+      "Description": "Modifier that decides turn speed difference in combat."
+    },
+    "CombatBehaviorDistance": {
+      "Value": 5,
+      "Description": "The distance within which to switch from smart chasing to combat-oriented movement behavior."
+    },
+    "CombatDirectWeight": {
+      "Value": 10,
+      "Description": "Weight for the direct combat movement behavior (i.e. just going straight at the target, maintaining a close distance and attacking. Set to 0 to disable."
+    },
+    "CombatAlwaysMovingWeight": {
+      "Value": 0,
+      "Description": "Weight for the combat movement behavior where the NPC will always charge at you while attacking. Set to 0 to disable."
+    },
+    "CombatStrafeWeight": {
+      "Value": 10,
+      "Description": "Weight for the combat strafing movement behavior. Set to 0 to disable."
+    },
+    "CombatStrafingDurationRange": {
+      "Value": [
+        1,
+        1
+      ],
+      "Description": "How long to strafe for when in the combat strafing movement behavior. Only applies if CombatStrafeWeight is greater than 0."
+    },
+    "CombatStrafingFrequencyRange": {
+      "Value": [
+        2,
+        2
+      ],
+      "Description": "How frequently to strafe when in the combat strafing movement behavior. Only applies if CombatStrafeWeight is greater than 0."
+    },
+    "CombatAttackPreDelay": {
+      "Value": [
+        0.2,
+        0.2
+      ],
+      "Description": "The time delay range before the NPC performs an attack, provided it\u0027s in attack range."
+    },
+    "CombatAttackPostDelay": {
+      "Value": [
+        0.2,
+        0.2
+      ],
+      "Description": "The time delay range after the NPC performs an attack, provided it\u0027s in attack range."
+    },
+    "CombatBackOffAfterAttack": {
+      "Value": true,
+      "Description": "Whether to back off after performing an attack."
+    },
+    "CombatBackOffDistanceRange": {
+      "Value": [
+        4,
+        4
+      ],
+      "Description": "How far to back off after performing an attack. Max should be lower than the CombatBehaviorDistance."
+    },
+    "CombatBackOffDurationRange": {
+      "Value": [
+        2,
+        3
+      ],
+      "Description": "How long to back off for after performing an attack."
+    },
+    "BlockAbility": {
+      "Value": "Shield_Block",
+      "Description": "The interaction to use for blocking when backing away. Set to empty to disable blocking."
+    },
+    "BlockProbability": {
+      "Value": 50,
+      "Description": "The probability this NPC will block when backing away if a BlockAbility is set."
+    },
+    "CombatFleeIfTooCloseDistance": {
+      "Value": 0,
+      "Description": "In combat, if the target gets within this distance for a certain amount of time, the NPC will attempt to flee to a safe distance instead of simply backing away. Set to 0 to disable behavior."
+    },
+    "AdditionalCombatBehaviorMacroElement": {
+      "Value": "Component_Instruction_Null",
+      "Description": "An optional macro element for supplying more bespoke combat movement behavior. Weight for the behavior must be internally defined in the macro element."
+    },
+    "TargetSwitchTimer": {
+      "Value": [
+        2,
+        2
+      ],
+      "Description": "Minimum time the NPC will be locked onto a single target before switching"
+    },
+    "TargetRange": {
+      "Value": 4,
+      "Description": "The distance the target needs to be within to maintain priority over other targets while in combat"
+    },
+    "ChaseRelativeSpeed": {
+      "Value": 0.67,
+      "Description": "Relative chasing speed when pursuing a target."
+    },
+    "CombatMovingRelativeSpeed": {
+      "Value": 0.6,
+      "Description": "Relative speed to use during combat specific movement (e.g. to achieve slower strafing)."
+    },
+    "CombatBackwardsRelativeSpeed": {
+      "Value": 0.3,
+      "Description": "Relative speed to use during combat when backing away from target."
+    },
+    "AimingHitProbability": {
+      "Value": 0.9,
+      "Description": "Hit probability when aiming. Mostly affects ranged attacks."
+    },
+    "AimingSpread": {
+      "Value": 0,
+      "Description": "Spread when aiming. Mostly affects ranged attacks."
+    },
+    "FlockArray": {
+      "Value": [],
+      "TypeHint": "String",
+      "Description": "Array containing NPCs for this flock type."
+    },
+    "DisableDamageGroups": {
+      "Value": [
+        "Self"
+      ],
+      "Description": "Groups not to take damage from."
+    },
+    "MaxHealth": {
+      "Value": 100,
+      "Description": "Max health for the NPC."
+    },
+    "BreathesInWater": {
+      "Value": false,
+      "Description": "Whether this NPC can breathe underwater."
+    },
+    "NameTranslationKey": {
+      "Value": "server.npcRoles.Template.name",
+      "Description": "Translation key for NPC name display"
+    },
+    "DespawnTimer": {
+      "Value": 300,
+      "Description": "How long the NPC will remain before it despawns in seconds."
+    },
+    "SummonerLeashRange": {
+      "Value": 30,
+      "Description": "How far away from the summoner the NPC is allowed to be while in combat before trying to return to the summoner\u0027s position."
+    },
+    "DeathParticles": {
+      "Value": "Effect_Death_Medium",
+      "Description": "The particle system that spawns when the NPC\u0027s corpse disappears."
+    },
+    "DropDeathItemsInstantly": {
+      "Value": false,
+      "Description": "Whether the NPC\u0027s drop list should be executed when the NPC dies. If set to false, items drop when the corpse disappears."
+    },
+    "DeathAnimationTime": {
+      "Value": 1.5,
+      "Description": "The time it takes for this NPC\u0027s corpse to disappear."
+    }
+  },
+  "IsMemory": false,
+  "BreathesInWater": {
+    "Compute": "BreathesInWater"
+  },
+  "Appearance": {
+    "Compute": "Appearance"
+  },
+  "DropList": { "Compute": "DropList" },
+  "DisableDamageGroups": {
+    "Compute": "DisableDamageGroups"
+  },
+  "DisableDamageFlock": true,
+  "HotbarSize": 3,
+  "DefaultOffHandSlot": {
+    "Compute": "DefaultOffHandSlot"
+  },
+  "OffHandSlots": 2,
+  "DefaultNPCAttitude": "Ignore",
+  "DefaultPlayerAttitude": "Ignore",
+  "FlockSpawnTypes": {
+    "Compute": "FlockArray"
+  },
+  "FlockAllowedNPC": {
+    "Compute": "FlockArray"
+  },
+  "ApplySeparation": {
+    "Compute": "ApplySeparation"
+  },
+  "SeparationDistance": 2,
+  "SeparationWeight": 1,
+  "SeparationDistanceTarget": 0.5,
+  "SeparationNearRadiusTarget": 2,
+  "SeparationFarRadiusTarget": 7,
+  "KnockbackScale": 0.5,
+  "DeathParticles": {
+    "Compute": "DeathParticles"
+  },
+  "DropDeathItemsInstantly": {
+    "Compute": "DropDeathItemsInstantly"
+  },
+  "DeathAnimationTime": {
+    "Compute": "DeathAnimationTime"
+  },
+  "Invulnerable": true,
+  "MotionControllerList": [
+    {
+      "Type": "Walk",
+      "MaxWalkSpeed": {
+        "Compute": "MaxSpeed"
+      },
+      "Gravity": 5,
+      "RunThreshold": {
+        "Compute": "RunThreshold"
+      },
+      "MaxFallSpeed": 10,
+      "MaxRotationSpeed": 360,
+      "Acceleration": 10,
+      "MaxClimbHeight": {
+        "Compute": "MaxClimbHeight"
+      },
+      "MaxDropHeight": {
+        "Compute": "MaxDropHeight"
+      },
+      "MinHover": 1,
+      "MaxHover": 1,
+      "HoverFreq": 10
+    }
+  ],
+  "MaxHealth": {
+    "Compute": "MaxHealth"
+  },
+  "Instructions": [
+    {
+      "Continue": true,
+      "Instructions": [
+        {
+          "Continue": true,
+          "Sensor": {
+            "Type": "Self",
+            "Filters": [
+              {
+                "Type": "Flock",
+                "FlockStatus": "NotMember"
+              }
+            ]
+          },
+          "Instructions": [
+            {
+              "Sensor": {
+                "Type": "Player",
+                "Range": 20
+              },
+              "Actions": [
+                {
+                  "Type": "JoinFlock",
+                  "ForceJoin": true
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Instructions": [
+        {
+          "Sensor": {
+            "Type": "State",
+            "State": "Despawn"
+          },
+          "ActionsAtomic": true,
+          "Instructions": [
+            {
+              "Sensor": {
+                "Type": "Any",
+                "Once": true
+              },
+              "Actions": [
+                {
+                  "Type": "SpawnParticles",
+                  "Offset": [ 0, 0.5, 0 ],
+                  "ParticleSystem": "Effect_Death"
+                },
+                {
+                  "Type": "DropItem",
+                  "Item": "Hex_Fairy_Block",
+                  "Distance": [ 0, 0 ],
+                  "ThrowSpeed": 100,
+                  "Once": true
+                },
+                {
+                  "Type": "Despawn"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "Sensor": {
+            "Type": "State",
+            "State": "Idle"
+          },
+          "Instructions": [
+            {
+              "Sensor": {
+                "Type": "State",
+                "State": ".Default"
+              },
+              "Instructions": [
+                {
+                  "Sensor": {
+                    "Type": "Player",
+                    "Range": 1
+                  },
+                  "HeadMotion": {
+                    "Type": "Aim",
+                    "HitProbability": { "Compute": "AimingHitProbability" },
+                    "Deflection": true,
+                    "Spread": { "Compute": "AimingSpread" }
+                  },
+                  "BodyMotion": {
+                    "Type": "MaintainDistance",
+                    "DesiredDistanceRange": { "Compute": "DesiredAttackDistanceRange" },
+                    "MoveThreshold": 0.2,
+                    "RelativeForwardsSpeed": { "Compute": "CombatMovingRelativeSpeed" },
+                    "RelativeBackwardsSpeed": { "Compute": "CombatBackwardsRelativeSpeed" }
+                  }
+                },
+                {
+                  "Sensor": {
+                    "Type": "Player",
+                    "Range": 10,
+                    "LockOnTarget": true
+                  },
+                  "Instructions": [
+                    {
+                      "Sensor": {
+                        "Type": "Target"
+                      },
+                      "BodyMotion": {
+                        "Type": "Seek",
+                        "SlowDownDistance": 5,
+                        "StopDistance": 3,
+                        "RelativeSpeed": 0.5
+                      }
+                    }
+                  ]
+                },
+                {
+                  "Sensor": {
+                    "Type": "Target",
+                    "Range": 20
+                  },
+                  "BodyMotion": {
+                    "Type": "Seek",
+                    "SlowDownDistance": 5,
+                    "StopDistance": 3,
+                    "RelativeSpeed": 1
+                  }
+                },
+                {
+                  "Continue": true,
+                  "Sensor": {
+                    "Type": "Target"
+                  },
+                  "Actions": [
+                    {
+                      "Type": "SpawnParticles",
+                      "Offset": [ 0, 0.5, 0 ],
+                      "ParticleSystem": "Effect_Death",
+                      "Once": true
+                    }
+                  ],
+                  "BodyMotion": {
+                    "Type": "Teleport",
+                    "OffsetRange": [
+                      2,
+                      2
+                    ],
+                    "MaxYOffset": 2
+                  },
+                  "Actions": [
+                    {
+                      "Type": "SpawnParticles",
+                      "Offset": [ 0, 0, 0 ],
+                      "ParticleSystem": "Effect_Death",
+                      "Once": true
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "InteractionInstruction": {
+    "Instructions": [
+      {
+        "Continue": true,
+        "Sensor": {
+          "Type": "Any"
+        },
+        "Actions": [
+          {
+            "Type": "SetInteractable",
+            "Interactable": true
+          }
+        ]
+      },
+      {
+        "Sensor": {
+          "Type": "HasInteracted"
+        },
+        "Instructions": [
+          {
+            "Actions": [
+              {
+                "Type": "LockOnInteractionTarget"
+              },
+              {
+                "Type": "State",
+                "State": "Despawn"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "NameTranslationKey": {
+    "Compute": "NameTranslationKey"
+  }
+}

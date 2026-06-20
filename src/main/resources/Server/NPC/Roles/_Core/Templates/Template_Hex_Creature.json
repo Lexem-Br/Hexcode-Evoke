@@ -1,0 +1,292 @@
+{
+  "StartState": "Idle",
+  "DefaultSubState": "Default",
+  "Type": "Generic",
+  "Invulnerable": true,
+  "Parameters": {
+    "Appearance": {
+      "Value": "Hex_Fairy",
+      "Description": "Model to be used."
+    },
+    "FlockArray": {
+      "Value": [],
+      "TypeHint": "String",
+      "Description": "Array containing NPCs for this flock type."
+    },
+    "MinHover": {
+      "Value": 0,
+      "Description": "Minimum hover height over ground."
+    },
+    "MaxHover": {
+      "Value": 0,
+      "Description": "Maximum hover height over ground."
+    },
+    "HoverFreq": {
+      "Value": 0,
+      "Description": "Hover frequency."
+    },
+    "ApplySeparation": {
+      "Value": true,
+      "Description": "When set to false, NPCs wont try to avoid each other or player, it can lead to them stacking together, but can help to avoid jerky-like movemenet in enclosed space."
+    },
+    "DropHexItem": {
+      "Value": "Hex_Fairy_Block",
+      "Description": "Drop from Hex Creature"
+    },
+    "NameTranslationKey": {
+      "Value": "server.npcRoles.Template.name",
+      "Description": "Translation key for NPC name display"
+    }
+  },
+  "Appearance": {"Compute": "Appearance"},
+  "FlockSpawnTypes": {"Compute": "FlockArray"},
+  "FlockAllowedNPC": {"Compute": "FlockArray"},
+  "ApplySeparation": {"Compute": "ApplySeparation"},
+  "SeparationDistance": 2,
+  "SeparationWeight": 1,
+  "SeparationDistanceTarget": 0.5,
+  "SeparationNearRadiusTarget": 2,
+  "MotionControllerList": [
+    {
+      "Type": "Walk",
+      "MaxWalkSpeed": 15,
+      "Gravity": 10,
+      "MaxFallSpeed": 8,
+      "Acceleration": 10,
+      "MinHover": 1,
+      "MaxHover": 1,
+      "HoverFreq": 10,
+      "MaxClimbHeight": 10
+    }
+  ],
+  "MaxHealth": 100,
+  "Instructions": [
+    {
+      "Continue": true,
+      "Instructions": [
+        {
+          "Continue": true,
+          "Sensor": {
+            "Type": "Self",
+            "Filters": [
+              {
+                "Type": "Flock",
+                "FlockStatus": "NotMember"
+              }
+            ]
+          },
+          "Instructions": [
+            {
+              "Sensor": {
+                "Type": "Player",
+                "Range": 20
+              },
+              "Actions": [
+                {
+                  "Type": "JoinFlock",
+                  "ForceJoin": true
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Instructions": [
+        {
+          "Sensor": {
+            "Type": "State",
+            "State": "Despawn"
+          },
+          "ActionsAtomic": true,
+          "Instructions": [
+            {
+              "Sensor": {
+                "Type": "Any",
+                "Once": true
+              },
+              "Actions": [
+                {
+                  "Type": "SpawnParticles",
+                  "Offset": [ 0, 0.5, 0 ],
+                  "ParticleSystem": "Effect_Death"
+                },
+                {
+                  "Type": "DropItem",
+                  "Item": {"Compute": "DropHexItem"},
+                  "Distance": [ 0, 0 ],
+                  "ThrowSpeed": 15,
+                  "Once": true
+                }
+              ]
+            },
+            {
+              "ActionsBlocking": true,
+              "Actions": [
+                {
+                  "Type": "Despawn"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "Sensor": {
+            "Type": "State",
+            "State": "Idle"
+          },
+          "Instructions": [
+            {
+              "Sensor": {
+                "Type": "State",
+                "State": ".Default"
+              },
+              "Instructions": [
+                {
+                  "$Comment": "Move away from the player (WIP)",
+                  "Sensor": {
+                    "Type": "Player",
+                    "Range": 2
+                  },
+                  "BodyMotion": {
+                    "Type": "MaintainDistance",
+                    "DesiredDistanceRange": [ 1.5, 1.5 ],
+                    "MoveThreshold": 0.5,
+                    "RelativeForwardsSpeed": 0.5,
+                    "RelativeBackwardsSpeed": 0.3
+                  }
+                },
+                {
+                  "Sensor": {
+                    "Type": "Player",
+                    "Range": 10,
+                    "LockOnTarget": true
+                  },
+                  "Instructions": [
+                    {
+                      "$Comment": "Move away from the flock",
+                      "Continue": true,
+                      "Sensor": {
+                        "Type": "Mob",
+                        "Range": 2,
+                        "ExcludeOwnType": false,
+                        "LockOnTarget": false,
+                        "Filters": [
+                          {
+                            "Type": "NPCGroup",
+                            "IncludeGroups": [ "Self" ]
+                          },
+                          {
+                            "Type": "ViewSector",
+                            "ViewSector": 35
+                          }
+                        ]
+                      },
+                      "BodyMotion": {
+                        "Type": "MaintainDistance",
+                        "DesiredDistanceRange": [ 0.3, 0.6 ],
+                        "StrafingDurationRange": [ 1, 2 ],
+                        "StrafingFrequencyRange": [ 1, 1 ],
+                        "MoveThreshold": 0.3,
+                        "RelativeForwardsSpeed": 0.5,
+                        "RelativeBackwardsSpeed": 0.3
+                      }
+                    },
+                    {
+                      "Continue": true,
+                      "Sensor": {
+                        "Type": "Target"
+                      },
+                      "BodyMotion": {
+                        "Type": "Seek",
+                        "SlowDownDistance": 5,
+                        "StopDistance": 3,
+                        "RelativeSpeed": 0.5
+                      }
+                    }
+                  ]
+                },
+                {
+                  "Sensor": {
+                    "Type": "Target",
+                    "Range": 20
+                  },
+                  "BodyMotion": {
+                    "Type": "Seek",
+                    "SlowDownDistance": 5,
+                    "StopDistance": 3,
+                    "RelativeSpeed": 1
+                  }
+                },
+                {
+                  "Sensor": {
+                    "Type": "Target"
+                  },
+                  "Actions": [
+                    {
+                      "Type": "SpawnParticles",
+                      "Offset": [ 0, 0.5, 0 ],
+                      "ParticleSystem": "Effect_Death",
+                      "Once": true
+                    }
+                  ],
+                  "BodyMotion": {
+                    "Type": "Teleport",
+                    "OffsetRange": [ 2, 2 ],
+                    "MaxYOffset": 2
+                  },
+                  "Actions": [
+                    {
+                      "Type": "SpawnParticles",
+                      "Offset": [ 0, 0, 0 ],
+                      "ParticleSystem": "Effect_Death",
+                      "Once": true
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "InteractionInstruction": {
+    "Instructions": [
+      {
+        "Continue": true,
+        "Sensor": {
+          "Type": "Any"
+        },
+        "Actions": [
+          {
+            "Type": "SetInteractable",
+            "Interactable": true
+          }
+        ]
+      },
+      {
+        "Sensor": {
+          "Type": "HasInteracted"
+        },
+        "Instructions": [
+          {
+            "Actions": [
+              {
+                "Type": "LockOnInteractionTarget"
+              },
+              {
+                "Type": "State",
+                "State": "Despawn"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "NameTranslationKey": {
+    "Compute": "NameTranslationKey"
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "Type": "Variant",
+  "Reference": "Template_Hex_Mannequin",
+  "Modify": {
+    "Appearance": "Mannequin",
+    "MaxHealth": 74,
+    "HearingRange": 8,
+    "ViewSector": 270,
+    "DefaultOffHandSlot": 0,
+    "FlockArray": [
+      "Hex_Mannequin"
+    ],
+    "Attack": "Root_NPC_Skeleton_Knight_Attack",
+    "AttackDistance": 3,
+    "AttackPauseRange": [
+      1,
+      1.5
+    ],
+    "CombatAttackPreDelay": [
+      0.1,
+      0.3
+    ],
+    "DesiredAttackDistanceRange": [
+      1,
+      2
+    ],
+    "MaxSpeed": 12,
+    "ApplySeparation": true,
+    "BreathesInWater": true,
+    "CombatBackOffAfterAttack": false,
+    "CombatStrafingDurationRange": [
+      0.2,
+      1
+    ],
+    "BlockProbability": 0,
+    "NameTranslationKey": "server.npcRoles.Hex_Mannequin.name"
+  }
+}

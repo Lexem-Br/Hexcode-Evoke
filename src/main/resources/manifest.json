@@ -1,0 +1,26 @@
+{
+    "Group": "com.lexem.hexcodeevoke",
+    "Name": "Hexcode_Evoke",
+    "Version": "0.2.1",
+    "Description": "",
+    "Authors": [
+        {
+            "Name": "Lexem"
+        }
+    ],
+    "Website": "",
+    "ServerVersion": ">=0.5.6",
+    "Dependencies": {
+        "Hytale:AssetModule": "*"
+    },
+    "OptionalDependencies": {
+        "Riprod:Hexcode": "^0.8.6",
+        "Riprod:Patchly": "*"
+    },
+    "DisabledByDefault": false,
+    "IncludesAssetPack": true,
+    "Main": "com.lexem.hexcodeevoke.HexcodeEvoke",
+    "UpdateChecker": {
+        "CurseForge": ""
+    }
+}

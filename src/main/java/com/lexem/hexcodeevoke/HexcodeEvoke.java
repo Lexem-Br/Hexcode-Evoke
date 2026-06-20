@@ -1,0 +1,59 @@
+package com.lexem.hexcodeevoke;
+
+import com.hypixel.hytale.common.plugin.PluginIdentifier;
+import com.hypixel.hytale.logger.HytaleLogger;
+import com.hypixel.hytale.server.core.plugin.JavaPlugin;
+import com.hypixel.hytale.server.core.plugin.JavaPluginInit;
+import com.hypixel.hytale.server.core.plugin.PluginBase;
+import com.hypixel.hytale.server.core.plugin.PluginManager;
+import com.lexem.hexcodeevoke.builtin.HexcodeBuiltin;
+import com.lexem.hexcodeevoke.hexitems.RegisterHexItemsPlugin;
+import com.riprod.hexcode.builtin.BuiltinPlugin;
+import org.checkerframework.checker.nullness.compatqual.NonNullDecl;
+
+public class HexcodeEvoke extends JavaPlugin {
+
+    private RegisterHexItemsPlugin registerHexItemsPlugin;
+    private static HexcodeEvoke instance;
+
+    private static final HytaleLogger LOGGER = HytaleLogger.forEnclosingClass();
+
+    public HexcodeEvoke(@NonNullDecl JavaPluginInit init) {
+        super(init);
+        instance = this;
+        LOGGER.atInfo().log("Hello from " + this.getName() + " version " + this.getManifest().getVersion().toString());
+        registerHexItemsPlugin = new RegisterHexItemsPlugin(init);
+    }
+
+    @Override
+    protected void setup() {
+        LOGGER.atInfo().log("Setting up plugin " + this.getName());
+
+        if (isHexcodePresent()) {
+            HexcodeBuiltin.Setup();
+            this.registerExternal();
+        } else {
+            LOGGER.atInfo().log("Hexcode not installed");
+        }
+    }
+
+    private void registerExternal() {
+        this.registerHexItemsPlugin.startup();
+    }
+
+    @Override
+    protected void shutdown() {
+        LOGGER.atInfo().log("Shutting down plugin " + this.getName());
+    }
+
+    public static HexcodeEvoke get() {
+        return instance;
+    }
+
+    private boolean isHexcodePresent() {
+        PluginBase hexcode = PluginManager.get()
+                .getPlugin(PluginIdentifier.fromString("Riprod:Hexcode"));
+        return hexcode != null && hexcode.isEnabled();
+    }
+    
+}

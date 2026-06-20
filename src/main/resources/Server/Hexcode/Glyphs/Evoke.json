@@ -1,0 +1,43 @@
+{
+  "Parent": "Glyph_Template",
+  "Title": "hexcode.glyphs.Evoke.name",
+  "Description": "hexcode.glyphs.Evoke.description",
+  "ModelPath": "Evoke",
+  "BasePower": 1.0,
+  "ManaConsumption": 0,
+  "ShapeStructure": [
+    {
+      "ShapeId": "Square",
+      "Size": 1.0
+    },
+    {
+      "ShapeId": "Triangle",
+      "Size": 0.8
+    },
+    {
+      "ShapeId": "Antisquare",
+      "Size": 0.55
+    }
+  ],
+  "Slots": {
+    "Target": {
+      "Style": "Input",
+      "Label": "hexcode.glyphs.Evoke.target.name",
+      "Description": "hexcode.glyphs.Evoke.target.description",
+      "Unique": true
+    },
+    "Next": {
+      "Style": "Next",
+      "Label": "hexcode.glyphs.Evoke.Next.name",
+      "Description": "hexcode.glyphs.Evoke.Next.description"
+    }
+  },
+  "Volatility": {
+    "InstantCost": 0.1,
+    "DrainPerSecond": 0.0,
+    "RepeatEscalation": {
+      "Base": 1.0,
+      "K": 10.0
+    }
+  }
+}

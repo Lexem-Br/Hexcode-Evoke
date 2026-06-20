@@ -1,0 +1,149 @@
+{
+  "TranslationProperties": {
+    "Name": "evoke.items.Weapon_Spellbook_Evoke.name",
+    "Description": "evoke.items.Weapon_Spellbook_Evoke.description"
+  },
+  "Categories": [
+    "Items.Weapons"
+  ],
+  "Quality": "Rare",
+  "ItemLevel": 40,
+  "Model": "Items/Weapons/Spellbook/EvokeBook/Model.blockymodel",
+  "Texture": "Items/Weapons/Spellbook/EvokeBook/Texture.png",
+  "PlayerAnimationsId": "Spellbook",
+  "Icon": "Icons/ItemsGenerated/Evoke_Book.png",
+  "DroppedItemAnimation": "Items/Animations/Dropped/Dropped_Diagonal_Left.blockyanim",
+  "MaxStack": 1,
+  "Tags": {
+    "Type": [
+      "Weapon"
+    ],
+    "Family": [
+      "Spellbook"
+    ]
+  },
+  "Recipe": {
+    "TimeSeconds": 1,
+    "Input": [
+      {
+        "ItemId": "Ingredient_Leather_Medium",
+        "Quantity": 5
+      },
+      {
+        "ItemId": "Ingredient_Bar_Iron",
+        "Quantity": 10
+      },
+      {
+        "ItemId": "Ingredient_Charcoal",
+        "Quantity": 10
+      },
+      {
+        "ItemId": "Ingredient_Fabric_Scrap_Linen",
+        "Quantity": 10
+      },
+      {
+        "ItemId": "Ingredient_Life_Essence_Concentrated",
+        "Quantity": 1
+      }
+    ],
+    "BenchRequirement": [
+      {
+        "Categories": [
+          "Arcane_Hexcode"
+        ],
+        "Id": "Arcanebench"
+      }
+    ]
+  },
+  "Weapon": {},
+  "ItemSoundSetId": "ISS_Weapons_Books",
+  "Interactions": {
+    "Primary": {
+      "Interactions": [
+        {
+          "Type": "Charging",
+          "Effects": {
+            "WorldSoundEventId": "SFX_Skeleton_Mage_Spellbook_Charge",
+            "ItemAnimationId": "CastHurlCharging"
+          },
+          "AllowIndefiniteHold": true,
+          "HorizontalSpeedMultiplier": 0.8,
+          "CancelOnItemChange": true,
+          "RunTime": 0,
+          "Next": {
+            "0": {
+              "Type": "Simple",
+              "Effects": {
+                "ItemAnimationId": "Interact"
+              }
+            },
+            "0.8": {
+              "Type": "RunOnBlockTypes",
+              "BlockSets": [ "Hex_Item_List" ],
+              "MaxCount": 1,
+              "Range": 2,
+              "Interactions": {
+                "Interactions": [
+                  {
+                    "Type": "RunOnBlockTypes",
+                    "BlockSets": [ "Hex_Mannequin_List" ],
+                    "MaxCount": 1,
+                    "Range": 1,
+                    "Interactions": {
+                      "Type": "Serial",
+                      "Interactions": [
+                        {
+                          "Type": "SpawnNPC",
+                          "EntityId": "Hex_Mannequin"
+                        },
+                        {
+                          "Type": "DestroyBlock"
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "Type": "RunOnBlockTypes",
+                    "BlockSets": [ "Hex_Fairy_List" ],
+                    "MaxCount": 1,
+                    "Range": 1,
+                    "Interactions": {
+                      "Type": "Serial",
+                      "Interactions": [
+                        {
+                          "Type": "SpawnNPC",
+                          "EntityId": "Hex_Fairy"
+                        },
+                        {
+                          "Type": "DestroyBlock"
+                        }
+                      ]
+                    }
+                  }
+                ]
+              },
+              "Next": {
+                "Type": "Simple",
+                "Effects": {
+                  "ItemAnimationId": "CastHurlCharged"
+                }
+              },
+              "Failed": {
+                "Type": "Simple",
+                "Effects": {
+                  "ItemAnimationId": "Interact"
+                }
+              }
+            }
+          },
+          "Failed": {
+            "Type": "Simple",
+            "Effects": {
+              "ItemAnimationId": "Interact"
+            }
+          }
+        }
+      ]
+    }
+  }
+}

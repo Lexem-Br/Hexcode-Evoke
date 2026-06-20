@@ -1,0 +1,6 @@
+glyphs.Evoke.name=Evoke
+glyphs.Evoke.description=It makes a dummy come to life
+glyphs.Evoke.target.name=Target
+glyphs.Evoke.target.description=The target to Evoke
+glyphs.Evoke.Next.name=Next Hex
+glyphs.Evoke.Next.description=The next glyph to execute

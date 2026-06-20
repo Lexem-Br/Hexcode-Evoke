@@ -1,0 +1,61 @@
+{
+  "TranslationProperties": {
+    "Name": "Hex Fairy Item"
+  },
+  "Icon": "Icons/ItemsGenerated/Hex_Fairy_Block.png",
+  "Interactions": {
+    "Primary": "Root_Unarmed_Attack_Swing_Left",
+    "Secondary": "Block_Secondary"
+  },
+  "Recipe": {
+    "TimeSeconds": 1,
+    "Input": [
+      {
+        "ItemId": "Ingredient_Life_Essence",
+        "Quantity": 10
+      },
+      {
+        "ItemId": "Ingredient_Fire_Essence",
+        "Quantity": 10
+      },
+      {
+        "ItemId": "Ingredient_Feathers_Light",
+        "Quantity": 2
+      }
+    ],
+    "BenchRequirement": [
+      {
+        "Id": "Arcanebench",
+        "Categories": [
+          "Arcane_Hexcode"
+        ]
+      }
+    ]
+  },
+  "BlockType": {
+    "Material": "Solid",
+    "DrawType": "Model",
+    "CustomModel": "Blocks/Hex_Fairy/Model.blockymodel",
+    "CustomModelTexture": [
+      {
+        "Texture": "Blocks/Hex_Fairy/Texture.png",
+        "Weight": 1
+      }
+    ],
+    "HitboxType": "Plant_Medium",
+    "VariantRotation": "NESW",
+    "Gathering": {
+      "Harvest": {
+        "ItemId": "Hex_Fairy_Block"
+      }
+    },
+    "PhysicalMaterialId": "Stone",
+    "ParticleColor": "#65482d",
+    "TextureComputedColor": "#67412B",
+    "RequiresAlphaBlending": false,
+    "CustomModelScale": 0.5
+  },
+  "PlayerAnimationsId": "Item",
+  "ItemSoundSetId": "ISS_Blocks_Stone",
+  "Quality": "Rare"
+}

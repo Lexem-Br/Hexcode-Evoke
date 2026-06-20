@@ -1,0 +1,6 @@
+{
+  "IncludeBlockTypes": [
+    "Hex_Mannequin_Block",
+    "Hex_Fairy_Block"
+  ]
+}
