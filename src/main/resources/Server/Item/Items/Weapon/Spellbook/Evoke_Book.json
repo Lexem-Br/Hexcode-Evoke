@@ -79,7 +79,7 @@
             },
             "0.8": {
               "Type": "RunOnBlockTypes",
-              "BlockSets": [ "Hex_Item_List" ],
+              "BlockSets": [ "Hex_Block_List" ],
               "MaxCount": 1,
               "Range": 2,
               "Interactions": {

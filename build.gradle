@@ -5,7 +5,7 @@ plugins {
 }
 
 dependencies {
-    compileOnly 'curse.maven:hexcode-1448311:8240695'
+    implementation 'curse.maven:hexcode-1448311:8240695'
 }
 
 hytaleTools {

@@ -5,33 +5,26 @@ import com.hypixel.hytale.logger.HytaleLogger;
 import com.hypixel.hytale.math.vector.Rotation3f;
 import com.hypixel.hytale.server.core.asset.type.blocktype.config.*;
 import com.hypixel.hytale.server.core.universe.world.World;
-import com.hypixel.hytale.server.core.universe.world.npc.INonPlayerCharacter;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.hypixel.hytale.server.npc.NPCPlugin;
-import com.hypixel.hytale.server.npc.entities.NPCEntity;
 import com.lexem.hexcodeevoke.hexitems.HexItemRegistery;
 import com.riprod.hexcode.api.event.GlyphFizzleEvent;
+import com.riprod.hexcode.api.execution.HexExecuter;
 import com.riprod.hexcode.builtin.glyphs.bolt.BoltGlyphSlots;
 import com.riprod.hexcode.builtin.glyphs.bolt.style.BoltStyle;
+import com.riprod.hexcode.core.common.execution.component.HexContext;
+import com.riprod.hexcode.core.common.execution.component.VolatilityTracker;
 import com.riprod.hexcode.core.common.glyphs.registry.GlyphAsset;
 import com.riprod.hexcode.core.common.glyphs.variables.BlockVar;
 import com.riprod.hexcode.core.common.glyphs.variables.HexVar;
-import com.riprod.hexcode.api.execution.HexExecuter;
-import com.riprod.hexcode.core.common.execution.component.HexContext;
 import com.riprod.hexcode.core.common.glyphs.component.Glyph;
 import com.riprod.hexcode.core.common.glyphs.component.GlyphHandler;
 import com.riprod.hexcode.core.common.glyphs.variables.EntityVar;
-import com.riprod.hexcode.core.common.execution.component.VolatilityTracker;
 import com.riprod.hexcode.utils.HexVarUtil;
-import it.unimi.dsi.fastutil.Pair;
 import org.joml.*;
 
-
-import javax.annotation.Nullable;
 import java.lang.Math;
-import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 public class EvokeGlyph implements GlyphHandler {
     private static final HytaleLogger LOGGER = HytaleLogger.forEnclosingClass();
@@ -62,6 +55,7 @@ public class EvokeGlyph implements GlyphHandler {
     @Override
     public void execute(Glyph glyph, HexContext hexContext) {
         HexVar target = glyph.readSlot(BoltGlyphSlots.TARGET, hexContext);
+
         if (target == null) {
             HexExecuter.fail(glyph, hexContext, GlyphFizzleEvent.Reason.HANDLER_FAILED,
                     "Target required");

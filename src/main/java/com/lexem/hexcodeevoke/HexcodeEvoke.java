@@ -6,13 +6,15 @@ import com.hypixel.hytale.server.core.plugin.JavaPlugin;
 import com.hypixel.hytale.server.core.plugin.JavaPluginInit;
 import com.hypixel.hytale.server.core.plugin.PluginBase;
 import com.hypixel.hytale.server.core.plugin.PluginManager;
+import com.hypixel.hytale.server.core.util.Config;
 import com.lexem.hexcodeevoke.builtin.HexcodeBuiltin;
+import com.lexem.hexcodeevoke.hexitems.AllowedHexItems;
 import com.lexem.hexcodeevoke.hexitems.RegisterHexItemsPlugin;
-import com.riprod.hexcode.builtin.BuiltinPlugin;
 import org.checkerframework.checker.nullness.compatqual.NonNullDecl;
 
 public class HexcodeEvoke extends JavaPlugin {
 
+    private final Config<AllowedHexItems> allowedHexItemsConfig;
     private RegisterHexItemsPlugin registerHexItemsPlugin;
     private static HexcodeEvoke instance;
 
@@ -22,7 +24,8 @@ public class HexcodeEvoke extends JavaPlugin {
         super(init);
         instance = this;
         LOGGER.atInfo().log("Hello from " + this.getName() + " version " + this.getManifest().getVersion().toString());
-        registerHexItemsPlugin = new RegisterHexItemsPlugin(init);
+        this.allowedHexItemsConfig = this.withConfig("AllowedHexItems", AllowedHexItems.CODEC);
+        registerHexItemsPlugin = new RegisterHexItemsPlugin(init, this.allowedHexItemsConfig);
     }
 
     @Override
@@ -31,6 +34,7 @@ public class HexcodeEvoke extends JavaPlugin {
 
         if (isHexcodePresent()) {
             HexcodeBuiltin.Setup();
+            this.allowedHexItemsConfig.save();
             this.registerExternal();
         } else {
             LOGGER.atInfo().log("Hexcode not installed");

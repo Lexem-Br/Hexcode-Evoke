@@ -8,6 +8,6 @@ public class HexcodeBuiltin {
     public static HytaleLogger LOGGER = HytaleLogger.forEnclosingClass();
     public static void Setup() {
         GlyphRegistry.register(new EvokeGlyph());
-        LOGGER.atInfo().log("Registered Hexcode Builtin Glyph");
+        LOGGER.atInfo().log("Registered Hexcode Evoke Builtin Glyph");
     }
 }
