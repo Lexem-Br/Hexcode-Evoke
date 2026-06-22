@@ -8,7 +8,7 @@
   },
   "Parameters": {
     "NameTranslationKey": {
-      "Value": "server.npcRoles.Hex_Fairy.name",
+      "Value": "evoke.npcRoles.Hex_Fairy.name",
       "Description": "Translation key for NPC name display"
     }
   }
