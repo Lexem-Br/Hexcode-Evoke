@@ -2,6 +2,7 @@ package com.lexem.hexcodeevoke;
 
 import com.hypixel.hytale.common.plugin.PluginIdentifier;
 import com.hypixel.hytale.logger.HytaleLogger;
+import com.hypixel.hytale.server.core.modules.interaction.interaction.config.Interaction;
 import com.hypixel.hytale.server.core.plugin.JavaPlugin;
 import com.hypixel.hytale.server.core.plugin.JavaPluginInit;
 import com.hypixel.hytale.server.core.plugin.PluginBase;
@@ -10,6 +11,7 @@ import com.hypixel.hytale.server.core.util.Config;
 import com.lexem.hexcodeevoke.builtin.HexcodeBuiltin;
 import com.lexem.hexcodeevoke.hexitems.AllowedHexItems;
 import com.lexem.hexcodeevoke.hexitems.RegisterHexItemsPlugin;
+import com.lexem.hexcodeevoke.interactions.EvokeHexCreatureInteraction;
 import org.checkerframework.checker.nullness.compatqual.NonNullDecl;
 
 public class HexcodeEvoke extends JavaPlugin {
@@ -36,6 +38,8 @@ public class HexcodeEvoke extends JavaPlugin {
             HexcodeBuiltin.Setup();
             this.allowedHexItemsConfig.save();
             this.registerExternal();
+            this.getCodecRegistry(Interaction.CODEC)
+                    .register("EvokeHexCreature", EvokeHexCreatureInteraction.class, EvokeHexCreatureInteraction.CODEC);
         } else {
             LOGGER.atInfo().log("Hexcode not installed");
         }

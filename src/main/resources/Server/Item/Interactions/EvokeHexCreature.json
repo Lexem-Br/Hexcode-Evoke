@@ -1,0 +1,7 @@
+{
+  "Type": "EvokeHexCreature",
+  "Next": {
+    "Type": "Simple",
+    "RunTime": 0.5
+  }
+}
