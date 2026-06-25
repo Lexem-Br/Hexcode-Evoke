@@ -27,22 +27,6 @@
           "Animation": "NPC/Hex_Fairy/Animations/Idle.blockyanim"
         }
       ]
-    },
-    "Walk": {
-      "Animations": [
-        {
-          "Animation": "NPC/Hex_Fairy/Animations/Idle.blockyanim",
-          "Speed": 1
-        }
-      ]
-    },
-    "Run": {
-      "Animations": [
-        {
-          "Animation": "NPC/Hex_Fairy/Animations/Idle.blockyanim",
-          "Speed": 3
-        }
-      ]
     }
   }
 }

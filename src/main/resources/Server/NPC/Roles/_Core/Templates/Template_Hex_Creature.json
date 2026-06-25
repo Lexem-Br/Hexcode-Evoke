@@ -13,22 +13,6 @@
       "TypeHint": "String",
       "Description": "Array containing NPCs for this flock type."
     },
-    "MinHover": {
-      "Value": 0,
-      "Description": "Minimum hover height over ground."
-    },
-    "MaxHover": {
-      "Value": 0,
-      "Description": "Maximum hover height over ground."
-    },
-    "HoverFreq": {
-      "Value": 0,
-      "Description": "Hover frequency."
-    },
-    "ApplySeparation": {
-      "Value": true,
-      "Description": "When set to false, NPCs wont try to avoid each other or player, it can lead to them stacking together, but can help to avoid jerky-like movemenet in enclosed space."
-    },
     "DropHexItem": {
       "Value": "Hex_Fairy_Block",
       "Description": "Drop from Hex Creature"
@@ -41,7 +25,7 @@
   "Appearance": {"Compute": "Appearance"},
   "FlockSpawnTypes": {"Compute": "FlockArray"},
   "FlockAllowedNPC": {"Compute": "FlockArray"},
-  "ApplySeparation": {"Compute": "ApplySeparation"},
+  "ApplySeparation": true,
   "SeparationDistance": 0.7,
   "SeparationWeight": 0.5,
   "SeparationDistanceTarget": 0.5,
@@ -54,12 +38,15 @@
       "Type": "Walk",
       "MaxWalkSpeed": 15,
       "Gravity": 10,
-      "MaxFallSpeed": 8,
+      "RunThreshold": 0.3,
+      "MaxFallSpeed": 10,
+      "MaxRotationSpeed": 360,
       "Acceleration": 10,
       "MinHover": 1,
       "MaxHover": 1,
       "HoverFreq": 10,
-      "MaxClimbHeight": 10
+      "MaxClimbHeight": 10,
+      "MaxDropHeight": 30
     }
   ],
   "MaxHealth": 100,
@@ -68,6 +55,7 @@
       "Continue": true,
       "Instructions": [
         {
+          "$Comment": "Add creature to flock",
           "Continue": true,
           "Sensor": {
             "Type": "Self",
@@ -147,21 +135,6 @@
               },
               "Instructions": [
                 {
-                  "$Comment": "Animations Idle",
-                  "Continue": true,
-                  "Sensor": {
-                    "Type": "Any",
-                    "Once": true
-                  },
-                  "Actions": [
-                    {
-                      "Type": "PlayAnimation",
-                      "Slot": "Status",
-                      "Animation": "Idle"
-                    }
-                  ]
-                },
-                {
                   "Sensor": {
                     "Type": "Player",
                     "Range": 5,
@@ -173,13 +146,6 @@
                       }
                     ]
                   },
-                  "Actions": [
-                    {
-                      "Type": "PlayAnimation",
-                      "Slot": "Status",
-                      "Animation": "Idle"
-                    }
-                  ],
                   "HeadMotion": {
                     "Type": "Aim",
                     "Deflection": true,
@@ -207,13 +173,6 @@
                       }
                     ]
                   },
-                  "Actions": [
-                    {
-                      "Type": "PlayAnimation",
-                      "Slot": "Status",
-                      "Animation": "Run"
-                    }
-                  ],
                   "BodyMotion": {
                     "Type": "Seek",
                     "SlowDownDistance": 5,
@@ -241,7 +200,10 @@
                   },
                   "BodyMotion": {
                     "Type": "TeleportHexCreature",
-                    "MinYOffset": 1.0
+                    "MinYOffset": 1.0,
+                    "OffsetRange": [2, 3],
+                    "OffsetSector": 2,
+                    "Orientation": "TowardsTarget"
                   },
                   "Actions": [
                     {
