@@ -42,10 +42,12 @@
   "FlockSpawnTypes": {"Compute": "FlockArray"},
   "FlockAllowedNPC": {"Compute": "FlockArray"},
   "ApplySeparation": {"Compute": "ApplySeparation"},
-  "SeparationDistance": 2,
-  "SeparationWeight": 1,
+  "SeparationDistance": 0.7,
+  "SeparationWeight": 0.5,
   "SeparationDistanceTarget": 0.5,
-  "SeparationNearRadiusTarget": 2,
+  "SeparationNearRadiusTarget": 0.5,
+  "ApplyAvoidance": true,
+  "AvoidanceMode": "Slowdown",
   "NameTranslationKey": {"Compute": "NameTranslationKey"},
   "MotionControllerList": [
     {
@@ -145,84 +147,101 @@
               },
               "Instructions": [
                 {
-                  "$Comment": "Move away from the player (WIP)",
+                  "$Comment": "Animations Idle",
+                  "Continue": true,
                   "Sensor": {
-                    "Type": "Player",
-                    "Range": 2
+                    "Type": "Any",
+                    "Once": true
                   },
-                  "BodyMotion": {
-                    "Type": "MaintainDistance",
-                    "DesiredDistanceRange": [ 1.5, 1.5 ],
-                    "MoveThreshold": 0.5,
-                    "RelativeForwardsSpeed": 0.5,
-                    "RelativeBackwardsSpeed": 0.3
-                  }
-                },
-                {
-                  "Sensor": {
-                    "Type": "Player",
-                    "Range": 10,
-                    "LockOnTarget": true
-                  },
-                  "Instructions": [
+                  "Actions": [
                     {
-                      "$Comment": "Move away from the flock",
-                      "Continue": true,
-                      "Sensor": {
-                        "Type": "Mob",
-                        "Range": 2,
-                        "ExcludeOwnType": false,
-                        "LockOnTarget": false,
-                        "Filters": [
-                          {
-                            "Type": "NPCGroup",
-                            "IncludeGroups": [ "Self" ]
-                          },
-                          {
-                            "Type": "ViewSector",
-                            "ViewSector": 35
-                          }
-                        ]
-                      },
-                      "BodyMotion": {
-                        "Type": "MaintainDistance",
-                        "DesiredDistanceRange": [ 0.3, 0.6 ],
-                        "StrafingDurationRange": [ 1, 2 ],
-                        "StrafingFrequencyRange": [ 1, 1 ],
-                        "MoveThreshold": 0.3,
-                        "RelativeForwardsSpeed": 0.5,
-                        "RelativeBackwardsSpeed": 0.3
-                      }
-                    },
-                    {
-                      "Continue": true,
-                      "Sensor": {
-                        "Type": "Target"
-                      },
-                      "BodyMotion": {
-                        "Type": "Seek",
-                        "SlowDownDistance": 5,
-                        "StopDistance": 3,
-                        "RelativeSpeed": 0.5
-                      }
+                      "Type": "PlayAnimation",
+                      "Slot": "Status",
+                      "Animation": "Idle"
                     }
                   ]
                 },
                 {
                   "Sensor": {
-                    "Type": "Target",
-                    "Range": 20
+                    "Type": "Player",
+                    "Range": 5,
+                    "ExcludeOwnType": true,
+                    "Filters": [
+                      {
+                        "Type": "Flock",
+                        "FlockStatus": "Leader"
+                      }
+                    ]
+                  },
+                  "Actions": [
+                    {
+                      "Type": "PlayAnimation",
+                      "Slot": "Status",
+                      "Animation": "Idle"
+                    }
+                  ],
+                  "HeadMotion": {
+                    "Type": "Aim",
+                    "Deflection": true,
+                    "Spread": 1,
+                    "RelativeTurnSpeed": 2
                   },
                   "BodyMotion": {
                     "Type": "Seek",
                     "SlowDownDistance": 5,
-                    "StopDistance": 3,
-                    "RelativeSpeed": 1
+                    "StopDistance": 2,
+                    "RelativeSpeed": 0.4
                   }
                 },
                 {
                   "Sensor": {
-                    "Type": "Target"
+                    "Type": "Player",
+                    "Range": 15,
+                    "ExcludeOwnType": true,
+                    "LockOnTarget": true,
+                    "LockedTargetSlot": "FlockLeader",
+                    "Filters": [
+                      {
+                        "Type": "Flock",
+                        "FlockStatus": "Leader"
+                      }
+                    ]
+                  },
+                  "Actions": [
+                    {
+                      "Type": "PlayAnimation",
+                      "Slot": "Status",
+                      "Animation": "Run"
+                    }
+                  ],
+                  "BodyMotion": {
+                    "Type": "Seek",
+                    "SlowDownDistance": 5,
+                    "StopDistance": 2,
+                    "RelativeSpeed": 0.6
+                  }
+                },
+                {
+                  "Sensor": {
+                    "Type": "And",
+                    "Sensors": [
+                      {
+                        "Type": "FlockLeader"
+                      },
+                      {
+                        "Type": "Self",
+                        "Filters": [
+                          {
+                            "Type": "Flock",
+                            "FlockStatus": "Member"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  "BodyMotion": {
+                    "Type": "TeleportHexCreature",
+                    "MinYOffset": 1.0
                   },
                   "Actions": [
                     {
@@ -230,19 +249,11 @@
                       "Offset": [ 0, 0.5, 0 ],
                       "ParticleSystem": "Effect_Death",
                       "Once": true
-                    }
-                  ],
-                  "BodyMotion": {
-                    "Type": "Teleport",
-                    "OffsetRange": [ 2, 2 ],
-                    "MaxYOffset": 2
-                  },
-                  "Actions": [
+                    },
                     {
-                      "Type": "SpawnParticles",
-                      "Offset": [ 0, 0, 0 ],
-                      "ParticleSystem": "Effect_Death",
-                      "Once": true
+                      "Type": "Timeout",
+                      "Delay": [ 2, 2 ],
+                      "DelayAfter": true
                     }
                   ]
                 }
@@ -256,9 +267,24 @@
   "InteractionInstruction": {
     "Instructions": [
       {
+        "$Comment": "Activates interaction with the player if they are the leader",
         "Continue": true,
         "Sensor": {
-          "Type": "Any"
+          "Type": "And",
+          "Sensors": [
+            {
+              "Type": "FlockLeader"
+            },
+            {
+              "Type": "Self",
+              "Filters": [
+                {
+                  "Type": "Flock",
+                  "FlockStatus": "Member"
+                }
+              ]
+            }
+          ]
         },
         "Actions": [
           {

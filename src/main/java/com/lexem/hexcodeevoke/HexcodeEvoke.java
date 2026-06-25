@@ -8,10 +8,13 @@ import com.hypixel.hytale.server.core.plugin.JavaPluginInit;
 import com.hypixel.hytale.server.core.plugin.PluginBase;
 import com.hypixel.hytale.server.core.plugin.PluginManager;
 import com.hypixel.hytale.server.core.util.Config;
+import com.hypixel.hytale.server.npc.NPCPlugin;
+import com.lexem.hexcodeevoke.npc.builders.BuilderTeleportHexCreature;
 import com.lexem.hexcodeevoke.builtin.HexcodeBuiltin;
 import com.lexem.hexcodeevoke.hexitems.AllowedHexItems;
 import com.lexem.hexcodeevoke.hexitems.RegisterHexItemsPlugin;
 import com.lexem.hexcodeevoke.interactions.EvokeHexCreatureInteraction;
+import com.lexem.hexcodeevoke.npc.builders.BuilderActionExample;
 import org.checkerframework.checker.nullness.compatqual.NonNullDecl;
 
 public class HexcodeEvoke extends JavaPlugin {
@@ -33,6 +36,9 @@ public class HexcodeEvoke extends JavaPlugin {
     @Override
     protected void setup() {
         LOGGER.atInfo().log("Setting up plugin " + this.getName());
+        NPCPlugin npcPlugin = NPCPlugin.get();
+        //npcPlugin.registerCoreComponentType("ActionExample", BuilderActionExample::new);
+        npcPlugin.registerCoreComponentType("TeleportHexCreature", BuilderTeleportHexCreature::new);
 
         if (isHexcodePresent()) {
             HexcodeBuiltin.Setup();
