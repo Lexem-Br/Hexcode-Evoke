@@ -49,7 +49,7 @@
     "BenchRequirement": [
       {
         "Categories": [
-          "Arcane_Hexcode"
+          "Arcane_Hexcode_Evoke"
         ],
         "Id": "Arcanebench"
       }
@@ -78,61 +78,9 @@
               }
             },
             "0.8": {
-              "Type": "RunOnBlockTypes",
-              "BlockSets": [ "Hex_Block_List" ],
-              "MaxCount": 1,
-              "Range": 2,
-              "Interactions": {
-                "Interactions": [
-                  {
-                    "Type": "RunOnBlockTypes",
-                    "BlockSets": [ "Hex_Mannequin_List" ],
-                    "MaxCount": 1,
-                    "Range": 1,
-                    "Interactions": {
-                      "Type": "Serial",
-                      "Interactions": [
-                        {
-                          "Type": "SpawnNPC",
-                          "EntityId": "Hex_Mannequin"
-                        },
-                        {
-                          "Type": "DestroyBlock"
-                        }
-                      ]
-                    }
-                  },
-                  {
-                    "Type": "RunOnBlockTypes",
-                    "BlockSets": [ "Hex_Fairy_List" ],
-                    "MaxCount": 1,
-                    "Range": 1,
-                    "Interactions": {
-                      "Type": "Serial",
-                      "Interactions": [
-                        {
-                          "Type": "SpawnNPC",
-                          "EntityId": "Hex_Fairy"
-                        },
-                        {
-                          "Type": "DestroyBlock"
-                        }
-                      ]
-                    }
-                  }
-                ]
-              },
-              "Next": {
-                "Type": "Simple",
-                "Effects": {
-                  "ItemAnimationId": "CastHurlCharged"
-                }
-              },
-              "Failed": {
-                "Type": "Simple",
-                "Effects": {
-                  "ItemAnimationId": "Interact"
-                }
+              "Type": "EvokeHexCreature",
+              "Effects": {
+                "ItemAnimationId": "Interact"
               }
             }
           },

@@ -1,0 +1,15 @@
+{
+  "Type": "Variant",
+  "Reference": "Template_Hex_Creature",
+  "Modify": {
+    "Appearance": "Hex_Fairy_Void",
+    "DropHexItem": "Hex_Fairy_Void_Block",
+    "NameTranslationKey": { "Compute": "NameTranslationKey" }
+  },
+  "Parameters": {
+    "NameTranslationKey": {
+      "Value": "evoke.npcRoles.Hex_Fairy_Void.name",
+      "Description": "Translation key for NPC name display"
+    }
+  }
+}

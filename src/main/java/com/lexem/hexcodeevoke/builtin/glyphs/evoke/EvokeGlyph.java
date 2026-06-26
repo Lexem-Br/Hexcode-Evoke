@@ -104,10 +104,6 @@ public class EvokeGlyph implements GlyphHandler {
 
         accessor.run(_store -> {
             NPCPlugin.get().spawnNPC(_store, hexItem.getValue(), null, blockVector, blockRotation);
-//            Pair<Ref<EntityStore>, INonPlayerCharacter> npcPair = NPCPlugin.get().spawnNPC(_store, hexNPC, null, blockVector, blockRotation);
-//            if (npcPair.first() != null) {
-//                NPCEntity npcComponent = accessor.getComponent(npcPair.first(), NPCEntity.getComponentType());
-//            }
         });
 
         BoltStyle.renderImpact(accessor, blockVector, hexContext);

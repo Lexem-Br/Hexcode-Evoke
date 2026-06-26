@@ -1,0 +1,7 @@
+{
+  "Parent": "Hex_Fairy",
+  "Texture": "NPC/Hex_Fairy/Models/Textures/Void.png",
+  "Light": {
+    "Color": "#9B49F9"
+  }
+}

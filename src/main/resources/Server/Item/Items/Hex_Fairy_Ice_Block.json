@@ -1,8 +1,8 @@
 {
   "TranslationProperties": {
-    "Name": "Hex Fairy Item"
+    "Name": "Hex Fairy Ice Item"
   },
-  "Icon": "Icons/ItemsGenerated/Hex_Fairy_Block.png",
+  "Icon": "Icons/ItemsGenerated/Hex_Fairy_Ice_Block.png",
   "Interactions": {
     "Primary": "Root_Unarmed_Attack_Swing_Left",
     "Secondary": "Block_Secondary"
@@ -15,7 +15,7 @@
         "Quantity": 10
       },
       {
-        "ItemId": "Ingredient_Fire_Essence",
+        "ItemId": "Ingredient_Ice_Essence",
         "Quantity": 10
       },
       {
@@ -38,7 +38,7 @@
     "CustomModel": "Blocks/Hex_Fairy/Model.blockymodel",
     "CustomModelTexture": [
       {
-        "Texture": "NPC/Hex_Fairy/Models/Textures/Default.png",
+        "Texture": "NPC/Hex_Fairy/Models/Textures/Ice.png",
         "Weight": 1
       }
     ],
@@ -46,7 +46,7 @@
     "VariantRotation": "NESW",
     "Gathering": {
       "Harvest": {
-        "ItemId": "Hex_Fairy_Block"
+        "ItemId": "Hex_Fairy_Ice_Block"
       }
     },
     "PhysicalMaterialId": "Stone",

@@ -1,5 +1,7 @@
 {
   "Model": "NPC/Hex_Fairy/Models/Model.blockymodel",
+  "Texture": "NPC/Hex_Fairy/Models/Textures/Default.png",
+  "DefaultAttachments": [],
   "HitBox": {
     "Max": {
       "X": 0.2,
@@ -12,35 +14,17 @@
       "Z": -0.2
     }
   },
-  "EyeHeight": 0.8,
+  "EyeHeight": 0.4,
   "MinScale": 1,
   "MaxScale": 1,
   "Light": {
     "Color": "#997"
   },
-  "DefaultAttachments": [],
-  "Texture": "NPC/Hex_Fairy/Models/Texture.png",
   "AnimationSets": {
     "Idle": {
       "Animations": [
         {
           "Animation": "NPC/Hex_Fairy/Animations/Idle.blockyanim"
-        }
-      ]
-    },
-    "Walk": {
-      "Animations": [
-        {
-          "Animation": "NPC/Hex_Fairy/Animations/Idle.blockyanim",
-          "Speed": 1
-        }
-      ]
-    },
-    "Run": {
-      "Animations": [
-        {
-          "Animation": "NPC/Hex_Fairy/Animations/Idle.blockyanim",
-          "Speed": 3
         }
       ]
     }

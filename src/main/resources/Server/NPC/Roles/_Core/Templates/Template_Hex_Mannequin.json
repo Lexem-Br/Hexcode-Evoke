@@ -8,29 +8,21 @@
       "Value": "Mannequin",
       "Description": "Model to be used."
     },
-    "DesiredAttackDistanceRange": {
-      "Value": [
-        1.5,
-        1.5
-      ],
-      "Description": "The distance within which the NPC wants to be from its target while attacking. The max value should be lower than AttackDistance."
-    },
     "FlockArray": {
       "Value": [],
       "TypeHint": "String",
       "Description": "Array containing NPCs for this flock type."
     },
-    "NameTranslationKey": {
-      "Value": "server.npcRoles.Template.name",
-      "Description": "Translation key for NPC name display"
-    },
     "DropHexItem": {
       "Value": "Hex_Mannequin_Block",
       "Description": "Drop from Hex Creature"
+    },
+    "NameTranslationKey": {
+      "Value": "server.npcRoles.Template.name",
+      "Description": "Translation key for NPC name display"
     }
   },
   "IsMemory": false,
-  "MaxHealth": 100,
   "BreathesInWater": true,
   "Appearance": {"Compute": "Appearance"},
   "DisableDamageFlock": true,
@@ -58,11 +50,13 @@
       "MaxDropHeight": 5
     }
   ],
+  "MaxHealth": 100,
   "Instructions": [
     {
       "Continue": true,
       "Instructions": [
         {
+          "$Comment": "Add creature to flock",
           "Continue": true,
           "Sensor": {
             "Type": "Self",
@@ -114,9 +108,14 @@
                   "Type": "DropItem",
                   "Item": {"Compute": "DropHexItem"},
                   "Distance": [ 0, 0 ],
-                  "ThrowSpeed": 100,
+                  "ThrowSpeed": 15,
                   "Once": true
-                },
+                }
+              ]
+            },
+            {
+              "ActionsBlocking": true,
+              "Actions": [
                 {
                   "Type": "Despawn"
                 }
@@ -139,17 +138,23 @@
                 {
                   "Sensor": {
                     "Type": "Player",
-                    "Range": 1
+                    "Range": 1,
+                    "ExcludeOwnType": true,
+                    "Filters": [
+                      {
+                        "Type": "Flock",
+                        "FlockStatus": "Leader"
+                      }
+                    ]
                   },
                   "HeadMotion": {
                     "Type": "Aim",
-                    "HitProbability": 0.9,
                     "Deflection": true,
-                    "Spread": 0
+                    "Spread": 1
                   },
                   "BodyMotion": {
                     "Type": "MaintainDistance",
-                    "DesiredDistanceRange": { "Compute": "DesiredAttackDistanceRange" },
+                    "DesiredDistanceRange": [1.5, 1.5],
                     "MoveThreshold": 0.2,
                     "RelativeForwardsSpeed": 0.6,
                     "RelativeBackwardsSpeed": 0.3
@@ -159,7 +164,14 @@
                   "Sensor": {
                     "Type": "Player",
                     "Range": 10,
-                    "LockOnTarget": true
+                    "ExcludeOwnType": true,
+                    "LockOnTarget": true,
+                    "Filters": [
+                      {
+                        "Type": "Flock",
+                        "FlockStatus": "Leader"
+                      }
+                    ]
                   },
                   "Instructions": [
                     {
@@ -177,20 +189,28 @@
                 },
                 {
                   "Sensor": {
-                    "Type": "Target",
-                    "Range": 20
+                    "Type": "And",
+                    "Sensors": [
+                      {
+                        "Type": "FlockLeader"
+                      },
+                      {
+                        "Type": "Self",
+                        "Filters": [
+                          {
+                            "Type": "Flock",
+                            "FlockStatus": "Member"
+                          }
+                        ]
+                      }
+                    ]
                   },
                   "BodyMotion": {
-                    "Type": "Seek",
-                    "SlowDownDistance": 5,
-                    "StopDistance": 3,
-                    "RelativeSpeed": 1
-                  }
-                },
-                {
-                  "Continue": true,
-                  "Sensor": {
-                    "Type": "Target"
+                    "Type": "TeleportHexCreature",
+                    "OffsetRange": [2, 3],
+                    "MinYOffset": 0.1,
+                    "OffsetSector": 2,
+                    "Orientation": "TowardsTarget"
                   },
                   "Actions": [
                     {
@@ -198,22 +218,11 @@
                       "Offset": [ 0, 0.5, 0 ],
                       "ParticleSystem": "Effect_Death",
                       "Once": true
-                    }
-                  ],
-                  "BodyMotion": {
-                    "Type": "Teleport",
-                    "OffsetRange": [
-                      2,
-                      2
-                    ],
-                    "MaxYOffset": 2
-                  },
-                  "Actions": [
+                    },
                     {
-                      "Type": "SpawnParticles",
-                      "Offset": [ 0, 0, 0 ],
-                      "ParticleSystem": "Effect_Death",
-                      "Once": true
+                      "Type": "Timeout",
+                      "Delay": [ 2, 2 ],
+                      "DelayAfter": true
                     }
                   ]
                 }
@@ -227,9 +236,24 @@
   "InteractionInstruction": {
     "Instructions": [
       {
+        "$Comment": "Activates interaction with the player if they are the leader",
         "Continue": true,
         "Sensor": {
-          "Type": "Any"
+          "Type": "And",
+          "Sensors": [
+            {
+              "Type": "FlockLeader"
+            },
+            {
+              "Type": "Self",
+              "Filters": [
+                {
+                  "Type": "Flock",
+                  "FlockStatus": "Member"
+                }
+              ]
+            }
+          ]
         },
         "Actions": [
           {
