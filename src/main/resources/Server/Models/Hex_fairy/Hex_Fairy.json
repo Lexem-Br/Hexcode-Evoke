@@ -1,5 +1,7 @@
 {
   "Model": "NPC/Hex_Fairy/Models/Model.blockymodel",
+  "Texture": "NPC/Hex_Fairy/Models/Textures/Default.png",
+  "DefaultAttachments": [],
   "HitBox": {
     "Max": {
       "X": 0.2,
@@ -18,8 +20,6 @@
   "Light": {
     "Color": "#997"
   },
-  "DefaultAttachments": [],
-  "Texture": "NPC/Hex_Fairy/Models/Texture.png",
   "AnimationSets": {
     "Idle": {
       "Animations": [

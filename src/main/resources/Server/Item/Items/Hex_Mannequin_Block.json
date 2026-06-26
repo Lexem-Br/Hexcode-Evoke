@@ -27,7 +27,7 @@
       {
         "Id": "Arcanebench",
         "Categories": [
-          "Arcane_Hexcode"
+          "Arcane_Hexcode_Evoke"
         ]
       }
     ]
@@ -73,5 +73,6 @@
     ]
   },
   "ItemSoundSetId": "ISS_Blocks_Wood",
-  "Quality": "Rare"
+  "Quality": "Rare",
+  "MaxStack": 1
 }

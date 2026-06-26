@@ -49,7 +49,9 @@ public class AllowedHexItems {
 
     public HexItem[] hexItems = new HexItem[] {
             new HexItem("Hex_Mannequin_Block", "Hex_Mannequin"),
-            new HexItem("Hex_Fairy_Block", "Hex_Fairy")
+            new HexItem("Hex_Fairy_Block", "Hex_Fairy"),
+            new HexItem("Hex_Fairy_Void_Block", "Hex_Fairy_Void"),
+            new HexItem("Hex_Fairy_Ice_Block", "Hex_Fairy_Ice")
     };
 
     public String[] getHexblockIds() {

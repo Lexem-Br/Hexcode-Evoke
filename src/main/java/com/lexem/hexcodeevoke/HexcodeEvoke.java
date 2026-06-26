@@ -14,19 +14,21 @@ import com.lexem.hexcodeevoke.builtin.HexcodeBuiltin;
 import com.lexem.hexcodeevoke.hexitems.AllowedHexItems;
 import com.lexem.hexcodeevoke.hexitems.RegisterHexItemsPlugin;
 import com.lexem.hexcodeevoke.interactions.EvokeHexCreatureInteraction;
-import com.lexem.hexcodeevoke.npc.builders.BuilderActionExample;
 import org.checkerframework.checker.nullness.compatqual.NonNullDecl;
+import com.riprod.patchly.PatchManager;
 
 public class HexcodeEvoke extends JavaPlugin {
 
     private final Config<AllowedHexItems> allowedHexItemsConfig;
     private RegisterHexItemsPlugin registerHexItemsPlugin;
+    private final PatchManager patchManager;
     private static HexcodeEvoke instance;
 
     private static final HytaleLogger LOGGER = HytaleLogger.forEnclosingClass();
 
     public HexcodeEvoke(@NonNullDecl JavaPluginInit init) {
         super(init);
+        patchManager = new PatchManager(this);
         instance = this;
         LOGGER.atInfo().log("Hello from " + this.getName() + " version " + this.getManifest().getVersion().toString());
         this.allowedHexItemsConfig = this.withConfig("AllowedHexItems", AllowedHexItems.CODEC);
@@ -36,6 +38,7 @@ public class HexcodeEvoke extends JavaPlugin {
     @Override
     protected void setup() {
         LOGGER.atInfo().log("Setting up plugin " + this.getName());
+        patchManager.install();
         NPCPlugin npcPlugin = NPCPlugin.get();
         //npcPlugin.registerCoreComponentType("ActionExample", BuilderActionExample::new);
         npcPlugin.registerCoreComponentType("TeleportHexCreature", BuilderTeleportHexCreature::new);
