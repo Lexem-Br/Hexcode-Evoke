@@ -280,19 +280,11 @@
             {
               "$Comment": "Teleports to the leader if more than 10 blocks away",
               "Sensor": {
-                "Type": "And",
-                "Sensors": [
+                "Type": "Target",
+                "Filters": [
                   {
-                    "Type": "FlockLeader"
-                  },
-                  {
-                    "Type": "Self",
-                    "Filters": [
-                      {
-                        "Type": "Flock",
-                        "FlockStatus": "Member"
-                      }
-                    ]
+                    "Type": "Flock",
+                    "FlockStatus": "Leader"
                   }
                 ]
               },
