@@ -1,0 +1,41 @@
+{
+  "$Comment": "Despawn the entity",
+  "Class": "Instruction",
+  "Parameters": {
+    "DropHexItem": {
+      "Value": "Soil_Grass"
+    }
+  },
+  "Content":  {
+    "Instructions": [
+      {
+        "Sensor": {
+          "Type": "Any",
+          "Once": true
+        },
+        "Actions": [
+          {
+            "Type": "SpawnParticles",
+            "Offset": [ 0, 0.5, 0 ],
+            "ParticleSystem": "Effect_Death"
+          },
+          {
+            "Type": "DropItem",
+            "Item": {"Compute": "DropHexItem"},
+            "Distance": [ 0, 0 ],
+            "ThrowSpeed": 15,
+            "Once": true
+          }
+        ]
+      },
+      {
+        "Actions": [
+          {
+            "Type": "Despawn"
+          }
+        ]
+      }
+    ]
+  },
+  "Type": "Component"
+}

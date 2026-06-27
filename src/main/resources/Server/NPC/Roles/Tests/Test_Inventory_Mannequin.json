@@ -1,8 +1,7 @@
 {
+  "Type": "Abstract",
   "StartState": "Idle",
   "DefaultSubState": "Default",
-  "Type": "Abstract",
-  "Invulnerable": true,
   "Parameters": {
     "Appearance": {
       "Value": "Mannequin",
@@ -23,20 +22,16 @@
     }
   },
   "IsMemory": false,
-  "BreathesInWater": true,
   "Appearance": {"Compute": "Appearance"},
-  "DisableDamageFlock": true,
   "DefaultNPCAttitude": "Ignore",
   "DefaultPlayerAttitude": "Ignore",
+  "NameTranslationKey": {"Compute": "NameTranslationKey"},
   "FlockSpawnTypes": {"Compute": "FlockArray"},
   "FlockAllowedNPC": {"Compute": "FlockArray"},
-  "ApplySeparation": true,
-  "SeparationDistance": 2,
-  "SeparationWeight": 1,
-  "SeparationDistanceTarget": 0.5,
-  "SeparationNearRadiusTarget": 2,
-  "SeparationFarRadiusTarget": 7,
-  "NameTranslationKey": {"Compute": "NameTranslationKey"},
+  "InventorySize": 0,
+  "HotbarSize": 3,
+  "OffHandSlots": 1,
+  "PickupDropOnDeath": true,
   "MotionControllerList": [
     {
       "Type": "Walk",
@@ -47,12 +42,13 @@
       "MaxRotationSpeed": 360,
       "Acceleration": 10,
       "MaxClimbHeight": 10,
-      "MaxDropHeight": 5
+      "MaxDropHeight": 4
     }
   ],
-  "MaxHealth": 100,
+  "MaxHealth": 10,
   "Instructions": [
     {
+      "$Comment": "Adds the entity to the flock of the first player it finds",
       "Continue": true,
       "Instructions": [
         {
@@ -85,44 +81,47 @@
       ]
     },
     {
+      "$Comment": "Pick up item",
+      "Continue": true,
       "Instructions": [
         {
+          "Continue": true,
           "Sensor": {
-            "Type": "State",
-            "State": "Despawn"
+            "Type": "Self",
+            "Filters": [
+              {
+                "Type": "Inventory",
+                "CountRange": [ 0, 100 ],
+                "FreeSlotRange": [ 4, 4 ]
+              }
+            ]
           },
-          "ActionsAtomic": true,
           "Instructions": [
             {
               "Sensor": {
-                "Type": "Any",
-                "Once": true
+                "Type": "DroppedItem",
+                "Range": 5,
+                "ViewSector": 180,
+                "Items": [ "*Torch*" ]
               },
               "Actions": [
                 {
-                  "Type": "SpawnParticles",
-                  "Offset": [ 0, 0.5, 0 ],
-                  "ParticleSystem": "Effect_Death"
-                },
-                {
-                  "Type": "DropItem",
-                  "Item": {"Compute": "DropHexItem"},
-                  "Distance": [ 0, 0 ],
-                  "ThrowSpeed": 15,
-                  "Once": true
+                  "Type": "PickUpItem",
+                  "Hoover": true
                 }
-              ]
-            },
-            {
-              "ActionsBlocking": true,
-              "Actions": [
-                {
-                  "Type": "Despawn"
-                }
-              ]
+              ],
+              "BodyMotion": {
+                "Type": "Seek",
+                "StopDistance": 0.5
+              }
             }
           ]
-        },
+        }
+      ]
+    },
+    {
+      "$Comment": "Entity movement",
+      "Instructions": [
         {
           "Sensor": {
             "Type": "State",
@@ -136,6 +135,7 @@
               },
               "Instructions": [
                 {
+                  "$Comment": "Less than 1 block away from the leader",
                   "Sensor": {
                     "Type": "Player",
                     "Range": 1,
@@ -161,6 +161,7 @@
                   }
                 },
                 {
+                  "$Comment": "Less than 10 blocks away from the leader",
                   "Sensor": {
                     "Type": "Player",
                     "Range": 10,
@@ -188,6 +189,7 @@
                   ]
                 },
                 {
+                  "$Comment": "Teleports to the leader if more than 10 blocks away",
                   "Sensor": {
                     "Type": "And",
                     "Sensors": [
@@ -232,54 +234,5 @@
         }
       ]
     }
-  ],
-  "InteractionInstruction": {
-    "Instructions": [
-      {
-        "$Comment": "Activates interaction with the player if they are the leader",
-        "Continue": true,
-        "Sensor": {
-          "Type": "And",
-          "Sensors": [
-            {
-              "Type": "FlockLeader"
-            },
-            {
-              "Type": "Self",
-              "Filters": [
-                {
-                  "Type": "Flock",
-                  "FlockStatus": "Member"
-                }
-              ]
-            }
-          ]
-        },
-        "Actions": [
-          {
-            "Type": "SetInteractable",
-            "Interactable": true
-          }
-        ]
-      },
-      {
-        "Sensor": {
-          "Type": "HasInteracted"
-        },
-        "Instructions": [
-          {
-            "Actions": [
-              {
-                "Type": "LockOnInteractionTarget"
-              },
-              {
-                "Type": "State",
-                "State": "Despawn"
-              }
-            ]
-          }
-        ]
-      }
-    ]
-  }
+  ]
 }
