@@ -5,7 +5,7 @@
   "BusyStates": [ "$Interaction" ],
   "Parameters": {
     "Appearance": {
-      "Value": "Mannequin",
+      "Value": "Homunculus",
       "Description": "Model to be used."
     },
     "FlockArray": {
@@ -14,7 +14,7 @@
       "Description": "Array containing NPCs for this flock type."
     },
     "DropHexItem": {
-      "Value": "Hex_Mannequin_Block",
+      "Value": "Hex_Homunculus_Jar",
       "Description": "Drop from Hex Creature"
     },
     "NameTranslationKey": {
@@ -35,6 +35,7 @@
   "SeparationWeight": 1,
   "SeparationDistanceTarget": 0.5,
   "SeparationNearRadiusTarget": 1.2,
+  "SeparationFarRadiusTarget": 7,
   "InventorySize": 0,
   "HotbarSize": 3,
   "OffHandSlots": 1,
@@ -237,9 +238,7 @@
                 ]
               },
               "HeadMotion": {
-                "Type": "Aim",
-                "Deflection": true,
-                "Spread": 1
+                "Type": "Aim"
               },
               "BodyMotion": {
                 "Type": "MaintainDistance",
@@ -267,6 +266,9 @@
                   "Sensor": {
                     "Type": "Target"
                   },
+                  "HeadMotion": {
+                    "Type": "Aim"
+                  },
                   "BodyMotion": {
                     "Type": "Seek",
                     "SlowDownDistance": 5,
@@ -288,9 +290,8 @@
                 ]
               },
               "BodyMotion": {
-                "Type": "TeleportHexCreature",
+                "Type": "Teleport",
                 "OffsetRange": [2, 3],
-                "MinYOffset": 0.1,
                 "OffsetSector": 2,
                 "Orientation": "TowardsTarget"
               },

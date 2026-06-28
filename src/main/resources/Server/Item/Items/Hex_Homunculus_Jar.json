@@ -1,0 +1,95 @@
+{
+  "TranslationProperties": {
+    "Name": "Homunculus Jar"
+  },
+  "PlayerAnimationsId": "Block",
+  "Recipe": {
+    "TimeSeconds": 1,
+    "Input": [
+      {
+        "ItemId": "Ingredient_Life_Essence",
+        "Quantity": 10
+      },
+      {
+        "ItemId": "Food_Wildmeat_Raw",
+        "Quantity": 10
+      },
+      {
+        "ItemId": "Ingredient_Leather_Medium",
+        "Quantity": 2
+      },
+      {
+        "ItemId": "Potion_Empty_Large",
+        "Quantity": 1
+      }
+    ],
+    "BenchRequirement": [
+      {
+        "Id": "Alchemybench",
+        "Categories": [
+          "Alchemy_Hexcode_Evoke"
+        ]
+      }
+    ]
+  },
+  "Quality": "Rare",
+  "MaxStack": 1,
+  "Set": "Furniture_Human",
+  "BlockType": {
+    "BlockParticleSetId": "Dust",
+    "BlockSoundSetId": "Metal",
+    "PhysicalMaterialId": "Metal",
+    "CustomModel": "Blocks/Homunculus/Homunculus_Jar.blockymodel",
+    "CustomModelTexture": [
+      {
+        "Texture": "Blocks/Homunculus/Homunculus_Jar.png",
+        "Weight": 1
+      }
+    ],
+    "DrawType": "Model",
+    "Flags": {},
+    "Gathering": {
+      "Soft": {
+        "IsWeaponBreakable": false
+      }
+    },
+    "HitboxType": "Plant_Tall_Full",
+    "VariantRotation": "NESW",
+    "Material": "Solid",
+    "Opacity": "Transparent",
+    "Support": {
+      "Down": [
+        {
+          "FaceType": "Full"
+        }
+      ]
+    },
+    "CustomModelAnimation": "Blocks/Homunculus/Animations/Sleeping.blockyanim",
+    "Looping": true,
+    "TextureComputedColor": "#568682",
+    "CustomModelScale": 0.8
+  },
+  "Tags": {
+    "Type": [
+      "Furniture"
+    ],
+    "Family": [
+      "Human"
+    ]
+  },
+  "$Comment": " ",
+  "IconProperties": {
+    "Scale": 0.4,
+    "Rotation": [
+      11,
+      44,
+      10
+    ],
+    "Translation": [
+      0,
+      -31
+    ]
+  },
+  "Icon": "Icons/ItemsGenerated/Homunculus_Jar.png",
+  "ItemSoundSetId": "ISS_Blocks_Wood"
+}

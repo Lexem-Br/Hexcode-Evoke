@@ -1,14 +1,14 @@
 {
   "Type": "Variant",
-  "Reference": "Template_Hex_Creature_Hovering",
+  "Reference": "Template_Hex_Mannequin",
   "Modify": {
-    "Appearance": "Hex_Fairy",
-    "DropHexItem": "Hex_Fairy_Block",
+    "Appearance": "Hex_Homunculus",
+    "DropHexItem": "Hex_Homunculus_Jar",
     "NameTranslationKey": { "Compute": "NameTranslationKey" }
   },
   "Parameters": {
     "NameTranslationKey": {
-      "Value": "evoke.npcRoles.Hex_Fairy.name",
+      "Value": "evoke.npcRoles.Hex_Homunculus.name",
       "Description": "Translation key for NPC name display"
     }
   }
