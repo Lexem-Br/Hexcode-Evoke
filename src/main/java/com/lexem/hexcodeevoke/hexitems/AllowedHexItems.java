@@ -52,7 +52,7 @@ public class AllowedHexItems {
             new HexItem("Hex_Fairy_Block", "Hex_Fairy"),
             new HexItem("Hex_Fairy_Void_Block", "Hex_Fairy_Void"),
             new HexItem("Hex_Fairy_Ice_Block", "Hex_Fairy_Ice"),
-            new HexItem("Hex_Homunculus_Jar", "Hex_Homunculus")
+            new HexItem("Alive_Homunculus_Jar", "Hex_Homunculus")
     };
 
     public String[] getHexblockIds() {

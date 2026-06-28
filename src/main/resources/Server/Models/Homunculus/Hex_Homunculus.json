@@ -36,6 +36,22 @@
         }
       ]
     },
+    "IdlePassive": {
+      "Animations": [
+        {
+          "Animation": "NPC/Homunculus/Animations/Flavor/Blink.blockyanim",
+          "Weight": 2.0
+        },
+        {
+          "Animation": "NPC/Homunculus/Animations/Flavor/Blink_Double.blockyanim",
+          "Weight": 1.0
+        }
+      ],
+      "NextAnimationDelay": {
+        "Max": 10,
+        "Min": 4
+      }
+    },
     "Walk": {
       "Animations": [
         {

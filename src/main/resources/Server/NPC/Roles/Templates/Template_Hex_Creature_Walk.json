@@ -5,7 +5,7 @@
   "BusyStates": [ "$Interaction" ],
   "Parameters": {
     "Appearance": {
-      "Value": "Homunculus",
+      "Value": "Mannequin",
       "Description": "Model to be used."
     },
     "FlockArray": {
@@ -14,7 +14,7 @@
       "Description": "Array containing NPCs for this flock type."
     },
     "DropHexItem": {
-      "Value": "Hex_Homunculus_Jar",
+      "Value": "Hex_Mannequin_Block",
       "Description": "Drop from Hex Creature"
     },
     "NameTranslationKey": {
@@ -31,11 +31,10 @@
   "FlockSpawnTypes": {"Compute": "FlockArray"},
   "FlockAllowedNPC": {"Compute": "FlockArray"},
   "ApplySeparation": true,
-  "SeparationDistance": 2,
+  "SeparationDistance": 1.2,
   "SeparationWeight": 1,
   "SeparationDistanceTarget": 0.5,
   "SeparationNearRadiusTarget": 1.2,
-  "SeparationFarRadiusTarget": 7,
   "InventorySize": 0,
   "HotbarSize": 3,
   "OffHandSlots": 1,
@@ -50,7 +49,7 @@
       "MaxFallSpeed": 15,
       "MaxRotationSpeed": 360,
       "Acceleration": 10,
-      "MaxClimbHeight": 10,
+      "MaxClimbHeight": 4,
       "MaxDropHeight": 5
     }
   ],
@@ -106,7 +105,7 @@
               "Filters": [
                 {
                   "Type": "Inventory",
-                  "Items": [ "Furniture_Crude_Torch" ]
+                  "Items": [ "Furniture_Crude_Candle" ]
                 }
               ]
             }
@@ -151,14 +150,14 @@
                   "UseTarget": false,
                   "Operation": "Remove",
                   "Count": 1,
-                  "Item": "Furniture_Crude_Torch"
+                  "Item": "Furniture_Crude_Candle"
                 },
                 {
                   "Type": "Inventory",
                   "UseTarget": true,
                   "Operation": "Add",
                   "Count": 1,
-                  "Item": "Furniture_Crude_Torch"
+                  "Item": "Furniture_Crude_Candle"
                 }
               ]
             }
@@ -199,7 +198,7 @@
               "Sensor": {
                 "Type": "DroppedItem",
                 "Range": 2,
-                "Items": [ "Furniture_Crude_Torch" ]
+                "Items": [ "Furniture_Crude_Candle" ]
               },
               "Actions": [
                 {
@@ -227,6 +226,18 @@
           "Instructions": [
             {
               "$Comment": "Less than 1 block away from the leader",
+              "Continue": true,
+              "Sensor": {
+                "Type": "Player",
+                "Range": 1.7
+              },
+              "HeadMotion": {
+                "Type": "Watch",
+                "RelativeTurnSpeed": 0.4
+              }
+            },
+            {
+              "$Comment": "Less than 1 block away from the leader",
               "Sensor": {
                 "Type": "Player",
                 "Range": 1,
@@ -236,9 +247,6 @@
                     "FlockStatus": "Leader"
                   }
                 ]
-              },
-              "HeadMotion": {
-                "Type": "Aim"
               },
               "BodyMotion": {
                 "Type": "MaintainDistance",
@@ -266,9 +274,6 @@
                   "Sensor": {
                     "Type": "Target"
                   },
-                  "HeadMotion": {
-                    "Type": "Aim"
-                  },
                   "BodyMotion": {
                     "Type": "Seek",
                     "SlowDownDistance": 5,
@@ -290,8 +295,9 @@
                 ]
               },
               "BodyMotion": {
-                "Type": "Teleport",
+                "Type": "TeleportHexCreature",
                 "OffsetRange": [2, 3],
+                "MinYOffset": 0.1,
                 "OffsetSector": 2,
                 "Orientation": "TowardsTarget"
               },

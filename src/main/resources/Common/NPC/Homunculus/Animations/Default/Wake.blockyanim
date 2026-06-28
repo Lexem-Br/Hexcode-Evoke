@@ -604,7 +604,7 @@
       "position": [],
       "orientation": [
         {
-          "time": 1,
+          "time": 2,
           "delta": {"x": -0.25882, "y": 0, "z": 0, "w": 0.96593},
           "interpolationType": "linear"
         },

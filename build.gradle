@@ -17,7 +17,7 @@ dependencies {
 
 hytaleTools {
     manifestGroup = 'com.lexem.hexcodeevoke'
-    modCredits = 'Lexem'
+    modCredits = 'Lexem, Gwentor'
     patchline = 'release'
     modId = 'Hexcode_Evoke'
     mainClass = 'com.lexem.hexcodeevoke.HexcodeEvoke'

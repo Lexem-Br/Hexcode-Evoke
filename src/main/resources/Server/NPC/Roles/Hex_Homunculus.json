@@ -1,9 +1,9 @@
 {
   "Type": "Variant",
-  "Reference": "Template_Hex_Mannequin",
+  "Reference": "Template_Hex_Creature_Walk",
   "Modify": {
     "Appearance": "Hex_Homunculus",
-    "DropHexItem": "Hex_Homunculus_Jar",
+    "DropHexItem": "Alive_Homunculus_Jar",
     "NameTranslationKey": { "Compute": "NameTranslationKey" }
   },
   "Parameters": {

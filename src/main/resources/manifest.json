@@ -1,11 +1,14 @@
 {
     "Group": "com.lexem.hexcodeevoke",
     "Name": "Hexcode_Evoke",
-    "Version": "0.2.1",
+    "Version": "0.1.1",
     "Description": "",
     "Authors": [
         {
             "Name": "Lexem"
+        },
+        {
+            "Name": "Gwentor"
         }
     ],
     "Website": "",

@@ -3,35 +3,6 @@
     "Name": "Homunculus Jar"
   },
   "PlayerAnimationsId": "Block",
-  "Recipe": {
-    "TimeSeconds": 1,
-    "Input": [
-      {
-        "ItemId": "Ingredient_Life_Essence",
-        "Quantity": 10
-      },
-      {
-        "ItemId": "Food_Wildmeat_Raw",
-        "Quantity": 10
-      },
-      {
-        "ItemId": "Ingredient_Leather_Medium",
-        "Quantity": 2
-      },
-      {
-        "ItemId": "Potion_Empty_Large",
-        "Quantity": 1
-      }
-    ],
-    "BenchRequirement": [
-      {
-        "Id": "Alchemybench",
-        "Categories": [
-          "Alchemy_Hexcode_Evoke"
-        ]
-      }
-    ]
-  },
   "Quality": "Rare",
   "MaxStack": 1,
   "Set": "Furniture_Human",
@@ -64,10 +35,9 @@
         }
       ]
     },
-    "CustomModelAnimation": "Blocks/Homunculus/Animations/Sleeping.blockyanim",
     "Looping": true,
     "TextureComputedColor": "#568682",
-    "CustomModelScale": 0.8
+    "CustomModelScale": 0.55
   },
   "Tags": {
     "Type": [
