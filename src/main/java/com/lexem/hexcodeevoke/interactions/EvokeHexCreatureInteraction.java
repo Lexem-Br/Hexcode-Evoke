@@ -6,7 +6,6 @@ import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.component.Store;
 import com.hypixel.hytale.logger.HytaleLogger;
 import com.hypixel.hytale.math.util.ChunkUtil;
-import com.hypixel.hytale.math.util.MathUtil;
 import com.hypixel.hytale.math.vector.Rotation3f;
 import com.hypixel.hytale.protocol.BlockPosition;
 import com.hypixel.hytale.protocol.InteractionType;
@@ -17,14 +16,11 @@ import com.hypixel.hytale.server.core.entity.entities.Player;
 import com.hypixel.hytale.server.core.modules.interaction.interaction.CooldownHandler;
 import com.hypixel.hytale.server.core.modules.interaction.interaction.config.SimpleInteraction;
 import com.hypixel.hytale.server.core.universe.world.World;
-import com.hypixel.hytale.server.core.universe.world.chunk.BlockChunk;
-import com.hypixel.hytale.server.core.universe.world.chunk.WorldChunk;
-import com.hypixel.hytale.server.core.universe.world.chunk.section.BlockSection;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.hypixel.hytale.server.npc.NPCPlugin;
 import com.lexem.hexcodeevoke.hexitems.HexItemRegistery;
-import it.unimi.dsi.fastutil.ints.*;
-import it.unimi.dsi.fastutil.objects.ObjectArrayList;
+import it.unimi.dsi.fastutil.ints.IntArrayList;
+import it.unimi.dsi.fastutil.ints.IntList;
 import org.joml.Vector3d;
 import org.joml.Vector3i;
 
@@ -32,7 +28,6 @@ import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ThreadLocalRandom;
 
 public class EvokeHexCreatureInteraction extends SimpleInteraction {
     private static final HytaleLogger LOGGER = HytaleLogger.forEnclosingClass();
@@ -42,7 +37,7 @@ public class EvokeHexCreatureInteraction extends SimpleInteraction {
                             SimpleInteraction.CODEC)
                     .build();
 
-    protected int range = 2     ;
+    protected int radius = 2;
     protected int maxCount = 1;
 
     @Override
@@ -63,8 +58,9 @@ public class EvokeHexCreatureInteraction extends SimpleInteraction {
         BlockPosition blockPosition = context.getTargetBlock();
         if (blockPosition == null) return;
 
-        Vector3i blockTargetPos = new Vector3i(blockPosition.x, blockPosition.y, blockPosition.z);
-        List<Vector3i> selectedPositions = this.searchBlocks(world, blockTargetPos);
+        Vector3d center = new Vector3d(blockPosition.x, blockPosition.y, blockPosition.z);
+        List<Vector3i> selectedPositions = gatherBlocks(center, radius, accessor);
+        LOGGER.atWarning().log("selectedPositions: %s", selectedPositions);
 
         if (selectedPositions.isEmpty()) {
             LOGGER.atWarning().log("evoke: block must be a Hex item");
@@ -79,6 +75,12 @@ public class EvokeHexCreatureInteraction extends SimpleInteraction {
             Rotation3f blockRotation = new Rotation3f(0.0F, (float) (rotation.yaw().getRadians() + Math.PI), 0.0F);
 
             BlockType blockType = world.getBlockType(blockPos);
+
+            if (blockType == null) {
+                LOGGER.atWarning().log("evoke: invalid block");
+                return;
+            }
+
             Map.Entry<String, String> hexItem = HexItemRegistery.getByBlockId(blockType.getId());
 
             if (hexItem == null) {
@@ -109,101 +111,39 @@ public class EvokeHexCreatureInteraction extends SimpleInteraction {
         return result;
     }
 
-    @Nonnull
-    private List<Vector3i> searchBlocks(@Nonnull World world, @Nonnull Vector3i position) {
-        IntList blockIds = this.getBlockIds();
-        if (blockIds.isEmpty()) {
-            return List.of();
-        } else {
-            int originX = MathUtil.floor(position.x);
-            int originY = MathUtil.floor(position.y);
-            int originZ = MathUtil.floor(position.z);
-            int radiusSquared = this.range * this.range;
-            EvokeHexCreatureInteraction.BlockSearchConsumer consumer = new EvokeHexCreatureInteraction.BlockSearchConsumer(
-                    originX, originY, originZ, radiusSquared, this.maxCount
-            );
-            int minY = Math.max(0, originY - this.range);
-            int maxY = Math.min(319, originY + this.range);
+    private List<Vector3i> gatherBlocks(Vector3d center, double radius, CommandBuffer<EntityStore> accessor) {
+        World world = accessor.getExternalData().getWorld();
+        List<Vector3i> gathered = new ArrayList<>();
+        int r = (int) Math.ceil(radius);
+        double radiusSq = radius * radius;
+        int picked = 0;
 
-            for (int x = originX - this.range & -32; x < originX + this.range; x += 32) {
-                for (int z = originZ - this.range & -32; z < originZ + this.range; z += 32) {
-                    WorldChunk chunk = world.getChunkIfInMemory(ChunkUtil.indexChunkFromBlock(x, z));
-                    if (chunk != null) {
-                        BlockChunk blockChunk = chunk.getBlockChunk();
+        int cx = (int) Math.floor(center.x);
+        int cy = (int) Math.floor(center.y);
+        int cz = (int) Math.floor(center.z);
 
-                        for (int y = minY; y < maxY; y += 32) {
-                            int sectionIndex = ChunkUtil.indexSection(y);
-                            if (sectionIndex >= 0 && sectionIndex < 10) {
-                                BlockSection section = blockChunk.getSectionAtIndex(sectionIndex);
-                                if (!section.isSolidAir() && section.containsAny(blockIds)) {
-                                    consumer.setSection(x, z, sectionIndex);
-                                    section.find(blockIds, consumer);
-                                }
-                            }
-                        }
-                    }
+        IntList hexItensIds = getBlockIds();
+
+        for (int dx = -r; dx <= r; dx++) {
+            for (int dy = -r; dy <= r; dy++) {
+                for (int dz = -r; dz <= r; dz++) {
+                    if (dx * dx + dy * dy + dz * dz > radiusSq) continue;
+                    if (picked >= maxCount) continue;
+
+                    int bx = cx + dx;
+                    int by = cy + dy;
+                    int bz = cz + dz;
+
+                    int blockId = world.getBlock(bx, by, bz);
+                    if (blockId == BlockType.EMPTY_ID) continue;
+                    if(!hexItensIds.contains(blockId)) continue;
+
+                    gathered.add(new Vector3i(bx, by, bz));
+                    picked++;
                 }
             }
-
-            return consumer.getPickedPositions();
-        }
-    }
-
-    private static class BlockSearchConsumer implements IntConsumer {
-        private final int originX;
-        private final int originY;
-        private final int originZ;
-        private final int radiusSquared;
-        private final int maxCount;
-        private final List<Vector3i> picked;
-        private int seen = 0;
-        private int chunkWorldX;
-        private int chunkWorldZ;
-        private int sectionBaseY;
-
-        BlockSearchConsumer(int originX, int originY, int originZ, int radiusSquared, int maxCount) {
-            this.originX = originX;
-            this.originY = originY;
-            this.originZ = originZ;
-            this.radiusSquared = radiusSquared;
-            this.maxCount = maxCount;
-            this.picked = new ObjectArrayList<>(maxCount);
         }
 
-        void setSection(int chunkWorldX, int chunkWorldZ, int sectionIndex) {
-            this.chunkWorldX = chunkWorldX;
-            this.chunkWorldZ = chunkWorldZ;
-            this.sectionBaseY = sectionIndex * 32;
-        }
-
-        @Override
-        public void accept(int blockIndex) {
-            int localX = ChunkUtil.xFromIndex(blockIndex);
-            int localY = ChunkUtil.yFromIndex(blockIndex);
-            int localZ = ChunkUtil.zFromIndex(blockIndex);
-            int worldX = this.chunkWorldX + localX;
-            int worldY = this.sectionBaseY + localY;
-            int worldZ = this.chunkWorldZ + localZ;
-            int dx = worldX - this.originX;
-            int dy = worldY - this.originY;
-            int dz = worldZ - this.originZ;
-            if (dx * dx + dy * dy + dz * dz <= this.radiusSquared) {
-                if (this.picked.size() < this.maxCount) {
-                    this.picked.add(new Vector3i(worldX, worldY, worldZ));
-                } else {
-                    int j = ThreadLocalRandom.current().nextInt(this.seen + 1);
-                    if (j < this.maxCount) {
-                        this.picked.set(j, new Vector3i(worldX, worldY, worldZ));
-                    }
-                }
-
-                this.seen++;
-            }
-        }
-
-        @Nonnull
-        List<Vector3i> getPickedPositions() {
-            return this.picked;
-        }
+        return gathered;
     }
 }

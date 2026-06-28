@@ -1,8 +1,8 @@
 {
-    "Group": "com.lexem.hexcodeevoke",
-    "Name": "Hexcode_Evoke",
-    "Version": "0.1.1",
-    "Description": "",
+    "Group": "Lexem",
+    "Name": "HexcodeEvoke",
+    "Version": "0.1.0",
+    "Description": "Bring objects to life.",
     "Authors": [
         {
             "Name": "Lexem"
@@ -12,7 +12,7 @@
         }
     ],
     "Website": "",
-    "ServerVersion": ">=0.5.6",
+    "ServerVersion": ">=0.5.0 <0.6.0",
     "Dependencies": {
         "Hytale:AssetModule": "*"
     },
