@@ -31,7 +31,7 @@ public class HexcodeEvoke extends JavaPlugin {
         patchManager = new PatchManager(this);
         instance = this;
         LOGGER.atInfo().log("Hello from " + this.getName() + " version " + this.getManifest().getVersion().toString());
-        this.allowedHexItemsConfig = this.withConfig("AllowedHexItems", AllowedHexItems.CODEC);
+        this.allowedHexItemsConfig = this.withConfig("GeneratedPack/AllowedHexItems", AllowedHexItems.CODEC);
         registerHexItemsPlugin = new RegisterHexItemsPlugin(init, this.allowedHexItemsConfig);
     }
 
