@@ -3,5 +3,6 @@ items.Weapon_Spellbook_Evoke.description=Evoke Book
 
 npcRoles.Hex_Mannequin.name= Hex Mannequin
 npcRoles.Hex_Fairy.name= Hex Fairy
+npcRoles.Hex_Homunculus.name= Homunculus
 
 workbench.benchCategories.evoke=Hexcode Evoke

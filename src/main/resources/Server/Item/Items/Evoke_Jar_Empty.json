@@ -1,0 +1,86 @@
+{
+  "TranslationProperties": {
+    "Name": "Jar"
+  },
+  "Categories": [
+    "Items.Potions"
+  ],
+  "PlayerAnimationsId": "Block",
+  "Recipe": {
+    "Input": [
+      {
+        "ItemId": "Potion_Empty",
+        "Quantity": 4
+      }
+    ],
+    "BenchRequirement": [
+      {
+        "Id": "Alchemybench",
+        "Type": "Crafting",
+        "Categories": [
+          "Alchemy_Potions"
+        ]
+      }
+    ],
+    "TimeSeconds": 1
+  },
+  "Quality": "Common",
+  "MaxStack": 1,
+  "Set": "Furniture_Human",
+  "BlockType": {
+    "BlockParticleSetId": "Dust",
+    "BlockSoundSetId": "Metal",
+    "PhysicalMaterialId": "Metal",
+    "CustomModel": "Blocks/Evoke_Jar_Empty/Model.blockymodel",
+    "CustomModelTexture": [
+      {
+        "Texture": "Blocks/Evoke_Jar_Empty/Texture.png",
+        "Weight": 1
+      }
+    ],
+    "DrawType": "Model",
+    "Flags": {},
+    "Gathering": {
+      "Soft": {
+        "IsWeaponBreakable": false
+      }
+    },
+    "HitboxType": "Plant_Tall_Full",
+    "VariantRotation": "NESW",
+    "Material": "Solid",
+    "Opacity": "Transparent",
+    "Support": {
+      "Down": [
+        {
+          "FaceType": "Full"
+        }
+      ]
+    },
+    "Looping": true,
+    "TextureComputedColor": "#568682",
+    "CustomModelScale": 0.55
+  },
+  "Tags": {
+    "Type": [
+      "Furniture"
+    ],
+    "Family": [
+      "Human"
+    ]
+  },
+  "$Comment": " ",
+  "IconProperties": {
+    "Scale": 0.4,
+    "Rotation": [
+      11,
+      44,
+      10
+    ],
+    "Translation": [
+      0,
+      -31
+    ]
+  },
+  "Icon": "Icons/ItemsGenerated/Evoke_Jar_Empty.png",
+  "ItemSoundSetId": "ISS_Blocks_Wood"
+}

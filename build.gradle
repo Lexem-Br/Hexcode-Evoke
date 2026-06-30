@@ -16,13 +16,23 @@ dependencies {
 }
 
 hytaleTools {
-    manifestGroup = 'com.lexem.hexcodeevoke'
-    modCredits = 'Lexem'
-    patchline = 'release'
-    modId = 'Hexcode_Evoke'
-    mainClass = 'com.lexem.hexcodeevoke.HexcodeEvoke'
+    javaVersion = project.java_version as Integer
+    hytaleVersion = project.hytale_version.toString()
+    manifestServerVersion = project.manifestServerVersion.toString()
+    manifestGroup = project.manifest_group.toString()
+    modId = project.mod_id.toString()
+    modDescription = project.mod_description.toString()
+    mainClass = project.main_class.toString()
+    modCredits = project.mod_credits.toString()
+    disabledByDefault = project.disabled_by_default.toString().toBoolean()
+    includesPack = project.includes_pack.toString().toBoolean()
+    patchline = project.patchline.toString()
+
     manifestOptionalDependencies='Riprod:Hexcode=^0.8.6,Riprod:Patchly=*'
 
+    debugEnabled = true
+    debugSuspend = false
+    requireDcevm = true
     injectServerJavadocsIntoSources = true
 }
 

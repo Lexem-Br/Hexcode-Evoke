@@ -35,3 +35,4 @@ build/
 /run/
 /lib
 /logs
+/src/main/resources/GeneratedPack/

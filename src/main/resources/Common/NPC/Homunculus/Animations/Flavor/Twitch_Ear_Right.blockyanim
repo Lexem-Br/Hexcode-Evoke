@@ -1,0 +1,50 @@
+{
+  "duration": 30,
+  "holdLastKeyframe": false,
+  "nodeAnimations": {
+    "R-Ear": {
+      "position": [],
+      "orientation": [ {
+          "time": 0,
+          "delta": {
+            "x": 0,
+            "y": 0,
+            "z": 0,
+            "w": 1
+          },
+          "interpolationType": "smooth"
+        }, {
+          "time": 10,
+          "delta": {
+            "x": -0.006965,
+            "y": -0.064751,
+            "z": -0.012397,
+            "w": 0.9978
+          },
+          "interpolationType": "smooth"
+        }, {
+          "time": 15,
+          "delta": {
+            "x": 0.012977,
+            "y": 0.033878,
+            "z": -0.024092,
+            "w": 0.999051
+          },
+          "interpolationType": "smooth"
+        }, {
+          "time": 20,
+          "delta": {
+            "x": -0.008907,
+            "y": -0.067857,
+            "z": -0.011824,
+            "w": 0.997585
+          },
+          "interpolationType": "smooth"
+        } ],
+      "shapeStretch": [],
+      "shapeVisible": [],
+      "shapeUvOffset": []
+    }
+  },
+  "formatVersion": 1
+}

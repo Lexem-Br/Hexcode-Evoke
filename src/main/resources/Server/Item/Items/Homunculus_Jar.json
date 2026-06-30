@@ -1,0 +1,65 @@
+{
+  "TranslationProperties": {
+    "Name": "Homunculus Jar"
+  },
+  "PlayerAnimationsId": "Block",
+  "Quality": "Rare",
+  "MaxStack": 1,
+  "Set": "Furniture_Human",
+  "BlockType": {
+    "BlockParticleSetId": "Dust",
+    "BlockSoundSetId": "Metal",
+    "PhysicalMaterialId": "Metal",
+    "CustomModel": "Blocks/Homunculus/Homunculus_Jar.blockymodel",
+    "CustomModelTexture": [
+      {
+        "Texture": "Blocks/Homunculus/Homunculus_Jar.png",
+        "Weight": 1
+      }
+    ],
+    "DrawType": "Model",
+    "Flags": {},
+    "Gathering": {
+      "Soft": {
+        "IsWeaponBreakable": false
+      }
+    },
+    "HitboxType": "Plant_Tall_Full",
+    "VariantRotation": "NESW",
+    "Material": "Solid",
+    "Opacity": "Transparent",
+    "Support": {
+      "Down": [
+        {
+          "FaceType": "Full"
+        }
+      ]
+    },
+    "Looping": true,
+    "TextureComputedColor": "#568682",
+    "CustomModelScale": 0.55
+  },
+  "Tags": {
+    "Type": [
+      "Furniture"
+    ],
+    "Family": [
+      "Human"
+    ]
+  },
+  "$Comment": " ",
+  "IconProperties": {
+    "Scale": 0.4,
+    "Rotation": [
+      11,
+      44,
+      10
+    ],
+    "Translation": [
+      0,
+      -31
+    ]
+  },
+  "Icon": "Icons/ItemsGenerated/Homunculus_Jar.png",
+  "ItemSoundSetId": "ISS_Blocks_Wood"
+}

@@ -1,0 +1,15 @@
+{
+  "Type": "Variant",
+  "Reference": "Template_Hex_Creature_Walk",
+  "Modify": {
+    "Appearance": "Hex_Homunculus",
+    "DropHexItem": "Alive_Homunculus_Jar",
+    "NameTranslationKey": { "Compute": "NameTranslationKey" }
+  },
+  "Parameters": {
+    "NameTranslationKey": {
+      "Value": "evoke.npcRoles.Hex_Homunculus.name",
+      "Description": "Translation key for NPC name display"
+    }
+  }
+}

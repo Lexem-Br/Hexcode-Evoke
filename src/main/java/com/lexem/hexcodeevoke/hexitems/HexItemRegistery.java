@@ -2,10 +2,7 @@ package com.lexem.hexcodeevoke.hexitems;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 public class HexItemRegistery {
 
@@ -38,4 +35,6 @@ public class HexItemRegistery {
         return Collections.unmodifiableMap(new HashMap<>(hexItemList));
     }
 
+    @Nonnull
+    public static ArrayList<String> getAllBlocks(){ return new ArrayList<>(getAll().keySet()); }
 }

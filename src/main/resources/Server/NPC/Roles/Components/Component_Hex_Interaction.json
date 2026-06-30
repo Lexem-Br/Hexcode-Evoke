@@ -1,0 +1,57 @@
+{
+  "$Comment": "Activates interaction with the player if they are the leader",
+  "Class": "Instruction",
+  "Parameters": {
+    "_ImportStates": [ "$Interaction" ]
+  },
+  "Content": {
+    "Instructions": [
+      {
+        "Continue": true,
+        "Sensor": {
+          "Type": "And",
+          "Sensors": [
+            {
+              "Type": "FlockLeader"
+            },
+            {
+              "Type": "Self",
+              "Filters": [
+                {
+                  "Type": "Flock",
+                  "FlockStatus": "Member"
+                }
+              ]
+            }
+          ]
+        },
+        "Actions": [
+          {
+            "Type": "SetInteractable",
+            "Interactable": true
+          }
+        ]
+      },
+      {
+        "Continue": true,
+        "Sensor": {
+          "Type": "HasInteracted"
+        },
+        "Instructions": [
+          {
+            "Actions": [
+              {
+                "Type": "LockOnInteractionTarget"
+              },
+              {
+                "Type": "ParentState",
+                "State": "$Interaction"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "Type": "Component"
+}
