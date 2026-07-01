@@ -79,15 +79,25 @@
             },
             "0.8": {
               "Type": "EvokeHexCreature",
-              "Effects": {
-                "ItemAnimationId": "Interact"
+              "Next": {
+                "Type": "Serial",
+                "Interactions": [
+                  {
+                    "Type": "Simple",
+                    "RunTime": 0.5,
+                    "Effects": {
+                      "ItemAnimationId": "CastHurlCharged",
+                      "ClearAnimationOnFinish": true
+                    }
+                  }
+                ]
+              },
+              "Failed": {
+                "Type": "Simple",
+                "Effects": {
+                  "ItemAnimationId": "Interact"
+                }
               }
-            }
-          },
-          "Failed": {
-            "Type": "Simple",
-            "Effects": {
-              "ItemAnimationId": "Interact"
             }
           }
         }
