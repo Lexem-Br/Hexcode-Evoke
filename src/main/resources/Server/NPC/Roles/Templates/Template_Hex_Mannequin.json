@@ -54,6 +54,25 @@
     }
   ],
   "MaxHealth": 100,
+  "StateTransitions": [
+    {
+      "$Comment": "Clear",
+      "States": [
+        {
+          "From": [ ],
+          "To": [ ]
+        }
+      ],
+      "Actions": [
+        {
+          "Type": "ReleaseTarget"
+        },
+        {
+          "Type": "ResetInstructions"
+        }
+      ]
+    }
+  ],
   "Instructions": [
     {
       "$Comment": "Adds the entity to the flock of the first player it finds",
@@ -216,6 +235,71 @@
       ]
     },
     {
+      "$Comment": "Change the state",
+      "Continue": true,
+      "Instructions": [
+        {
+          "Continue": true,
+          "Sensor": {
+              "Type": "FlockLeader"
+          },
+          "Instructions": [
+            {
+              "$Comment": "Store target position",
+              "Sensor": {
+                "Type": "Beacon",
+                "Message": "EvokeTargetPosition",
+                "Range": 30
+              },
+              "Actions": [
+                {
+                  "Type": "State",
+                  "State": "SeekPosition"
+                }
+              ]
+            },
+            {
+              "$Comment": "Follow the leader",
+              "Sensor": {
+                "Type": "Beacon",
+                "Message": "EvokeFollowLeader",
+                "Range": 30
+              },
+              "Actions": [
+                {
+                  "Type": "State",
+                  "State": "Idle"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "$Comment": "Go to target position",
+      "Sensor": {
+        "Type": "State",
+        "State": "SeekPosition"
+      },
+      "Instructions": [
+        {
+          "Sensor": {
+            "Type": "EvokeReadPosition",
+            "Slot": "LastSeen",
+            "Range": 30
+          },
+          "BodyMotion": {
+            "Type": "Seek",
+            "SlowDownDistance": 3,
+            "StopDistance": 1,
+            "RelativeSpeed": 0.8,
+            "RecomputeDistance": 0
+          }
+        }
+      ]
+    },
+    {
       "$Comment": "Entity movement",
       "Instructions": [
         {
@@ -229,6 +313,7 @@
               "Sensor": {
                 "Type": "Player",
                 "Range": 1,
+                "LockOnTarget": true,
                 "Filters": [
                   {
                     "Type": "Flock",
@@ -253,7 +338,7 @@
               "$Comment": "Less than 10 blocks away from the leader",
               "Sensor": {
                 "Type": "Player",
-                "Range": 10,
+                "Range": 40,
                 "LockOnTarget": true,
                 "Filters": [
                   {
@@ -288,9 +373,8 @@
                 ]
               },
               "BodyMotion": {
-                "Type": "TeleportHexCreature",
+                "Type": "Teleport",
                 "OffsetRange": [2, 3],
-                "MinYOffset": 0.1,
                 "OffsetSector": 2,
                 "Orientation": "TowardsTarget"
               },

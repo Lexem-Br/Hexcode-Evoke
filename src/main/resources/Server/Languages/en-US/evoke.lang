@@ -1,5 +1,7 @@
 items.Weapon_Spellbook_Evoke.name=Evoke Book
 items.Weapon_Spellbook_Evoke.description=Evoke Book
+items.Weapon_Spellbook.Evoke_Wand.name=Evoke Wand
+items.Weapon_Spellbook.Evoke_Wand.description=Evoke Wand
 
 npcRoles.Hex_Mannequin.name= Hex Mannequin
 npcRoles.Hex_Fairy.name= Hex Fairy

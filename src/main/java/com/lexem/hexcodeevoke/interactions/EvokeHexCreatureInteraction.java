@@ -2,8 +2,6 @@ package com.lexem.hexcodeevoke.interactions;
 
 import com.hypixel.hytale.codec.builder.BuilderCodec;
 import com.hypixel.hytale.component.CommandBuffer;
-import com.hypixel.hytale.component.Ref;
-import com.hypixel.hytale.component.Store;
 import com.hypixel.hytale.logger.HytaleLogger;
 import com.hypixel.hytale.math.vector.Rotation3f;
 import com.hypixel.hytale.protocol.BlockPosition;
@@ -12,7 +10,6 @@ import com.hypixel.hytale.protocol.InteractionType;
 import com.hypixel.hytale.server.core.asset.type.blocktype.config.BlockType;
 import com.hypixel.hytale.server.core.asset.type.blocktype.config.RotationTuple;
 import com.hypixel.hytale.server.core.entity.InteractionContext;
-import com.hypixel.hytale.server.core.entity.entities.Player;
 import com.hypixel.hytale.server.core.modules.interaction.interaction.CooldownHandler;
 import com.hypixel.hytale.server.core.modules.interaction.interaction.config.SimpleInteraction;
 import com.hypixel.hytale.server.core.universe.world.World;
@@ -43,22 +40,6 @@ public class EvokeHexCreatureInteraction extends SimpleInteraction {
     @Override
     protected void tick0(boolean firstRun, float time, @Nonnull InteractionType type, @Nonnull InteractionContext context, @Nonnull CooldownHandler cooldownHandler) {
         try {
-            Ref<EntityStore> owningEntity = context.getOwningEntity();
-
-            if (owningEntity == null) {
-                context.getState().state = InteractionState.Failed;
-                super.tick0(firstRun, time, type, context, cooldownHandler);
-                return;
-            }
-            Store<EntityStore> store = owningEntity.getStore();
-
-            Player player = store.getComponent(owningEntity, Player.getComponentType());
-            if (player == null) {
-                context.getState().state = InteractionState.Failed;
-                super.tick0(firstRun, time, type, context, cooldownHandler);
-                return;
-            }
-
             CommandBuffer<EntityStore> accessor = context.getCommandBuffer();
 
             if (accessor == null) {
