@@ -1,6 +1,7 @@
 {
   "TranslationProperties": {
-    "Name": "Alive Homunculus Jar"
+    "Name": "evoke.items.Hex_Homunculus.name",
+    "Description": "evoke.items.Hex_Homunculus.description"
   },
   "PlayerAnimationsId": "Block",
   "Recipe": {

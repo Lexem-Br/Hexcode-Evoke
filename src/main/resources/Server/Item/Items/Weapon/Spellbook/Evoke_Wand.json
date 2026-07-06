@@ -6,7 +6,7 @@
   "Categories": [
     "Items.Weapons"
   ],
-  "Quality": "Rare",
+  "Quality": "Common",
   "ItemLevel": 40,
   "Model": "Items/Weapons/EvokeWand/Model.blockymodel",
   "Texture": "Items/Weapons/EvokeWand/Texture.png",
@@ -20,6 +20,31 @@
     ],
     "Family": [
       "Spellbook"
+    ]
+  },
+  "Recipe": {
+    "TimeSeconds": 1,
+    "Input": [
+      {
+        "ItemId": "Ingredient_Fibre",
+        "Quantity": 2
+      },
+      {
+        "ItemId": "Ingredient_Stick",
+        "Quantity": 2
+      },
+      {
+        "ItemId": "Ingredient_Life_Essence",
+        "Quantity": 25
+      }
+    ],
+    "BenchRequirement": [
+      {
+        "Categories": [
+          "Arcane_Hexcode_Evoke"
+        ],
+        "Id": "Arcanebench"
+      }
     ]
   },
   "Weapon": {},
