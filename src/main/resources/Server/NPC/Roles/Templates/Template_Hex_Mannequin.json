@@ -1,5 +1,5 @@
 {
-  "StartState": "Idle",
+  "StartState": "Following",
   "Type": "Abstract",
   "Invulnerable": true,
   "BusyStates": [ "$Interaction" ],
@@ -183,14 +183,14 @@
           ]
         },
         {
-          "$Comment": "Returns to the Idle state",
+          "$Comment": "Returns to the Following state",
           "Sensor": {
             "Type": "Any"
           },
           "Actions": [
             {
               "Type": "State",
-              "State": "Idle"
+              "State": "Following"
             }
           ]
         }
@@ -249,7 +249,7 @@
               "Sensor": {
                 "Type": "Beacon",
                 "Message": "EvokeTargetPosition",
-                "Range": 30
+                "Range": 90
               },
               "Actions": [
                 {
@@ -263,12 +263,12 @@
               "Sensor": {
                 "Type": "Beacon",
                 "Message": "EvokeFollowLeader",
-                "Range": 30
+                "Range": 100
               },
               "Actions": [
                 {
                   "Type": "State",
-                  "State": "Idle"
+                  "State": "Following"
                 }
               ]
             }
@@ -286,7 +286,6 @@
         {
           "Sensor": {
             "Type": "EvokeReadPosition",
-            "Slot": "LastSeen",
             "Range": 30
           },
           "BodyMotion": {
@@ -296,8 +295,26 @@
             "RelativeSpeed": 0.8,
             "RecomputeDistance": 0
           }
+        },
+        {
+          "Sensor": {
+            "Type": "Any"
+          },
+          "Actions": [
+            {
+              "Type": "State",
+              "State": "Idle"
+            }
+          ]
         }
       ]
+    },
+    {
+      "$Comment": "Idle state",
+      "Sensor": {
+        "Type": "State",
+        "State": "Idle"
+      }
     },
     {
       "$Comment": "Entity movement",
@@ -305,7 +322,7 @@
         {
           "Sensor": {
             "Type": "State",
-            "State": "Idle"
+            "State": "Following"
           },
           "Instructions": [
             {

@@ -1,6 +1,5 @@
 package com.lexem.hexcodeevoke.npc.sensors;
 
-import com.hypixel.hytale.component.ComponentAccessor;
 import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.component.Store;
 import com.hypixel.hytale.logger.HytaleLogger;
@@ -10,10 +9,9 @@ import com.hypixel.hytale.server.core.modules.entity.component.TransformComponen
 import com.hypixel.hytale.server.core.universe.PlayerRef;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.hypixel.hytale.server.flock.FlockMembership;
-import com.hypixel.hytale.server.npc.NPCPlugin;
 import com.hypixel.hytale.server.npc.asset.builder.BuilderSupport;
+import com.hypixel.hytale.server.npc.asset.builder.StateMappingHelper;
 import com.hypixel.hytale.server.npc.corecomponents.SensorBase;
-import com.hypixel.hytale.server.npc.movement.controllers.MotionController;
 import com.hypixel.hytale.server.npc.role.Role;
 import com.hypixel.hytale.server.npc.sensorinfo.InfoProvider;
 import com.hypixel.hytale.server.npc.sensorinfo.PositionProvider;
@@ -22,46 +20,42 @@ import com.lexem.hexcodeevoke.npc.sensors.builders.BuilderSensorEvokeReadPositio
 import org.joml.Vector3d;
 
 import javax.annotation.Nonnull;
-import java.util.logging.Level;
 
 public class SensorEvokeReadPosition extends SensorBase {
-   protected final int slot;
-   protected final boolean useMarkedTarget;
    protected final double minRange;
    protected final double range;
+   protected boolean wasSteering = false;
    protected final PositionProvider positionProvider = new PositionProvider();
    private static final HytaleLogger LOGGER = HytaleLogger.forEnclosingClass();
 
    public SensorEvokeReadPosition(@Nonnull BuilderSensorEvokeReadPosition builder, @Nonnull BuilderSupport support) {
       super(builder);
-      this.slot = builder.getSlot(support);
-      this.useMarkedTarget = builder.isUseMarkedTarget(support);
       this.minRange = builder.getMinRange(support);
       this.range = builder.getRange(support);
    }
 
    @Override
    public boolean matches(@Nonnull Ref<EntityStore> ref, @Nonnull Role role, double dt, @Nonnull Store<EntityStore> store) {
-      if (!super.matches(ref, role, dt, store)) {
+      if (!super.matches(ref, role, dt, store) || wasSteering) {
          this.positionProvider.clear();
          return false;
       } else {
          Vector3d position = getPostion(ref, store);
-         LOGGER.atInfo().log("Position teste: %s", position);
 
          if (position.equals(Vector3dUtil.MIN)) {
             this.positionProvider.clear();
             return false;
          } else {
             TransformComponent transformComponent = store.getComponent(ref, TransformComponent.getComponentType());
-
             assert transformComponent != null;
 
-            double dist2 = transformComponent.getPosition().distanceSquared(position);
-            if (!(dist2 > this.range * this.range) && !(dist2 < this.minRange * this.minRange)) {
+            double dist = transformComponent.getPosition().distanceSquared(position);
+            if (dist < 2.0) {
+               return false;
+            } else if (!(dist > this.range * this.range) && !(dist < this.minRange * this.minRange)) {
                this.positionProvider.setTarget(position);
                return true;
-            } else {
+            }  else {
                this.positionProvider.clear();
                return false;
             }
