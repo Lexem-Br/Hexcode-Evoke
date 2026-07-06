@@ -9,11 +9,19 @@ import com.hypixel.hytale.server.core.plugin.PluginBase;
 import com.hypixel.hytale.server.core.plugin.PluginManager;
 import com.hypixel.hytale.server.core.util.Config;
 import com.hypixel.hytale.server.npc.NPCPlugin;
-import com.lexem.hexcodeevoke.npc.builders.BuilderTeleportHexCreature;
+import com.lexem.hexcodeevoke.commands.EvokerCommand;
+import com.lexem.hexcodeevoke.components.EvokerComponent;
+import com.lexem.hexcodeevoke.events.SaveTargetPositionEvent;
+import com.lexem.hexcodeevoke.handlers.SaveTargetPositionHandler;
+import com.lexem.hexcodeevoke.interactions.EvokeFollowInteraction;
+import com.lexem.hexcodeevoke.interactions.EvokeSelectionInteraction;
+import com.lexem.hexcodeevoke.interactions.EvokeHexCreatureInteraction;
+import com.lexem.hexcodeevoke.npc.bodymotions.builders.BuilderTeleportHexCreature;
+import com.lexem.hexcodeevoke.npc.sensors.builders.BuilderSensorEvokeReadPosition;
 import com.lexem.hexcodeevoke.builtin.HexcodeBuiltin;
 import com.lexem.hexcodeevoke.hexitems.AllowedHexItems;
 import com.lexem.hexcodeevoke.hexitems.RegisterHexItemsPlugin;
-import com.lexem.hexcodeevoke.interactions.EvokeHexCreatureInteraction;
+import com.lexem.hexcodeevoke.systems.PlayerJoinSystem;
 import org.checkerframework.checker.nullness.compatqual.NonNullDecl;
 import com.riprod.patchly.PatchManager;
 
@@ -30,7 +38,7 @@ public class HexcodeEvoke extends JavaPlugin {
         super(init);
         patchManager = new PatchManager(this);
         instance = this;
-        LOGGER.atInfo().log("Hello from " + this.getName() + " version " + this.getManifest().getVersion().toString());
+        LOGGER.atInfo().log(this.getName() + " version " + this.getManifest().getVersion().toString());
         this.allowedHexItemsConfig = this.withConfig("GeneratedPack/AllowedHexItems", AllowedHexItems.CODEC);
         registerHexItemsPlugin = new RegisterHexItemsPlugin(init, this.allowedHexItemsConfig);
     }
@@ -39,23 +47,52 @@ public class HexcodeEvoke extends JavaPlugin {
     protected void setup() {
         LOGGER.atInfo().log("Setting up plugin " + this.getName());
         patchManager.install();
-        NPCPlugin npcPlugin = NPCPlugin.get();
-        //npcPlugin.registerCoreComponentType("ActionExample", BuilderActionExample::new);
-        npcPlugin.registerCoreComponentType("TeleportHexCreature", BuilderTeleportHexCreature::new);
 
         if (isHexcodePresent()) {
             HexcodeBuiltin.Setup();
             this.allowedHexItemsConfig.save();
-            this.registerExternal();
-            this.getCodecRegistry(Interaction.CODEC)
-                    .register("EvokeHexCreature", EvokeHexCreatureInteraction.class, EvokeHexCreatureInteraction.CODEC);
         } else {
             LOGGER.atInfo().log("Hexcode not installed");
         }
+
+        this.registerNPCComponents();
+        this.registerComponents();
+        this.registerEvents();
+        this.registerCommands();
+        this.registerHexItems();
     }
 
-    private void registerExternal() {
+    private void registerNPCComponents() {
+        NPCPlugin npcPlugin = NPCPlugin.get();
+        npcPlugin.registerCoreComponentType("TeleportHexCreature", BuilderTeleportHexCreature::new);
+        npcPlugin.registerCoreComponentType("EvokeReadPosition", BuilderSensorEvokeReadPosition::new);
+    }
+
+    private void registerComponents() {
+        var registery = getEntityStoreRegistry();
+        var evokerType = registery.registerComponent(
+                EvokerComponent.class,
+                "Evoker_PlayerData",
+                EvokerComponent.CODEC
+        );
+        EvokerComponent.setComponentType(evokerType);
+
+        registery.registerSystem(new PlayerJoinSystem());
+    }
+
+    private void registerEvents() {
+        getEventRegistry().register(SaveTargetPositionEvent.class, new SaveTargetPositionHandler());
+    }
+
+    private void registerCommands() {
+        getCommandRegistry().registerCommand(new EvokerCommand());
+    }
+
+    private void registerHexItems() {
         this.registerHexItemsPlugin.startup();
+        this.getCodecRegistry(Interaction.CODEC).register("EvokeHexCreature", EvokeHexCreatureInteraction.class, EvokeHexCreatureInteraction.CODEC);
+        this.getCodecRegistry(Interaction.CODEC).register("EvokeSelection", EvokeSelectionInteraction.class, EvokeSelectionInteraction.CODEC);
+        this.getCodecRegistry(Interaction.CODEC).register("EvokeFollow", EvokeFollowInteraction.class, EvokeFollowInteraction.CODEC);
     }
 
     @Override

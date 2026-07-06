@@ -1,6 +1,7 @@
 {
   "TranslationProperties": {
-    "Name": "Homunculus Jar"
+    "Name": "evoke.items.Hex_Mannequin.name",
+    "Description": "evoke.items.Hex_Mannequin.description"
   },
   "PlayerAnimationsId": "Block",
   "Quality": "Rare",

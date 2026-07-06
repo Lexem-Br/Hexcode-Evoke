@@ -1,6 +1,7 @@
 {
   "TranslationProperties": {
-    "Name": "Hex Mannequin Item"
+    "Name": "evoke.items.Hex_Mannequin.name",
+    "Description": "evoke.items.Hex_Mannequin.description"
   },
   "Icon": "Icons/ItemsGenerated/Hex_Mannequin_Block.png",
   "Recipe": {
@@ -20,7 +21,7 @@
       },
       {
         "ItemId": "Ingredient_Life_Essence",
-        "Quantity": 10
+        "Quantity": 25
       }
     ],
     "BenchRequirement": [

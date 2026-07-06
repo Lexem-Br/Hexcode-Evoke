@@ -1,4 +1,4 @@
-package com.lexem.hexcodeevoke.npc.builders;
+package com.lexem.hexcodeevoke.npc.bodymotions.builders;
 
 import com.google.gson.JsonElement;
 import com.hypixel.hytale.server.npc.asset.builder.BuilderDescriptorState;

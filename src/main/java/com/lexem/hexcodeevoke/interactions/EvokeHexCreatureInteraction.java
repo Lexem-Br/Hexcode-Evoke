@@ -2,17 +2,14 @@ package com.lexem.hexcodeevoke.interactions;
 
 import com.hypixel.hytale.codec.builder.BuilderCodec;
 import com.hypixel.hytale.component.CommandBuffer;
-import com.hypixel.hytale.component.Ref;
-import com.hypixel.hytale.component.Store;
 import com.hypixel.hytale.logger.HytaleLogger;
-import com.hypixel.hytale.math.util.ChunkUtil;
 import com.hypixel.hytale.math.vector.Rotation3f;
 import com.hypixel.hytale.protocol.BlockPosition;
+import com.hypixel.hytale.protocol.InteractionState;
 import com.hypixel.hytale.protocol.InteractionType;
 import com.hypixel.hytale.server.core.asset.type.blocktype.config.BlockType;
 import com.hypixel.hytale.server.core.asset.type.blocktype.config.RotationTuple;
 import com.hypixel.hytale.server.core.entity.InteractionContext;
-import com.hypixel.hytale.server.core.entity.entities.Player;
 import com.hypixel.hytale.server.core.modules.interaction.interaction.CooldownHandler;
 import com.hypixel.hytale.server.core.modules.interaction.interaction.config.SimpleInteraction;
 import com.hypixel.hytale.server.core.universe.world.World;
@@ -41,58 +38,71 @@ public class EvokeHexCreatureInteraction extends SimpleInteraction {
     protected int maxCount = 1;
 
     @Override
-    protected void tick0(boolean firstRun, float time, @Nonnull InteractionType type,
-                         @Nonnull InteractionContext context, @Nonnull CooldownHandler cooldownHandler) {
-        Ref<EntityStore> owningEntity = context.getOwningEntity();
-        Store<EntityStore> store = owningEntity.getStore();
-        if (store == null) return;
+    protected void tick0(boolean firstRun, float time, @Nonnull InteractionType type, @Nonnull InteractionContext context, @Nonnull CooldownHandler cooldownHandler) {
+        try {
+            CommandBuffer<EntityStore> accessor = context.getCommandBuffer();
 
-        Player player = store.getComponent(owningEntity, Player.getComponentType());
-        if (player == null) return;
+            if (accessor == null) {
+                context.getState().state = InteractionState.Failed;
+                super.tick0(firstRun, time, type, context, cooldownHandler);
+                return;
+            }
+            World world = accessor.getExternalData().getWorld();
 
-        CommandBuffer<EntityStore> accessor = context.getCommandBuffer();
-
-        World world = accessor.getExternalData().getWorld();
-        if (world == null) return;
-
-        BlockPosition blockPosition = context.getTargetBlock();
-        if (blockPosition == null) return;
-
-        Vector3d center = new Vector3d(blockPosition.x, blockPosition.y, blockPosition.z);
-        List<Vector3i> selectedPositions = gatherBlocks(center, radius, accessor);
-        LOGGER.atWarning().log("selectedPositions: %s", selectedPositions);
-
-        if (selectedPositions.isEmpty()) {
-            LOGGER.atWarning().log("evoke: block must be a Hex item");
-            return;
-        }
-
-        for (Vector3i blockPos : selectedPositions) {
-            Vector3d blockVector = new Vector3d(blockPos.x + 0.5, blockPos.y, blockPos.z + 0.5);
-
-            int blockRotationIndex = world.getBlockRotationIndex(blockPos.x, blockPos.y, blockPos.z);
-            RotationTuple rotation = RotationTuple.get(blockRotationIndex);
-            Rotation3f blockRotation = new Rotation3f(0.0F, (float) (rotation.yaw().getRadians() + Math.PI), 0.0F);
-
-            BlockType blockType = world.getBlockType(blockPos);
-
-            if (blockType == null) {
-                LOGGER.atWarning().log("evoke: invalid block");
+            BlockPosition blockPosition = context.getTargetBlock();
+            if (blockPosition == null) {
+                context.getState().state = InteractionState.Failed;
+                super.tick0(firstRun, time, type, context, cooldownHandler);
                 return;
             }
 
-            Map.Entry<String, String> hexItem = HexItemRegistery.getByBlockId(blockType.getId());
+            Vector3d center = new Vector3d(blockPosition.x, blockPosition.y, blockPosition.z);
+            List<Vector3i> selectedPositions = gatherBlocks(center, radius, accessor);
 
-            if (hexItem == null) {
+            if (selectedPositions.isEmpty()) {
                 LOGGER.atWarning().log("evoke: block must be a Hex item");
+                context.getState().state = InteractionState.Failed;
+                super.tick0(firstRun, time, type, context, cooldownHandler);
                 return;
             }
 
-            world.breakBlock(blockPos.x, blockPos.y, blockPos.z, 0);
+            for (Vector3i blockPos : selectedPositions) {
+                Vector3d blockVector = new Vector3d(blockPos.x + 0.5, blockPos.y, blockPos.z + 0.5);
 
-            accessor.run(_store -> {
-                NPCPlugin.get().spawnNPC(_store, hexItem.getValue(), null, blockVector, blockRotation);
-            });
+                int blockRotationIndex = world.getBlockRotationIndex(blockPos.x, blockPos.y, blockPos.z);
+                RotationTuple rotation = RotationTuple.get(blockRotationIndex);
+                Rotation3f blockRotation = new Rotation3f(0.0F, (float) (rotation.yaw().getRadians() + Math.PI), 0.0F);
+
+                BlockType blockType = world.getBlockType(blockPos);
+
+                if (blockType == null) {
+                    LOGGER.atWarning().log("evoke: invalid block");
+                    context.getState().state = InteractionState.Failed;
+                    super.tick0(firstRun, time, type, context, cooldownHandler);
+                    return;
+                }
+
+                Map.Entry<String, String> hexItem = HexItemRegistery.getByBlockId(blockType.getId());
+
+                if (hexItem == null) {
+                    LOGGER.atWarning().log("evoke: block must be a Hex item");
+                    context.getState().state = InteractionState.Failed;
+                    super.tick0(firstRun, time, type, context, cooldownHandler);
+                    return;
+                }
+
+                world.breakBlock(blockPos.x, blockPos.y, blockPos.z, 0);
+
+                accessor.run(_store -> {
+                    NPCPlugin.get().spawnNPC(_store, hexItem.getValue(), null, blockVector, blockRotation);
+                });
+            }
+
+            context.getState().state = InteractionState.Finished;
+            super.tick0(firstRun, time, type, context, cooldownHandler);
+        } catch (Exception e) {
+            LOGGER.atSevere().log("[hexcode evoke] HexCreature failed: %s", e.getMessage());
+            context.getState().state = InteractionState.Failed;
         }
     }
 

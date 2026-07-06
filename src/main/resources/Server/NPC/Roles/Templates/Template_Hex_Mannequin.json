@@ -1,5 +1,5 @@
 {
-  "StartState": "Idle",
+  "StartState": "Following",
   "Type": "Abstract",
   "Invulnerable": true,
   "BusyStates": [ "$Interaction" ],
@@ -54,6 +54,25 @@
     }
   ],
   "MaxHealth": 100,
+  "StateTransitions": [
+    {
+      "$Comment": "Clear",
+      "States": [
+        {
+          "From": [ ],
+          "To": [ ]
+        }
+      ],
+      "Actions": [
+        {
+          "Type": "ReleaseTarget"
+        },
+        {
+          "Type": "ResetInstructions"
+        }
+      ]
+    }
+  ],
   "Instructions": [
     {
       "$Comment": "Adds the entity to the flock of the first player it finds",
@@ -164,14 +183,14 @@
           ]
         },
         {
-          "$Comment": "Returns to the Idle state",
+          "$Comment": "Returns to the Following state",
           "Sensor": {
             "Type": "Any"
           },
           "Actions": [
             {
               "Type": "State",
-              "State": "Idle"
+              "State": "Following"
             }
           ]
         }
@@ -216,12 +235,94 @@
       ]
     },
     {
+      "$Comment": "Change the state",
+      "Continue": true,
+      "Instructions": [
+        {
+          "Continue": true,
+          "Sensor": {
+              "Type": "FlockLeader"
+          },
+          "Instructions": [
+            {
+              "$Comment": "Store target position",
+              "Sensor": {
+                "Type": "Beacon",
+                "Message": "EvokeTargetPosition",
+                "Range": 90
+              },
+              "Actions": [
+                {
+                  "Type": "State",
+                  "State": "SeekPosition"
+                }
+              ]
+            },
+            {
+              "$Comment": "Follow the leader",
+              "Sensor": {
+                "Type": "Beacon",
+                "Message": "EvokeFollowLeader",
+                "Range": 100
+              },
+              "Actions": [
+                {
+                  "Type": "State",
+                  "State": "Following"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "$Comment": "Go to target position",
+      "Sensor": {
+        "Type": "State",
+        "State": "SeekPosition"
+      },
+      "Instructions": [
+        {
+          "Sensor": {
+            "Type": "EvokeReadPosition",
+            "Range": 30
+          },
+          "BodyMotion": {
+            "Type": "Seek",
+            "SlowDownDistance": 3,
+            "StopDistance": 1,
+            "RelativeSpeed": 0.8,
+            "RecomputeDistance": 0
+          }
+        },
+        {
+          "Sensor": {
+            "Type": "Any"
+          },
+          "Actions": [
+            {
+              "Type": "State",
+              "State": "Idle"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "$Comment": "Idle state",
+      "Sensor": {
+        "Type": "State",
+        "State": "Idle"
+      }
+    },
+    {
       "$Comment": "Entity movement",
       "Instructions": [
         {
           "Sensor": {
             "Type": "State",
-            "State": "Idle"
+            "State": "Following"
           },
           "Instructions": [
             {
@@ -229,6 +330,7 @@
               "Sensor": {
                 "Type": "Player",
                 "Range": 1,
+                "LockOnTarget": true,
                 "Filters": [
                   {
                     "Type": "Flock",
@@ -253,7 +355,7 @@
               "$Comment": "Less than 10 blocks away from the leader",
               "Sensor": {
                 "Type": "Player",
-                "Range": 10,
+                "Range": 40,
                 "LockOnTarget": true,
                 "Filters": [
                   {
@@ -288,9 +390,8 @@
                 ]
               },
               "BodyMotion": {
-                "Type": "TeleportHexCreature",
+                "Type": "Teleport",
                 "OffsetRange": [2, 3],
-                "MinYOffset": 0.1,
                 "OffsetSector": 2,
                 "Orientation": "TowardsTarget"
               },

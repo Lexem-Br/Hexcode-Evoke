@@ -12,7 +12,7 @@
     "Input": [
       {
         "ItemId": "Ingredient_Life_Essence",
-        "Quantity": 10
+        "Quantity": 25
       },
       {
         "ItemId": "Ingredient_Ice_Essence",

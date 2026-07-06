@@ -15,17 +15,15 @@ import com.hypixel.hytale.server.npc.movement.Steering;
 import com.hypixel.hytale.server.npc.movement.controllers.MotionController;
 import com.hypixel.hytale.server.npc.role.Role;
 import com.hypixel.hytale.server.npc.sensorinfo.InfoProvider;
-import com.lexem.hexcodeevoke.npc.builders.BuilderTeleportHexCreature;
+import com.lexem.hexcodeevoke.npc.bodymotions.builders.BuilderTeleportHexCreature;
 import org.joml.Vector3d;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.Objects;
 import java.util.function.Supplier;
 
 public class BodyMotionTeleportHexCreature extends BodyMotionBase {
-   public static final int MAX_TRIES = 10;
-   public static final int MIN_MOVE_CHANGE = 1;
-   public static final double TELEPORT_COOLDOWN = 0.5;
    protected static final ComponentType<EntityStore, TransformComponent> TRANSFORM_COMPONENT_TYPE = TransformComponent.getComponentType();
    protected static final ComponentType<EntityStore, BoundingBox> BOUNDING_BOX_COMPONENT_TYPE = BoundingBox.getComponentType();
    protected final double minOffset;
@@ -65,7 +63,7 @@ public class BodyMotionTeleportHexCreature extends BodyMotionBase {
       @Nonnull Steering desiredSteering,
       @Nonnull ComponentAccessor<EntityStore> componentAccessor
    ) {
-      if (sensorInfo != null && sensorInfo.getPositionProvider().providePosition(this.target)) {
+      if (sensorInfo != null && Objects.requireNonNull(sensorInfo.getPositionProvider()).providePosition(this.target)) {
          double dist = this.target.distanceSquared(this.lastTriedTarget);
          if ((this.tries > 0 || !(dist < 1.0)) && !this.tickCooldown(dt)) {
             if (dist > 1.0) {
@@ -165,14 +163,14 @@ public class BodyMotionTeleportHexCreature extends BodyMotionBase {
       }
    }
 
-   public static enum Orientation implements Supplier<String> {
+   public enum Orientation implements Supplier<String> {
       Unchanged("Do not change orientation"),
       TowardsTarget("Face towards the target"),
       UseTarget("Use the target's orientation");
 
       private final String description;
 
-      private Orientation(String description) {
+       Orientation(String description) {
          this.description = description;
       }
 
