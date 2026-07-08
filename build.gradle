@@ -40,7 +40,7 @@ tasks.shadowJar {
     archiveClassifier.set('')
     mergeServiceFiles()
     configurations = [project.configurations.shadowBundle]
-    relocate("com.riprod.patchly", "com.riprod.hexcodeevoke.shaded.patchly")
+    relocate("com.riprod.patchly", "com.lexem.hexcodeevoke.shaded.patchly")
 }
 
 tasks.build {
