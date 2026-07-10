@@ -11,7 +11,6 @@ import com.hypixel.hytale.server.core.entity.InteractionContext;
 import com.hypixel.hytale.server.core.entity.group.EntityGroup;
 import com.hypixel.hytale.server.core.modules.interaction.interaction.CooldownHandler;
 import com.hypixel.hytale.server.core.modules.interaction.interaction.config.SimpleInteraction;
-import com.hypixel.hytale.server.core.universe.PlayerRef;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.hypixel.hytale.server.core.util.TargetUtil;
 import com.hypixel.hytale.server.flock.FlockMembership;
@@ -42,12 +41,6 @@ public class EvokeSelectionInteraction extends SimpleInteraction {
             }
 
             Store<EntityStore> store = playerRef.getStore();
-            PlayerRef player = store.getComponent(playerRef, PlayerRef.getComponentType());
-            if (player == null) {
-                context.getState().state = InteractionState.Failed;
-                super.tick0(firstRun, time, type, context, cooldownHandler);
-                return;
-            }
 
             CommandBuffer<EntityStore> accessor = context.getCommandBuffer();
             assert accessor != null;
@@ -60,8 +53,6 @@ public class EvokeSelectionInteraction extends SimpleInteraction {
                 context.getState().state = InteractionState.Failed;
                 super.tick0(firstRun, time, type, context, cooldownHandler);
                 return;
-            } else {
-//                LOGGER.atInfo().log("EvokeTargetPosition: %s", center);
             }
 
             FlockMembership playerMembership = store.getComponent(playerRef, FlockMembership.getComponentType());

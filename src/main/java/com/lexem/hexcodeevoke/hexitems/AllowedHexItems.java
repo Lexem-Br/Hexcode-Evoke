@@ -52,22 +52,21 @@ public class AllowedHexItems {
             new HexItem("Hex_Fairy_Block", "Hex_Fairy"),
             new HexItem("Hex_Fairy_Void_Block", "Hex_Fairy_Void"),
             new HexItem("Hex_Fairy_Ice_Block", "Hex_Fairy_Ice"),
-            new HexItem("Alive_Homunculus_Jar", "Hex_Homunculus"),
-            new HexItem("Rimuru_Slime_Plush", "Hex_Rimuru")
+            new HexItem("Alive_Homunculus_Jar", "Hex_Homunculus")
     };
 
-    public String[] getHexblockIds() {
+    public String[] getHexBlockIds() {
         if (hexItems == null || hexItems.length == 0) {
             return new String[0];
         }
 
-        String[] hexblockIdsList = new String[hexItems.length];
+        String[] hexBlockIdsList = new String[hexItems.length];
         for (int i = 0; i < hexItems.length; i++) {
             HexItem item = hexItems[i];
-            hexblockIdsList[i] = (item != null) ? item.blockId : null;
+            hexBlockIdsList[i] = (item != null) ? item.blockId : null;
         }
 
-        return hexblockIdsList;
+        return hexBlockIdsList;
     }
 
 }

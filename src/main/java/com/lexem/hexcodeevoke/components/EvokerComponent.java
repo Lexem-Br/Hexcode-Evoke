@@ -1,5 +1,6 @@
 package com.lexem.hexcodeevoke.components;
 
+import com.hypixel.hytale.codec.Codec;
 import com.hypixel.hytale.codec.KeyedCodec;
 import com.hypixel.hytale.codec.builder.BuilderCodec;
 import com.hypixel.hytale.component.Component;
@@ -10,6 +11,8 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 import org.joml.Vector3d;
 
 public class EvokerComponent implements Component<EntityStore>{
+    private Vector3d targetPosition;
+    private String[] hexCreatureUUIDs = new String[0];
 
     private static ComponentType<EntityStore, EvokerComponent> TYPE;
 
@@ -28,9 +31,12 @@ public class EvokerComponent implements Component<EntityStore>{
                     (component, value) -> component.targetPosition = value,
                     component -> component.targetPosition
             ).add()
+            .append(
+                    new KeyedCodec<>("HexCreatureUUIDs",  Codec.STRING_ARRAY),
+                    (component, value) -> component.hexCreatureUUIDs = value,
+                    component -> component.hexCreatureUUIDs
+            ).add()
             .build();
-
-    private Vector3d targetPosition;
 
     public EvokerComponent(){
     }
@@ -43,8 +49,35 @@ public class EvokerComponent implements Component<EntityStore>{
         return targetPosition;
     }
 
+    public String[] getHexCreatureUUIDs() {
+        return hexCreatureUUIDs;
+    }
+
     public void setTargetPosition(Vector3d newTargetPosition) {
         this.targetPosition = newTargetPosition;
+    }
+
+    public void addHexCreatureUUID(String uuid) {
+        String[] newArray = new String[hexCreatureUUIDs.length + 1];
+        System.arraycopy(hexCreatureUUIDs, 0, newArray, 0, hexCreatureUUIDs.length);
+        newArray[hexCreatureUUIDs.length] = uuid;
+        hexCreatureUUIDs = newArray;
+    }
+
+    public void removeHexCreatureUUID(String uuid) {
+        int count = 0;
+        for (String s : hexCreatureUUIDs) {
+            if (!s.equals(uuid)) count++;
+        }
+
+        String[] newArray = new String[count];
+        int index = 0;
+        for (String s : hexCreatureUUIDs) {
+            if (!s.equals(uuid)) {
+                newArray[index++] = s;
+            }
+        }
+        hexCreatureUUIDs = newArray;
     }
 
     @NullableDecl

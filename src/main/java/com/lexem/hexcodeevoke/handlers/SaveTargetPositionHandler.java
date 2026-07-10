@@ -13,7 +13,7 @@ public class SaveTargetPositionHandler implements Consumer<SaveTargetPositionEve
 
         var store = event.playerRef().getStore();
 
-        var evoker = store.getComponent(event.playerRef(), EvokerComponent.getComponentType());
+        EvokerComponent evoker = store.getComponent(event.playerRef(), EvokerComponent.getComponentType());
         if (evoker == null) return;
 
         evoker.setTargetPosition(event.targetPosition());
