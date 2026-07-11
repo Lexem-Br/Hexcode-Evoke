@@ -2,7 +2,7 @@ plugins {
     id 'java'
     id 'org.jetbrains.gradle.plugin.idea-ext' version '1.3'
     id 'com.gradleup.shadow' version '9.4.2'
-    id 'com.azuredoom.hytale-tools' version '1.0.38'
+    id 'com.azuredoom.hytale-tools' version '1.0.44'
 }
 
 repositories {
@@ -15,7 +15,8 @@ configurations {
 }
 
 dependencies {
-    implementation 'curse.maven:hexcode-1448311:8240695'
+    //implementation 'curse.maven:hexcode-1448311:8240695'
+    optionalDependency files('lib/Hexcode-0.9.0.jar')
     implementation "curse.maven:hyui-1431415:8363317"
     shadowBundle('curse.maven:patchly-1550889:8188362')
 }
