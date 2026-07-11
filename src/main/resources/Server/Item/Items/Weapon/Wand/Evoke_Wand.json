@@ -101,6 +101,32 @@
           }
         }
       ]
+    },
+    "Ability2": {
+      "Interactions": [
+        {
+          "Type": "EvokeSelection",
+          "Next": {
+            "Type": "Serial",
+            "Interactions": [
+              {
+                "Type": "Simple",
+                "RunTime": 0.5,
+                "Effects": {
+                  "ItemAnimationId": "Interact",
+                  "ClearAnimationOnFinish": true
+                }
+              }
+            ]
+          },
+          "Failed": {
+            "Type": "Simple",
+            "Effects": {
+              "ItemAnimationId": "Interact"
+            }
+          }
+        }
+      ]
     }
   },
   "IconProperties": {

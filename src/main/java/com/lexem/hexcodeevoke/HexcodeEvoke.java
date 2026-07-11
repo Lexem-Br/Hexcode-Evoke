@@ -11,7 +11,10 @@ import com.hypixel.hytale.server.core.util.Config;
 import com.hypixel.hytale.server.npc.NPCPlugin;
 import com.lexem.hexcodeevoke.commands.EvokerCommand;
 import com.lexem.hexcodeevoke.components.EvokerComponent;
+import com.lexem.hexcodeevoke.components.HexCreatureComponent;
+import com.lexem.hexcodeevoke.events.SaveHexCreatureEvent;
 import com.lexem.hexcodeevoke.events.SaveTargetPositionEvent;
+import com.lexem.hexcodeevoke.handlers.SaveHexCreatureHandler;
 import com.lexem.hexcodeevoke.handlers.SaveTargetPositionHandler;
 import com.lexem.hexcodeevoke.interactions.EvokeFollowInteraction;
 import com.lexem.hexcodeevoke.interactions.EvokeSelectionInteraction;
@@ -21,6 +24,7 @@ import com.lexem.hexcodeevoke.npc.sensors.builders.BuilderSensorEvokeReadPositio
 import com.lexem.hexcodeevoke.builtin.HexcodeBuiltin;
 import com.lexem.hexcodeevoke.hexitems.AllowedHexItems;
 import com.lexem.hexcodeevoke.hexitems.RegisterHexItemsPlugin;
+import com.lexem.hexcodeevoke.systems.NPCJoinSystem;
 import com.lexem.hexcodeevoke.systems.PlayerJoinSystem;
 import org.checkerframework.checker.nullness.compatqual.NonNullDecl;
 import com.riprod.patchly.PatchManager;
@@ -28,7 +32,7 @@ import com.riprod.patchly.PatchManager;
 public class HexcodeEvoke extends JavaPlugin {
 
     private final Config<AllowedHexItems> allowedHexItemsConfig;
-    private RegisterHexItemsPlugin registerHexItemsPlugin;
+    private final RegisterHexItemsPlugin registerHexItemsPlugin;
     private final PatchManager patchManager;
     private static HexcodeEvoke instance;
 
@@ -70,6 +74,7 @@ public class HexcodeEvoke extends JavaPlugin {
 
     private void registerComponents() {
         var registery = getEntityStoreRegistry();
+
         var evokerType = registery.registerComponent(
                 EvokerComponent.class,
                 "Evoker_PlayerData",
@@ -77,11 +82,20 @@ public class HexcodeEvoke extends JavaPlugin {
         );
         EvokerComponent.setComponentType(evokerType);
 
+        var hexCreatureType = registery.registerComponent(
+                HexCreatureComponent.class,
+                "HexCreature_Data",
+                HexCreatureComponent.CODEC
+        );
+        HexCreatureComponent.setComponentType(hexCreatureType);
+
         registery.registerSystem(new PlayerJoinSystem());
+        registery.registerSystem(new NPCJoinSystem());
     }
 
     private void registerEvents() {
         getEventRegistry().register(SaveTargetPositionEvent.class, new SaveTargetPositionHandler());
+        getEventRegistry().register(SaveHexCreatureEvent.class, new SaveHexCreatureHandler());
     }
 
     private void registerCommands() {

@@ -3,14 +3,13 @@ package com.lexem.hexcodeevoke.systems;
 import com.hypixel.hytale.component.*;
 import com.hypixel.hytale.component.query.Query;
 import com.hypixel.hytale.component.system.RefSystem;
-import com.hypixel.hytale.server.core.Message;
 import com.hypixel.hytale.server.core.universe.PlayerRef;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.lexem.hexcodeevoke.components.EvokerComponent;
 import org.checkerframework.checker.nullness.compatqual.NonNullDecl;
 import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
-public class PlayerJoinSystem  extends RefSystem<EntityStore> {
+public class PlayerJoinSystem extends RefSystem<EntityStore> {
     @Override
     public void onEntityAdded(
             @NonNullDecl Ref<EntityStore> ref,
@@ -20,14 +19,10 @@ public class PlayerJoinSystem  extends RefSystem<EntityStore> {
     ) {
         if (addReason != AddReason.LOAD) return;
 
-        PlayerRef playerRef = store.getComponent(ref, PlayerRef.getComponentType());
-        if (playerRef == null) return;
-
-        var evokerType = EvokerComponent.getComponentType();
-        var evoker = store.getComponent(ref, evokerType);
+        EvokerComponent evoker = store.getComponent(ref, EvokerComponent.getComponentType());
 
         if (evoker == null) {
-            commandBuffer.addComponent(ref, evokerType, new EvokerComponent());
+            commandBuffer.addComponent(ref, EvokerComponent.getComponentType(), new EvokerComponent());
         }
     }
 

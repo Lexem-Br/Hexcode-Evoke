@@ -30,6 +30,20 @@ public class HexItemRegistery {
                 .orElse(null);
     }
 
+    @Nullable
+    public static Map.Entry<String, String> getByEntityId(@Nonnull String id) {
+        return getAll().entrySet()
+                .stream()
+                .filter(entry -> Objects.equals(id, entry.getValue()))
+                .findFirst()
+                .orElse(null);
+    }
+
+    public static String findBlockIdByEntityId(String entityId) {
+        Map.Entry<String, String> entry = getByEntityId(entityId);
+        return entry != null ? entry.getKey() : "";
+    }
+
     @Nonnull
     public static Map<String, String> getAll() {
         return Collections.unmodifiableMap(new HashMap<>(hexItemList));
