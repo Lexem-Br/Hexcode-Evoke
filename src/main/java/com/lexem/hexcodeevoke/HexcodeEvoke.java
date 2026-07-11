@@ -123,5 +123,5 @@ public class HexcodeEvoke extends JavaPlugin {
                 .getPlugin(PluginIdentifier.fromString("Riprod:Hexcode"));
         return hexcode != null && hexcode.isEnabled();
     }
-    
+
 }
