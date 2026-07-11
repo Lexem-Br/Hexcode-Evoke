@@ -5,4 +5,5 @@ public final class EvokeSlots {
     }
 
     public static final String TARGET = "target";
+    public static final String POWER = "power";
 }

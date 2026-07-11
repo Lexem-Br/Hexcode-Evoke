@@ -7,20 +7,21 @@ import com.hypixel.hytale.server.core.asset.type.blocktype.config.*;
 import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.hypixel.hytale.server.npc.NPCPlugin;
+import com.lexem.hexcodeevoke.builtin.glyphs.evoke.style.EvokeStyle;
 import com.lexem.hexcodeevoke.hexitems.HexItemRegistery;
 import com.riprod.hexcode.api.event.GlyphFizzleEvent;
 import com.riprod.hexcode.api.execution.HexExecuter;
-import com.riprod.hexcode.builtin.glyphs.bolt.BoltGlyphSlots;
-import com.riprod.hexcode.builtin.glyphs.bolt.style.BoltStyle;
+import com.riprod.hexcode.builtin.hexCore.glyphs.effects.interact.InteractGlyphSlots;
 import com.riprod.hexcode.core.common.execution.component.HexContext;
-import com.riprod.hexcode.core.common.execution.component.VolatilityTracker;
-import com.riprod.hexcode.core.common.glyphs.registry.GlyphAsset;
-import com.riprod.hexcode.core.common.glyphs.variables.BlockVar;
-import com.riprod.hexcode.core.common.glyphs.variables.HexVar;
+import com.riprod.hexcode.core.common.execution.component.HexStats;
 import com.riprod.hexcode.core.common.glyphs.component.Glyph;
 import com.riprod.hexcode.core.common.glyphs.component.GlyphHandler;
+import com.riprod.hexcode.core.common.glyphs.registry.GlyphAsset;
+import com.riprod.hexcode.core.common.glyphs.variables.BlockVar;
 import com.riprod.hexcode.core.common.glyphs.variables.EntityVar;
+import com.riprod.hexcode.core.common.glyphs.variables.HexVar;
 import com.riprod.hexcode.utils.HexVarUtil;
+
 import org.joml.*;
 
 import java.lang.Math;
@@ -37,24 +38,8 @@ public class EvokeGlyph implements GlyphHandler {
     }
 
     @Override
-    public boolean consumeVolatility(Glyph glyph, HexContext hexContext) {
-        VolatilityTracker tracker = hexContext.getVolatilityTracker();
-        if (tracker == null)
-            return true;
-
-        HexVar magInput = glyph.readSlot(BoltGlyphSlots.POWER, hexContext);
-        double magnitude = HexVarUtil.numberOrDefault(magInput, 15.0);
-
-        GlyphAsset asset = GlyphAsset.getAssetMap().getAsset(glyph.getGlyphId());
-        float areaScale = computeAreaScale(magnitude, asset);
-
-        float cost = VolatilityTracker.computeGlyphCost(glyph) * areaScale;
-        return tracker.consumeVolatility(cost);
-    }
-
-    @Override
     public void execute(Glyph glyph, HexContext hexContext) {
-        HexVar target = glyph.readSlot(BoltGlyphSlots.TARGET, hexContext);
+        HexVar target = glyph.readSlot(EvokeSlots.TARGET, hexContext);
 
         if (target == null) {
             HexExecuter.fail(glyph, hexContext, GlyphFizzleEvent.Reason.HANDLER_FAILED,
@@ -106,7 +91,7 @@ public class EvokeGlyph implements GlyphHandler {
             NPCPlugin.get().spawnNPC(_store, hexItem.getValue(), null, blockVector, blockRotation);
         });
 
-        BoltStyle.renderImpact(accessor, blockVector, hexContext);
+        EvokeStyle.renderImpact(accessor, blockVector, hexContext);
 
         glyph.writeOutput(new BlockVar(blockPos), hexContext);
     }
