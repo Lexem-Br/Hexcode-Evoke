@@ -39,6 +39,11 @@ public class HexItemRegistery {
                 .orElse(null);
     }
 
+    public static String findBlockIdByEntityId(String entityId) {
+        Map.Entry<String, String> entry = getByEntityId(entityId);
+        return entry != null ? entry.getKey() : "";
+    }
+
     @Nonnull
     public static Map<String, String> getAll() {
         return Collections.unmodifiableMap(new HashMap<>(hexItemList));

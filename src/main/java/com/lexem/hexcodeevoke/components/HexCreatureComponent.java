@@ -14,6 +14,9 @@ public class HexCreatureComponent implements Component<EntityStore> {
     private String UUID;
     private String evokerUUID;
     private String evokerName;
+    private String name;
+    private String typeId;
+    private String blockName;
 
     private static ComponentType<EntityStore, HexCreatureComponent> TYPE;
 
@@ -41,6 +44,21 @@ public class HexCreatureComponent implements Component<EntityStore> {
                     new KeyedCodec<>("EvokerName",  Codec.STRING),
                     (component, value) -> component.evokerName = value,
                     component -> component.evokerName
+            ).add()
+            .append(
+                    new KeyedCodec<>("Name",  Codec.STRING),
+                    (component, value) -> component.name = value,
+                    component -> component.name
+            ).add()
+            .append(
+                    new KeyedCodec<>("TypeId",  Codec.STRING),
+                    (component, value) -> component.typeId = value,
+                    component -> component.typeId
+            ).add()
+            .append(
+                    new KeyedCodec<>("BlockName",  Codec.STRING),
+                    (component, value) -> component.blockName = value,
+                    component -> component.blockName
             ).add()
             .build();
 
@@ -70,11 +88,35 @@ public class HexCreatureComponent implements Component<EntityStore> {
     }
 
     public String getEvokerName() {
-        return this.evokerName;
+        return (this.evokerName == null) ? "" : this.evokerName;
     }
 
     public void setEvokerName(String evokerName) {
         this.evokerName = evokerName;
+    }
+
+    public String getName() {
+        return (this.name == null) ? getTypeId() : this.name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getTypeId() {
+        return (this.typeId == null) ? "" : this.typeId;
+    }
+
+    public void setTypeId(String typeId) {
+        this.typeId = typeId;
+    }
+
+    public String getBlockName() {
+        return this.blockName;
+    }
+
+    public void setBlockName(String blockName) {
+        this.blockName = blockName;
     }
 
     @Nullable
@@ -89,6 +131,9 @@ public class HexCreatureComponent implements Component<EntityStore> {
                 "UUID='" + UUID + '\'' +
                 ", evokerUUID='" + evokerUUID + '\'' +
                 ", evokerName='" + evokerName + '\'' +
+                ", name='" + name + '\'' +
+                ", typeId='" + typeId + '\'' +
+                ", blockName='" + blockName + '\'' +
                 '}';
     }
 }

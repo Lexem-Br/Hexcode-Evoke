@@ -5,6 +5,10 @@ plugins {
     id 'com.azuredoom.hytale-tools' version '1.0.38'
 }
 
+repositories {
+    maven { url "https://www.cursemaven.com" }
+}
+
 configurations {
     shadowBundle
     implementation.extendsFrom(shadowBundle)
@@ -12,6 +16,7 @@ configurations {
 
 dependencies {
     implementation 'curse.maven:hexcode-1448311:8240695'
+    implementation "curse.maven:hyui-1431415:8363317"
     shadowBundle('curse.maven:patchly-1550889:8188362')
 }
 
@@ -41,6 +46,8 @@ tasks.shadowJar {
     mergeServiceFiles()
     configurations = [project.configurations.shadowBundle]
     relocate("com.riprod.patchly", "com.lexem.hexcodeevoke.shaded.patchly")
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    from("src/main/resources")
 }
 
 tasks.build {
