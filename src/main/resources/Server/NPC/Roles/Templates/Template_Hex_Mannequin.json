@@ -17,6 +17,14 @@
       "Value": "Hex_Mannequin_Block",
       "Description": "Drop from Hex Creature"
     },
+    "holdableItem": {
+      "Value": "Furniture_Crude_Torch",
+      "Description": "An item that can be held in the hand"
+    },
+    "holdableItems": {
+      "Value": [ "Furniture_Crude_Torch" ],
+      "Description": "Items that can be held in the hand"
+    },
     "NameTranslationKey": {
       "Value": "server.npcRoles.Template.name",
       "Description": "Translation key for NPC name display"
@@ -94,7 +102,7 @@
             {
               "Sensor": {
                 "Type": "Player",
-                "Range": 20
+                "Range": 15
               },
               "Actions": [
                 {
@@ -124,7 +132,7 @@
               "Filters": [
                 {
                   "Type": "Inventory",
-                  "Items": [ "Furniture_Crude_Torch" ]
+                  "Items": { "Compute": "holdableItems" }
                 }
               ]
             }
@@ -169,14 +177,14 @@
                   "UseTarget": false,
                   "Operation": "Remove",
                   "Count": 1,
-                  "Item": "Furniture_Crude_Torch"
+                  "Item": { "Compute": "holdableItem" }
                 },
                 {
                   "Type": "Inventory",
                   "UseTarget": true,
                   "Operation": "Add",
                   "Count": 1,
-                  "Item": "Furniture_Crude_Torch"
+                  "Item": { "Compute": "holdableItem" }
                 }
               ]
             }
@@ -217,11 +225,12 @@
               "Sensor": {
                 "Type": "DroppedItem",
                 "Range": 2,
-                "Items": [ "Furniture_Crude_Torch" ]
+                "Items": { "Compute": "holdableItems" }
               },
               "Actions": [
                 {
                   "Type": "PickUpItem",
+                  "Items": { "Compute": "holdableItems" },
                   "Hoover": true
                 }
               ],

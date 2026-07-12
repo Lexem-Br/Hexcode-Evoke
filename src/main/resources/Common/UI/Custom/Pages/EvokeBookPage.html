@@ -1,7 +1,7 @@
 <div class="page-overlay">
     <div class="decorated-container" data-hyui-title="Evoke Book" style="anchor-height: 500; anchor-width: 800">
         <div class="container-contents" style="layout-mode: Top; padding: 6;">
-            <p id="summary" style="padding: 8;">1/6</p>
+            <p id="summary" style="padding: 8;">{{$hexCount}}</p>
 
             {{#each hexcreature}}
                 <div class="bounty-card" style="layout-mode: Left; padding: 6;">
@@ -16,7 +16,7 @@
                         </div>
                     </div>
                     <div style="layout-mode: Middle;">
-                        <p style="padding: 6;">ID: {{$name}}</p>
+                        <p style="padding: 6;">Name: {{$name}}</p>
                     </div>
                 </div>
             {{/each}}

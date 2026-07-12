@@ -58,7 +58,7 @@ public class NPCJoinSystem extends RefSystem<EntityStore> {
 
         HexCreatureComponent hexCreature = store.getComponent(ref, HexCreatureComponent.getComponentType());
 
-        if (hexCreature != null) {
+        if (hexCreature != null && hexCreature.getEvokerUUID() != null && hexCreature.getUUID() != null) {
             UUID playerUUID = UUID.fromString(hexCreature.getEvokerUUID());
             World world = commandBuffer.getExternalData().getWorld();
 

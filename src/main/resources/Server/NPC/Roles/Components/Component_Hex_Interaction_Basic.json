@@ -22,12 +22,16 @@
                   "FlockStatus": "Member"
                 }
               ]
+            },
+            {
+              "Type": "CanInteract",
+              "ViewSector": 180
             }
           ]
         },
         "Actions": [
           {
-            "Type": "SetInteractableFlockLeader",
+            "Type": "SetInteractable",
             "Interactable": true
           }
         ]

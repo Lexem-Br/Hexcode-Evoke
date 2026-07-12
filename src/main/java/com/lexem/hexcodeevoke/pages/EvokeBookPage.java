@@ -1,67 +1,85 @@
 package com.lexem.hexcodeevoke.pages;
 
-import com.hypixel.hytale.codec.builder.BuilderCodec;
+import au.ellie.hyui.builders.ButtonBuilder;
+import au.ellie.hyui.builders.PageBuilder;
+import au.ellie.hyui.html.TemplateProcessor;
 import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.component.Store;
+import com.hypixel.hytale.logger.HytaleLogger;
 import com.hypixel.hytale.protocol.packets.interface_.CustomPageLifetime;
 import com.hypixel.hytale.protocol.packets.interface_.CustomUIEventBindingType;
-import com.hypixel.hytale.protocol.packets.interface_.Page;
 import com.hypixel.hytale.server.core.Message;
-import com.hypixel.hytale.server.core.entity.entities.Player;
-import com.hypixel.hytale.server.core.entity.entities.player.pages.InteractiveCustomUIPage;
-import com.hypixel.hytale.server.core.ui.builder.UICommandBuilder;
-import com.hypixel.hytale.server.core.ui.builder.UIEventBuilder;
 import com.hypixel.hytale.server.core.universe.PlayerRef;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.lexem.hexcodeevoke.components.EvokerComponent;
+import com.lexem.hexcodeevoke.components.HexCreatureComponent;
+import com.lexem.hexcodeevoke.hexitems.HexItemRegistery;
+import com.lexem.hexcodeevoke.pages.records.HexCreatureRecord;
 
 import javax.annotation.Nonnull;
+import java.util.*;
 
-public class EvokeBookPage extends InteractiveCustomUIPage<EvokeBookPage.CloseEventData> {
-    private String[] hexCreaturesUUIDs;
+public final class EvokeBookPage {
+    private static final HytaleLogger LOGGER = HytaleLogger.forEnclosingClass();
+    private static final String DEFAULT_ICON = "Hex_Mannequin_Block";
 
-    public static class CloseEventData {
-        public static final BuilderCodec<CloseEventData> CODEC =
-                BuilderCodec.builder(CloseEventData.class, CloseEventData::new).build();
-    }
+    public EvokeBookPage() {}
 
-    public EvokeBookPage(
+    public void mainPage(
             @Nonnull Store<EntityStore> store,
-            @Nonnull Ref<EntityStore> ref,
-            @Nonnull PlayerRef playerRef) {
-        super(playerRef, CustomPageLifetime.CanDismissOrCloseThroughInteraction, CloseEventData.CODEC);
-
+            @Nonnull PlayerRef playerRef,
+            @Nonnull Ref<EntityStore> ref) {
         EvokerComponent evoker = store.getComponent(ref, EvokerComponent.getComponentType());
+
+
+        List<HexCreatureRecord> hexCreatures = this.hexCreatures(store, ref);
+
+        String hexCount;
         if (evoker == null) {
-            playerRef.sendMessage(Message.raw("No data found"));
-            return;
+            hexCount = hexCount = "0/6";
+        } else {
+            String[] hexCreaturesUUIDs = evoker.getHexCreatureUUIDs();
+            hexCount = hexCreaturesUUIDs.length + "/6";
         }
 
-        this.hexCreaturesUUIDs = evoker.getHexCreatureUUIDs();
+        TemplateProcessor template = new TemplateProcessor()
+                .setVariable("hexcreature", hexCreatures)
+                .setVariable("hexCount", hexCount);
+
+        PageBuilder page = PageBuilder.detachedPage()
+                .withLifetime(CustomPageLifetime.CanDismiss)
+                .loadHtml("Pages/EvokeBookPage.html", template);
+
+        page.open(playerRef, store);
     }
 
-    @Override
-    public void build(
-            @Nonnull Ref<EntityStore> ref,
-            @Nonnull UICommandBuilder cmd,
-            @Nonnull UIEventBuilder evt,
-            @Nonnull Store<EntityStore> store
-    ) {
-        cmd.append("Pages/EvokeBookPage.ui");
-        cmd.set("#Stat1Value.Text", String.valueOf(hexCreaturesUUIDs[0]));
-        evt.addEventBinding(CustomUIEventBindingType.Activating, "#CloseButton");
-    }
-
-
-    @Override
-    public void handleDataEvent(
-            @Nonnull Ref<EntityStore> ref,
+    private List<HexCreatureRecord> hexCreatures (
             @Nonnull Store<EntityStore> store,
-            @Nonnull CloseEventData data
-    ) {
-        Player player = store.getComponent(ref, Player.getComponentType());
-        if (player == null) return;
+            @Nonnull Ref<EntityStore> ref) {
+        List<HexCreatureRecord> listHexCreatures = new ArrayList<>();
 
-        player.getPageManager().setPage(ref, store, Page.None);
+        EvokerComponent evoker = store.getComponent(ref, EvokerComponent.getComponentType());
+        if (evoker == null) { return listHexCreatures; }
+
+        String[] hexCreaturesUUIDs = evoker.getHexCreatureUUIDs();
+
+        for (String uuid : hexCreaturesUUIDs) {
+            Ref<EntityStore> refESNPC = store.getExternalData().getRefFromUUID(UUID.fromString(uuid));
+            if (refESNPC == null) {continue;}
+
+            HexCreatureComponent hexCreature = store.getComponent(refESNPC, HexCreatureComponent.getComponentType());
+            if (hexCreature == null) {continue;}
+
+            String blockName = hexCreature.getBlockName();
+            if (HexItemRegistery.getByBlockId(blockName) == null) {
+                blockName = DEFAULT_ICON;
+            }
+
+            String name = hexCreature.getName();
+
+            listHexCreatures.add(new HexCreatureRecord(name, blockName));
+        }
+
+        return listHexCreatures;
     }
 }
