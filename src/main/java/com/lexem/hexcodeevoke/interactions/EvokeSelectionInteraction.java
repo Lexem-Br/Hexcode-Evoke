@@ -43,7 +43,7 @@ public class EvokeSelectionInteraction extends SimpleInteraction {
             Store<EntityStore> store = playerRef.getStore();
 
             CommandBuffer<EntityStore> accessor = context.getCommandBuffer();
-            assert accessor != null;
+            if (accessor == null) { return; }
 
             Vector3d center = TargetUtil.getTargetLocation(playerRef, maxDistance, accessor);
             SaveTargetPositionEvent.dispatch(playerRef, center);
@@ -56,15 +56,15 @@ public class EvokeSelectionInteraction extends SimpleInteraction {
             }
 
             FlockMembership playerMembership = store.getComponent(playerRef, FlockMembership.getComponentType());
-            assert playerMembership != null;
+            if (playerMembership == null) { return; }
 
             EntityGroup group = null;
             Ref<EntityStore> flockReference = playerMembership.getFlockRef();
             if (flockReference != null && flockReference.isValid()) {
                 group = store.getComponent(flockReference, EntityGroup.getComponentType());
             }
+            if (group == null) { return; }
 
-            assert group != null;
             List<Ref<EntityStore>> groupList = group.getMemberList();
             for (Ref<EntityStore> npc : groupList) {
                 BeaconSupport beaconSupportComponent = accessor.getComponent(npc, BeaconSupport.getComponentType());
