@@ -26,9 +26,6 @@ public class EvokeBookCommand extends AbstractPlayerCommand {
             @Nonnull PlayerRef playerRef,
             @Nonnull World world
     ) {
-        Player player = store.getComponent(ref, Player.getComponentType());
-        if (player == null) return;
-
         EvokeBookPage mainPage = new EvokeBookPage();
         mainPage.mainPage(store, playerRef, ref);
     }

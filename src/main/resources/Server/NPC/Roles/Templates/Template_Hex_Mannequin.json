@@ -148,7 +148,7 @@
           ]
         },
         {
-          "$Comment": "Give back the torch",
+          "$Comment": "Give back the hold item",
           "Sensor": {
             "Type": "Self",
             "Filters": [
@@ -180,11 +180,10 @@
                   "Item": { "Compute": "holdableItem" }
                 },
                 {
-                  "Type": "Inventory",
-                  "UseTarget": true,
-                  "Operation": "Add",
-                  "Count": 1,
-                  "Item": { "Compute": "holdableItem" }
+                  "Type": "DropItem",
+                  "Item": { "Compute": "holdableItem" },
+                  "Distance": [ 0.2, 0.4 ],
+                  "ThrowSpeed": 15
                 }
               ]
             }

@@ -3,16 +3,20 @@ package com.lexem.hexcodeevoke.components;
 import com.hypixel.hytale.codec.Codec;
 import com.hypixel.hytale.codec.KeyedCodec;
 import com.hypixel.hytale.codec.builder.BuilderCodec;
-import com.hypixel.hytale.component.Component;
-import com.hypixel.hytale.component.ComponentType;
+import com.hypixel.hytale.component.*;
+import com.hypixel.hytale.logger.HytaleLogger;
 import com.hypixel.hytale.math.vector.Vector3dUtil;
+import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 import org.joml.Vector3d;
 
+import java.util.UUID;
+
 public class EvokerComponent implements Component<EntityStore>{
     private Vector3d targetPosition;
     private String[] hexCreatureUUIDs = new String[0];
+    private static final HytaleLogger LOGGER = HytaleLogger.forEnclosingClass();
 
     private static ComponentType<EntityStore, EvokerComponent> TYPE;
 
@@ -78,6 +82,18 @@ public class EvokerComponent implements Component<EntityStore>{
             }
         }
         hexCreatureUUIDs = newArray;
+    }
+
+    public void deleteUnusedHexCreatureUUID(World world, String[] hexCreatureUUIDs) {
+        for (String uuidString : hexCreatureUUIDs) {
+            UUID uuid = UUID.fromString(uuidString);
+            LOGGER.atInfo().log("uuid: %s", uuid);
+            Ref<EntityStore> npcESRef = world.getEntityStore().getRefFromUUID(uuid);
+            if (npcESRef == null) {
+                LOGGER.atInfo().log("npcESRef invalid, uuidString: %s", uuidString);
+                removeHexCreatureUUID(uuidString);
+            }
+        }
     }
 
     @NullableDecl

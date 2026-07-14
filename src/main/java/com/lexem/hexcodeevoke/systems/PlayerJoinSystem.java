@@ -10,6 +10,7 @@ import org.checkerframework.checker.nullness.compatqual.NonNullDecl;
 import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 public class PlayerJoinSystem extends RefSystem<EntityStore> {
+
     @Override
     public void onEntityAdded(
             @NonNullDecl Ref<EntityStore> ref,

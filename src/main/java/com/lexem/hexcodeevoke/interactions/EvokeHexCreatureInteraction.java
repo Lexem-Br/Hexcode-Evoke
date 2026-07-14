@@ -13,7 +13,7 @@ import com.hypixel.hytale.server.core.modules.interaction.interaction.config.Sim
 import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.lexem.hexcodeevoke.hexitems.HexItemRegistery;
-import com.lexem.hexcodeevoke.utils.SpawHexCreature;
+import com.lexem.hexcodeevoke.utils.HexCreatureUtils;
 import it.unimi.dsi.fastutil.ints.IntArrayList;
 import it.unimi.dsi.fastutil.ints.IntList;
 import org.joml.Vector3d;
@@ -67,10 +67,9 @@ public class EvokeHexCreatureInteraction extends SimpleInteraction {
                 context.getState().state = InteractionState.Failed;
                 super.tick0(firstRun, time, type, context, cooldownHandler);
             }
-            assert refESPlayer != null;
 
             for (Vector3i blockPos : selectedPositions) {
-                boolean spawned = SpawHexCreature.trySpawn(blockPos, refESPlayer, accessor);
+                boolean spawned = HexCreatureUtils.trySpawnHexCreature(blockPos, refESPlayer, accessor);
 
                 if (!spawned) {
                     context.getState().state = InteractionState.Failed;

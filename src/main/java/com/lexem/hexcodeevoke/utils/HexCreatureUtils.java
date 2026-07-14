@@ -2,6 +2,7 @@ package com.lexem.hexcodeevoke.utils;
 
 import com.hypixel.hytale.component.CommandBuffer;
 import com.hypixel.hytale.component.Ref;
+import com.hypixel.hytale.component.Store;
 import com.hypixel.hytale.logger.HytaleLogger;
 import com.hypixel.hytale.math.vector.Rotation3f;
 import com.hypixel.hytale.server.core.asset.type.blocktype.config.BlockType;
@@ -10,18 +11,25 @@ import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.hypixel.hytale.server.npc.NPCPlugin;
 import com.hypixel.hytale.server.npc.entities.NPCEntity;
+import com.lexem.hexcodeevoke.components.EvokerComponent;
+import com.lexem.hexcodeevoke.components.HexCreatureComponent;
 import com.lexem.hexcodeevoke.events.SaveHexCreatureEvent;
 import com.lexem.hexcodeevoke.hexitems.HexItemRegistery;
 import it.unimi.dsi.fastutil.Pair;
 import org.joml.Vector3d;
 import org.joml.Vector3i;
 
+import javax.annotation.Nonnull;
 import java.util.Map;
+import java.util.UUID;
 
-public class SpawHexCreature {
+public class HexCreatureUtils {
     private static final HytaleLogger LOGGER = HytaleLogger.forEnclosingClass();
 
-public static boolean trySpawn(Vector3i blockPos, Ref<EntityStore> refESPlayer, CommandBuffer<EntityStore> accessor) {
+    public HexCreatureUtils() {
+    }
+
+    public static boolean trySpawnHexCreature(Vector3i blockPos, Ref<EntityStore> refESPlayer, CommandBuffer<EntityStore> accessor) {
         World world = accessor.getExternalData().getWorld();
         Vector3d blockVector = new Vector3d(blockPos.x + 0.5, blockPos.y, blockPos.z + 0.5);
 
@@ -43,6 +51,11 @@ public static boolean trySpawn(Vector3i blockPos, Ref<EntityStore> refESPlayer, 
             return false;
         }
 
+        Store<EntityStore> store = refESPlayer.getStore();
+        EvokerComponent evoker = store.getComponent(refESPlayer, EvokerComponent.getComponentType());
+        if (evoker == null) { return false; }
+        evoker.deleteUnusedHexCreatureUUID(world, evoker.getHexCreatureUUIDs());
+
         int roleIndex = NPCPlugin.get().getIndex(hexItem.getValue());
 
         accessor.run(_store -> {
@@ -58,10 +71,24 @@ public static boolean trySpawn(Vector3i blockPos, Ref<EntityStore> refESPlayer, 
         });
 
         if (roleIndex >= 0) {
-            LOGGER.atWarning().log("BreakBlock");
             world.breakBlock(blockPos.x, blockPos.y, blockPos.z, 0);
         }
 
         return true;
+    }
+
+    public void deleteHexCreatureUUIDFromEvoker(@Nonnull Ref<EntityStore> npcESRef, @Nonnull Store<EntityStore> store, @Nonnull World world) {
+        HexCreatureComponent hexCreature = store.getComponent(npcESRef, HexCreatureComponent.getComponentType());
+        if (hexCreature == null || hexCreature.getEvokerUUID() == null || hexCreature.getUUID() == null) return;
+
+        UUID playerUUID = UUID.fromString(hexCreature.getEvokerUUID());
+
+        Ref<EntityStore> playerRef = world.getEntityStore().getRefFromUUID(playerUUID);
+        if (playerRef == null) return;
+
+        EvokerComponent evoker = store.getComponent(playerRef, EvokerComponent.getComponentType());
+        if (evoker == null) return;
+
+        evoker.removeHexCreatureUUID(hexCreature.getUUID());
     }
 }
