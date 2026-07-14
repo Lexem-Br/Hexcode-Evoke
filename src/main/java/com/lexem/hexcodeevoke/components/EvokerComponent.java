@@ -87,10 +87,8 @@ public class EvokerComponent implements Component<EntityStore>{
     public void deleteUnusedHexCreatureUUID(World world, String[] hexCreatureUUIDs) {
         for (String uuidString : hexCreatureUUIDs) {
             UUID uuid = UUID.fromString(uuidString);
-            LOGGER.atInfo().log("uuid: %s", uuid);
             Ref<EntityStore> npcESRef = world.getEntityStore().getRefFromUUID(uuid);
             if (npcESRef == null) {
-                LOGGER.atInfo().log("npcESRef invalid, uuidString: %s", uuidString);
                 removeHexCreatureUUID(uuidString);
             }
         }

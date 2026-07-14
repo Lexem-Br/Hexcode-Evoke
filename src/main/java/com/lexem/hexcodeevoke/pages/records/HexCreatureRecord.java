@@ -1,4 +1,4 @@
 package com.lexem.hexcodeevoke.pages.records;
 
-public record HexCreatureRecord(String name, String blockName) {
+public record HexCreatureRecord(String name, String blockName, int index) {
 }
