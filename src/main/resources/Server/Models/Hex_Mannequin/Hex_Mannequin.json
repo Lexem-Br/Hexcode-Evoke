@@ -2,6 +2,7 @@
   "Model": "NPC/MISC/Mannequin/Models/Model.blockymodel",
   "Texture": "NPC/MISC/Mannequin/Models/Model_Default.png",
   "EyeHeight": 1.6,
+  "CrouchOffset": -0.4,
   "HitBox": {
     "Max": {
       "X": 0.3,

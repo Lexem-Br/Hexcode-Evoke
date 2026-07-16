@@ -70,7 +70,7 @@ public class HexCreatureComponent implements Component<EntityStore> {
         this.evokerUUID = evokerUUID;
         this.evokerName = evokerName;
         this.name = name;
-        this. typeId = typeId;
+        this.typeId = typeId;
         this.blockName = blockName;
     }
 

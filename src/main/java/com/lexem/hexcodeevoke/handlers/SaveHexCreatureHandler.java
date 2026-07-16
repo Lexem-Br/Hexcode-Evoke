@@ -39,7 +39,6 @@ public class SaveHexCreatureHandler implements Consumer<SaveHexCreatureEvent> {
             String playerUUID = playerRef.getUuid().toString();
             String playerName = playerRef.getUsername();
             String blockId = HexItemRegistery.findBlockIdByEntityId(npcEntity.getNPCTypeId());
-            if (blockId == null) {return;}
 
             HexCreatureComponent hexCreatureComponent = store.getComponent(refESNPC, HexCreatureComponent.getComponentType());
             if (hexCreatureComponent == null) {return;}

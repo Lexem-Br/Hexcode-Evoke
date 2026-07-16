@@ -1,7 +1,12 @@
 items.Weapon_Spellbook_Evoke.name=Evoke Book
 items.Weapon_Spellbook_Evoke.description=<b>To evoke creatures</b>\nUse it on <b>Hex items</b> to bring them to life and have them follow you
-items.Weapon_Spellbook.Evoke_Wand.name=Evoke Wand
-items.Weapon_Spellbook.Evoke_Wand.description=<b>To give orders to the mannequins</b>\n<b>Primary</b> to send them to a location and have them stay there\n<b>Secondary</b> to have them followed again
+items.Weapon.Wand.Evoke_Wand_Crude.name=Crude Evoke Wand
+items.Weapon.Wand.Evoke_Wand_Crude.description=<b>To give orders to the mannequins</b>\n<b>Primary</b> to send them to a location and have them stay there\n<b>Secondary</b> to have them followed again
+items.Weapon.Wand.Evoke_Wand_Iron.name=Iron Evoke Wand
+items.Weapon.Wand.Evoke_Wand_Iron.description=<b>To give orders to the mannequins</b>\n<b>Primary</b> to send them to a location and have them stay there\n<b>Secondary</b> to have them followed again
+items.Weapon.Wand.Evoke_Wand_Wooden.name=Wooden Evoke Wand
+items.Weapon.Wand.Evoke_Wand_Wooden.description=<b>To give orders to the mannequins</b>\n<b>Primary</b> to send them to a location and have them stay there\n<b>Secondary</b> to have them followed again
+
 items.Hex_Mannequin.name=Hex Mannequin
 items.Hex_Mannequin.description=Give him a torch to help light up the path
 items.Hex_Homunculus.name=Homunculus

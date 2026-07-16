@@ -8,14 +8,11 @@ import com.hypixel.hytale.logger.HytaleLogger;
 import com.hypixel.hytale.protocol.InteractionState;
 import com.hypixel.hytale.protocol.InteractionType;
 import com.hypixel.hytale.server.core.entity.InteractionContext;
-import com.hypixel.hytale.server.core.entity.entities.Player;
 import com.hypixel.hytale.server.core.modules.interaction.interaction.CooldownHandler;
 import com.hypixel.hytale.server.core.modules.interaction.interaction.config.SimpleInteraction;
 import com.hypixel.hytale.server.core.universe.PlayerRef;
 import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
-import com.hypixel.hytale.server.npc.components.messaging.BeaconSupport;
-import com.hypixel.hytale.server.npc.entities.NPCEntity;
 import com.lexem.hexcodeevoke.components.EvokerComponent;
 import com.lexem.hexcodeevoke.pages.EvokeBookPage;
 
@@ -39,17 +36,18 @@ public class OpenEvokeBookInteraction extends SimpleInteraction {
             PlayerRef playerRef = store.getComponent(refESPlayer, PlayerRef.getComponentType());
             if (playerRef == null) { return; }
 
+            CommandBuffer<EntityStore> commandBuffer = context.getCommandBuffer();
+            if (commandBuffer == null) { return; }
+
+            World world = commandBuffer.getExternalData().getWorld();
+
             EvokerComponent evoker = store.getComponent(refESPlayer, EvokerComponent.getComponentType());
             if (evoker != null && evoker.getHexCreatureUUIDs() != null && evoker.getHexCreatureUUIDs().length > 0) {
-                CommandBuffer<EntityStore> commandBuffer = context.getCommandBuffer();
-                if (commandBuffer != null) {
-                    World world = commandBuffer.getExternalData().getWorld();
-                    evoker.deleteUnusedHexCreatureUUID(world, evoker.getHexCreatureUUIDs());
-                }
+                evoker.deleteUnusedHexCreatureUUID(world, evoker.getHexCreatureUUIDs());
             }
 
             EvokeBookPage evokeBookPage = new EvokeBookPage();
-            evokeBookPage.mainPage(store, playerRef, refESPlayer);
+            evokeBookPage.mainPage(store, playerRef, refESPlayer, commandBuffer);
 
             context.getState().state = InteractionState.Finished;
             super.tick0(firstRun, time, type, context, cooldownHandler);

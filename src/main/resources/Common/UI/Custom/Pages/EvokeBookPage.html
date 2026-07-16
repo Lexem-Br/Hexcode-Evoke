@@ -9,7 +9,7 @@
                         <div style="layout-mode: Left; anchor-width: 500; margin-left: 24;">
                             <div class="item-grid">
                                 <div class="item-grid-slot"
-                                     data-hyui-item-id={{$blockName}}
+                                     data-hyui-item-id={{$blockId}}
                                      data-hyui-quantity="1">
                                 </div>
                             </div>
@@ -18,7 +18,7 @@
                             </div>
                         </div>
                         <div style="anchor-width: 500; margin-right: 24;">
-                            <button id="pickUp-{{$index}}" style="layout-mode: Right;" class="small-tertiary-button">Pick Up</button>
+                            <button id="pickUp-{{$index}}" style="layout-mode: Right;" class="small-tertiary-button">Despawn</button>
                         </div>
                     </div>
                 {{/each}}
