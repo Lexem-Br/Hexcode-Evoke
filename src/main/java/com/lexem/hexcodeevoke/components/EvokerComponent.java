@@ -4,7 +4,6 @@ import com.hypixel.hytale.codec.Codec;
 import com.hypixel.hytale.codec.KeyedCodec;
 import com.hypixel.hytale.codec.builder.BuilderCodec;
 import com.hypixel.hytale.component.*;
-import com.hypixel.hytale.logger.HytaleLogger;
 import com.hypixel.hytale.math.vector.Vector3dUtil;
 import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
@@ -16,7 +15,7 @@ import java.util.UUID;
 public class EvokerComponent implements Component<EntityStore>{
     private Vector3d targetPosition;
     private String[] hexCreatureUUIDs = new String[0];
-    private static final HytaleLogger LOGGER = HytaleLogger.forEnclosingClass();
+    private int maxHexCreatures = 6;
 
     private static ComponentType<EntityStore, EvokerComponent> TYPE;
 
@@ -40,13 +39,19 @@ public class EvokerComponent implements Component<EntityStore>{
                     (component, value) -> component.hexCreatureUUIDs = value,
                     component -> component.hexCreatureUUIDs
             ).add()
+            .append(
+                    new KeyedCodec<>("MaxHexCreatures",  Codec.INTEGER),
+                    (component, value) -> component.maxHexCreatures = value,
+                    component -> component.maxHexCreatures
+            ).add()
             .build();
 
-    public EvokerComponent(){
-    }
+    public EvokerComponent(){}
 
-    public EvokerComponent(Vector3d targetPosition){
+    public EvokerComponent(Vector3d targetPosition, String[] hexCreatureUUIDs, int maxHexCreatures) {
         this.targetPosition = targetPosition;
+        this.hexCreatureUUIDs = hexCreatureUUIDs;
+        this.maxHexCreatures = maxHexCreatures;
     }
 
     public Vector3d getTargetPosition() {
@@ -60,6 +65,10 @@ public class EvokerComponent implements Component<EntityStore>{
     public void setTargetPosition(Vector3d newTargetPosition) {
         this.targetPosition = newTargetPosition;
     }
+
+    public int getMaxHexCreatures() { return maxHexCreatures; }
+
+    public void setMaxHexCreatures(int maxHexCreatures) { this.maxHexCreatures = maxHexCreatures; }
 
     public void addHexCreatureUUID(String uuid) {
         String[] newArray = new String[hexCreatureUUIDs.length + 1];
@@ -94,10 +103,14 @@ public class EvokerComponent implements Component<EntityStore>{
         }
     }
 
+    public boolean canAddHexCreature() {
+        return hexCreatureUUIDs.length < maxHexCreatures;
+    }
+
     @NullableDecl
     @Override
     public Component<EntityStore> clone() {
-        return new EvokerComponent(this.targetPosition);
+        return new EvokerComponent(this.targetPosition, this.hexCreatureUUIDs, this.maxHexCreatures);
     }
 
     @Override

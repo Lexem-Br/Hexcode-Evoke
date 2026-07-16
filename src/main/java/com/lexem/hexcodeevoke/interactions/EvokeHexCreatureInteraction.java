@@ -56,7 +56,7 @@ public class EvokeHexCreatureInteraction extends SimpleInteraction {
             List<Vector3i> selectedPositions = gatherBlocks(center, radius, accessor);
 
             if (selectedPositions.isEmpty()) {
-                LOGGER.atWarning().log("evoke: block must be a Hex item");
+                LOGGER.atWarning().log("Evoke: block must be a Hex item");
                 context.getState().state = InteractionState.Failed;
                 super.tick0(firstRun, time, type, context, cooldownHandler);
                 return;

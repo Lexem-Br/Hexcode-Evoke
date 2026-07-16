@@ -58,14 +58,14 @@ public class HexCreatureUtils {
         BlockType blockType = world.getBlockType(blockPos);
 
         if (blockType == null) {
-            LOGGER.atWarning().log("evoke: invalid block");
+            LOGGER.atWarning().log("Evoke: invalid block");
             return false;
         }
 
         Map.Entry<String, String> hexItem = HexItemRegistery.getByBlockId(blockType.getId());
 
         if (hexItem == null) {
-            LOGGER.atWarning().log("evoke: block must be a Hex item");
+            LOGGER.atWarning().log("Evoke: block must be a Hex item");
             return false;
         }
 
@@ -77,9 +77,15 @@ public class HexCreatureUtils {
         int roleIndex = NPCPlugin.get().getIndex(hexItem.getValue());
 
         accessor.run(_store -> {
+            if (!evoker.canAddHexCreature()) {
+                LOGGER.atWarning().log("Evoke: maximum number of Hex creatures reached");
+                return;
+            }
             if (roleIndex >= 0) {
                 Pair<Ref<EntityStore>, NPCEntity> npcPair = NPCPlugin.get().spawnEntity(_store, roleIndex, blockVector, blockRotation, null, null);
                 assert npcPair != null;
+
+                world.breakBlock(blockPos.x, blockPos.y, blockPos.z, 0);
 
                 Ref<EntityStore> refESNPC = npcPair.first();
                 SaveHexCreatureEvent.dispatch(refESPlayer, refESNPC);
@@ -87,10 +93,6 @@ public class HexCreatureUtils {
                 LOGGER.atWarning().log("Unable to spawn entity");
             }
         });
-
-        if (roleIndex >= 0) {
-            world.breakBlock(blockPos.x, blockPos.y, blockPos.z, 0);
-        }
 
         return true;
     }

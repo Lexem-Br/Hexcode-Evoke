@@ -1,8 +1,7 @@
 package com.lexem.hexcodeevoke.builtin.glyphs.evoke;
 
 import com.hypixel.hytale.component.*;
-import com.hypixel.hytale.logger.HytaleLogger;
-import com.hypixel.hytale.server.core.asset.type.blocktype.config.*;
+import com.hypixel.hytale.server.core.asset.type.blocktype.config.BlockType;
 import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.lexem.hexcodeevoke.builtin.glyphs.evoke.style.EvokeStyle;
@@ -22,10 +21,9 @@ import org.joml.*;
 
 import java.util.Map;
 
+
 public class EvokeGlyph implements GlyphHandler {
-    private static final HytaleLogger LOGGER = HytaleLogger.forEnclosingClass();
     public static final String ID = "Evoke";
-    private static int damageCauseIndex = -1;
 
     @Override
     public String getId() {
@@ -70,7 +68,7 @@ public class EvokeGlyph implements GlyphHandler {
         Map.Entry<String, String> hexItem = HexItemRegistery.getByBlockId(blockType.getId());
 
         if (hexItem == null) {
-            LOGGER.atWarning().log("evoke: block must be a Hex item");
+            LOGGER.atWarning().log("Evoke: block must be a Hex item");
             return;
         }
 
@@ -80,7 +78,7 @@ public class EvokeGlyph implements GlyphHandler {
         Vector3d blockVector = new Vector3d(blockPos.x + 0.5, blockPos.y, blockPos.z + 0.5);
 
         boolean spawned = HexCreatureUtils.trySpawnHexCreature(blockPos, refESPlayer, accessor);
-        if (!spawned) {return; }
+        if (!spawned) { return; }
 
         EvokeStyle.renderImpact(accessor, blockVector, hexContext);
 

@@ -25,7 +25,7 @@ public class SaveHexCreatureHandler implements Consumer<SaveHexCreatureEvent> {
         Store<EntityStore> store = event.refESPlayer().getStore();
         EvokerComponent evoker = store.getComponent(event.refESPlayer(), EvokerComponent.getComponentType());
         if (evoker != null) {
-           PlayerRef playerRef = store.getComponent(event.refESPlayer(), PlayerRef.getComponentType());
+            PlayerRef playerRef = store.getComponent(event.refESPlayer(), PlayerRef.getComponentType());
             if (playerRef == null) {return;}
 
             Ref<EntityStore> refESNPC = event.refESNPC();

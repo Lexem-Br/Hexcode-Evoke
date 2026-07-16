@@ -92,8 +92,6 @@ public final class EvokeBookPage {
             index++;
         }
 
-        LOGGER.atWarning().log("listHexCreatures: %s", listHexCreatures);
-
         return listHexCreatures;
     }
 }
