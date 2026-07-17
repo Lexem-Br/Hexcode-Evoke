@@ -34,7 +34,7 @@ hytaleTools {
     includesPack = project.includes_pack.toString().toBoolean()
     patchline = project.patchline.toString()
 
-    manifestOptionalDependencies='Riprod:Hexcode=^0.8.6,Riprod:Patchly=*'
+    manifestOptionalDependencies='Riprod:Hexcode=^0.9.0,Riprod:Patchly=*'
 
     debugEnabled = true
     debugSuspend = false

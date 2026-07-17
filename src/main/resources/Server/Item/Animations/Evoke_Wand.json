@@ -1,0 +1,10 @@
+{
+  "Parent": "Spellbook",
+  "Animations": {
+    "Evoke_Wand_Primary": {
+      "ThirdPerson": "Characters/Animations/Wand/Wand_Primary.blockyanim",
+      "FirstPerson": "Characters/Animations/Wand/Wand_Primary_FPS.blockyanim",
+      "Speed": 1
+    }
+  }
+}

@@ -1,0 +1,28 @@
+<div class="page-overlay">
+    <div class="decorated-container" data-hyui-title="Evoke Book" style="anchor-height: 600; anchor-width: 500;">
+        <div class="container-contents" style="layout-mode: Top;">
+            <p id="summary" style="margin-bottom: 24; text-align: center; font-size: 18; font-weight: bold;">{{$hexCount}}</p>
+
+            <div id="list" style="flex-direction: column;">
+                {{#each hexcreature}}
+                    <div style="justify-content: space-between; anchor-width: 500; margin-bottom: 12;">
+                        <div style="layout-mode: Left; anchor-width: 500; margin-left: 24;">
+                            <div class="item-grid">
+                                <div class="item-grid-slot"
+                                     data-hyui-item-id={{$blockId}}
+                                     data-hyui-quantity="1">
+                                </div>
+                            </div>
+                            <div style="layout-mode: Middle; margin-left: 12;">
+                                <p style="font-size: 18; font-weight: bold;">{{$name}}</p>
+                            </div>
+                        </div>
+                        <div style="anchor-width: 500; margin-right: 24;">
+                            <button id="pickUp-{{$index}}" style="layout-mode: Right;" class="small-tertiary-button">Despawn</button>
+                        </div>
+                    </div>
+                {{/each}}
+            </div>
+        </div>
+    </div>
+</div>

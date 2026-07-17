@@ -1,19 +1,20 @@
 {
   "TranslationProperties": {
-    "Name": "evoke.items.Weapon_Spellbook.Evoke_Wand.name",
-    "Description": "evoke.items.Weapon_Spellbook.Evoke_Wand.description"
+    "Name": "evoke.items.Weapon.Wand.Evoke_Wand_Wooden.name",
+    "Description": "evoke.items.Weapon.Wand.Evoke_Wand_Wooden.description"
   },
   "Categories": [
     "Items.Weapons"
   ],
-  "Quality": "Common",
-  "ItemLevel": 40,
-  "Model": "Items/Weapons/EvokeWand/Model.blockymodel",
-  "Texture": "Items/Weapons/EvokeWand/Texture.png",
-  "PlayerAnimationsId": "Spellbook",
-  "Icon": "Icons/ItemsGenerated/Evoke_Wand.png",
+  "Quality": "Uncommon",
+  "ItemLevel": 20,
+  "Model": "Items/Weapons/EvokeWand/Wooden/Model.blockymodel",
+  "Texture": "Items/Weapons/EvokeWand/Wooden/Texture.png",
+  "PlayerAnimationsId": "Evoke_Wand",
+  "Icon": "Icons/ItemsGenerated/Wooden_Evoke_Wand.png",
   "DroppedItemAnimation": "Items/Animations/Dropped/Dropped_Diagonal_Left.blockyanim",
   "MaxStack": 1,
+  "Scale": 1,
   "Tags": {
     "Type": [
       "Weapon"
@@ -26,16 +27,16 @@
     "TimeSeconds": 1,
     "Input": [
       {
-        "ItemId": "Ingredient_Fibre",
-        "Quantity": 2
+        "ItemId": "Ingredient_Fabric_Scrap_Linen",
+        "Quantity": 1
       },
       {
         "ItemId": "Ingredient_Stick",
         "Quantity": 2
       },
       {
-        "ItemId": "Ingredient_Life_Essence",
-        "Quantity": 25
+        "ItemId": "Ingredient_Life_Essence_Concentrated",
+        "Quantity": 1
       }
     ],
     "BenchRequirement": [
@@ -61,7 +62,7 @@
                 "Type": "Simple",
                 "RunTime": 0.5,
                 "Effects": {
-                  "ItemAnimationId": "Interact",
+                  "ItemAnimationId": "Evoke_Wand_Primary",
                   "ClearAnimationOnFinish": true
                 }
               }
@@ -87,7 +88,7 @@
                 "Type": "Simple",
                 "RunTime": 0.5,
                 "Effects": {
-                  "ItemAnimationId": "Interact",
+                  "ItemAnimationId": "Evoke_Wand_Primary",
                   "ClearAnimationOnFinish": true
                 }
               }
@@ -130,15 +131,15 @@
     }
   },
   "IconProperties": {
-    "Scale": 0.5,
+    "Scale": 0.6,
     "Rotation": [
       20,
       165,
       41
     ],
     "Translation": [
-      -13,
-      -13
+      -15,
+      -15
     ]
   }
 }

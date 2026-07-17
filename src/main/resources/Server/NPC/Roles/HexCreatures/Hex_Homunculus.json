@@ -1,9 +1,11 @@
 {
   "Type": "Variant",
-  "Reference": "Template_Homunculus",
+  "Reference": "Template_Hex_Mannequin",
   "Modify": {
     "Appearance": "Hex_Homunculus",
     "DropHexItem": "Alive_Homunculus_Jar",
+    "holdableItem": "Furniture_Crude_Candle",
+    "holdableItems": [ "Furniture_Crude_Candle" ],
     "NameTranslationKey": { "Compute": "NameTranslationKey" }
   },
   "Parameters": {

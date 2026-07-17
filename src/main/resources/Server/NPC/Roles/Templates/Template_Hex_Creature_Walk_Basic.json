@@ -121,49 +121,6 @@
           ]
         },
         {
-          "$Comment": "Give back the torch",
-          "Sensor": {
-            "Type": "Self",
-            "Filters": [
-              {
-                "Type": "Inventory",
-                "CountRange": [ 0, 100 ],
-                "FreeSlotRange": [ 3, 3 ]
-              }
-            ]
-          },
-          "Instructions": [
-            {
-              "Sensor": {
-                "Type": "Player",
-                "Range": 20,
-                "Filters": [
-                  {
-                    "Type": "Flock",
-                    "FlockStatus": "Leader"
-                  }
-                ]
-              },
-              "Actions": [
-                {
-                  "Type": "Inventory",
-                  "UseTarget": false,
-                  "Operation": "Remove",
-                  "Count": 1,
-                  "Item": "Furniture_Crude_Candle"
-                },
-                {
-                  "Type": "Inventory",
-                  "UseTarget": true,
-                  "Operation": "Add",
-                  "Count": 1,
-                  "Item": "Furniture_Crude_Candle"
-                }
-              ]
-            }
-          ]
-        },
-        {
           "$Comment": "Returns to the Idle state",
           "Sensor": {
             "Type": "Any"
@@ -172,44 +129,6 @@
             {
               "Type": "State",
               "State": "Idle"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "$Comment": "Pick up item",
-      "Continue": true,
-      "Instructions": [
-        {
-          "Continue": true,
-          "Sensor": {
-            "Type": "Self",
-            "Filters": [
-              {
-                "Type": "Inventory",
-                "CountRange": [ 0, 100 ],
-                "FreeSlotRange": [ 4, 4 ]
-              }
-            ]
-          },
-          "Instructions": [
-            {
-              "Sensor": {
-                "Type": "DroppedItem",
-                "Range": 2,
-                "Items": [ "Furniture_Crude_Candle" ]
-              },
-              "Actions": [
-                {
-                  "Type": "PickUpItem",
-                  "Hoover": true
-                }
-              ],
-              "BodyMotion": {
-                "Type": "Seek",
-                "StopDistance": 0.5
-              }
             }
           ]
         }
@@ -321,7 +240,7 @@
   ],
   "InteractionInstruction": {
     "$Comment": "Controls the activation of the interaction",
-    "Reference": "Component_Hex_Interaction",
+    "Reference": "Component_Hex_Interaction_Basic",
     "Modify": {
       "_ExportStates": [ "$Interaction" ]
     }
