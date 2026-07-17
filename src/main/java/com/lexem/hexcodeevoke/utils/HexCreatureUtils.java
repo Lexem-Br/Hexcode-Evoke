@@ -9,6 +9,7 @@ import com.hypixel.hytale.logger.HytaleLogger;
 import com.hypixel.hytale.math.random.RandomExtra;
 import com.hypixel.hytale.math.vector.Rotation3f;
 import com.hypixel.hytale.math.vector.Vector3dUtil;
+import com.hypixel.hytale.server.core.Message;
 import com.hypixel.hytale.server.core.asset.type.blocktype.config.BlockType;
 import com.hypixel.hytale.server.core.asset.type.blocktype.config.RotationTuple;
 import com.hypixel.hytale.server.core.entity.ItemUtils;
@@ -19,9 +20,11 @@ import com.hypixel.hytale.server.core.modules.entity.component.HeadRotation;
 import com.hypixel.hytale.server.core.modules.entity.component.ModelComponent;
 import com.hypixel.hytale.server.core.modules.entity.component.TransformComponent;
 import com.hypixel.hytale.server.core.modules.physics.util.PhysicsMath;
+import com.hypixel.hytale.server.core.universe.PlayerRef;
 import com.hypixel.hytale.server.core.universe.world.ParticleUtil;
 import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
+import com.hypixel.hytale.server.core.util.NotificationUtil;
 import com.hypixel.hytale.server.npc.NPCPlugin;
 import com.hypixel.hytale.server.npc.entities.NPCEntity;
 import com.hypixel.hytale.server.npc.util.AimingHelper;
@@ -78,7 +81,7 @@ public class HexCreatureUtils {
 
         accessor.run(_store -> {
             if (!evoker.canAddHexCreature()) {
-                LOGGER.atWarning().log("Evoke: maximum number of Hex creatures reached");
+                messageMaxHexCreatures(refESPlayer, store, evoker);
                 return;
             }
             if (roleIndex >= 0) {
@@ -95,6 +98,21 @@ public class HexCreatureUtils {
         });
 
         return true;
+    }
+
+    private static void messageMaxHexCreatures(Ref<EntityStore> refESPlayer, Store<EntityStore> store, EvokerComponent evoker) {
+        PlayerRef playerRef = store.getComponent(refESPlayer, PlayerRef.getComponentType());
+        if (playerRef != null) {
+            NotificationUtil.sendNotification(
+                    playerRef.getPacketHandler(), Message.translation("evoke.utils.HexCreatureUtils.title.maxHexCreatures"),
+                    Message.join(
+                            Message.translation("evoke.utils.HexCreatureUtils.description.maxHexCreatures1"),
+                            Message.raw(" " + evoker.getMaxHexCreatures() + " "),
+                            Message.translation("evoke.utils.HexCreatureUtils.description.maxHexCreatures2")
+                    )
+            );
+        }
+        LOGGER.atWarning().log("Evoke: maximum number of Hex creatures reached");
     }
 
     public void despawnHexCreature(@Nonnull HexCreatureRecord hexCreature, @Nonnull Store<EntityStore> store, @Nonnull CommandBuffer<EntityStore> accessor) {
