@@ -9,6 +9,5 @@ public class EvokerCommand extends AbstractCommandCollection {
         addSubCommand(new TargetPositionCommand());
         addSubCommand(new HexcreaturesListCommand());
         addSubCommand(new HexCreatureCommand());
-        addSubCommand(new EvokeBookCommand());
     }
 }

@@ -1,0 +1,149 @@
+{
+  "TranslationProperties": {
+    "Name": "evoke.items.Weapon.Wand.Evoke_Wand_Iron.name",
+    "Description": "evoke.items.Weapon.Wand.Evoke_Wand_Iron.description"
+  },
+  "Categories": [
+    "Items.Weapons"
+  ],
+  "Quality": "Rare",
+  "ItemLevel": 40,
+  "Model": "Items/Weapons/EvokeWand/Iron/Model.blockymodel",
+  "Texture": "Items/Weapons/EvokeWand/Iron/Texture.png",
+  "PlayerAnimationsId": "Evoke_Wand",
+  "Icon": "Icons/ItemsGenerated/Iron_Evoke_Wand.png",
+  "DroppedItemAnimation": "Items/Animations/Dropped/Dropped_Diagonal_Left.blockyanim",
+  "MaxStack": 1,
+  "Scale": 1,
+  "Tags": {
+    "Type": [
+      "Weapon"
+    ],
+    "Family": [
+      "Spellbook"
+    ]
+  },
+  "Recipe": {
+    "TimeSeconds": 1,
+    "Input": [
+      {
+        "ItemId": "Ingredient_Fabric_Scrap_Linen",
+        "Quantity": 2
+      },
+      {
+        "ItemId": "Ingredient_Bar_Iron",
+        "Quantity": 2
+      },
+      {
+        "ItemId": "Ingredient_Stick",
+        "Quantity": 2
+      },
+      {
+        "ItemId": "Ingredient_Life_Essence_Concentrated",
+        "Quantity": 5
+      }
+    ],
+    "BenchRequirement": [
+      {
+        "Categories": [
+          "Arcane_Hexcode_Evoke"
+        ],
+        "Id": "Arcanebench"
+      }
+    ]
+  },
+  "Weapon": {},
+  "ItemSoundSetId": "ISS_Weapons_Books",
+  "Interactions": {
+    "Primary": {
+      "Interactions": [
+        {
+          "Type": "EvokeSelection",
+          "Next": {
+            "Type": "Serial",
+            "Interactions": [
+              {
+                "Type": "Simple",
+                "RunTime": 0.5,
+                "Effects": {
+                  "ItemAnimationId": "Evoke_Wand_Primary",
+                  "ClearAnimationOnFinish": true
+                }
+              }
+            ]
+          },
+          "Failed": {
+            "Type": "Simple",
+            "Effects": {
+              "ItemAnimationId": "Interact"
+            }
+          }
+        }
+      ]
+    },
+    "Secondary": {
+      "Interactions": [
+        {
+          "Type": "EvokeFollow",
+          "Next": {
+            "Type": "Serial",
+            "Interactions": [
+              {
+                "Type": "Simple",
+                "RunTime": 0.5,
+                "Effects": {
+                  "ItemAnimationId": "Evoke_Wand_Primary",
+                  "ClearAnimationOnFinish": true
+                }
+              }
+            ]
+          },
+          "Failed": {
+            "Type": "Simple",
+            "Effects": {
+              "ItemAnimationId": "Interact"
+            }
+          }
+        }
+      ]
+    },
+    "Ability2": {
+      "Interactions": [
+        {
+          "Type": "EvokeSelection",
+          "Next": {
+            "Type": "Serial",
+            "Interactions": [
+              {
+                "Type": "Simple",
+                "RunTime": 0.5,
+                "Effects": {
+                  "ItemAnimationId": "Interact",
+                  "ClearAnimationOnFinish": true
+                }
+              }
+            ]
+          },
+          "Failed": {
+            "Type": "Simple",
+            "Effects": {
+              "ItemAnimationId": "Interact"
+            }
+          }
+        }
+      ]
+    }
+  },
+  "IconProperties": {
+    "Scale": 0.6,
+    "Rotation": [
+      20,
+      165,
+      41
+    ],
+    "Translation": [
+      -15,
+      -15
+    ]
+  }
+}

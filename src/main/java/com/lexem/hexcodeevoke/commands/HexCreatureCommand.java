@@ -13,6 +13,7 @@ import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.lexem.hexcodeevoke.components.HexCreatureComponent;
 
 import javax.annotation.Nonnull;
+import java.util.Arrays;
 import java.util.UUID;
 
 public class HexCreatureCommand extends AbstractPlayerCommand {
@@ -46,5 +47,6 @@ public class HexCreatureCommand extends AbstractPlayerCommand {
         }
 
         playerRef.sendMessage(Message.raw(hexCreature.toString()));
+        LOGGER.atInfo().log("[Evoke]: " + hexCreature);
     }
 }

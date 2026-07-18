@@ -102,6 +102,31 @@
           }
         }
       ]
+    },
+    "Secondary": {
+      "Interactions": [
+        {
+          "Type": "OpenEvokeBook",
+          "Next": {
+            "Type": "Serial",
+            "Interactions": [
+              {
+                "Type": "Simple",
+                "RunTime": 0.5,
+                "Effects": {
+                  "WorldSoundEventId": "SFX_Skeleton_Mage_Spellbook_Charge"
+                }
+              }
+            ]
+          },
+          "Failed": {
+            "Type": "Simple",
+            "Effects": {
+              "ItemAnimationId": "Interact"
+            }
+          }
+        }
+      ]
     }
   }
 }

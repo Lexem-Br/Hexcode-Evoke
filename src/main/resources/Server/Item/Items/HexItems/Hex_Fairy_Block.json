@@ -11,12 +11,8 @@
     "TimeSeconds": 1,
     "Input": [
       {
-        "ItemId": "Ingredient_Life_Essence",
-        "Quantity": 25
-      },
-      {
-        "ItemId": "Ingredient_Fire_Essence",
-        "Quantity": 10
+        "ItemId": "Ingredient_Life_Essence_Concentrated",
+        "Quantity": 1
       },
       {
         "ItemId": "Ingredient_Feathers_Light",

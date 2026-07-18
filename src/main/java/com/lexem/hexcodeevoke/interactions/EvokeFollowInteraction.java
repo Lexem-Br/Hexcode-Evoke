@@ -42,8 +42,6 @@ public class EvokeFollowInteraction extends SimpleInteraction {
                 }
             });
 
-            LOGGER.atInfo().log("EvokeFollowLeader");
-
             context.getState().state = InteractionState.Finished;
             super.tick0(firstRun, time, type, context, cooldownHandler);
         } catch (Exception e) {

@@ -3,6 +3,7 @@
   "DefaultSubState": "Default",
   "Type": "Generic",
   "Invulnerable": true,
+  "BusyStates": [ "$Interaction" ],
   "Parameters": {
     "Appearance": {
       "Value": "Hex_Fairy",
@@ -84,44 +85,24 @@
       ]
     },
     {
+      "$Comment": "Activate when the interaction is triggered",
+      "Continue": true,
+      "Sensor": {
+        "Type": "State",
+        "State": "$Interaction"
+      },
       "Instructions": [
         {
-          "Sensor": {
-            "Type": "State",
-            "State": "Despawn"
-          },
-          "ActionsAtomic": true,
-          "Instructions": [
-            {
-              "Sensor": {
-                "Type": "Any",
-                "Once": true
-              },
-              "Actions": [
-                {
-                  "Type": "SpawnParticles",
-                  "Offset": [ 0, 0.5, 0 ],
-                  "ParticleSystem": "Effect_Death"
-                },
-                {
-                  "Type": "DropItem",
-                  "Item": {"Compute": "DropHexItem"},
-                  "Distance": [ 0, 0 ],
-                  "ThrowSpeed": 15,
-                  "Once": true
-                }
-              ]
-            },
-            {
-              "ActionsBlocking": true,
-              "Actions": [
-                {
-                  "Type": "Despawn"
-                }
-              ]
-            }
-          ]
-        },
+          "$Comment": "Despawn the entity",
+          "Reference": "Component_Hex_Despawn",
+          "Modify": {
+            "DropHexItem": {"Compute": "DropHexItem"}
+          }
+        }
+      ]
+    },
+    {
+      "Instructions": [
         {
           "Sensor": {
             "Type": "State",
@@ -219,52 +200,10 @@
     }
   ],
   "InteractionInstruction": {
-    "Instructions": [
-      {
-        "$Comment": "Activates interaction with the player if they are the leader",
-        "Continue": true,
-        "Sensor": {
-          "Type": "And",
-          "Sensors": [
-            {
-              "Type": "FlockLeader"
-            },
-            {
-              "Type": "Self",
-              "Filters": [
-                {
-                  "Type": "Flock",
-                  "FlockStatus": "Member"
-                }
-              ]
-            }
-          ]
-        },
-        "Actions": [
-          {
-            "Type": "SetInteractable",
-            "Interactable": true
-          }
-        ]
-      },
-      {
-        "Sensor": {
-          "Type": "HasInteracted"
-        },
-        "Instructions": [
-          {
-            "Actions": [
-              {
-                "Type": "LockOnInteractionTarget"
-              },
-              {
-                "Type": "State",
-                "State": "Despawn"
-              }
-            ]
-          }
-        ]
-      }
-    ]
+    "$Comment": "Controls the activation of the interaction",
+    "Reference": "Component_Hex_Interaction",
+    "Modify": {
+      "_ExportStates": [ "$Interaction" ]
+    }
   }
 }
