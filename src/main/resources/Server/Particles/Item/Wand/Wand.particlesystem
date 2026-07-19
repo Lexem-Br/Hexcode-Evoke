@@ -1,0 +1,9 @@
+{
+  "Spawners": [
+    {
+      "SpawnerId": "Light_White_1"
+    }
+  ],
+  "$Comment": "Selection Lights",
+  "CullDistance": 100
+}

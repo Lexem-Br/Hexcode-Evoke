@@ -19,18 +19,18 @@ import com.hypixel.hytale.server.core.util.TargetUtil;
 import com.hypixel.hytale.server.flock.FlockMembership;
 import com.hypixel.hytale.server.npc.components.messaging.BeaconSupport;
 import com.lexem.hexcodeevoke.components.EvokerComponent;
-import com.lexem.hexcodeevoke.events.SaveTargetPositionEvent;
 import org.joml.Vector3d;
 
 import javax.annotation.Nonnull;
 import java.util.List;
+import java.util.UUID;
 
-public class EvokeSelectionInteraction extends SimpleInteraction {
+public class EvokeTargetSelectionInteraction extends SimpleInteraction {
     private static final HytaleLogger LOGGER = HytaleLogger.forEnclosingClass();
     double maxDistance = 20;
 
-    public static final BuilderCodec<EvokeSelectionInteraction> CODEC =
-            BuilderCodec.builder(EvokeSelectionInteraction.class, EvokeSelectionInteraction::new,
+    public static final BuilderCodec<EvokeTargetSelectionInteraction> CODEC =
+            BuilderCodec.builder(EvokeTargetSelectionInteraction.class, EvokeTargetSelectionInteraction::new,
                             SimpleInteraction.CODEC)
                     .build();
 
@@ -47,10 +47,21 @@ public class EvokeSelectionInteraction extends SimpleInteraction {
             Store<EntityStore> store = playerRef.getStore();
 
             CommandBuffer<EntityStore> accessor = context.getCommandBuffer();
-            if (accessor == null) { return; }
+            if (accessor == null) {
+                context.getState().state = InteractionState.Failed;
+                super.tick0(firstRun, time, type, context, cooldownHandler);
+                return;
+            }
 
             Vector3d center = TargetUtil.getTargetLocation(playerRef, maxDistance, accessor);
-            SaveTargetPositionEvent.dispatch(playerRef, center);
+            EvokerComponent evoker = store.getComponent(playerRef, EvokerComponent.getComponentType());
+            if (evoker == null) {
+                context.getState().state = InteractionState.Failed;
+                super.tick0(firstRun, time, type, context, cooldownHandler);
+                return;
+            }
+
+            evoker.setTargetPosition(center);
 
             if (center == null) {
                 messageMaxDistanceExceeded(playerRef, store, maxDistance);
@@ -59,21 +70,14 @@ public class EvokeSelectionInteraction extends SimpleInteraction {
                 return;
             }
 
-            FlockMembership playerMembership = store.getComponent(playerRef, FlockMembership.getComponentType());
-            if (playerMembership == null) { return; }
+            String[] selectedHexCreatures = evoker.getSelectedHexCreatures();
+            for (String npcUUID : selectedHexCreatures) {
+                Ref<EntityStore> npcRef = store.getExternalData().getRefFromUUID(UUID.fromString(npcUUID));
+                if (npcRef == null) { continue; }
 
-            EntityGroup group = null;
-            Ref<EntityStore> flockReference = playerMembership.getFlockRef();
-            if (flockReference != null && flockReference.isValid()) {
-                group = store.getComponent(flockReference, EntityGroup.getComponentType());
-            }
-            if (group == null) { return; }
-
-            List<Ref<EntityStore>> groupList = group.getMemberList();
-            for (Ref<EntityStore> npc : groupList) {
-                BeaconSupport beaconSupportComponent = accessor.getComponent(npc, BeaconSupport.getComponentType());
+                BeaconSupport beaconSupportComponent = accessor.getComponent(npcRef, BeaconSupport.getComponentType());
                 if (beaconSupportComponent != null) {
-                    beaconSupportComponent.postMessage("EvokeTargetPosition", npc, 1);
+                    beaconSupportComponent.postMessage("EvokeTargetPosition", npcRef, 1);
                 }
             }
 
@@ -89,11 +93,11 @@ public class EvokeSelectionInteraction extends SimpleInteraction {
         PlayerRef playerRef = store.getComponent(refESPlayer, PlayerRef.getComponentType());
         if (playerRef != null) {
             NotificationUtil.sendNotification(
-                    playerRef.getPacketHandler(), Message.translation("evoke.interactions.EvokeSelectionInteraction.title.messageMaxDistance"),
+                    playerRef.getPacketHandler(), Message.translation("evoke.interactions.EvokeTargetSelectionInteraction.title.messageMaxDistance"),
                     Message.join(
-                            Message.translation("evoke.interactions.EvokeSelectionInteraction.description.messageMaxDistance1"),
+                            Message.translation("evoke.interactions.EvokeTargetSelectionInteraction.description.messageMaxDistance1"),
                             Message.raw(" " + (int) maxDistance + " "),
-                            Message.translation("evoke.interactions.EvokeSelectionInteraction.description.messageMaxDistance2")
+                            Message.translation("evoke.interactions.EvokeTargetSelectionInteraction.description.messageMaxDistance2")
                     )
             );
         }

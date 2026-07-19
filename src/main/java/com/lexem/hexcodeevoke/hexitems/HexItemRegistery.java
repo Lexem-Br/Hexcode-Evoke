@@ -39,6 +39,7 @@ public class HexItemRegistery {
                 .orElse(null);
     }
 
+    @Nonnull
     public static String findBlockIdByEntityId(String entityId) {
         Map.Entry<String, String> entry = getByEntityId(entityId);
         return entry != null ? entry.getKey() : "";
@@ -48,6 +49,10 @@ public class HexItemRegistery {
     public static String findEntityIdByBlockId(String blockId) {
         Map.Entry<String, String> entry = getByBlockId(blockId);
         return entry != null ? entry.getValue() : "";
+    }
+
+    public static boolean isHexCreature(@Nonnull String entityId) {
+        return getByEntityId(entityId) != null;
     }
 
     @Nonnull

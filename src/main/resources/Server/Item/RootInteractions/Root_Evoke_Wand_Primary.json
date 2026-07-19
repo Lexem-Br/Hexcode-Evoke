@@ -1,0 +1,26 @@
+{
+  "Interactions": [
+    {
+      "Type": "EvokeTargetSelection",
+      "Next": {
+        "Type": "Serial",
+        "Interactions": [
+          {
+            "Type": "Simple",
+            "RunTime": 0.5,
+            "Effects": {
+              "ItemAnimationId": "Evoke_Wand_Primary",
+              "ClearAnimationOnFinish": true
+            }
+          }
+        ]
+      },
+      "Failed": {
+        "Type": "Simple",
+        "Effects": {
+          "ItemAnimationId": "Interact"
+        }
+      }
+    }
+  ]
+}

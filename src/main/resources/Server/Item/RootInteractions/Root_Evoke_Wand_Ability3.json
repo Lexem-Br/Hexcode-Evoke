@@ -1,0 +1,32 @@
+{
+  "Interactions": [
+    {
+      "Type": "EvokeClearHCSelection",
+      "Next": {
+        "Type": "Serial",
+        "Interactions": [
+          {
+            "Type": "Simple",
+            "RunTime": 0.5,
+            "Effects": {
+              "ItemAnimationId": "Evoke_Wand_Primary",
+              "ClearAnimationOnFinish": true
+            }
+          },
+          {
+            "Type": "ChangeStat",
+            "StatModifiers": {
+              "DeployablePreview": -6
+            }
+          }
+        ]
+      },
+      "Failed": {
+        "Type": "Simple",
+        "Effects": {
+          "ItemAnimationId": "Interact"
+        }
+      }
+    }
+  ]
+}

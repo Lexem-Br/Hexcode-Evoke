@@ -1,0 +1,70 @@
+{
+  "Interactions": [
+    {
+      "Type": "Charging",
+      "Effects": {
+        "ItemAnimationId": "Evoke_Wand_Select_All"
+      },
+      "AllowIndefiniteHold": true,
+      "HorizontalSpeedMultiplier": 0.8,
+      "CancelOnItemChange": true,
+      "RunTime": 0,
+      "Next": {
+        "0": {
+          "Type": "EvokeHCSelection",
+          "Next": {
+            "Type": "Serial",
+            "Interactions": [
+              {
+                "Type": "Simple",
+                "RunTime": 0.5,
+                "Effects": {
+                  "ItemAnimationId": "Evoke_Wand_Primary",
+                  "ClearAnimationOnFinish": true
+                }
+              },
+              {
+                "Type": "ChangeStat",
+                "StatModifiers": {
+                  "DeployablePreview": 1
+                }
+              }
+            ]
+          },
+          "Failed": {
+            "Type": "Simple",
+            "Effects": {
+              "ItemAnimationId": "Interact"
+            }
+          }
+        },
+        "0.8": {
+          "Type": "EvokeSelectAllHC",
+          "Next": {
+            "Type": "Serial",
+            "Interactions": [
+              {
+                "Type": "Simple",
+                "RunTime": 0.8,
+                "Effects": {
+                  "ItemAnimationId": "Evoke_Wand_Primary",
+                  "ClearAnimationOnFinish": true
+                }
+              },
+              {
+                "Type": "ChangeStatWandParticles",
+                "StatModifier": "DeployablePreview"
+              }
+            ]
+          },
+          "Failed": {
+            "Type": "Simple",
+            "Effects": {
+              "ItemAnimationId": "Interact"
+            }
+          }
+        }
+      }
+    }
+  ]
+}
