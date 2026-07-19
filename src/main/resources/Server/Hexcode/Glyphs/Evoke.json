@@ -7,37 +7,33 @@
   "ManaConsumption": 0,
   "ShapeStructure": [
     {
-      "ShapeId": "Square",
-      "Size": 1.0
+      "Parent": "Square",
+      "RelativeSize": 1.0
     },
     {
-      "ShapeId": "Triangle",
-      "Size": 0.8
+      "Parent": "Triangle",
+      "RelativeSize": 0.8
     },
     {
-      "ShapeId": "Antisquare",
-      "Size": 0.55
+      "Parent": "Antisquare",
+      "RelativeSize": 0.55
     }
   ],
   "Slots": {
     "Target": {
-      "Style": "Input",
+      "Parent": "Input",
       "Label": "hexcode.glyphs.Evoke.target.name",
       "Description": "hexcode.glyphs.Evoke.target.description",
       "Unique": true
     },
     "Next": {
-      "Style": "Next",
+      "Parent": "Next",
       "Label": "hexcode.glyphs.Evoke.Next.name",
       "Description": "hexcode.glyphs.Evoke.Next.description"
     }
   },
   "Volatility": {
     "InstantCost": 0.1,
-    "DrainPerSecond": 0.0,
-    "RepeatEscalation": {
-      "Base": 1.0,
-      "K": 10.0
-    }
+    "DrainPerSecond": 0.0
   }
 }
