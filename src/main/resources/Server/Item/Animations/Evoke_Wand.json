@@ -5,6 +5,16 @@
       "ThirdPerson": "Characters/Animations/Wand/Wand_Primary.blockyanim",
       "FirstPerson": "Characters/Animations/Wand/Wand_Primary_FPS.blockyanim",
       "Speed": 1
+    },
+    "Evoke_Wand_Follow": {
+      "ThirdPerson": "Characters/Animations/Wand/Wand_Follow.blockyanim",
+      "FirstPerson": "Characters/Animations/Wand/Wand_Follow_FPS.blockyanim",
+      "Speed": 1
+    },
+    "Evoke_Wand_Select_All": {
+      "ThirdPerson": "Characters/Animations/Wand/Wand_Select_All.blockyanim",
+      "FirstPerson": "Characters/Animations/Wand/Wand_Select_All_FPS.blockyanim",
+      "Speed": 0.5
     }
   }
 }

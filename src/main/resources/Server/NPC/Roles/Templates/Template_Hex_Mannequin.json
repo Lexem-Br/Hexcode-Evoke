@@ -360,7 +360,7 @@
               }
             },
             {
-              "$Comment": "Less than 10 blocks away from the leader",
+              "$Comment": "Less than 40 blocks away from the leader",
               "Sensor": {
                 "Type": "Player",
                 "Range": 40,
@@ -387,7 +387,7 @@
               ]
             },
             {
-              "$Comment": "Teleports to the leader if more than 10 blocks away",
+              "$Comment": "Teleports to the leader if more than 40 blocks away",
               "Sensor": {
                 "Type": "Target",
                 "Filters": [

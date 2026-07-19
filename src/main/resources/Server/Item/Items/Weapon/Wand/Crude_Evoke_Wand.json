@@ -51,84 +51,243 @@
   "Weapon": {},
   "ItemSoundSetId": "ISS_Weapons_Books",
   "Interactions": {
-    "Primary": {
-      "Interactions": [
+    "Primary": "Root_Evoke_Wand_Primary",
+    "Secondary": "Root_Evoke_Wand_Secondary",
+    "Ability2": "Root_Evoke_Wand_Ability2",
+    "Ability3": "Root_Evoke_Wand_Ability3"
+  },
+  "Weapon": {
+    "EntityStatsToClear": [
+      "DeployablePreview"
+    ],
+    "StatModifiers": {
+      "DeployablePreview": [
         {
-          "Type": "EvokeSelection",
-          "Next": {
-            "Type": "Serial",
-            "Interactions": [
-              {
-                "Type": "Simple",
-                "RunTime": 0.5,
-                "Effects": {
-                  "ItemAnimationId": "Evoke_Wand_Primary",
-                  "ClearAnimationOnFinish": true
-                }
-              }
-            ]
-          },
-          "Failed": {
-            "Type": "Simple",
-            "Effects": {
-              "ItemAnimationId": "Interact"
-            }
-          }
-        }
-      ]
-    },
-    "Secondary": {
-      "Interactions": [
-        {
-          "Type": "EvokeFollow",
-          "Next": {
-            "Type": "Serial",
-            "Interactions": [
-              {
-                "Type": "Simple",
-                "RunTime": 0.5,
-                "Effects": {
-                  "ItemAnimationId": "Evoke_Wand_Primary",
-                  "ClearAnimationOnFinish": true
-                }
-              }
-            ]
-          },
-          "Failed": {
-            "Type": "Simple",
-            "Effects": {
-              "ItemAnimationId": "Interact"
-            }
-          }
-        }
-      ]
-    },
-    "Ability2": {
-      "Interactions": [
-        {
-          "Type": "EvokeSelection",
-          "Next": {
-            "Type": "Serial",
-            "Interactions": [
-              {
-                "Type": "Simple",
-                "RunTime": 0.5,
-                "Effects": {
-                  "ItemAnimationId": "Interact",
-                  "ClearAnimationOnFinish": true
-                }
-              }
-            ]
-          },
-          "Failed": {
-            "Type": "Simple",
-            "Effects": {
-              "ItemAnimationId": "Interact"
-            }
-          }
+          "Amount": 6,
+          "CalculationType": "Additive"
         }
       ]
     }
+  },
+  "ItemAppearanceConditions": {
+    "DeployablePreview": [
+      {
+        "Condition": [
+          6,
+          6
+        ],
+        "Particles": [
+          {
+            "SystemId": "Wand",
+            "Scale": 0.15,
+            "PositionOffset": {
+              "X": -0.12,
+              "Y": 0.8
+            }
+          },
+          {
+            "SystemId": "Wand",
+            "Scale": 0.15,
+            "PositionOffset": {
+              "X": 0.08,
+              "Y": 0.8
+            }
+          },
+          {
+            "SystemId": "Wand",
+            "Scale": 0.15,
+            "PositionOffset": {
+              "X": -0.088,
+              "Y": 0.86
+            }
+          },
+          {
+            "SystemId": "Wand",
+            "Scale": 0.15,
+            "PositionOffset": {
+              "X": 0.048,
+              "Y": 0.86
+            }
+          },
+          {
+            "SystemId": "Wand",
+            "Scale": 0.15,
+            "PositionOffset": {
+              "X": -0.05,
+              "Y": 0.9
+            }
+          },
+          {
+            "SystemId": "Wand",
+            "Scale": 0.15,
+            "PositionOffset": {
+              "X": 0.01,
+              "Y": 0.9
+            }
+          }
+        ]
+      },
+      {
+        "Condition": [
+          5,
+          5
+        ],
+        "Particles": [
+          {
+            "SystemId": "Wand",
+            "Scale": 0.15,
+            "PositionOffset": {
+              "X": -0.13,
+              "Y": 0.8
+            }
+          },
+          {
+            "SystemId": "Wand",
+            "Scale": 0.15,
+            "PositionOffset": {
+              "X": 0.09,
+              "Y": 0.8
+            }
+          },
+          {
+            "SystemId": "Wand",
+            "Scale": 0.15,
+            "PositionOffset": {
+              "X": -0.08,
+              "Y": 0.87
+            }
+          },
+          {
+            "SystemId": "Wand",
+            "Scale": 0.15,
+            "PositionOffset": {
+              "X": 0.04,
+              "Y": 0.87
+            }
+          },
+          {
+            "SystemId": "Wand",
+            "Scale": 0.15,
+            "PositionOffset": {
+              "X": -0.02,
+              "Y": 0.91
+            }
+          }
+        ]
+      },
+      {
+        "Condition": [
+          4,
+          4
+        ],
+        "Particles": [
+          {
+            "SystemId": "Wand",
+            "Scale": 0.15,
+            "PositionOffset": {
+              "X": -0.13,
+              "Y": 0.8
+            }
+          },
+          {
+            "SystemId": "Wand",
+            "Scale": 0.15,
+            "PositionOffset": {
+              "X": 0.1,
+              "Y": 0.8
+            }
+          },
+          {
+            "SystemId": "Wand",
+            "Scale": 0.15,
+            "PositionOffset": {
+              "X": -0.08,
+              "Y": 0.92
+            }
+          },
+          {
+            "SystemId": "Wand",
+            "Scale": 0.15,
+            "PositionOffset": {
+              "X": 0.05,
+              "Y": 0.92
+            }
+          }
+        ]
+      },
+      {
+        "Condition": [
+          3,
+          3
+        ],
+        "Particles": [
+          {
+            "SystemId": "Wand",
+            "Scale": 0.15,
+            "PositionOffset": {
+              "X": -0.02,
+              "Y": 0.92
+            }
+          },
+          {
+            "SystemId": "Wand",
+            "Scale": 0.15,
+            "PositionOffset": {
+              "X": 0.08,
+              "Y": 0.825
+            }
+          },
+          {
+            "SystemId": "Wand",
+            "Scale": 0.15,
+            "PositionOffset": {
+              "X": -0.12,
+              "Y": 0.825
+            }
+          }
+        ]
+      },
+      {
+        "Condition": [
+          2,
+          2
+        ],
+        "Particles": [
+          {
+            "SystemId": "Wand",
+            "Scale": 0.15,
+            "PositionOffset": {
+              "X": 0.05,
+              "Y": 0.9
+            }
+          },
+          {
+            "SystemId": "Wand",
+            "Scale": 0.15,
+            "PositionOffset": {
+              "X": -0.1,
+              "Y": 0.9
+            }
+          }
+        ]
+      },
+      {
+        "Condition": [
+          1,
+          1
+        ],
+        "Particles": [
+          {
+            "SystemId": "Wand",
+            "Scale": 0.15,
+            "PositionOffset": {
+              "X": -0.05,
+              "Y": 0.9
+            }
+          }
+        ]
+      }
+    ]
   },
   "IconProperties": {
     "Scale": 0.5,

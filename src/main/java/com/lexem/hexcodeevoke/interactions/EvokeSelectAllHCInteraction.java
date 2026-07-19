@@ -11,18 +11,15 @@ import com.hypixel.hytale.server.core.entity.InteractionContext;
 import com.hypixel.hytale.server.core.modules.interaction.interaction.CooldownHandler;
 import com.hypixel.hytale.server.core.modules.interaction.interaction.config.SimpleInteraction;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
-import com.hypixel.hytale.server.npc.components.messaging.BeaconSupport;
-import com.hypixel.hytale.server.npc.entities.NPCEntity;
 import com.lexem.hexcodeevoke.components.EvokerComponent;
 
 import javax.annotation.Nonnull;
-import java.util.UUID;
 
-public class EvokeFollowInteraction extends SimpleInteraction {
+public class EvokeSelectAllHCInteraction extends SimpleInteraction {
     private static final HytaleLogger LOGGER = HytaleLogger.forEnclosingClass();
 
-    public static final BuilderCodec<EvokeFollowInteraction> CODEC =
-            BuilderCodec.builder(EvokeFollowInteraction.class, EvokeFollowInteraction::new,
+    public static final BuilderCodec<EvokeSelectAllHCInteraction> CODEC =
+            BuilderCodec.builder(EvokeSelectAllHCInteraction.class, EvokeSelectAllHCInteraction::new,
                             SimpleInteraction.CODEC)
                     .build();
 
@@ -30,7 +27,6 @@ public class EvokeFollowInteraction extends SimpleInteraction {
     protected void tick0(boolean firstRun, float time, @Nonnull InteractionType type, @Nonnull InteractionContext context, @Nonnull CooldownHandler cooldownHandler) {
         try {
             Ref<EntityStore> playerRef = context.getOwningEntity();
-
             if (playerRef == null) {
                 context.getState().state = InteractionState.Failed;
                 super.tick0(firstRun, time, type, context, cooldownHandler);
@@ -52,23 +48,12 @@ public class EvokeFollowInteraction extends SimpleInteraction {
                 return;
             }
 
-            //TODO: add distance per wand
-
-            String[] selectedHexCreatures = evoker.getSelectedHexCreatures();
-            for (String npcUUID : selectedHexCreatures) {
-                Ref<EntityStore> npcRef = store.getExternalData().getRefFromUUID(UUID.fromString(npcUUID));
-                if (npcRef == null) { continue; }
-
-                BeaconSupport beaconSupportComponent = accessor.getComponent(npcRef, BeaconSupport.getComponentType());
-                if (beaconSupportComponent != null) {
-                    beaconSupportComponent.postMessage("EvokeFollowLeader", npcRef, 1);
-                }
-            }
+            evoker.selectAllHexCreatures();
 
             context.getState().state = InteractionState.Finished;
             super.tick0(firstRun, time, type, context, cooldownHandler);
         } catch (Exception e) {
-            LOGGER.atSevere().log("[hexcode evoke] EvokeFollowLeader failed: %s", e.getMessage());
+            LOGGER.atSevere().log("[hexcode evoke] EvokeTargetPosition failed: %s", e.getMessage());
             context.getState().state = InteractionState.Failed;
         }
     }

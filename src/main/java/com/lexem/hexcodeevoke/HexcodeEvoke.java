@@ -13,13 +13,8 @@ import com.lexem.hexcodeevoke.commands.EvokerCommand;
 import com.lexem.hexcodeevoke.components.EvokerComponent;
 import com.lexem.hexcodeevoke.components.HexCreatureComponent;
 import com.lexem.hexcodeevoke.events.SaveHexCreatureEvent;
-import com.lexem.hexcodeevoke.events.SaveTargetPositionEvent;
 import com.lexem.hexcodeevoke.handlers.SaveHexCreatureHandler;
-import com.lexem.hexcodeevoke.handlers.SaveTargetPositionHandler;
-import com.lexem.hexcodeevoke.interactions.EvokeFollowInteraction;
-import com.lexem.hexcodeevoke.interactions.EvokeSelectionInteraction;
-import com.lexem.hexcodeevoke.interactions.EvokeHexCreatureInteraction;
-import com.lexem.hexcodeevoke.interactions.OpenEvokeBookInteraction;
+import com.lexem.hexcodeevoke.interactions.*;
 import com.lexem.hexcodeevoke.npc.actions.builders.BuilderActionSetInteractableFlockLeader;
 import com.lexem.hexcodeevoke.npc.bodymotions.builders.BuilderTeleportHexCreature;
 import com.lexem.hexcodeevoke.npc.sensors.builders.BuilderSensorEvokeReadPosition;
@@ -97,7 +92,6 @@ public class HexcodeEvoke extends JavaPlugin {
     }
 
     private void registerEvents() {
-        getEventRegistry().register(SaveTargetPositionEvent.class, new SaveTargetPositionHandler());
         getEventRegistry().register(SaveHexCreatureEvent.class, new SaveHexCreatureHandler());
     }
 
@@ -108,9 +102,13 @@ public class HexcodeEvoke extends JavaPlugin {
     private void registerHexItems() {
         this.registerHexItemsPlugin.startup();
         this.getCodecRegistry(Interaction.CODEC).register("EvokeHexCreature", EvokeHexCreatureInteraction.class, EvokeHexCreatureInteraction.CODEC);
-        this.getCodecRegistry(Interaction.CODEC).register("EvokeSelection", EvokeSelectionInteraction.class, EvokeSelectionInteraction.CODEC);
+        this.getCodecRegistry(Interaction.CODEC).register("EvokeTargetSelection", EvokeTargetSelectionInteraction.class, EvokeTargetSelectionInteraction.CODEC);
         this.getCodecRegistry(Interaction.CODEC).register("EvokeFollow", EvokeFollowInteraction.class, EvokeFollowInteraction.CODEC);
         this.getCodecRegistry(Interaction.CODEC).register("OpenEvokeBook", OpenEvokeBookInteraction.class, OpenEvokeBookInteraction.CODEC);
+        this.getCodecRegistry(Interaction.CODEC).register("EvokeHCSelection", EvokeHCSelectionInteraction.class, EvokeHCSelectionInteraction.CODEC);
+        this.getCodecRegistry(Interaction.CODEC).register("EvokeClearHCSelection", EvokeClearHCSelectionInteraction.class, EvokeClearHCSelectionInteraction.CODEC);
+        this.getCodecRegistry(Interaction.CODEC).register("EvokeSelectAllHC", EvokeSelectAllHCInteraction.class, EvokeSelectAllHCInteraction.CODEC);
+        this.getCodecRegistry(Interaction.CODEC).register("ChangeStatWandParticles", ChangeStatWandParticlesInteraction.class, ChangeStatWandParticlesInteraction.CODEC);
     }
 
     @Override

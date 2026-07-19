@@ -162,6 +162,7 @@ public class HexCreatureUtils {
         if (evoker == null) return;
 
         evoker.removeHexCreatureUUID(hexCreature.getUUID());
+        evoker.removeSelectedHexCreature(hexCreature.getUUID());
     }
 
     private Vector3d newDirection(@Nonnull Ref<EntityStore> ref, double distance, @Nonnull ComponentAccessor<EntityStore> componentAccessor, @Nonnull Store<EntityStore> store) {
