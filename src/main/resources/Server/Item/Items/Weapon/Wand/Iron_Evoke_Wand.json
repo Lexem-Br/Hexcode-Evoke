@@ -57,7 +57,8 @@
     "Primary": "Root_Evoke_Wand_Primary",
     "Secondary": "Root_Evoke_Wand_Secondary",
     "Ability2": "Root_Evoke_Wand_Ability2",
-    "Ability3": "Root_Evoke_Wand_Ability3"
+    "Ability3": "Root_Evoke_Wand_Ability3",
+    "SwapTo": "Root_Change_Stat_Wand_Particles"
   },
   "Weapon": {
     "EntityStatsToClear": [

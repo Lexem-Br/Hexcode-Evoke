@@ -24,8 +24,6 @@ public class ChangeStatWandParticlesInteraction extends ChangeStatWandParticlesB
       .documentation("Changes the given stats.")
       .build();
 
-   private static final HytaleLogger LOGGER = HytaleLogger.forEnclosingClass();
-
    public ChangeStatWandParticlesInteraction() {
    }
 
@@ -36,26 +34,25 @@ public class ChangeStatWandParticlesInteraction extends ChangeStatWandParticlesB
 
       Ref<EntityStore> ref = context.getEntity();
       EntityStatMap entityStatMapComponent = commandBuffer.getComponent(ref, EntityStatMap.getComponentType());
+      if (entityStatMapComponent == null) { return; }
 
-      if (entityStatMapComponent != null) {
-         Store<EntityStore> store = ref.getStore();
-         CommandBuffer<EntityStore> accessor = context.getCommandBuffer();
-         if (accessor == null) { return; }
+      Store<EntityStore> store = ref.getStore();
+      CommandBuffer<EntityStore> accessor = context.getCommandBuffer();
+      if (accessor == null) { return; }
 
-         EvokerComponent evoker = store.getComponent(ref, EvokerComponent.getComponentType());
-         if (evoker == null) { return; }
+      EvokerComponent evoker = store.getComponent(ref, EvokerComponent.getComponentType());
+      if (evoker == null) { return; }
 
-         Int2FloatMap entityStatsNew = new Int2FloatOpenHashMap();
-         int index = EntityStatType.getAssetMap().getIndex(this.statModifier);
-         entityStatsNew.put(index, evoker.getSelectedHexCreatures().length);
+      Int2FloatMap entityStatsNew = new Int2FloatOpenHashMap();
+      int index = EntityStatType.getAssetMap().getIndex(this.statModifier);
+      entityStatsNew.put(index, evoker.getSelectedHexCreatures().length);
 
-         entityStatMapComponent.processStatChanges(EntityStatMap.Predictable.SELF, entityStatsNew, ValueType.Absolute, ChangeStatBehaviour.Set);
-      }
+      entityStatMapComponent.processStatChanges(EntityStatMap.Predictable.SELF, entityStatsNew, ValueType.Absolute, ChangeStatBehaviour.Set);
    }
 
    @Nonnull
    @Override
    public String toString() {
-      return "ChangeStatInteraction{}" + super.toString();
+      return "ChangeStatWandParticlesInteraction{}" + super.toString();
    }
 }

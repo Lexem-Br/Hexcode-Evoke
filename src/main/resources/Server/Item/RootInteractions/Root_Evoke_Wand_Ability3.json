@@ -1,30 +1,69 @@
 {
   "Interactions": [
     {
-      "Type": "EvokeClearHCSelection",
+      "Type": "Charging",
+      "Effects": {
+        "ItemAnimationId": "Evoke_Wand_Select_All"
+      },
+      "AllowIndefiniteHold": true,
+      "HorizontalSpeedMultiplier": 0.8,
+      "CancelOnItemChange": true,
+      "RunTime": 0,
       "Next": {
-        "Type": "Serial",
-        "Interactions": [
-          {
-            "Type": "Simple",
-            "RunTime": 0.5,
-            "Effects": {
-              "ItemAnimationId": "Evoke_Wand_Primary",
-              "ClearAnimationOnFinish": true
-            }
+        "0": {
+          "Type": "EvokeHCSelection",
+          "Reverse": true,
+          "Next": {
+            "Type": "Serial",
+            "Interactions": [
+              {
+                "Type": "Simple",
+                "RunTime": 0.5,
+                "Effects": {
+                  "ItemAnimationId": "Evoke_Wand_Primary",
+                  "ClearAnimationOnFinish": true
+                }
+              },
+              {
+                "Type": "ChangeStatWandParticles",
+                "StatModifier": "DeployablePreview"
+              }
+            ]
           },
-          {
-            "Type": "ChangeStat",
-            "StatModifiers": {
-              "DeployablePreview": -6
+          "Failed": {
+            "Type": "Simple",
+            "Effects": {
+              "ItemAnimationId": "Interact"
             }
           }
-        ]
-      },
-      "Failed": {
-        "Type": "Simple",
-        "Effects": {
-          "ItemAnimationId": "Interact"
+        },
+        "0.8": {
+          "Type": "EvokeHCSelection",
+          "Reverse": true,
+          "All": true,
+          "Next": {
+            "Type": "Serial",
+            "Interactions": [
+              {
+                "Type": "Simple",
+                "RunTime": 0.5,
+                "Effects": {
+                  "ItemAnimationId": "Evoke_Wand_Primary",
+                  "ClearAnimationOnFinish": true
+                }
+              },
+              {
+                "Type": "ChangeStatWandParticles",
+                "StatModifier": "DeployablePreview"
+              }
+            ]
+          },
+          "Failed": {
+            "Type": "Simple",
+            "Effects": {
+              "ItemAnimationId": "Interact"
+            }
+          }
         }
       }
     }

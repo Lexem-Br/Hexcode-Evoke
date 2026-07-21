@@ -24,10 +24,8 @@
                 }
               },
               {
-                "Type": "ChangeStat",
-                "StatModifiers": {
-                  "DeployablePreview": 1
-                }
+                "Type": "ChangeStatWandParticles",
+                "StatModifier": "DeployablePreview"
               }
             ]
           },
@@ -39,7 +37,8 @@
           }
         },
         "0.8": {
-          "Type": "EvokeSelectAllHC",
+          "Type": "EvokeHCSelection",
+          "All": true,
           "Next": {
             "Type": "Serial",
             "Interactions": [

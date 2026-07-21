@@ -1,21 +1,17 @@
 package com.lexem.hexcodeevoke.interactions;
 
+import com.hypixel.hytale.codec.Codec;
+import com.hypixel.hytale.codec.KeyedCodec;
 import com.hypixel.hytale.codec.builder.BuilderCodec;
 import com.hypixel.hytale.component.CommandBuffer;
 import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.component.Store;
-import com.hypixel.hytale.component.spatial.SpatialResource;
 import com.hypixel.hytale.logger.HytaleLogger;
 import com.hypixel.hytale.protocol.InteractionState;
 import com.hypixel.hytale.protocol.InteractionType;
-import com.hypixel.hytale.protocol.ModelParticle;
-import com.hypixel.hytale.protocol.packets.entities.SpawnModelParticles;
 import com.hypixel.hytale.server.core.Message;
 import com.hypixel.hytale.server.core.entity.InteractionContext;
 import com.hypixel.hytale.server.core.entity.UUIDComponent;
-import com.hypixel.hytale.server.core.modules.entity.EntityModule;
-import com.hypixel.hytale.server.core.modules.entity.component.TransformComponent;
-import com.hypixel.hytale.server.core.modules.entity.tracker.NetworkId;
 import com.hypixel.hytale.server.core.modules.interaction.interaction.CooldownHandler;
 import com.hypixel.hytale.server.core.modules.interaction.interaction.config.SimpleInteraction;
 import com.hypixel.hytale.server.core.universe.PlayerRef;
@@ -25,20 +21,29 @@ import com.hypixel.hytale.server.core.util.TargetUtil;
 import com.hypixel.hytale.server.npc.entities.NPCEntity;
 import com.lexem.hexcodeevoke.components.EvokerComponent;
 import com.lexem.hexcodeevoke.hexitems.HexItemRegistery;
-import org.joml.Vector3d;
-import org.joml.Vector3f;
 
 import javax.annotation.Nonnull;
-import java.util.List;
 import java.util.Objects;
 
 public class EvokeHCSelectionInteraction extends SimpleInteraction {
     private static final HytaleLogger LOGGER = HytaleLogger.forEnclosingClass();
-    double maxDistance = 20;
+    private double maxDistance = 20;
+    private boolean reverse = false;
+    private boolean all = false;
 
     public static final BuilderCodec<EvokeHCSelectionInteraction> CODEC =
             BuilderCodec.builder(EvokeHCSelectionInteraction.class, EvokeHCSelectionInteraction::new,
                             SimpleInteraction.CODEC)
+                    .append(new KeyedCodec<>("Reverse", Codec.BOOLEAN),
+                            (config, value) -> config.reverse = value,
+                            (config) -> config.reverse)
+                    .documentation("Instead of adding, remove.")
+                    .add()
+                    .append(new KeyedCodec<>("All", Codec.BOOLEAN),
+                            (config, value) -> config.all = value,
+                            (config) -> config.all)
+                    .documentation("Instead of selecting just one, select all of them.")
+                    .add()
                     .build();
 
     @Override
@@ -52,48 +57,71 @@ public class EvokeHCSelectionInteraction extends SimpleInteraction {
             }
 
             Store<EntityStore> store = playerRef.getStore();
-
             CommandBuffer<EntityStore> accessor = context.getCommandBuffer();
-            if (accessor == null) { return; }
-
-            Ref<EntityStore> targetEntity = TargetUtil.getTargetEntity(playerRef, accessor);
-            if (targetEntity == null) {
-                messageInvalidTarget(playerRef, store);
+            if (accessor == null) {
                 context.getState().state = InteractionState.Failed;
                 super.tick0(firstRun, time, type, context, cooldownHandler);
                 return;
             }
-
-            NPCEntity npcEntity = store.getComponent(targetEntity, Objects.requireNonNull(NPCEntity.getComponentType()));
-            if (npcEntity == null) {
-                messageInvalidTarget(playerRef, store);
-                context.getState().state = InteractionState.Failed;
-                super.tick0(firstRun, time, type, context, cooldownHandler);
-                return;
-            }
-
-            if (!HexItemRegistery.isHexCreature(npcEntity.getNPCTypeId())) {
-                messageTargetMustBeHC(playerRef, store);
-                context.getState().state = InteractionState.Failed;
-                super.tick0(firstRun, time, type, context, cooldownHandler);
-                return;
-            }
-
-            UUIDComponent uuidtargetEntity = store.getComponent(targetEntity, UUIDComponent.getComponentType());
-            if (uuidtargetEntity == null) { return; }
 
             EvokerComponent evoker = store.getComponent(playerRef, EvokerComponent.getComponentType());
-            if (evoker == null) { return; }
-
-            if (!evoker.hexCreatureBelongsToPlayer(uuidtargetEntity.getUuid().toString())) {
-                messageHCMustBelongToTheEvoker(playerRef, store);
+            if (evoker == null) {
                 context.getState().state = InteractionState.Failed;
                 super.tick0(firstRun, time, type, context, cooldownHandler);
                 return;
             }
 
-            evoker.addSelectedHexCreature(uuidtargetEntity.getUuid().toString());
-            LOGGER.atInfo().log(evoker.toString());
+            if (all) {
+                if (reverse) {
+                    evoker.clearSelectedHexCreatures();
+                } else {
+                    evoker.selectAllHexCreatures();
+                }
+            } else {
+                Ref<EntityStore> targetEntity = TargetUtil.getTargetEntity(playerRef, accessor);
+                if (targetEntity == null) {
+                    messageInvalidTarget(playerRef, store);
+                    context.getState().state = InteractionState.Failed;
+                    super.tick0(firstRun, time, type, context, cooldownHandler);
+                    return;
+                }
+
+                NPCEntity npcEntity = store.getComponent(targetEntity, Objects.requireNonNull(NPCEntity.getComponentType()));
+                if (npcEntity == null) {
+                    messageInvalidTarget(playerRef, store);
+                    context.getState().state = InteractionState.Failed;
+                    super.tick0(firstRun, time, type, context, cooldownHandler);
+                    return;
+                }
+
+                if (!HexItemRegistery.isHexCreature(npcEntity.getNPCTypeId())) {
+                    messageTargetMustBeHC(playerRef, store);
+                    context.getState().state = InteractionState.Failed;
+                    super.tick0(firstRun, time, type, context, cooldownHandler);
+                    return;
+                }
+
+                UUIDComponent uuidtargetEntity = store.getComponent(targetEntity, UUIDComponent.getComponentType());
+                if (uuidtargetEntity == null) {
+                    messageInvalidTarget(playerRef, store);
+                    context.getState().state = InteractionState.Failed;
+                    super.tick0(firstRun, time, type, context, cooldownHandler);
+                    return;
+                }
+
+                if (!evoker.hexCreatureBelongsToPlayer(uuidtargetEntity.getUuid().toString())) {
+                    messageHCMustBelongToTheEvoker(playerRef, store);
+                    context.getState().state = InteractionState.Failed;
+                    super.tick0(firstRun, time, type, context, cooldownHandler);
+                    return;
+                }
+
+                if (reverse) {
+                    evoker.removeSelectedHexCreature(uuidtargetEntity.getUuid().toString());
+                } else {
+                    evoker.addSelectedHexCreature(uuidtargetEntity.getUuid().toString());
+                }
+            }
 
             context.getState().state = InteractionState.Finished;
             super.tick0(firstRun, time, type, context, cooldownHandler);
