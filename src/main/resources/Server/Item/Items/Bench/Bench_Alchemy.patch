@@ -4,7 +4,7 @@
       "Categories+": [
         {
           "Id": "Alchemy_Hexcode_Evoke",
-          "Icon": "Icons/CraftingCategories/Evoke_Book.png",
+          "Icon": "Icons/CraftingCategories/Iron_Evoke_Wand.png",
           "Name": "evoke.workbench.benchCategories.evoke"
         }
       ]

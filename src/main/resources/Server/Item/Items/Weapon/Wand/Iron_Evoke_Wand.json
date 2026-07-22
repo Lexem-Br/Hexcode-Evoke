@@ -57,7 +57,43 @@
     "Primary": "Root_Evoke_Wand_Primary",
     "Secondary": "Root_Evoke_Wand_Secondary",
     "Ability2": "Root_Evoke_Wand_Ability2",
-    "Ability3": "Root_Evoke_Wand_Ability3"
+    "Ability3": "Root_Evoke_Wand_Ability3",
+    "SwapTo": "Root_Change_Stat_Wand_Particles"
+  },
+  "InteractionVars": {
+    "Evoke_Wand_Selection_Var": {
+      "Interactions": [
+        {
+          "Type": "EvokeHCSelection",
+          "MaxSelection": 3,
+          "MaxDistance": 30,
+          "Next": "Evoke_Wand_Selection_Generic",
+          "Failed": "Evoke_Interact_Fail"
+        }
+      ]
+    },
+    "Evoke_Wand_Selection_All_Var": {
+      "Interactions": [
+        {
+          "Type": "EvokeHCSelection",
+          "All": true,
+          "MaxSelection": 6,
+          "MaxDistance": 30,
+          "Next": "Evoke_Wand_Selection_Generic",
+          "Failed": "Evoke_Interact_Fail"
+        }
+      ]
+    },
+    "Evoke_Wand_Target_Selection_Var": {
+      "Interactions": [
+        {
+          "Type": "EvokeTargetSelection",
+          "MaxDistance": 30,
+          "Next": "Evoke_Wand_Selection_Generic",
+          "Failed": "Evoke_Interact_Fail"
+        }
+      ]
+    }
   },
   "Weapon": {
     "EntityStatsToClear": [

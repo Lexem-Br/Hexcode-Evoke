@@ -19,17 +19,10 @@ public abstract class ChangeStatWandParticlesBaseInteraction extends SimpleInsta
              (config, info) -> config.statModifier)
       .documentation("Modifiers to apply to EntityStats.")
       .add()
-      .<InteractionTarget>appendInherited(
-         new KeyedCodec<>("Entity", InteractionTarget.CODEC), (o, i) -> o.entityTarget = i, o -> o.entityTarget, (o, p) -> o.entityTarget = p.entityTarget
-      )
-      .documentation("The entity to target for this interaction.")
-      .addValidator(Validators.nonNull())
-      .add()
       .build();
-   protected Object2FloatMap<String> entityStatAssets;
+
    @Nullable
    protected String statModifier;
-   protected InteractionTarget entityTarget = InteractionTarget.USER;
 
    public ChangeStatWandParticlesBaseInteraction() {
    }

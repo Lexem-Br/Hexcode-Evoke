@@ -1,30 +1,27 @@
 {
   "Interactions": [
     {
-      "Type": "EvokeClearHCSelection",
-      "Next": {
-        "Type": "Serial",
-        "Interactions": [
-          {
-            "Type": "Simple",
-            "RunTime": 0.5,
-            "Effects": {
-              "ItemAnimationId": "Evoke_Wand_Primary",
-              "ClearAnimationOnFinish": true
-            }
-          },
-          {
-            "Type": "ChangeStat",
-            "StatModifiers": {
-              "DeployablePreview": -6
-            }
-          }
-        ]
+      "Type": "Charging",
+      "Effects": {
+        "ItemAnimationId": "Evoke_Wand_Select_All"
       },
-      "Failed": {
-        "Type": "Simple",
-        "Effects": {
-          "ItemAnimationId": "Interact"
+      "AllowIndefiniteHold": true,
+      "HorizontalSpeedMultiplier": 0.8,
+      "CancelOnItemChange": true,
+      "RunTime": 0,
+      "Next": {
+        "0": {
+          "Type": "EvokeHCSelection",
+          "Reverse": true,
+          "Next": "Evoke_Wand_Selection_Generic",
+          "Failed": "Evoke_Interact_Fail"
+        },
+        "0.8": {
+          "Type": "EvokeHCSelection",
+          "All": true,
+          "Reverse": true,
+          "Next": "Evoke_Wand_Selection_Generic",
+          "Failed": "Evoke_Interact_Fail"
         }
       }
     }
