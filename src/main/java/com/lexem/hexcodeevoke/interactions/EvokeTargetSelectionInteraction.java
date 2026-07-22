@@ -1,5 +1,7 @@
 package com.lexem.hexcodeevoke.interactions;
 
+import com.hypixel.hytale.codec.Codec;
+import com.hypixel.hytale.codec.KeyedCodec;
 import com.hypixel.hytale.codec.builder.BuilderCodec;
 import com.hypixel.hytale.component.CommandBuffer;
 import com.hypixel.hytale.component.Ref;
@@ -9,29 +11,31 @@ import com.hypixel.hytale.protocol.InteractionState;
 import com.hypixel.hytale.protocol.InteractionType;
 import com.hypixel.hytale.server.core.Message;
 import com.hypixel.hytale.server.core.entity.InteractionContext;
-import com.hypixel.hytale.server.core.entity.group.EntityGroup;
 import com.hypixel.hytale.server.core.modules.interaction.interaction.CooldownHandler;
 import com.hypixel.hytale.server.core.modules.interaction.interaction.config.SimpleInteraction;
 import com.hypixel.hytale.server.core.universe.PlayerRef;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.hypixel.hytale.server.core.util.NotificationUtil;
 import com.hypixel.hytale.server.core.util.TargetUtil;
-import com.hypixel.hytale.server.flock.FlockMembership;
 import com.hypixel.hytale.server.npc.components.messaging.BeaconSupport;
 import com.lexem.hexcodeevoke.components.EvokerComponent;
 import org.joml.Vector3d;
 
 import javax.annotation.Nonnull;
-import java.util.List;
 import java.util.UUID;
 
 public class EvokeTargetSelectionInteraction extends SimpleInteraction {
     private static final HytaleLogger LOGGER = HytaleLogger.forEnclosingClass();
-    double maxDistance = 20;
+    double maxDistance = 10;
 
     public static final BuilderCodec<EvokeTargetSelectionInteraction> CODEC =
             BuilderCodec.builder(EvokeTargetSelectionInteraction.class, EvokeTargetSelectionInteraction::new,
                             SimpleInteraction.CODEC)
+                    .append(new KeyedCodec<>("MaxDistance", Codec.DOUBLE),
+                            (config, value) -> config.maxDistance = value,
+                            (config) -> config.maxDistance)
+                    .documentation("Max distance to select.")
+                    .add()
                     .build();
 
     @Override
@@ -53,7 +57,6 @@ public class EvokeTargetSelectionInteraction extends SimpleInteraction {
                 return;
             }
 
-            Vector3d center = TargetUtil.getTargetLocation(playerRef, maxDistance, accessor);
             EvokerComponent evoker = store.getComponent(playerRef, EvokerComponent.getComponentType());
             if (evoker == null) {
                 context.getState().state = InteractionState.Failed;
@@ -61,14 +64,15 @@ public class EvokeTargetSelectionInteraction extends SimpleInteraction {
                 return;
             }
 
-            evoker.setTargetPosition(center);
-
-            if (center == null) {
+            Vector3d targetPosition = TargetUtil.getTargetLocation(playerRef, maxDistance, accessor);
+            if (targetPosition == null) {
                 messageMaxDistanceExceeded(playerRef, store, maxDistance);
                 context.getState().state = InteractionState.Failed;
                 super.tick0(firstRun, time, type, context, cooldownHandler);
                 return;
             }
+
+            evoker.setTargetPosition(targetPosition);
 
             String[] selectedHexCreatures = evoker.getSelectedHexCreatures();
             for (String npcUUID : selectedHexCreatures) {
@@ -93,7 +97,7 @@ public class EvokeTargetSelectionInteraction extends SimpleInteraction {
         PlayerRef playerRef = store.getComponent(refESPlayer, PlayerRef.getComponentType());
         if (playerRef != null) {
             NotificationUtil.sendNotification(
-                    playerRef.getPacketHandler(), Message.translation("evoke.interactions.EvokeTargetSelectionInteraction.title.messageMaxDistance"),
+                    playerRef.getPacketHandler(), Message.translation("errors.invalid_target"),
                     Message.join(
                             Message.translation("evoke.interactions.EvokeTargetSelectionInteraction.description.messageMaxDistance1"),
                             Message.raw(" " + (int) maxDistance + " "),

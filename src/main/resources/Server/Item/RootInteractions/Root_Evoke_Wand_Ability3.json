@@ -13,57 +13,15 @@
         "0": {
           "Type": "EvokeHCSelection",
           "Reverse": true,
-          "Next": {
-            "Type": "Serial",
-            "Interactions": [
-              {
-                "Type": "Simple",
-                "RunTime": 0.5,
-                "Effects": {
-                  "ItemAnimationId": "Evoke_Wand_Primary",
-                  "ClearAnimationOnFinish": true
-                }
-              },
-              {
-                "Type": "ChangeStatWandParticles",
-                "StatModifier": "DeployablePreview"
-              }
-            ]
-          },
-          "Failed": {
-            "Type": "Simple",
-            "Effects": {
-              "ItemAnimationId": "Interact"
-            }
-          }
+          "Next": "Evoke_Wand_Selection_Generic",
+          "Failed": "Evoke_Interact_Fail"
         },
         "0.8": {
           "Type": "EvokeHCSelection",
-          "Reverse": true,
           "All": true,
-          "Next": {
-            "Type": "Serial",
-            "Interactions": [
-              {
-                "Type": "Simple",
-                "RunTime": 0.5,
-                "Effects": {
-                  "ItemAnimationId": "Evoke_Wand_Primary",
-                  "ClearAnimationOnFinish": true
-                }
-              },
-              {
-                "Type": "ChangeStatWandParticles",
-                "StatModifier": "DeployablePreview"
-              }
-            ]
-          },
-          "Failed": {
-            "Type": "Simple",
-            "Effects": {
-              "ItemAnimationId": "Interact"
-            }
-          }
+          "Reverse": true,
+          "Next": "Evoke_Wand_Selection_Generic",
+          "Failed": "Evoke_Interact_Fail"
         }
       }
     }

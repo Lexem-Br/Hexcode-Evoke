@@ -156,6 +156,10 @@ public class EvokerComponent implements Component<EntityStore>{
         return hexCreatureUUIDs.length < maxHexCreatures;
     }
 
+    public boolean canSelectHexCreature(int wandMaxSelection) {
+        return selectedHexCreatures.length < wandMaxSelection;
+    }
+
     public void selectAllHexCreatures() {
         this.selectedHexCreatures = this.hexCreatureUUIDs.clone();
     }

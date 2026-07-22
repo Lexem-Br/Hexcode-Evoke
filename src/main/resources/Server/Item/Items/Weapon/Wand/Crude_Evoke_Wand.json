@@ -56,6 +56,41 @@
     "Ability3": "Root_Evoke_Wand_Ability3",
     "SwapTo": "Root_Change_Stat_Wand_Particles"
   },
+  "InteractionVars": {
+    "Evoke_Wand_Selection_Var": {
+      "Interactions": [
+        {
+          "Type": "EvokeHCSelection",
+          "MaxSelection": 1,
+          "MaxDistance": 10,
+          "Next": "Evoke_Wand_Selection_Generic",
+          "Failed": "Evoke_Interact_Fail"
+        }
+      ]
+    },
+    "Evoke_Wand_Selection_All_Var": {
+      "Interactions": [
+        {
+          "Type": "EvokeHCSelection",
+          "All": true,
+          "MaxSelection": 1,
+          "MaxDistance": 10,
+          "Next": "Evoke_Wand_Selection_Generic",
+          "Failed": "Evoke_Interact_Fail"
+        }
+      ]
+    },
+    "Evoke_Wand_Target_Selection_Var": {
+      "Interactions": [
+        {
+          "Type": "EvokeTargetSelection",
+          "MaxDistance": 10,
+          "Next": "Evoke_Wand_Selection_Generic",
+          "Failed": "Evoke_Interact_Fail"
+        }
+      ]
+    }
+  },
   "Weapon": {
     "EntityStatsToClear": [
       "DeployablePreview"
@@ -71,206 +106,6 @@
   },
   "ItemAppearanceConditions": {
     "DeployablePreview": [
-      {
-        "Condition": [
-          6,
-          6
-        ],
-        "Particles": [
-          {
-            "SystemId": "Wand",
-            "Scale": 0.15,
-            "PositionOffset": {
-              "X": -0.12,
-              "Y": 0.8
-            }
-          },
-          {
-            "SystemId": "Wand",
-            "Scale": 0.15,
-            "PositionOffset": {
-              "X": 0.08,
-              "Y": 0.8
-            }
-          },
-          {
-            "SystemId": "Wand",
-            "Scale": 0.15,
-            "PositionOffset": {
-              "X": -0.088,
-              "Y": 0.86
-            }
-          },
-          {
-            "SystemId": "Wand",
-            "Scale": 0.15,
-            "PositionOffset": {
-              "X": 0.048,
-              "Y": 0.86
-            }
-          },
-          {
-            "SystemId": "Wand",
-            "Scale": 0.15,
-            "PositionOffset": {
-              "X": -0.05,
-              "Y": 0.9
-            }
-          },
-          {
-            "SystemId": "Wand",
-            "Scale": 0.15,
-            "PositionOffset": {
-              "X": 0.01,
-              "Y": 0.9
-            }
-          }
-        ]
-      },
-      {
-        "Condition": [
-          5,
-          5
-        ],
-        "Particles": [
-          {
-            "SystemId": "Wand",
-            "Scale": 0.15,
-            "PositionOffset": {
-              "X": -0.13,
-              "Y": 0.8
-            }
-          },
-          {
-            "SystemId": "Wand",
-            "Scale": 0.15,
-            "PositionOffset": {
-              "X": 0.09,
-              "Y": 0.8
-            }
-          },
-          {
-            "SystemId": "Wand",
-            "Scale": 0.15,
-            "PositionOffset": {
-              "X": -0.08,
-              "Y": 0.87
-            }
-          },
-          {
-            "SystemId": "Wand",
-            "Scale": 0.15,
-            "PositionOffset": {
-              "X": 0.04,
-              "Y": 0.87
-            }
-          },
-          {
-            "SystemId": "Wand",
-            "Scale": 0.15,
-            "PositionOffset": {
-              "X": -0.02,
-              "Y": 0.91
-            }
-          }
-        ]
-      },
-      {
-        "Condition": [
-          4,
-          4
-        ],
-        "Particles": [
-          {
-            "SystemId": "Wand",
-            "Scale": 0.15,
-            "PositionOffset": {
-              "X": -0.13,
-              "Y": 0.8
-            }
-          },
-          {
-            "SystemId": "Wand",
-            "Scale": 0.15,
-            "PositionOffset": {
-              "X": 0.1,
-              "Y": 0.8
-            }
-          },
-          {
-            "SystemId": "Wand",
-            "Scale": 0.15,
-            "PositionOffset": {
-              "X": -0.08,
-              "Y": 0.92
-            }
-          },
-          {
-            "SystemId": "Wand",
-            "Scale": 0.15,
-            "PositionOffset": {
-              "X": 0.05,
-              "Y": 0.92
-            }
-          }
-        ]
-      },
-      {
-        "Condition": [
-          3,
-          3
-        ],
-        "Particles": [
-          {
-            "SystemId": "Wand",
-            "Scale": 0.15,
-            "PositionOffset": {
-              "X": -0.02,
-              "Y": 0.92
-            }
-          },
-          {
-            "SystemId": "Wand",
-            "Scale": 0.15,
-            "PositionOffset": {
-              "X": 0.08,
-              "Y": 0.825
-            }
-          },
-          {
-            "SystemId": "Wand",
-            "Scale": 0.15,
-            "PositionOffset": {
-              "X": -0.12,
-              "Y": 0.825
-            }
-          }
-        ]
-      },
-      {
-        "Condition": [
-          2,
-          2
-        ],
-        "Particles": [
-          {
-            "SystemId": "Wand",
-            "Scale": 0.15,
-            "PositionOffset": {
-              "X": 0.05,
-              "Y": 0.9
-            }
-          },
-          {
-            "SystemId": "Wand",
-            "Scale": 0.15,
-            "PositionOffset": {
-              "X": -0.1,
-              "Y": 0.9
-            }
-          }
-        ]
-      },
       {
         "Condition": [
           1,

@@ -1,26 +1,19 @@
 {
   "Interactions": [
     {
-      "Type": "EvokeTargetSelection",
-      "Next": {
-        "Type": "Serial",
+      "Type": "Replace",
+      "Var": "Evoke_Wand_Target_Selection_Var",
+      "DefaultOk": true,
+      "DefaultValue": {
         "Interactions": [
           {
-            "Type": "Simple",
-            "RunTime": 0.5,
-            "Effects": {
-              "ItemAnimationId": "Evoke_Wand_Primary",
-              "ClearAnimationOnFinish": true
-            }
+            "Type": "EvokeTargetSelection",
+            "Next": "Evoke_Wand_Selection_Generic",
+            "Failed": "Evoke_Interact_Fail"
           }
         ]
       },
-      "Failed": {
-        "Type": "Simple",
-        "Effects": {
-          "ItemAnimationId": "Interact"
-        }
-      }
+      "Failed": "Evoke_Interact_Fail"
     }
   ]
 }

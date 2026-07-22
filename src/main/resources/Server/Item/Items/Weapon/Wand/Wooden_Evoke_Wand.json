@@ -56,6 +56,41 @@
     "Ability3": "Root_Evoke_Wand_Ability3",
     "SwapTo": "Root_Change_Stat_Wand_Particles"
   },
+  "InteractionVars": {
+    "Evoke_Wand_Selection_Var": {
+      "Interactions": [
+        {
+          "Type": "EvokeHCSelection",
+          "MaxSelection": 2,
+          "MaxDistance": 20,
+          "Next": "Evoke_Wand_Selection_Generic",
+          "Failed": "Evoke_Interact_Fail"
+        }
+      ]
+    },
+    "Evoke_Wand_Selection_All_Var": {
+      "Interactions": [
+        {
+          "Type": "EvokeHCSelection",
+          "All": true,
+          "MaxSelection": 3,
+          "MaxDistance": 20,
+          "Next": "Evoke_Wand_Selection_Generic",
+          "Failed": "Evoke_Interact_Fail"
+        }
+      ]
+    },
+    "Evoke_Wand_Target_Selection_Var": {
+      "Interactions": [
+        {
+          "Type": "EvokeTargetSelection",
+          "MaxDistance": 20,
+          "Next": "Evoke_Wand_Selection_Generic",
+          "Failed": "Evoke_Interact_Fail"
+        }
+      ]
+    }
+  },
   "Weapon": {
     "EntityStatsToClear": [
       "DeployablePreview"
@@ -71,150 +106,6 @@
   },
   "ItemAppearanceConditions": {
     "DeployablePreview": [
-      {
-        "Condition": [
-          6,
-          6
-        ],
-        "Particles": [
-          {
-            "SystemId": "Wand",
-            "Scale": 0.1,
-            "PositionOffset": {
-              "X": -0.1,
-              "Y": 0.6
-            }
-          },
-          {
-            "SystemId": "Wand",
-            "Scale": 0.1,
-            "PositionOffset": {
-              "X": 0.1,
-              "Y": 0.6
-            }
-          },
-          {
-            "SystemId": "Wand",
-            "Scale": 0.1,
-            "PositionOffset": {
-              "X": -0.066,
-              "Y": 0.66
-            }
-          },
-          {
-            "SystemId": "Wand",
-            "Scale": 0.1,
-            "PositionOffset": {
-              "X": 0.066,
-              "Y": 0.66
-            }
-          },
-          {
-            "SystemId": "Wand",
-            "Scale": 0.1,
-            "PositionOffset": {
-              "X": -0.025,
-              "Y": 0.7
-            }
-          },
-          {
-            "SystemId": "Wand",
-            "Scale": 0.1,
-            "PositionOffset": {
-              "X": 0.025,
-              "Y": 0.7
-            }
-          }
-        ]
-      },
-      {
-        "Condition": [
-          5,
-          5
-        ],
-        "Particles": [
-          {
-            "SystemId": "Wand",
-            "Scale": 0.1,
-            "PositionOffset": {
-              "X": -0.1,
-              "Y": 0.6
-            }
-          },
-          {
-            "SystemId": "Wand",
-            "Scale": 0.1,
-            "PositionOffset": {
-              "X": 0.1,
-              "Y": 0.6
-            }
-          },
-          {
-            "SystemId": "Wand",
-            "Scale": 0.1,
-            "PositionOffset": {
-              "X": -0.06,
-              "Y": 0.66
-            }
-          },
-          {
-            "SystemId": "Wand",
-            "Scale": 0.1,
-            "PositionOffset": {
-              "X": 0.06,
-              "Y": 0.66
-            }
-          },
-          {
-            "SystemId": "Wand",
-            "Scale": 0.1,
-            "PositionOffset": {
-              "X": 0,
-              "Y": 0.7
-            }
-          }
-        ]
-      },
-      {
-        "Condition": [
-          4,
-          4
-        ],
-        "Particles": [
-          {
-            "SystemId": "Wand",
-            "Scale": 0.1,
-            "PositionOffset": {
-              "X": -0.1,
-              "Y": 0.6
-            }
-          },
-          {
-            "SystemId": "Wand",
-            "Scale": 0.1,
-            "PositionOffset": {
-              "X": 0.1,
-              "Y": 0.6
-            }
-          },
-          {
-            "SystemId": "Wand",
-            "Scale": 0.1,
-            "PositionOffset": {
-              "X": -0.05,
-              "Y": 0.7
-            }
-          },
-          {
-            "SystemId": "Wand",
-            "Scale": 0.1,
-            "PositionOffset": {
-              "X": 0.05,
-              "Y": 0.7
-            }
-          }
-        ]
-      },
       {
         "Condition": [
           3,

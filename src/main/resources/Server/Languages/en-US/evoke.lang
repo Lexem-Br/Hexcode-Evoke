@@ -25,6 +25,7 @@ utils.HexCreatureUtils.title.maxHexCreatures=Maximum number of Hex creatures rea
 utils.HexCreatureUtils.description.maxHexCreatures1=You can only have up to
 utils.HexCreatureUtils.description.maxHexCreatures2=Hex Creatures under your control
 
-interactions.EvokeTargetSelectionInteraction.title.messageMaxDistance=Maximum distance reached
-interactions.EvokeTargetSelectionInteraction.description.messageMaxDistance1=The distance to the target must be less than
+interactions.EvokeTargetSelectionInteraction.description.messageMaxDistance1=Target distance must be less than
 interactions.EvokeTargetSelectionInteraction.description.messageMaxDistance2=blocks
+interactions.EvokeTargetSelectionInteraction.description.messageMaxWandSelectionExceeded1=The wand can only select up to
+interactions.EvokeTargetSelectionInteraction.description.messageMaxWandSelectionExceeded2=Hex Creatures
