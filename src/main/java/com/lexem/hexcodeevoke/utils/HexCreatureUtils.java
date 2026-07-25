@@ -115,17 +115,16 @@ public class HexCreatureUtils {
         LOGGER.atWarning().log("Evoke: maximum number of Hex creatures reached");
     }
 
-    public void despawnHexCreature(@Nonnull HexCreatureRecord hexCreature, @Nonnull Store<EntityStore> store, @Nonnull CommandBuffer<EntityStore> accessor) {
-        Ref<EntityStore> refESNPC = hexCreature.refESNPC();
-        String blockId = hexCreature.blockId();
-
+    public void despawnHexCreature(@Nonnull String uuid, @Nonnull Store<EntityStore> store, @Nonnull CommandBuffer<EntityStore> accessor) {
         World world = accessor.getExternalData().getWorld();
+        Ref<EntityStore> refESNPC = world.getEntityStore().getRefFromUUID(UUID.fromString(uuid));
+        if (refESNPC == null) { return; }
+
+        HexCreatureComponent hexCreatureComponent = store.getComponent(refESNPC, HexCreatureComponent.getComponentType());
+        if (hexCreatureComponent == null) { return; }
 
         NPCEntity npcComponent = store.getComponent(refESNPC, Objects.requireNonNull(NPCEntity.getComponentType()));
         if (npcComponent == null) return;
-
-        HexCreatureComponent hexCreatureComponent = store.getComponent(refESNPC, HexCreatureComponent.getComponentType());
-        if (hexCreatureComponent == null) return;
 
         Ref<EntityStore> refESPlayer = store.getExternalData().getRefFromUUID(UUID.fromString(hexCreatureComponent.getEvokerUUID()));
         if (refESPlayer == null) return;
@@ -137,6 +136,7 @@ public class HexCreatureUtils {
             ItemUtils.throwItem(refESNPC, store, itemInHand, direction, 100);
         }
 
+        String blockId = hexCreatureComponent.getBlockName();
         ItemStack hexDropItem = InventoryHelper.createItem(blockId);
         if (hexDropItem != null) {
             Vector3d direction = this.newDirection(refESPlayer, 1, accessor, store);

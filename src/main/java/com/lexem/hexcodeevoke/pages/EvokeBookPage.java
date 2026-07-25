@@ -1,13 +1,20 @@
 package com.lexem.hexcodeevoke.pages;
 
-import au.ellie.hyui.builders.PageBuilder;
-import au.ellie.hyui.html.TemplateProcessor;
+import com.hypixel.hytale.codec.Codec;
+import com.hypixel.hytale.codec.KeyedCodec;
+import com.hypixel.hytale.codec.builder.BuilderCodec;
 import com.hypixel.hytale.component.CommandBuffer;
 import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.component.Store;
 import com.hypixel.hytale.logger.HytaleLogger;
 import com.hypixel.hytale.protocol.packets.interface_.CustomPageLifetime;
 import com.hypixel.hytale.protocol.packets.interface_.CustomUIEventBindingType;
+import com.hypixel.hytale.protocol.packets.interface_.Page;
+import com.hypixel.hytale.server.core.entity.entities.Player;
+import com.hypixel.hytale.server.core.entity.entities.player.pages.InteractiveCustomUIPage;
+import com.hypixel.hytale.server.core.ui.builder.EventData;
+import com.hypixel.hytale.server.core.ui.builder.UICommandBuilder;
+import com.hypixel.hytale.server.core.ui.builder.UIEventBuilder;
 import com.hypixel.hytale.server.core.universe.PlayerRef;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.lexem.hexcodeevoke.components.EvokerComponent;
@@ -19,22 +26,43 @@ import com.lexem.hexcodeevoke.utils.HexCreatureUtils;
 import javax.annotation.Nonnull;
 import java.util.*;
 
-public final class EvokeBookPage {
+public class EvokeBookPage extends InteractiveCustomUIPage<EvokeBookPage.CloseEventData> {
     private static final HytaleLogger LOGGER = HytaleLogger.forEnclosingClass();
     private static final String DEFAULT_ICON = "Hex_Mannequin_Block";
     private final HexCreatureUtils hexCreatureUtils = new HexCreatureUtils();
 
-    public EvokeBookPage() {}
+    private CommandBuffer<EntityStore> accessor;
 
-    public void mainPage(
-            @Nonnull Store<EntityStore> store,
+    public static class CloseEventData {
+        public String action;
+        public String uuid;
+        public static final BuilderCodec<CloseEventData> CODEC = ((BuilderCodec.Builder<CloseEventData>) ((BuilderCodec.Builder<CloseEventData>)
+                BuilderCodec.builder(CloseEventData.class, CloseEventData::new)
+                        .append(new KeyedCodec<>("Action", Codec.STRING), (CloseEventData o, String v) -> o.action = v, (CloseEventData o) -> o.action)
+                        .add())
+                .append(new KeyedCodec<>("UUID", Codec.STRING), (CloseEventData o, String v) -> o.uuid = v, (CloseEventData o) -> o.uuid)
+                .add())
+                .build();
+    }
+
+    public EvokeBookPage(
             @Nonnull PlayerRef playerRef,
-            @Nonnull Ref<EntityStore> refESPlayer,
-            @Nonnull CommandBuffer<EntityStore> accessor) {
-        EvokerComponent evoker = store.getComponent(refESPlayer, EvokerComponent.getComponentType());
+            @Nonnull CommandBuffer<EntityStore> accessor
+    ) {
+        super(playerRef, CustomPageLifetime.CanDismissOrCloseThroughInteraction, CloseEventData.CODEC);
+        this.accessor = accessor;
+    }
 
-        List<HexCreatureRecord> hexCreatures = this.hexCreatures(store, refESPlayer);
+    @Override
+    public void build(
+            @Nonnull Ref<EntityStore> ref,
+            @Nonnull UICommandBuilder cmd,
+            @Nonnull UIEventBuilder eventBuilder,
+            @Nonnull Store<EntityStore> store
+    ) {
+        cmd.append("Pages/EvokeBookPage.ui");
 
+        EvokerComponent evoker = store.getComponent(ref, EvokerComponent.getComponentType());
         String hexCount;
         if (evoker == null) {
             hexCount = "0/6";
@@ -42,23 +70,61 @@ public final class EvokeBookPage {
             String[] hexCreaturesUUIDs = evoker.getHexCreatureUUIDs();
             hexCount = hexCreaturesUUIDs.length + "/6";
         }
+        cmd.set("#HexCount.Text", hexCount);
 
-        TemplateProcessor template = new TemplateProcessor()
-                .setVariable("hexcreature", hexCreatures)
-                .setVariable("hexCount", hexCount);
+        List<HexCreatureRecord> hexCreatures = this.hexCreatures(store, ref);
 
-        PageBuilder page = PageBuilder.detachedPage()
-                .withLifetime(CustomPageLifetime.CanDismiss)
-                .loadHtml("Pages/EvokeBookPage.html", template);
+        int index = 0;
+        for (HexCreatureRecord hexCreature : hexCreatures) {
 
-        for (HexCreatureRecord hexCreaturre : hexCreatures) {
-            String pickUpIndex = "pickUp-" + hexCreaturre.index();
-            page.addEventListener(pickUpIndex, CustomUIEventBindingType.Activating, (ignored, ctx) -> {
-                hexCreatureUtils.despawnHexCreature(hexCreaturre, store, accessor);
-            });
+            String selector = "#ItemList[" + index + "]";
+            cmd.append("#ItemList", "Pages/CardHexCreatures.ui");
+
+            cmd.set(selector + " #HCName.Text", hexCreature.name());
+            cmd.set(selector + " #HCIcon.ItemId", hexCreature.blockId());
+
+            eventBuilder.addEventBinding(
+                    CustomUIEventBindingType.Activating,
+                    selector + " #DespawnButton",
+                    new EventData().append("Action", "Remove").append("UUID", hexCreature.uuid()),
+                    false
+            );
+
+            eventBuilder.addEventBinding(
+                    CustomUIEventBindingType.Activating,
+                    "#CloseButton",
+                    new EventData().append("Action", "close"),
+                    false
+            );
+
+            index++;
+        }
+    }
+
+    @Override
+    public void handleDataEvent(
+            @Nonnull Ref<EntityStore> ref,
+            @Nonnull Store<EntityStore> store,
+            @Nonnull CloseEventData data
+    ) {
+        Player player = store.getComponent(ref, Player.getComponentType());
+        if (player == null) { return; }
+
+        switch (data.action) {
+            case "Remove":
+                if (data.uuid != null) {
+                    hexCreatureUtils.despawnHexCreature(data.uuid, store, accessor);
+//                    refreshPage(ref, store);
+                }
+                break;
+            case "Close":
+                this.close();
+                break;
+            default:
+                break;
         }
 
-        page.open(playerRef, store);
+        player.getPageManager().setPage(ref, store, Page.None);
     }
 
     private List<HexCreatureRecord> hexCreatures (
@@ -87,7 +153,7 @@ public final class EvokeBookPage {
 
             String name = hexCreature.getName();
 
-            listHexCreatures.add(new HexCreatureRecord(index, name, blockId, refESNPC));
+            listHexCreatures.add(new HexCreatureRecord(index, name, blockId, refESNPC, uuid));
 
             index++;
         }

@@ -1,0 +1,47 @@
+@EditButtonStyle = TextButtonStyle(
+  Default: (Background: (TexturePath: "../Icons/editIcon.png")),
+  Hovered: (Background: (TexturePath: "../Icons/editIcon.png", Area: (Full: 6)))
+);
+
+@DespawnButtonStyle = TextButtonStyle(
+  Default: (Background: "../Icons/despawnIcon.png"),
+  Hovered: (Background: (TexturePath: "../Icons/despawnIcon.png", Area: (Full: 6)))
+);
+
+Group {
+    Anchor: (Height: 74);
+    Group {
+      LayoutMode: Left;
+      Anchor: (Height: 64);
+
+      ItemIcon #HCIcon {
+        ItemId: "Hex_Mannequin_Block";
+        Anchor: (Width: 64, Height: 64);
+      }
+
+      Label #HCName {
+        Text: "Hex Creature Name";
+        Anchor: (Width: 260, Height: 18);
+        Style: (FontSize: 18, TextColor: #000000, RenderBold: true, VerticalAlignment: Center);
+        Padding: (Left: 12);
+      }
+
+       Group { Anchor: (Width: 12); }
+
+       TextButton {
+            Text: "";
+            Anchor: (Width: 24, Height: 24);
+            Style: @EditButtonStyle;
+            TooltipText: "Edit name";
+       }
+
+       Group { Anchor: (Width: 8); }
+
+       TextButton #DespawnButton {
+          Text: "";
+          Anchor: (Width: 24, Height: 24);
+          Style: @DespawnButtonStyle;
+          TooltipText: "Despawn";
+       }
+    }
+}
