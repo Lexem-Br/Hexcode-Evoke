@@ -10,12 +10,14 @@ import com.hypixel.hytale.logger.HytaleLogger;
 import com.hypixel.hytale.protocol.packets.interface_.CustomPageLifetime;
 import com.hypixel.hytale.protocol.packets.interface_.CustomUIEventBindingType;
 import com.hypixel.hytale.protocol.packets.interface_.Page;
+import com.hypixel.hytale.server.core.Message;
 import com.hypixel.hytale.server.core.entity.entities.Player;
 import com.hypixel.hytale.server.core.entity.entities.player.pages.InteractiveCustomUIPage;
 import com.hypixel.hytale.server.core.ui.builder.EventData;
 import com.hypixel.hytale.server.core.ui.builder.UICommandBuilder;
 import com.hypixel.hytale.server.core.ui.builder.UIEventBuilder;
 import com.hypixel.hytale.server.core.universe.PlayerRef;
+import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.lexem.hexcodeevoke.components.EvokerComponent;
 import com.lexem.hexcodeevoke.components.HexCreatureComponent;
@@ -30,16 +32,23 @@ public class EvokeBookPage extends InteractiveCustomUIPage<EvokeBookPage.CloseEv
     private static final HytaleLogger LOGGER = HytaleLogger.forEnclosingClass();
     private static final String DEFAULT_ICON = "Hex_Mannequin_Block";
     private final HexCreatureUtils hexCreatureUtils = new HexCreatureUtils();
+    private boolean isEditModeEnabled = false;
 
     private CommandBuffer<EntityStore> accessor;
 
     public static class CloseEventData {
+        public String hexCreatureName;
         public String action;
         public String uuid;
         public static final BuilderCodec<CloseEventData> CODEC = ((BuilderCodec.Builder<CloseEventData>) ((BuilderCodec.Builder<CloseEventData>)
                 BuilderCodec.builder(CloseEventData.class, CloseEventData::new)
-                        .append(new KeyedCodec<>("Action", Codec.STRING), (CloseEventData o, String v) -> o.action = v, (CloseEventData o) -> o.action)
-                        .add())
+                .append(new KeyedCodec<>("@HexCreatureName", Codec.STRING),
+                        (CloseEventData obj, String val) -> obj.hexCreatureName = val,
+                        (CloseEventData obj) -> obj.hexCreatureName
+                )
+                .add()
+                .append(new KeyedCodec<>("Action", Codec.STRING), (CloseEventData o, String v) -> o.action = v, (CloseEventData o) -> o.action)
+                .add())
                 .append(new KeyedCodec<>("UUID", Codec.STRING), (CloseEventData o, String v) -> o.uuid = v, (CloseEventData o) -> o.uuid)
                 .add())
                 .build();
@@ -56,47 +65,77 @@ public class EvokeBookPage extends InteractiveCustomUIPage<EvokeBookPage.CloseEv
     @Override
     public void build(
             @Nonnull Ref<EntityStore> ref,
-            @Nonnull UICommandBuilder cmd,
+            @Nonnull UICommandBuilder commandBuilder,
             @Nonnull UIEventBuilder eventBuilder,
             @Nonnull Store<EntityStore> store
     ) {
-        cmd.append("Pages/EvokeBookPage.ui");
+        commandBuilder.append("Pages/EvokeBookPage.ui");
 
-        EvokerComponent evoker = store.getComponent(ref, EvokerComponent.getComponentType());
-        String hexCount;
-        if (evoker == null) {
-            hexCount = "0/6";
-        } else {
-            String[] hexCreaturesUUIDs = evoker.getHexCreatureUUIDs();
-            hexCount = hexCreaturesUUIDs.length + "/6";
-        }
-        cmd.set("#HexCount.Text", hexCount);
+        String hexCount = createHexCount(ref, store);
+        commandBuilder.set("#HexCount.Text", hexCount);
+
+        eventBuilder.addEventBinding(
+            CustomUIEventBindingType.Activating,"#EditButton",
+                new EventData().append("Action", "Edit")
+        );
 
         List<HexCreatureRecord> hexCreatures = this.hexCreatures(store, ref);
+        createHCCards(commandBuilder, eventBuilder, hexCreatures);
+
+        eventBuilder.addEventBinding(CustomUIEventBindingType.Activating, "#CloseButton");
+    }
+
+    private String createHexCount(
+            @Nonnull Ref<EntityStore> ref,
+            @Nonnull Store<EntityStore> store
+    ) {
+        EvokerComponent evoker = store.getComponent(ref, EvokerComponent.getComponentType());
+        if (evoker == null) {
+            return "0/6";
+        } else {
+            String[] hexCreaturesUUIDs = evoker.getHexCreatureUUIDs();
+            return hexCreaturesUUIDs.length + "/6";
+        }
+    }
+
+    private void createHCCards(
+            @Nonnull UICommandBuilder commandBuilder,
+            @Nonnull UIEventBuilder eventBuilder,
+            List<HexCreatureRecord> hexCreatures
+    ) {
+        commandBuilder.clear("#ItemList");
 
         int index = 0;
         for (HexCreatureRecord hexCreature : hexCreatures) {
 
             String selector = "#ItemList[" + index + "]";
-            cmd.append("#ItemList", "Pages/CardHexCreatures.ui");
+            commandBuilder.append("#ItemList", "Pages/CardHexCreatures.ui");
 
-            cmd.set(selector + " #HCName.Text", hexCreature.name());
-            cmd.set(selector + " #HCIcon.ItemId", hexCreature.blockId());
+            commandBuilder.set(selector + " #HCIcon.ItemId", hexCreature.blockId());
+            commandBuilder.set(selector + " #HCName.Text", hexCreature.name());
+            commandBuilder.set(selector + " #NameInput.Value", hexCreature.name());
+
+            if (isEditModeEnabled) {
+                commandBuilder.set(selector + " #HCName.Visible", false);
+                commandBuilder.set(selector + " #NameInput.Visible", true);
+                commandBuilder.set(selector + " #SaveButton.Visible", true);
+            }
+
+            eventBuilder.addEventBinding(
+                    CustomUIEventBindingType.Activating,
+                    selector + " #SaveButton",
+                    new EventData().append("Action", "Save")
+                            .append("@HexCreatureName", selector + " #NameInput.Value")
+                            .append("UUID", hexCreature.uuid()),
+                            false
+            );
 
             eventBuilder.addEventBinding(
                     CustomUIEventBindingType.Activating,
                     selector + " #DespawnButton",
-                    new EventData().append("Action", "Remove").append("UUID", hexCreature.uuid()),
+                    new EventData().append("Action", "Despawn").append("UUID", hexCreature.uuid()),
                     false
             );
-
-            eventBuilder.addEventBinding(
-                    CustomUIEventBindingType.Activating,
-                    "#CloseButton",
-                    new EventData().append("Action", "close"),
-                    false
-            );
-
             index++;
         }
     }
@@ -110,21 +149,38 @@ public class EvokeBookPage extends InteractiveCustomUIPage<EvokeBookPage.CloseEv
         Player player = store.getComponent(ref, Player.getComponentType());
         if (player == null) { return; }
 
-        switch (data.action) {
-            case "Remove":
-                if (data.uuid != null) {
-                    hexCreatureUtils.despawnHexCreature(data.uuid, store, accessor);
-//                    refreshPage(ref, store);
-                }
-                break;
-            case "Close":
-                this.close();
-                break;
-            default:
-                break;
-        }
+        if (data.action != null) {
+            switch (data.action) {
+                case "Save":
+                    if (!data.hexCreatureName.isEmpty() && !data.uuid.isEmpty()) {
+                        World world = accessor.getExternalData().getWorld();
+                        Ref<EntityStore> npcESRef = world.getEntityStore().getRefFromUUID(UUID.fromString(data.uuid));
+                        if (npcESRef == null) { break;}
 
-        player.getPageManager().setPage(ref, store, Page.None);
+                        HexCreatureComponent hexCreature = store.getComponent(npcESRef, HexCreatureComponent.getComponentType());
+                        if (hexCreature == null) { break;}
+
+                        LOGGER.atInfo().log(" hexCreature.setName: %s", data.hexCreatureName);
+                        hexCreature.setName(data.hexCreatureName);
+                    }
+                    refreshPage(ref, store);
+                    break;
+                case "Despawn":
+                    if (data.uuid != null) {
+                        hexCreatureUtils.despawnHexCreature(data.uuid, store, accessor);
+                        refreshPage(ref, store);
+                    }
+                    break;
+                case "Edit":
+                    this.isEditModeEnabled = !isEditModeEnabled;
+                    refreshPage(ref, store);
+                    break;
+                default:
+                    break;
+            }
+        } else {
+            player.getPageManager().setPage(ref, store, Page.None);
+        }
     }
 
     private List<HexCreatureRecord> hexCreatures (
@@ -159,5 +215,18 @@ public class EvokeBookPage extends InteractiveCustomUIPage<EvokeBookPage.CloseEv
         }
 
         return listHexCreatures;
+    }
+
+    private void refreshPage(Ref<EntityStore> ref, Store<EntityStore> store) {
+        UICommandBuilder commandBuilder = new UICommandBuilder();
+        UIEventBuilder eventBuilder = new UIEventBuilder();
+
+        String hexCount = createHexCount(ref, store);
+        commandBuilder.set("#HexCount.Text", hexCount);
+
+        List<HexCreatureRecord> hexCreatures = this.hexCreatures(store, ref);
+        createHCCards(commandBuilder, eventBuilder, hexCreatures);
+
+        sendUpdate(commandBuilder, eventBuilder, false);
     }
 }

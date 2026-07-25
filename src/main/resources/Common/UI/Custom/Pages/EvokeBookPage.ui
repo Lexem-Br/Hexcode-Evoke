@@ -1,3 +1,8 @@
+@EditButtonStyle = TextButtonStyle(
+  Default: (Background: (TexturePath: "../Icons/editIcon.png")),
+  Hovered: (Background: (TexturePath: "../Icons/editIcon.png", Area: (Full: 6)))
+);
+
 @CloseButtonStyle = TextButtonStyle(
     Default: (LabelStyle: (FontSize: 20, TextColor: #000000, RenderBold: true, HorizontalAlignment: Center, VerticalAlignment: Center)),
     Hovered: (LabelStyle: (FontSize: 26, TextColor: #000000, RenderBold: true, HorizontalAlignment: Center, VerticalAlignment: Center)),
@@ -26,13 +31,27 @@ Group {
             }
         }
 
-         Group { Anchor: (Height: 16); }
-
-         Label #HexCount {
-            Text: "?/?";
-            Anchor: (Height: 32);
-            Padding: (Left: 32);
-            Style: (FontSize: 22, TextColor: #000000, RenderBold: true);
+         Group {
+            Padding: (Top: 16, Bottom: 8);
+            Group {
+                LayoutMode: Left;
+                Label #HexCount {
+                     Text: "?/?";
+                     Anchor: (Height: 32);
+                     Padding: (Left: 32);
+                     Style: (FontSize: 22, TextColor: #000000, RenderBold: true);
+                }
+            }
+            Group {
+                LayoutMode: Right;
+                Padding: (Right: 42);
+                TextButton #EditButton {
+                     Text: "";
+                     Anchor: (Width: 24, Height: 24);
+                     Style: @EditButtonStyle;
+                     TooltipText: "Edit names";
+                }
+            }
          }
 
           Group #ItemList{
