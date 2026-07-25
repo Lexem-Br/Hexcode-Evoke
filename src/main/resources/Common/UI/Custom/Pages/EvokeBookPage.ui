@@ -44,7 +44,7 @@ Group {
             }
             Group {
                 LayoutMode: Right;
-                Padding: (Right: 42);
+                Padding: (Right: 32);
                 TextButton #EditButton {
                      Text: "";
                      Anchor: (Width: 24, Height: 24);

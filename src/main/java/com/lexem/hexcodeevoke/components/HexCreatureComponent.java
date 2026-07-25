@@ -17,6 +17,7 @@ public class HexCreatureComponent implements Component<EntityStore> {
     private String name;
     private String typeId;
     private String blockName;
+    private boolean showName = false;
 
     private static ComponentType<EntityStore, HexCreatureComponent> TYPE;
 
@@ -60,18 +61,24 @@ public class HexCreatureComponent implements Component<EntityStore> {
                     (component, value) -> component.blockName = value,
                     component -> component.blockName
             ).add()
+            .append(
+                    new KeyedCodec<>("ShowName",  Codec.BOOLEAN),
+                    (component, value) -> component.showName = value,
+                    component -> component.showName
+            ).add()
             .build();
 
     public HexCreatureComponent() {
     }
 
-    public HexCreatureComponent(String UUID, String evokerUUID, String evokerName, String name, String typeId, String blockName) {
+    public HexCreatureComponent(String UUID, String evokerUUID, String evokerName, String name, String typeId, String blockName, boolean showName) {
         this.UUID = UUID;
         this.evokerUUID = evokerUUID;
         this.evokerName = evokerName;
         this.name = name;
         this.typeId = typeId;
         this.blockName = blockName;
+        this.showName = showName;
     }
 
     public String getUUID() {
@@ -122,10 +129,18 @@ public class HexCreatureComponent implements Component<EntityStore> {
         this.blockName = blockName;
     }
 
+    public boolean getShowName() {
+        return showName;
+    }
+
+    public void setShowName(boolean showName) {
+        this.showName = showName;
+    }
+
     @Nullable
     @Override
     public Component<EntityStore> clone() {
-        return new HexCreatureComponent(this.UUID, this.evokerUUID, this.evokerName, this.name, this.typeId, this.blockName);
+        return new HexCreatureComponent(this.UUID, this.evokerUUID, this.evokerName, this.name, this.typeId, this.blockName, this.showName);
     }
 
     @Override
@@ -137,6 +152,7 @@ public class HexCreatureComponent implements Component<EntityStore> {
                 ", name='" + name + '\'' +
                 ", typeId='" + typeId + '\'' +
                 ", blockName='" + blockName + '\'' +
+                ", showName=" + showName +
                 '}';
     }
 }

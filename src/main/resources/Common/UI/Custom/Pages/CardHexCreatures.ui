@@ -16,6 +16,18 @@ $C = "../Common.ui";
     Pressed: (Background: #c0955e, LabelStyle: (FontSize: 18, TextColor: #000000, RenderBold: true, HorizontalAlignment: Center, VerticalAlignment: Center, OutlineColor: #000000))
 );
 
+@CustomCheckBoxStyle = CheckBoxStyle(
+    Unchecked: (
+        DefaultBackground: (Color: #c0955e),
+        HoveredBackground: (Color: #c0955e),
+        PressedBackground: (Color: #c0955e),
+        DisabledBackground: (Color: #c0955e)
+    ),
+    Checked: (
+       DefaultBackground: (Color: #c0955e, TexturePath: "../Icons/checkIcon.png", Area: (Full: 8))
+    )
+);
+
 Group {
     Anchor: (Height: 74);
     Group {
@@ -37,7 +49,6 @@ Group {
           Padding: (Left: 12);
         }
 
-
         $C.@TextField #NameInput {
            Anchor: (Width: 200, Height: 30);
            PlaceholderText: "Name";
@@ -56,13 +67,25 @@ Group {
            Style: @SaveButtonStyle;
         }
 
-       Group { Anchor: (Width: 8); }
+        Group { Anchor: (Width: 8); }
 
-       TextButton #DespawnButton {
-          Text: "";
-          Anchor: (Width: 24, Height: 24);
-          Style: @DespawnButtonStyle;
-          TooltipText: "Despawn";
+       $C.@CheckBox #ShowName {
+         Value: false;
+         Anchor: (Width: 18, Height: 18);
+         Style: @CustomCheckBoxStyle;
+         Visible: true;
+         OutlineColor: #000000;
+         OutlineSize: 2;
+         TooltipText: "Show name";
        }
+
+        Group { Anchor: (Width: 8); }
+
+        TextButton #DespawnButton {
+            Text: "";
+            Anchor: (Width: 24, Height: 24);
+            Style: @DespawnButtonStyle;
+            TooltipText: "Despawn";
+        }
     }
 }
