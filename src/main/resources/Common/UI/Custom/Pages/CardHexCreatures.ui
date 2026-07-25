@@ -1,0 +1,91 @@
+$C = "../Common.ui";
+
+@DespawnButtonStyle = TextButtonStyle(
+  Default: (Background: "../Icons/despawnIcon.png"),
+  Hovered: (Background: (TexturePath: "../Icons/despawnIcon.png", Area: (Full: 6)))
+);
+
+@InputFieldStyle = InputFieldDecorationStyle(
+    Default: (OutlineSize: 2, OutlineColor: #000000, Background: #c0955e),
+    Focused: (OutlineSize: 3, OutlineColor: #000000, Background: #c0955e)
+);
+
+@SaveButtonStyle = TextButtonStyle(
+    Default: (Background: #c0955e, LabelStyle: (FontSize: 16, TextColor: #000000, RenderBold: true, HorizontalAlignment: Center, VerticalAlignment: Center, OutlineColor: #000000)),
+    Hovered: (Background: #c0955e, LabelStyle: (FontSize: 18, TextColor: #000000, RenderBold: true, HorizontalAlignment: Center, VerticalAlignment: Center, OutlineColor: #000000)),
+    Pressed: (Background: #c0955e, LabelStyle: (FontSize: 18, TextColor: #000000, RenderBold: true, HorizontalAlignment: Center, VerticalAlignment: Center, OutlineColor: #000000))
+);
+
+@CustomCheckBoxStyle = CheckBoxStyle(
+    Unchecked: (
+        DefaultBackground: (Color: #c0955e),
+        HoveredBackground: (Color: #c0955e),
+        PressedBackground: (Color: #c0955e),
+        DisabledBackground: (Color: #c0955e)
+    ),
+    Checked: (
+       DefaultBackground: (Color: #c0955e, TexturePath: "../Icons/checkIcon.png", Area: (Full: 8))
+    )
+);
+
+Group {
+    Anchor: (Height: 74);
+    Group {
+      LayoutMode: Left;
+      Anchor: (Height: 64);
+
+      ItemIcon #HCIcon {
+        ItemId: "Hex_Mannequin_Block";
+        Anchor: (Width: 64, Height: 64);
+      }
+
+      Group { Anchor: (Width: 8); }
+
+        Label #HCName {
+          Text: "Hex Creature Name";
+          Anchor: (Width: 250, Height: 30);
+          Visible: true;
+          Style: (FontSize: 18, TextColor: #000000, RenderBold: true, VerticalAlignment: Center);
+          Padding: (Left: 12);
+        }
+
+        $C.@TextField #NameInput {
+           Anchor: (Width: 200, Height: 30);
+           PlaceholderText: "Name";
+           MaxLength: 20;
+           Visible: false;
+           Decoration: @InputFieldStyle;
+           Style: InputFieldStyle(TextColor: #000000);
+        }
+
+        Group { Anchor: (Width: 8); }
+
+        TextButton #SaveButton {
+           Anchor: (Width: 50, Height: 30);
+           Text: "Save";
+           Visible: false;
+           Style: @SaveButtonStyle;
+        }
+
+        Group { Anchor: (Width: 8); }
+
+       $C.@CheckBox #ShowName {
+         Value: false;
+         Anchor: (Width: 18, Height: 18);
+         Style: @CustomCheckBoxStyle;
+         Visible: true;
+         OutlineColor: #000000;
+         OutlineSize: 2;
+         TooltipText: "Show name";
+       }
+
+        Group { Anchor: (Width: 8); }
+
+        TextButton #DespawnButton {
+            Text: "";
+            Anchor: (Width: 24, Height: 24);
+            Style: @DespawnButtonStyle;
+            TooltipText: "Despawn";
+        }
+    }
+}

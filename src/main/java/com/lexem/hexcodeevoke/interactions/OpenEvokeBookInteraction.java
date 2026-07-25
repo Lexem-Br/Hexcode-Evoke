@@ -8,18 +8,28 @@ import com.hypixel.hytale.logger.HytaleLogger;
 import com.hypixel.hytale.protocol.InteractionState;
 import com.hypixel.hytale.protocol.InteractionType;
 import com.hypixel.hytale.server.core.entity.InteractionContext;
+import com.hypixel.hytale.server.core.entity.entities.Player;
 import com.hypixel.hytale.server.core.modules.interaction.interaction.CooldownHandler;
 import com.hypixel.hytale.server.core.modules.interaction.interaction.config.SimpleInteraction;
 import com.hypixel.hytale.server.core.universe.PlayerRef;
 import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.lexem.hexcodeevoke.components.EvokerComponent;
+import com.lexem.hexcodeevoke.components.HexCreatureComponent;
+import com.lexem.hexcodeevoke.hexitems.HexItemRegistery;
 import com.lexem.hexcodeevoke.pages.EvokeBookPage;
+import com.lexem.hexcodeevoke.pages.records.HexCreatureRecord;
+import com.lexem.hexcodeevoke.utils.HexCreatureUtils;
 
 import javax.annotation.Nonnull;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 public class OpenEvokeBookInteraction extends SimpleInteraction {
     private static final HytaleLogger LOGGER = HytaleLogger.forEnclosingClass();
+    private static final String DEFAULT_ICON = "Hex_Mannequin_Block";
+    private final HexCreatureUtils hexCreatureUtils = new HexCreatureUtils();
 
     public static final BuilderCodec<OpenEvokeBookInteraction> CODEC =
             BuilderCodec.builder(OpenEvokeBookInteraction.class, OpenEvokeBookInteraction::new,
@@ -46,8 +56,14 @@ public class OpenEvokeBookInteraction extends SimpleInteraction {
                 evoker.deleteUnusedHexCreatureUUID(world, evoker.getHexCreatureUUIDs());
             }
 
-            EvokeBookPage evokeBookPage = new EvokeBookPage();
-            evokeBookPage.mainPage(store, playerRef, refESPlayer, commandBuffer);
+            Player player = store.getComponent(refESPlayer, Player.getComponentType());
+            if (player == null) { return; }
+
+            EvokeBookPage evokeBookPage = new EvokeBookPage(
+                    playerRef,
+                    commandBuffer
+            );
+            player.getPageManager().openCustomPage(refESPlayer, store, evokeBookPage);
 
             context.getState().state = InteractionState.Finished;
             super.tick0(firstRun, time, type, context, cooldownHandler);
