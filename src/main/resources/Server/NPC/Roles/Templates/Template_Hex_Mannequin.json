@@ -57,7 +57,7 @@
       "MaxFallSpeed": 15,
       "MaxRotationSpeed": 360,
       "Acceleration": 10,
-      "MaxClimbHeight": 4,
+      "MaxClimbHeight": 3,
       "MaxDropHeight": 5
     }
   ],

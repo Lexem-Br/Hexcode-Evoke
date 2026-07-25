@@ -47,13 +47,13 @@
       "MaxWalkSpeed": 15,
       "Gravity": 10,
       "RunThreshold": 0.5,
-      "MaxFallSpeed": 15,
+      "MaxFallSpeed": 30,
       "MaxRotationSpeed": 360,
       "Acceleration": 10,
       "MinHover": 1,
       "MaxHover": 1,
       "HoverFreq": 10,
-      "MaxClimbHeight": 4,
+      "MaxClimbHeight": 3,
       "MaxDropHeight": 30
     }
   ],
@@ -264,7 +264,6 @@
                 "Range": 15,
                 "ExcludeOwnType": true,
                 "LockOnTarget": true,
-                "LockedTargetSlot": "FlockLeader",
                 "Filters": [
                   {
                     "Type": "Flock",
