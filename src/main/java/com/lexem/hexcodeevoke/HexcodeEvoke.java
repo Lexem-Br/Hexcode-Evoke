@@ -1,26 +1,29 @@
 package com.lexem.hexcodeevoke;
 
+import com.hypixel.hytale.assetstore.AssetRegistry;
+import com.hypixel.hytale.assetstore.map.DefaultAssetMap;
 import com.hypixel.hytale.common.plugin.PluginIdentifier;
 import com.hypixel.hytale.logger.HytaleLogger;
+import com.hypixel.hytale.server.core.Message;
+import com.hypixel.hytale.server.core.asset.HytaleAssetStore;
 import com.hypixel.hytale.server.core.modules.interaction.interaction.config.Interaction;
 import com.hypixel.hytale.server.core.plugin.JavaPlugin;
 import com.hypixel.hytale.server.core.plugin.JavaPluginInit;
 import com.hypixel.hytale.server.core.plugin.PluginBase;
 import com.hypixel.hytale.server.core.plugin.PluginManager;
-import com.hypixel.hytale.server.core.util.Config;
 import com.hypixel.hytale.server.npc.NPCPlugin;
 import com.lexem.hexcodeevoke.commands.EvokerCommand;
 import com.lexem.hexcodeevoke.components.EvokerComponent;
 import com.lexem.hexcodeevoke.components.HexCreatureComponent;
 import com.lexem.hexcodeevoke.events.SaveHexCreatureEvent;
 import com.lexem.hexcodeevoke.handlers.SaveHexCreatureHandler;
+import com.lexem.hexcodeevoke.hexitems.AllowedHexItemsAsset;
+import com.lexem.hexcodeevoke.hexitems.HexItemRegistery;
 import com.lexem.hexcodeevoke.interactions.*;
 import com.lexem.hexcodeevoke.npc.actions.builders.BuilderActionSetInteractableFlockLeader;
 import com.lexem.hexcodeevoke.npc.bodymotions.builders.BuilderTeleportHexCreature;
 import com.lexem.hexcodeevoke.npc.sensors.builders.BuilderSensorEvokeReadPosition;
 import com.lexem.hexcodeevoke.builtin.HexcodeBuiltin;
-import com.lexem.hexcodeevoke.hexitems.AllowedHexItems;
-import com.lexem.hexcodeevoke.hexitems.RegisterHexItemsPlugin;
 import com.lexem.hexcodeevoke.systems.NPCJoinSystem;
 import com.lexem.hexcodeevoke.systems.PlayerJoinSystem;
 import org.checkerframework.checker.nullness.compatqual.NonNullDecl;
@@ -28,8 +31,6 @@ import com.riprod.patchly.PatchManager;
 
 public class HexcodeEvoke extends JavaPlugin {
 
-    private final Config<AllowedHexItems> allowedHexItemsConfig;
-    private final RegisterHexItemsPlugin registerHexItemsPlugin;
     private final PatchManager patchManager;
     private static HexcodeEvoke instance;
 
@@ -40,8 +41,6 @@ public class HexcodeEvoke extends JavaPlugin {
         patchManager = new PatchManager(this);
         instance = this;
         LOGGER.atInfo().log(this.getName() + " version " + this.getManifest().getVersion().toString());
-        this.allowedHexItemsConfig = this.withConfig("GeneratedPack/AllowedHexItems", AllowedHexItems.CODEC);
-        registerHexItemsPlugin = new RegisterHexItemsPlugin(init, this.allowedHexItemsConfig);
     }
 
     @Override
@@ -51,16 +50,26 @@ public class HexcodeEvoke extends JavaPlugin {
 
         if (isHexcodePresent()) {
             HexcodeBuiltin.Setup();
-            this.allowedHexItemsConfig.save();
         } else {
             LOGGER.atInfo().log("Hexcode not installed");
         }
 
+        this.registerAssets();
         this.registerNPCComponents();
         this.registerComponents();
         this.registerEvents();
         this.registerCommands();
         this.registerHexItems();
+    }
+
+    private void registerAssets() {
+        AssetRegistry.register(
+            HytaleAssetStore
+                .builder(AllowedHexItemsAsset.class, new DefaultAssetMap<String, AllowedHexItemsAsset>())
+                .setPath("Evoke/AllowedHexItems")
+                .setCodec(AllowedHexItemsAsset.CODEC)
+                .setKeyFunction(AllowedHexItemsAsset::getId)
+                .build());
     }
 
     private void registerNPCComponents() {
@@ -100,7 +109,6 @@ public class HexcodeEvoke extends JavaPlugin {
     }
 
     private void registerHexItems() {
-        this.registerHexItemsPlugin.startup();
         this.getCodecRegistry(Interaction.CODEC).register("EvokeHexCreature", EvokeHexCreatureInteraction.class, EvokeHexCreatureInteraction.CODEC);
         this.getCodecRegistry(Interaction.CODEC).register("EvokeTargetSelection", EvokeTargetSelectionInteraction.class, EvokeTargetSelectionInteraction.CODEC);
         this.getCodecRegistry(Interaction.CODEC).register("EvokeFollow", EvokeFollowInteraction.class, EvokeFollowInteraction.CODEC);
