@@ -113,10 +113,35 @@
           "Instructions": [
             {
               "$Comment": "Despawn the entity",
-              "Reference": "Component_Hex_Despawn",
-              "Modify": {
-                "DropHexItem": {"Compute": "DropHexItem"}
-              }
+              "Instructions": [
+                {
+                  "Sensor": {
+                    "Type": "Any",
+                    "Once": true
+                  },
+                  "Actions": [
+                    {
+                      "Type": "SpawnParticles",
+                      "Offset": [ 0, 0.5, 0 ],
+                      "ParticleSystem": "Effect_Death"
+                    },
+                    {
+                      "Type": "DropItem",
+                      "Item": {"Compute": "DropHexItem"},
+                      "Distance": [ 0, 0 ],
+                      "ThrowSpeed": 15,
+                      "Once": true
+                    }
+                  ]
+                },
+                {
+                  "Actions": [
+                    {
+                      "Type": "Despawn"
+                    }
+                  ]
+                }
+              ]
             }
           ]
         },
@@ -240,9 +265,52 @@
   ],
   "InteractionInstruction": {
     "$Comment": "Controls the activation of the interaction",
-    "Reference": "Component_Hex_Interaction_Basic",
-    "Modify": {
-      "_ExportStates": [ "$Interaction" ]
-    }
+    "Instructions": [
+      {
+        "Continue": true,
+        "Sensor": {
+          "Type": "And",
+          "Sensors": [
+            {
+              "Type": "FlockLeader"
+            },
+            {
+              "Type": "Self",
+              "Filters": [
+                {
+                  "Type": "Flock",
+                  "FlockStatus": "Member"
+                }
+              ]
+            }
+          ]
+        },
+        "Actions": [
+          {
+            "Type": "SetInteractable",
+            "Interactable": true
+          }
+        ]
+      },
+      {
+        "Continue": true,
+        "Sensor": {
+          "Type": "HasInteracted"
+        },
+        "Instructions": [
+          {
+            "Actions": [
+              {
+                "Type": "LockOnInteractionTarget"
+              },
+              {
+                "Type": "State",
+                "State": "$Interaction"
+              }
+            ]
+          }
+        ]
+      }
+    ]
   }
 }

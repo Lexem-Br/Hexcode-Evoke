@@ -1,5 +1,7 @@
 package com.lexem.hexcodeevoke.hexitems;
 
+import com.hypixel.hytale.logger.HytaleLogger;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.*;
@@ -7,18 +9,11 @@ import java.util.*;
 public class HexItemRegistery {
 
     private static final Map<String, String> hexItemList = new HashMap<>();
+    private static final HytaleLogger LOGGER = HytaleLogger.forEnclosingClass();
+    private static boolean firstRun = true;
+
 
     private HexItemRegistery() {
-    }
-
-    public static void register(@Nonnull String blockId, @Nonnull String entityId) {
-        if (hexItemList.containsKey(blockId)) {
-            throw new IllegalArgumentException("duplicate blockId handler id: " + blockId);
-        }
-        if (hexItemList.containsValue(entityId)) {
-            throw new IllegalArgumentException("duplicate entityId handler id: " + entityId);
-        }
-        hexItemList.put(blockId, entityId);
     }
 
     @Nullable
@@ -57,7 +52,23 @@ public class HexItemRegistery {
 
     @Nonnull
     public static Map<String, String> getAll() {
-        return Collections.unmodifiableMap(new HashMap<>(hexItemList));
+        if (firstRun) {
+            AllowedHexItemsAsset allowedHexItems = AllowedHexItemsAsset.getAssetMap().getAsset("AllowedHexItems");
+            assert allowedHexItems != null;
+
+            AllowedHexItemsAsset.HexItem[] hexItems = allowedHexItems.getHexItems();
+            for (AllowedHexItemsAsset.HexItem hexItem : hexItems) {
+                if (!hexItemList.containsKey(hexItem.blockId) && !hexItemList.containsValue(hexItem.entityId)) {
+                    hexItemList.put(hexItem.blockId, hexItem.entityId);
+                }
+            }
+
+            LOGGER.atSevere().log("Funcionou!");
+
+            firstRun = false;
+        }
+
+        return new HashMap<>(hexItemList);
     }
 
     @Nonnull

@@ -3,10 +3,12 @@ package com.lexem.hexcodeevoke.handlers;
 import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.component.Store;
 import com.hypixel.hytale.logger.HytaleLogger;
+import com.hypixel.hytale.server.core.Message;
 import com.hypixel.hytale.server.core.entity.UUIDComponent;
 import com.hypixel.hytale.server.core.universe.PlayerRef;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.hypixel.hytale.server.npc.entities.NPCEntity;
+import com.hypixel.hytale.server.npc.role.Role;
 import com.lexem.hexcodeevoke.components.EvokerComponent;
 import com.lexem.hexcodeevoke.components.HexCreatureComponent;
 import com.lexem.hexcodeevoke.events.SaveHexCreatureEvent;
@@ -39,13 +41,19 @@ public class SaveHexCreatureHandler implements Consumer<SaveHexCreatureEvent> {
             String playerUUID = playerRef.getUuid().toString();
             String playerName = playerRef.getUsername();
             String blockId = HexItemRegistery.findBlockIdByEntityId(npcEntity.getNPCTypeId());
+            String npcName = npcEntity.getNPCTypeId();
+
+            Role npcRole = npcEntity.getRole();
+            if (npcRole != null && npcRole.getNameTranslationKey() != null) {
+                npcName = Message.translation(npcRole.getNameTranslationKey()).getAnsiMessage();
+            }
 
             HexCreatureComponent hexCreatureComponent = store.getComponent(refESNPC, HexCreatureComponent.getComponentType());
             if (hexCreatureComponent == null) {return;}
             hexCreatureComponent.setUUID(npcUUID);
             hexCreatureComponent.setEvokerUUID(playerUUID);
             hexCreatureComponent.setEvokerName(playerName);
-            hexCreatureComponent.setName(npcEntity.getNPCTypeId());
+            hexCreatureComponent.setName(npcName);
             hexCreatureComponent.setTypeId(npcEntity.getNPCTypeId());
             hexCreatureComponent.setBlockName(blockId);
             evoker.addHexCreatureUUID(npcUUID);

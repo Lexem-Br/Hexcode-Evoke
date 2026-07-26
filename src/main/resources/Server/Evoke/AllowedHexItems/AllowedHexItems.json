@@ -1,0 +1,24 @@
+{
+  "AllowedHexItems": [
+    {
+      "BlockId": "Hex_Mannequin_Block",
+      "EntityId": "Hex_Mannequin"
+    },
+    {
+      "BlockId": "Hex_Fairy_Block",
+      "EntityId": "Hex_Fairy"
+    },
+    {
+      "BlockId": "Hex_Fairy_Void_Block",
+      "EntityId": "Hex_Fairy_Void"
+    },
+    {
+      "BlockId": "Hex_Fairy_Ice_Block",
+      "EntityId": "Hex_Fairy_Ice"
+    },
+    {
+      "BlockId": "Alive_Homunculus_Jar",
+      "EntityId": "Hex_Homunculus"
+    }
+  ]
+}
