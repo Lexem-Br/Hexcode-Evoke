@@ -3,6 +3,13 @@
   "Reference": "Template_Hex_Mannequin",
   "Modify": {
     "Appearance": "Mannequin",
-    "DropHexItem": "Hex_Mannequin_Block"
+    "DropHexItem": "Hex_Mannequin_Block",
+    "NameTranslationKey": { "Compute": "NameTranslationKey" }
+  },
+  "Parameters": {
+    "NameTranslationKey": {
+      "Value": "evoke.npcRoles.Hex_Mannequin.name",
+      "Description": "Translation key for NPC name display"
+    }
   }
 }
