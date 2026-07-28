@@ -10,7 +10,6 @@ import com.hypixel.hytale.server.core.universe.PlayerRef;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.hypixel.hytale.server.flock.FlockMembership;
 import com.hypixel.hytale.server.npc.asset.builder.BuilderSupport;
-import com.hypixel.hytale.server.npc.asset.builder.StateMappingHelper;
 import com.hypixel.hytale.server.npc.corecomponents.SensorBase;
 import com.hypixel.hytale.server.npc.role.Role;
 import com.hypixel.hytale.server.npc.sensorinfo.InfoProvider;
@@ -40,17 +39,25 @@ public class SensorEvokeReadPosition extends SensorBase {
          this.positionProvider.clear();
          return false;
       } else {
-         Vector3d position = getPostion(ref, store);
+         EvokerComponent evoker = this.getEvoker(ref, store);
+         if (evoker == null) { return false; }
+
+         Vector3d position = this.getPostion(evoker);
 
          if (position.equals(Vector3dUtil.MIN)) {
             this.positionProvider.clear();
             return false;
          } else {
             TransformComponent transformComponent = store.getComponent(ref, TransformComponent.getComponentType());
-            assert transformComponent != null;
+            if (transformComponent == null) { return false; }
 
+            int qtdHexCreatures = evoker.getSelectedHexCreatures().length;
             double dist = transformComponent.getPosition().distanceSquared(position);
-            if (dist < 2.0) {
+            if (
+                  (qtdHexCreatures == 1 && dist < 0.05) ||
+                  (qtdHexCreatures == 2 && dist < 1.0) ||
+                  (qtdHexCreatures >= 3 && dist < 2.0)
+            ) {
                return false;
             } else if (!(dist > this.range * this.range) && !(dist < this.minRange * this.minRange)) {
                this.positionProvider.setTarget(position);
@@ -63,25 +70,27 @@ public class SensorEvokeReadPosition extends SensorBase {
       }
    }
 
-   private Vector3d getPostion(Ref<EntityStore> ref, Store<EntityStore> store) {
+   private EvokerComponent getEvoker(Ref<EntityStore> ref, Store<EntityStore> store) {
       FlockMembership membership = store.getComponent(ref, FlockMembership.getComponentType());
-      assert membership != null;
+      if (membership == null) {return null;}
 
       EntityGroup group = null;
       Ref<EntityStore> flockReference = membership.getFlockRef();
       if (flockReference != null && flockReference.isValid()) {
          group = store.getComponent(flockReference, EntityGroup.getComponentType());
       }
-      assert (group != null ? group.getLeaderRef() : null) != null;
+      if (group == null || group.getLeaderRef() == null) {return null;}
 
       PlayerRef playerRef = store.getComponent(group.getLeaderRef(), PlayerRef.getComponentType());
-      assert playerRef != null;
+      if (playerRef == null) {return null;}
 
       Ref<EntityStore> playerEntityRef = playerRef.getReference();
-      assert playerEntityRef != null;
+      if (playerEntityRef == null) {return null;}
 
-      EvokerComponent evoker = store.getComponent(playerEntityRef, EvokerComponent.getComponentType());
+      return store.getComponent(playerEntityRef, EvokerComponent.getComponentType());
+   }
 
+   private Vector3d getPostion(EvokerComponent evoker) {
       if (evoker == null) {
          LOGGER.atWarning().log("No position data found");
          return new Vector3d();

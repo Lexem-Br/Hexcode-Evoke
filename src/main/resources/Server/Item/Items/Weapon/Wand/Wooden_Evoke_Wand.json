@@ -61,7 +61,7 @@
       "Interactions": [
         {
           "Type": "EvokeHCSelection",
-          "MaxSelection": 2,
+          "MaxSelection": 3,
           "MaxDistance": 20,
           "Next": "Evoke_Wand_Selection_Generic",
           "Failed": "Evoke_Interact_Fail"

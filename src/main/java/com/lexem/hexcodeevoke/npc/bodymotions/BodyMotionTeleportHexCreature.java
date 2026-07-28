@@ -72,8 +72,7 @@ public class BodyMotionTeleportHexCreature extends BodyMotionBase {
 
             this.lastTriedTarget.set(this.target);
             TransformComponent transformComponent = componentAccessor.getComponent(ref, TRANSFORM_COMPONENT_TYPE);
-
-            assert transformComponent != null;
+            if (transformComponent == null) { return false;}
 
             Vector3d selfPosition = transformComponent.getPosition();
             double distance = selfPosition.distanceSquared(this.target);
@@ -129,8 +128,7 @@ public class BodyMotionTeleportHexCreature extends BodyMotionBase {
                         }
 
                         TransformComponent targetTransformComponent = componentAccessor.getComponent(targetRef, TRANSFORM_COMPONENT_TYPE);
-
-                        assert targetTransformComponent != null;
+                        if (targetTransformComponent == null) { return false; }
 
                         Rotation3f bodyRotation = targetTransformComponent.getRotation();
                         componentAccessor.addComponent(ref, Teleport.getComponentType(), Teleport.createExact(teleportPos, bodyRotation));

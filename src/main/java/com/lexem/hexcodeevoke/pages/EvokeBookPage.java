@@ -3,14 +3,12 @@ package com.lexem.hexcodeevoke.pages;
 import com.hypixel.hytale.codec.Codec;
 import com.hypixel.hytale.codec.KeyedCodec;
 import com.hypixel.hytale.codec.builder.BuilderCodec;
-import com.hypixel.hytale.component.CommandBuffer;
 import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.component.Store;
 import com.hypixel.hytale.logger.HytaleLogger;
 import com.hypixel.hytale.protocol.packets.interface_.CustomPageLifetime;
 import com.hypixel.hytale.protocol.packets.interface_.CustomUIEventBindingType;
 import com.hypixel.hytale.protocol.packets.interface_.Page;
-import com.hypixel.hytale.server.core.Message;
 import com.hypixel.hytale.server.core.entity.entities.Player;
 import com.hypixel.hytale.server.core.entity.entities.player.pages.InteractiveCustomUIPage;
 import com.hypixel.hytale.server.core.ui.builder.EventData;
@@ -36,8 +34,6 @@ public class EvokeBookPage extends InteractiveCustomUIPage<EvokeBookPage.CloseEv
     private final HexCreatureUtils hexCreatureUtils = new HexCreatureUtils();
     private boolean isEditModeEnabled = false;
 
-    private CommandBuffer<EntityStore> accessor;
-
     public static class CloseEventData {
         public String hexCreatureName;
         public String action;
@@ -56,12 +52,8 @@ public class EvokeBookPage extends InteractiveCustomUIPage<EvokeBookPage.CloseEv
                 .build();
     }
 
-    public EvokeBookPage(
-            @Nonnull PlayerRef playerRef,
-            @Nonnull CommandBuffer<EntityStore> accessor
-    ) {
+    public EvokeBookPage(@Nonnull PlayerRef playerRef) {
         super(playerRef, CustomPageLifetime.CanDismissOrCloseThroughInteraction, CloseEventData.CODEC);
-        this.accessor = accessor;
     }
 
     @Override
@@ -167,7 +159,7 @@ public class EvokeBookPage extends InteractiveCustomUIPage<EvokeBookPage.CloseEv
             switch (data.action) {
                 case "Save":
                     if (!data.hexCreatureName.isEmpty() && !data.uuid.isEmpty()) {
-                        World world = accessor.getExternalData().getWorld();
+                        World world = store.getExternalData().getWorld();
                         Ref<EntityStore> npcESRef = world.getEntityStore().getRefFromUUID(UUID.fromString(data.uuid));
                         if (npcESRef == null) { break;}
 
@@ -180,7 +172,7 @@ public class EvokeBookPage extends InteractiveCustomUIPage<EvokeBookPage.CloseEv
                     break;
                 case "ShowName":
                     if (!data.uuid.isEmpty()) {
-                        World world = accessor.getExternalData().getWorld();
+                        World world = store.getExternalData().getWorld();
                         Ref<EntityStore> npcESRef = world.getEntityStore().getRefFromUUID(UUID.fromString(data.uuid));
                         if (npcESRef == null) { break;}
 
@@ -205,8 +197,16 @@ public class EvokeBookPage extends InteractiveCustomUIPage<EvokeBookPage.CloseEv
                     break;
                 case "Despawn":
                     if (data.uuid != null) {
-                        hexCreatureUtils.despawnHexCreature(data.uuid, store, accessor);
-                        refreshPage(ref, store);
+                        UUID npcUUID = UUID.fromString(data.uuid);
+                        World world = store.getExternalData().getWorld();
+                        Ref<EntityStore> npcRef = world.getEntityStore().getRefFromUUID(npcUUID);
+                        if (npcRef == null) { break; }
+
+                        NPCEntity npcComponent = store.getComponent(npcRef, Objects.requireNonNull(NPCEntity.getComponentType()));
+                        if (npcComponent == null) break;
+
+                        npcComponent.setToDespawn();
+                        player.getPageManager().setPage(ref, store, Page.None);
                     }
                     break;
                 case "Edit":

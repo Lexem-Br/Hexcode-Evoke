@@ -11,10 +11,8 @@ import com.hypixel.hytale.server.core.universe.PlayerRef;
 import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.lexem.hexcodeevoke.components.HexCreatureComponent;
-import com.lexem.hexcodeevoke.hexitems.AllowedHexItemsAsset;
 
 import javax.annotation.Nonnull;
-import java.util.Arrays;
 import java.util.UUID;
 
 public class HexCreatureCommand extends AbstractPlayerCommand {

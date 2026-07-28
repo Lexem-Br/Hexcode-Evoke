@@ -1,7 +1,7 @@
 {
   "StartState": "Following",
   "Type": "Abstract",
-  "Invulnerable": true,
+  "Invulnerable": false,
   "BusyStates": [ "$Interaction" ],
   "Parameters": {
     "Appearance": {
@@ -17,13 +17,9 @@
       "Value": "Hex_Mannequin_Block",
       "Description": "Drop from Hex Creature"
     },
-    "holdableItem": {
-      "Value": "Furniture_Crude_Torch",
-      "Description": "An item that can be held in the hand"
-    },
     "holdableItems": {
       "Value": [ "Furniture_Crude_Torch" ],
-      "Description": "Items that can be held in the hand"
+      "Description": "Items that can be held"
     },
     "NameTranslationKey": {
       "Value": "Hex Creature",
@@ -33,7 +29,7 @@
   "IsMemory": false,
   "BreathesInWater": true,
   "Appearance": {"Compute": "Appearance"},
-  "DisableDamageFlock": true,
+  "DisableDamageFlock": false,
   "DefaultNPCAttitude": "Ignore",
   "DefaultPlayerAttitude": "Ignore",
   "FlockSpawnTypes": {"Compute": "FlockArray"},
@@ -47,6 +43,8 @@
   "HotbarSize": 3,
   "OffHandSlots": 1,
   "PickupDropOnDeath": true,
+  "MaxHealth": 200,
+  "Knockback": 0.5,
   "NameTranslationKey": {"Compute": "NameTranslationKey"},
   "MotionControllerList": [
     {
@@ -61,7 +59,6 @@
       "MaxDropHeight": 5
     }
   ],
-  "MaxHealth": 100,
   "StateTransitions": [
     {
       "$Comment": "Clear",
@@ -124,77 +121,14 @@
       },
       "Instructions": [
         {
-          "$Comment": "Despawn the entity",
-          "Sensor": {
-            "Type": "Not",
-            "Sensor": {
-              "Type": "Self",
-              "Filters": [
-                {
-                  "Type": "Inventory",
-                  "Items": { "Compute": "holdableItems" }
-                }
-              ]
-            }
-          },
-          "Instructions": [
-            {
-              "$Comment": "Despawn the entity",
-              "Reference": "Component_Hex_Despawn",
-              "Modify": {
-                "DropHexItem": {"Compute": "DropHexItem"}
-              }
-            }
-          ]
-        },
-        {
-          "$Comment": "Give back the hold item",
-          "Sensor": {
-            "Type": "Self",
-            "Filters": [
-              {
-                "Type": "Inventory",
-                "CountRange": [ 0, 100 ],
-                "FreeSlotRange": [ 3, 3 ]
-              }
-            ]
-          },
-          "Instructions": [
-            {
-              "Sensor": {
-                "Type": "Player",
-                "Range": 20,
-                "Filters": [
-                  {
-                    "Type": "Flock",
-                    "FlockStatus": "Leader"
-                  }
-                ]
-              },
-              "Actions": [
-                {
-                  "Type": "Inventory",
-                  "UseTarget": false,
-                  "Operation": "Remove",
-                  "Count": 1,
-                  "Item": { "Compute": "holdableItem" }
-                },
-                {
-                  "Type": "DropItem",
-                  "Item": { "Compute": "holdableItem" },
-                  "Distance": [ 0.2, 0.4 ],
-                  "ThrowSpeed": 15
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "$Comment": "Returns to the Following state",
+          "$Comment": "Despawn the entity and returns to the Following state",
           "Sensor": {
             "Type": "Any"
           },
           "Actions": [
+            {
+              "Type": "Despawn"
+            },
             {
               "Type": "State",
               "State": "Following"
