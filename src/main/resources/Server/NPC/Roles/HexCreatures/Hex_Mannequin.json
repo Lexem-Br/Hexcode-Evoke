@@ -3,6 +3,14 @@
   "Reference": "Template_Hex_Mannequin",
   "Modify": {
     "Appearance": "Mannequin",
-    "DropHexItem": "Hex_Mannequin_Block"
+    "DropHexItem": "Hex_Mannequin_Block",
+    "holdableItems": [ "*torch", "Furniture_Crude_Candle", "*Wand*", "*taff*", "*Weapon*" ],
+    "NameTranslationKey": { "Compute": "NameTranslationKey" }
+  },
+  "Parameters": {
+    "NameTranslationKey": {
+      "Value": "evoke.npcRoles.Hex_Mannequin.name",
+      "Description": "Translation key for NPC name display"
+    }
   }
 }

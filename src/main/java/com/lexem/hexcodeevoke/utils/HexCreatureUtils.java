@@ -115,8 +115,8 @@ public class HexCreatureUtils {
         LOGGER.atWarning().log("Evoke: maximum number of Hex creatures reached");
     }
 
-    public void despawnHexCreature(@Nonnull String uuid, @Nonnull Store<EntityStore> store, @Nonnull CommandBuffer<EntityStore> accessor) {
-        World world = accessor.getExternalData().getWorld();
+    public void despawnHexCreature(@Nonnull String uuid, @Nonnull Store<EntityStore> store) {
+        World world = store.getExternalData().getWorld();
         Ref<EntityStore> refESNPC = world.getEntityStore().getRefFromUUID(UUID.fromString(uuid));
         if (refESNPC == null) { return; }
 
@@ -129,22 +129,22 @@ public class HexCreatureUtils {
         Ref<EntityStore> refESPlayer = store.getExternalData().getRefFromUUID(UUID.fromString(hexCreatureComponent.getEvokerUUID()));
         if (refESPlayer == null) return;
 
-        ItemStack itemInHand = InventoryComponent.getItemInHand(accessor, refESNPC);
+        ItemStack itemInHand = InventoryComponent.getItemInHand(store, refESNPC);
         if (itemInHand != null) {
             double distance = RandomExtra.randomRange(0.2, 0.4);
-            Vector3d direction = this.newDirection(refESNPC, distance, accessor, store);
+            Vector3d direction = this.newDirection(refESNPC, distance, store, store);
             ItemUtils.throwItem(refESNPC, store, itemInHand, direction, 100);
         }
 
         String blockId = hexCreatureComponent.getBlockName();
         ItemStack hexDropItem = InventoryHelper.createItem(blockId);
         if (hexDropItem != null) {
-            Vector3d direction = this.newDirection(refESPlayer, 1, accessor, store);
+            Vector3d direction = this.newDirection(refESPlayer, 1, store, store);
             ItemUtils.throwItem(refESPlayer, store, hexDropItem, direction, 100);
-            spawnParticleEffect(refESPlayer, store, 3, accessor);
+            spawnParticleEffect(refESPlayer, store, 3);
         }
 
-        spawnParticleEffect(refESNPC, store, 0, accessor);
+        spawnParticleEffect(refESNPC, store, 0);
         deleteHexCreatureUUIDFromEvoker(refESNPC, store, world);
         npcComponent.setToDespawn();
     }
@@ -204,8 +204,8 @@ public class HexCreatureUtils {
         return dropDirection;
     }
 
-    public void spawnParticleEffect(@Nonnull Ref<EntityStore> ref, @Nonnull Store<EntityStore> store, @Nonnull double distance, @Nonnull CommandBuffer<EntityStore> accessor) {
-        Vector3d direction = this.newDirection(ref, distance, accessor, store);
+    public void spawnParticleEffect(@Nonnull Ref<EntityStore> ref, @Nonnull Store<EntityStore> store, @Nonnull double distance) {
+        Vector3d direction = this.newDirection(ref, distance, store, store);
         TransformComponent transformComponent = store.getComponent(ref, TransformComponent.getComponentType());
         if (transformComponent != null) {
             float eyeHeight = 0.0F;
@@ -217,12 +217,12 @@ public class HexCreatureUtils {
             Vector3d particlePos = new Vector3d(transformComponent.getPosition());
             particlePos.add(0.0F, eyeHeight, 0.0F).add(direction);
 
-            SpatialResource<Ref<EntityStore>, EntityStore> playerSpatialResource = accessor.getResource(
+            SpatialResource<Ref<EntityStore>, EntityStore> playerSpatialResource = store.getResource(
                     EntityModule.get().getPlayerSpatialResourceType()
             );
             List<Ref<EntityStore>> results = SpatialResource.getThreadLocalReferenceList();
             playerSpatialResource.getSpatialStructure().collect(particlePos, 75.0, results);
-            ParticleUtil.spawnParticleEffect("Effect_Death", particlePos, results, accessor);
+            ParticleUtil.spawnParticleEffect("Effect_Death", particlePos, results, store);
         }
     }
 }

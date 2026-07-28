@@ -59,10 +59,7 @@ public class OpenEvokeBookInteraction extends SimpleInteraction {
             Player player = store.getComponent(refESPlayer, Player.getComponentType());
             if (player == null) { return; }
 
-            EvokeBookPage evokeBookPage = new EvokeBookPage(
-                    playerRef,
-                    commandBuffer
-            );
+            EvokeBookPage evokeBookPage = new EvokeBookPage(playerRef);
             player.getPageManager().openCustomPage(refESPlayer, store, evokeBookPage);
 
             context.getState().state = InteractionState.Finished;

@@ -40,7 +40,8 @@ public class SensorEvokeReadPosition extends SensorBase {
          this.positionProvider.clear();
          return false;
       } else {
-         Vector3d position = getPostion(ref, store);
+         EvokerComponent evoker = this.getEvoker(ref, store);
+         Vector3d position = this.getPostion(evoker);
 
          if (position.equals(Vector3dUtil.MIN)) {
             this.positionProvider.clear();
@@ -49,8 +50,13 @@ public class SensorEvokeReadPosition extends SensorBase {
             TransformComponent transformComponent = store.getComponent(ref, TransformComponent.getComponentType());
             assert transformComponent != null;
 
+            int qtdHexCreatures = evoker.getSelectedHexCreatures().length;
             double dist = transformComponent.getPosition().distanceSquared(position);
-            if (dist < 2.0) {
+            if (
+                  (qtdHexCreatures == 1 && dist < 0.05) ||
+                  (qtdHexCreatures == 2 && dist < 1.0) ||
+                  (qtdHexCreatures >= 3 && dist < 2.0)
+            ) {
                return false;
             } else if (!(dist > this.range * this.range) && !(dist < this.minRange * this.minRange)) {
                this.positionProvider.setTarget(position);
@@ -63,7 +69,7 @@ public class SensorEvokeReadPosition extends SensorBase {
       }
    }
 
-   private Vector3d getPostion(Ref<EntityStore> ref, Store<EntityStore> store) {
+   private EvokerComponent getEvoker(Ref<EntityStore> ref, Store<EntityStore> store) {
       FlockMembership membership = store.getComponent(ref, FlockMembership.getComponentType());
       assert membership != null;
 
@@ -80,8 +86,11 @@ public class SensorEvokeReadPosition extends SensorBase {
       Ref<EntityStore> playerEntityRef = playerRef.getReference();
       assert playerEntityRef != null;
 
-      EvokerComponent evoker = store.getComponent(playerEntityRef, EvokerComponent.getComponentType());
+      return store.getComponent(playerEntityRef, EvokerComponent.getComponentType());
 
+   }
+
+   private Vector3d getPostion(EvokerComponent evoker) {
       if (evoker == null) {
          LOGGER.atWarning().log("No position data found");
          return new Vector3d();

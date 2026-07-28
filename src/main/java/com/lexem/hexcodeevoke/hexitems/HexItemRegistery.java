@@ -63,8 +63,6 @@ public class HexItemRegistery {
                 }
             }
 
-            LOGGER.atSevere().log("Funcionou!");
-
             firstRun = false;
         }
 
