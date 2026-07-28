@@ -4,7 +4,6 @@ import com.hypixel.hytale.assetstore.AssetRegistry;
 import com.hypixel.hytale.assetstore.map.DefaultAssetMap;
 import com.hypixel.hytale.common.plugin.PluginIdentifier;
 import com.hypixel.hytale.logger.HytaleLogger;
-import com.hypixel.hytale.server.core.Message;
 import com.hypixel.hytale.server.core.asset.HytaleAssetStore;
 import com.hypixel.hytale.server.core.modules.interaction.interaction.config.Interaction;
 import com.hypixel.hytale.server.core.plugin.JavaPlugin;
@@ -19,7 +18,6 @@ import com.lexem.hexcodeevoke.events.SaveHexCreatureEvent;
 import com.lexem.hexcodeevoke.handlers.SaveHexCreatureHandler;
 import com.lexem.hexcodeevoke.hexitems.AllowedHexItemsAsset;
 import com.lexem.hexcodeevoke.interactions.*;
-import com.lexem.hexcodeevoke.npc.actions.builders.BuilderActionDespawnHC;
 import com.lexem.hexcodeevoke.npc.actions.builders.BuilderActionSetInteractableFlockLeader;
 import com.lexem.hexcodeevoke.npc.bodymotions.builders.BuilderTeleportHexCreature;
 import com.lexem.hexcodeevoke.npc.sensors.builders.BuilderSensorEvokeReadPosition;
@@ -77,7 +75,6 @@ public class HexcodeEvoke extends JavaPlugin {
         npcPlugin.registerCoreComponentType("TeleportHexCreature", BuilderTeleportHexCreature::new);
         npcPlugin.registerCoreComponentType("EvokeReadPosition", BuilderSensorEvokeReadPosition::new);
         npcPlugin.registerCoreComponentType("SetInteractableFlockLeader", BuilderActionSetInteractableFlockLeader::new);
-        npcPlugin.registerCoreComponentType("DespawnHC", BuilderActionDespawnHC::new);
     }
 
     private void registerComponents() {

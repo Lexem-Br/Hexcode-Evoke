@@ -197,8 +197,16 @@ public class EvokeBookPage extends InteractiveCustomUIPage<EvokeBookPage.CloseEv
                     break;
                 case "Despawn":
                     if (data.uuid != null) {
-                        hexCreatureUtils.despawnHexCreature(data.uuid, store);
-                        refreshPage(ref, store);
+                        UUID npcUUID = UUID.fromString(data.uuid);
+                        World world = store.getExternalData().getWorld();
+                        Ref<EntityStore> npcRef = world.getEntityStore().getRefFromUUID(npcUUID);
+                        if (npcRef == null) { break; }
+
+                        NPCEntity npcComponent = store.getComponent(npcRef, Objects.requireNonNull(NPCEntity.getComponentType()));
+                        if (npcComponent == null) break;
+
+                        npcComponent.setToDespawn();
+                        player.getPageManager().setPage(ref, store, Page.None);
                     }
                     break;
                 case "Edit":

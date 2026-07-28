@@ -1,9 +1,6 @@
 package com.lexem.hexcodeevoke.utils;
 
-import com.hypixel.hytale.component.CommandBuffer;
-import com.hypixel.hytale.component.ComponentAccessor;
-import com.hypixel.hytale.component.Ref;
-import com.hypixel.hytale.component.Store;
+import com.hypixel.hytale.component.*;
 import com.hypixel.hytale.component.spatial.SpatialResource;
 import com.hypixel.hytale.logger.HytaleLogger;
 import com.hypixel.hytale.math.random.RandomExtra;
@@ -19,6 +16,7 @@ import com.hypixel.hytale.server.core.modules.entity.EntityModule;
 import com.hypixel.hytale.server.core.modules.entity.component.HeadRotation;
 import com.hypixel.hytale.server.core.modules.entity.component.ModelComponent;
 import com.hypixel.hytale.server.core.modules.entity.component.TransformComponent;
+import com.hypixel.hytale.server.core.modules.entity.item.ItemComponent;
 import com.hypixel.hytale.server.core.modules.physics.util.PhysicsMath;
 import com.hypixel.hytale.server.core.universe.PlayerRef;
 import com.hypixel.hytale.server.core.universe.world.ParticleUtil;
@@ -33,7 +31,6 @@ import com.lexem.hexcodeevoke.components.EvokerComponent;
 import com.lexem.hexcodeevoke.components.HexCreatureComponent;
 import com.lexem.hexcodeevoke.events.SaveHexCreatureEvent;
 import com.lexem.hexcodeevoke.hexitems.HexItemRegistery;
-import com.lexem.hexcodeevoke.pages.records.HexCreatureRecord;
 import it.unimi.dsi.fastutil.Pair;
 import org.joml.Vector3d;
 import org.joml.Vector3i;
@@ -43,6 +40,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
+import java.util.logging.Level;
 
 public class HexCreatureUtils {
     private static final HytaleLogger LOGGER = HytaleLogger.forEnclosingClass();
@@ -86,7 +84,7 @@ public class HexCreatureUtils {
             }
             if (roleIndex >= 0) {
                 Pair<Ref<EntityStore>, NPCEntity> npcPair = NPCPlugin.get().spawnEntity(_store, roleIndex, blockVector, blockRotation, null, null);
-                assert npcPair != null;
+                if (npcPair == null) { return; }
 
                 world.breakBlock(blockPos.x, blockPos.y, blockPos.z, 0);
 
@@ -115,10 +113,8 @@ public class HexCreatureUtils {
         LOGGER.atWarning().log("Evoke: maximum number of Hex creatures reached");
     }
 
-    public void despawnHexCreature(@Nonnull String uuid, @Nonnull Store<EntityStore> store) {
+    public void despawnHexCreature(@Nonnull Store<EntityStore> store, @Nonnull Ref<EntityStore> refESNPC,  @Nonnull ComponentAccessor<EntityStore> commandBuffer) {
         World world = store.getExternalData().getWorld();
-        Ref<EntityStore> refESNPC = world.getEntityStore().getRefFromUUID(UUID.fromString(uuid));
-        if (refESNPC == null) { return; }
 
         HexCreatureComponent hexCreatureComponent = store.getComponent(refESNPC, HexCreatureComponent.getComponentType());
         if (hexCreatureComponent == null) { return; }
@@ -132,16 +128,26 @@ public class HexCreatureUtils {
         ItemStack itemInHand = InventoryComponent.getItemInHand(store, refESNPC);
         if (itemInHand != null) {
             double distance = RandomExtra.randomRange(0.2, 0.4);
-            Vector3d direction = this.newDirection(refESNPC, distance, store, store);
-            ItemUtils.throwItem(refESNPC, store, itemInHand, direction, 100);
+            Vector3d direction = this.newDirection(refESNPC, distance, store);
+            if (direction != null) {
+                ItemUtils.throwItem(refESNPC, commandBuffer, itemInHand, direction, 100);
+            }
         }
 
         String blockId = hexCreatureComponent.getBlockName();
         ItemStack hexDropItem = InventoryHelper.createItem(blockId);
         if (hexDropItem != null) {
-            Vector3d direction = this.newDirection(refESPlayer, 1, store, store);
-            ItemUtils.throwItem(refESPlayer, store, hexDropItem, direction, 100);
-            spawnParticleEffect(refESPlayer, store, 3);
+            Vector3d direction = this.newDirection(refESPlayer, 1, store);
+            if (direction != null) {
+                ItemUtils.throwItem(refESPlayer, commandBuffer, hexDropItem, direction, 100);
+                spawnParticleEffect(refESPlayer, store, 3);
+            } else {
+                double distance = RandomExtra.randomRange(0.2, 0.4);
+                Vector3d direction2 = this.newDirection(refESNPC, distance, store);
+                if (direction2 != null) {
+                    ItemUtils.throwItem(refESNPC, commandBuffer, hexDropItem, direction2, 100);
+                }
+            }
         }
 
         spawnParticleEffect(refESNPC, store, 0);
@@ -165,7 +171,7 @@ public class HexCreatureUtils {
         evoker.removeSelectedHexCreature(hexCreature.getUUID());
     }
 
-    private Vector3d newDirection(@Nonnull Ref<EntityStore> ref, double distance, @Nonnull ComponentAccessor<EntityStore> componentAccessor, @Nonnull Store<EntityStore> store) {
+    private Vector3d newDirection(@Nonnull Ref<EntityStore> ref, double distance, @Nonnull Store<EntityStore> store) {
         Vector3d dropDirection;
         double[] dropSector =  new double[]{0.0, 0.0};
         float dropSectorStart = (float) (Math.PI / 180.0) * (float)dropSector[0];
@@ -177,10 +183,10 @@ public class HexCreatureUtils {
         float eyeHeight = modelComponent != null ? modelComponent.getModel().getEyeHeight(ref, store) : 0.0F;
         float height = -eyeHeight;
 
-        TransformComponent transformComponent = componentAccessor.getComponent(ref, TransformComponent.getComponentType());
-        assert transformComponent != null;
+        TransformComponent transformComponent = store.getComponent(ref, TransformComponent.getComponentType());
+        if (transformComponent == null) { return null; }
 
-        HeadRotation headRotationComponent = componentAccessor.getComponent(ref, HeadRotation.getComponentType());
+        HeadRotation headRotationComponent = store.getComponent(ref, HeadRotation.getComponentType());
         Vector3d direction;
         if (headRotationComponent != null) {
             direction = headRotationComponent.getDirection();
@@ -205,7 +211,9 @@ public class HexCreatureUtils {
     }
 
     public void spawnParticleEffect(@Nonnull Ref<EntityStore> ref, @Nonnull Store<EntityStore> store, @Nonnull double distance) {
-        Vector3d direction = this.newDirection(ref, distance, store, store);
+        Vector3d direction = this.newDirection(ref, distance, store);
+        if (direction == null) { return; }
+
         TransformComponent transformComponent = store.getComponent(ref, TransformComponent.getComponentType());
         if (transformComponent != null) {
             float eyeHeight = 0.0F;

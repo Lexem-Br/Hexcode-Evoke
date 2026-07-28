@@ -1,7 +1,7 @@
 {
   "StartState": "Following",
   "Type": "Abstract",
-  "Invulnerable": true,
+  "Invulnerable": false,
   "BusyStates": [ "$Interaction" ],
   "Parameters": {
     "Appearance": {
@@ -29,7 +29,7 @@
   "IsMemory": false,
   "BreathesInWater": true,
   "Appearance": {"Compute": "Appearance"},
-  "DisableDamageFlock": true,
+  "DisableDamageFlock": false,
   "DefaultNPCAttitude": "Ignore",
   "DefaultPlayerAttitude": "Ignore",
   "FlockSpawnTypes": {"Compute": "FlockArray"},
@@ -43,6 +43,8 @@
   "HotbarSize": 3,
   "OffHandSlots": 1,
   "PickupDropOnDeath": true,
+  "MaxHealth": 200,
+  "Knockback": 0.5,
   "NameTranslationKey": {"Compute": "NameTranslationKey"},
   "MotionControllerList": [
     {
@@ -57,7 +59,6 @@
       "MaxDropHeight": 5
     }
   ],
-  "MaxHealth": 100,
   "StateTransitions": [
     {
       "$Comment": "Clear",
@@ -126,7 +127,7 @@
           },
           "Actions": [
             {
-              "Type": "DespawnHC"
+              "Type": "Despawn"
             },
             {
               "Type": "State",

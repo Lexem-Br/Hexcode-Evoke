@@ -54,16 +54,16 @@ public class HexItemRegistery {
     public static Map<String, String> getAll() {
         if (firstRun) {
             AllowedHexItemsAsset allowedHexItems = AllowedHexItemsAsset.getAssetMap().getAsset("AllowedHexItems");
-            assert allowedHexItems != null;
-
-            AllowedHexItemsAsset.HexItem[] hexItems = allowedHexItems.getHexItems();
-            for (AllowedHexItemsAsset.HexItem hexItem : hexItems) {
-                if (!hexItemList.containsKey(hexItem.blockId) && !hexItemList.containsValue(hexItem.entityId)) {
-                    hexItemList.put(hexItem.blockId, hexItem.entityId);
+            if (allowedHexItems != null) {
+                AllowedHexItemsAsset.HexItem[] hexItems = allowedHexItems.getHexItems();
+                for (AllowedHexItemsAsset.HexItem hexItem : hexItems) {
+                    if (!hexItemList.containsKey(hexItem.blockId) && !hexItemList.containsValue(hexItem.entityId)) {
+                        hexItemList.put(hexItem.blockId, hexItem.entityId);
+                    }
                 }
-            }
 
-            firstRun = false;
+                firstRun = false;
+            }
         }
 
         return new HashMap<>(hexItemList);
