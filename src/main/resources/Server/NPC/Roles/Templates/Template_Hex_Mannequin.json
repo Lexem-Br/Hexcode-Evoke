@@ -21,6 +21,10 @@
       "Value": [ "Furniture_Crude_Torch" ],
       "Description": "Items that can be held"
     },
+    "DropList": {
+      "Value": "Empty",
+      "Description": "Drop Items"
+    },
     "NameTranslationKey": {
       "Value": "Hex Creature",
       "Description": "Translation key for NPC name display"
@@ -28,6 +32,7 @@
   },
   "IsMemory": false,
   "BreathesInWater": true,
+  "DropList": { "Compute": "DropList" },
   "Appearance": {"Compute": "Appearance"},
   "DisableDamageFlock": false,
   "DefaultNPCAttitude": "Ignore",
@@ -43,7 +48,7 @@
   "HotbarSize": 3,
   "OffHandSlots": 1,
   "PickupDropOnDeath": true,
-  "MaxHealth": 200,
+  "MaxHealth": 20,
   "Knockback": 0.5,
   "NameTranslationKey": {"Compute": "NameTranslationKey"},
   "MotionControllerList": [
