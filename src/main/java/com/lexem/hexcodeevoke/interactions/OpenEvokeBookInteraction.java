@@ -1,5 +1,7 @@
 package com.lexem.hexcodeevoke.interactions;
 
+import com.hypixel.hytale.codec.Codec;
+import com.hypixel.hytale.codec.KeyedCodec;
 import com.hypixel.hytale.codec.builder.BuilderCodec;
 import com.hypixel.hytale.component.CommandBuffer;
 import com.hypixel.hytale.component.Ref;
@@ -21,10 +23,16 @@ import javax.annotation.Nonnull;
 
 public class OpenEvokeBookInteraction extends SimpleInteraction {
     private static final HytaleLogger LOGGER = HytaleLogger.forEnclosingClass();
+    private String pageName = "EvokeBookPage";
 
     public static final BuilderCodec<OpenEvokeBookInteraction> CODEC =
             BuilderCodec.builder(OpenEvokeBookInteraction.class, OpenEvokeBookInteraction::new,
                             SimpleInteraction.CODEC)
+                    .append(new KeyedCodec<>("PageName", Codec.STRING),
+                            (config, value) -> config.pageName = value,
+                            (config) -> config.pageName)
+                    .documentation("Page to open when the interaction is triggered.")
+                    .add()
                     .build();
 
     @Override
@@ -50,7 +58,7 @@ public class OpenEvokeBookInteraction extends SimpleInteraction {
             Player player = store.getComponent(refESPlayer, Player.getComponentType());
             if (player == null) { return; }
 
-            EvokeBookPage evokeBookPage = new EvokeBookPage(playerRef, "EvokeBookPage.ui");
+            EvokeBookPage evokeBookPage = new EvokeBookPage(playerRef, pageName);
             player.getPageManager().openCustomPage(refESPlayer, store, evokeBookPage);
 
             context.getState().state = InteractionState.Finished;

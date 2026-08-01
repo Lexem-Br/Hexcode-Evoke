@@ -65,7 +65,7 @@ public class EvokeBookPage extends InteractiveCustomUIPage<EvokeBookPage.CloseEv
             @Nonnull UIEventBuilder eventBuilder,
             @Nonnull Store<EntityStore> store
     ) {
-        commandBuilder.append("Pages/" + pageNameFile);
+        commandBuilder.append("Pages/" + pageNameFile + ".ui");
 
         String hexCount = createHexCount(ref, store);
         commandBuilder.set("#HexCount.Text", hexCount);
