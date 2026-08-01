@@ -46,9 +46,9 @@
   "SeparationNearRadiusTarget": 1.2,
   "InventorySize": 0,
   "HotbarSize": 3,
-  "OffHandSlots": 1,
+  "OffHandSlots": 0,
   "PickupDropOnDeath": true,
-  "MaxHealth": 20,
+  "MaxHealth": 200,
   "Knockback": 0.5,
   "NameTranslationKey": {"Compute": "NameTranslationKey"},
   "MotionControllerList": [
@@ -149,14 +149,16 @@
         {
           "Continue": true,
           "Sensor": {
-            "Type": "Self",
-            "Filters": [
-              {
-                "Type": "Inventory",
-                "CountRange": [ 0, 100 ],
-                "FreeSlotRange": [ 4, 4 ]
-              }
-            ]
+            "Type": "Not",
+            "Sensor": {
+              "Type": "Self",
+              "Filters": [
+                {
+                  "Type": "EvokeIsInventoryFull",
+                  "Inventories": ["Hotbar", "Storage"]
+                }
+              ]
+            }
           },
           "Instructions": [
             {

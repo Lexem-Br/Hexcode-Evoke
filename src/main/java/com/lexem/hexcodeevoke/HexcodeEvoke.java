@@ -21,6 +21,7 @@ import com.lexem.hexcodeevoke.interactions.*;
 import com.lexem.hexcodeevoke.npc.actions.builders.BuilderActionSetInteractableFlockLeader;
 import com.lexem.hexcodeevoke.npc.bodymotions.builders.BuilderTeleportHexCreature;
 import com.lexem.hexcodeevoke.npc.sensors.builders.BuilderSensorEvokeReadPosition;
+import com.lexem.hexcodeevoke.npc.filters.builders.BuilderFilterEvokeIsInventoryFull;
 import com.lexem.hexcodeevoke.builtin.HexcodeBuiltin;
 import com.lexem.hexcodeevoke.systems.NPCJoinSystem;
 import com.lexem.hexcodeevoke.systems.PlayerJoinSystem;
@@ -75,6 +76,7 @@ public class HexcodeEvoke extends JavaPlugin {
         npcPlugin.registerCoreComponentType("TeleportHexCreature", BuilderTeleportHexCreature::new);
         npcPlugin.registerCoreComponentType("EvokeReadPosition", BuilderSensorEvokeReadPosition::new);
         npcPlugin.registerCoreComponentType("SetInteractableFlockLeader", BuilderActionSetInteractableFlockLeader::new);
+        npcPlugin.registerCoreComponentType("EvokeIsInventoryFull", BuilderFilterEvokeIsInventoryFull::new);
     }
 
     private void registerComponents() {

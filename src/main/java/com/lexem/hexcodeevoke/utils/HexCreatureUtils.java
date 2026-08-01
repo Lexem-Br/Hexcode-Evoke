@@ -12,6 +12,7 @@ import com.hypixel.hytale.server.core.asset.type.blocktype.config.RotationTuple;
 import com.hypixel.hytale.server.core.entity.ItemUtils;
 import com.hypixel.hytale.server.core.inventory.InventoryComponent;
 import com.hypixel.hytale.server.core.inventory.ItemStack;
+import com.hypixel.hytale.server.core.inventory.container.CombinedItemContainer;
 import com.hypixel.hytale.server.core.modules.entity.EntityModule;
 import com.hypixel.hytale.server.core.modules.entity.component.HeadRotation;
 import com.hypixel.hytale.server.core.modules.entity.component.ModelComponent;
@@ -129,12 +130,15 @@ public class HexCreatureUtils {
         Ref<EntityStore> refESPlayer = store.getExternalData().getRefFromUUID(UUID.fromString(hexCreatureComponent.getEvokerUUID()));
         if (refESPlayer == null) return;
 
-        ItemStack itemInHand = InventoryComponent.getItemInHand(store, refESNPC);
-        if (itemInHand != null) {
-            double distance = RandomExtra.randomRange(0.2, 0.4);
-            Vector3d direction = this.newDirection(refESNPC, distance, store);
-            if (direction != null) {
-                ItemUtils.throwItem(refESNPC, commandBuffer, itemInHand, direction, 100);
+        CombinedItemContainer everythingInventoryComponent = InventoryComponent.getCombined(store, refESNPC, InventoryComponent.EVERYTHING);
+        for (short i = 0; i < everythingInventoryComponent.getCapacity(); i++) {
+            ItemStack itemStack = everythingInventoryComponent.getItemStack(i);
+            if (itemStack != null) {
+                double distance = RandomExtra.randomRange(0.2, 0.5);
+                Vector3d direction = this.newDirection(refESNPC, distance, store);
+                if (direction != null) {
+                    ItemUtils.throwItem(refESNPC, commandBuffer, itemStack, direction, 100);
+                }
             }
         }
 
