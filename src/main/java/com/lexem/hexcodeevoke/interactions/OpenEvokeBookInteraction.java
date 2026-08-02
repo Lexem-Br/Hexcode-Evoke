@@ -24,6 +24,7 @@ import javax.annotation.Nonnull;
 public class OpenEvokeBookInteraction extends SimpleInteraction {
     private static final HytaleLogger LOGGER = HytaleLogger.forEnclosingClass();
     private String pageName = "EvokeBookPage";
+    private String cardName = "CardHexCreatures";
 
     public static final BuilderCodec<OpenEvokeBookInteraction> CODEC =
             BuilderCodec.builder(OpenEvokeBookInteraction.class, OpenEvokeBookInteraction::new,
@@ -32,6 +33,11 @@ public class OpenEvokeBookInteraction extends SimpleInteraction {
                             (config, value) -> config.pageName = value,
                             (config) -> config.pageName)
                     .documentation("Page to open when the interaction is triggered.")
+                    .add()
+                    .append(new KeyedCodec<>("CardName", Codec.STRING),
+                            (config, value) -> config.cardName = value,
+                            (config) -> config.cardName)
+                    .documentation("Card file name to add to the page.")
                     .add()
                     .build();
 
@@ -58,7 +64,7 @@ public class OpenEvokeBookInteraction extends SimpleInteraction {
             Player player = store.getComponent(refESPlayer, Player.getComponentType());
             if (player == null) { return; }
 
-            EvokeBookPage evokeBookPage = new EvokeBookPage(playerRef, pageName);
+            EvokeBookPage evokeBookPage = new EvokeBookPage(playerRef, pageName, cardName);
             player.getPageManager().openCustomPage(refESPlayer, store, evokeBookPage);
 
             context.getState().state = InteractionState.Finished;

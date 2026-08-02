@@ -41,7 +41,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
-import java.util.logging.Level;
 
 public class HexCreatureUtils {
     private static final HytaleLogger LOGGER = HytaleLogger.forEnclosingClass();
@@ -122,12 +121,13 @@ public class HexCreatureUtils {
         World world = store.getExternalData().getWorld();
 
         HexCreatureComponent hexCreatureComponent = store.getComponent(refESNPC, HexCreatureComponent.getComponentType());
-        if (hexCreatureComponent == null) { return; }
+        if (hexCreatureComponent == null || hexCreatureComponent.getEvokerUUID() == null) { return; }
 
         NPCEntity npcComponent = store.getComponent(refESNPC, Objects.requireNonNull(NPCEntity.getComponentType()));
         if (npcComponent == null) return;
 
-        Ref<EntityStore> refESPlayer = store.getExternalData().getRefFromUUID(UUID.fromString(hexCreatureComponent.getEvokerUUID()));
+        UUID uuid = UUID.fromString(hexCreatureComponent.getEvokerUUID());
+        Ref<EntityStore> refESPlayer = store.getExternalData().getRefFromUUID(uuid);
         if (refESPlayer == null) return;
 
         CombinedItemContainer everythingInventoryComponent = InventoryComponent.getCombined(store, refESNPC, InventoryComponent.EVERYTHING);

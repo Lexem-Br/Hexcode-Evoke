@@ -33,7 +33,8 @@ public class EvokeBookPage extends InteractiveCustomUIPage<EvokeBookPage.CloseEv
     private static final String DEFAULT_ICON = "Hex_Mannequin_Block";
     private final HexCreatureUtils hexCreatureUtils = new HexCreatureUtils();
     private boolean isEditModeEnabled = false;
-    private String pageNameFile;
+    private final String pageNameFile;
+    private final String cardNameFile;
 
     public static class CloseEventData {
         public String hexCreatureName;
@@ -53,9 +54,10 @@ public class EvokeBookPage extends InteractiveCustomUIPage<EvokeBookPage.CloseEv
                 .build();
     }
 
-    public EvokeBookPage(@Nonnull PlayerRef playerRef, @Nonnull String pageNameFile) {
+    public EvokeBookPage(@Nonnull PlayerRef playerRef, @Nonnull String pageNameFile, @Nonnull String cardNameFile) {
         super(playerRef, CustomPageLifetime.CanDismissOrCloseThroughInteraction, CloseEventData.CODEC);
         this.pageNameFile = pageNameFile;
+        this.cardNameFile = cardNameFile;
     }
 
     @Override
@@ -105,7 +107,7 @@ public class EvokeBookPage extends InteractiveCustomUIPage<EvokeBookPage.CloseEv
         for (HexCreatureRecord hexCreature : hexCreatures) {
 
             String selector = "#ItemList[" + index + "]";
-            commandBuilder.append("#ItemList", "Pages/CardHexCreatures.ui");
+            commandBuilder.append("#ItemList", ("Pages/" + cardNameFile + ".ui"));
 
             commandBuilder.set(selector + " #HCIcon.ItemId", hexCreature.blockId());
             commandBuilder.set(selector + " #HCName.Text", hexCreature.name());
