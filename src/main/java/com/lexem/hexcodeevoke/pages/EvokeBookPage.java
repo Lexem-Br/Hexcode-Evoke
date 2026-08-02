@@ -33,6 +33,8 @@ public class EvokeBookPage extends InteractiveCustomUIPage<EvokeBookPage.CloseEv
     private static final String DEFAULT_ICON = "Hex_Mannequin_Block";
     private final HexCreatureUtils hexCreatureUtils = new HexCreatureUtils();
     private boolean isEditModeEnabled = false;
+    private final String pageNameFile;
+    private final String cardNameFile;
 
     public static class CloseEventData {
         public String hexCreatureName;
@@ -52,8 +54,10 @@ public class EvokeBookPage extends InteractiveCustomUIPage<EvokeBookPage.CloseEv
                 .build();
     }
 
-    public EvokeBookPage(@Nonnull PlayerRef playerRef) {
+    public EvokeBookPage(@Nonnull PlayerRef playerRef, @Nonnull String pageNameFile, @Nonnull String cardNameFile) {
         super(playerRef, CustomPageLifetime.CanDismissOrCloseThroughInteraction, CloseEventData.CODEC);
+        this.pageNameFile = pageNameFile;
+        this.cardNameFile = cardNameFile;
     }
 
     @Override
@@ -63,7 +67,7 @@ public class EvokeBookPage extends InteractiveCustomUIPage<EvokeBookPage.CloseEv
             @Nonnull UIEventBuilder eventBuilder,
             @Nonnull Store<EntityStore> store
     ) {
-        commandBuilder.append("Pages/EvokeBookPage.ui");
+        commandBuilder.append("Pages/" + pageNameFile + ".ui");
 
         String hexCount = createHexCount(ref, store);
         commandBuilder.set("#HexCount.Text", hexCount);
@@ -103,7 +107,7 @@ public class EvokeBookPage extends InteractiveCustomUIPage<EvokeBookPage.CloseEv
         for (HexCreatureRecord hexCreature : hexCreatures) {
 
             String selector = "#ItemList[" + index + "]";
-            commandBuilder.append("#ItemList", "Pages/CardHexCreatures.ui");
+            commandBuilder.append("#ItemList", ("Pages/" + cardNameFile + ".ui"));
 
             commandBuilder.set(selector + " #HCIcon.ItemId", hexCreature.blockId());
             commandBuilder.set(selector + " #HCName.Text", hexCreature.name());
@@ -202,10 +206,7 @@ public class EvokeBookPage extends InteractiveCustomUIPage<EvokeBookPage.CloseEv
                         Ref<EntityStore> npcRef = world.getEntityStore().getRefFromUUID(npcUUID);
                         if (npcRef == null) { break; }
 
-                        NPCEntity npcComponent = store.getComponent(npcRef, Objects.requireNonNull(NPCEntity.getComponentType()));
-                        if (npcComponent == null) break;
-
-                        npcComponent.setToDespawn();
+                        hexCreatureUtils.despawnHexCreature(store, npcRef, store, true);
                         player.getPageManager().setPage(ref, store, Page.None);
                     }
                     break;

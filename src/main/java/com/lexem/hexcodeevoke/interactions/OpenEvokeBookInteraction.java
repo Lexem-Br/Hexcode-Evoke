@@ -1,5 +1,7 @@
 package com.lexem.hexcodeevoke.interactions;
 
+import com.hypixel.hytale.codec.Codec;
+import com.hypixel.hytale.codec.KeyedCodec;
 import com.hypixel.hytale.codec.builder.BuilderCodec;
 import com.hypixel.hytale.component.CommandBuffer;
 import com.hypixel.hytale.component.Ref;
@@ -15,25 +17,28 @@ import com.hypixel.hytale.server.core.universe.PlayerRef;
 import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.lexem.hexcodeevoke.components.EvokerComponent;
-import com.lexem.hexcodeevoke.components.HexCreatureComponent;
-import com.lexem.hexcodeevoke.hexitems.HexItemRegistery;
 import com.lexem.hexcodeevoke.pages.EvokeBookPage;
-import com.lexem.hexcodeevoke.pages.records.HexCreatureRecord;
-import com.lexem.hexcodeevoke.utils.HexCreatureUtils;
 
 import javax.annotation.Nonnull;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
 
 public class OpenEvokeBookInteraction extends SimpleInteraction {
     private static final HytaleLogger LOGGER = HytaleLogger.forEnclosingClass();
-    private static final String DEFAULT_ICON = "Hex_Mannequin_Block";
-    private final HexCreatureUtils hexCreatureUtils = new HexCreatureUtils();
+    private String pageName = "EvokeBookPage";
+    private String cardName = "CardHexCreatures";
 
     public static final BuilderCodec<OpenEvokeBookInteraction> CODEC =
             BuilderCodec.builder(OpenEvokeBookInteraction.class, OpenEvokeBookInteraction::new,
                             SimpleInteraction.CODEC)
+                    .append(new KeyedCodec<>("PageName", Codec.STRING),
+                            (config, value) -> config.pageName = value,
+                            (config) -> config.pageName)
+                    .documentation("Page to open when the interaction is triggered.")
+                    .add()
+                    .append(new KeyedCodec<>("CardName", Codec.STRING),
+                            (config, value) -> config.cardName = value,
+                            (config) -> config.cardName)
+                    .documentation("Card file name to add to the page.")
+                    .add()
                     .build();
 
     @Override
@@ -59,7 +64,7 @@ public class OpenEvokeBookInteraction extends SimpleInteraction {
             Player player = store.getComponent(refESPlayer, Player.getComponentType());
             if (player == null) { return; }
 
-            EvokeBookPage evokeBookPage = new EvokeBookPage(playerRef);
+            EvokeBookPage evokeBookPage = new EvokeBookPage(playerRef, pageName, cardName);
             player.getPageManager().openCustomPage(refESPlayer, store, evokeBookPage);
 
             context.getState().state = InteractionState.Finished;

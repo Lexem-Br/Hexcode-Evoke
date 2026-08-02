@@ -12,11 +12,11 @@ import com.hypixel.hytale.server.core.asset.type.blocktype.config.RotationTuple;
 import com.hypixel.hytale.server.core.entity.ItemUtils;
 import com.hypixel.hytale.server.core.inventory.InventoryComponent;
 import com.hypixel.hytale.server.core.inventory.ItemStack;
+import com.hypixel.hytale.server.core.inventory.container.CombinedItemContainer;
 import com.hypixel.hytale.server.core.modules.entity.EntityModule;
 import com.hypixel.hytale.server.core.modules.entity.component.HeadRotation;
 import com.hypixel.hytale.server.core.modules.entity.component.ModelComponent;
 import com.hypixel.hytale.server.core.modules.entity.component.TransformComponent;
-import com.hypixel.hytale.server.core.modules.entity.item.ItemComponent;
 import com.hypixel.hytale.server.core.modules.physics.util.PhysicsMath;
 import com.hypixel.hytale.server.core.universe.PlayerRef;
 import com.hypixel.hytale.server.core.universe.world.ParticleUtil;
@@ -25,6 +25,7 @@ import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.hypixel.hytale.server.core.util.NotificationUtil;
 import com.hypixel.hytale.server.npc.NPCPlugin;
 import com.hypixel.hytale.server.npc.entities.NPCEntity;
+import com.hypixel.hytale.server.npc.role.Role;
 import com.hypixel.hytale.server.npc.util.AimingHelper;
 import com.hypixel.hytale.server.npc.util.InventoryHelper;
 import com.lexem.hexcodeevoke.components.EvokerComponent;
@@ -40,7 +41,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
-import java.util.logging.Level;
 
 public class HexCreatureUtils {
     private static final HytaleLogger LOGGER = HytaleLogger.forEnclosingClass();
@@ -114,38 +114,49 @@ public class HexCreatureUtils {
     }
 
     public void despawnHexCreature(@Nonnull Store<EntityStore> store, @Nonnull Ref<EntityStore> refESNPC,  @Nonnull ComponentAccessor<EntityStore> commandBuffer) {
+        despawnHexCreature(store, refESNPC, commandBuffer, false);
+    }
+
+    public void despawnHexCreature(@Nonnull Store<EntityStore> store, @Nonnull Ref<EntityStore> refESNPC,  @Nonnull ComponentAccessor<EntityStore> commandBuffer, boolean dropHexItem) {
         World world = store.getExternalData().getWorld();
 
         HexCreatureComponent hexCreatureComponent = store.getComponent(refESNPC, HexCreatureComponent.getComponentType());
-        if (hexCreatureComponent == null) { return; }
+        if (hexCreatureComponent == null || hexCreatureComponent.getEvokerUUID() == null) { return; }
 
         NPCEntity npcComponent = store.getComponent(refESNPC, Objects.requireNonNull(NPCEntity.getComponentType()));
         if (npcComponent == null) return;
 
-        Ref<EntityStore> refESPlayer = store.getExternalData().getRefFromUUID(UUID.fromString(hexCreatureComponent.getEvokerUUID()));
+        UUID uuid = UUID.fromString(hexCreatureComponent.getEvokerUUID());
+        Ref<EntityStore> refESPlayer = store.getExternalData().getRefFromUUID(uuid);
         if (refESPlayer == null) return;
 
-        ItemStack itemInHand = InventoryComponent.getItemInHand(store, refESNPC);
-        if (itemInHand != null) {
-            double distance = RandomExtra.randomRange(0.2, 0.4);
-            Vector3d direction = this.newDirection(refESNPC, distance, store);
-            if (direction != null) {
-                ItemUtils.throwItem(refESNPC, commandBuffer, itemInHand, direction, 100);
+        CombinedItemContainer everythingInventoryComponent = InventoryComponent.getCombined(store, refESNPC, InventoryComponent.EVERYTHING);
+        for (short i = 0; i < everythingInventoryComponent.getCapacity(); i++) {
+            ItemStack itemStack = everythingInventoryComponent.getItemStack(i);
+            if (itemStack != null) {
+                double distance = RandomExtra.randomRange(0.2, 0.5);
+                Vector3d direction = this.newDirection(refESNPC, distance, store);
+                if (direction != null) {
+                    ItemUtils.throwItem(refESNPC, commandBuffer, itemStack, direction, 100);
+                }
             }
         }
 
         String blockId = hexCreatureComponent.getBlockName();
         ItemStack hexDropItem = InventoryHelper.createItem(blockId);
         if (hexDropItem != null) {
-            Vector3d direction = this.newDirection(refESPlayer, 1, store);
-            if (direction != null) {
-                ItemUtils.throwItem(refESPlayer, commandBuffer, hexDropItem, direction, 100);
-                spawnParticleEffect(refESPlayer, store, 3);
-            } else {
-                double distance = RandomExtra.randomRange(0.2, 0.4);
-                Vector3d direction2 = this.newDirection(refESNPC, distance, store);
-                if (direction2 != null) {
-                    ItemUtils.throwItem(refESNPC, commandBuffer, hexDropItem, direction2, 100);
+            Role npcRole = npcComponent.getRole();
+            if (dropHexItem || npcRole == null || Objects.equals(npcRole.getDropListId(), "Empty")) {
+                Vector3d direction = this.newDirection(refESPlayer, 1, store);
+                if (direction != null) {
+                    ItemUtils.throwItem(refESPlayer, commandBuffer, hexDropItem, direction, 100);
+                    spawnParticleEffect(refESPlayer, store, 3);
+                } else {
+                    double distance = RandomExtra.randomRange(0.2, 0.4);
+                    Vector3d direction2 = this.newDirection(refESNPC, distance, store);
+                    if (direction2 != null) {
+                        ItemUtils.throwItem(refESNPC, commandBuffer, hexDropItem, direction2, 100);
+                    }
                 }
             }
         }
