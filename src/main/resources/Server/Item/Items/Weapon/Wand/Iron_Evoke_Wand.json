@@ -61,6 +61,78 @@
     "SwapTo": "Root_Change_Stat_Wand_Particles"
   },
   "InteractionVars": {
+    "InteractionVars": {
+      "Evoke_Wand_Follow_Var": {
+        "Interactions": [
+          {
+            "Type": "EvokeFollow",
+            "MaxDistance": 30,
+            "Next": "Evoke_Wand_Follow_Generic",
+            "Failed": "Evoke_Interact_Fail"
+          }
+        ]
+      },
+      "Evoke_Wand_Selection_Var": {
+        "Interactions": [
+          {
+            "Type": "EvokeHCSelection",
+            "MaxSelection": 6,
+            "MaxDistance": 30,
+            "Next": "Evoke_Wand_Selection_Generic",
+            "Failed": "Evoke_Interact_Fail"
+          }
+        ]
+      },
+      "Evoke_Wand_Selection_All_Var": {
+        "Interactions": [
+          {
+            "Type": "EvokeHCSelection",
+            "All": true,
+            "MaxSelection": 6,
+            "MaxDistance": 30,
+            "Next": "Evoke_Wand_Selection_Generic",
+            "Failed": "Evoke_Interact_Fail"
+          }
+        ]
+      },
+      "Evoke_Wand_Target_Selection_Var": {
+        "Interactions": [
+          {
+            "Type": "EvokeTargetSelection",
+            "MaxDistance": 30,
+            "Next": "Evoke_Wand_Selection_Generic",
+            "Failed": "Evoke_Interact_Fail"
+          }
+        ]
+      }
+    },
+    "Evoke_Wand_Follow_Var": {
+      "Interactions": [
+        {
+          "Type": "EvokeFollow",
+          "MaxDistance": 30,
+          "Next": {
+            "Type": "Serial",
+            "Interactions": [
+              {
+                "Type": "Simple",
+                "RunTime": 0.7,
+                "Effects": {
+                  "ItemAnimationId": "Evoke_Wand_Follow",
+                  "ClearAnimationOnFinish": true
+                }
+              }
+            ]
+          },
+          "Failed": {
+            "Type": "Simple",
+            "Effects": {
+              "ItemAnimationId": "Interact"
+            }
+          }
+        }
+      ]
+    },
     "Evoke_Wand_Selection_Var": {
       "Interactions": [
         {
