@@ -2,7 +2,6 @@
   "StartState": "Following",
   "Type": "Generic",
   "Invulnerable": true,
-  "BusyStates": [ "$Interaction" ],
   "Parameters": {
     "Appearance": {
       "Value": "Hex_Fairy",
@@ -17,19 +16,20 @@
       "Value": "Hex_Fairy_Block",
       "Description": "Drop from Hex Creature"
     },
-    "holdableItem": {
-      "Value": "",
-      "Description": "An item that can be held in the hand"
-    },
     "holdableItems": {
       "Value": [ "" ],
       "Description": "Items that can be held in the hand"
+    },
+    "DropList": {
+      "Value": "Empty",
+      "Description": "Drop Items"
     },
     "NameTranslationKey": {
       "Value": "server.npcRoles.Template.name",
       "Description": "Translation key for NPC name display"
     }
   },
+  "DropList": { "Compute": "DropList" },
   "Appearance": {"Compute": "Appearance"},
   "FlockSpawnTypes": {"Compute": "FlockArray"},
   "FlockAllowedNPC": {"Compute": "FlockArray"},
@@ -106,35 +106,6 @@
                   "ForceJoin": true
                 }
               ]
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "$Comment": "Activate when the interaction is triggered",
-      "Continue": true,
-      "Sensor": {
-        "Type": "State",
-        "State": "$Interaction"
-      },
-      "Instructions": [
-        {
-          "$Comment": "Despawn the entity",
-          "Reference": "Component_Hex_Despawn",
-          "Modify": {
-            "DropHexItem": {"Compute": "DropHexItem"}
-          }
-        },
-        {
-          "$Comment": "Returns to the Following state",
-          "Sensor": {
-            "Type": "Any"
-          },
-          "Actions": [
-            {
-              "Type": "State",
-              "State": "Following"
             }
           ]
         }
@@ -239,8 +210,7 @@
                 "ExcludeOwnType": true,
                 "Filters": [
                   {
-                    "Type": "Flock",
-                    "FlockStatus": "Leader"
+                    "Type": "IsEvoker"
                   }
                 ]
               },
@@ -266,8 +236,7 @@
                 "LockOnTarget": true,
                 "Filters": [
                   {
-                    "Type": "Flock",
-                    "FlockStatus": "Leader"
+                    "Type": "IsEvoker"
                   }
                 ]
               },
@@ -284,8 +253,7 @@
                 "Type": "Target",
                 "Filters": [
                   {
-                    "Type": "Flock",
-                    "FlockStatus": "Leader"
+                    "Type": "IsEvoker"
                   }
                 ]
               },
@@ -316,10 +284,34 @@
     }
   ],
   "InteractionInstruction": {
-    "$Comment": "Controls the activation of the interaction",
-    "Reference": "Component_Hex_Interaction",
-    "Modify": {
-      "_ExportStates": [ "$Interaction" ]
-    }
+    "$Comment": "Opens the Hex Creature profile when interacted with",
+    "Instructions": [
+      {
+        "Continue": true,
+        "Sensor": {
+          "Type": "Any"
+        },
+        "Actions": [
+          {
+            "Type": "SetInteractable",
+            "Interactable": true
+          }
+        ]
+      },
+      {
+        "Sensor": {
+          "Type": "HasInteracted"
+        },
+        "Instructions": [
+          {
+            "Actions": [
+              {
+                "Type": "Despawn"
+              }
+            ]
+          }
+        ]
+      }
+    ]
   }
 }

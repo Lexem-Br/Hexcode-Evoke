@@ -1,0 +1,152 @@
+$C = "../Common.ui";
+
+@EditButtonStyle = TextButtonStyle(
+  Default: (Background: (TexturePath: "../Icons/editIcon.png")),
+  Hovered: (Background: (TexturePath: "../Icons/editIcon.png", Area: (Full: 6)))
+);
+
+@CloseButtonStyle = TextButtonStyle(
+    Default: (LabelStyle: (FontSize: 20, TextColor: #000000, RenderBold: true, HorizontalAlignment: Center, VerticalAlignment: Center)),
+    Hovered: (LabelStyle: (FontSize: 26, TextColor: #000000, RenderBold: true, HorizontalAlignment: Center, VerticalAlignment: Center)),
+    Pressed: (LabelStyle: (FontSize: 26, TextColor: #000000, RenderBold: true, HorizontalAlignment: Center, VerticalAlignment: Center))
+);
+
+@LightColorButtonLabelStyle = LabelStyle(
+  ...$C.@SmallButtonLabelStyle,
+  TextColor: #ffffff
+);
+
+@DarkColorButtonLabelStyle = LabelStyle(
+  ...$C.@SmallButtonLabelStyle,
+  TextColor: #141414
+);
+
+@RedColorButtonStyle = TextButtonStyle(
+  Default: (Background: (Color: #c94b4b), LabelStyle: @LightColorButtonLabelStyle),
+  Hovered: (Background: (Color: #db6262), LabelStyle: @LightColorButtonLabelStyle),
+  Pressed: (Background: (Color: #a73c3c), LabelStyle: @LightColorButtonLabelStyle),
+  Disabled: (Background: (Color: #57595c), LabelStyle: $C.@SmallButtonDisabledLabelStyle)
+);
+
+@BlueColorButtonStyle = TextButtonStyle(
+  Default: (Background: (Color: #4f73c7), LabelStyle: @LightColorButtonLabelStyle),
+  Hovered: (Background: (Color: #6386d6), LabelStyle: @LightColorButtonLabelStyle),
+  Pressed: (Background: (Color: #3e5ea9), LabelStyle: @LightColorButtonLabelStyle),
+  Disabled: (Background: (Color: #57595c), LabelStyle: $C.@SmallButtonDisabledLabelStyle)
+);
+
+@GreenColorButtonStyle = TextButtonStyle(
+  Default: (Background: (Color: #62b078), LabelStyle: @DarkColorButtonLabelStyle),
+  Hovered: (Background: (Color: #74c48a), LabelStyle: @DarkColorButtonLabelStyle),
+  Pressed: (Background: (Color: #4d905f), LabelStyle: @DarkColorButtonLabelStyle),
+  Disabled: (Background: (Color: #57595c), LabelStyle: $C.@SmallButtonDisabledLabelStyle)
+);
+
+@YellowColorButtonStyle = TextButtonStyle(
+  Default: (Background: (Color: #d9c25a), LabelStyle: @DarkColorButtonLabelStyle),
+  Hovered: (Background: (Color: #e6cf6a), LabelStyle: @DarkColorButtonLabelStyle),
+  Pressed: (Background: (Color: #b8a24a), LabelStyle: @DarkColorButtonLabelStyle),
+  Disabled: (Background: (Color: #57595c), LabelStyle: $C.@SmallButtonDisabledLabelStyle)
+);
+
+@PurpleColorButtonStyle = TextButtonStyle(
+  Default: (Background: (Color: #8f6fc7), LabelStyle: @LightColorButtonLabelStyle),
+  Hovered: (Background: (Color: #a17ed9), LabelStyle: @LightColorButtonLabelStyle),
+  Pressed: (Background: (Color: #7559a8), LabelStyle: @LightColorButtonLabelStyle),
+  Disabled: (Background: (Color: #57595c), LabelStyle: $C.@SmallButtonDisabledLabelStyle)
+);
+
+@PinkColorButtonStyle = TextButtonStyle(
+  Default: (Background: (Color: #d98cbb), LabelStyle: @DarkColorButtonLabelStyle),
+  Hovered: (Background: (Color: #e7a0ca), LabelStyle: @DarkColorButtonLabelStyle),
+  Pressed: (Background: (Color: #b3719d), LabelStyle: @DarkColorButtonLabelStyle),
+  Disabled: (Background: (Color: #57595c), LabelStyle: $C.@SmallButtonDisabledLabelStyle)
+);
+
+@CyanColorButtonStyle = TextButtonStyle(
+  Default: (Background: (Color: #78d6de), LabelStyle: @DarkColorButtonLabelStyle),
+  Hovered: (Background: (Color: #8ce3ea), LabelStyle: @DarkColorButtonLabelStyle),
+  Pressed: (Background: (Color: #5fb3ba), LabelStyle: @DarkColorButtonLabelStyle),
+  Disabled: (Background: (Color: #57595c), LabelStyle: $C.@SmallButtonDisabledLabelStyle)
+);
+
+@WhiteColorButtonStyle = TextButtonStyle(
+  Default: (Background: (Color: #e7e7e7), LabelStyle: @DarkColorButtonLabelStyle),
+  Hovered: (Background: (Color: #f4f4f4), LabelStyle: @DarkColorButtonLabelStyle),
+  Pressed: (Background: (Color: #cfcfcf), LabelStyle: @DarkColorButtonLabelStyle),
+  Disabled: (Background: (Color: #57595c), LabelStyle: $C.@SmallButtonDisabledLabelStyle)
+);
+
+@SectionTitleStyle = LabelStyle(
+  FontSize: 14,
+  RenderBold: true,
+  TextColor: #e6d8aa
+);
+
+@CaptionStyle = LabelStyle(
+  FontSize: 14,
+  TextColor: #9aa7b2,
+  Wrap: true
+);
+
+$C.@PageOverlay {}
+
+Group {
+     Anchor: (Full: 0);
+     LayoutMode: Center;
+
+     Group #LeftPanel {
+        Anchor: (Width: 600, Height: 600);
+
+        $C.@DecoratedContainer {
+            Anchor: (Full: 0);
+
+            Group {
+                Anchor: (Height: 40, Top: 0);
+                Padding: (Top: 7);
+
+                Group {
+                    $C.@Title {
+                        Text: "Hex Creature Profile";
+                        Anchor: (Height: 30);
+                    }
+                }
+            }
+        }
+    }
+
+    Group { Anchor: (Width: 20); }
+
+     Group #RightPanel {
+        LayoutMode: Top;
+        Anchor: (Width: 600, Height: 600);
+
+        $C.@DecoratedContainer {
+             Anchor: (Full: 0);
+
+            #Title {
+                $C.@Title {
+                  @Text = "Player Inventory";
+                }
+            }
+
+             #Content {
+                Group #HotbarSection {
+                   LayoutMode: Top;
+                   Anchor: (Height: 76, Bottom: 4);
+
+                   Label #HotbarTitle {
+                     Anchor: (Height: 16, Bottom: 6, Left: 14);
+                     Style: @CaptionStyle;
+                     Text: "Hotbar";
+                   }
+
+                   Group #HotbarSlots {
+                     LayoutMode: CenterMiddle;
+                     Anchor: (Height: 50);
+                   }
+                }
+             }
+        }
+     }
+}

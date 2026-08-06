@@ -209,9 +209,9 @@ public class EvokeHCSelectionInteraction extends SimpleInteraction {
         logCountFreeSlots(store.getComponent(refESNPC, InventoryComponent.Storage.getComponentType()), "Storage");
     }
 
-    private void logSlots(InventoryComponent backpackInventoryComponent, String type) {
-        if (backpackInventoryComponent != null) {
-            ItemContainer container = backpackInventoryComponent.getInventory();
+    private void logSlots(InventoryComponent inventoryComponent, String type) {
+        if (inventoryComponent != null) {
+            ItemContainer container = inventoryComponent.getInventory();
             for (short i = 0; i < container.getCapacity(); i++) {
                 ItemStack itemStack = container.getItemStack(i);
                 if (itemStack != null) {

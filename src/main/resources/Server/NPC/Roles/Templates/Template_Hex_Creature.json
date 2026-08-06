@@ -2,7 +2,6 @@
   "StartState": "Following",
   "Type": "Abstract",
   "Invulnerable": false,
-  "BusyStates": [ "$Interaction" ],
   "Parameters": {
     "Appearance": {
       "Value": "Mannequin",
@@ -104,7 +103,12 @@
             {
               "Sensor": {
                 "Type": "Player",
-                "Range": 15
+                "Range": 15,
+                "Filters": [
+                  {
+                    "Type": "IsEvoker"
+                  }
+                ]
               },
               "Actions": [
                 {
@@ -112,31 +116,6 @@
                   "ForceJoin": true
                 }
               ]
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "$Comment": "Activate when the interaction is triggered",
-      "Continue": true,
-      "Sensor": {
-        "Type": "State",
-        "State": "$Interaction"
-      },
-      "Instructions": [
-        {
-          "$Comment": "Despawn the entity and returns to the Following state",
-          "Sensor": {
-            "Type": "Any"
-          },
-          "Actions": [
-            {
-              "Type": "Despawn"
-            },
-            {
-              "Type": "State",
-              "State": "Following"
             }
           ]
         }
@@ -190,7 +169,7 @@
         {
           "Continue": true,
           "Sensor": {
-              "Type": "FlockLeader"
+            "Type": "FlockLeader"
           },
           "Instructions": [
             {
@@ -282,8 +261,7 @@
                 "LockOnTarget": true,
                 "Filters": [
                   {
-                    "Type": "Flock",
-                    "FlockStatus": "Leader"
+                    "Type": "IsEvoker"
                   }
                 ]
               },
@@ -308,8 +286,7 @@
                 "LockOnTarget": true,
                 "Filters": [
                   {
-                    "Type": "Flock",
-                    "FlockStatus": "Leader"
+                    "Type": "IsEvoker"
                   }
                 ]
               },
@@ -333,8 +310,7 @@
                 "Type": "Target",
                 "Filters": [
                   {
-                    "Type": "Flock",
-                    "FlockStatus": "Leader"
+                    "Type": "IsEvoker"
                   }
                 ]
               },
@@ -364,10 +340,34 @@
     }
   ],
   "InteractionInstruction": {
-    "$Comment": "Controls the activation of the interaction",
-    "Reference": "Component_Hex_Interaction",
-    "Modify": {
-      "_ExportStates": [ "$Interaction" ]
-    }
+    "$Comment": "Opens the Hex Creature profile when interacted with",
+    "Instructions": [
+      {
+        "Continue": true,
+        "Sensor": {
+          "Type": "Any"
+        },
+        "Actions": [
+          {
+            "Type": "SetInteractable",
+            "Interactable": true
+          }
+        ]
+      },
+      {
+        "Sensor": {
+          "Type": "HasInteracted"
+        },
+        "Instructions": [
+          {
+            "Actions": [
+              {
+                "Type": "Despawn"
+              }
+            ]
+          }
+        ]
+      }
+    ]
   }
 }
