@@ -29,17 +29,16 @@ $C = "../Common.ui";
 );
 
 Group #OutputSection {
-    Anchor: (Height: 80);
-    Padding: (Top: 4);
+    Anchor: (Height: 70);
     LayoutMode: CenterMiddle;
 
     ItemSlotButton #OutputSlotContainer {
-        Anchor: (Width: 60, Height: 60);
+        Anchor: (Width: 68, Height: 68);
 
         Group #OutputSlotBorder {
             Anchor: (Full: 0);
             Background: #1a2530;
-            Padding: 2;
+            Padding: 4;
 
             ItemSlot #OutputSlot {
                Anchor: (Full: 0);

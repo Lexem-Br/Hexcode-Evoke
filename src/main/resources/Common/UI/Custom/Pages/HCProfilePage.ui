@@ -93,10 +93,10 @@ $C.@PageOverlay {}
 
 Group {
      Anchor: (Full: 0);
-     LayoutMode: Center;
+     LayoutMode: CenterMiddle;
 
      Group #LeftPanel {
-        Anchor: (Width: 600, Height: 600);
+        Anchor: (Width: 500, Height: 600);
 
         $C.@DecoratedContainer {
             Anchor: (Full: 0);
@@ -118,8 +118,7 @@ Group {
     Group { Anchor: (Width: 20); }
 
      Group #RightPanel {
-        LayoutMode: Top;
-        Anchor: (Width: 600, Height: 600);
+        Anchor: (Width: 700, Height: 600);
 
         $C.@DecoratedContainer {
              Anchor: (Full: 0);
@@ -131,20 +130,53 @@ Group {
             }
 
              #Content {
-                Group #HotbarSection {
-                   LayoutMode: Top;
-                   Anchor: (Height: 76, Bottom: 4);
+                Group {
+                    LayoutMode: TopScrolling;
+                    ScrollbarStyle: $C.@DefaultScrollbarStyle;
 
-                   Label #HotbarTitle {
-                     Anchor: (Height: 16, Bottom: 6, Left: 14);
-                     Style: @CaptionStyle;
-                     Text: "Hotbar";
-                   }
+                    Group #HotbarSection {
+                       LayoutMode: Top;
 
-                   Group #HotbarSlots {
-                     LayoutMode: CenterMiddle;
-                     Anchor: (Height: 50);
-                   }
+                       Label #HotbarTitle {
+                         Anchor: (Height: 30, Left: 20);
+                         Style: @CaptionStyle;
+                         Text: "Hotbar";
+                       }
+
+                       Group #HotbarSlots {
+                           LayoutMode: LeftCenterWrap;
+                       }
+                    }
+
+                     Group #StorageSection {
+                        LayoutMode: Top;
+                        Anchor: (Top: 24);
+
+                        Label #StorageTitle {
+                            Anchor: (Height: 30, Left: 20);
+                            Style: @CaptionStyle;
+                            Text: "Storage";
+                        }
+
+                        Group #StorageSlots {
+                            LayoutMode: LeftCenterWrap;
+                        }
+                    }
+
+                    Group #BackpackSection {
+                        LayoutMode: Top;
+                        Anchor: (Top: 24);
+
+                        Label #BackpackTitle {
+                            Anchor: (Height: 30, Left: 20);
+                            Style: @CaptionStyle;
+                            Text: "Backpack";
+                        }
+
+                        Group #BackpackSlots {
+                            LayoutMode: LeftCenterWrap;
+                        }
+                    }
                 }
              }
         }

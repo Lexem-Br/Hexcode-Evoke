@@ -30,16 +30,11 @@ import java.util.*;
 
 public class HCProfilePage extends InteractiveCustomUIPage<HCProfilePage.CloseEventData> {
     private static final HytaleLogger LOGGER = HytaleLogger.forEnclosingClass();
-    private static final String DEFAULT_ICON = "Hex_Mannequin_Block";
     private boolean isEditModeEnabled = false;
     private final String pageNameFile;
     private final String entryFile;
 
-    private String selectedPrimaryKey;
-    private String selectedSecondaryKey;
-    private static final int HOTBAR_SLOTS_PER_ROW = 9;
-    private static final int INVENTORY_SLOTS_PER_ROW = 9;
-    private static final String INVENTORY_ROW_UI = "Group { LayoutMode: LeftCenterWrap; Anchor: (Height: 54, Bottom: 2); }";
+    private static final String INVENTORY_ROW = "Group { LayoutMode: CenterMiddle; Anchor: (Full: 0); }";
 
     public static class CloseEventData {
         public String hexCreatureName;
@@ -74,30 +69,41 @@ public class HCProfilePage extends InteractiveCustomUIPage<HCProfilePage.CloseEv
     ) {
         commandBuilder.append("Pages/" + pageNameFile + ".ui");
 
-        ItemContainer hotbarInventory = store.getComponent(ref, InventoryComponent.Hotbar.getComponentType()).getInventory();
-
+        ItemContainer hotbarInventory = Objects.requireNonNull(store.getComponent(ref, InventoryComponent.Hotbar.getComponentType())).getInventory();
         if (hotbarInventory != null) {
-            this.bindInventorySectionEvents(commandBuilder, eventBuilder, hotbarInventory);
-//            boolean hasHotbar = this.appendInventorySection(commandBuilder, hotbarInventory.getInventory(),
-//                    "#HotbarSection", "#HotbarSlots", "Hotbar", InventoryComponent.HOTBAR_SECTION_ID);
+            this.bindInventorySectionEvents(commandBuilder, hotbarInventory, "#HotbarSlots", 9);
         }
 
+        ItemContainer storageInventory = Objects.requireNonNull(store.getComponent(ref, InventoryComponent.Storage.getComponentType())).getInventory();
+        if (storageInventory != null) {
+            this.bindInventorySectionEvents(commandBuilder, storageInventory, "#StorageSlots", 9);
+        }
 
-//        createHCCards(commandBuilder, eventBuilder, hexCreatures);
-
-//        eventBuilder.addEventBinding(CustomUIEventBindingType.Activating, "#CloseButton");
+        ItemContainer backpackInventory = Objects.requireNonNull(store.getComponent(ref, InventoryComponent.Backpack.getComponentType())).getInventory();
+        if (backpackInventory != null) {
+            this.bindInventorySectionEvents(commandBuilder, backpackInventory, "#BackpackSlots", 9);
+        }
     }
-
 
     private void bindInventorySectionEvents(
             @Nonnull UICommandBuilder commandBuilder,
-            @Nonnull UIEventBuilder eventBuilder,
-            ItemContainer itemContainer
+            ItemContainer itemContainer,
+            String inventoryType,
+            int slotsPerRow
     ) {
-        commandBuilder.clear("#HotbarSlots");
+        commandBuilder.clear(inventoryType);
 
         for (short slot = 0; slot < itemContainer.getCapacity(); slot++) {
-            commandBuilder.append("#HotbarSlots", ("Pages/" + entryFile + ".ui"));
+            int indexSlotRow = slot % slotsPerRow;
+            if (indexSlotRow == 0) {
+                commandBuilder.appendInline(inventoryType, INVENTORY_ROW);
+            }
+
+            int rowIndex = slot / slotsPerRow;
+            String rowSelector = inventoryType + "[" + rowIndex + "]";
+            String selector = rowSelector + "[" + indexSlotRow + "]";
+
+            commandBuilder.append(rowSelector, ("Pages/" + entryFile + ".ui"));
 
             ItemStack itemStack = itemContainer.getItemStack(slot);
             if (!ItemStack.isEmpty(itemStack)) {
@@ -105,7 +111,6 @@ public class HCProfilePage extends InteractiveCustomUIPage<HCProfilePage.CloseEv
                 String itemId = itemContext.getItemStack().getItem().getId();
                 String itemQuantity = String.valueOf(itemContext.getItemStack().getQuantity());
                 if (itemId != null && !itemId.isEmpty()) {
-                    String selector = "#HotbarSlots[" + slot + "]";
                     commandBuilder.set(selector + " #OutputSlot.ItemId", itemId);
                     commandBuilder.set(selector + " #OutputQuantity.Text", itemQuantity);
                 }
