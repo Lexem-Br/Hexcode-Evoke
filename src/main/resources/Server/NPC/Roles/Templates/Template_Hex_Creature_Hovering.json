@@ -306,7 +306,7 @@
           {
             "Actions": [
               {
-                "Type": "Despawn"
+                "Type": "OpenHCProfile"
               }
             ]
           }

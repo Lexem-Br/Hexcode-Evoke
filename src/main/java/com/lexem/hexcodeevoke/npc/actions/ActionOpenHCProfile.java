@@ -27,10 +27,10 @@ public class ActionOpenHCProfile extends ActionBase {
    }
 
    @Override
-   public boolean execute(@Nonnull Ref<EntityStore> ref, @Nonnull Role role, @Nullable InfoProvider sensorInfo, double dt, @Nonnull Store<EntityStore> store) {
-      super.execute(ref, role, sensorInfo, dt, store);
+   public boolean execute(@Nonnull Ref<EntityStore> npcRef, @Nonnull Role role, @Nullable InfoProvider sensorInfo, double dt, @Nonnull Store<EntityStore> store) {
+      super.execute(npcRef, role, sensorInfo, dt, store);
 
-      HexCreatureComponent hexCreatureComponent = store.getComponent(ref, HexCreatureComponent.getComponentType());
+      HexCreatureComponent hexCreatureComponent = store.getComponent(npcRef, HexCreatureComponent.getComponentType());
       if (hexCreatureComponent == null) {return false;}
 
       Ref<EntityStore> refESPlayer = store.getExternalData().getRefFromUUID(UUID.fromString(hexCreatureComponent.getEvokerUUID()));
@@ -42,7 +42,7 @@ public class ActionOpenHCProfile extends ActionBase {
       Player player = store.getComponent(refESPlayer, Player.getComponentType());
       if (player == null) { return false; }
 
-      HCProfilePage hcProfilePage = new HCProfilePage(playerRef, pageName, cardName);
+      HCProfilePage hcProfilePage = new HCProfilePage(playerRef, npcRef, pageName, cardName);
       player.getPageManager().openCustomPage(refESPlayer, store, hcProfilePage);
 
       return true;

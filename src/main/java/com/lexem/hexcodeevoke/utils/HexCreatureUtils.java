@@ -1,47 +1,25 @@
 package com.lexem.hexcodeevoke.utils;
 
 import com.hypixel.hytale.component.*;
-import com.hypixel.hytale.component.spatial.SpatialResource;
 import com.hypixel.hytale.logger.HytaleLogger;
-import com.hypixel.hytale.math.random.RandomExtra;
 import com.hypixel.hytale.math.vector.Rotation3f;
-import com.hypixel.hytale.math.vector.Vector3dUtil;
 import com.hypixel.hytale.server.core.Message;
 import com.hypixel.hytale.server.core.asset.type.blocktype.config.BlockType;
 import com.hypixel.hytale.server.core.asset.type.blocktype.config.RotationTuple;
-import com.hypixel.hytale.server.core.entity.ItemUtils;
-import com.hypixel.hytale.server.core.inventory.InventoryComponent;
-import com.hypixel.hytale.server.core.inventory.ItemStack;
-import com.hypixel.hytale.server.core.inventory.container.CombinedItemContainer;
-import com.hypixel.hytale.server.core.modules.entity.EntityModule;
-import com.hypixel.hytale.server.core.modules.entity.component.HeadRotation;
-import com.hypixel.hytale.server.core.modules.entity.component.ModelComponent;
-import com.hypixel.hytale.server.core.modules.entity.component.TransformComponent;
-import com.hypixel.hytale.server.core.modules.physics.util.PhysicsMath;
 import com.hypixel.hytale.server.core.universe.PlayerRef;
-import com.hypixel.hytale.server.core.universe.world.ParticleUtil;
 import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.hypixel.hytale.server.core.util.NotificationUtil;
 import com.hypixel.hytale.server.npc.NPCPlugin;
 import com.hypixel.hytale.server.npc.entities.NPCEntity;
-import com.hypixel.hytale.server.npc.role.Role;
-import com.hypixel.hytale.server.npc.util.AimingHelper;
-import com.hypixel.hytale.server.npc.util.InventoryHelper;
 import com.lexem.hexcodeevoke.components.EvokerComponent;
-import com.lexem.hexcodeevoke.components.HexCreatureComponent;
 import com.lexem.hexcodeevoke.events.SaveHexCreatureEvent;
 import com.lexem.hexcodeevoke.hexitems.HexItemRegistery;
 import it.unimi.dsi.fastutil.Pair;
 import org.joml.Vector3d;
 import org.joml.Vector3i;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import java.util.List;
 import java.util.Map;
-import java.util.Objects;
-import java.util.UUID;
 
 public class HexCreatureUtils {
     private static final HytaleLogger LOGGER = HytaleLogger.forEnclosingClass();

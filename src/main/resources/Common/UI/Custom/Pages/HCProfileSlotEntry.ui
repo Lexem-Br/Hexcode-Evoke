@@ -29,7 +29,6 @@ $C = "../Common.ui";
 );
 
 Group #OutputSection {
-    Anchor: (Height: 70);
     LayoutMode: CenterMiddle;
 
     ItemSlotButton #OutputSlotContainer {

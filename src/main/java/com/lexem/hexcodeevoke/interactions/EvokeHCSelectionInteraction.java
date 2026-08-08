@@ -167,7 +167,6 @@ public class EvokeHCSelectionInteraction extends SimpleInteraction {
                     evoker.removeSelectedHexCreature(uuidtargetEntity.getUuid().toString());
                 } else {
                     if (evoker.canSelectHexCreature(maxSelection)) {
-//                        logInventary(targetEntity, store);
                         evoker.addSelectedHexCreature(uuidtargetEntity.getUuid().toString());
                     } else {
                         messageMaxWandSelectionExceeded(playerRef, store, maxSelection);
@@ -196,36 +195,6 @@ public class EvokeHCSelectionInteraction extends SimpleInteraction {
             int ib = orderMap.getOrDefault(b, Integer.MAX_VALUE);
             return Integer.compare(ia, ib);
         });
-    }
-
-    private void logInventary(Ref<EntityStore> refESNPC, Store<EntityStore> store) {
-//        logSlots(store.getComponent(refESNPC, InventoryComponent.Armor.getComponentType()), "Armor");
-        logCountFreeSlots(store.getComponent(refESNPC, InventoryComponent.Armor.getComponentType()), "Armor");
-
-//        logSlots(store.getComponent(refESNPC, InventoryComponent.Hotbar.getComponentType()), "Hotbar");
-        logCountFreeSlots(store.getComponent(refESNPC, InventoryComponent.Hotbar.getComponentType()), "Hotbar");
-
-//        logSlots(store.getComponent(refESNPC, InventoryComponent.Storage.getComponentType()), "Storage");
-        logCountFreeSlots(store.getComponent(refESNPC, InventoryComponent.Storage.getComponentType()), "Storage");
-    }
-
-    private void logSlots(InventoryComponent inventoryComponent, String type) {
-        if (inventoryComponent != null) {
-            ItemContainer container = inventoryComponent.getInventory();
-            for (short i = 0; i < container.getCapacity(); i++) {
-                ItemStack itemStack = container.getItemStack(i);
-                if (itemStack != null) {
-                    LOGGER.atInfo().log("[Inventary %s slot %s]: %s", type, i, itemStack.getItemId());
-                }
-            }
-        }
-    }
-
-    private void logCountFreeSlots(InventoryComponent backpackInventoryComponent, String type) {
-        if (backpackInventoryComponent != null) {
-            ItemContainer container = backpackInventoryComponent.getInventory();
-            LOGGER.atInfo().log("[Inventary countFreeSlots %s]: %s", type, InventoryHelper.countFreeSlots(container));
-        }
     }
 
     private static void messageInvalidTarget(Ref<EntityStore> refESPlayer, Store<EntityStore> store) {
