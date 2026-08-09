@@ -114,8 +114,8 @@ Group {
 
             #Content {
                 Group {
-                    LayoutMode: Top;
-                    Anchor: (Height: 74);
+                    LayoutMode: TopScrolling;
+                    ScrollbarStyle: $C.@DefaultScrollbarStyle;
 
                     Group {
 
@@ -242,7 +242,7 @@ Group {
 
                             Group {
                                 LayoutMode: Middle;
-                                Anchor: (Height: 40, Width: 40);
+                                Anchor: (Height: 40, Width: 45);
                                 Label #NPCArmorHandsTitle {
                                     Style: @CaptionStyle;
                                     Text: "Hands";
@@ -273,7 +273,7 @@ Group {
                         }
                     }
 
-                    Group { Anchor: (Height: 40); }
+                    Group { Anchor: (Height: 20); }
 
                     Group #NPCInventorySection {
                         LayoutMode: Top;

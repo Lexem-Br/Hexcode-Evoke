@@ -20,6 +20,7 @@ import com.lexem.hexcodeevoke.hexitems.AllowedHexItemsAsset;
 import com.lexem.hexcodeevoke.interactions.*;
 import com.lexem.hexcodeevoke.npc.actions.builders.BuilderActionSetInteractableFlockLeader;
 import com.lexem.hexcodeevoke.npc.actions.builders.BuilderActionOpenHCProfile;
+import com.lexem.hexcodeevoke.npc.actions.builders.BuilderActionHCPickUpItem;
 import com.lexem.hexcodeevoke.npc.bodymotions.builders.BuilderTeleportHexCreature;
 import com.lexem.hexcodeevoke.npc.sensors.builders.BuilderSensorEvokeReadPosition;
 import com.lexem.hexcodeevoke.npc.filters.builders.BuilderFilterEvokeIsInventoryFull;
@@ -81,6 +82,7 @@ public class HexcodeEvoke extends JavaPlugin {
         npcPlugin.registerCoreComponentType("EvokeIsInventoryFull", BuilderFilterEvokeIsInventoryFull::new);
         npcPlugin.registerCoreComponentType("OpenHCProfile", BuilderActionOpenHCProfile::new);
         npcPlugin.registerCoreComponentType("IsEvoker", BuilderFilterIsEvoker::new);
+        npcPlugin.registerCoreComponentType("HCPickUpItem", BuilderActionHCPickUpItem::new);
     }
 
     private void registerComponents() {

@@ -33,11 +33,20 @@ Group #OutputSection {
 
     ItemSlotButton #OutputSlotContainer {
         Anchor: (Width: 68, Height: 68);
+        LayoutMode: Full;
+        Padding: 2;
+
+        Style: (
+            Default: (Background: #252f3a),
+            Hovered: (Background: #2473AB),
+            Pressed: (Background: #a08040),
+            Sounds: $C.@ButtonSounds,
+        );
 
         Group #OutputSlotBorder {
             Anchor: (Full: 0);
             Background: #1a2530;
-            Padding: 4;
+            Padding: 3;
 
             ItemSlot #OutputSlot {
                Anchor: (Full: 0);
