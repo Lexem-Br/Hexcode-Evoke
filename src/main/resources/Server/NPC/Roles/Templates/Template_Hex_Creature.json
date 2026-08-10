@@ -89,7 +89,7 @@
   ],
   "Instructions": [
     {
-      "$Comment": "Adds the entity to the flock of the first player it finds",
+      "$Comment": "Adds the entity to the player flock",
       "Continue": true,
       "Instructions": [
         {

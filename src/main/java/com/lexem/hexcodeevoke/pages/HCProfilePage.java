@@ -3,17 +3,26 @@ package com.lexem.hexcodeevoke.pages;
 import com.hypixel.hytale.codec.Codec;
 import com.hypixel.hytale.codec.KeyedCodec;
 import com.hypixel.hytale.codec.builder.BuilderCodec;
+import com.hypixel.hytale.component.ComponentAccessor;
+import com.hypixel.hytale.component.ComponentType;
 import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.component.Store;
 import com.hypixel.hytale.logger.HytaleLogger;
 import com.hypixel.hytale.protocol.packets.interface_.CustomPageLifetime;
 import com.hypixel.hytale.protocol.packets.interface_.CustomUIEventBindingType;
+import com.hypixel.hytale.server.core.asset.type.item.config.Item;
 import com.hypixel.hytale.server.core.entity.entities.Player;
 import com.hypixel.hytale.server.core.entity.entities.player.pages.InteractiveCustomUIPage;
+import com.hypixel.hytale.server.core.entity.entities.player.windows.ItemContainerWindow;
 import com.hypixel.hytale.server.core.inventory.InventoryComponent;
 import com.hypixel.hytale.server.core.inventory.ItemContext;
 import com.hypixel.hytale.server.core.inventory.ItemStack;
+import com.hypixel.hytale.server.core.inventory.container.InternalContainerUtilItemStack;
 import com.hypixel.hytale.server.core.inventory.container.ItemContainer;
+import com.hypixel.hytale.server.core.inventory.transaction.ActionType;
+import com.hypixel.hytale.server.core.inventory.transaction.ItemStackSlotTransaction;
+import com.hypixel.hytale.server.core.inventory.transaction.ItemStackTransaction;
+import com.hypixel.hytale.server.core.inventory.transaction.MoveTransaction;
 import com.hypixel.hytale.server.core.ui.builder.EventData;
 import com.hypixel.hytale.server.core.ui.builder.UICommandBuilder;
 import com.hypixel.hytale.server.core.ui.builder.UIEventBuilder;
@@ -23,6 +32,7 @@ import com.hypixel.hytale.server.npc.entities.NPCEntity;
 import com.lexem.hexcodeevoke.components.HexCreatureComponent;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.*;
 
 public class HCProfilePage extends InteractiveCustomUIPage<HCProfilePage.HCProfileEventData> {
@@ -35,8 +45,10 @@ public class HCProfilePage extends InteractiveCustomUIPage<HCProfilePage.HCProfi
     private UICommandBuilder commandBuilder;
     private UIEventBuilder eventBuilder;
     private Store<EntityStore> store;
-    private String selectedNPCSlot;
     private String selectedPlayerSlot;
+    private String selectedNPCSlot;
+    private ItemData selectedPlayerItemContext;
+    private ItemData selectedNPCItemContext;
 
     private static final String INVENTORY_ROW = "Group { LayoutMode: CenterMiddle; Anchor: (Full: 0); }";
 
@@ -91,6 +103,7 @@ public class HCProfilePage extends InteractiveCustomUIPage<HCProfilePage.HCProfi
         commandBuilder.append("Pages/" + pageNameFile + ".ui");
         playerInventoryBuild();
         npcInventoryBuild();
+        bindButtons();
     }
 
     private void playerInventoryBuild() {
@@ -138,7 +151,7 @@ public class HCProfilePage extends InteractiveCustomUIPage<HCProfilePage.HCProfi
         bindNPCHands();
         bindNPCArmors();
         bindNPCInventory();
-        bindButtons();
+        bindNPCButtons();
     }
 
     private void bindNPCInfo() {
@@ -161,12 +174,18 @@ public class HCProfilePage extends InteractiveCustomUIPage<HCProfilePage.HCProfi
     private void bindNPCHands() {
         ItemContainer utilityInventory = Objects.requireNonNull(store.getComponent(npcRef, InventoryComponent.Utility.getComponentType())).getInventory();
         if (utilityInventory != null && utilityInventory.getCapacity() > 0) {
+            commandBuilder.set("#NPCLeftHand.Visible", true);
             this.bindSlot(utilityInventory, "#NPCLeftHandSlot", (short) 0, false);
+        } else {
+            commandBuilder.set("#NPCLeftHand.Visible", false);
         }
 
         ItemContainer hotbarInventory = Objects.requireNonNull(store.getComponent(npcRef, InventoryComponent.Hotbar.getComponentType())).getInventory();
         if (hotbarInventory != null && hotbarInventory.getCapacity() > 0) {
+            commandBuilder.set("#NPCRightHand.Visible", true);
             this.bindSlot(hotbarInventory, "#NPCRightHandSlot", (short) 0, false);
+        } else {
+            commandBuilder.set("#NPCRightHand.Visible", false);
         }
     }
 
@@ -189,6 +208,15 @@ public class HCProfilePage extends InteractiveCustomUIPage<HCProfilePage.HCProfi
                 commandBuilder.set(selector + " #OutputSlot.ItemId", itemId);
                 commandBuilder.set(selector + " #OutputQuantity.Text", itemQuantity);
             }
+            if (this.selectedPlayerSlot.equals(selector)) {
+                this.selectedPlayerItemContext = new ItemData(itemContainer, slot, itemStack);
+            } else if (this.selectedNPCSlot.equals(selector)) {
+                this.selectedNPCItemContext = new ItemData(itemContainer, slot, itemStack);
+            }
+        } else if (this.selectedPlayerSlot.equals(selector)) {
+            this.selectedPlayerItemContext = new ItemData(itemContainer, slot, null);
+        } else if (this.selectedNPCSlot.equals(selector)) {
+            this.selectedNPCItemContext = new ItemData(itemContainer, slot, null);
         }
 
         if (this.selectedPlayerSlot.equals(selector) || this.selectedNPCSlot.equals(selector)) {
@@ -210,25 +238,46 @@ public class HCProfilePage extends InteractiveCustomUIPage<HCProfilePage.HCProfi
     private void bindNPCArmors() {
         ItemContainer armorInventory = Objects.requireNonNull(store.getComponent(npcRef, InventoryComponent.Armor.getComponentType())).getInventory();
         if (armorInventory != null && armorInventory.getCapacity() >= 4) {
+            commandBuilder.set("#NPCArmorHead.Visible", true);
+            commandBuilder.set("#NPCArmorChest.Visible", true);
+            commandBuilder.set("#NPCArmorHands.Visible", true);
+            commandBuilder.set("#NPCArmorLegs.Visible", true);
             this.bindSlot(armorInventory,  "#NPCArmorHeadSlot", (short) 0, false);
             this.bindSlot(armorInventory, "#NPCArmorChestSlot", (short) 1, false);
             this.bindSlot(armorInventory, "#NPCArmorHandsSlot", (short) 2, false);
             this.bindSlot(armorInventory, "#NPCArmorLegsSlot", (short) 3, false);
+        } else {
+            commandBuilder.set("#NPCArmorHead.Visible", false);
+            commandBuilder.set("#NPCArmorChest.Visible", false);
+            commandBuilder.set("#NPCArmorHands.Visible", false);
+            commandBuilder.set("#NPCArmorLegs.Visible", false);
         }
     }
 
     private void bindNPCInventory() {
         ItemContainer itemContainer = Objects.requireNonNull(store.getComponent(npcRef, InventoryComponent.Storage.getComponentType())).getInventory();
-        if (itemContainer != null) {
+        if (itemContainer != null && itemContainer.getCapacity() > 0) {
+            commandBuilder.set("#NPCInventorySection.Visible", true);
             this.bindInventorySectionEvents(itemContainer, "#NPCInventorySlots", 7, false);
+        } else {
+            commandBuilder.set("#NPCInventorySection.Visible", false);
         }
+    }
+
+    private void bindNPCButtons() {
+        eventBuilder.addEventBinding(
+                CustomUIEventBindingType.Activating,
+                "#DespawnButton",
+                new EventData().append("Action", "Despawn"),
+                false
+        );
     }
 
     private void bindButtons() {
         eventBuilder.addEventBinding(
                 CustomUIEventBindingType.Activating,
-                "#DespawnButton",
-                new EventData().append("Action", "Despawn"),
+                "#TransferButton",
+                new EventData().append("Action", "Transfer"),
                 false
         );
     }
@@ -248,13 +297,58 @@ public class HCProfilePage extends InteractiveCustomUIPage<HCProfilePage.HCProfi
 
             npcComponent.setToDespawn();
         } else if (data.action != null && data.action.equals("Selector")) {
-            LOGGER.atInfo().log("[isPlayerSelector]: %s", data.isPlayerSelector);
             if (Objects.equals(data.isPlayerSelector, "true")) {
                 this.selectedPlayerSlot = data.selector;
             } else {
                 this.selectedNPCSlot = data.selector;
             }
             refreshPage();
+        } else if (data.action != null && data.action.equals("Transfer")) {
+            transferItems();
+            refreshPage();
+        }
+    }
+
+    private void transferItems() {
+        ItemContainer playerItemContainer = selectedPlayerItemContext.container;
+        short playerItemSlot = selectedPlayerItemContext.slot();
+        ItemStack playerItemStack = playerItemContainer.getItemStack(playerItemSlot);
+
+        ItemContainer npcItemContainer = selectedNPCItemContext.container();
+        short npcItemSlot = selectedNPCItemContext.slot();
+        ItemStack npcItemStack = npcItemContainer.getItemStack(npcItemSlot);
+
+        boolean playerItemStackExistis = playerItemStack != null;
+        boolean npcItemStackExistis = npcItemStack != null;
+
+        if (playerItemStackExistis && npcItemStackExistis) {
+            playerItemContainer.removeItemStack(playerItemStack);
+            npcItemContainer.removeItemStack(npcItemStack);
+
+            boolean canAddItemToSlotNPC = npcItemContainer.canAddItemStackToSlot(npcItemSlot, playerItemStack, true, true);
+            boolean canAddItemToSlotPlayer = playerItemContainer.canAddItemStackToSlot(playerItemSlot, npcItemStack, true, true);
+
+            if (canAddItemToSlotNPC && canAddItemToSlotPlayer) {
+                playerItemContainer.addItemStackToSlot(playerItemSlot, npcItemStack, true, true);
+                npcItemContainer.addItemStackToSlot(npcItemSlot, playerItemStack, true, true);
+            } else {
+                playerItemContainer.addItemStackToSlot(playerItemSlot, playerItemStack, true, true);
+                npcItemContainer.addItemStackToSlot(npcItemSlot, npcItemStack, true, true);
+            }
+        } else if (playerItemStackExistis) {
+            boolean canAddItemToSlotNPC = npcItemContainer.canAddItemStackToSlot(npcItemSlot, playerItemStack, true, true);
+
+            if (canAddItemToSlotNPC) {
+                playerItemContainer.removeItemStack(playerItemStack);
+                npcItemContainer.addItemStackToSlot(npcItemSlot, playerItemStack, true, true);
+            }
+        } else if (npcItemStackExistis) {
+            boolean canAddItemToSlotPlayer = playerItemContainer.canAddItemStackToSlot(playerItemSlot, npcItemStack, true, true);
+
+            if (canAddItemToSlotPlayer) {
+                npcItemContainer.removeItemStack(npcItemStack);
+                playerItemContainer.addItemStackToSlot(playerItemSlot, npcItemStack, true, true);
+            }
         }
     }
 
@@ -270,4 +364,6 @@ public class HCProfilePage extends InteractiveCustomUIPage<HCProfilePage.HCProfi
 
         sendUpdate(commandBuilder, eventBuilder, false);
     }
+
+    private record ItemData(@Nonnull ItemContainer container, short slot, ItemStack itemStack) {}
 }

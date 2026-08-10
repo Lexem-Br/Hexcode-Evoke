@@ -4,7 +4,6 @@ import com.hypixel.hytale.component.*;
 import com.hypixel.hytale.logger.HytaleLogger;
 import com.hypixel.hytale.server.core.inventory.InventoryComponent;
 import com.hypixel.hytale.server.core.inventory.ItemStack;
-import com.hypixel.hytale.server.core.inventory.container.CombinedItemContainer;
 import com.hypixel.hytale.server.core.inventory.container.ItemContainer;
 import com.hypixel.hytale.server.core.modules.entity.component.TransformComponent;
 import com.hypixel.hytale.server.core.modules.entity.item.ItemComponent;
@@ -21,7 +20,6 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Objects;
-import java.util.function.Supplier;
 
 public class ActionHCPickUpItem extends ActionWithDelay {
    protected static final ComponentType<EntityStore, ItemComponent> ITEM_COMPONENT_TYPE = ItemComponent.getComponentType();
@@ -137,22 +135,6 @@ public class ActionHCPickUpItem extends ActionWithDelay {
          assert itemComponent != null;
 
          return InventoryHelper.matchesItem(this.hooverItems, itemComponent.getItemStack());
-      }
-   }
-
-   public static enum StorageTarget implements Supplier<String> {
-      Hotbar("Prioritise hotbar"),
-      Inventory("Prioritise inventory"),
-      Destroy("Destroy the item");
-
-      private final String description;
-
-      private StorageTarget(String description) {
-         this.description = description;
-      }
-
-      public String get() {
-         return this.description;
       }
    }
 }
