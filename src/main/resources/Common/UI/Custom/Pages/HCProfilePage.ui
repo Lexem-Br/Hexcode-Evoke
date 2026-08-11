@@ -62,9 +62,10 @@ Group {
                                 }
                             }
 
-                            Group {
+                            Group #DespawnButtonContainer {
                                 LayoutMode: Right;
                                 Padding: (Right: 10);
+                                Visible: false;
 
                                 $C.@SmallSecondaryTextButton #DespawnButton {
                                     @Anchor = (Width: 100, Height: 50);

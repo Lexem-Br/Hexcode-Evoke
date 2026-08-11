@@ -12,7 +12,7 @@ import com.hypixel.hytale.server.npc.role.Role;
 import com.lexem.hexcodeevoke.components.EvokerComponent;
 import com.lexem.hexcodeevoke.components.HexCreatureComponent;
 import com.lexem.hexcodeevoke.events.SaveHexCreatureEvent;
-import com.lexem.hexcodeevoke.hexitems.HexItemRegistery;
+import com.lexem.hexcodeevoke.hexitems.AllowedHexItemsAsset;
 
 import java.util.Objects;
 import java.util.function.Consumer;
@@ -40,9 +40,8 @@ public class SaveHexCreatureHandler implements Consumer<SaveHexCreatureEvent> {
             String npcUUID = uuidComponent.getUuid().toString();
             String playerUUID = playerRef.getUuid().toString();
             String playerName = playerRef.getUsername();
-            String blockId = HexItemRegistery.findBlockIdByEntityId(npcEntity.getNPCTypeId());
+            String blockId = AllowedHexItemsAsset.findBlockIdByEntityId(npcEntity.getNPCTypeId());
             String npcName = npcEntity.getNPCTypeId();
-
             Role npcRole = npcEntity.getRole();
             if (npcRole != null && npcRole.getNameTranslationKey() != null) {
                 npcName = Message.translation(npcRole.getNameTranslationKey()).getAnsiMessage();

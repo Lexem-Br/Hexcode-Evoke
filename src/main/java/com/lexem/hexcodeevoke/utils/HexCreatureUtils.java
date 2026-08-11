@@ -14,12 +14,10 @@ import com.hypixel.hytale.server.npc.NPCPlugin;
 import com.hypixel.hytale.server.npc.entities.NPCEntity;
 import com.lexem.hexcodeevoke.components.EvokerComponent;
 import com.lexem.hexcodeevoke.events.SaveHexCreatureEvent;
-import com.lexem.hexcodeevoke.hexitems.HexItemRegistery;
+import com.lexem.hexcodeevoke.hexitems.AllowedHexItemsAsset;
 import it.unimi.dsi.fastutil.Pair;
 import org.joml.Vector3d;
 import org.joml.Vector3i;
-
-import java.util.Map;
 
 public class HexCreatureUtils {
     private static final HytaleLogger LOGGER = HytaleLogger.forEnclosingClass();
@@ -42,7 +40,7 @@ public class HexCreatureUtils {
             return false;
         }
 
-        Map.Entry<String, String> hexItem = HexItemRegistery.getByBlockId(blockType.getId());
+        AllowedHexItemsAsset.HexItem hexItem = AllowedHexItemsAsset.getByBlockId(blockType.getId());
 
         if (hexItem == null) {
             LOGGER.atWarning().log("Evoke: block must be a Hex item");
@@ -54,7 +52,7 @@ public class HexCreatureUtils {
         if (evoker == null) { return false; }
         evoker.deleteUnusedHexCreatureUUID(world, evoker.getHexCreatureUUIDs());
 
-        int roleIndex = NPCPlugin.get().getIndex(hexItem.getValue());
+        int roleIndex = NPCPlugin.get().getIndex(hexItem.entityId);
 
         accessor.run(_store -> {
             if (!evoker.canAddHexCreature()) {

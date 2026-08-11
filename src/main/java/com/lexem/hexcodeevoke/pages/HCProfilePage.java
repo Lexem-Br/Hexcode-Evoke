@@ -3,26 +3,17 @@ package com.lexem.hexcodeevoke.pages;
 import com.hypixel.hytale.codec.Codec;
 import com.hypixel.hytale.codec.KeyedCodec;
 import com.hypixel.hytale.codec.builder.BuilderCodec;
-import com.hypixel.hytale.component.ComponentAccessor;
-import com.hypixel.hytale.component.ComponentType;
 import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.component.Store;
 import com.hypixel.hytale.logger.HytaleLogger;
 import com.hypixel.hytale.protocol.packets.interface_.CustomPageLifetime;
 import com.hypixel.hytale.protocol.packets.interface_.CustomUIEventBindingType;
-import com.hypixel.hytale.server.core.asset.type.item.config.Item;
 import com.hypixel.hytale.server.core.entity.entities.Player;
 import com.hypixel.hytale.server.core.entity.entities.player.pages.InteractiveCustomUIPage;
-import com.hypixel.hytale.server.core.entity.entities.player.windows.ItemContainerWindow;
 import com.hypixel.hytale.server.core.inventory.InventoryComponent;
 import com.hypixel.hytale.server.core.inventory.ItemContext;
 import com.hypixel.hytale.server.core.inventory.ItemStack;
-import com.hypixel.hytale.server.core.inventory.container.InternalContainerUtilItemStack;
 import com.hypixel.hytale.server.core.inventory.container.ItemContainer;
-import com.hypixel.hytale.server.core.inventory.transaction.ActionType;
-import com.hypixel.hytale.server.core.inventory.transaction.ItemStackSlotTransaction;
-import com.hypixel.hytale.server.core.inventory.transaction.ItemStackTransaction;
-import com.hypixel.hytale.server.core.inventory.transaction.MoveTransaction;
 import com.hypixel.hytale.server.core.ui.builder.EventData;
 import com.hypixel.hytale.server.core.ui.builder.UICommandBuilder;
 import com.hypixel.hytale.server.core.ui.builder.UIEventBuilder;
@@ -30,9 +21,9 @@ import com.hypixel.hytale.server.core.universe.PlayerRef;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.hypixel.hytale.server.npc.entities.NPCEntity;
 import com.lexem.hexcodeevoke.components.HexCreatureComponent;
+import com.lexem.hexcodeevoke.hexitems.AllowedHexItemsAsset;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.util.*;
 
 public class HCProfilePage extends InteractiveCustomUIPage<HCProfilePage.HCProfileEventData> {
@@ -49,6 +40,7 @@ public class HCProfilePage extends InteractiveCustomUIPage<HCProfilePage.HCProfi
     private String selectedNPCSlot;
     private ItemData selectedPlayerItemContext;
     private ItemData selectedNPCItemContext;
+    private HexCreatureComponent hexCreatureComponent;
 
     private static final String INVENTORY_ROW = "Group { LayoutMode: CenterMiddle; Anchor: (Full: 0); }";
 
@@ -95,6 +87,7 @@ public class HCProfilePage extends InteractiveCustomUIPage<HCProfilePage.HCProfi
             @Nonnull UIEventBuilder eventBuilder,
             @Nonnull Store<EntityStore> store
     ) {
+        this.hexCreatureComponent = store.getComponent(npcRef, HexCreatureComponent.getComponentType());
         this.playerRef = playerRef;
         this.commandBuilder = commandBuilder;
         this.eventBuilder = eventBuilder;
@@ -155,12 +148,11 @@ public class HCProfilePage extends InteractiveCustomUIPage<HCProfilePage.HCProfi
     }
 
     private void bindNPCInfo() {
-        HexCreatureComponent hexCreature = store.getComponent(npcRef, HexCreatureComponent.getComponentType());
-        if(hexCreature != null) {
-            commandBuilder.set("#HCIcon.ItemId", hexCreature.getBlockName());
-            commandBuilder.set("#HCName.Text", hexCreature.getName());
+        if(hexCreatureComponent != null) {
+            commandBuilder.set("#HCIcon.ItemId", hexCreatureComponent.getBlockName());
+            commandBuilder.set("#HCName.Text", hexCreatureComponent.getName());
 
-            String uuidString = hexCreature.getEvokerUUID();
+            String uuidString = hexCreatureComponent.getEvokerUUID();
             Ref<EntityStore> evokerRef = store.getExternalData().getRefFromUUID(UUID.fromString(uuidString));
             if (evokerRef != null) {
                 PlayerRef playerRef = store.getComponent(evokerRef, PlayerRef.getComponentType());
@@ -180,8 +172,10 @@ public class HCProfilePage extends InteractiveCustomUIPage<HCProfilePage.HCProfi
             commandBuilder.set("#NPCLeftHand.Visible", false);
         }
 
+        boolean hasRightHandSlot = AllowedHexItemsAsset.hasRightHandSlotByEntityId(hexCreatureComponent.getTypeId());
+
         ItemContainer hotbarInventory = Objects.requireNonNull(store.getComponent(npcRef, InventoryComponent.Hotbar.getComponentType())).getInventory();
-        if (hotbarInventory != null && hotbarInventory.getCapacity() > 0) {
+        if (hotbarInventory != null && hasRightHandSlot) {
             commandBuilder.set("#NPCRightHand.Visible", true);
             this.bindSlot(hotbarInventory, "#NPCRightHandSlot", (short) 0, false);
         } else {
@@ -237,15 +231,36 @@ public class HCProfilePage extends InteractiveCustomUIPage<HCProfilePage.HCProfi
 
     private void bindNPCArmors() {
         ItemContainer armorInventory = Objects.requireNonNull(store.getComponent(npcRef, InventoryComponent.Armor.getComponentType())).getInventory();
+
         if (armorInventory != null && armorInventory.getCapacity() >= 4) {
-            commandBuilder.set("#NPCArmorHead.Visible", true);
-            commandBuilder.set("#NPCArmorChest.Visible", true);
-            commandBuilder.set("#NPCArmorHands.Visible", true);
-            commandBuilder.set("#NPCArmorLegs.Visible", true);
-            this.bindSlot(armorInventory,  "#NPCArmorHeadSlot", (short) 0, false);
-            this.bindSlot(armorInventory, "#NPCArmorChestSlot", (short) 1, false);
-            this.bindSlot(armorInventory, "#NPCArmorHandsSlot", (short) 2, false);
-            this.bindSlot(armorInventory, "#NPCArmorLegsSlot", (short) 3, false);
+            String hexCreatureTypeId = hexCreatureComponent.getTypeId();
+            if (AllowedHexItemsAsset.hasArmorHeadSlotByEntityId(hexCreatureTypeId)) {
+                commandBuilder.set("#NPCArmorHead.Visible", true);
+                this.bindSlot(armorInventory,  "#NPCArmorHeadSlot", (short) 0, false);
+            } else {
+                commandBuilder.set("#NPCArmorHead.Visible", false);
+            }
+
+            if (AllowedHexItemsAsset.hasArmorChestSlotByEntityId(hexCreatureTypeId)) {
+                commandBuilder.set("#NPCArmorChest.Visible", true);
+                this.bindSlot(armorInventory, "#NPCArmorChestSlot", (short) 1, false);
+            } else {
+                commandBuilder.set("#NPCArmorChest.Visible", false);
+            }
+
+            if (AllowedHexItemsAsset.hasRightHandSlotByEntityId(hexCreatureTypeId)) {
+                commandBuilder.set("#NPCArmorHands.Visible", true);
+                this.bindSlot(armorInventory, "#NPCArmorHandsSlot", (short) 2, false);
+            } else {
+                commandBuilder.set("#NPCArmorHands.Visible", false);
+            }
+
+            if (AllowedHexItemsAsset.hasArmorLegSlotByEntityId(hexCreatureTypeId)) {
+                commandBuilder.set("#NPCArmorLegs.Visible", true);
+                this.bindSlot(armorInventory, "#NPCArmorLegsSlot", (short) 3, false);
+            } else {
+                commandBuilder.set("#NPCArmorLegs.Visible", false);
+            }
         } else {
             commandBuilder.set("#NPCArmorHead.Visible", false);
             commandBuilder.set("#NPCArmorChest.Visible", false);
@@ -265,12 +280,20 @@ public class HCProfilePage extends InteractiveCustomUIPage<HCProfilePage.HCProfi
     }
 
     private void bindNPCButtons() {
-        eventBuilder.addEventBinding(
-                CustomUIEventBindingType.Activating,
-                "#DespawnButton",
-                new EventData().append("Action", "Despawn"),
-                false
-        );
+        if (hexCreatureComponent != null) {
+            UUID uuid = UUID.fromString(hexCreatureComponent.getEvokerUUID());
+            Ref<EntityStore> playerRefByHC = store.getExternalData().getRefFromUUID(uuid);
+
+            if (playerRef.equals(playerRefByHC)) {
+                commandBuilder.set("#DespawnButtonContainer.Visible", true);
+                eventBuilder.addEventBinding(
+                        CustomUIEventBindingType.Activating,
+                        "#DespawnButton",
+                        new EventData().append("Action", "Despawn"),
+                        false
+                );
+            }
+        }
     }
 
     private void bindButtons() {

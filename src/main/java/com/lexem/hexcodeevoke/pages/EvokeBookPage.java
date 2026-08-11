@@ -20,14 +20,13 @@ import com.hypixel.hytale.server.npc.entities.NPCEntity;
 import com.hypixel.hytale.server.npc.role.Role;
 import com.lexem.hexcodeevoke.components.EvokerComponent;
 import com.lexem.hexcodeevoke.components.HexCreatureComponent;
-import com.lexem.hexcodeevoke.hexitems.HexItemRegistery;
+import com.lexem.hexcodeevoke.hexitems.AllowedHexItemsAsset;
 import com.lexem.hexcodeevoke.pages.records.HexCreatureRecord;
 
 import javax.annotation.Nonnull;
 import java.util.*;
 
 public class EvokeBookPage extends InteractiveCustomUIPage<EvokeBookPage.EvokeBookEventData> {
-    private static final HytaleLogger LOGGER = HytaleLogger.forEnclosingClass();
     private static final String DEFAULT_ICON = "Hex_Mannequin_Block";
     private boolean isEditModeEnabled = false;
     private final String pageNameFile;
@@ -260,7 +259,7 @@ public class EvokeBookPage extends InteractiveCustomUIPage<EvokeBookPage.EvokeBo
             if (hexCreature == null) {continue;}
 
             String blockId = hexCreature.getBlockName();
-            if (HexItemRegistery.getByBlockId(blockId) == null) {
+            if (AllowedHexItemsAsset.getByBlockId(blockId) == null) {
                 blockId = DEFAULT_ICON;
             }
 

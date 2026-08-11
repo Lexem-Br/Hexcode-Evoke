@@ -16,6 +16,8 @@ items.Hex_Homunculus.description=When alive and free, give him a candle to help 
 npcRoles.Hex_Mannequin.name=Hex Mannequin
 npcRoles.Hex_Mannequin.description=Give him a torch to help light up the path
 npcRoles.Hex_Fairy.name=Hex Fairy
+npcRoles.Hex_Fairy_Void.name=Hex Fairy Void
+npcRoles.Hex_Fairy_Ice.name=Hex Fairy Ice
 npcRoles.Hex_Homunculus.name=Homunculus
 npcRoles.Hex_Homunculus.description=Give him a candle to help light up the path
 

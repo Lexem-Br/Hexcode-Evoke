@@ -71,7 +71,15 @@ public class HexCreatureComponent implements Component<EntityStore> {
     public HexCreatureComponent() {
     }
 
-    public HexCreatureComponent(String UUID, String evokerUUID, String evokerName, String name, String typeId, String blockName, boolean showName) {
+    public HexCreatureComponent(
+            String UUID,
+            String evokerUUID,
+            String evokerName,
+            String name,
+            String typeId,
+            String blockName,
+            boolean showName
+    ) {
         this.UUID = UUID;
         this.evokerUUID = evokerUUID;
         this.evokerName = evokerName;
@@ -140,7 +148,15 @@ public class HexCreatureComponent implements Component<EntityStore> {
     @Nullable
     @Override
     public Component<EntityStore> clone() {
-        return new HexCreatureComponent(this.UUID, this.evokerUUID, this.evokerName, this.name, this.typeId, this.blockName, this.showName);
+        return new HexCreatureComponent(
+                this.UUID,
+                this.evokerUUID,
+                this.evokerName,
+                this.name,
+                this.typeId,
+                this.blockName,
+                this.showName
+        );
     }
 
     @Override

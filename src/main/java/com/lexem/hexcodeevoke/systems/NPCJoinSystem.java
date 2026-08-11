@@ -6,14 +6,13 @@ import com.hypixel.hytale.component.system.RefSystem;
 import com.hypixel.hytale.logger.HytaleLogger;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.hypixel.hytale.server.npc.entities.NPCEntity;
+import com.lexem.hexcodeevoke.hexitems.AllowedHexItemsAsset;
 import com.lexem.hexcodeevoke.utils.DespawnHCUtils;
 import com.lexem.hexcodeevoke.utils.HexCreatureUtils;
 import com.lexem.hexcodeevoke.components.HexCreatureComponent;
-import com.lexem.hexcodeevoke.hexitems.HexItemRegistery;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.Map;
 import java.util.Objects;
 
 public class NPCJoinSystem extends RefSystem<EntityStore> {
@@ -33,7 +32,7 @@ public class NPCJoinSystem extends RefSystem<EntityStore> {
         NPCEntity npc = store.getComponent(ref, Objects.requireNonNull(NPCEntity.getComponentType()));
         if (npc == null) return;
 
-        Map.Entry<String, String> hexCreatures = HexItemRegistery.getByEntityId(npc.getNPCTypeId());
+        AllowedHexItemsAsset.HexItem hexCreatures = AllowedHexItemsAsset.getByEntityId(npc.getNPCTypeId());
         if (hexCreatures == null) return;
 
         HexCreatureComponent hexCreature = store.getComponent(ref, HexCreatureComponent.getComponentType());
@@ -53,7 +52,7 @@ public class NPCJoinSystem extends RefSystem<EntityStore> {
         NPCEntity npc = store.getComponent(ref, Objects.requireNonNull(NPCEntity.getComponentType()));
         if (npc == null) return;
 
-        Map.Entry<String, String> hexCreatures = HexItemRegistery.getByEntityId(npc.getNPCTypeId());
+        AllowedHexItemsAsset.HexItem hexCreatures = AllowedHexItemsAsset.getByEntityId(npc.getNPCTypeId());
         if (hexCreatures == null) return;
 
         DespawnHCUtils despawnHCUtils = new DespawnHCUtils(store, ref, commandBuffer);

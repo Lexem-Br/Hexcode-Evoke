@@ -12,7 +12,7 @@ import com.hypixel.hytale.server.core.modules.interaction.interaction.CooldownHa
 import com.hypixel.hytale.server.core.modules.interaction.interaction.config.SimpleInteraction;
 import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
-import com.lexem.hexcodeevoke.hexitems.HexItemRegistery;
+import com.lexem.hexcodeevoke.hexitems.AllowedHexItemsAsset;
 import com.lexem.hexcodeevoke.utils.HexCreatureUtils;
 import it.unimi.dsi.fastutil.ints.IntArrayList;
 import it.unimi.dsi.fastutil.ints.IntList;
@@ -89,7 +89,7 @@ public class EvokeHexCreatureInteraction extends SimpleInteraction {
     private IntList getBlockIds() {
         IntArrayList result = new IntArrayList();
 
-        ArrayList<String> hexItems = HexItemRegistery.getAllBlocks();
+        ArrayList<String> hexItems = AllowedHexItemsAsset.getAllBlocks();
         for (String blockSetName : hexItems) {
             int blockIndex = BlockType.getAssetMap().getIndex(blockSetName);
             if (blockIndex != Integer.MIN_VALUE) {

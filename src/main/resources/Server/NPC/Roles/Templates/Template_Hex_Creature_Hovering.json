@@ -1,7 +1,6 @@
 {
   "StartState": "Following",
   "Type": "Generic",
-  "Invulnerable": true,
   "Parameters": {
     "Appearance": {
       "Value": "Hex_Fairy",
@@ -33,6 +32,7 @@
   "Appearance": {"Compute": "Appearance"},
   "FlockSpawnTypes": {"Compute": "FlockArray"},
   "FlockAllowedNPC": {"Compute": "FlockArray"},
+  "DisableDamageFlock": true,
   "ApplySeparation": true,
   "SeparationDistance": 1,
   "SeparationWeight": 1,
@@ -60,7 +60,7 @@
       "MaxDropHeight": 30
     }
   ],
-  "MaxHealth": 50,
+  "MaxHealth": 100,
   "StateTransitions": [
     {
       "$Comment": "Clear",
@@ -309,7 +309,7 @@
           {
             "Actions": [
               {
-                "Type": "OpenHCProfile"
+                "Type": "Despawn"
               }
             ]
           }

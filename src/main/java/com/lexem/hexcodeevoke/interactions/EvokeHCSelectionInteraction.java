@@ -21,7 +21,7 @@ import com.hypixel.hytale.server.core.util.NotificationUtil;
 import com.hypixel.hytale.server.core.util.TargetUtil;
 import com.hypixel.hytale.server.npc.entities.NPCEntity;
 import com.lexem.hexcodeevoke.components.EvokerComponent;
-import com.lexem.hexcodeevoke.hexitems.HexItemRegistery;
+import com.lexem.hexcodeevoke.hexitems.AllowedHexItemsAsset;
 import org.joml.Vector3d;
 
 import javax.annotation.Nonnull;
@@ -137,7 +137,7 @@ public class EvokeHCSelectionInteraction extends SimpleInteraction {
                     return;
                 }
 
-                if (!HexItemRegistery.isHexCreature(npcEntity.getNPCTypeId())) {
+                if (!AllowedHexItemsAsset.isHexCreature(npcEntity.getNPCTypeId())) {
                     messageTargetMustBeHC(playerRef, store);
                     context.getState().state = InteractionState.Failed;
                     super.tick0(firstRun, time, type, context, cooldownHandler);
