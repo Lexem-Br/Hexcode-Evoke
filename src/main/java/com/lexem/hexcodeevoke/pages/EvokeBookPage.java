@@ -5,7 +5,6 @@ import com.hypixel.hytale.codec.KeyedCodec;
 import com.hypixel.hytale.codec.builder.BuilderCodec;
 import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.component.Store;
-import com.hypixel.hytale.logger.HytaleLogger;
 import com.hypixel.hytale.protocol.packets.interface_.CustomPageLifetime;
 import com.hypixel.hytale.protocol.packets.interface_.CustomUIEventBindingType;
 import com.hypixel.hytale.protocol.packets.interface_.Page;
@@ -22,6 +21,7 @@ import com.lexem.hexcodeevoke.components.EvokerComponent;
 import com.lexem.hexcodeevoke.components.HexCreatureComponent;
 import com.lexem.hexcodeevoke.hexitems.AllowedHexItemsAsset;
 import com.lexem.hexcodeevoke.pages.records.HexCreatureRecord;
+import com.lexem.hexcodeevoke.utils.DespawnHCUtils;
 
 import javax.annotation.Nonnull;
 import java.util.*;
@@ -219,10 +219,8 @@ public class EvokeBookPage extends InteractiveCustomUIPage<EvokeBookPage.EvokeBo
                         Ref<EntityStore> npcRef = store.getExternalData().getRefFromUUID(npcUUID);
                         if (npcRef == null) break;
 
-                        NPCEntity npcComponent = store.getComponent(npcRef, Objects.requireNonNull(NPCEntity.getComponentType()));
-                        if (npcComponent == null) return;
-
-                        npcComponent.setToDespawn();
+                        DespawnHCUtils despawnHCUtils = new DespawnHCUtils(store, npcRef, store, true);
+                        despawnHCUtils.despawnHexCreature();
 
                         player.getPageManager().setPage(ref, store, Page.None);
                     }

@@ -16,11 +16,7 @@ import com.riprod.hexcode.core.common.glyphs.variables.BlockVar;
 import com.riprod.hexcode.core.common.glyphs.variables.EntityVar;
 import com.riprod.hexcode.core.common.glyphs.variables.HexVar;
 import com.riprod.hexcode.utils.HexVarUtil;
-
 import org.joml.*;
-
-import java.util.Map;
-
 
 public class EvokeGlyph implements GlyphHandler {
     public static final String ID = "Evoke";

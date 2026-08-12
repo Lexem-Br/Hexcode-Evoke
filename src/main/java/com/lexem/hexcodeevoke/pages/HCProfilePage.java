@@ -19,9 +19,9 @@ import com.hypixel.hytale.server.core.ui.builder.UICommandBuilder;
 import com.hypixel.hytale.server.core.ui.builder.UIEventBuilder;
 import com.hypixel.hytale.server.core.universe.PlayerRef;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
-import com.hypixel.hytale.server.npc.entities.NPCEntity;
 import com.lexem.hexcodeevoke.components.HexCreatureComponent;
 import com.lexem.hexcodeevoke.hexitems.AllowedHexItemsAsset;
+import com.lexem.hexcodeevoke.utils.DespawnHCUtils;
 
 import javax.annotation.Nonnull;
 import java.util.*;
@@ -315,10 +315,8 @@ public class HCProfilePage extends InteractiveCustomUIPage<HCProfilePage.HCProfi
         if (player == null) { return; }
 
         if (data.action != null && data.action.equals("Despawn")) {
-            NPCEntity npcComponent = store.getComponent(npcRef, Objects.requireNonNull(NPCEntity.getComponentType()));
-            if (npcComponent == null) return;
-
-            npcComponent.setToDespawn();
+            DespawnHCUtils despawnHCUtils = new DespawnHCUtils(store, npcRef, store, true);
+            despawnHCUtils.despawnHexCreature();
         } else if (data.action != null && data.action.equals("Selector")) {
             if (Objects.equals(data.isPlayerSelector, "true")) {
                 this.selectedPlayerSlot = data.selector;
