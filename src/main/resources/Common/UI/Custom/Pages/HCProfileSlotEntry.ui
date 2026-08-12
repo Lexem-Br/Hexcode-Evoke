@@ -1,0 +1,69 @@
+$C = "../Common.ui";
+
+@DespawnButtonStyle = TextButtonStyle(
+  Default: (Background: "../Icons/despawnIcon.png"),
+  Hovered: (Background: (TexturePath: "../Icons/despawnIcon.png", Area: (Full: 6)))
+);
+
+@InputFieldStyle = InputFieldDecorationStyle(
+    Default: (OutlineSize: 2, OutlineColor: #000000, Background: #c0955e),
+    Focused: (OutlineSize: 3, OutlineColor: #000000, Background: #c0955e)
+);
+
+@SaveButtonStyle = TextButtonStyle(
+    Default: (Background: #c0955e, LabelStyle: (FontSize: 16, TextColor: #000000, RenderBold: true, HorizontalAlignment: Center, VerticalAlignment: Center, OutlineColor: #000000)),
+    Hovered: (Background: #c0955e, LabelStyle: (FontSize: 18, TextColor: #000000, RenderBold: true, HorizontalAlignment: Center, VerticalAlignment: Center, OutlineColor: #000000)),
+    Pressed: (Background: #c0955e, LabelStyle: (FontSize: 18, TextColor: #000000, RenderBold: true, HorizontalAlignment: Center, VerticalAlignment: Center, OutlineColor: #000000))
+);
+
+@CustomCheckBoxStyle = CheckBoxStyle(
+    Unchecked: (
+        DefaultBackground: (Color: #c0955e),
+        HoveredBackground: (Color: #c0955e),
+        PressedBackground: (Color: #c0955e),
+        DisabledBackground: (Color: #c0955e)
+    ),
+    Checked: (
+       DefaultBackground: (Color: #c0955e, TexturePath: "../Icons/checkIcon.png", Area: (Full: 8))
+    )
+);
+
+Group #OutputSection {
+    LayoutMode: CenterMiddle;
+
+    ItemSlotButton #OutputSlotContainer {
+        Anchor: (Width: 68, Height: 68);
+        LayoutMode: Full;
+        Padding: 2;
+
+        Style: (
+            Default: (Background: #252f3a),
+            Hovered: (Background: #2473AB),
+            Pressed: (Background: #a08040),
+            Sounds: $C.@ButtonSounds,
+        );
+
+        Group #OutputSlotBorder {
+            Anchor: (Full: 0);
+            Background: #1a2530;
+            Padding: 3;
+
+            ItemSlot #OutputSlot {
+               Anchor: (Full: 0);
+               ShowQualityBackground: true;
+               ShowDurabilityBar: true;
+            }
+        }
+
+        Label #OutputQuantity {
+            Anchor: (Right: 8, Bottom: 5);
+            Style: (
+                FontSize: 13,
+                TextColor: #ffffff,
+                HorizontalAlignment: End,
+                VerticalAlignment: End,
+                RenderBold: true,
+            );
+        }
+    }
+}

@@ -1,0 +1,296 @@
+$C = "../Common.ui";
+
+@CaptionStyle = LabelStyle(
+  FontSize: 14,
+  TextColor: #9aa7b2,
+  Wrap: true
+);
+
+$C.@PageOverlay {}
+
+Group {
+    Anchor: (Full: 0);
+    LayoutMode: MiddleCenter;
+
+    Group {
+         Anchor: (Full: 0);
+         LayoutMode: CenterMiddle;
+
+         Group #LeftPanel {
+            LayoutMode: MiddleCenter;
+            Anchor: (Width: 520, Height: 600);
+
+            $C.@DecoratedContainer {
+                Anchor: (Width: 520, Height: 500);
+
+                #Title {
+                    $C.@Title {
+                        @Text = "Hex Creature Profile";
+                    }
+                }
+
+                #Content {
+                    Group {
+                        LayoutMode: TopScrolling;
+                        ScrollbarStyle: $C.@DefaultScrollbarStyle;
+
+                        Group {
+
+                            Group {
+                                LayoutMode: Left;
+                                ItemSlot #HCIcon {
+                                    ItemId: "Hex_Mannequin_Block";
+                                    Anchor: (Width: 80, Height: 80);
+                                }
+
+                                Group {
+                                    LayoutMode: MiddleCenter;
+                                    Label #HCName {
+                                        Text: "Hex Creature Name";
+                                        Anchor: (Width: 250, Height: 25);
+                                        Visible: true;
+                                        Style: (FontSize: 18, RenderBold: true, VerticalAlignment: Center);
+                                        Padding: (Left: 12);
+                                    }
+                                    Label #EvokerName {
+                                        Text: "Evoker: Name";
+                                        Anchor: (Width: 250, Height: 25);
+                                        Visible: true;
+                                        Style: (FontSize: 14, VerticalAlignment: Center);
+                                        Padding: (Left: 12);
+                                    }
+                                }
+                            }
+
+                            Group #DespawnButtonContainer {
+                                LayoutMode: Right;
+                                Padding: (Right: 10);
+                                Visible: false;
+
+                                $C.@SmallSecondaryTextButton #DespawnButton {
+                                    @Anchor = (Width: 100, Height: 50);
+                                    @Text = "Despawn";
+                                    TooltipText: "Despawn";
+                                }
+                            }
+                        }
+
+                        Group { Anchor: (Height: 40); }
+
+                        Group {
+                            LayoutMode: Left;
+
+                             Group #NPCLeftHand {
+                                 LayoutMode: MiddleCenter;
+                                 Anchor: (Width: 70, Height: 110);
+
+                                 Group {
+                                     LayoutMode: Middle;
+                                     Anchor: (Height: 40, Width: 40);
+                                     Label #NPCLeftHandTitle {
+                                         Style: @CaptionStyle;
+                                         Text: "Left Hand";
+                                     }
+                                 }
+
+                                Group #NPCLeftHandSlot {
+                                    LayoutMode: Left;
+                                }
+                            }
+
+                            Group #NPCRightHand {
+                                LayoutMode: MiddleCenter;
+                                Anchor: (Width: 70, Height: 110);
+
+                                Group {
+                                    LayoutMode: Middle;
+                                    Anchor: (Height: 40, Width: 40);
+                                    Label #NPCRightHandTitle {
+                                        Style: @CaptionStyle;
+                                        Text: "Right Hand";
+                                    }
+                                }
+
+                                Group #NPCRightHandSlot {
+                                    LayoutMode: Left;
+                                }
+                            }
+
+                            Group {Anchor: (Width: 70);}
+
+                            Group #NPCArmorHead {
+                                LayoutMode: MiddleCenter;
+                                Anchor: (Width: 70, Height: 110);
+
+                                Group {
+                                    LayoutMode: Middle;
+                                    Anchor: (Height: 40, Width: 40);
+                                    Label #NPCArmorHeadTitle {
+                                        Style: @CaptionStyle;
+                                        Text: "Head";
+                                    }
+                                }
+
+                                Group #NPCArmorHeadSlot {
+                                    LayoutMode: Left;
+                                }
+                            }
+
+                            Group #NPCArmorChest {
+                                LayoutMode: MiddleCenter;
+                                Anchor: (Width: 70, Height: 110);
+
+                                Group {
+                                    LayoutMode: Middle;
+                                    Anchor: (Height: 40, Width: 40);
+                                    Label #NPCArmorChestTitle {
+                                        Style: @CaptionStyle;
+                                        Text: "Chest";
+                                    }
+                                }
+
+                                Group #NPCArmorChestSlot {
+                                    LayoutMode: Left;
+                                }
+                            }
+
+                            Group #NPCArmorHands {
+                                LayoutMode: MiddleCenter;
+                                Anchor: (Width: 70, Height: 110);
+
+                                Group {
+                                    LayoutMode: Middle;
+                                    Anchor: (Height: 40, Width: 45);
+                                    Label #NPCArmorHandsTitle {
+                                        Style: @CaptionStyle;
+                                        Text: "Hands";
+                                    }
+                                }
+
+                                Group #NPCArmorHandsSlot {
+                                    LayoutMode: Left;
+                                }
+                            }
+
+                            Group #NPCArmorLegs {
+                                LayoutMode: MiddleCenter;
+                                Anchor: (Width: 70, Height: 110);
+
+                                Group {
+                                    LayoutMode: Middle;
+                                    Anchor: (Height: 40, Width: 40);
+                                    Label #NPCArmorLegsTitle {
+                                        Style: @CaptionStyle;
+                                        Text: "Legs";
+                                    }
+                                }
+
+                                Group #NPCArmorLegsSlot {
+                                    LayoutMode: Left;
+                                }
+                            }
+                        }
+
+                        Group { Anchor: (Height: 20); }
+
+                        Group #NPCInventorySection {
+                            LayoutMode: Top;
+
+                            Label #NPCInventoryTitle {
+                                Anchor: (Height: 30, Left: 5);
+                                Style: @CaptionStyle;
+                                Text: "Inventory";
+                            }
+
+                            Group #NPCInventorySlots {
+                                LayoutMode: Left;
+                            }
+                        }
+                    }
+                }
+            }
+
+            Group {
+                $C.@Panel {
+                    Anchor: (Width: 520, Height: 100);
+                    Group {
+                        LayoutMode: MiddleCenter;
+
+                        $C.@TextButton #TransferButton{
+                            @Anchor = (Width: 200, Height: 50);
+                            @Text = "Transfer item";
+                            TooltipText: "Transfer an item from one slot to another";
+                        }
+                    }
+                }
+            }
+        }
+
+        Group { Anchor: (Width: 20); }
+
+         Group #RightPanel {
+            Anchor: (Width: 700, Height: 600);
+
+            $C.@DecoratedContainer {
+                 Anchor: (Full: 0);
+
+                #Title {
+                    $C.@Title {
+                      @Text = "Player Inventory";
+                    }
+                }
+
+                 #Content {
+                    Group {
+                        LayoutMode: TopScrolling;
+                        ScrollbarStyle: $C.@DefaultScrollbarStyle;
+
+                        Group #HotbarSection {
+                           LayoutMode: Top;
+
+                           Label #HotbarTitle {
+                             Anchor: (Height: 30, Left: 20);
+                             Style: @CaptionStyle;
+                             Text: "Hotbar";
+                           }
+
+                           Group #HotbarSlots {
+                               LayoutMode: LeftCenterWrap;
+                           }
+                        }
+
+                         Group #StorageSection {
+                            LayoutMode: Top;
+                            Anchor: (Top: 24);
+
+                            Label #StorageTitle {
+                                Anchor: (Height: 30, Left: 20);
+                                Style: @CaptionStyle;
+                                Text: "Storage";
+                            }
+
+                            Group #StorageSlots {
+                                LayoutMode: LeftCenterWrap;
+                            }
+                        }
+
+                        Group #BackpackSection {
+                            LayoutMode: Top;
+                            Anchor: (Top: 24);
+
+                            Label #BackpackTitle {
+                                Anchor: (Height: 30, Left: 20);
+                                Style: @CaptionStyle;
+                                Text: "Backpack";
+                            }
+
+                            Group #BackpackSlots {
+                                LayoutMode: LeftCenterWrap;
+                            }
+                        }
+                    }
+                 }
+            }
+         }
+    }
+}

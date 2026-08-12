@@ -3,6 +3,7 @@ package com.lexem.hexcodeevoke.npc.filters;
 import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.component.Store;
 import com.hypixel.hytale.server.core.inventory.InventoryComponent;
+import com.hypixel.hytale.server.core.inventory.ItemStack;
 import com.hypixel.hytale.server.core.inventory.container.ItemContainer;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.hypixel.hytale.server.npc.asset.builder.BuilderSupport;
@@ -28,7 +29,7 @@ public class FilterEvokeIsInvetoryFull extends EntityFilterBase {
        for (String type : inventoryTypes) {
           int freeSlotsType = switch (type) {
               case "Armor" -> getFreeSlots(store.getComponent(ref, InventoryComponent.Armor.getComponentType()));
-              case "Hotbar" -> getFreeSlots(store.getComponent(ref, InventoryComponent.Hotbar.getComponentType()));
+              case "Hotbar" -> getFreeSlotsHotbar(store.getComponent(ref, InventoryComponent.Hotbar.getComponentType()));
               case "Storage" -> getFreeSlots(store.getComponent(ref, InventoryComponent.Storage.getComponentType()));
               case "Utility" -> getFreeSlots(store.getComponent(ref, InventoryComponent.Utility.getComponentType()));
               case "Tool" -> getFreeSlots(store.getComponent(ref, InventoryComponent.Tool.getComponentType()));
@@ -42,13 +43,26 @@ public class FilterEvokeIsInvetoryFull extends EntityFilterBase {
        return freeSlots == 0;
    }
 
-   private int getFreeSlots(InventoryComponent inventoryComponent) {
+   private int getFreeSlotsHotbar(InventoryComponent inventoryComponent) {
       if (inventoryComponent != null) {
          ItemContainer container = inventoryComponent.getInventory();
-         return InventoryHelper.countFreeSlots(container);
+         ItemStack itemStack = container.getItemStack((short) 0);
+         if (!ItemStack.isEmpty(itemStack)) {
+              return 0;
+         } else {
+             return 1;
+         }
       }
       return 0;
    }
+
+    private int getFreeSlots(InventoryComponent inventoryComponent) {
+        if (inventoryComponent != null) {
+            ItemContainer container = inventoryComponent.getInventory();
+            return InventoryHelper.countFreeSlots(container);
+        }
+        return 0;
+    }
 
    @Override
    public int cost() {

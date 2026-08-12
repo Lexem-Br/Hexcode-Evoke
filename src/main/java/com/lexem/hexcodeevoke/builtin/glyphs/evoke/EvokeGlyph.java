@@ -5,8 +5,8 @@ import com.hypixel.hytale.server.core.asset.type.blocktype.config.BlockType;
 import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.lexem.hexcodeevoke.builtin.glyphs.evoke.style.EvokeStyle;
-import com.lexem.hexcodeevoke.hexitems.HexItemRegistery;
 import com.lexem.hexcodeevoke.utils.HexCreatureUtils;
+import com.lexem.hexcodeevoke.hexitems.AllowedHexItemsAsset;
 import com.riprod.hexcode.api.event.GlyphFizzleEvent;
 import com.riprod.hexcode.api.execution.HexExecuter;
 import com.riprod.hexcode.core.common.execution.component.HexContext;
@@ -65,7 +65,7 @@ public class EvokeGlyph implements GlyphHandler {
         BlockType blockType = world.getBlockType(blockPos);
         if (blockType == null) { return; }
 
-        Map.Entry<String, String> hexItem = HexItemRegistery.getByBlockId(blockType.getId());
+        AllowedHexItemsAsset.HexItem hexItem = AllowedHexItemsAsset.getByBlockId(blockType.getId());
 
         if (hexItem == null) {
             LOGGER.atWarning().log("Evoke: block must be a Hex item");

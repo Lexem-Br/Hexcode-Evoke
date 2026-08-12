@@ -2,7 +2,6 @@
   "StartState": "Following",
   "Type": "Abstract",
   "Invulnerable": false,
-  "BusyStates": [ "$Interaction" ],
   "Parameters": {
     "Appearance": {
       "Value": "Mannequin",
@@ -16,6 +15,10 @@
     "DropHexItem": {
       "Value": "Hex_Mannequin_Block",
       "Description": "Drop from Hex Creature"
+    },
+    "OffHand": {
+      "Value": "",
+      "Description": "OffHand items"
     },
     "holdableItems": {
       "Value": [ "Furniture_Crude_Torch" ],
@@ -44,12 +47,13 @@
   "SeparationWeight": 1,
   "SeparationDistanceTarget": 0.5,
   "SeparationNearRadiusTarget": 1.2,
-  "InventorySize": 0,
+  "InventorySize": 2,
   "HotbarSize": 3,
-  "OffHandSlots": 0,
+  "OffHandSlots": 1,
+  "DefaultOffHandSlot": 0,
   "PickupDropOnDeath": true,
   "MaxHealth": 200,
-  "Knockback": 0.5,
+  "KnockbackScale": 0.5,
   "NameTranslationKey": {"Compute": "NameTranslationKey"},
   "MotionControllerList": [
     {
@@ -85,7 +89,7 @@
   ],
   "Instructions": [
     {
-      "$Comment": "Adds the entity to the flock of the first player it finds",
+      "$Comment": "Adds the entity to the player flock",
       "Continue": true,
       "Instructions": [
         {
@@ -104,7 +108,12 @@
             {
               "Sensor": {
                 "Type": "Player",
-                "Range": 15
+                "Range": 15,
+                "Filters": [
+                  {
+                    "Type": "IsEvoker"
+                  }
+                ]
               },
               "Actions": [
                 {
@@ -112,31 +121,6 @@
                   "ForceJoin": true
                 }
               ]
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "$Comment": "Activate when the interaction is triggered",
-      "Continue": true,
-      "Sensor": {
-        "Type": "State",
-        "State": "$Interaction"
-      },
-      "Instructions": [
-        {
-          "$Comment": "Despawn the entity and returns to the Following state",
-          "Sensor": {
-            "Type": "Any"
-          },
-          "Actions": [
-            {
-              "Type": "Despawn"
-            },
-            {
-              "Type": "State",
-              "State": "Following"
             }
           ]
         }
@@ -169,7 +153,7 @@
               },
               "Actions": [
                 {
-                  "Type": "PickUpItem",
+                  "Type": "HCPickUpItem",
                   "Items": { "Compute": "holdableItems" },
                   "Hoover": true
                 }
@@ -190,7 +174,7 @@
         {
           "Continue": true,
           "Sensor": {
-              "Type": "FlockLeader"
+            "Type": "FlockLeader"
           },
           "Instructions": [
             {
@@ -282,8 +266,7 @@
                 "LockOnTarget": true,
                 "Filters": [
                   {
-                    "Type": "Flock",
-                    "FlockStatus": "Leader"
+                    "Type": "IsEvoker"
                   }
                 ]
               },
@@ -308,8 +291,7 @@
                 "LockOnTarget": true,
                 "Filters": [
                   {
-                    "Type": "Flock",
-                    "FlockStatus": "Leader"
+                    "Type": "IsEvoker"
                   }
                 ]
               },
@@ -333,8 +315,7 @@
                 "Type": "Target",
                 "Filters": [
                   {
-                    "Type": "Flock",
-                    "FlockStatus": "Leader"
+                    "Type": "IsEvoker"
                   }
                 ]
               },
@@ -364,10 +345,34 @@
     }
   ],
   "InteractionInstruction": {
-    "$Comment": "Controls the activation of the interaction",
-    "Reference": "Component_Hex_Interaction",
-    "Modify": {
-      "_ExportStates": [ "$Interaction" ]
-    }
+    "$Comment": "Opens the Hex Creature profile when interacted with",
+    "Instructions": [
+      {
+        "Continue": true,
+        "Sensor": {
+          "Type": "Any"
+        },
+        "Actions": [
+          {
+            "Type": "SetInteractable",
+            "Interactable": true
+          }
+        ]
+      },
+      {
+        "Sensor": {
+          "Type": "HasInteracted"
+        },
+        "Instructions": [
+          {
+            "Actions": [
+              {
+                "Type": "OpenHCProfile"
+              }
+            ]
+          }
+        ]
+      }
+    ]
   }
 }

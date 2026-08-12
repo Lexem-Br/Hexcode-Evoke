@@ -13,9 +13,6 @@ import com.hypixel.hytale.protocol.InteractionType;
 import com.hypixel.hytale.server.core.Message;
 import com.hypixel.hytale.server.core.entity.InteractionContext;
 import com.hypixel.hytale.server.core.entity.UUIDComponent;
-import com.hypixel.hytale.server.core.inventory.InventoryComponent;
-import com.hypixel.hytale.server.core.inventory.ItemStack;
-import com.hypixel.hytale.server.core.inventory.container.ItemContainer;
 import com.hypixel.hytale.server.core.modules.interaction.interaction.CooldownHandler;
 import com.hypixel.hytale.server.core.modules.interaction.interaction.config.SimpleInteraction;
 import com.hypixel.hytale.server.core.universe.PlayerRef;
@@ -23,9 +20,8 @@ import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.hypixel.hytale.server.core.util.NotificationUtil;
 import com.hypixel.hytale.server.core.util.TargetUtil;
 import com.hypixel.hytale.server.npc.entities.NPCEntity;
-import com.hypixel.hytale.server.npc.util.InventoryHelper;
 import com.lexem.hexcodeevoke.components.EvokerComponent;
-import com.lexem.hexcodeevoke.hexitems.HexItemRegistery;
+import com.lexem.hexcodeevoke.hexitems.AllowedHexItemsAsset;
 import org.joml.Vector3d;
 
 import javax.annotation.Nonnull;
@@ -141,7 +137,7 @@ public class EvokeHCSelectionInteraction extends SimpleInteraction {
                     return;
                 }
 
-                if (!HexItemRegistery.isHexCreature(npcEntity.getNPCTypeId())) {
+                if (!AllowedHexItemsAsset.isHexCreature(npcEntity.getNPCTypeId())) {
                     messageTargetMustBeHC(playerRef, store);
                     context.getState().state = InteractionState.Failed;
                     super.tick0(firstRun, time, type, context, cooldownHandler);
@@ -167,7 +163,6 @@ public class EvokeHCSelectionInteraction extends SimpleInteraction {
                     evoker.removeSelectedHexCreature(uuidtargetEntity.getUuid().toString());
                 } else {
                     if (evoker.canSelectHexCreature(maxSelection)) {
-//                        logInventary(targetEntity, store);
                         evoker.addSelectedHexCreature(uuidtargetEntity.getUuid().toString());
                     } else {
                         messageMaxWandSelectionExceeded(playerRef, store, maxSelection);
@@ -196,36 +191,6 @@ public class EvokeHCSelectionInteraction extends SimpleInteraction {
             int ib = orderMap.getOrDefault(b, Integer.MAX_VALUE);
             return Integer.compare(ia, ib);
         });
-    }
-
-    private void logInventary(Ref<EntityStore> refESNPC, Store<EntityStore> store) {
-//        logSlots(store.getComponent(refESNPC, InventoryComponent.Armor.getComponentType()), "Armor");
-        logCountFreeSlots(store.getComponent(refESNPC, InventoryComponent.Armor.getComponentType()), "Armor");
-
-//        logSlots(store.getComponent(refESNPC, InventoryComponent.Hotbar.getComponentType()), "Hotbar");
-        logCountFreeSlots(store.getComponent(refESNPC, InventoryComponent.Hotbar.getComponentType()), "Hotbar");
-
-//        logSlots(store.getComponent(refESNPC, InventoryComponent.Storage.getComponentType()), "Storage");
-        logCountFreeSlots(store.getComponent(refESNPC, InventoryComponent.Storage.getComponentType()), "Storage");
-    }
-
-    private void logSlots(InventoryComponent backpackInventoryComponent, String type) {
-        if (backpackInventoryComponent != null) {
-            ItemContainer container = backpackInventoryComponent.getInventory();
-            for (short i = 0; i < container.getCapacity(); i++) {
-                ItemStack itemStack = container.getItemStack(i);
-                if (itemStack != null) {
-                    LOGGER.atInfo().log("[Inventary %s slot %s]: %s", type, i, itemStack.getItemId());
-                }
-            }
-        }
-    }
-
-    private void logCountFreeSlots(InventoryComponent backpackInventoryComponent, String type) {
-        if (backpackInventoryComponent != null) {
-            ItemContainer container = backpackInventoryComponent.getInventory();
-            LOGGER.atInfo().log("[Inventary countFreeSlots %s]: %s", type, InventoryHelper.countFreeSlots(container));
-        }
     }
 
     private static void messageInvalidTarget(Ref<EntityStore> refESPlayer, Store<EntityStore> store) {

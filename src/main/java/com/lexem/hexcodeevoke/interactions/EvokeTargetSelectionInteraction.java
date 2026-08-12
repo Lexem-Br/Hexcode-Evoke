@@ -72,15 +72,14 @@ public class EvokeTargetSelectionInteraction extends SimpleInteraction {
                 return;
             }
 
-            evoker.setTargetPosition(targetPosition);
-
             String[] selectedHexCreatures = evoker.getSelectedHexCreatures();
             for (String npcUUID : selectedHexCreatures) {
                 Ref<EntityStore> npcRef = store.getExternalData().getRefFromUUID(UUID.fromString(npcUUID));
-                if (npcRef == null) { continue; }
+                if (npcRef == null) continue;
 
                 BeaconSupport beaconSupportComponent = accessor.getComponent(npcRef, BeaconSupport.getComponentType());
                 if (beaconSupportComponent != null) {
+                    evoker.setTargetPosition(targetPosition);
                     beaconSupportComponent.postMessage("EvokeTargetPosition", npcRef, 1);
                 }
             }

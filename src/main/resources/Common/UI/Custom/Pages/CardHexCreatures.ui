@@ -31,61 +31,56 @@ $C = "../Common.ui";
 Group {
     Anchor: (Height: 74);
     Group {
-      LayoutMode: Left;
-      Anchor: (Height: 64);
 
-      ItemIcon #HCIcon {
-        ItemId: "Hex_Mannequin_Block";
-        Anchor: (Width: 64, Height: 64);
-      }
+        Group {
+            LayoutMode: Left;
+            ItemIcon #HCIcon {
+                ItemId: "Hex_Mannequin_Block";
+                Anchor: (Width: 64, Height: 64);
+            }
 
-      Group { Anchor: (Width: 8); }
+            Group { Anchor: (Width: 8); }
 
-        Label #HCName {
-          Text: "Hex Creature Name";
-          Anchor: (Width: 250, Height: 30);
-          Visible: true;
-          Style: (FontSize: 18, TextColor: #000000, RenderBold: true, VerticalAlignment: Center);
-          Padding: (Left: 12);
+            Label #HCName {
+              Text: "Hex Creature Name";
+              Anchor: (Width: 250, Height: 30);
+              Visible: true;
+              Style: (FontSize: 18, TextColor: #000000, RenderBold: true, VerticalAlignment: Center);
+              Padding: (Left: 12);
+            }
+
+            $C.@TextField #NameInput {
+               Anchor: (Width: 200, Height: 30);
+               PlaceholderText: "Name";
+               MaxLength: 20;
+               Visible: false;
+               Decoration: @InputFieldStyle;
+               Style: InputFieldStyle(TextColor: #000000);
+            }
         }
 
-        $C.@TextField #NameInput {
-           Anchor: (Width: 200, Height: 30);
-           PlaceholderText: "Name";
-           MaxLength: 20;
-           Visible: false;
-           Decoration: @InputFieldStyle;
-           Style: InputFieldStyle(TextColor: #000000);
-        }
+        Group {
+            LayoutMode: Right;
+            Padding: (Right: 32);
 
-        Group { Anchor: (Width: 8); }
+            $C.@CheckBox #ShowName {
+                Value: false;
+                Anchor: (Width: 18, Height: 18);
+                Style: @CustomCheckBoxStyle;
+                Visible: true;
+                OutlineColor: #000000;
+                OutlineSize: 2;
+                TooltipText: "Show name";
+            }
 
-        TextButton #SaveButton {
-           Anchor: (Width: 50, Height: 30);
-           Text: "Save";
-           Visible: false;
-           Style: @SaveButtonStyle;
-        }
+            Group { Anchor: (Width: 8); }
 
-        Group { Anchor: (Width: 8); }
-
-       $C.@CheckBox #ShowName {
-         Value: false;
-         Anchor: (Width: 18, Height: 18);
-         Style: @CustomCheckBoxStyle;
-         Visible: true;
-         OutlineColor: #000000;
-         OutlineSize: 2;
-         TooltipText: "Show name";
-       }
-
-        Group { Anchor: (Width: 8); }
-
-        TextButton #DespawnButton {
-            Text: "";
-            Anchor: (Width: 24, Height: 24);
-            Style: @DespawnButtonStyle;
-            TooltipText: "Despawn";
+            TextButton #DespawnButton {
+                Text: "";
+                Anchor: (Width: 24, Height: 24);
+                Style: @DespawnButtonStyle;
+                TooltipText: "Despawn";
+            }
         }
     }
 }
