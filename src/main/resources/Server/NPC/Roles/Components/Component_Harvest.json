@@ -1,0 +1,20 @@
+{
+  "$Comment": "Harvest crops",
+  "Class": "Instruction",
+  "Content":  {
+    "Instructions": [
+      {
+        "Sensor": {
+          "Type": "Any"
+        },
+        "Actions": [
+          {
+            "Type": "DisplayName",
+            "DisplayName": "Harvest"
+          }
+        ]
+      }
+    ]
+  },
+  "Type": "Component"
+}
