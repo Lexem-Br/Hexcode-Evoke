@@ -4,7 +4,7 @@
   "Modify": {
     "Appearance": "Mannequin",
     "DropHexItem": "Hex_Mannequin_Block",
-    "holdableItems": [ "*Torch", "Furniture_Crude_Candle", "*Wand*", "*taff*", "*Weapon*" ],
+    "holdableItems": [ "*Torch", "Tool_Sickle*" ],
     "NameTranslationKey": { "Compute": "NameTranslationKey" }
   },
   "Parameters": {

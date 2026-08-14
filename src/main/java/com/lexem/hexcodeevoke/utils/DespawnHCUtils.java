@@ -1,6 +1,5 @@
 package com.lexem.hexcodeevoke.utils;
 
-import com.hypixel.hytale.component.CommandBuffer;
 import com.hypixel.hytale.component.ComponentAccessor;
 import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.component.Store;
@@ -59,8 +58,8 @@ public class DespawnHCUtils {
         NPCEntity npcComponent = store.getComponent(npcRef, Objects.requireNonNull(NPCEntity.getComponentType()));
         if (npcComponent == null) return;
 
-        dropAllInventoryItems();
         dropHCItem(npcComponent);
+        dropAllInventoryItems();
 
         spawnDeathParticleEffect(npcRef, 0);
         deleteHexCreatureUUIDFromEvoker();

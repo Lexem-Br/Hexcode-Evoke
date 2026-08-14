@@ -6,6 +6,7 @@ import com.hypixel.hytale.component.system.RefSystem;
 import com.hypixel.hytale.logger.HytaleLogger;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.hypixel.hytale.server.npc.entities.NPCEntity;
+import com.lexem.hexcodeevoke.components.EvokerComponent;
 import com.lexem.hexcodeevoke.hexitems.AllowedHexItemsAsset;
 import com.lexem.hexcodeevoke.utils.DespawnHCUtils;
 import com.lexem.hexcodeevoke.utils.HexCreatureUtils;
@@ -14,6 +15,7 @@ import com.lexem.hexcodeevoke.components.HexCreatureComponent;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Objects;
+import java.util.UUID;
 
 public class NPCJoinSystem extends RefSystem<EntityStore> {
     private final HexCreatureUtils hexCreatureUtils = new HexCreatureUtils();
@@ -54,6 +56,16 @@ public class NPCJoinSystem extends RefSystem<EntityStore> {
 
         AllowedHexItemsAsset.HexItem hexCreatures = AllowedHexItemsAsset.getByEntityId(npc.getNPCTypeId());
         if (hexCreatures == null) return;
+
+        HexCreatureComponent hexCreatureComponent = store.getComponent(ref, HexCreatureComponent.getComponentType());
+        if (hexCreatureComponent == null || hexCreatureComponent.getEvokerUUID() == null) { return; }
+
+        UUID playerUUID = UUID.fromString(hexCreatureComponent.getEvokerUUID());
+        Ref<EntityStore> playerRef = store.getExternalData().getRefFromUUID(playerUUID);
+        if (playerRef == null) return;
+
+        EvokerComponent evoker = store.getComponent(playerRef, EvokerComponent.getComponentType());
+        if (evoker == null || !evoker.hexCreatureBelongsToPlayer(hexCreatureComponent.getUUID())) return;
 
         DespawnHCUtils despawnHCUtils = new DespawnHCUtils(store, ref, commandBuffer);
         despawnHCUtils.despawnHexCreature();
