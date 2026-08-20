@@ -15,7 +15,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
-public class EvokerComponent implements Component<EntityStore>{
+public class EvokerComponent implements Component<EntityStore> {
     private Vector3d targetPosition;
     private String[] hexCreatureUUIDs = new String[0];
     private int maxHexCreatures = 6;

@@ -8,6 +8,7 @@ import com.hypixel.hytale.component.Store;
 import com.hypixel.hytale.logger.HytaleLogger;
 import com.hypixel.hytale.protocol.packets.interface_.CustomPageLifetime;
 import com.hypixel.hytale.protocol.packets.interface_.CustomUIEventBindingType;
+import com.hypixel.hytale.protocol.packets.interface_.Page;
 import com.hypixel.hytale.server.core.entity.entities.Player;
 import com.hypixel.hytale.server.core.entity.entities.player.pages.InteractiveCustomUIPage;
 import com.hypixel.hytale.server.core.inventory.InventoryComponent;
@@ -27,9 +28,7 @@ import javax.annotation.Nonnull;
 import java.util.*;
 
 public class HCProfilePage extends InteractiveCustomUIPage<HCProfilePage.HCProfileEventData> {
-    private static final HytaleLogger LOGGER = HytaleLogger.forEnclosingClass();
     private final String pageNameFile;
-    private final String entryFile;
     private final String entryFilePath;
     private final Ref<EntityStore> npcRef;
     private Ref<EntityStore> playerRef;
@@ -41,6 +40,8 @@ public class HCProfilePage extends InteractiveCustomUIPage<HCProfilePage.HCProfi
     private ItemData selectedPlayerItemContext;
     private ItemData selectedNPCItemContext;
     private HexCreatureComponent hexCreatureComponent;
+
+    private static final HytaleLogger LOGGER = HytaleLogger.forEnclosingClass();
 
     private static final String INVENTORY_ROW = "Group { LayoutMode: CenterMiddle; Anchor: (Full: 0); }";
 
@@ -73,7 +74,6 @@ public class HCProfilePage extends InteractiveCustomUIPage<HCProfilePage.HCProfi
     ) {
         super(playerRefReal, CustomPageLifetime.CanDismissOrCloseThroughInteraction, HCProfilePage.HCProfileEventData.CODEC);
         this.pageNameFile = pageNameFile;
-        this.entryFile = entryFile;
         this.entryFilePath = ("Pages/" + entryFile + ".ui");
         this.npcRef = npcRef;
         this.selectedNPCSlot = "#NPCRightHandSlot";
@@ -122,9 +122,26 @@ public class HCProfilePage extends InteractiveCustomUIPage<HCProfilePage.HCProfi
             int slotsPerRow,
             boolean isPlayerSelector
     ) {
+        this.bindInventorySectionEvents(itemContainer, inventoryType, slotsPerRow, isPlayerSelector, false);
+    }
+
+    private void bindInventorySectionEvents(
+            ItemContainer itemContainer,
+            String inventoryType,
+            int slotsPerRow,
+            boolean isPlayerSelector,
+            boolean skiptFirst
+    ) {
         commandBuilder.clear(inventoryType);
 
         for (short slot = 0; slot < itemContainer.getCapacity(); slot++) {
+//            if (slot == (short) 0 && skiptFirst) {
+//                LOGGER.atInfo().log("Teste");
+//               continue;
+//            }
+
+            LOGGER.atInfo().log("inventoryType: %s - slot: %s", inventoryType, slot);
+
             int indexSlotRow = slot % slotsPerRow;
             if (indexSlotRow == 0) {
                 commandBuilder.appendInline(inventoryType, INVENTORY_ROW);
@@ -135,7 +152,7 @@ public class HCProfilePage extends InteractiveCustomUIPage<HCProfilePage.HCProfi
             String selector = rowSelector + "[" + indexSlotRow + "]";
 
             commandBuilder.append(rowSelector, entryFilePath);
-            this.bindSlot(itemContainer, selector, slot, isPlayerSelector, true);
+            this.bindSlot(itemContainer, selector, slot, isPlayerSelector, true, skiptFirst);
         }
     }
 
@@ -143,6 +160,7 @@ public class HCProfilePage extends InteractiveCustomUIPage<HCProfilePage.HCProfi
         bindNPCInfo();
         bindNPCHands();
         bindNPCArmors();
+        bindHotbar();
         bindNPCInventory();
         bindNPCButtons();
     }
@@ -184,14 +202,18 @@ public class HCProfilePage extends InteractiveCustomUIPage<HCProfilePage.HCProfi
     }
 
     private void bindSlot(ItemContainer itemContainer, String selector, short slot, boolean isPlayerSelector) {
-        this.bindSlot(itemContainer, selector, slot, isPlayerSelector, false);
+        this.bindSlot(itemContainer, selector, slot, isPlayerSelector, false, false);
     }
 
-    private void bindSlot(ItemContainer itemContainer, String selector, short slot, boolean isPlayerSelector, boolean row) {
+    private void bindSlot(ItemContainer itemContainer, String selector, short slot, boolean isPlayerSelector, boolean row, boolean skipFirst) {
         if (!row) {
             commandBuilder.clear(selector);
             commandBuilder.append(selector, entryFilePath);
         }
+
+//        if (skipFirst) {
+//            slot--;
+//        }
 
         ItemStack itemStack = itemContainer.getItemStack(slot);
         if (!ItemStack.isEmpty(itemStack)) {
@@ -269,6 +291,18 @@ public class HCProfilePage extends InteractiveCustomUIPage<HCProfilePage.HCProfi
         }
     }
 
+    private void bindHotbar() {
+        boolean hasHotbarSlot = AllowedHexItemsAsset.hasRightHandSlotByEntityId(hexCreatureComponent.getTypeId());
+        ItemContainer itemContainer = Objects.requireNonNull(store.getComponent(npcRef, InventoryComponent.Hotbar.getComponentType())).getInventory();
+        if (itemContainer != null && hasHotbarSlot) {
+            commandBuilder.set("#NPCHotbarSection.Visible", true);
+            this.bindInventorySectionEvents(itemContainer, "#NPCHotbarSlots", 7, false, true);
+            commandBuilder.set("#NPCHotbarSlots[0][0].Visible", false);
+        } else {
+            commandBuilder.set("#NPCHotbarSection.Visible", false);
+        }
+    }
+
     private void bindNPCInventory() {
         ItemContainer itemContainer = Objects.requireNonNull(store.getComponent(npcRef, InventoryComponent.Storage.getComponentType())).getInventory();
         if (itemContainer != null && itemContainer.getCapacity() > 0) {
@@ -317,6 +351,7 @@ public class HCProfilePage extends InteractiveCustomUIPage<HCProfilePage.HCProfi
         if (data.action != null && data.action.equals("Despawn")) {
             DespawnHCUtils despawnHCUtils = new DespawnHCUtils(store, npcRef, store, true);
             despawnHCUtils.despawnHexCreature();
+            player.getPageManager().setPage(ref, store, Page.None);
         } else if (data.action != null && data.action.equals("Selector")) {
             if (Objects.equals(data.isPlayerSelector, "true")) {
                 this.selectedPlayerSlot = data.selector;

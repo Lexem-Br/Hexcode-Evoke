@@ -193,6 +193,22 @@ Group {
 
                         Group { Anchor: (Height: 20); }
 
+                        Group #NPCHotbarSection {
+                            LayoutMode: Top;
+
+                            Label #NPCHotbarTitle {
+                                Anchor: (Height: 30, Left: 5);
+                                Style: @CaptionStyle;
+                                Text: "Hotbar";
+                            }
+
+                            Group #NPCHotbarSlots {
+                                LayoutMode: Left;
+                            }
+                        }
+
+                        Group { Anchor: (Height: 20); }
+
                         Group #NPCInventorySection {
                             LayoutMode: Top;
 

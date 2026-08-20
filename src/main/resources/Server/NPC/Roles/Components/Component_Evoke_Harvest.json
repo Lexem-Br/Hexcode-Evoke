@@ -1,0 +1,93 @@
+{
+  "$Comment": "Harvest crops",
+  "Class": "Instruction",
+  "Parameters": {
+    "_ImportStates": ["Main"]
+  },
+  "Content":  {
+    "Instructions": [
+      {
+        "$Comment": "Search for a plantation that is ready to harvest",
+        "Continue": true,
+        "Sensor":  {
+          "Type": "EvokeHarvestableCropFinder",
+          "HorizontalRange": 7,
+          "VerticalRange": 3
+        },
+        "BodyMotion": {
+          "Type": "Seek",
+          "SlowDownDistance": 2.0,
+          "StopDistance": 0.1,
+          "RelativeSpeed": 0.5
+        }
+      },
+      {
+        "$Comment": "Harvest the crop",
+        "Continue": true,
+        "Sensor": {
+          "Type": "EvokeHarvestableCropFinder",
+          "HorizontalRange": 2,
+          "VerticalRange": 3
+        },
+        "ActionsBlocking": true,
+        "Actions": [
+          {
+            "Type": "PlayAnimation",
+            "Slot": "Status",
+            "Animation": "SwingLeft"
+          },
+          {
+            "Type": "Timeout",
+            "Delay": [0.5, 0.7],
+            "Action": {
+              "Type": "Sequence",
+              "Actions": [
+                {
+                  "Type": "EvokeHarvestCrop"
+                },
+                {
+                  "Type": "PlayAnimation",
+                  "Slot": "Status"
+                }
+              ]
+            }
+          },
+          {
+            "Type": "Timeout",
+            "Delay": [0.5, 1.5]
+          }
+        ]
+      },
+      {
+        "$Comment": "If no crop is found, return to the initial position",
+        "Sensor": {
+          "Type": "And",
+          "Sensors": [
+            {
+              "Type": "Not",
+              "Sensor": {
+                "Type": "EvokeHarvestableCropFinder",
+                "HorizontalRange": 7,
+                "VerticalRange": 3
+              }
+            },
+            {
+              "Type": "Not",
+              "Sensor": {
+                "Type": "EvokeReadPosition",
+                "Range": 2
+              }
+            }
+          ]
+        },
+        "Actions": [
+          {
+            "Type": "ParentState",
+            "State": "Main"
+          }
+        ]
+      }
+    ]
+  },
+  "Type": "Component"
+}

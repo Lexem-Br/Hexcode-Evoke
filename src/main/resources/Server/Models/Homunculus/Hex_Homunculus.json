@@ -19,6 +19,15 @@
   "DetailBoxes": {},
   "DefaultAttachments": [],
   "AnimationSets": {
+    "SwingLeft": {
+      "Animations": [
+        {
+          "Animation": "Characters/Animations/Items/Dual_Handed/Unarmed/Attacks/Swing_Left/Swing_Left.blockyanim",
+          "Looping": false,
+          "Speed": 0.6
+        }
+      ]
+    },
     "Spawn": {
       "Animations": [
         {

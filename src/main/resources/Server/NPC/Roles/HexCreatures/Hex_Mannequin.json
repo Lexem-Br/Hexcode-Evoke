@@ -2,7 +2,7 @@
   "Type": "Variant",
   "Reference": "Template_Hex_Creature",
   "Modify": {
-    "Appearance": "Mannequin",
+    "Appearance": "Hex_Mannequin",
     "DropHexItem": "Hex_Mannequin_Block",
     "holdableItems": [ "*Torch", "Tool_Sickle*" ],
     "NameTranslationKey": { "Compute": "NameTranslationKey" }

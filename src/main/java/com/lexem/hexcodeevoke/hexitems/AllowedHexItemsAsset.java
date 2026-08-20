@@ -13,6 +13,7 @@ import com.hypixel.hytale.codec.builder.BuilderCodec;
 import com.hypixel.hytale.codec.codecs.array.ArrayCodec;
 import com.hypixel.hytale.codec.validation.ValidatorCache;
 import com.hypixel.hytale.codec.validation.Validators;
+import com.hypixel.hytale.logger.HytaleLogger;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -23,6 +24,7 @@ public class AllowedHexItemsAsset implements JsonAssetWithMap<String, DefaultAss
     public static final AssetBuilderCodec<String, AllowedHexItemsAsset> CODEC;
     private static AssetStore<String, AllowedHexItemsAsset, DefaultAssetMap<String, AllowedHexItemsAsset>> ASSET_STORE;
     public static final ValidatorCache<String> VALIDATOR_CACHE;
+    private static final HytaleLogger LOGGER = HytaleLogger.forEnclosingClass();
 
     protected AssetExtraInfo.Data data;
     protected String id;

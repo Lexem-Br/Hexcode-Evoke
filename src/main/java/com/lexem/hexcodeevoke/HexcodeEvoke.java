@@ -21,11 +21,13 @@ import com.lexem.hexcodeevoke.interactions.*;
 import com.lexem.hexcodeevoke.npc.actions.builders.BuilderActionSetInteractableFlockLeader;
 import com.lexem.hexcodeevoke.npc.actions.builders.BuilderActionOpenHCProfile;
 import com.lexem.hexcodeevoke.npc.actions.builders.BuilderActionHCPickUpItem;
+import com.lexem.hexcodeevoke.npc.actions.builders.BuilderActionHarvestCrop;
 import com.lexem.hexcodeevoke.npc.bodymotions.builders.BuilderTeleportHexCreature;
 import com.lexem.hexcodeevoke.npc.sensors.builders.BuilderSensorEvokeReadPosition;
 import com.lexem.hexcodeevoke.npc.filters.builders.BuilderFilterEvokeIsInventoryFull;
 import com.lexem.hexcodeevoke.npc.filters.builders.BuilderFilterIsEvoker;
 import com.lexem.hexcodeevoke.builtin.HexcodeBuiltin;
+import com.lexem.hexcodeevoke.npc.sensors.builders.BuilderSensorHarvestableCropFinder;
 import com.lexem.hexcodeevoke.systems.NPCJoinSystem;
 import com.lexem.hexcodeevoke.systems.PlayerJoinSystem;
 import org.checkerframework.checker.nullness.compatqual.NonNullDecl;
@@ -83,6 +85,8 @@ public class HexcodeEvoke extends JavaPlugin {
         npcPlugin.registerCoreComponentType("OpenHCProfile", BuilderActionOpenHCProfile::new);
         npcPlugin.registerCoreComponentType("IsEvoker", BuilderFilterIsEvoker::new);
         npcPlugin.registerCoreComponentType("HCPickUpItem", BuilderActionHCPickUpItem::new);
+        npcPlugin.registerCoreComponentType("EvokeHarvestableCropFinder", BuilderSensorHarvestableCropFinder::new);
+        npcPlugin.registerCoreComponentType("EvokeHarvestCrop", BuilderActionHarvestCrop::new);
     }
 
     private void registerComponents() {
