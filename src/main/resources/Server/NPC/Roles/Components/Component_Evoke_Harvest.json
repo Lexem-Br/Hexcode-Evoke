@@ -53,16 +53,24 @@
           {
             "Type": "PlayAnimation",
             "Slot": "Status",
-            "Animation": "SwingLeft"
+            "Animation": "SwingSickle"
           },
           {
             "Type": "Timeout",
-            "Delay": [0.5, 0.7],
+            "Delay": [0.4, 0.6],
             "Action": {
               "Type": "Sequence",
               "Actions": [
                 {
                   "Type": "EvokeHarvestCrop"
+                },
+                {
+                  "Type": "PlaySound",
+                  "SoundEventId": "SFX_Default_Harvest"
+                },
+                {
+                  "Type": "PlaySound",
+                  "SoundEventId": "SFX_Player_Pickup_Item"
                 },
                 {
                   "Type": "PlayAnimation",
