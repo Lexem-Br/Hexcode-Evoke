@@ -1,0 +1,49 @@
+{
+  "$Comment": "Pick up item",
+  "Class": "Instruction",
+  "Parameters": {
+    "holdableItems": {
+        "Value": [ "Furniture_Crude_Torch" ]
+    }
+  },
+  "Content":  {
+    "Instructions": [
+      {
+        "Continue": true,
+        "Sensor": {
+          "Type": "Not",
+          "Sensor": {
+            "Type": "Self",
+            "Filters": [
+              {
+                "Type": "EvokeIsInventoryFull",
+                "Inventories": ["Hotbar", "Storage"]
+              }
+            ]
+          }
+        },
+        "Instructions": [
+          {
+            "Sensor": {
+              "Type": "DroppedItem",
+              "Range": 2,
+              "Items": { "Compute": "holdableItems" }
+            },
+            "Actions": [
+              {
+                "Type": "HCPickUpItem",
+                "Items": { "Compute": "holdableItems" },
+                "Hoover": true
+              }
+            ],
+            "BodyMotion": {
+              "Type": "Seek",
+              "StopDistance": 0.5
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "Type": "Component"
+}

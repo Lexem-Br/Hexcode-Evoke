@@ -24,7 +24,6 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 public class ActionHarvestCrop extends ActionBase {
-    private static final HytaleLogger LOGGER = HytaleLogger.forEnclosingClass();
 
     public ActionHarvestCrop(@Nonnull BuilderActionBase builderActionBase) {
         super(builderActionBase);

@@ -7,11 +7,30 @@
   "Content":  {
     "Instructions": [
       {
+        "$Comment": "Checks if the inventory is full",
+        "Continue": true,
+        "Sensor": {
+          "Type": "Self",
+          "Filters": [
+            {
+              "Type": "EvokeIsInventoryFull",
+              "Inventories": ["Hotbar", "Storage"]
+            }
+          ]
+        },
+        "Actions": [
+          {
+            "Type": "ParentState",
+            "State": "Main"
+          }
+        ]
+      },
+      {
         "$Comment": "Search for a plantation that is ready to harvest",
         "Continue": true,
         "Sensor":  {
           "Type": "EvokeHarvestableCropFinder",
-          "HorizontalRange": 7,
+          "HorizontalRange": 10,
           "VerticalRange": 3
         },
         "BodyMotion": {
@@ -75,7 +94,7 @@
               "Type": "Not",
               "Sensor": {
                 "Type": "EvokeReadPosition",
-                "Range": 2
+                "Range": 1
               }
             }
           ]

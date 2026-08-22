@@ -122,26 +122,9 @@ public class HCProfilePage extends InteractiveCustomUIPage<HCProfilePage.HCProfi
             int slotsPerRow,
             boolean isPlayerSelector
     ) {
-        this.bindInventorySectionEvents(itemContainer, inventoryType, slotsPerRow, isPlayerSelector, false);
-    }
-
-    private void bindInventorySectionEvents(
-            ItemContainer itemContainer,
-            String inventoryType,
-            int slotsPerRow,
-            boolean isPlayerSelector,
-            boolean skiptFirst
-    ) {
         commandBuilder.clear(inventoryType);
 
         for (short slot = 0; slot < itemContainer.getCapacity(); slot++) {
-//            if (slot == (short) 0 && skiptFirst) {
-//                LOGGER.atInfo().log("Teste");
-//               continue;
-//            }
-
-            LOGGER.atInfo().log("inventoryType: %s - slot: %s", inventoryType, slot);
-
             int indexSlotRow = slot % slotsPerRow;
             if (indexSlotRow == 0) {
                 commandBuilder.appendInline(inventoryType, INVENTORY_ROW);
@@ -152,7 +135,7 @@ public class HCProfilePage extends InteractiveCustomUIPage<HCProfilePage.HCProfi
             String selector = rowSelector + "[" + indexSlotRow + "]";
 
             commandBuilder.append(rowSelector, entryFilePath);
-            this.bindSlot(itemContainer, selector, slot, isPlayerSelector, true, skiptFirst);
+            this.bindSlot(itemContainer, selector, slot, isPlayerSelector, true);
         }
     }
 
@@ -202,18 +185,14 @@ public class HCProfilePage extends InteractiveCustomUIPage<HCProfilePage.HCProfi
     }
 
     private void bindSlot(ItemContainer itemContainer, String selector, short slot, boolean isPlayerSelector) {
-        this.bindSlot(itemContainer, selector, slot, isPlayerSelector, false, false);
+        this.bindSlot(itemContainer, selector, slot, isPlayerSelector, false);
     }
 
-    private void bindSlot(ItemContainer itemContainer, String selector, short slot, boolean isPlayerSelector, boolean row, boolean skipFirst) {
+    private void bindSlot(ItemContainer itemContainer, String selector, short slot, boolean isPlayerSelector, boolean row) {
         if (!row) {
             commandBuilder.clear(selector);
             commandBuilder.append(selector, entryFilePath);
         }
-
-//        if (skipFirst) {
-//            slot--;
-//        }
 
         ItemStack itemStack = itemContainer.getItemStack(slot);
         if (!ItemStack.isEmpty(itemStack)) {
@@ -270,7 +249,7 @@ public class HCProfilePage extends InteractiveCustomUIPage<HCProfilePage.HCProfi
                 commandBuilder.set("#NPCArmorChest.Visible", false);
             }
 
-            if (AllowedHexItemsAsset.hasRightHandSlotByEntityId(hexCreatureTypeId)) {
+            if (AllowedHexItemsAsset.hasArmorHandsSlotByEntityId(hexCreatureTypeId)) {
                 commandBuilder.set("#NPCArmorHands.Visible", true);
                 this.bindSlot(armorInventory, "#NPCArmorHandsSlot", (short) 2, false);
             } else {
@@ -296,7 +275,7 @@ public class HCProfilePage extends InteractiveCustomUIPage<HCProfilePage.HCProfi
         ItemContainer itemContainer = Objects.requireNonNull(store.getComponent(npcRef, InventoryComponent.Hotbar.getComponentType())).getInventory();
         if (itemContainer != null && hasHotbarSlot) {
             commandBuilder.set("#NPCHotbarSection.Visible", true);
-            this.bindInventorySectionEvents(itemContainer, "#NPCHotbarSlots", 7, false, true);
+            this.bindInventorySectionEvents(itemContainer, "#NPCHotbarSlots", 7, false);
             commandBuilder.set("#NPCHotbarSlots[0][0].Visible", false);
         } else {
             commandBuilder.set("#NPCHotbarSection.Visible", false);

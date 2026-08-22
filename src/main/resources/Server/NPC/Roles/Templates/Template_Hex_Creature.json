@@ -48,7 +48,7 @@
   "SeparationDistanceTarget": 0.5,
   "SeparationNearRadiusTarget": 1.2,
   "InventorySize": 0,
-  "HotbarSize": 3,
+  "HotbarSize": 4,
   "OffHandSlots": 1,
   "DefaultOffHandSlot": 0,
   "PickupDropOnDeath": true,
@@ -58,12 +58,12 @@
   "MotionControllerList": [
     {
       "Type": "Walk",
-      "MaxWalkSpeed": 12,
+      "MaxWalkSpeed": 10,
       "Gravity": 10,
       "RunThreshold": 0.3,
       "MaxFallSpeed": 15,
       "MaxRotationSpeed": 360,
-      "Acceleration": 10,
+      "Acceleration": 8,
       "MaxClimbHeight": 3,
       "MaxDropHeight": 5
     }
@@ -125,47 +125,6 @@
                   "ForceJoin": true
                 }
               ]
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "$Comment": "Pick up item",
-      "Continue": true,
-      "Instructions": [
-        {
-          "Continue": true,
-          "Sensor": {
-            "Type": "Not",
-            "Sensor": {
-              "Type": "Self",
-              "Filters": [
-                {
-                  "Type": "EvokeIsInventoryFull",
-                  "Inventories": ["Hotbar", "Storage"]
-                }
-              ]
-            }
-          },
-          "Instructions": [
-            {
-              "Sensor": {
-                "Type": "DroppedItem",
-                "Range": 2,
-                "Items": { "Compute": "holdableItems" }
-              },
-              "Actions": [
-                {
-                  "Type": "HCPickUpItem",
-                  "Items": { "Compute": "holdableItems" },
-                  "Hoover": true
-                }
-              ],
-              "BodyMotion": {
-                "Type": "Seek",
-                "StopDistance": 0.5
-              }
             }
           ]
         }
@@ -242,7 +201,7 @@
           "Actions": [
             {
               "Type": "State",
-              "State": "Idle.Default"
+              "State": "CheckTasks.Default"
             }
           ]
         }
@@ -339,11 +298,11 @@
       ]
     },
     {
-      "$Comment": "Idle state",
+      "$Comment": "Check tasks to do",
       "Continue": true,
       "Sensor": {
         "Type": "State",
-        "State": "Idle"
+        "State": "CheckTasks"
       },
       "Instructions": [
         {
@@ -354,13 +313,36 @@
           },
           "Instructions": [
             {
-              "$Comment": "Checks if you are holding a sickle",
+              "$Comment": "Checks if the inventory is full",
+              "Sensor": {
+                "Type": "Self",
+                "Filters": [
+                  {
+                    "Type": "EvokeIsInventoryFull",
+                    "Inventories": ["Hotbar", "Storage"]
+                  }
+                ]
+              },
+              "Actions": [
+                {
+                  "Type": "State",
+                  "State": ".StoreItems"
+                }
+              ]
+            },
+            {
+              "$Comment": "Checks if you are holding a sickle and if has harvestable crop",
               "Sensor": {
                 "Type": "Self",
                 "Filters": [
                   {
                     "Type": "ItemInHand",
                     "Items": [ "Tool_Sickle*" ]
+                  },
+                  {
+                    "Type": "EvokeFilterHasHarvestableCrop",
+                    "HorizontalRange": 10,
+                    "VerticalRange": 3
                   }
                 ]
               },
@@ -370,6 +352,33 @@
                   "State": ".Harvest"
                 }
               ]
+            },
+            {
+              "$Comment": "Checks if you are holding a sickle",
+              "Sensor": {
+                "Type": "Any"
+              },
+              "Actions": [
+                {
+                  "Type": "State",
+                  "State": ".Standby"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$Comment": "Search for a chest that has available slots",
+          "Sensor": {
+            "Type": "State",
+            "State": ".StoreItems"
+          },
+          "Instructions": [
+            {
+              "Reference": "Component_Evoke_Store_Items",
+              "Modify": {
+                "_ExportStates": ["SeekPosition"]
+              }
             }
           ]
         },
@@ -381,9 +390,26 @@
           },
           "Instructions": [
             {
-              "Reference": "Component_Evoke_harvest",
+              "Reference": "Component_Evoke_Harvest",
               "Modify": {
                 "_ExportStates": ["SeekPosition"]
+              }
+            }
+          ]
+        },
+        {
+          "$Comment": "Standby state",
+          "Sensor": {
+            "Type": "State",
+            "State": ".Standby"
+          },
+          "Actions": [
+            {
+              "Type": "Timeout",
+              "Delay": [3, 3],
+              "Action": {
+                "Type": "State",
+                "State": "CheckTasks"
               }
             }
           ]

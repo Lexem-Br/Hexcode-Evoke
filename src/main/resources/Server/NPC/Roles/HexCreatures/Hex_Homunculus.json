@@ -4,7 +4,6 @@
   "Modify": {
     "Appearance": "Hex_Homunculus",
     "DropHexItem": "Alive_Homunculus_Jar",
-    "holdableItems": [ "Furniture_Crude_Candle" ],
     "NameTranslationKey": { "Compute": "NameTranslationKey" }
   },
   "Parameters": {
