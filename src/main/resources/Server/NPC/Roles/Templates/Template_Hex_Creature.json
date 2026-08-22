@@ -43,10 +43,10 @@
   "FlockSpawnTypes": {"Compute": "FlockArray"},
   "FlockAllowedNPC": {"Compute": "FlockArray"},
   "ApplySeparation": true,
-  "SeparationDistance": 2,
+  "SeparationDistance": 1.5,
   "SeparationWeight": 1,
   "SeparationDistanceTarget": 0.5,
-  "SeparationNearRadiusTarget": 1.2,
+  "SeparationNearRadiusTarget": 1,
   "InventorySize": 0,
   "HotbarSize": 4,
   "OffHandSlots": 1,
@@ -208,37 +208,50 @@
       ]
     },
     {
+      "$Comment": "Less than 1 block away from the player",
+      "Sensor": {
+        "Type": "Player",
+        "Range": 1,
+        "LockOnTarget": true,
+        "Filters": [
+          {
+            "Type": "IsEvoker"
+          }
+        ]
+      },
+      "BodyMotion": {
+        "Type": "MaintainDistance",
+        "DesiredDistanceRange": [1.5, 1.5],
+        "MoveThreshold": 0.2,
+        "RelativeForwardsSpeed": 0.6,
+        "RelativeBackwardsSpeed": 0.3
+      }
+    },
+    {
+      "$Comment": "Head motion",
+      "Continue": true,
+      "Sensor": {
+        "Type": "Player",
+        "Range": 2,
+        "Filters": [
+          {
+            "Type": "ViewSector",
+            "ViewSector": 120
+          }
+        ]
+      },
+      "HeadMotion": {
+        "Type": "Watch",
+        "RelativeTurnSpeed": 0.5
+      }
+    },
+    {
       "$Comment": "Entity movement",
       "Sensor": {
         "Type": "State",
         "State": "Following"
       },
       "Instructions": [
-        {
-          "$Comment": "Less than 1 block away from the leader",
-          "Sensor": {
-            "Type": "Player",
-            "Range": 1,
-            "LockOnTarget": true,
-            "Filters": [
-              {
-                "Type": "IsEvoker"
-              }
-            ]
-          },
-          "HeadMotion": {
-            "Type": "Aim",
-            "Deflection": true,
-            "Spread": 1
-          },
-          "BodyMotion": {
-            "Type": "MaintainDistance",
-            "DesiredDistanceRange": [1.5, 1.5],
-            "MoveThreshold": 0.2,
-            "RelativeForwardsSpeed": 0.6,
-            "RelativeBackwardsSpeed": 0.3
-          }
-        },
         {
           "$Comment": "Less than 40 blocks away from the leader",
           "Sensor": {

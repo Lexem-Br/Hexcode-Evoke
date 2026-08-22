@@ -37,7 +37,8 @@
       "Animations": [
         {
           "Animation": "NPC/Homunculus/Animations/Default/Spawn.blockyanim",
-          "BlendingDuration": 0
+          "BlendingDuration": 0,
+          "Looping": false
         }
       ]
     },
