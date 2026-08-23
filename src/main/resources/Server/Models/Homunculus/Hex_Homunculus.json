@@ -19,6 +19,30 @@
   "DetailBoxes": {},
   "DefaultAttachments": [],
   "AnimationSets": {
+    "SwingSickle": {
+      "Animations": [
+        {
+          "Animation": "Characters/Animations/Items/Main_Handed/Sickle/Attacks/Swing_Left/Swing_Left.blockyanim",
+          "SoundEventId": "SFX_Light_Melee_T2_Swing",
+          "Speed": 0.45
+        },
+        {
+          "Animation": "Characters/Animations/Items/Main_Handed/Sickle/Attacks/Swing_Right/Swing_Right.blockyanim",
+          "SoundEventId": "SFX_Light_Melee_T1_Swing",
+          "Speed": 0.45
+        }
+      ]
+    },
+    "Water": {
+      "Animations": [
+        {
+          "Animation": "Characters/Animations/Items/Dual_Handed/Watering_Can/Attacks/Water/Water_Moving.blockyanim",
+          "SoundEventId": "SFX_Water_MoveIn",
+          "Speed": 0.1,
+          "Looping": false
+        }
+      ]
+    },
     "Spawn": {
       "Animations": [
         {

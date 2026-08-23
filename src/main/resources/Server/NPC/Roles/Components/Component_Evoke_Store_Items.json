@@ -1,0 +1,65 @@
+{
+  "$Comment": "Store items",
+  "Class": "Instruction",
+  "Parameters": {
+    "_ImportStates": ["Main"]
+  },
+  "Content":  {
+    "Instructions": [
+      {
+        "$Comment": "Search for a chest that has available slots",
+        "Continue": true,
+        "Sensor":  {
+          "Type": "EvokeChestFinder",
+          "HorizontalRange": 10,
+          "VerticalRange": 3,
+          "CheckCanStore": true
+        },
+        "BodyMotion": {
+          "Type": "Seek",
+          "SlowDownDistance": 2.0,
+          "StopDistance": 1.0,
+          "RelativeSpeed": 0.5
+        }
+      },
+      {
+        "$Comment": "Store the items",
+        "Continue": true,
+        "Sensor":  {
+          "Type": "EvokeChestFinder",
+          "HorizontalRange": 2,
+          "VerticalRange": 3,
+          "CheckCanStore": true
+        },
+        "Actions": [
+          {
+            "Type": "PlayAnimation",
+            "Slot": "Status",
+            "Animation": "Interact"
+          },
+          {
+            "Type": "Timeout",
+            "Delay": [1, 2],
+            "Action": {
+              "Type": "Sequence",
+              "Actions": [
+                {
+                  "Type": "EvokeStoreItems"
+                },
+                {
+                  "Type": "PlayAnimation",
+                  "Slot": "Status"
+                },
+                {
+                  "Type": "ParentState",
+                  "State": "Main"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "Type": "Component"
+}

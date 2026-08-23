@@ -1,14 +1,10 @@
-<div align="center">
-  <img src="https://media.forgecdn.net/attachments/description/null/description_0fb29a7a-3a31-4ec6-acee-3aa5c70e77af.png" alt="image">
-</div>
+<div style="text-align:center"><img src="https://media.forgecdn.net/attachments/description/null/description_0fb29a7a-3a31-4ec6-acee-3aa5c70e77af.png" alt="image"></div>
 
 ### ✦ Description:
 
 Hexcode Evoke is an expansion for the Hexcode mod by Riprod, where you can bring objects to life that will follow you on your adventure. 𖥔 ݁ ˖
 
 ### ✧ Notes:
-
-*   The project is open source, so feel free to use the assets in other projects. Credits are not required, but they are appreciated.
 *   You don't need Hexcode to use the main features of Hexcode Evoke, but it's recommended for a complete experience.
 
 ***
@@ -27,11 +23,25 @@ You can throw a torch to him.
 
 ### ✧ Homunculus:
 
-(Design by: Gwentor)
-
 <div style="text-align:center"><img src="https://media.forgecdn.net/attachments/description/null/description_7e20bdda-6649-4193-9d82-7c5ad7975429.png" width="30%"> <img src="https://media.forgecdn.net/attachments/description/null/description_a9318191-35aa-4784-9cd1-f6daaa56f0fe.png" width="30%"> <img src="https://media.forgecdn.net/attachments/description/null/description_e1aecf41-46bf-4c8f-8980-f055dfbbf400.png" width="30%"><br></div>
 
 You can throw a candle to him.
+
+***
+
+### ✧ Wands:
+
+Use the wands to control the Hex Creatures.
+
+<div style="text-align:center"><img src="https://media.forgecdn.net/attachments/description/1592772/description_9cfd0104-561b-45ed-9d29-9c603d703d9d.png" width="30%"> <img src="https://media.forgecdn.net/attachments/description/1592772/description_0bb1a210-45f1-4f8e-96e7-0988870aa3c9.png" width="30%"> <img src="https://media.forgecdn.net/attachments/description/1592772/description_ebf5e217-e80e-469b-9fc7-caf2524d912f.png" width="30%"></div>
+
+Special credits: Gwentor for the design of the wands and the Homunculus.
+
+***
+
+## Install alongside [pillows n' plushies](https://www.curseforge.com/hytale/mods/pillows-n-plushies) mod for living plushies
+
+<div style="text-align:center"><img src="https://media.forgecdn.net/attachments/description/1592772/description_f64e4133-b86d-490c-b281-5fa1c10257d8.png" width="90%"><br></div>
 
 ***
 

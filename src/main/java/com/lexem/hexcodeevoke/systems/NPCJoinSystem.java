@@ -18,7 +18,6 @@ import java.util.Objects;
 import java.util.UUID;
 
 public class NPCJoinSystem extends RefSystem<EntityStore> {
-    private final HexCreatureUtils hexCreatureUtils = new HexCreatureUtils();
     private static final HytaleLogger LOGGER = HytaleLogger.forEnclosingClass();
 
     public NPCJoinSystem() {

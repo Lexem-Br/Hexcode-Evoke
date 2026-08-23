@@ -15,10 +15,10 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.EnumSet;
 
-public class BuilderFilterEvokeIsInventoryFull extends BuilderEntityFilterBase {
+public class BuilderFilterIsInventoryFull extends BuilderEntityFilterBase {
    protected final AssetArrayHolder inventoryTypes = new AssetArrayHolder();
 
-   public BuilderFilterEvokeIsInventoryFull() {
+   public BuilderFilterIsInventoryFull() {
    }
 
    @Nonnull

@@ -34,7 +34,6 @@
     {
       "BlockId": "Alive_Homunculus_Jar",
       "EntityId": "Hex_Homunculus",
-      "HasArmorHeadSlot": false,
       "HasArmorChestSlot": false,
       "HasArmorHandsSlot": false,
       "HasArmorLegSlot": false

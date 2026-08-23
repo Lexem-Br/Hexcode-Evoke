@@ -23,7 +23,6 @@ import javax.annotation.Nonnull;
 public class SensorEvokeReadPosition extends SensorBase {
    protected final double minRange;
    protected final double range;
-   protected boolean wasSteering = false;
    protected final PositionProvider positionProvider = new PositionProvider();
    private static final HytaleLogger LOGGER = HytaleLogger.forEnclosingClass();
 
@@ -35,7 +34,7 @@ public class SensorEvokeReadPosition extends SensorBase {
 
    @Override
    public boolean matches(@Nonnull Ref<EntityStore> ref, @Nonnull Role role, double dt, @Nonnull Store<EntityStore> store) {
-      if (!super.matches(ref, role, dt, store) || wasSteering) {
+      if (!super.matches(ref, role, dt, store)) {
          this.positionProvider.clear();
          return false;
       } else {
@@ -43,7 +42,6 @@ public class SensorEvokeReadPosition extends SensorBase {
          if (evoker == null) { return false; }
 
          Vector3d position = this.getPostion(evoker);
-
          if (position.equals(Vector3dUtil.MIN)) {
             this.positionProvider.clear();
             return false;
@@ -54,15 +52,16 @@ public class SensorEvokeReadPosition extends SensorBase {
             int qtdHexCreatures = evoker.getSelectedHexCreatures().length;
             double dist = transformComponent.getPosition().distanceSquared(position);
             if (
-                  (qtdHexCreatures == 1 && dist < 0.05) ||
-                  (qtdHexCreatures == 2 && dist < 1.0) ||
-                  (qtdHexCreatures >= 3 && dist < 2.0)
+                  (qtdHexCreatures == 1 && dist < 1.0) ||
+                  (qtdHexCreatures == 2 && dist < 2.0) ||
+                  (qtdHexCreatures >= 3 && dist < 2.5)
             ) {
+               this.positionProvider.clear();
                return false;
             } else if (!(dist > this.range * this.range) && !(dist < this.minRange * this.minRange)) {
                this.positionProvider.setTarget(position);
                return true;
-            }  else {
+            } else {
                this.positionProvider.clear();
                return false;
             }

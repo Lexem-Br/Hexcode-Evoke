@@ -10,7 +10,7 @@ import com.hypixel.hytale.server.npc.asset.builder.BuilderSupport;
 import com.hypixel.hytale.server.npc.corecomponents.EntityFilterBase;
 import com.hypixel.hytale.server.npc.role.Role;
 import com.hypixel.hytale.server.npc.util.InventoryHelper;
-import com.lexem.hexcodeevoke.npc.filters.builders.BuilderFilterEvokeIsInventoryFull;
+import com.lexem.hexcodeevoke.npc.filters.builders.BuilderFilterIsInventoryFull;
 
 import javax.annotation.Nonnull;
 import java.util.List;
@@ -18,7 +18,7 @@ import java.util.List;
 public class FilterEvokeIsInvetoryFull extends EntityFilterBase {
     protected final List<String> inventoryTypes;
 
-   public FilterEvokeIsInvetoryFull(@Nonnull BuilderFilterEvokeIsInventoryFull builder, @Nonnull BuilderSupport support) {
+   public FilterEvokeIsInvetoryFull(@Nonnull BuilderFilterIsInventoryFull builder, @Nonnull BuilderSupport support) {
        String[] inventoryArray = builder.getInventoryTypes(support);
        this.inventoryTypes = inventoryArray != null ? List.of(inventoryArray) : null;
    }
@@ -47,10 +47,10 @@ public class FilterEvokeIsInvetoryFull extends EntityFilterBase {
       if (inventoryComponent != null) {
          ItemContainer container = inventoryComponent.getInventory();
          ItemStack itemStack = container.getItemStack((short) 0);
-         if (!ItemStack.isEmpty(itemStack)) {
-              return 0;
+         if (ItemStack.isEmpty(itemStack)) {
+             return InventoryHelper.countFreeSlots(container) - 1;
          } else {
-             return 1;
+             return InventoryHelper.countFreeSlots(container);
          }
       }
       return 0;

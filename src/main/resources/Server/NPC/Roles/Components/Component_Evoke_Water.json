@@ -1,0 +1,97 @@
+{
+  "$Comment": "Harvest the dry soil",
+  "Class": "Instruction",
+  "Parameters": {
+    "_ImportStates": ["Main"]
+  },
+  "Content":  {
+    "Instructions": [
+      {
+        "$Comment": "Search for dry soil",
+        "Continue": true,
+        "Sensor":  {
+          "Type": "EvokeWettableSoilFinder",
+          "HorizontalRange": 10,
+          "VerticalRange": 3
+        },
+        "BodyMotion": {
+          "Type": "Seek",
+          "SlowDownDistance": 2.0,
+          "StopDistance": 0.05,
+          "RelativeSpeed": 0.5
+        }
+      },
+      {
+        "$Comment": "Water soil",
+        "Continue": true,
+        "Sensor": {
+          "Type": "EvokeWettableSoilFinder",
+          "HorizontalRange": 2,
+          "VerticalRange": 3
+        },
+        "ActionsBlocking": true,
+        "Actions": [
+          {
+            "Type": "PlayAnimation",
+            "Slot": "Status",
+            "Animation": "Water"
+          },
+          {
+            "Type": "Timeout",
+            "Delay": [0.6, 0.8],
+            "Action": {
+              "Type": "Sequence",
+              "Actions": [
+                {
+                  "Type": "EvokeWaterSoil"
+                },
+                {
+                  "Type": "PlaySound",
+                  "SoundEventId": "SFX_Water_MoveOut"
+                },
+                {
+                  "Type": "PlayAnimation",
+                  "Slot": "Status"
+                }
+              ]
+            }
+          },
+          {
+            "Type": "Timeout",
+            "Delay": [1.2, 1.5]
+          }
+        ]
+      },
+      {
+        "$Comment": "If no dry soil is found, return to the initial position",
+        "Sensor": {
+          "Type": "And",
+          "Sensors": [
+            {
+              "Type": "Not",
+              "Sensor": {
+                "Type": "EvokeWettableSoilFinder",
+                "HorizontalRange": 10,
+                "VerticalRange": 3
+              }
+            },
+            {
+              "Type": "Not",
+              "Sensor": {
+                "Type": "EvokeReadPosition",
+                "Range": 1
+              }
+            }
+          ]
+        },
+        "Actions": [
+          {
+            "Type": "ParentState",
+            "State": "Main"
+          }
+        ]
+      }
+    ]
+  },
+  "Type": "Component"
+}

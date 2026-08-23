@@ -8,10 +8,13 @@ items.Weapon.Wand.Evoke_Wand_Iron.name=Iron Evoke Wand
 items.Weapon.Wand.Evoke_Wand_Iron.description=<color is="#8888ff"><b>6</b></color> <color is="#aaaaaa">Selection</color> - <color is="#ffcc00"><b>30</b></color> <color is="#aaaaaa">Distance</color>\n\n<b>To give orders to the mannequins</b>\n\n<b>Primary</b> to send them to a location and have them stay there\n<b>Secondary</b> to have them followed again\n<b>Ability2</b> to select\n<b>Charged Ability2</b> to select all\n<b>Ability3</b> to deselect the Hex Creature\n<b>Charged Ability3</b> to deselect all Hex Creatures
 
 
-items.Hex_Mannequin.name=Hex Mannequin
-items.Hex_Mannequin.description=Give him a torch to help light up the path
-items.Hex_Homunculus.name=Homunculus
-items.Hex_Homunculus.description=When alive and free, give him a candle to help light up the path
+items.HexItems.HexItems.Hex_Mannequin.name=Hex Mannequin
+items.HexItems.Hex_Mannequin.description=Give him a torch to help light up the path
+items.HexItems.Hex_Fairy.name=Hex Fairy
+items.HexItems.Hex_Fairy_Void.name=Hex Fairy Void
+items.HexItems.Hex_Fairy_Ice.name=Hex Fairy Ice
+items.HexItems.Hex_Homunculus.name=Homunculus
+items.HexItems.Hex_Homunculus.description=When alive and free, give him a candle to help light up the path
 
 npcRoles.Hex_Mannequin.name=Hex Mannequin
 npcRoles.Hex_Mannequin.description=Give him a torch to help light up the path
@@ -31,3 +34,5 @@ interactions.EvokeTargetSelectionInteraction.description.messageMaxDistance1=Tar
 interactions.EvokeTargetSelectionInteraction.description.messageMaxDistance2=blocks
 interactions.EvokeTargetSelectionInteraction.description.messageMaxWandSelectionExceeded1=The wand can only select up to
 interactions.EvokeTargetSelectionInteraction.description.messageMaxWandSelectionExceeded2=Hex Creatures
+
+items.armor.Armor_Straw_Hat_Head.name=Straw Hat
