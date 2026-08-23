@@ -1,6 +1,6 @@
 {
   "TranslationProperties": {
-    "Name": "evoke.items.Hex_Homunculus.name",
+    "Name": "evoke.items.HexItems.Hex_Homunculus.name",
     "Description": "evoke.items.Hex_Homunculus.description"
   },
   "PlayerAnimationsId": "Block",

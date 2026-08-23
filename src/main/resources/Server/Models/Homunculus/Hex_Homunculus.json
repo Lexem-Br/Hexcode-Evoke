@@ -33,6 +33,16 @@
         }
       ]
     },
+    "Water": {
+      "Animations": [
+        {
+          "Animation": "Characters/Animations/Items/Dual_Handed/Watering_Can/Attacks/Water/Water_Moving.blockyanim",
+          "SoundEventId": "SFX_Water_MoveIn",
+          "Speed": 0.1,
+          "Looping": false
+        }
+      ]
+    },
     "Spawn": {
       "Animations": [
         {

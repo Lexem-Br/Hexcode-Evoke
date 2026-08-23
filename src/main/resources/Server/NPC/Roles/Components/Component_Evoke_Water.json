@@ -1,5 +1,5 @@
 {
-  "$Comment": "Harvest crops",
+  "$Comment": "Harvest the dry soil",
   "Class": "Instruction",
   "Parameters": {
     "_ImportStates": ["Main"]
@@ -7,29 +7,10 @@
   "Content":  {
     "Instructions": [
       {
-        "$Comment": "Checks if the inventory is full",
-        "Continue": true,
-        "Sensor": {
-          "Type": "Self",
-          "Filters": [
-            {
-              "Type": "EvokeIsInventoryFull",
-              "Inventories": ["Hotbar", "Storage"]
-            }
-          ]
-        },
-        "Actions": [
-          {
-            "Type": "ParentState",
-            "State": "Main"
-          }
-        ]
-      },
-      {
-        "$Comment": "Search for a plantation that is ready to harvest",
+        "$Comment": "Search for dry soil",
         "Continue": true,
         "Sensor":  {
-          "Type": "EvokeHarvestableCropFinder",
+          "Type": "EvokeWettableSoilFinder",
           "HorizontalRange": 10,
           "VerticalRange": 3
         },
@@ -38,17 +19,13 @@
           "SlowDownDistance": 2.0,
           "StopDistance": 0.05,
           "RelativeSpeed": 0.5
-        },
-        "HeadMotion": {
-          "Type": "Aim",
-          "RelativeTurnSpeed": 1
         }
       },
       {
-        "$Comment": "Harvest the crop",
+        "$Comment": "Water soil",
         "Continue": true,
         "Sensor": {
-          "Type": "EvokeHarvestableCropFinder",
+          "Type": "EvokeWettableSoilFinder",
           "HorizontalRange": 2,
           "VerticalRange": 3
         },
@@ -57,7 +34,7 @@
           {
             "Type": "PlayAnimation",
             "Slot": "Status",
-            "Animation": "SwingSickle"
+            "Animation": "Water"
           },
           {
             "Type": "Timeout",
@@ -66,15 +43,11 @@
               "Type": "Sequence",
               "Actions": [
                 {
-                  "Type": "EvokeHarvestCrop"
+                  "Type": "EvokeWaterSoil"
                 },
                 {
                   "Type": "PlaySound",
-                  "SoundEventId": "SFX_Default_Harvest"
-                },
-                {
-                  "Type": "PlaySound",
-                  "SoundEventId": "SFX_Player_Pickup_Item"
+                  "SoundEventId": "SFX_Water_MoveOut"
                 },
                 {
                   "Type": "PlayAnimation",
@@ -90,14 +63,14 @@
         ]
       },
       {
-        "$Comment": "If no crop is found, return to the initial position",
+        "$Comment": "If no dry soil is found, return to the initial position",
         "Sensor": {
           "Type": "And",
           "Sensors": [
             {
               "Type": "Not",
               "Sensor": {
-                "Type": "EvokeHarvestableCropFinder",
+                "Type": "EvokeWettableSoilFinder",
                 "HorizontalRange": 10,
                 "VerticalRange": 3
               }

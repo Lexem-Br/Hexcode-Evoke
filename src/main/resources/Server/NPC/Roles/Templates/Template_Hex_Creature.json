@@ -211,13 +211,7 @@
       "$Comment": "Less than 1 block away from the player",
       "Sensor": {
         "Type": "Player",
-        "Range": 1,
-        "LockOnTarget": true,
-        "Filters": [
-          {
-            "Type": "IsEvoker"
-          }
-        ]
+        "Range": 1
       },
       "BodyMotion": {
         "Type": "MaintainDistance",
@@ -326,13 +320,18 @@
           },
           "Instructions": [
             {
-              "$Comment": "Checks if the inventory is full",
+              "$Comment": "Checks if the inventory is full and if there is a chest nearby",
               "Sensor": {
                 "Type": "Self",
                 "Filters": [
                   {
                     "Type": "EvokeIsInventoryFull",
                     "Inventories": ["Hotbar", "Storage"]
+                  },
+                  {
+                    "Type": "EvokeFilterHasChestNearby",
+                    "HorizontalRange": 10,
+                    "VerticalRange": 3
                   }
                 ]
               },
@@ -363,6 +362,29 @@
                 {
                   "Type": "State",
                   "State": ".Harvest"
+                }
+              ]
+            },
+            {
+              "$Comment": "Checks if you are holding a watering can and if has dry soil",
+              "Sensor": {
+                "Type": "Self",
+                "Filters": [
+                  {
+                    "Type": "ItemInHand",
+                    "Items": [ "Tool_Watering_Can" ]
+                  },
+                  {
+                    "Type": "EvokeFilterHasWettableSoil",
+                    "HorizontalRange": 10,
+                    "VerticalRange": 3
+                  }
+                ]
+              },
+              "Actions": [
+                {
+                  "Type": "State",
+                  "State": ".Water"
                 }
               ]
             },
@@ -404,6 +426,21 @@
           "Instructions": [
             {
               "Reference": "Component_Evoke_Harvest",
+              "Modify": {
+                "_ExportStates": ["SeekPosition"]
+              }
+            }
+          ]
+        },
+        {
+          "$Comment": "Search for a dry soil",
+          "Sensor": {
+            "Type": "State",
+            "State": ".Water"
+          },
+          "Instructions": [
+            {
+              "Reference": "Component_Evoke_Water",
               "Modify": {
                 "_ExportStates": ["SeekPosition"]
               }

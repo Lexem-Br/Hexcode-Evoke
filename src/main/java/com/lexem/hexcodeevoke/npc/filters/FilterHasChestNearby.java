@@ -1,4 +1,4 @@
-package com.lexem.hexcodeevoke.npc.sensors;
+package com.lexem.hexcodeevoke.npc.filters;
 
 import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.component.Store;
@@ -11,67 +11,47 @@ import com.hypixel.hytale.server.core.universe.world.chunk.BlockComponentChunk;
 import com.hypixel.hytale.server.core.universe.world.storage.ChunkStore;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.hypixel.hytale.server.npc.asset.builder.BuilderSupport;
-import com.hypixel.hytale.server.npc.corecomponents.SensorBase;
+import com.hypixel.hytale.server.npc.corecomponents.EntityFilterBase;
 import com.hypixel.hytale.server.npc.role.Role;
-import com.hypixel.hytale.server.npc.sensorinfo.InfoProvider;
-import com.hypixel.hytale.server.npc.sensorinfo.PositionProvider;
-import com.lexem.hexcodeevoke.npc.sensors.builders.BuilderSensorChestFinder;
+import com.lexem.hexcodeevoke.npc.filters.builders.BuilderFilterHasChestNearby;
 import com.lexem.hexcodeevoke.utils.FinderUtils;
 import com.lexem.hexcodeevoke.utils.InventoryUtils;
-import org.joml.Vector3d;
 import org.joml.Vector3i;
 
 import javax.annotation.Nonnull;
 
-public class SensorChestFinder extends SensorBase {
+public class FilterHasChestNearby extends EntityFilterBase {
     private final double horizontalRange;
     private final double verticalRange;
     private boolean checkCanStore;
-    protected boolean wasSteering = false;
     private Ref<EntityStore> npcRef;
     private Store<EntityStore> store;
-    private final PositionProvider positionProvider = new PositionProvider();
 
-    public SensorChestFinder(@Nonnull BuilderSensorChestFinder builder, @Nonnull BuilderSupport support) {
-        super(builder);
-        this.horizontalRange = builder.getHorizontalRange(support);
-        this.verticalRange = builder.getVerticalRange(support);
-        this.checkCanStore = builder.getCheckCanStore(support);
-    }
+   public FilterHasChestNearby(@Nonnull BuilderFilterHasChestNearby builder, @Nonnull BuilderSupport support) {
+       this.horizontalRange = builder.getHorizontalRange(support);
+       this.verticalRange = builder.getVerticalRange(support);
+       this.checkCanStore = builder.getCheckCanStore(support);
+   }
 
-    @Override
-    public boolean matches(@Nonnull Ref<EntityStore> npcRef, @Nonnull Role role, double dt, @Nonnull Store<EntityStore> store) {
-        if (!super.matches(npcRef, role, dt, store) || wasSteering) {
-            this.positionProvider.clear();
-            return false;
-        }
+   @Override
+   public boolean matchesEntity(@Nonnull Ref<EntityStore> npcRef, @Nonnull Ref<EntityStore> targetRef, @Nonnull Role role, @Nonnull Store<EntityStore> store) {
+       this.npcRef = npcRef;
+       this.store = store;
 
-        this.npcRef = npcRef;
-        this.store = store;
+       World world = store.getExternalData().getWorld();
+       TransformComponent transformComponent = store.getComponent(npcRef, TransformComponent.getComponentType());
+       if (transformComponent == null) return false;
 
-        World world = store.getExternalData().getWorld();
-        TransformComponent transformComponent = store.getComponent(npcRef, TransformComponent.getComponentType());
-        if (transformComponent == null) {
-            this.positionProvider.clear();
-            return false;
-        }
+       Vector3i chest = FinderUtils.findNearestBlockBFS(
+               transformComponent.getPosition(),
+               (int) Math.ceil(horizontalRange),
+               (int) Math.ceil(verticalRange),
+               chestValidator,
+               world
+       );
 
-        Vector3i chest = FinderUtils.findNearestBlockBFS(
-                transformComponent.getPosition(),
-                (int) Math.ceil(horizontalRange),
-                (int) Math.ceil(verticalRange),
-                chestValidator,
-                world
-        );
-
-        if (chest != null) {
-            this.positionProvider.setTarget(new Vector3d(chest.x, chest.y, chest.z));
-        } else {
-            this.positionProvider.clear();
-        }
-
-        return chest != null;
-    }
+       return chest != null;
+   }
 
     private final FinderUtils.BlockValidator<World> chestValidator = (block, world) -> {
         ChunkStore chunkStore = world.getChunkStore();
@@ -95,5 +75,8 @@ public class SensorChestFinder extends SensorBase {
         return InventoryUtils.canAddAnyItemToContainerNPC(chestContainer, npcRef, store);
     };
 
-    public InfoProvider getSensorInfo() { return this.positionProvider; }
+   @Override
+   public int cost() {
+      return 100;
+   }
 }

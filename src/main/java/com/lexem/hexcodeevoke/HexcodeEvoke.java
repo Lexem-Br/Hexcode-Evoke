@@ -18,19 +18,14 @@ import com.lexem.hexcodeevoke.events.SaveHexCreatureEvent;
 import com.lexem.hexcodeevoke.handlers.SaveHexCreatureHandler;
 import com.lexem.hexcodeevoke.hexitems.AllowedHexItemsAsset;
 import com.lexem.hexcodeevoke.interactions.*;
-import com.lexem.hexcodeevoke.npc.actions.builders.BuilderActionSetInteractableFlockLeader;
-import com.lexem.hexcodeevoke.npc.actions.builders.BuilderActionOpenHCProfile;
-import com.lexem.hexcodeevoke.npc.actions.builders.BuilderActionHCPickUpItem;
-import com.lexem.hexcodeevoke.npc.actions.builders.BuilderActionHarvestCrop;
+import com.lexem.hexcodeevoke.npc.actions.builders.*;
 import com.lexem.hexcodeevoke.npc.bodymotions.builders.BuilderTeleportHexCreature;
-import com.lexem.hexcodeevoke.npc.filters.builders.BuilderFilterHasHarvestableCrop;
+import com.lexem.hexcodeevoke.npc.filters.builders.*;
 import com.lexem.hexcodeevoke.npc.sensors.builders.BuilderSensorEvokeReadPosition;
-import com.lexem.hexcodeevoke.npc.filters.builders.BuilderFilterIsInventoryFull;
-import com.lexem.hexcodeevoke.npc.filters.builders.BuilderFilterIsEvoker;
-import com.lexem.hexcodeevoke.npc.actions.builders.BuilderActionStoreItems;
 import com.lexem.hexcodeevoke.builtin.HexcodeBuiltin;
 import com.lexem.hexcodeevoke.npc.sensors.builders.BuilderSensorHarvestableCropFinder;
 import com.lexem.hexcodeevoke.npc.sensors.builders.BuilderSensorChestFinder;
+import com.lexem.hexcodeevoke.npc.sensors.builders.BuilderSensorWettableSoilFinder;
 import com.lexem.hexcodeevoke.systems.NPCJoinSystem;
 import com.lexem.hexcodeevoke.systems.PlayerJoinSystem;
 import org.checkerframework.checker.nullness.compatqual.NonNullDecl;
@@ -93,6 +88,10 @@ public class HexcodeEvoke extends JavaPlugin {
         npcPlugin.registerCoreComponentType("EvokeChestFinder", BuilderSensorChestFinder::new);
         npcPlugin.registerCoreComponentType("EvokeStoreItems", BuilderActionStoreItems::new);
         npcPlugin.registerCoreComponentType("EvokeFilterHasHarvestableCrop", BuilderFilterHasHarvestableCrop::new);
+        npcPlugin.registerCoreComponentType("EvokeFilterHasWettableSoil", BuilderFilterHasWettableSoil::new);
+        npcPlugin.registerCoreComponentType("EvokeWettableSoilFinder", BuilderSensorWettableSoilFinder::new);
+        npcPlugin.registerCoreComponentType("EvokeWaterSoil", BuilderActionWaterSoil::new);
+        npcPlugin.registerCoreComponentType("EvokeFilterHasChestNearby", BuilderFilterHasChestNearby::new);
     }
 
     private void registerComponents() {

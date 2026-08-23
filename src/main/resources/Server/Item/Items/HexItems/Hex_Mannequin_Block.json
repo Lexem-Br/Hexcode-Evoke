@@ -1,7 +1,7 @@
 {
   "TranslationProperties": {
-    "Name": "evoke.items.Hex_Mannequin.name",
-    "Description": "evoke.items.Hex_Mannequin.description"
+    "Name": "evoke.items.HexItems.Hex_Mannequin.name",
+    "Description": "evoke.items.HexItems.Hex_Mannequin.description"
   },
   "Icon": "Icons/ItemsGenerated/Hex_Mannequin_Block.png",
   "Recipe": {
