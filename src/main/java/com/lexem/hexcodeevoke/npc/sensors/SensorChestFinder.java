@@ -2,17 +2,18 @@ package com.lexem.hexcodeevoke.npc.sensors;
 
 import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.component.Store;
+import com.hypixel.hytale.logger.HytaleLogger;
 import com.hypixel.hytale.math.util.ChunkUtil;
 import com.hypixel.hytale.server.core.inventory.container.SimpleItemContainer;
+import com.hypixel.hytale.server.core.modules.block.BlockModule;
 import com.hypixel.hytale.server.core.modules.block.components.ItemContainerBlock;
 import com.hypixel.hytale.server.core.modules.entity.component.TransformComponent;
 import com.hypixel.hytale.server.core.universe.world.World;
-import com.hypixel.hytale.server.core.universe.world.chunk.BlockComponentChunk;
 import com.hypixel.hytale.server.core.universe.world.storage.ChunkStore;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.hypixel.hytale.server.npc.asset.builder.BuilderSupport;
 import com.hypixel.hytale.server.npc.corecomponents.SensorBase;
-import com.hypixel.hytale.server.npc.role.Role;
+import com.hypixel.hytale.server.npc.instructions.ExecutionSupport;
 import com.hypixel.hytale.server.npc.sensorinfo.InfoProvider;
 import com.hypixel.hytale.server.npc.sensorinfo.PositionProvider;
 import com.lexem.hexcodeevoke.npc.sensors.builders.BuilderSensorChestFinder;
@@ -31,7 +32,6 @@ public class SensorChestFinder extends SensorBase {
     private Ref<EntityStore> npcRef;
     private Store<EntityStore> store;
     private final PositionProvider positionProvider = new PositionProvider();
-
     public SensorChestFinder(@Nonnull BuilderSensorChestFinder builder, @Nonnull BuilderSupport support) {
         super(builder);
         this.horizontalRange = builder.getHorizontalRange(support);
@@ -40,8 +40,8 @@ public class SensorChestFinder extends SensorBase {
     }
 
     @Override
-    public boolean matches(@Nonnull Ref<EntityStore> npcRef, @Nonnull Role role, double dt, @Nonnull Store<EntityStore> store) {
-        if (!super.matches(npcRef, role, dt, store) || wasSteering) {
+    public boolean matches(@Nonnull Ref<EntityStore> npcRef, @Nonnull ExecutionSupport executionSupport, double dt, @Nonnull Store<EntityStore> store) {
+        if (!super.matches(npcRef, executionSupport, dt, store) || wasSteering) {
             this.positionProvider.clear();
             return false;
         }
@@ -74,17 +74,19 @@ public class SensorChestFinder extends SensorBase {
     }
 
     private final FinderUtils.BlockValidator<World> chestValidator = (block, world) -> {
-        ChunkStore chunkStore = world.getChunkStore();
-        Ref<ChunkStore> chunkRef = chunkStore.getChunkReference(ChunkUtil.indexChunkFromBlock(block.x, block.z));
+        long chunkIndex = ChunkUtil.indexChunkFromBlock(block.x, block.z);
+        Ref<ChunkStore> chunkRef = world.getChunkStore().getChunkReference(chunkIndex);
         if (chunkRef == null) return false;
 
-        BlockComponentChunk blockComponentChunk = chunkStore.getStore().getComponent(chunkRef, BlockComponentChunk.getComponentType());
-        if (blockComponentChunk == null) return false;
+        Store<ChunkStore> chunkComponentStore = world.getChunkStore().getStore();
+        ChunkStore chunkStore = world.getChunkStore();
+        Ref<ChunkStore> sectionRef = chunkStore.getChunkSectionReferenceAtBlock(block.x, block.y, block.z);
+        if (sectionRef == null) return false;
 
-        Ref<ChunkStore> blockRef = blockComponentChunk.getEntityReference(ChunkUtil.indexBlockInColumn(block.x, block.y, block.z));
+        Ref<ChunkStore> blockRef = BlockModule.getBlockEntity(chunkComponentStore, sectionRef, block.x, block.y, block.z);
         if (blockRef == null) return false;
 
-        ItemContainerBlock itemContainerBlock = chunkStore.getStore().getComponent(blockRef, ItemContainerBlock.getComponentType());
+        ItemContainerBlock itemContainerBlock = chunkComponentStore.getComponent(blockRef, ItemContainerBlock.getComponentType());
         if (itemContainerBlock == null) {
             return false;
         } else if (!checkCanStore) {

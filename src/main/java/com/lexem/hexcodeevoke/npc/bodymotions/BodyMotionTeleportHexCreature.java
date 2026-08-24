@@ -11,9 +11,9 @@ import com.hypixel.hytale.server.core.modules.entity.teleport.Teleport;
 import com.hypixel.hytale.server.core.modules.physics.util.PhysicsMath;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.hypixel.hytale.server.npc.corecomponents.BodyMotionBase;
+import com.hypixel.hytale.server.npc.instructions.ExecutionSupport;
 import com.hypixel.hytale.server.npc.movement.Steering;
 import com.hypixel.hytale.server.npc.movement.controllers.MotionController;
-import com.hypixel.hytale.server.npc.role.Role;
 import com.hypixel.hytale.server.npc.sensorinfo.InfoProvider;
 import com.lexem.hexcodeevoke.npc.bodymotions.builders.BuilderTeleportHexCreature;
 import org.joml.Vector3d;
@@ -31,7 +31,7 @@ public class BodyMotionTeleportHexCreature extends BodyMotionBase {
    protected final double minYOffset;
    protected final double maxYOffset;
    protected final float angle;
-   protected final BodyMotionTeleportHexCreature.Orientation orientation;
+   protected final Orientation orientation;
    protected final Vector3d target = new Vector3d();
    protected final Vector3d offsetVector = new Vector3d();
    protected final Vector3d lastTriedTarget = new Vector3d();
@@ -50,18 +50,18 @@ public class BodyMotionTeleportHexCreature extends BodyMotionBase {
    }
 
    @Override
-   public void activate(@Nonnull Ref<EntityStore> ref, @Nonnull Role role, @Nonnull ComponentAccessor<EntityStore> componentAccessor) {
+   public void activate(@Nonnull Ref<EntityStore> ref, @Nonnull ExecutionSupport executionSupport, @Nonnull ComponentAccessor<EntityStore> componentAccessor) {
       this.tries = 10;
    }
 
    @Override
    public boolean computeSteering(
-      @Nonnull Ref<EntityStore> ref,
-      @Nonnull Role role,
-      @Nullable InfoProvider sensorInfo,
-      double dt,
-      @Nonnull Steering desiredSteering,
-      @Nonnull ComponentAccessor<EntityStore> componentAccessor
+           @Nonnull Ref<EntityStore> ref,
+           @Nonnull ExecutionSupport executionSupport,
+           @Nullable InfoProvider sensorInfo,
+           double dt,
+           @Nonnull Steering desiredSteering,
+           @Nonnull ComponentAccessor<EntityStore> componentAccessor
    ) {
       if (sensorInfo != null && Objects.requireNonNull(sensorInfo.getPositionProvider()).providePosition(this.target)) {
          double dist = this.target.distanceSquared(this.lastTriedTarget);
@@ -72,7 +72,7 @@ public class BodyMotionTeleportHexCreature extends BodyMotionBase {
 
             this.lastTriedTarget.set(this.target);
             TransformComponent transformComponent = componentAccessor.getComponent(ref, TRANSFORM_COMPONENT_TYPE);
-            if (transformComponent == null) { return false;}
+            if (transformComponent == null) { return false; }
 
             Vector3d selfPosition = transformComponent.getPosition();
             double distance = selfPosition.distanceSquared(this.target);
@@ -84,16 +84,16 @@ public class BodyMotionTeleportHexCreature extends BodyMotionBase {
                this.offsetVector.normalize(RandomExtra.randomRange(this.minOffset, this.maxOffset));
                this.offsetVector.rotateY(RandomExtra.randomRange(-this.angle, this.angle));
                this.target.add(this.offsetVector);
-               MotionController motionController = role.getActiveMotionController();
+               MotionController motionController = executionSupport.getMotionContextSupport().getActiveMotionController();
                BoundingBox boundingBoxComponent = componentAccessor.getComponent(ref, BOUNDING_BOX_COMPONENT_TYPE);
-               if (motionController.translateToAccessiblePosition(
-                     this.target,
-                     boundingBoxComponent != null ? boundingBoxComponent.getBoundingBox() : null,
-                     this.target.y - this.maxYOffset,
-                     this.target.y + this.maxYOffset,
-                     componentAccessor
-                  )
-                  && motionController.isValidPosition(this.target, componentAccessor)) {
+                if (motionController != null && motionController.translateToAccessiblePosition(
+                       this.target,
+                       boundingBoxComponent != null ? boundingBoxComponent.getBoundingBox() : null,
+                       this.target.y - this.maxYOffset,
+                       this.target.y + this.maxYOffset,
+                       componentAccessor
+               )
+                       && motionController.isValidPosition(this.target, componentAccessor)) {
                   Vector3d teleportPos = new Vector3d(this.target).add(0, this.minYOffset, 0);
                   switch (this.orientation) {
                      case Unchanged: {
@@ -117,7 +117,7 @@ public class BodyMotionTeleportHexCreature extends BodyMotionBase {
                         }
 
                         componentAccessor.addComponent(
-                           ref, Teleport.getComponentType(), Teleport.createExact(teleportPos, new Rotation3f(yaw, pitch, bodyRotation.roll()))
+                                ref, Teleport.getComponentType(), Teleport.createExact(teleportPos, new Rotation3f(yaw, pitch, bodyRotation.roll()))
                         );
                         break;
                      }
@@ -168,7 +168,7 @@ public class BodyMotionTeleportHexCreature extends BodyMotionBase {
 
       private final String description;
 
-       Orientation(String description) {
+      Orientation(String description) {
          this.description = description;
       }
 

@@ -3,17 +3,14 @@ package com.lexem.hexcodeevoke.npc.actions;
 import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.component.Store;
 import com.hypixel.hytale.math.util.ChunkUtil;
-import com.hypixel.hytale.server.core.inventory.InventoryComponent;
-import com.hypixel.hytale.server.core.inventory.ItemStack;
-import com.hypixel.hytale.server.core.inventory.container.CombinedItemContainer;
 import com.hypixel.hytale.server.core.inventory.container.SimpleItemContainer;
+import com.hypixel.hytale.server.core.modules.block.BlockModule;
 import com.hypixel.hytale.server.core.modules.block.components.ItemContainerBlock;
 import com.hypixel.hytale.server.core.universe.world.World;
-import com.hypixel.hytale.server.core.universe.world.chunk.BlockComponentChunk;
 import com.hypixel.hytale.server.core.universe.world.storage.ChunkStore;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.hypixel.hytale.server.npc.corecomponents.ActionBase;
-import com.hypixel.hytale.server.npc.role.Role;
+import com.hypixel.hytale.server.npc.instructions.ExecutionSupport;
 import com.hypixel.hytale.server.npc.sensorinfo.IPositionProvider;
 import com.hypixel.hytale.server.npc.sensorinfo.InfoProvider;
 import com.lexem.hexcodeevoke.npc.actions.builders.BuilderActionStoreItems;
@@ -29,8 +26,8 @@ public class ActionStoreItems extends ActionBase {
         super(builderActionBase);
     }
 
-    public boolean execute(@Nonnull Ref<EntityStore> npcRef, @Nonnull Role role, @Nullable InfoProvider sensorInfo, double dt, @Nonnull Store<EntityStore> store) {
-        super.execute(npcRef, role, sensorInfo, dt, store);
+    public boolean execute(@Nonnull Ref<EntityStore> npcRef, @Nonnull ExecutionSupport executionSupport, @Nullable InfoProvider sensorInfo, double dt, @Nonnull Store<EntityStore> store) {
+        super.execute(npcRef, executionSupport, sensorInfo, dt, store);
 
         if (sensorInfo == null || !sensorInfo.hasPosition()) return false;
 
@@ -44,17 +41,19 @@ public class ActionStoreItems extends ActionBase {
                 (int) Math.floor(positionProvider.getZ())
         );
 
+        long chunkIndex = ChunkUtil.indexChunkFromBlock(positionProvider.getX(), positionProvider.getZ());
+        Ref<ChunkStore> chunkRef = world.getChunkStore().getChunkReference(chunkIndex);
+        if (chunkRef == null) return false;
+
+        Store<ChunkStore> chunkComponentStore = world.getChunkStore().getStore();
         ChunkStore chunkStore = world.getChunkStore();
-        Ref<ChunkStore> chunkRef = chunkStore.getChunkReference(com.hypixel.hytale.math.util.ChunkUtil.indexChunkFromBlock(chestPosition.x, chestPosition.z));
-        if (chunkRef == null || !chunkRef.isValid()) return false;
+        Ref<ChunkStore> sectionRef = chunkStore.getChunkSectionReferenceAtBlock(chestPosition.x, chestPosition.y, chestPosition.z);
+        if (sectionRef == null) return false;
 
-        BlockComponentChunk blockComponentChunk = chunkStore.getStore().getComponent(chunkRef, BlockComponentChunk.getComponentType());
-        if (blockComponentChunk == null) return false;
-
-        Ref<ChunkStore> blockRef = blockComponentChunk.getEntityReference(ChunkUtil.indexBlockInColumn(chestPosition.x, chestPosition.y, chestPosition.z));
+        Ref<ChunkStore> blockRef = BlockModule.getBlockEntity(chunkComponentStore, sectionRef, chestPosition.x, chestPosition.y, chestPosition.z);
         if (blockRef == null) return false;
 
-        ItemContainerBlock itemContainerBlock = chunkStore.getStore().getComponent(blockRef, ItemContainerBlock.getComponentType());
+        ItemContainerBlock itemContainerBlock = chunkComponentStore.getComponent(blockRef, ItemContainerBlock.getComponentType());
         if (itemContainerBlock == null) return false;
 
         SimpleItemContainer chestContainer = itemContainerBlock.getItemContainer();

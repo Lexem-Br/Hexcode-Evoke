@@ -3,7 +3,6 @@ package com.lexem.hexcodeevoke.npc.actions;
 import com.hypixel.hytale.builtin.adventure.farming.FarmingUtil;
 import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.component.Store;
-import com.hypixel.hytale.logger.HytaleLogger;
 import com.hypixel.hytale.math.util.ChunkUtil;
 import com.hypixel.hytale.server.core.asset.type.blocktype.config.BlockType;
 import com.hypixel.hytale.server.core.asset.type.blocktype.config.HarvestingDropType;
@@ -15,7 +14,7 @@ import com.hypixel.hytale.server.core.universe.world.storage.ChunkStore;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.hypixel.hytale.server.npc.corecomponents.ActionBase;
 import com.hypixel.hytale.server.npc.corecomponents.builders.BuilderActionBase;
-import com.hypixel.hytale.server.npc.role.Role;
+import com.hypixel.hytale.server.npc.instructions.ExecutionSupport;
 import com.hypixel.hytale.server.npc.sensorinfo.IPositionProvider;
 import com.hypixel.hytale.server.npc.sensorinfo.InfoProvider;
 import org.joml.Vector3i;
@@ -29,8 +28,8 @@ public class ActionHarvestCrop extends ActionBase {
         super(builderActionBase);
     }
 
-    public boolean execute(@Nonnull Ref<EntityStore> npcRef, @Nonnull Role role, @Nullable InfoProvider sensorInfo, double dt, @Nonnull Store<EntityStore> store) {
-        super.execute(npcRef, role, sensorInfo, dt, store);
+    public boolean execute(@Nonnull Ref<EntityStore> npcRef, @Nonnull ExecutionSupport executionSupport, @Nullable InfoProvider sensorInfo, double dt, @Nonnull Store<EntityStore> store) {
+        super.execute(npcRef, executionSupport, sensorInfo, dt, store);
 
         if (sensorInfo == null || !sensorInfo.hasPosition()) return false;
 
@@ -68,6 +67,6 @@ public class ActionHarvestCrop extends ActionBase {
         if (blockSection == null) return false;
 
         int rotationIndex = blockSection.getRotationIndex(blockPosition.x, blockPosition.y, blockPosition.z);
-        return FarmingUtil.harvest(world, store, npcRef, blockType, rotationIndex, blockPosition);
+        return FarmingUtil.harvest(world.getChunkStore().getStore(), store, npcRef, blockType, rotationIndex, blockPosition);
     }
 }
