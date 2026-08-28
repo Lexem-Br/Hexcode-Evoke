@@ -8,6 +8,8 @@ import com.hypixel.hytale.server.core.asset.type.blocktype.config.BlockType;
 import com.hypixel.hytale.server.core.asset.type.blocktype.config.RotationTuple;
 import com.hypixel.hytale.server.core.universe.PlayerRef;
 import com.hypixel.hytale.server.core.universe.world.World;
+import com.hypixel.hytale.server.core.universe.world.chunk.section.BlockSection;
+import com.hypixel.hytale.server.core.universe.world.storage.ChunkStore;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.hypixel.hytale.server.core.util.NotificationUtil;
 import com.hypixel.hytale.server.npc.NPCPlugin;
@@ -27,9 +29,14 @@ public class HexCreatureUtils {
 
     public static boolean trySpawnHexCreature(Vector3i blockPos, Ref<EntityStore> refESPlayer, CommandBuffer<EntityStore> accessor) {
         World world = accessor.getExternalData().getWorld();
-        Vector3d blockVector = new Vector3d(blockPos.x + 0.5, blockPos.y, blockPos.z + 0.5);
 
-        int blockRotationIndex = world.getBlockRotationIndex(blockPos.x, blockPos.y, blockPos.z);
+        Ref<ChunkStore> section = world.getChunkStore().getChunkSectionReferenceAtBlock(blockPos.x, blockPos.y, blockPos.z);
+        if (section == null) return false;
+
+        BlockSection blockSection = section.getStore().getComponent(section, BlockSection.getComponentType());
+        if (blockSection == null) return false;
+
+        int blockRotationIndex = blockSection.getRotationIndex(blockPos.x, blockPos.y, blockPos.z);
         RotationTuple rotation = RotationTuple.get(blockRotationIndex);
         Rotation3f blockRotation = new Rotation3f(0.0F, (float) (rotation.yaw().getRadians() + Math.PI), 0.0F);
 
@@ -60,6 +67,7 @@ public class HexCreatureUtils {
                 return;
             }
             if (roleIndex >= 0) {
+                Vector3d blockVector = new Vector3d(blockPos.x + 0.5, blockPos.y, blockPos.z + 0.5);
                 Pair<Ref<EntityStore>, NPCEntity> npcPair = NPCPlugin.get().spawnEntity(_store, roleIndex, blockVector, blockRotation, null, null);
                 if (npcPair == null) { return; }
 

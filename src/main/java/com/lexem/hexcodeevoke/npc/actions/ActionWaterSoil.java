@@ -3,16 +3,16 @@ package com.lexem.hexcodeevoke.npc.actions;
 import com.hypixel.hytale.builtin.adventure.farming.states.TilledSoilBlock;
 import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.component.Store;
-import com.hypixel.hytale.logger.HytaleLogger;
 import com.hypixel.hytale.math.util.ChunkUtil;
 import com.hypixel.hytale.server.core.asset.type.blocktype.config.BlockType;
 import com.hypixel.hytale.server.core.modules.time.WorldTimeResource;
 import com.hypixel.hytale.server.core.universe.world.World;
-import com.hypixel.hytale.server.core.universe.world.chunk.WorldChunk;
+import com.hypixel.hytale.server.core.universe.world.chunk.section.BlockComponentSection;
+import com.hypixel.hytale.server.core.universe.world.chunk.section.BlockSection;
 import com.hypixel.hytale.server.core.universe.world.storage.ChunkStore;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.hypixel.hytale.server.npc.corecomponents.ActionBase;
-import com.hypixel.hytale.server.npc.role.Role;
+import com.hypixel.hytale.server.npc.instructions.ExecutionSupport;
 import com.hypixel.hytale.server.npc.sensorinfo.IPositionProvider;
 import com.hypixel.hytale.server.npc.sensorinfo.InfoProvider;
 import com.lexem.hexcodeevoke.npc.actions.builders.BuilderActionWaterSoil;
@@ -30,8 +30,8 @@ public class ActionWaterSoil extends ActionBase {
         super(builderActionBase);
     }
 
-    public boolean execute(@Nonnull Ref<EntityStore> npcRef, @Nonnull Role role, @Nullable InfoProvider sensorInfo, double dt, @Nonnull Store<EntityStore> store) {
-        super.execute(npcRef, role, sensorInfo, dt, store);
+    public boolean execute(@Nonnull Ref<EntityStore> npcRef, @Nonnull ExecutionSupport executionSupport, @Nullable InfoProvider sensorInfo, double dt, @Nonnull Store<EntityStore> store) {
+        super.execute(npcRef, executionSupport, sensorInfo, dt, store);
 
         if (sensorInfo == null || !sensorInfo.hasPosition()) return false;
 
@@ -50,24 +50,31 @@ public class ActionWaterSoil extends ActionBase {
 
         if (!Objects.equals(blockType.getId(), "Soil_Dirt_Tilled")) return false;
 
-        Store<ChunkStore> chunkStore = world.getChunkStore().getStore();
+        ChunkStore chunkStore = world.getChunkStore();
+        Store<ChunkStore> chunkStoreComponent = chunkStore.getStore();
+        Ref<ChunkStore> section = chunkStore.getChunkSectionReferenceAtBlock(blockPosition.x, blockPosition.y, blockPosition.z);
+        if (section == null) return false;
 
-        long chunkIndex = ChunkUtil.indexChunkFromBlock(blockPosition.x, blockPosition.z);
-        WorldChunk worldChunk = world.getChunk(chunkIndex);
-        if (worldChunk == null) return false;
+        BlockSection blockSection = chunkStoreComponent.getComponent(section, BlockSection.getComponentType());
+        if (blockSection == null) return false;
 
-        Ref<ChunkStore> blockRef = worldChunk.getBlockComponentEntity(blockPosition.x, blockPosition.y, blockPosition.z);
+        BlockComponentSection blockComponentSection = chunkStoreComponent.getComponent(section, BlockComponentSection.getComponentType());
+        if (blockComponentSection == null) return false;
+
+        int soilIndex = ChunkUtil.indexBlock(blockPosition.x, blockPosition.y, blockPosition.z);
+        Ref<ChunkStore> blockRef = blockComponentSection.getBlockReference(soilIndex);
         if (blockRef == null) return false;
 
-        TilledSoilBlock tilledSoilComponent = chunkStore.getComponent(blockRef, TilledSoilBlock.getComponentType());
-        if (tilledSoilComponent == null) return false;
+        TilledSoilBlock tilledSoilBlockComponent = chunkStoreComponent.getComponent(blockRef, TilledSoilBlock.getComponentType());
+        if (tilledSoilBlockComponent == null) return false;
 
         WorldTimeResource worldTimeResource = store.getResource(WorldTimeResource.getResourceType());
         Instant gameTime = worldTimeResource.getGameTime();
         Instant wateredUntil = gameTime.plus(86400, ChronoUnit.SECONDS);
-        tilledSoilComponent.setWateredUntil(wateredUntil);
-        worldChunk.setTicking(blockPosition.x, blockPosition.y - 1, blockPosition.z, true);
-        worldChunk.setTicking(blockPosition.x, blockPosition.y, blockPosition.z, true);
+        tilledSoilBlockComponent.setWateredUntil(wateredUntil);
+        blockComponentSection.markBlockNeedsSaving(soilIndex);
+        blockSection.setTicking(blockPosition.x, blockPosition.y, blockPosition.z, true);
+        blockSection.scheduleTick(soilIndex, wateredUntil);
 
         return true;
     }

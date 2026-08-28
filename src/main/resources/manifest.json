@@ -1,7 +1,7 @@
 {
     "Group": "Lexem",
     "Name": "HexcodeEvoke",
-    "Version": "0.4.2",
+    "Version": "0.5.0",
     "Description": "Bring objects to life.",
     "Authors": [
         {
@@ -12,7 +12,7 @@
         }
     ],
     "Website": "",
-    "ServerVersion": ">=0.5.0 <0.6.0",
+    "ServerVersion": ">=0.5.0 <0.7.0",
     "Dependencies": {
         "Hytale:AssetModule": "*"
     },

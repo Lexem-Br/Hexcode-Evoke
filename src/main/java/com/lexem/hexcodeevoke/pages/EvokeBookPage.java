@@ -16,7 +16,9 @@ import com.hypixel.hytale.server.core.ui.builder.UIEventBuilder;
 import com.hypixel.hytale.server.core.universe.PlayerRef;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.hypixel.hytale.server.npc.entities.NPCEntity;
+import com.hypixel.hytale.server.npc.instructions.ExecutionSupport;
 import com.hypixel.hytale.server.npc.role.Role;
+import com.hypixel.hytale.server.npc.role.support.DisplayNameSupport;
 import com.lexem.hexcodeevoke.components.EvokerComponent;
 import com.lexem.hexcodeevoke.components.HexCreatureComponent;
 import com.lexem.hexcodeevoke.hexitems.AllowedHexItemsAsset;
@@ -177,13 +179,10 @@ public class EvokeBookPage extends InteractiveCustomUIPage<EvokeBookPage.EvokeBo
                         hexCreature.setName(entry.getValue());
 
                         if (hexCreature.getShowName()) {
-                            NPCEntity npcEntity = store.getComponent(npcESRef, Objects.requireNonNull(NPCEntity.getComponentType()));
-                            if (npcEntity == null) break;
+                            DisplayNameSupport displayNameSupport = store.getComponent(npcESRef, DisplayNameSupport.getComponentType());
+                            if (displayNameSupport == null) break;
 
-                            Role role = npcEntity.getRole();
-                            if (role == null) break;
-
-                            role.getEntitySupport().nominateDisplayName(entry.getValue());
+                            displayNameSupport.nominateDisplayName(entry.getValue());
                         }
                     }
                     this.isEditModeEnabled = !isEditModeEnabled;
@@ -205,10 +204,13 @@ public class EvokeBookPage extends InteractiveCustomUIPage<EvokeBookPage.EvokeBo
 
                         hexCreature.setShowName(!hexCreature.getShowName());
 
+                        DisplayNameSupport displayNameSupport = store.getComponent(npcESRef, DisplayNameSupport.getComponentType());
+                        if (displayNameSupport == null) break;
+
                         if (hexCreature.getShowName()){
-                            role.getEntitySupport().nominateDisplayName(hexCreature.getName());
+                            displayNameSupport.nominateDisplayName(hexCreature.getName());
                         } else {
-                            role.getEntitySupport().nominateDisplayName("");
+                            displayNameSupport.nominateDisplayName("");
                         }
                     }
                     refreshPage(ref, store);
