@@ -16,7 +16,7 @@ configurations {
 
 dependencies {
 //    implementation 'curse.maven:hexcode-1448311:8524347'
-    optionalDependency files('lib/Hexcode-0.9.0-Patch-1.jar')
+    optionalDependency files('lib/Hexcode-0.10.0.jar')
     shadowBundle('curse.maven:patchly-1550889:8688333')
 }
 
