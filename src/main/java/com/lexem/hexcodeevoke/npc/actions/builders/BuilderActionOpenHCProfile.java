@@ -28,7 +28,7 @@ public class BuilderActionOpenHCProfile extends BuilderActionBase {
 
    @Nonnull
    public Action build(@Nonnull BuilderSupport builderSupport) {
-      return new ActionOpenHCProfile(this, builderSupport);
+      return new ActionOpenHCProfile(this);
    }
 
    @Nonnull
