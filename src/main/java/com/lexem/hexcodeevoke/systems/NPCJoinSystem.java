@@ -3,13 +3,11 @@ package com.lexem.hexcodeevoke.systems;
 import com.hypixel.hytale.component.*;
 import com.hypixel.hytale.component.query.Query;
 import com.hypixel.hytale.component.system.RefSystem;
-import com.hypixel.hytale.logger.HytaleLogger;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.hypixel.hytale.server.npc.entities.NPCEntity;
 import com.lexem.hexcodeevoke.components.EvokerComponent;
 import com.lexem.hexcodeevoke.hexitems.AllowedHexItemsAsset;
 import com.lexem.hexcodeevoke.utils.DespawnHCUtils;
-import com.lexem.hexcodeevoke.utils.HexCreatureUtils;
 import com.lexem.hexcodeevoke.components.HexCreatureComponent;
 
 import javax.annotation.Nonnull;
@@ -18,7 +16,6 @@ import java.util.Objects;
 import java.util.UUID;
 
 public class NPCJoinSystem extends RefSystem<EntityStore> {
-    private static final HytaleLogger LOGGER = HytaleLogger.forEnclosingClass();
 
     public NPCJoinSystem() {
     }

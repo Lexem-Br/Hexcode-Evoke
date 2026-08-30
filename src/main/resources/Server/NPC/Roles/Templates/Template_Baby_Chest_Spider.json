@@ -1,0 +1,115 @@
+{
+  "Type": "Abstract",
+  "Invulnerable": false,
+  "Parameters": {
+    "Appearance": {
+      "Value": "Baby_Chest_Spider",
+      "Description": "Model to be used."
+    },
+    "NameTranslationKey": {
+      "Value": "Baby Chest Spider",
+      "Description": "Translation key for NPC name display"
+    }
+  },
+  "IsMemory": false,
+  "BreathesInWater": true,
+  "Appearance": {"Compute": "Appearance"},
+  "DefaultNPCAttitude": "Ignore",
+  "DefaultPlayerAttitude": "Ignore",
+  "ApplySeparation": true,
+  "SeparationDistance": 1.0,
+  "SeparationWeight": 0.6,
+  "InventorySize": 0,
+  "HotbarSize": 3,
+  "OffHandSlots": 1,
+  "DefaultOffHandSlot": 0,
+  "PickupDropOnDeath": true,
+  "MaxHealth": 50,
+  "KnockbackScale": 0.5,
+  "NameTranslationKey": {"Compute": "NameTranslationKey"},
+  "MotionControllerList": [
+    {
+      "Type": "Walk",
+      "MaxWalkSpeed": 7,
+      "Gravity": 10,
+      "RunThreshold": 0.3,
+      "MaxFallSpeed": 15,
+      "MaxRotationSpeed": 360,
+      "Acceleration": 8,
+      "MaxClimbHeight": 3,
+      "MaxDropHeight": 5
+    }
+  ],
+  "StateTransitions": [
+    {
+      "$Comment": "Clear",
+      "States": [
+        {
+          "From": [ ],
+          "To": [ ]
+        }
+      ],
+      "Actions": [
+        {
+          "Type": "ReleaseTarget"
+        },
+        {
+          "Type": "ResetInstructions"
+        },
+        {
+          "Type": "PlayAnimation",
+          "Slot": "Status"
+        }
+      ]
+    }
+  ],
+  "Instructions": [
+    {
+      "$Comment": "Follow the mother",
+      "Sensor": {
+        "Type": "And",
+        "Sensors": [
+          {
+            "Type": "FlockLeader"
+          },
+          {
+            "Type": "Self",
+            "Filters": [
+              {
+                "Type": "Flock",
+                "FlockStatus": "Member"
+              }
+            ]
+          }
+        ]
+      },
+      "BodyMotion": {
+        "Type": "Seek",
+        "SlowDownDistance": 3,
+        "StopDistance": 2,
+        "RelativeSpeed": 0.5
+      }
+    },
+    {
+      "$Comment": "Despawn if mother not found",
+      "Continue": true,
+      "Sensor":  {
+        "Type": "Not",
+        "Sensor": {
+          "Type": "FlockLeader"
+        }
+      },
+      "Actions": [
+        {
+          "Type": "SpawnParticles",
+          "Offset": [ 0, 0.5, 0 ],
+          "ParticleSystem": "Effect_Death",
+          "Once": true
+        },
+        {
+          "Type": "Despawn"
+        }
+      ]
+    }
+  ]
+}

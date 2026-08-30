@@ -15,6 +15,10 @@ items.HexItems.Hex_Fairy_Void.name=Hex Fairy Void
 items.HexItems.Hex_Fairy_Ice.name=Hex Fairy Ice
 items.HexItems.Hex_Homunculus.name=Homunculus
 items.HexItems.Hex_Homunculus.description=Give him one of the following items:\n- <b>Sickle</b>: Harvests crops and stores them in the nearest chest\n- <b>Watering Can</b>: Waters dry soil\n- <b>Candle</b>: Lights the way
+items.HexItems.Chest_Spider.name=Chest Spider
+items.HexItems.Chest_Spider.description=.
+items.HexItems.Baby_Chest_Spider.name=Baby Chest Spider
+items.HexItems.Baby_Chest_Spider.description=.
 
 npcRoles.Hex_Mannequin.name=Hex Mannequin
 npcRoles.Hex_Mannequin.description=Give him a torch to help light up the path

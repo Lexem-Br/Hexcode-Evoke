@@ -92,6 +92,8 @@ public class HexcodeEvoke extends JavaPlugin {
         npcPlugin.registerCoreComponentType("EvokeWettableSoilFinder", BuilderSensorWettableSoilFinder::new);
         npcPlugin.registerCoreComponentType("EvokeWaterSoil", BuilderActionWaterSoil::new);
         npcPlugin.registerCoreComponentType("EvokeFilterHasChestNearby", BuilderFilterHasChestNearby::new);
+        npcPlugin.registerCoreComponentType("EvokeFilterNeedsMoreMinions", BuilderFilterNeedsMoreMinions::new);
+        npcPlugin.registerCoreComponentType("EvokeSpawnMinion", BuilderActionSpawnMinion::new);
     }
 
     private void registerComponents() {

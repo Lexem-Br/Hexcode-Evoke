@@ -13,7 +13,6 @@ import com.hypixel.hytale.codec.builder.BuilderCodec;
 import com.hypixel.hytale.codec.codecs.array.ArrayCodec;
 import com.hypixel.hytale.codec.validation.ValidatorCache;
 import com.hypixel.hytale.codec.validation.Validators;
-import com.hypixel.hytale.logger.HytaleLogger;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -24,7 +23,6 @@ public class AllowedHexItemsAsset implements JsonAssetWithMap<String, DefaultAss
     public static final AssetBuilderCodec<String, AllowedHexItemsAsset> CODEC;
     private static AssetStore<String, AllowedHexItemsAsset, DefaultAssetMap<String, AllowedHexItemsAsset>> ASSET_STORE;
     public static final ValidatorCache<String> VALIDATOR_CACHE;
-    private static final HytaleLogger LOGGER = HytaleLogger.forEnclosingClass();
 
     protected AssetExtraInfo.Data data;
     protected String id;
@@ -44,6 +42,8 @@ public class AllowedHexItemsAsset implements JsonAssetWithMap<String, DefaultAss
                                         .add()
                                         .append(new KeyedCodec<>("EntityId", Codec.STRING), (item, s) -> item.entityId = s, item -> item.entityId)
                                         .addValidator(Validators.nonNull())
+                                        .add()
+                                        .append(new KeyedCodec<>("HasLeftHandSlot", Codec.BOOLEAN), (item, s) -> item.hasLeftHandSlot = s, item -> item.hasLeftHandSlot)
                                         .add()
                                         .append(new KeyedCodec<>("HasRightHandSlot", Codec.BOOLEAN), (item, s) -> item.hasRightHandSlot = s, item -> item.hasRightHandSlot)
                                         .add()
@@ -69,6 +69,7 @@ public class AllowedHexItemsAsset implements JsonAssetWithMap<String, DefaultAss
     public static class HexItem {
         public String blockId = "";
         public String entityId = "";
+        public boolean hasLeftHandSlot = true;
         public boolean hasRightHandSlot = true;
         public boolean hasArmorHeadSlot = true;
         public boolean hasArmorChestSlot = true;
@@ -131,6 +132,11 @@ public class AllowedHexItemsAsset implements JsonAssetWithMap<String, DefaultAss
     public static String findBlockIdByEntityId(String entityId) {
         HexItem item = getByEntityId(entityId);
         return item != null ? item.blockId : "";
+    }
+
+    public static boolean hasLeftHandSlotByEntityId(String entityId) {
+        HexItem item = getByEntityId(entityId);
+        return item != null && item.hasLeftHandSlot;
     }
 
     public static boolean hasRightHandSlotByEntityId(String entityId) {

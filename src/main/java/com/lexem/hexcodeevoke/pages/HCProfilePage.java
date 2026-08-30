@@ -165,8 +165,10 @@ public class HCProfilePage extends InteractiveCustomUIPage<HCProfilePage.HCProfi
     }
 
     private void bindNPCHands() {
+        boolean hasLeftHandSlot = AllowedHexItemsAsset.hasLeftHandSlotByEntityId(hexCreatureComponent.getTypeId());
+
         ItemContainer utilityInventory = Objects.requireNonNull(store.getComponent(npcRef, InventoryComponent.Utility.getComponentType())).getInventory();
-        if (utilityInventory != null && utilityInventory.getCapacity() > 0) {
+        if (utilityInventory != null && utilityInventory.getCapacity() > 0 && hasLeftHandSlot) {
             commandBuilder.set("#NPCLeftHand.Visible", true);
             this.bindSlot(utilityInventory, "#NPCLeftHandSlot", (short) 0, false);
         } else {
@@ -274,10 +276,14 @@ public class HCProfilePage extends InteractiveCustomUIPage<HCProfilePage.HCProfi
         boolean hasHotbarSlot = AllowedHexItemsAsset.hasRightHandSlotByEntityId(hexCreatureComponent.getTypeId());
         ItemContainer itemContainer = Objects.requireNonNull(store.getComponent(npcRef, InventoryComponent.Hotbar.getComponentType())).getInventory();
         if (itemContainer != null && hasHotbarSlot) {
+            commandBuilder.set("#Anchor1.Visible", true);
+            commandBuilder.set("#Anchor2.Visible", true);
             commandBuilder.set("#NPCHotbarSection.Visible", true);
             this.bindInventorySectionEvents(itemContainer, "#NPCHotbarSlots", 7, false);
             commandBuilder.set("#NPCHotbarSlots[0][0].Visible", false);
         } else {
+            commandBuilder.set("#Anchor1.Visible", false);
+            commandBuilder.set("#Anchor2.Visible", false);
             commandBuilder.set("#NPCHotbarSection.Visible", false);
         }
     }

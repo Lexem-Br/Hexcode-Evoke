@@ -7,6 +7,7 @@
     {
       "BlockId": "Hex_Fairy_Block",
       "EntityId": "Hex_Fairy",
+      "HasLeftHandSlot": false,
       "HasRightHandSlot": false,
       "HasArmorHeadSlot": false,
       "HasArmorChestSlot": false,
@@ -16,6 +17,7 @@
     {
       "BlockId": "Hex_Fairy_Void_Block",
       "EntityId": "Hex_Fairy_Void",
+      "HasLeftHandSlot": false,
       "HasRightHandSlot": false,
       "HasArmorHeadSlot": false,
       "HasArmorChestSlot": false,
@@ -25,6 +27,7 @@
     {
       "BlockId": "Hex_Fairy_Ice_Block",
       "EntityId": "Hex_Fairy_Ice",
+      "HasLeftHandSlot": false,
       "HasRightHandSlot": false,
       "HasArmorHeadSlot": false,
       "HasArmorChestSlot": false,
@@ -33,7 +36,17 @@
     },
     {
       "BlockId": "Alive_Homunculus_Jar",
-      "EntityId": "Hex_Homunculus",
+      "EntityId": "Homunculus",
+      "HasArmorChestSlot": false,
+      "HasArmorHandsSlot": false,
+      "HasArmorLegSlot": false
+    },
+    {
+      "BlockId": "Chest_Spider_Block",
+      "EntityId": "Chest_Spider",
+      "HasLeftHandSlot": false,
+      "HasRightHandSlot": false,
+      "HasArmorHeadSlot": false,
       "HasArmorChestSlot": false,
       "HasArmorHandsSlot": false,
       "HasArmorLegSlot": false

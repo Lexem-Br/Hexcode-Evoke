@@ -4,7 +4,7 @@
   "Invulnerable": false,
   "Parameters": {
     "Appearance": {
-      "Value": "Hex_Mannequin",
+      "Value": "Chest_Spider",
       "Description": "Model to be used."
     },
     "DropHexItem": {
@@ -24,7 +24,7 @@
       "Description": "Drop Items"
     },
     "NameTranslationKey": {
-      "Value": "Hex Creature",
+      "Value": "Chest Spider",
       "Description": "Translation key for NPC name display"
     }
   },
@@ -37,8 +37,8 @@
   "ApplySeparation": true,
   "SeparationDistance": 1.0,
   "SeparationWeight": 0.6,
-  "InventorySize": 0,
-  "HotbarSize": 4,
+  "InventorySize": 18,
+  "HotbarSize": 3,
   "OffHandSlots": 1,
   "DefaultOffHandSlot": 0,
   "PickupDropOnDeath": true,
@@ -48,7 +48,7 @@
   "MotionControllerList": [
     {
       "Type": "Walk",
-      "MaxWalkSpeed": 10,
+      "MaxWalkSpeed": 7,
       "Gravity": 10,
       "RunThreshold": 0.3,
       "MaxFallSpeed": 15,
@@ -263,6 +263,25 @@
           },
           "Instructions": [
             {
+              "$Comment": "Spawns a baby spider if it has less than 3",
+              "Sensor": {
+                "Type": "Self",
+                "Once": true,
+                "Filters": [
+                  {
+                    "Type": "EvokeFilterNeedsMoreMinions",
+                    "DesiredQuantity": 3
+                  }
+                ]
+              },
+              "Actions": [
+                {
+                  "Type": "EvokeSpawnMinion",
+                  "EntityId": "Baby_Chest_Spider"
+                }
+              ]
+            },
+            {
               "$Comment": "Checks if the inventory is full and if there is a chest nearby",
               "Sensor": {
                 "Type": "Self",
@@ -309,29 +328,6 @@
               ]
             },
             {
-              "$Comment": "Checks if you are holding a watering can and if has dry soil",
-              "Sensor": {
-                "Type": "Self",
-                "Filters": [
-                  {
-                    "Type": "ItemInHand",
-                    "Items": [ "Tool_Watering_Can" ]
-                  },
-                  {
-                    "Type": "EvokeFilterHasWettableSoil",
-                    "HorizontalRange": 10,
-                    "VerticalRange": 3
-                  }
-                ]
-              },
-              "Actions": [
-                {
-                  "Type": "State",
-                  "State": ".Water"
-                }
-              ]
-            },
-            {
               "$Comment": "Checks if you are holding a sickle",
               "Sensor": {
                 "Type": "Any"
@@ -369,21 +365,6 @@
           "Instructions": [
             {
               "Reference": "Component_Evoke_Harvest",
-              "Modify": {
-                "_ExportStates": ["SeekPosition"]
-              }
-            }
-          ]
-        },
-        {
-          "$Comment": "Search for a dry soil",
-          "Sensor": {
-            "Type": "State",
-            "State": ".Water"
-          },
-          "Instructions": [
-            {
-              "Reference": "Component_Evoke_Water",
               "Modify": {
                 "_ExportStates": ["SeekPosition"]
               }

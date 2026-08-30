@@ -1,27 +1,23 @@
 {
   "TranslationProperties": {
-    "Name": "evoke.items.HexItems.Hex_Mannequin.name",
-    "Description": "evoke.items.HexItems.Hex_Mannequin.description"
+    "Name": "evoke.items.HexItems.Chest_Spider.name",
+    "Description": "evoke.items.HexItems.Chest_Spider.description"
   },
-  "Icon": "Icons/ItemsGenerated/Hex_Mannequin_Block.png",
+  "Icon": "Icons/ItemsGenerated/Chest_Spider_Block.png",
   "Recipe": {
     "TimeSeconds": 1,
     "Input": [
       {
         "ResourceTypeId": "Wood_Trunk",
-        "Quantity": 5
+        "Quantity": 20
       },
       {
         "ItemId": "Ingredient_Stick",
-        "Quantity": 10
+        "Quantity": 24
       },
       {
-        "ItemId": "Ingredient_Leather_Light",
-        "Quantity": 1
-      },
-      {
-        "ItemId": "Ingredient_Life_Essence",
-        "Quantity": 50
+        "ItemId": "Ingredient_Life_Essence_Concentrated",
+        "Quantity": 5
       }
     ],
     "BenchRequirement": [
@@ -37,10 +33,10 @@
     "Material": "Solid",
     "DrawType": "Model",
     "Opacity": "Transparent",
-    "CustomModel": "NPC/MISC/Mannequin/Models/Model.blockymodel",
+    "CustomModel": "Blocks/Chest_Spider/Model.blockymodel",
     "CustomModelTexture": [
       {
-        "Texture": "NPC/MISC/Mannequin/Models/Model_Default.png",
+        "Texture": "NPC/Chest_Spider/Texture.png",
         "Weight": 0
       }
     ],
@@ -64,13 +60,13 @@
   "IconProperties": {
     "Scale": 0.4,
     "Rotation": [
-      0,
+      18,
       325,
       355
     ],
     "Translation": [
-      -4,
-      -90
+      4,
+      -41
     ]
   },
   "ItemSoundSetId": "ISS_Blocks_Wood",

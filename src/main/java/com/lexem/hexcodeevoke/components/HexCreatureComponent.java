@@ -5,9 +5,12 @@ import com.hypixel.hytale.codec.KeyedCodec;
 import com.hypixel.hytale.codec.builder.BuilderCodec;
 import com.hypixel.hytale.component.Component;
 import com.hypixel.hytale.component.ComponentType;
+import com.hypixel.hytale.component.Ref;
+import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 
 import javax.annotation.Nullable;
+import java.util.Arrays;
 
 public class HexCreatureComponent implements Component<EntityStore> {
 
@@ -18,6 +21,7 @@ public class HexCreatureComponent implements Component<EntityStore> {
     private String typeId;
     private String blockName;
     private boolean showName = false;
+    private String[] minionUUIDs = new String[0];
 
     private static ComponentType<EntityStore, HexCreatureComponent> TYPE;
 
@@ -66,6 +70,11 @@ public class HexCreatureComponent implements Component<EntityStore> {
                     (component, value) -> component.showName = value,
                     component -> component.showName
             ).add()
+            .append(
+                    new KeyedCodec<>("MinionUUIDs",  Codec.STRING_ARRAY),
+                    (component, value) -> component.minionUUIDs = value,
+                    component -> component.minionUUIDs
+            ).add()
             .build();
 
     public HexCreatureComponent() {
@@ -78,7 +87,8 @@ public class HexCreatureComponent implements Component<EntityStore> {
             String name,
             String typeId,
             String blockName,
-            boolean showName
+            boolean showName,
+            String[] minionUUIDs
     ) {
         this.UUID = UUID;
         this.evokerUUID = evokerUUID;
@@ -87,6 +97,7 @@ public class HexCreatureComponent implements Component<EntityStore> {
         this.typeId = typeId;
         this.blockName = blockName;
         this.showName = showName;
+        this.minionUUIDs = minionUUIDs;
     }
 
     public String getUUID() {
@@ -145,6 +156,47 @@ public class HexCreatureComponent implements Component<EntityStore> {
         this.showName = showName;
     }
 
+    public String[] getMinionUUIDs() {
+        return minionUUIDs;
+    }
+
+    public void setMinionUUIDs(String[] minionUUIDs) {
+        this.minionUUIDs = minionUUIDs;
+    }
+
+    public void addMinionUUID(String uuid) {
+        String[] newArray = new String[minionUUIDs.length + 1];
+        System.arraycopy(minionUUIDs, 0, newArray, 0, minionUUIDs.length);
+        newArray[minionUUIDs.length] = uuid;
+        minionUUIDs = newArray;
+    }
+
+    public void deleteUnusedMinionUUID(World world) {
+        for (String uuidString : minionUUIDs) {
+            java.util.UUID uuid = java.util.UUID.fromString(uuidString);
+            Ref<EntityStore> npcESRef = world.getEntityStore().getRefFromUUID(uuid);
+            if (npcESRef == null) {
+                removeMinionUUID(uuidString);
+            }
+        }
+    }
+
+    public void removeMinionUUID(String uuid) {
+        int count = 0;
+        for (String s : minionUUIDs) {
+            if (!s.equals(uuid)) count++;
+        }
+
+        String[] newArray = new String[count];
+        int index = 0;
+        for (String s : minionUUIDs) {
+            if (!s.equals(uuid)) {
+                newArray[index++] = s;
+            }
+        }
+        minionUUIDs = newArray;
+    }
+
     @Nullable
     @Override
     public Component<EntityStore> clone() {
@@ -155,7 +207,8 @@ public class HexCreatureComponent implements Component<EntityStore> {
                 this.name,
                 this.typeId,
                 this.blockName,
-                this.showName
+                this.showName,
+                this.minionUUIDs
         );
     }
 
@@ -169,6 +222,7 @@ public class HexCreatureComponent implements Component<EntityStore> {
                 ", typeId='" + typeId + '\'' +
                 ", blockName='" + blockName + '\'' +
                 ", showName=" + showName +
+                ", minionUUIDs=" + Arrays.toString(minionUUIDs) +
                 '}';
     }
 }

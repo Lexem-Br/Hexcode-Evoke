@@ -5,6 +5,7 @@
 Hexcode Evoke is an expansion for the Hexcode mod by Riprod, where you can bring objects to life that will follow you on your adventure. 𖥔 ݁ ˖
 
 ### ✧ Notes:
+
 *   You don't need Hexcode to use the main features of Hexcode Evoke, but it's recommended for a complete experience.
 
 ***
@@ -13,9 +14,9 @@ Hexcode Evoke is an expansion for the Hexcode mod by Riprod, where you can bring
 
 ### ✧ Mannequin:
 
-<div style="text-align:center"><img src="https://media.forgecdn.net/attachments/description/null/description_d11407b4-762c-461f-94c3-eaca4d538163.png" width="45%"> <img src="https://media.forgecdn.net/attachments/description/null/description_c8c82719-d73b-4cb1-9cde-7eabf4345a7c.png" width="45%"><br></div>
+<div style="text-align:center"><img src="https://media.forgecdn.net/attachments/description/1592772/description_bc387e07-2823-4c9c-9f1e-c0cacbb2ff2d.png" width="45%"> <img src="https://media.forgecdn.net/attachments/description/1592772/description_2796fe68-1321-492e-a4d7-6122f2233fc4.png" width="45%"><br></div>
 
-You can throw a torch to him.
+Give him a sickle to harvest your crops and store the items in the chest, or a watering can to water the plants.
 
 ### ✧ Fairies:
 
@@ -24,8 +25,6 @@ You can throw a torch to him.
 ### ✧ Homunculus:
 
 <div style="text-align:center"><img src="https://media.forgecdn.net/attachments/description/null/description_7e20bdda-6649-4193-9d82-7c5ad7975429.png" width="30%"> <img src="https://media.forgecdn.net/attachments/description/null/description_a9318191-35aa-4784-9cd1-f6daaa56f0fe.png" width="30%"> <img src="https://media.forgecdn.net/attachments/description/null/description_e1aecf41-46bf-4c8f-8980-f055dfbbf400.png" width="30%"><br></div>
-
-You can throw a candle to him.
 
 ***
 
