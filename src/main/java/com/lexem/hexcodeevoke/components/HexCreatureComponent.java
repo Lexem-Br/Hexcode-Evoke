@@ -22,6 +22,7 @@ public class HexCreatureComponent implements Component<EntityStore> {
     private String blockName;
     private boolean showName = false;
     private String[] minionUUIDs = new String[0];
+    private String[] listChestDataId = new String[0];
 
     private static ComponentType<EntityStore, HexCreatureComponent> TYPE;
 
@@ -74,6 +75,11 @@ public class HexCreatureComponent implements Component<EntityStore> {
                     new KeyedCodec<>("MinionUUIDs",  Codec.STRING_ARRAY),
                     (component, value) -> component.minionUUIDs = value,
                     component -> component.minionUUIDs
+            ).add()
+            .append(
+                    new KeyedCodec<>("ListChestDataId",  Codec.STRING_ARRAY),
+                    (component, value) -> component.listChestDataId = value,
+                    component -> component.listChestDataId
             ).add()
             .build();
 
@@ -160,8 +166,8 @@ public class HexCreatureComponent implements Component<EntityStore> {
         return minionUUIDs;
     }
 
-    public void setMinionUUIDs(String[] minionUUIDs) {
-        this.minionUUIDs = minionUUIDs;
+    public String[] getListChestDataId() {
+        return listChestDataId;
     }
 
     public void addMinionUUID(String uuid) {

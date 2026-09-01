@@ -256,7 +256,6 @@
       },
       "Instructions": [
         {
-          "$Comment": "Verify item being held",
           "Sensor": {
             "Type": "State",
             "State": ".Default"
@@ -282,18 +281,21 @@
               ]
             },
             {
-              "$Comment": "Checks if the inventory is full and if there is a chest nearby",
+              "$Comment": "Verify if has items on inventory",
               "Sensor": {
                 "Type": "Self",
                 "Filters": [
                   {
-                    "Type": "EvokeIsInventoryFull",
-                    "Inventories": ["Hotbar", "Storage"]
+                    "Type": "EvokeHasItemsOnInventory"
+                  },
+                  {
+                    "Type": "EvokeHasMinionOnStatus",
+                    "Status": "Standby"
                   },
                   {
                     "Type": "EvokeFilterHasChestNearby",
                     "HorizontalRange": 10,
-                    "VerticalRange": 3
+                    "VerticalRange": 4
                   }
                 ]
               },
@@ -305,30 +307,7 @@
               ]
             },
             {
-              "$Comment": "Checks if you are holding a sickle and if has harvestable crop",
-              "Sensor": {
-                "Type": "Self",
-                "Filters": [
-                  {
-                    "Type": "ItemInHand",
-                    "Items": [ "Tool_Sickle*" ]
-                  },
-                  {
-                    "Type": "EvokeFilterHasHarvestableCrop",
-                    "HorizontalRange": 10,
-                    "VerticalRange": 3
-                  }
-                ]
-              },
-              "Actions": [
-                {
-                  "Type": "State",
-                  "State": ".Harvest"
-                }
-              ]
-            },
-            {
-              "$Comment": "Checks if you are holding a sickle",
+              "$Comment": "Returns to standby mode",
               "Sensor": {
                 "Type": "Any"
               },
@@ -350,21 +329,6 @@
           "Instructions": [
             {
               "Reference": "Component_Evoke_Store_Items",
-              "Modify": {
-                "_ExportStates": ["SeekPosition"]
-              }
-            }
-          ]
-        },
-        {
-          "$Comment": "Search for a plantation that is ready to harvest",
-          "Sensor": {
-            "Type": "State",
-            "State": ".Harvest"
-          },
-          "Instructions": [
-            {
-              "Reference": "Component_Evoke_Harvest",
               "Modify": {
                 "_ExportStates": ["SeekPosition"]
               }

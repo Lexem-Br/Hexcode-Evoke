@@ -14,6 +14,7 @@ import com.hypixel.hytale.server.npc.NPCPlugin;
 import com.lexem.hexcodeevoke.commands.EvokerCommand;
 import com.lexem.hexcodeevoke.components.EvokerComponent;
 import com.lexem.hexcodeevoke.components.HexCreatureComponent;
+import com.lexem.hexcodeevoke.components.HexCreatureMinionComponent;
 import com.lexem.hexcodeevoke.events.SaveHexCreatureEvent;
 import com.lexem.hexcodeevoke.handlers.SaveHexCreatureHandler;
 import com.lexem.hexcodeevoke.hexitems.AllowedHexItemsAsset;
@@ -94,6 +95,8 @@ public class HexcodeEvoke extends JavaPlugin {
         npcPlugin.registerCoreComponentType("EvokeFilterHasChestNearby", BuilderFilterHasChestNearby::new);
         npcPlugin.registerCoreComponentType("EvokeFilterNeedsMoreMinions", BuilderFilterNeedsMoreMinions::new);
         npcPlugin.registerCoreComponentType("EvokeSpawnMinion", BuilderActionSpawnMinion::new);
+        npcPlugin.registerCoreComponentType("EvokeHasItemsOnInventory", BuilderFilterHasItemsOnInventory::new);
+        npcPlugin.registerCoreComponentType("EvokeHasMinionOnStatus", BuilderFilterHasMinionOnStatus::new);
     }
 
     private void registerComponents() {
@@ -112,6 +115,13 @@ public class HexcodeEvoke extends JavaPlugin {
                 HexCreatureComponent.CODEC
         );
         HexCreatureComponent.setComponentType(hexCreatureType);
+
+        var hexCreatureMinionType = registery.registerComponent(
+                HexCreatureMinionComponent.class,
+                "HexCreatureMinion_Data",
+                HexCreatureMinionComponent.CODEC
+        );
+        HexCreatureMinionComponent.setComponentType(hexCreatureMinionType);
 
         registery.registerSystem(new PlayerJoinSystem());
         registery.registerSystem(new NPCJoinSystem());

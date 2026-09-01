@@ -3,17 +3,21 @@ package com.lexem.hexcodeevoke.components;
 import com.hypixel.hytale.codec.Codec;
 import com.hypixel.hytale.codec.KeyedCodec;
 import com.hypixel.hytale.codec.builder.BuilderCodec;
+import com.hypixel.hytale.codec.codecs.EnumCodec;
 import com.hypixel.hytale.component.Component;
 import com.hypixel.hytale.component.ComponentType;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 
 import javax.annotation.Nullable;
+import java.util.function.Supplier;
 
 public class HexCreatureMinionComponent implements Component<EntityStore> {
+    public static final Codec<Status> STATUS = new EnumCodec<>(Status.class);
 
     private String UUID;
     private String ownerUUID;
     private String typeId;
+    private Status status;
 
     private static ComponentType<EntityStore, HexCreatureMinionComponent> TYPE;
 
@@ -41,6 +45,11 @@ public class HexCreatureMinionComponent implements Component<EntityStore> {
                     new KeyedCodec<>("TypeId",  Codec.STRING),
                     (component, value) -> component.typeId = value,
                     component -> component.typeId
+            ).add()
+            .append(
+                    new KeyedCodec<>("Status", STATUS),
+                    (component, value) -> component.status = value,
+                    component -> component.status
             ).add()
             .build();
 
@@ -80,6 +89,31 @@ public class HexCreatureMinionComponent implements Component<EntityStore> {
     public void setTypeId(String typeId) {
         this.typeId = typeId;
     }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+
+    public enum Status implements Supplier<String>  {
+        Standby("Standby"),
+        Storing("Storing");
+
+        private final String value;
+
+        Status(String value) {
+            this.value = value;
+        }
+
+        @Override
+        public String get()  {
+            return this.value;
+        }
+    }
+
 
     @Nullable
     @Override

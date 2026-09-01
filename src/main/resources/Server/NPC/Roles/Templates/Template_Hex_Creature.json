@@ -332,7 +332,7 @@
               ]
             },
             {
-              "$Comment": "Checks if you are holding a sickle",
+              "$Comment": "Returns to standby mode",
               "Sensor": {
                 "Type": "Any"
               },
