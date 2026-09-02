@@ -269,7 +269,7 @@
                 "Filters": [
                   {
                     "Type": "EvokeFilterNeedsMoreMinions",
-                    "DesiredQuantity": 3
+                    "DesiredQuantity": 1
                   }
                 ]
               },
@@ -284,6 +284,7 @@
               "$Comment": "Verify if has items on inventory",
               "Sensor": {
                 "Type": "Self",
+                "Once": true,
                 "Filters": [
                   {
                     "Type": "EvokeHasItemsOnInventory"
@@ -321,17 +322,25 @@
           ]
         },
         {
-          "$Comment": "Search for a chest that has available slots",
+          "$Comment": "Sends an order to a minion to search for or store an item",
           "Sensor": {
             "Type": "State",
             "State": ".StoreItems"
           },
           "Instructions": [
             {
-              "Reference": "Component_Evoke_Store_Items",
-              "Modify": {
-                "_ExportStates": ["SeekPosition"]
-              }
+              "Sensor":  {
+                "Type": "Any"
+              },
+              "Actions": [
+                {
+                  "Type": "EvokeSendOrderToMinion"
+                },
+                {
+                  "Type": "State",
+                  "State": ".Standby"
+                }
+              ]
             }
           ]
         },

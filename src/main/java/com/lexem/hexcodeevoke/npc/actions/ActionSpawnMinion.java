@@ -20,14 +20,13 @@ import com.hypixel.hytale.server.npc.entities.NPCEntity;
 import com.hypixel.hytale.server.npc.instructions.ExecutionSupport;
 import com.hypixel.hytale.server.npc.sensorinfo.InfoProvider;
 import com.lexem.hexcodeevoke.components.HexCreatureComponent;
-import com.lexem.hexcodeevoke.components.HexCreatureMinionComponent;
+import com.lexem.hexcodeevoke.events.SaveHexCreatureMinionEvent;
 import com.lexem.hexcodeevoke.npc.actions.builders.BuilderActionSpawnMinion;
 import it.unimi.dsi.fastutil.Pair;
 import org.joml.Vector3d;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.UUID;
 
 public class ActionSpawnMinion extends ActionBase {
    private static final HytaleLogger LOGGER = HytaleLogger.forEnclosingClass();
@@ -75,20 +74,9 @@ public class ActionSpawnMinion extends ActionBase {
          if (npcPair == null) return false;
 
          Ref<EntityStore> minionRef = npcPair.first();
-         UUIDComponent minionUUID = store.getComponent(minionRef, UUIDComponent.getComponentType());
-         if (minionUUID == null) return false;
 
-         hexCreatureComponent.addMinionUUID(minionUUID.getUuid().toString());
+         SaveHexCreatureMinionEvent.dispatch(npcRef, minionRef, entityId);
          addMinionToNPCFlock(minionRef, npcRef);
-
-         HexCreatureMinionComponent hexCreatureMinionComponent = new HexCreatureMinionComponent();
-         hexCreatureMinionComponent.setUUID(minionUUID.getUuid().toString());
-         hexCreatureMinionComponent.setOwnerUUID(hexCreatureComponent.getUUID());
-         hexCreatureMinionComponent.setTypeId(entityId);
-         hexCreatureMinionComponent.setStatus(HexCreatureMinionComponent.Status.Standby);
-
-         Holder<EntityStore> holder = EntityStore.REGISTRY.newHolder();
-         holder.addComponent(HexCreatureMinionComponent.getComponentType(), hexCreatureMinionComponent);
       } else {
          LOGGER.atWarning().log("Unable to spawn entity");
       }

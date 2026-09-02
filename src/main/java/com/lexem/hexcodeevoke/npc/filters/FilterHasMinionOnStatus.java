@@ -2,6 +2,7 @@ package com.lexem.hexcodeevoke.npc.filters;
 
 import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.component.Store;
+import com.hypixel.hytale.logger.HytaleLogger;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.hypixel.hytale.server.npc.corecomponents.EntityFilterBase;
 import com.hypixel.hytale.server.npc.instructions.ExecutionSupport;
@@ -14,6 +15,7 @@ import java.util.UUID;
 
 public class FilterHasMinionOnStatus extends EntityFilterBase {
     protected HexCreatureMinionComponent.Status status;
+    private static final HytaleLogger LOGGER = HytaleLogger.forEnclosingClass();
 
     public FilterHasMinionOnStatus(@Nonnull BuilderFilterHasMinionOnStatus builder) {
         this.status = builder.getStatus();

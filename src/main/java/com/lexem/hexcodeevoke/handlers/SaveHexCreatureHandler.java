@@ -28,14 +28,14 @@ public class SaveHexCreatureHandler implements Consumer<SaveHexCreatureEvent> {
         EvokerComponent evoker = store.getComponent(event.refESPlayer(), EvokerComponent.getComponentType());
         if (evoker != null) {
             PlayerRef playerRef = store.getComponent(event.refESPlayer(), PlayerRef.getComponentType());
-            if (playerRef == null) {return;}
+            if (playerRef == null) return;
 
             Ref<EntityStore> refESNPC = event.refESNPC();
             NPCEntity npcEntity = store.getComponent(refESNPC, Objects.requireNonNull(NPCEntity.getComponentType()));
-            if (npcEntity == null) {return;}
+            if (npcEntity == null) return;
 
             UUIDComponent uuidComponent = store.getComponent(refESNPC, UUIDComponent.getComponentType());
-            if (uuidComponent == null) {return;}
+            if (uuidComponent == null) return;
 
             String npcUUID = uuidComponent.getUuid().toString();
             String playerUUID = playerRef.getUuid().toString();
@@ -48,13 +48,15 @@ public class SaveHexCreatureHandler implements Consumer<SaveHexCreatureEvent> {
             }
 
             HexCreatureComponent hexCreatureComponent = store.getComponent(refESNPC, HexCreatureComponent.getComponentType());
-            if (hexCreatureComponent == null) {return;}
+            if (hexCreatureComponent == null) return;
+
             hexCreatureComponent.setUUID(npcUUID);
             hexCreatureComponent.setEvokerUUID(playerUUID);
             hexCreatureComponent.setEvokerName(playerName);
             hexCreatureComponent.setName(npcName);
             hexCreatureComponent.setTypeId(npcEntity.getNPCTypeId());
             hexCreatureComponent.setBlockName(blockId);
+
             evoker.addHexCreatureUUID(npcUUID);
         } else {
             LOGGER.atWarning().log("EvokerComponent is null");

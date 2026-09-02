@@ -59,11 +59,13 @@ public class HexCreatureMinionComponent implements Component<EntityStore> {
     public HexCreatureMinionComponent(
             String UUID,
             String ownerUUID,
-            String typeId
+            String typeId,
+            Status status
     ) {
         this.UUID = UUID;
         this.ownerUUID = ownerUUID;
         this.typeId = typeId;
+        this.status = status;
     }
 
     public String getUUID() {
@@ -114,14 +116,14 @@ public class HexCreatureMinionComponent implements Component<EntityStore> {
         }
     }
 
-
     @Nullable
     @Override
     public Component<EntityStore> clone() {
         return new HexCreatureMinionComponent(
                 this.UUID,
                 this.ownerUUID,
-                this.typeId
+                this.typeId,
+                this.status
         );
     }
 }

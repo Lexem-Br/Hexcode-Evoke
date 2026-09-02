@@ -16,7 +16,10 @@ import com.lexem.hexcodeevoke.components.EvokerComponent;
 import com.lexem.hexcodeevoke.components.HexCreatureComponent;
 import com.lexem.hexcodeevoke.components.HexCreatureMinionComponent;
 import com.lexem.hexcodeevoke.events.SaveHexCreatureEvent;
+import com.lexem.hexcodeevoke.events.SaveHexCreatureMinionEvent;
 import com.lexem.hexcodeevoke.handlers.SaveHexCreatureHandler;
+import com.lexem.hexcodeevoke.handlers.SaveHexCreatureMinionHandler;
+import com.lexem.hexcodeevoke.hexitems.AllowedHexCreatureMinionsAsset;
 import com.lexem.hexcodeevoke.hexitems.AllowedHexItemsAsset;
 import com.lexem.hexcodeevoke.interactions.*;
 import com.lexem.hexcodeevoke.npc.actions.builders.*;
@@ -73,6 +76,14 @@ public class HexcodeEvoke extends JavaPlugin {
                 .setCodec(AllowedHexItemsAsset.CODEC)
                 .setKeyFunction(AllowedHexItemsAsset::getId)
                 .build());
+
+        AssetRegistry.register(
+                HytaleAssetStore
+                        .builder(AllowedHexCreatureMinionsAsset.class, new DefaultAssetMap<String, AllowedHexCreatureMinionsAsset>())
+                        .setPath("Evoke/AllowedHexCreatureMinions")
+                        .setCodec(AllowedHexCreatureMinionsAsset.CODEC)
+                        .setKeyFunction(AllowedHexCreatureMinionsAsset::getId)
+                        .build());
     }
 
     private void registerNPCComponents() {
@@ -97,6 +108,8 @@ public class HexcodeEvoke extends JavaPlugin {
         npcPlugin.registerCoreComponentType("EvokeSpawnMinion", BuilderActionSpawnMinion::new);
         npcPlugin.registerCoreComponentType("EvokeHasItemsOnInventory", BuilderFilterHasItemsOnInventory::new);
         npcPlugin.registerCoreComponentType("EvokeHasMinionOnStatus", BuilderFilterHasMinionOnStatus::new);
+        npcPlugin.registerCoreComponentType("EvokeSendOrderToMinion", BuilderActionSendOrderToMinion::new);
+        npcPlugin.registerCoreComponentType("EvokeIsOnStatus", BuilderFilterIsOnStatus::new);
     }
 
     private void registerComponents() {
@@ -129,6 +142,7 @@ public class HexcodeEvoke extends JavaPlugin {
 
     private void registerEvents() {
         getEventRegistry().register(SaveHexCreatureEvent.class, new SaveHexCreatureHandler());
+        getEventRegistry().register(SaveHexCreatureMinionEvent.class, new SaveHexCreatureMinionHandler());
     }
 
     private void registerCommands() {
