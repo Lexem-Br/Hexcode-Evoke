@@ -17,7 +17,7 @@
         "Hytale:AssetModule": "*"
     },
     "OptionalDependencies": {
-        "Riprod:Hexcode": "^0.9.0",
+        "Riprod:Hexcode": "^0.10.1",
         "Riprod:Patchly": "*"
     },
     "DisabledByDefault": false,

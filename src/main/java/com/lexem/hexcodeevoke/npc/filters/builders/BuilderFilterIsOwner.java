@@ -6,20 +6,19 @@ import com.hypixel.hytale.server.npc.asset.builder.BuilderDescriptorState;
 import com.hypixel.hytale.server.npc.asset.builder.BuilderSupport;
 import com.hypixel.hytale.server.npc.corecomponents.IEntityFilter;
 import com.hypixel.hytale.server.npc.corecomponents.builders.BuilderEntityFilterBase;
-import com.lexem.hexcodeevoke.components.HexCreatureMinionComponent;
-import com.lexem.hexcodeevoke.npc.filters.FilterIsOnStatus;
+import com.lexem.hexcodeevoke.npc.filters.FilterIsOwner;
 
 import javax.annotation.Nonnull;
 
-public class BuilderFilterIsOnStatus extends BuilderEntityFilterBase {
-   protected HexCreatureMinionComponent.Status status;
+public class BuilderFilterIsOwner extends BuilderEntityFilterBase {
 
-   public BuilderFilterIsOnStatus() {}
+   public BuilderFilterIsOwner() {
+   }
 
    @Nonnull
    @Override
    public String getShortDescription() {
-      return "Checks if there is on this status";
+      return "Checks if the target is the owner.";
    }
 
    @Nonnull
@@ -30,27 +29,12 @@ public class BuilderFilterIsOnStatus extends BuilderEntityFilterBase {
 
    @Nonnull
    public IEntityFilter build(@Nonnull BuilderSupport builderSupport) {
-      return new FilterIsOnStatus(this);
+      return new FilterIsOwner();
    }
-
    @Nonnull
    @Override
    public Builder<IEntityFilter> readConfig(@Nonnull JsonElement data) {
-      this.getEnum(
-              data,
-              "Status",
-              v -> this.status = v,
-              HexCreatureMinionComponent.Status.class,
-              HexCreatureMinionComponent.Status.Standby,
-              BuilderDescriptorState.Stable,
-              "Checks if there is on this status",
-              null
-      );
       return this;
-   }
-
-   public HexCreatureMinionComponent.Status getStatus() {
-      return this.status;
    }
 
    @Nonnull
@@ -58,4 +42,5 @@ public class BuilderFilterIsOnStatus extends BuilderEntityFilterBase {
    public BuilderDescriptorState getBuilderDescriptorState() {
       return BuilderDescriptorState.Stable;
    }
+
 }

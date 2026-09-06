@@ -37,8 +37,8 @@
       "MaxFallSpeed": 15,
       "MaxRotationSpeed": 360,
       "Acceleration": 8,
-      "MaxClimbHeight": 3,
-      "MaxDropHeight": 5
+      "MaxClimbHeight": 2,
+      "MaxDropHeight": 4
     }
   ],
   "StateTransitions": [
@@ -65,33 +65,6 @@
     }
   ],
   "Instructions": [
-    {
-      "$Comment": "Follow the mother",
-      "Continue": true,
-      "Sensor": {
-        "Type": "And",
-        "Sensors": [
-          {
-            "Type": "FlockLeader"
-          },
-          {
-            "Type": "Self",
-            "Filters": [
-              {
-                "Type": "Flock",
-                "FlockStatus": "Member"
-              }
-            ]
-          }
-        ]
-      },
-      "BodyMotion": {
-        "Type": "Seek",
-        "SlowDownDistance": 3,
-        "StopDistance": 2,
-        "RelativeSpeed": 0.5
-      }
-    },
     {
       "$Comment": "Despawn if mother not found",
       "Continue": true,
@@ -128,20 +101,65 @@
           },
           "Instructions": [
             {
-              "$Comment": "Start storing items",
+              "$Comment": "Follow the mother",
+              "Continue": true,
+              "Sensor": {
+                "Type": "And",
+                "Sensors": [
+                  {
+                    "Type": "FlockLeader"
+                  },
+                  {
+                    "Type": "Self",
+                    "Filters": [
+                      {
+                        "Type": "Flock",
+                        "FlockStatus": "Member"
+                      }
+                    ]
+                  }
+                ]
+              },
+              "BodyMotion": {
+                "Type": "Seek",
+                "SlowDownDistance": 3,
+                "StopDistance": 2,
+                "RelativeSpeed": 0.5
+              }
+            },
+            {
+              "$Comment": "Starts storing a task list item.",
               "Sensor": {
                 "Type": "Self",
                 "Filters": [
                   {
-                    "Type": "EvokeIsOnStatus",
-                    "Status": "Storing"
+                    "Type": "EvokeHasChestTask",
+                    "TaskType": "Store"
                   }
                 ]
               },
               "Actions": [
                 {
                   "Type": "State",
-                  "State": ".StoreItems"
+                  "State": ".StoreItem"
+                }
+              ]
+            },
+            {
+              "$Comment": "Start searching for an item on the task list",
+              "Sensor": {
+                "Type": "Self",
+                "Filters": [
+                  {
+                    "Type": "EvokeHasChestTask",
+                    "TaskType": "Search"
+                  }
+                ]
+              },
+              "Actions": [
+                {
+                  "Type": "State",
+                  "State": ".SearchItem"
                 }
               ]
             },
@@ -160,22 +178,32 @@
           ]
         },
         {
-          "$Comment": "Start storing items",
+          "$Comment": "Store a task list item",
           "Sensor": {
             "Type": "State",
-            "State": ".StoreItems"
+            "State": ".StoreItem"
           },
           "Instructions": [
             {
-              "Sensor": {
-                "Type": "Any"
-              },
-              "Actions": [
-                {
-                  "Type": "DisplayName",
-                  "DisplayName": "Teste"
-                }
-              ]
+              "Reference": "Component_Evoke_Store_Task_Item",
+              "Modify": {
+                "_ExportStates": ["CheckTasks"]
+              }
+            }
+          ]
+        },
+        {
+          "$Comment": "Search for an item on the task list",
+          "Sensor": {
+            "Type": "State",
+            "State": ".SearchItem"
+          },
+          "Instructions": [
+            {
+              "Reference": "Component_Evoke_Search_Task_Item",
+              "Modify": {
+                "_ExportStates": ["CheckTasks"]
+              }
             }
           ]
         },
@@ -185,14 +213,48 @@
             "Type": "State",
             "State": ".Standby"
           },
-          "Actions": [
+          "Instructions": [
             {
-              "Type": "Timeout",
-              "Delay": [3, 3],
-              "Action": {
-                "Type": "State",
-                "State": "CheckTasks"
+              "$Comment": "Follow the mother",
+              "Continue": true,
+              "Sensor": {
+                "Type": "And",
+                "Sensors": [
+                  {
+                    "Type": "FlockLeader"
+                  },
+                  {
+                    "Type": "Self",
+                    "Filters": [
+                      {
+                        "Type": "Flock",
+                        "FlockStatus": "Member"
+                      }
+                    ]
+                  }
+                ]
+              },
+              "BodyMotion": {
+                "Type": "Seek",
+                "SlowDownDistance": 3,
+                "StopDistance": 2,
+                "RelativeSpeed": 0.5
               }
+            },
+            {
+              "Sensor": {
+                "Type": "Any"
+              },
+              "Actions": [
+                {
+                  "Type": "Timeout",
+                  "Delay": [2, 3],
+                  "Action": {
+                    "Type": "State",
+                    "State": "CheckTasks"
+                  }
+                }
+              ]
             }
           ]
         }

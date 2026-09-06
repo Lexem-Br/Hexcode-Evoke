@@ -74,7 +74,7 @@ public class FilterHasChestNearby extends EntityFilterBase {
         }
 
         SimpleItemContainer chestContainer = itemContainerBlock.getItemContainer();
-        return InventoryUtils.canAddAnyItemToContainerNPC(chestContainer, npcRef, store);
+        return InventoryUtils.canAddAnyItemToContainerNPC(chestContainer, npcRef, store, true);
     };
 
    @Override

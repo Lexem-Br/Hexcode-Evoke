@@ -5,20 +5,19 @@ import com.hypixel.hytale.server.npc.asset.builder.BuilderDescriptorState;
 import com.hypixel.hytale.server.npc.asset.builder.BuilderSupport;
 import com.hypixel.hytale.server.npc.corecomponents.builders.BuilderActionBase;
 import com.hypixel.hytale.server.npc.instructions.Action;
-import com.lexem.hexcodeevoke.npc.actions.ActionStoreItems;
+import com.lexem.hexcodeevoke.npc.actions.ActionTakeItemFromChestTask;
 
 import javax.annotation.Nonnull;
 
-public class BuilderActionStoreItems extends BuilderActionBase {
-   protected boolean skipHotbarSlotZero = true;
+public class BuilderActionTakeItemFromChestTask extends BuilderActionBase {
 
-   public BuilderActionStoreItems() {
+   public BuilderActionTakeItemFromChestTask() {
    }
 
    @Nonnull
    @Override
    public String getShortDescription() {
-      return "Store items.";
+      return "Take Item From Chest Task.";
    }
 
    @Nonnull
@@ -29,7 +28,7 @@ public class BuilderActionStoreItems extends BuilderActionBase {
 
    @Nonnull
    public Action build(@Nonnull BuilderSupport builderSupport) {
-      return new ActionStoreItems(this);
+      return new ActionTakeItemFromChestTask(this);
    }
 
    @Nonnull
@@ -39,20 +38,7 @@ public class BuilderActionStoreItems extends BuilderActionBase {
    }
 
    @Nonnull
-   public BuilderActionStoreItems readConfig(@Nonnull JsonElement data) {
-      this.getBoolean(
-              data,
-              "SkipHotbarSlotZero",
-              b -> this.skipHotbarSlotZero = b,
-              true,
-              BuilderDescriptorState.Stable,
-              "Field that determines whether the NPC's hotbar slot 0 should be ignored when storing items.",
-              null
-      );
+   public BuilderActionTakeItemFromChestTask readConfig(@Nonnull JsonElement data) {
       return this;
-   }
-
-   public boolean getSkipHotbarSlotZero() {
-      return this.skipHotbarSlotZero;
    }
 }

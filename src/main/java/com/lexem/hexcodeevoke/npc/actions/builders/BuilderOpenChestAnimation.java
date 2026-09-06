@@ -5,20 +5,20 @@ import com.hypixel.hytale.server.npc.asset.builder.BuilderDescriptorState;
 import com.hypixel.hytale.server.npc.asset.builder.BuilderSupport;
 import com.hypixel.hytale.server.npc.corecomponents.builders.BuilderActionBase;
 import com.hypixel.hytale.server.npc.instructions.Action;
-import com.lexem.hexcodeevoke.npc.actions.ActionStoreItems;
+import com.lexem.hexcodeevoke.npc.actions.ActionOpenChestAnimation;
 
 import javax.annotation.Nonnull;
 
-public class BuilderActionStoreItems extends BuilderActionBase {
-   protected boolean skipHotbarSlotZero = true;
+public class BuilderOpenChestAnimation extends BuilderActionBase {
+   protected boolean reverse;
 
-   public BuilderActionStoreItems() {
+   public BuilderOpenChestAnimation() {
    }
 
    @Nonnull
    @Override
    public String getShortDescription() {
-      return "Store items.";
+      return "Remove minion task.";
    }
 
    @Nonnull
@@ -29,7 +29,7 @@ public class BuilderActionStoreItems extends BuilderActionBase {
 
    @Nonnull
    public Action build(@Nonnull BuilderSupport builderSupport) {
-      return new ActionStoreItems(this);
+      return new ActionOpenChestAnimation(this);
    }
 
    @Nonnull
@@ -39,20 +39,20 @@ public class BuilderActionStoreItems extends BuilderActionBase {
    }
 
    @Nonnull
-   public BuilderActionStoreItems readConfig(@Nonnull JsonElement data) {
+   public BuilderOpenChestAnimation readConfig(@Nonnull JsonElement data) {
       this.getBoolean(
               data,
-              "SkipHotbarSlotZero",
-              b -> this.skipHotbarSlotZero = b,
-              true,
+              "Reverse",
+              s -> this.reverse = s,
+              false,
               BuilderDescriptorState.Stable,
-              "Field that determines whether the NPC's hotbar slot 0 should be ignored when storing items.",
-              null
+              "If true, triggers the chest-closing animation instead of the opening one.",
+              ""
       );
       return this;
    }
 
-   public boolean getSkipHotbarSlotZero() {
-      return this.skipHotbarSlotZero;
+   public boolean getReverse() {
+      return this.reverse;
    }
 }

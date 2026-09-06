@@ -1,5 +1,5 @@
 {
-  "$Comment": "Store items",
+  "$Comment": "Search for an item on the task list",
   "Class": "Instruction",
   "Parameters": {
     "_ImportStates": ["Main"]
@@ -7,13 +7,12 @@
   "Content":  {
     "Instructions": [
       {
-        "$Comment": "Search for a chest that has available slots",
+        "$Comment": "Search for an item on the task list",
         "Continue": true,
         "Sensor":  {
-          "Type": "EvokeChestFinder",
-          "HorizontalRange": 10,
-          "VerticalRange": 3,
-          "CheckCanStore": true
+          "Type": "EvokeSearchChestTaskPosition",
+          "HorizontalRange": 30,
+          "VerticalRange": 4
         },
         "BodyMotion": {
           "Type": "Seek",
@@ -26,10 +25,9 @@
         "$Comment": "Store the items",
         "Continue": true,
         "Sensor":  {
-          "Type": "EvokeChestFinder",
+          "Type": "EvokeSearchChestTaskPosition",
           "HorizontalRange": 2,
-          "VerticalRange": 3,
-          "CheckCanStore": true
+          "VerticalRange": 4
         },
         "Actions": [
           {
@@ -60,7 +58,7 @@
                   "Reverse": true
                 },
                 {
-                  "Type": "EvokeStoreItems"
+                  "Type": "EvokeAnalyzeChest"
                 },
                 {
                   "Type": "PlayAnimation",

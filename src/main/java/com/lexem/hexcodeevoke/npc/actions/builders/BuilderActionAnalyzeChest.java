@@ -5,19 +5,19 @@ import com.hypixel.hytale.server.npc.asset.builder.BuilderDescriptorState;
 import com.hypixel.hytale.server.npc.asset.builder.BuilderSupport;
 import com.hypixel.hytale.server.npc.corecomponents.builders.BuilderActionBase;
 import com.hypixel.hytale.server.npc.instructions.Action;
-import com.lexem.hexcodeevoke.npc.actions.ActionSendOrderToMinion;
+import com.lexem.hexcodeevoke.npc.actions.ActionAnalyzeChest;
 
 import javax.annotation.Nonnull;
 
-public class BuilderActionSendOrderToMinion extends BuilderActionBase {
+public class BuilderActionAnalyzeChest extends BuilderActionBase {
 
-   public BuilderActionSendOrderToMinion() {
+   public BuilderActionAnalyzeChest() {
    }
 
    @Nonnull
    @Override
    public String getShortDescription() {
-      return "Sends an order to a minion to search for or store an item.";
+      return "Analyze chest.";
    }
 
    @Nonnull
@@ -28,7 +28,7 @@ public class BuilderActionSendOrderToMinion extends BuilderActionBase {
 
    @Nonnull
    public Action build(@Nonnull BuilderSupport builderSupport) {
-      return new ActionSendOrderToMinion(this);
+      return new ActionAnalyzeChest(this, builderSupport);
    }
 
    @Nonnull
@@ -38,7 +38,8 @@ public class BuilderActionSendOrderToMinion extends BuilderActionBase {
    }
 
    @Nonnull
-   public BuilderActionSendOrderToMinion readConfig(@Nonnull JsonElement data) {
+   public BuilderActionAnalyzeChest readConfig(@Nonnull JsonElement data) {
       return this;
    }
+
 }

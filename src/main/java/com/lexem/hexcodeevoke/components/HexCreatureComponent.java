@@ -3,14 +3,18 @@ package com.lexem.hexcodeevoke.components;
 import com.hypixel.hytale.codec.Codec;
 import com.hypixel.hytale.codec.KeyedCodec;
 import com.hypixel.hytale.codec.builder.BuilderCodec;
+import com.hypixel.hytale.codec.codecs.array.ArrayCodec;
 import com.hypixel.hytale.component.Component;
 import com.hypixel.hytale.component.ComponentType;
 import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
+import org.joml.Vector3d;
 
 import javax.annotation.Nullable;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class HexCreatureComponent implements Component<EntityStore> {
 
@@ -22,7 +26,8 @@ public class HexCreatureComponent implements Component<EntityStore> {
     private String blockName;
     private boolean showName = false;
     private String[] minionUUIDs = new String[0];
-    private String[] listChestDataId = new String[0];
+    private ChestMemoryComponent[] listChestMemory = new ChestMemoryComponent[0];
+    private ChestTaskComponent[] listChestTask = new ChestTaskComponent[0];
 
     private static ComponentType<EntityStore, HexCreatureComponent> TYPE;
 
@@ -37,50 +42,55 @@ public class HexCreatureComponent implements Component<EntityStore> {
     public static final BuilderCodec<HexCreatureComponent> CODEC = BuilderCodec
             .builder(HexCreatureComponent.class, HexCreatureComponent::new)
             .append(
-                    new KeyedCodec<>("UUID",  Codec.STRING),
+                    new KeyedCodec<>("UUID", Codec.STRING),
                     (component, value) -> component.UUID = value,
                     component -> component.UUID
             ).add()
             .append(
-                    new KeyedCodec<>("EvokerUUID",  Codec.STRING),
+                    new KeyedCodec<>("EvokerUUID", Codec.STRING),
                     (component, value) -> component.evokerUUID = value,
                     component -> component.evokerUUID
             ).add()
             .append(
-                    new KeyedCodec<>("EvokerName",  Codec.STRING),
+                    new KeyedCodec<>("EvokerName", Codec.STRING),
                     (component, value) -> component.evokerName = value,
                     component -> component.evokerName
             ).add()
             .append(
-                    new KeyedCodec<>("Name",  Codec.STRING),
+                    new KeyedCodec<>("Name", Codec.STRING),
                     (component, value) -> component.name = value,
                     component -> component.name
             ).add()
             .append(
-                    new KeyedCodec<>("TypeId",  Codec.STRING),
+                    new KeyedCodec<>("TypeId", Codec.STRING),
                     (component, value) -> component.typeId = value,
                     component -> component.typeId
             ).add()
             .append(
-                    new KeyedCodec<>("BlockName",  Codec.STRING),
+                    new KeyedCodec<>("BlockName", Codec.STRING),
                     (component, value) -> component.blockName = value,
                     component -> component.blockName
             ).add()
             .append(
-                    new KeyedCodec<>("ShowName",  Codec.BOOLEAN),
+                    new KeyedCodec<>("ShowName", Codec.BOOLEAN),
                     (component, value) -> component.showName = value,
                     component -> component.showName
             ).add()
             .append(
-                    new KeyedCodec<>("MinionUUIDs",  Codec.STRING_ARRAY),
+                    new KeyedCodec<>("MinionUUIDs", Codec.STRING_ARRAY),
                     (component, value) -> component.minionUUIDs = value,
                     component -> component.minionUUIDs
             ).add()
-            .append(
-                    new KeyedCodec<>("ListChestDataId",  Codec.STRING_ARRAY),
-                    (component, value) -> component.listChestDataId = value,
-                    component -> component.listChestDataId
-            ).add()
+            .append(new KeyedCodec<>("ListChestMemory", new ArrayCodec<>(ChestMemoryComponent.CODEC, ChestMemoryComponent[]::new)),
+                    (component, objects) -> component.listChestMemory = objects,
+                    component -> component.listChestMemory
+            )
+            .add()
+            .append(new KeyedCodec<>("ListChestTask", new ArrayCodec<>(ChestTaskComponent.CODEC, ChestTaskComponent[]::new)),
+                    (component, objects) -> component.listChestTask = objects,
+                    component -> component.listChestTask
+            )
+            .add()
             .build();
 
     public HexCreatureComponent() {
@@ -166,8 +176,24 @@ public class HexCreatureComponent implements Component<EntityStore> {
         return minionUUIDs;
     }
 
-    public String[] getListChestDataId() {
-        return listChestDataId;
+    public ChestMemoryComponent[] getListChestMemory() {
+        return listChestMemory;
+    }
+
+    public void setListChestMemory(ChestMemoryComponent[] listChestMemory) {
+        this.listChestMemory = listChestMemory;
+    }
+
+    public ChestTaskComponent[] getListChestTask() {
+        return listChestTask;
+    }
+
+    public void setListChestTask(ChestTaskComponent[] listChestTask) {
+        this.listChestTask = listChestTask;
+    }
+
+    public boolean isListChestTaskEmpty() {
+        return listChestTask == null || listChestTask.length == 0;
     }
 
     public void addMinionUUID(String uuid) {
@@ -201,6 +227,120 @@ public class HexCreatureComponent implements Component<EntityStore> {
             }
         }
         minionUUIDs = newArray;
+    }
+
+    public void addChestTask(ChestTaskComponent chestTask) {
+        ChestTaskComponent[] newArray = new ChestTaskComponent[listChestTask.length + 1];
+        System.arraycopy(listChestTask, 0, newArray, 0, listChestTask.length);
+        newArray[listChestTask.length] = chestTask;
+        listChestTask = newArray;
+    }
+
+    public void removeChestTask(ChestTaskComponent chestTask) {
+        int count = 0;
+        for (ChestTaskComponent s : listChestTask) {
+            if (!s.equals(chestTask)) count++;
+        }
+
+        ChestTaskComponent[] newArray = new ChestTaskComponent[count];
+        int index = 0;
+        for (ChestTaskComponent s : listChestTask) {
+            if (!s.equals(chestTask)) {
+                newArray[index++] = s;
+            }
+        }
+        listChestTask = newArray;
+    }
+
+    public void removeChestTasksByItemId(String itemId) {
+        if (itemId == null || itemId.isEmpty() || listChestTask == null || listChestTask.length == 0) {
+            return;
+        }
+
+        List<ChestTaskComponent> remainingTasks = new ArrayList<>();
+        for (ChestTaskComponent task : listChestTask) {
+            if (task != null && !itemId.equals(task.getItemId())) {
+                remainingTasks.add(task);
+            }
+        }
+
+        listChestTask = remainingTasks.toArray(new ChestTaskComponent[0]);
+    }
+
+    public void addChestMemory(ChestMemoryComponent chestMemory) {
+        ChestMemoryComponent[] newArray = new ChestMemoryComponent[listChestMemory.length + 1];
+        System.arraycopy(listChestMemory, 0, newArray, 0, listChestMemory.length);
+        newArray[listChestMemory.length] = chestMemory;
+        listChestMemory = newArray;
+    }
+
+    public ChestMemoryComponent findChestMemoryByItemId(String itemId) {
+        if (itemId == null || itemId.isEmpty() || listChestMemory == null) {
+            return null;
+        }
+
+        for (ChestMemoryComponent memory : listChestMemory) {
+            if (memory == null) continue;
+
+            String[] items = memory.getListItemsId();
+            if (items == null) continue;
+
+            for (String id : items) {
+                if (itemId.equals(id)) {
+                    return memory;
+                }
+            }
+        }
+
+        return null;
+    }
+
+    public ChestMemoryComponent findEmptyChestMemory() {
+        if (listChestMemory == null) return null;
+
+        for (ChestMemoryComponent memory : listChestMemory) {
+            if (memory != null && memory.getListItemsId() != null && memory.getListItemsId().length == 0) {
+                return memory;
+            }
+        }
+
+        return null;
+    }
+
+    public ChestMemoryComponent findChestMemoryWithSpace() {
+        if (listChestMemory == null) return null;
+
+        for (ChestMemoryComponent memory : listChestMemory) {
+            if (memory != null && memory.getListItemsId() != null && memory.getListItemsId().length > 0) {
+                return memory;
+            }
+        }
+
+        return null;
+    }
+
+    public ChestMemoryComponent findNearestChestMemory(Vector3d position) {
+        if (listChestMemory == null || listChestMemory.length == 0 || position == null) {
+            return null;
+        }
+
+        ChestMemoryComponent nearest = null;
+        double nearestDistance = Double.MAX_VALUE;
+
+        for (ChestMemoryComponent memory : listChestMemory) {
+            if (memory == null) continue;
+
+            Vector3d chestPos = memory.getChestPosition();
+            if (chestPos == null) continue;
+
+            double distance = position.distance(chestPos);
+            if (distance < nearestDistance) {
+                nearestDistance = distance;
+                nearest = memory;
+            }
+        }
+
+        return nearest;
     }
 
     @Nullable

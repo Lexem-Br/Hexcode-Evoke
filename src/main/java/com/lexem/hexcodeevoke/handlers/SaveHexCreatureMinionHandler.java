@@ -2,7 +2,6 @@ package com.lexem.hexcodeevoke.handlers;
 
 import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.component.Store;
-import com.hypixel.hytale.logger.HytaleLogger;
 import com.hypixel.hytale.server.core.entity.UUIDComponent;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.lexem.hexcodeevoke.components.HexCreatureComponent;

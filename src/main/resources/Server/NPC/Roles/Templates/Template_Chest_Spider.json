@@ -48,14 +48,14 @@
   "MotionControllerList": [
     {
       "Type": "Walk",
-      "MaxWalkSpeed": 7,
+      "MaxWalkSpeed": 6,
       "Gravity": 10,
       "RunThreshold": 0.3,
       "MaxFallSpeed": 15,
       "MaxRotationSpeed": 360,
       "Acceleration": 8,
-      "MaxClimbHeight": 3,
-      "MaxDropHeight": 5
+      "MaxClimbHeight": 2,
+      "MaxDropHeight": 4
     }
   ],
   "StateTransitions": [
@@ -334,7 +334,9 @@
               },
               "Actions": [
                 {
-                  "Type": "EvokeSendOrderToMinion"
+                  "Type": "EvokeCreateTasks",
+                  "HorizontalRange": 10,
+                  "VerticalRange": 4
                 },
                 {
                   "Type": "State",

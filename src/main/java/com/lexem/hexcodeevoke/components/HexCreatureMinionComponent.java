@@ -18,6 +18,7 @@ public class HexCreatureMinionComponent implements Component<EntityStore> {
     private String ownerUUID;
     private String typeId;
     private Status status;
+    private ChestTaskComponent chestTask = new ChestTaskComponent();
 
     private static ComponentType<EntityStore, HexCreatureMinionComponent> TYPE;
 
@@ -50,6 +51,11 @@ public class HexCreatureMinionComponent implements Component<EntityStore> {
                     new KeyedCodec<>("Status", STATUS),
                     (component, value) -> component.status = value,
                     component -> component.status
+            ).add()
+            .append(
+                    new KeyedCodec<>("ChestTask", ChestTaskComponent.CODEC),
+                    (component, value) -> component.chestTask = value,
+                    component -> component.chestTask
             ).add()
             .build();
 
@@ -98,6 +104,14 @@ public class HexCreatureMinionComponent implements Component<EntityStore> {
 
     public void setStatus(Status status) {
         this.status = status;
+    }
+
+    public ChestTaskComponent getChestTask() {
+        return chestTask;
+    }
+
+    public void setChestTask(ChestTaskComponent chestTask) {
+        this.chestTask = chestTask;
     }
 
     public enum Status implements Supplier<String>  {

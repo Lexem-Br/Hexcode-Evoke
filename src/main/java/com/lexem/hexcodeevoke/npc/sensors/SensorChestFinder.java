@@ -94,7 +94,7 @@ public class SensorChestFinder extends SensorBase {
         }
 
         SimpleItemContainer chestContainer = itemContainerBlock.getItemContainer();
-        return InventoryUtils.canAddAnyItemToContainerNPC(chestContainer, npcRef, store);
+        return InventoryUtils.canAddAnyItemToContainerNPC(chestContainer, npcRef, store, true);
     };
 
     public InfoProvider getSensorInfo() { return this.positionProvider; }

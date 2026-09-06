@@ -18,11 +18,8 @@ import javax.annotation.Nullable;
 import java.util.UUID;
 
 public class ActionOpenHCProfile extends ActionBase {
-   private String pageName = "HCProfilePage";
-   private String cardName = "HCProfileSlotEntry";
 
-
-   public ActionOpenHCProfile(@Nonnull BuilderActionOpenHCProfile builder, @Nonnull BuilderSupport support) {
+    public ActionOpenHCProfile(@Nonnull BuilderActionOpenHCProfile builder, @Nonnull BuilderSupport support) {
       super(builder);
    }
 
@@ -42,7 +39,9 @@ public class ActionOpenHCProfile extends ActionBase {
       Player player = store.getComponent(refESPlayer, Player.getComponentType());
       if (player == null) { return false; }
 
-      HCProfilePage hcProfilePage = new HCProfilePage(playerRef, npcRef, pageName, cardName);
+       String cardName = "HCProfileSlotEntry";
+       String pageName = "HCProfilePage";
+       HCProfilePage hcProfilePage = new HCProfilePage(playerRef, npcRef, pageName, cardName);
       player.getPageManager().openCustomPage(refESPlayer, store, hcProfilePage);
 
       return true;

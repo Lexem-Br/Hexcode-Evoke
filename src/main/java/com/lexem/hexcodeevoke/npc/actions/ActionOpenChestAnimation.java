@@ -2,37 +2,34 @@ package com.lexem.hexcodeevoke.npc.actions;
 
 import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.component.Store;
-import com.hypixel.hytale.logger.HytaleLogger;
 import com.hypixel.hytale.math.util.ChunkUtil;
-import com.hypixel.hytale.server.core.inventory.container.SimpleItemContainer;
-import com.hypixel.hytale.server.core.modules.block.BlockModule;
-import com.hypixel.hytale.server.core.modules.block.components.ItemContainerBlock;
+import com.hypixel.hytale.server.core.asset.type.blocktype.config.BlockType;
 import com.hypixel.hytale.server.core.universe.world.World;
+import com.hypixel.hytale.server.core.universe.world.chunk.BlockChunk;
 import com.hypixel.hytale.server.core.universe.world.storage.ChunkStore;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.hypixel.hytale.server.npc.corecomponents.ActionBase;
 import com.hypixel.hytale.server.npc.instructions.ExecutionSupport;
 import com.hypixel.hytale.server.npc.sensorinfo.IPositionProvider;
 import com.hypixel.hytale.server.npc.sensorinfo.InfoProvider;
-import com.lexem.hexcodeevoke.npc.actions.builders.BuilderActionStoreItems;
-import com.lexem.hexcodeevoke.utils.InventoryUtils;
+import com.lexem.hexcodeevoke.npc.actions.builders.BuilderOpenChestAnimation;
 import org.joml.Vector3i;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public class ActionStoreItems extends ActionBase {
-    protected boolean skipHotbarSlotZero;
+public class ActionOpenChestAnimation extends ActionBase {
+    protected boolean reverse;
 
-    public ActionStoreItems(@Nonnull BuilderActionStoreItems builderActionBase) {
-        super(builderActionBase);
-        this.skipHotbarSlotZero = builderActionBase.getSkipHotbarSlotZero();
-    }
+    public ActionOpenChestAnimation(@Nonnull BuilderOpenChestAnimation builder) {
+        super(builder);
+        this.reverse = builder.getReverse();
+   }
 
+    @Override
     public boolean execute(@Nonnull Ref<EntityStore> npcRef, @Nonnull ExecutionSupport executionSupport, @Nullable InfoProvider sensorInfo, double dt, @Nonnull Store<EntityStore> store) {
         super.execute(npcRef, executionSupport, sensorInfo, dt, store);
-
-        if (sensorInfo == null || !sensorInfo.hasPosition()) return false;
+        if (sensorInfo == null) return false;
 
         IPositionProvider positionProvider = sensorInfo.getPositionProvider();
         if (positionProvider == null || !positionProvider.hasPosition()) return false;
@@ -49,23 +46,19 @@ public class ActionStoreItems extends ActionBase {
         if (chunkRef == null) return false;
 
         Store<ChunkStore> chunkComponentStore = world.getChunkStore().getStore();
-        ChunkStore chunkStore = world.getChunkStore();
-        Ref<ChunkStore> sectionRef = chunkStore.getChunkSectionReferenceAtBlock(chestPosition.x, chestPosition.y, chestPosition.z);
-        if (sectionRef == null) return false;
-
-        Ref<ChunkStore> blockRef = BlockModule.getBlockEntity(chunkComponentStore, sectionRef, chestPosition.x, chestPosition.y, chestPosition.z);
-        if (blockRef == null) return false;
-
-        ItemContainerBlock itemContainerBlock = chunkComponentStore.getComponent(blockRef, ItemContainerBlock.getComponentType());
-        if (itemContainerBlock == null) return false;
-
-        SimpleItemContainer chestContainer = itemContainerBlock.getItemContainer();
-
-        if (!InventoryUtils.canAddAnyItemToContainerNPC(chestContainer, npcRef, store, skipHotbarSlotZero)) {
-            return false;
+        BlockChunk blockChunkComponent = chunkComponentStore.getComponent(chunkRef, BlockChunk.getComponentType());
+        if (blockChunkComponent != null) {
+            int blockId = blockChunkComponent.getBlock(chestPosition.x, chestPosition.y, chestPosition.z);
+            BlockType blockType = BlockType.getAssetMap().getAsset(blockId);
+            if (blockType != null) {
+                if (reverse) {
+                    world.setBlockInteractionState(chestPosition, blockType, "CloseWindow");
+                } else {
+                    world.setBlockInteractionState(chestPosition, blockType, "OpenWindow");
+                }
+            }
         }
 
-        InventoryUtils.transferItemsToChestNPC(npcRef, store, chestContainer, skipHotbarSlotZero);
         return true;
     }
 }

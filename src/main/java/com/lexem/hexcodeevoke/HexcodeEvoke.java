@@ -25,11 +25,8 @@ import com.lexem.hexcodeevoke.interactions.*;
 import com.lexem.hexcodeevoke.npc.actions.builders.*;
 import com.lexem.hexcodeevoke.npc.bodymotions.builders.BuilderTeleportHexCreature;
 import com.lexem.hexcodeevoke.npc.filters.builders.*;
-import com.lexem.hexcodeevoke.npc.sensors.builders.BuilderSensorEvokeReadPosition;
+import com.lexem.hexcodeevoke.npc.sensors.builders.*;
 import com.lexem.hexcodeevoke.builtin.HexcodeBuiltin;
-import com.lexem.hexcodeevoke.npc.sensors.builders.BuilderSensorHarvestableCropFinder;
-import com.lexem.hexcodeevoke.npc.sensors.builders.BuilderSensorChestFinder;
-import com.lexem.hexcodeevoke.npc.sensors.builders.BuilderSensorWettableSoilFinder;
 import com.lexem.hexcodeevoke.systems.NPCJoinSystem;
 import com.lexem.hexcodeevoke.systems.PlayerJoinSystem;
 import org.checkerframework.checker.nullness.compatqual.NonNullDecl;
@@ -88,28 +85,52 @@ public class HexcodeEvoke extends JavaPlugin {
 
     private void registerNPCComponents() {
         NPCPlugin npcPlugin = NPCPlugin.get();
-        npcPlugin.registerCoreComponentType("TeleportHexCreature", BuilderTeleportHexCreature::new);
-        npcPlugin.registerCoreComponentType("EvokeReadPosition", BuilderSensorEvokeReadPosition::new);
+        this.registerActions(npcPlugin);
+        this.registerBodyMotions(npcPlugin);
+        this.registerFilters(npcPlugin);
+        this.registerSensors(npcPlugin);
+    }
+
+    private void registerActions(NPCPlugin npcPlugin) {
         npcPlugin.registerCoreComponentType("SetInteractableFlockLeader", BuilderActionSetInteractableFlockLeader::new);
-        npcPlugin.registerCoreComponentType("EvokeIsInventoryFull", BuilderFilterIsInventoryFull::new);
         npcPlugin.registerCoreComponentType("OpenHCProfile", BuilderActionOpenHCProfile::new);
-        npcPlugin.registerCoreComponentType("IsEvoker", BuilderFilterIsEvoker::new);
         npcPlugin.registerCoreComponentType("HCPickUpItem", BuilderActionHCPickUpItem::new);
-        npcPlugin.registerCoreComponentType("EvokeHarvestableCropFinder", BuilderSensorHarvestableCropFinder::new);
         npcPlugin.registerCoreComponentType("EvokeHarvestCrop", BuilderActionHarvestCrop::new);
-        npcPlugin.registerCoreComponentType("EvokeChestFinder", BuilderSensorChestFinder::new);
         npcPlugin.registerCoreComponentType("EvokeStoreItems", BuilderActionStoreItems::new);
+        npcPlugin.registerCoreComponentType("EvokeWaterSoil", BuilderActionWaterSoil::new);
+        npcPlugin.registerCoreComponentType("EvokeSpawnMinion", BuilderActionSpawnMinion::new);
+        npcPlugin.registerCoreComponentType("EvokeCreateTasks", BuilderActionCreateTasks::new);
+        npcPlugin.registerCoreComponentType("EvokeAnalyzeChest", BuilderActionAnalyzeChest::new);
+        npcPlugin.registerCoreComponentType("EvokeTakeItemFromChestTask", BuilderActionTakeItemFromChestTask::new);
+        npcPlugin.registerCoreComponentType("EvokeRemoveMinionTask", BuilderRemoveMinionTask::new);
+        npcPlugin.registerCoreComponentType("EvokeOpenChestAnimation", BuilderOpenChestAnimation::new);
+    }
+
+    private void registerBodyMotions(NPCPlugin npcPlugin) {
+        npcPlugin.registerCoreComponentType("TeleportHexCreature", BuilderTeleportHexCreature::new);
+    }
+
+    private void registerFilters(NPCPlugin npcPlugin) {
+        npcPlugin.registerCoreComponentType("EvokeIsInventoryFull", BuilderFilterIsInventoryFull::new);
+        npcPlugin.registerCoreComponentType("IsEvoker", BuilderFilterIsEvoker::new);
         npcPlugin.registerCoreComponentType("EvokeFilterHasHarvestableCrop", BuilderFilterHasHarvestableCrop::new);
         npcPlugin.registerCoreComponentType("EvokeFilterHasWettableSoil", BuilderFilterHasWettableSoil::new);
-        npcPlugin.registerCoreComponentType("EvokeWettableSoilFinder", BuilderSensorWettableSoilFinder::new);
-        npcPlugin.registerCoreComponentType("EvokeWaterSoil", BuilderActionWaterSoil::new);
         npcPlugin.registerCoreComponentType("EvokeFilterHasChestNearby", BuilderFilterHasChestNearby::new);
         npcPlugin.registerCoreComponentType("EvokeFilterNeedsMoreMinions", BuilderFilterNeedsMoreMinions::new);
-        npcPlugin.registerCoreComponentType("EvokeSpawnMinion", BuilderActionSpawnMinion::new);
         npcPlugin.registerCoreComponentType("EvokeHasItemsOnInventory", BuilderFilterHasItemsOnInventory::new);
         npcPlugin.registerCoreComponentType("EvokeHasMinionOnStatus", BuilderFilterHasMinionOnStatus::new);
-        npcPlugin.registerCoreComponentType("EvokeSendOrderToMinion", BuilderActionSendOrderToMinion::new);
-        npcPlugin.registerCoreComponentType("EvokeIsOnStatus", BuilderFilterIsOnStatus::new);
+        npcPlugin.registerCoreComponentType("EvokeHasChestTask", BuilderFilterHasChestTask::new);
+        npcPlugin.registerCoreComponentType("EvokeIsOwner", BuilderFilterIsOwner::new);
+        npcPlugin.registerCoreComponentType("EvokeOwnerHasItem", BuilderOwnerHasItem::new);
+
+    }
+
+    private void registerSensors(NPCPlugin npcPlugin) {
+        npcPlugin.registerCoreComponentType("EvokeReadPosition", BuilderSensorEvokeReadPosition::new);
+        npcPlugin.registerCoreComponentType("EvokeHarvestableCropFinder", BuilderSensorHarvestableCropFinder::new);
+        npcPlugin.registerCoreComponentType("EvokeChestFinder", BuilderSensorChestFinder::new);
+        npcPlugin.registerCoreComponentType("EvokeWettableSoilFinder", BuilderSensorWettableSoilFinder::new);
+        npcPlugin.registerCoreComponentType("EvokeSearchChestTaskPosition", BuilderSensorSearchChestTaskPosition::new);
     }
 
     private void registerComponents() {
