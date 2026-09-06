@@ -78,13 +78,9 @@
                 },
                 "Actions": [
                   {
-                    "Type": "DisplayName",
-                    "DisplayName": "Teste 1"
-                  },
-                  {
                     "Type": "PlayAnimation",
                     "Slot": "Status",
-                    "Animation": "Interact"
+                    "Animation": "InteractAndChestOpen"
                   },
                   {
                     "Type": "PlaySound",
@@ -144,10 +140,6 @@
             },
             "Actions": [
               {
-                "Type": "DisplayName",
-                "DisplayName": "Teste 2"
-              },
-              {
                 "Type": "EvokeRemoveMinionTask"
               },
               {
@@ -190,18 +182,17 @@
             },
             "Actions": [
               {
-                "Type": "DisplayName",
-                "DisplayName": "Teste 3"
-              },
-              {
                 "Type": "PlayAnimation",
                 "Slot": "Status",
-                "Animation": "Interact"
+                "Animation": "InteractAndChestOpen"
               },
               {
                 "Type": "PlaySound",
                 "SoundEventId": "SFX_Chest_Wooden_Open",
                 "Once": true
+              },
+              {
+                "Type": "EvokeOpenChestAnimation"
               },
               {
                 "Type": "Timeout",
@@ -212,6 +203,10 @@
                     {
                       "Type": "PlaySound",
                       "SoundEventId": "SFX_Chest_Wooden_Close"
+                    },
+                    {
+                      "Type": "EvokeOpenChestAnimation",
+                      "Reverse": true
                     },
                     {
                       "Type": "EvokeStoreItems",

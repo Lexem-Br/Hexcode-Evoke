@@ -295,7 +295,7 @@
                   },
                   {
                     "Type": "EvokeFilterHasChestNearby",
-                    "HorizontalRange": 10,
+                    "HorizontalRange": 16,
                     "VerticalRange": 4
                   }
                 ]

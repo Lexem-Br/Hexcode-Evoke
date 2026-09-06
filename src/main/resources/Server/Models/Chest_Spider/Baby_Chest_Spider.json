@@ -1,7 +1,7 @@
 {
   "Parent": "Chest_Spider",
-  "Model": "NPC/Chest_Spider/Model.blockymodel",
-  "Texture": "NPC/Chest_Spider/Texture.png",
+  "Model": "NPC/Chest_Spider_Baby/Model.blockymodel",
+  "Texture": "NPC/Chest_Spider_Baby/Texture.png",
   "EyeHeight": 0.3,
   "CrouchOffset": -0.1,
   "HitBox": {

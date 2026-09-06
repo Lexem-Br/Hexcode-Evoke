@@ -19,6 +19,42 @@
   "MaxScale": 1,
   "DefaultAttachments": [],
   "AnimationSets": {
+    "Interact": {
+      "Animations": [
+        {
+          "Animation": "NPC/Chest_Spider/Animations/Interact.blockyanim",
+          "Looping": false,
+          "Speed": 0.8
+        }
+      ]
+    },
+    "InteractAndChestOpen": {
+      "Animations": [
+        {
+          "Animation": "NPC/Chest_Spider/Animations/InteractAndChestOpen.blockyanim",
+          "Looping": false,
+          "Speed": 0.8
+        }
+      ]
+    },
+    "ChestOpen": {
+      "Animations": [
+        {
+          "Animation": "NPC/Chest_Spider/Animations/ChestOpen.blockyanim",
+          "Looping": false,
+          "Speed": 0.8
+        }
+      ]
+    },
+    "ChestClose": {
+      "Animations": [
+        {
+          "Animation": "NPC/Chest_Spider/Animations/ChestClose.blockyanim",
+          "Looping": false,
+          "Speed": 0.8
+        }
+      ]
+    },
     "Idle": {
       "Animations": [
         {

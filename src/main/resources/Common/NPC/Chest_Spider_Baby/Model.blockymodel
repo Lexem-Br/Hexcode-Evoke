@@ -22,7 +22,7 @@
         {
           "id": "2",
           "name": "Pelvis",
-          "position": {"x": 0, "y": 33.8, "z": -16.521},
+          "position": {"x": 0, "y": 27.8, "z": -16.521},
           "orientation": {"x": 0, "y": 0, "z": 0, "w": 1},
           "shape": {
             "type": "none",
@@ -116,7 +116,7 @@
                       "shape": {
                         "type": "box",
                         "offset": {"x": 0, "y": 1.52369, "z": 10.172},
-                        "stretch": {"x": 1, "y": 0.975, "z": 1},
+                        "stretch": {"x": 1.3, "y": 1.3, "z": 1.3},
                         "settings": {
                           "isPiece": false,
                           "size": {"x": 25, "y": 26, "z": 22}
@@ -162,7 +162,7 @@
                         {
                           "id": "6",
                           "name": "L-Eye",
-                          "position": {"x": 5.2, "y": 7.90532, "z": 0.814},
+                          "position": {"x": 5.2, "y": 7.90532, "z": 3.814},
                           "orientation": {"x": -0.08108, "y": -0.03661, "z": -0.02613, "w": 0.99569},
                           "shape": {
                             "type": "none",
@@ -181,7 +181,7 @@
                         {
                           "id": "7",
                           "name": "L-Eye-Small",
-                          "position": {"x": 4.5, "y": 1.41032, "z": 3.823},
+                          "position": {"x": 4.5, "y": 1.41032, "z": 6.823},
                           "orientation": {"x": -0.15626, "y": 0.02057, "z": -0.12889, "w": 0.97905},
                           "shape": {
                             "type": "none",
@@ -200,7 +200,7 @@
                         {
                           "id": "8",
                           "name": "R-Eye",
-                          "position": {"x": -5.2, "y": 7.90532, "z": 0.814},
+                          "position": {"x": -5.2, "y": 7.90532, "z": 3.814},
                           "orientation": {"x": -0.08108, "y": 0.03661, "z": 0.02613, "w": 0.99569},
                           "shape": {
                             "type": "none",
@@ -219,7 +219,7 @@
                         {
                           "id": "9",
                           "name": "R-Eye-Small",
-                          "position": {"x": -4.5, "y": 1.41032, "z": 3.823},
+                          "position": {"x": -4.5, "y": 1.41032, "z": 6.823},
                           "orientation": {"x": -0.15626, "y": -0.02057, "z": 0.12889, "w": 0.97905},
                           "shape": {
                             "type": "none",
@@ -238,7 +238,7 @@
                         {
                           "id": "10",
                           "name": "L-Mandible",
-                          "position": {"x": 10, "y": -6.94168, "z": 6},
+                          "position": {"x": 10, "y": -6.94168, "z": 9},
                           "orientation": {"x": 0, "y": 0, "z": -0.10453, "w": 0.99452},
                           "shape": {
                             "type": "none",
@@ -299,7 +299,7 @@
                         {
                           "id": "13",
                           "name": "R-Mandible",
-                          "position": {"x": -10, "y": -6.94168, "z": 6},
+                          "position": {"x": -10, "y": -6.94168, "z": 9},
                           "orientation": {"x": 0, "y": 0, "z": 0.10453, "w": 0.99452},
                           "shape": {
                             "type": "none",
@@ -360,7 +360,7 @@
                         {
                           "id": "16",
                           "name": "Head-Hair",
-                          "position": {"x": 0, "y": 13.05832, "z": -8},
+                          "position": {"x": 0, "y": 13.05832, "z": -5},
                           "orientation": {"x": -0.04362, "y": 0, "z": 0, "w": 0.99905},
                           "shape": {
                             "type": "none",
@@ -379,12 +379,12 @@
                         {
                           "id": "17",
                           "name": "cube--C1",
-                          "position": {"x": 0, "y": -7.52369, "z": 12.828},
+                          "position": {"x": 0, "y": -7.52369, "z": 15.828},
                           "orientation": {"x": 0, "y": 0, "z": 0, "w": 1},
                           "shape": {
                             "type": "box",
-                            "offset": {"x": 5, "y": 6, "z": -5},
-                            "stretch": {"x": 0.75, "y": 0.75, "z": 0.75},
+                            "offset": {"x": 6, "y": 7, "z": -6},
+                            "stretch": {"x": 1.1, "y": 1.1, "z": 1.1},
                             "settings": {
                               "isPiece": false,
                               "size": {"x": 12, "y": 12, "z": 12},
@@ -431,12 +431,12 @@
                         {
                           "id": "18",
                           "name": "cube--C2",
-                          "position": {"x": -10, "y": -7.52369, "z": 12.828},
+                          "position": {"x": -10, "y": -7.52369, "z": 15.828},
                           "orientation": {"x": 0, "y": 0, "z": 0, "w": 1},
                           "shape": {
                             "type": "box",
-                            "offset": {"x": 5, "y": 6, "z": -5},
-                            "stretch": {"x": 0.75, "y": 0.75, "z": 0.75},
+                            "offset": {"x": 4, "y": 7, "z": -6},
+                            "stretch": {"x": 1.1, "y": 1.1, "z": 1.1},
                             "settings": {
                               "isPiece": false,
                               "size": {"x": 12, "y": 12, "z": 12},
@@ -483,12 +483,12 @@
                         {
                           "id": "19",
                           "name": "cube--C3",
-                          "position": {"x": 10, "y": -0.52369, "z": 17.828},
+                          "position": {"x": 10, "y": -0.52369, "z": 20.828},
                           "orientation": {"x": 0, "y": 0, "z": 0, "w": 1},
                           "shape": {
                             "type": "box",
-                            "offset": {"x": 2, "y": 3, "z": -8},
-                            "stretch": {"x": 0.625, "y": 0.625, "z": 0.625},
+                            "offset": {"x": 5, "y": 6, "z": -8},
+                            "stretch": {"x": 0.75, "y": 0.75, "z": 0.75},
                             "settings": {
                               "isPiece": false,
                               "size": {"x": 6, "y": 6, "z": 6},
@@ -535,12 +535,12 @@
                         {
                           "id": "20",
                           "name": "cube--C4",
-                          "position": {"x": -12, "y": 2.47631, "z": 9.828},
+                          "position": {"x": -12, "y": 2.47631, "z": 12.828},
                           "orientation": {"x": 0, "y": -0.70711, "z": 0, "w": 0.70711},
                           "shape": {
                             "type": "box",
-                            "offset": {"x": 0, "y": 0, "z": 0},
-                            "stretch": {"x": 0.625, "y": 0.625, "z": 0.625},
+                            "offset": {"x": 0, "y": 3, "z": 3},
+                            "stretch": {"x": 0.75, "y": 0.75, "z": 0.75},
                             "settings": {
                               "isPiece": false,
                               "size": {"x": 6, "y": 6, "z": 6},
@@ -620,7 +620,7 @@
                         },
                         "textureLayout": {
                           "back": {
-                            "offset": {"x": 58, "y": 106},
+                            "offset": {"x": 67, "y": 107},
                             "mirror": {"x": false, "y": false},
                             "angle": 0
                           },
@@ -663,8 +663,8 @@
                       "orientation": {"x": -0.1725, "y": -0.42574, "z": 0.30497, "w": 0.83425},
                       "shape": {
                         "type": "box",
-                        "offset": {"x": 18, "y": 2.26068, "z": 0},
-                        "stretch": {"x": -1, "y": 1, "z": 1},
+                        "offset": {"x": 21.93434, "y": 6.78754, "z": 0.16888},
+                        "stretch": {"x": 1, "y": 1.4, "z": 1.4},
                         "settings": {
                           "isPiece": false,
                           "size": {"x": 45, "y": 9, "z": 7}
@@ -710,12 +710,12 @@
                         {
                           "id": "24",
                           "name": "L-Forearm",
-                          "position": {"x": 17, "y": -2.26068, "z": 0},
+                          "position": {"x": 13.06566, "y": -6.78754, "z": -0.16888},
                           "orientation": {"x": 0, "y": 0, "z": -0.68064, "w": 0.73262},
                           "shape": {
                             "type": "box",
-                            "offset": {"x": 14, "y": 3.76068, "z": 0},
-                            "stretch": {"x": -1, "y": 1, "z": 1},
+                            "offset": {"x": 8.54682, "y": 5.28471, "z": -0.25916},
+                            "stretch": {"x": 1, "y": 1.4, "z": 1.4},
                             "settings": {
                               "isPiece": false,
                               "size": {"x": 40, "y": 12, "z": 9}
@@ -761,7 +761,7 @@
                             {
                               "id": "25",
                               "name": "L-Hand",
-                              "position": {"x": 18.5, "y": -3.76068, "z": 0},
+                              "position": {"x": 23.95318, "y": -5.28471, "z": 0.25916},
                               "orientation": {"x": 0, "y": 0, "z": -0.28488, "w": 0.95856},
                               "shape": {
                                 "type": "none",
@@ -803,30 +803,30 @@
                                   "orientation": {"x": 0.70711, "y": 0, "z": 0, "w": 0.70711},
                                   "shape": {
                                     "type": "box",
-                                    "offset": {"x": 13.5, "y": -0.23932, "z": -1},
-                                    "stretch": {"x": -1, "y": 1, "z": 1},
+                                    "offset": {"x": 6.5, "y": 0.26068, "z": -1},
+                                    "stretch": {"x": 1, "y": 1.4, "z": 1.4},
                                     "settings": {
                                       "isPiece": false,
-                                      "size": {"x": 30, "y": 6, "z": 8}
+                                      "size": {"x": 30, "y": 7, "z": 8}
                                     },
                                     "textureLayout": {
                                       "back": {
-                                        "offset": {"x": 53, "y": 89},
+                                        "offset": {"x": 53, "y": 88},
                                         "mirror": {"x": false, "y": false},
                                         "angle": 0
                                       },
                                       "right": {
-                                        "offset": {"x": 83, "y": 81},
+                                        "offset": {"x": 83, "y": 80},
                                         "mirror": {"x": false, "y": false},
                                         "angle": 0
                                       },
                                       "front": {
-                                        "offset": {"x": 53, "y": 89},
+                                        "offset": {"x": 53, "y": 88},
                                         "mirror": {"x": false, "y": false},
                                         "angle": 0
                                       },
                                       "left": {
-                                        "offset": {"x": 83, "y": 81},
+                                        "offset": {"x": 83, "y": 80},
                                         "mirror": {"x": false, "y": false},
                                         "angle": 0
                                       },
@@ -860,8 +860,8 @@
                       "orientation": {"x": -0.0361, "y": -0.07705, "z": 0.36076, "w": 0.92877},
                       "shape": {
                         "type": "box",
-                        "offset": {"x": 18, "y": 2.03363, "z": 0},
-                        "stretch": {"x": -1, "y": 1, "z": 1},
+                        "offset": {"x": 22.05411, "y": 6.45624, "z": 0.06881},
+                        "stretch": {"x": 1, "y": 1.4, "z": 1.4},
                         "settings": {
                           "isPiece": false,
                           "size": {"x": 45, "y": 9, "z": 7}
@@ -907,12 +907,12 @@
                         {
                           "id": "29",
                           "name": "L-Forearm2",
-                          "position": {"x": 17, "y": -2.03363, "z": 0},
+                          "position": {"x": 12.94589, "y": -6.45624, "z": -0.06881},
                           "orientation": {"x": 0, "y": 0, "z": -0.68064, "w": 0.73262},
                           "shape": {
                             "type": "box",
-                            "offset": {"x": 14, "y": 3.53363, "z": 0},
-                            "stretch": {"x": -1, "y": 1, "z": 1},
+                            "offset": {"x": 9.05737, "y": 5.15968, "z": -0.00652},
+                            "stretch": {"x": 1, "y": 1.4, "z": 1.4},
                             "settings": {
                               "isPiece": false,
                               "size": {"x": 40, "y": 12, "z": 9}
@@ -958,7 +958,7 @@
                             {
                               "id": "30",
                               "name": "L-Hand2",
-                              "position": {"x": 18.5, "y": -3.53363, "z": 0},
+                              "position": {"x": 23.44263, "y": -5.15968, "z": 0.00652},
                               "orientation": {"x": 0, "y": 0, "z": -0.28488, "w": 0.95856},
                               "shape": {
                                 "type": "none",
@@ -981,8 +981,8 @@
                                   "orientation": {"x": 0.70711, "y": 0, "z": 0, "w": 0.70711},
                                   "shape": {
                                     "type": "box",
-                                    "offset": {"x": 13.5, "y": 0.53363, "z": 0},
-                                    "stretch": {"x": -1, "y": 1, "z": 1},
+                                    "offset": {"x": 7.5, "y": 0.53363, "z": 0},
+                                    "stretch": {"x": 1, "y": 1.4, "z": 1.4},
                                     "settings": {
                                       "isPiece": false,
                                       "size": {"x": 30, "y": 6, "z": 8}
@@ -1038,8 +1038,8 @@
                       "orientation": {"x": 0.05548, "y": 0.15587, "z": 0.36784, "w": 0.91505},
                       "shape": {
                         "type": "box",
-                        "offset": {"x": 18, "y": 1.4761, "z": 0},
-                        "stretch": {"x": -1, "y": 1, "z": 1},
+                        "offset": {"x": 22.14291, "y": 5.81546, "z": 0.07887},
+                        "stretch": {"x": 1, "y": 1.4, "z": 1.4},
                         "settings": {
                           "isPiece": false,
                           "size": {"x": 45, "y": 9, "z": 7}
@@ -1085,12 +1085,12 @@
                         {
                           "id": "33",
                           "name": "L-Calf2",
-                          "position": {"x": 15, "y": -1.4761, "z": 0},
+                          "position": {"x": 10.85709, "y": -5.81546, "z": -0.07887},
                           "orientation": {"x": 0, "y": 0, "z": -0.68064, "w": 0.73262},
                           "shape": {
                             "type": "box",
-                            "offset": {"x": 14, "y": 2.9761, "z": 0},
-                            "stretch": {"x": -1, "y": 1, "z": 1},
+                            "offset": {"x": 9.65017, "y": 7.0163, "z": -0.07204},
+                            "stretch": {"x": 1, "y": 1.4, "z": 1.4},
                             "settings": {
                               "isPiece": false,
                               "size": {"x": 40, "y": 12, "z": 9}
@@ -1136,7 +1136,7 @@
                             {
                               "id": "34",
                               "name": "L-Foot2",
-                              "position": {"x": 18.5, "y": -2.9761, "z": 0},
+                              "position": {"x": 22.84983, "y": -7.0163, "z": 0.07204},
                               "orientation": {"x": 0, "y": 0, "z": -0.28488, "w": 0.95856},
                               "shape": {
                                 "type": "none",
@@ -1159,8 +1159,8 @@
                                   "orientation": {"x": 0.70711, "y": 0, "z": 0, "w": 0.70711},
                                   "shape": {
                                     "type": "box",
-                                    "offset": {"x": 13.5, "y": -0.0239, "z": 0},
-                                    "stretch": {"x": -1, "y": 1, "z": 1},
+                                    "offset": {"x": 6.96733, "y": 0.90406, "z": -1.66951},
+                                    "stretch": {"x": 1, "y": 1.4, "z": 1.4},
                                     "settings": {
                                       "isPiece": false,
                                       "size": {"x": 30, "y": 6, "z": 8}
@@ -1216,8 +1216,8 @@
                       "orientation": {"x": 0.13049, "y": 0.39516, "z": 0.31352, "w": 0.85354},
                       "shape": {
                         "type": "box",
-                        "offset": {"x": 24.00045, "y": 1.14846, "z": -0.00006},
-                        "stretch": {"x": -1, "y": 1, "z": 1},
+                        "offset": {"x": 27.19213, "y": 4.99522, "z": 0.12508},
+                        "stretch": {"x": 1, "y": 1.4, "z": 1.4},
                         "settings": {
                           "isPiece": false,
                           "size": {"x": 45, "y": 9, "z": 7}
@@ -1263,12 +1263,12 @@
                         {
                           "id": "37",
                           "name": "L-Calf",
-                          "position": {"x": 15, "y": -1.14845, "z": 0},
+                          "position": {"x": 11.80832, "y": -4.99521, "z": -0.12514},
                           "orientation": {"x": 0, "y": 0, "z": -0.64803, "w": 0.76161},
                           "shape": {
                             "type": "box",
-                            "offset": {"x": 14, "y": 2.64845, "z": 0},
-                            "stretch": {"x": -1, "y": 1, "z": 1},
+                            "offset": {"x": 11.8142, "y": 6.38551, "z": 0.21701},
+                            "stretch": {"x": 1, "y": 1.4, "z": 1.4},
                             "settings": {
                               "isPiece": false,
                               "size": {"x": 40, "y": 12, "z": 9}
@@ -1314,7 +1314,7 @@
                             {
                               "id": "38",
                               "name": "L-Foot",
-                              "position": {"x": 18.5, "y": -2.64845, "z": 0},
+                              "position": {"x": 20.6858, "y": -6.38551, "z": -0.21701},
                               "orientation": {"x": 0, "y": 0, "z": -0.28488, "w": 0.95856},
                               "shape": {
                                 "type": "none",
@@ -1337,8 +1337,8 @@
                                   "orientation": {"x": 0.70711, "y": 0, "z": 0, "w": 0.70711},
                                   "shape": {
                                     "type": "box",
-                                    "offset": {"x": 13.5, "y": -0.35155, "z": 0},
-                                    "stretch": {"x": -1, "y": 1, "z": 1},
+                                    "offset": {"x": 8.46195, "y": -0.37658, "z": -2.72793},
+                                    "stretch": {"x": 1, "y": 1.4, "z": 1.4},
                                     "settings": {
                                       "isPiece": false,
                                       "size": {"x": 30, "y": 6, "z": 8}
@@ -1394,8 +1394,8 @@
                       "orientation": {"x": -0.1725, "y": 0.42574, "z": -0.30497, "w": 0.83425},
                       "shape": {
                         "type": "box",
-                        "offset": {"x": -18, "y": 2.26068, "z": 0},
-                        "stretch": {"x": 1, "y": 1, "z": 1},
+                        "offset": {"x": -21.93434, "y": 6.78754, "z": 0.16888},
+                        "stretch": {"x": 1, "y": 1.4, "z": 1.4},
                         "settings": {
                           "isPiece": false,
                           "size": {"x": 45, "y": 9, "z": 7}
@@ -1441,12 +1441,12 @@
                         {
                           "id": "41",
                           "name": "R-Forearm",
-                          "position": {"x": -17, "y": -2.26068, "z": 0},
+                          "position": {"x": -13.06566, "y": -6.78754, "z": -0.16888},
                           "orientation": {"x": 0, "y": 0, "z": 0.68064, "w": 0.73262},
                           "shape": {
                             "type": "box",
-                            "offset": {"x": -14, "y": 3.76068, "z": 0},
-                            "stretch": {"x": 1, "y": 1, "z": 1},
+                            "offset": {"x": -9, "y": 3.76068, "z": 0},
+                            "stretch": {"x": 1, "y": 1.4, "z": 1.4},
                             "settings": {
                               "isPiece": false,
                               "size": {"x": 40, "y": 12, "z": 9}
@@ -1492,7 +1492,7 @@
                             {
                               "id": "42",
                               "name": "R-Hand",
-                              "position": {"x": -18.5, "y": -3.76068, "z": 0},
+                              "position": {"x": -23.5, "y": -3.76068, "z": 0},
                               "orientation": {"x": 0, "y": 0, "z": 0.28488, "w": 0.95856},
                               "shape": {
                                 "type": "none",
@@ -1534,8 +1534,8 @@
                                   "orientation": {"x": -0.70711, "y": 0, "z": 0, "w": 0.70711},
                                   "shape": {
                                     "type": "box",
-                                    "offset": {"x": -13.5, "y": -0.23932, "z": 0},
-                                    "stretch": {"x": 1, "y": 1, "z": 1},
+                                    "offset": {"x": -6.5, "y": -0.23932, "z": 0},
+                                    "stretch": {"x": 1, "y": 1.4, "z": 1.4},
                                     "settings": {
                                       "isPiece": false,
                                       "size": {"x": 30, "y": 6, "z": 8}
@@ -1591,8 +1591,8 @@
                       "orientation": {"x": -0.0361, "y": 0.07705, "z": -0.36076, "w": 0.92877},
                       "shape": {
                         "type": "box",
-                        "offset": {"x": -18, "y": 2.03363, "z": 0},
-                        "stretch": {"x": 1, "y": 1, "z": 1},
+                        "offset": {"x": -22.05411, "y": 6.45624, "z": 0.06881},
+                        "stretch": {"x": 1, "y": 1.4, "z": 1.4},
                         "settings": {
                           "isPiece": false,
                           "size": {"x": 45, "y": 9, "z": 7}
@@ -1638,12 +1638,12 @@
                         {
                           "id": "46",
                           "name": "R-Forearm2",
-                          "position": {"x": -17, "y": -2.03363, "z": 0},
+                          "position": {"x": -12.94589, "y": -6.45624, "z": -0.06881},
                           "orientation": {"x": 0, "y": 0, "z": 0.68064, "w": 0.73262},
                           "shape": {
                             "type": "box",
-                            "offset": {"x": -14, "y": 3.53363, "z": 0},
-                            "stretch": {"x": 1, "y": 1, "z": 1},
+                            "offset": {"x": -9, "y": 4.53363, "z": 0},
+                            "stretch": {"x": 1, "y": 1.4, "z": 1.4},
                             "settings": {
                               "isPiece": false,
                               "size": {"x": 40, "y": 12, "z": 9}
@@ -1689,7 +1689,7 @@
                             {
                               "id": "47",
                               "name": "R-Hand2",
-                              "position": {"x": -18.5, "y": -3.53363, "z": 0},
+                              "position": {"x": -23.5, "y": -4.53363, "z": 0},
                               "orientation": {"x": 0, "y": 0, "z": 0.28488, "w": 0.95856},
                               "shape": {
                                 "type": "none",
@@ -1712,8 +1712,8 @@
                                   "orientation": {"x": 0.70711, "y": 0, "z": 0, "w": 0.70711},
                                   "shape": {
                                     "type": "box",
-                                    "offset": {"x": -13.5, "y": 0.53363, "z": 0},
-                                    "stretch": {"x": 1, "y": 1, "z": 1},
+                                    "offset": {"x": -7.5, "y": 0.53363, "z": 0},
+                                    "stretch": {"x": 1, "y": 1.4, "z": 1.4},
                                     "settings": {
                                       "isPiece": false,
                                       "size": {"x": 30, "y": 6, "z": 8}
@@ -1769,8 +1769,8 @@
                       "orientation": {"x": 0.05548, "y": -0.15587, "z": -0.36784, "w": 0.91505},
                       "shape": {
                         "type": "box",
-                        "offset": {"x": -18, "y": 1.4761, "z": 0},
-                        "stretch": {"x": 1, "y": 1, "z": 1},
+                        "offset": {"x": -22.14291, "y": 5.81546, "z": 0.07887},
+                        "stretch": {"x": 1, "y": 1.4, "z": 1.4},
                         "settings": {
                           "isPiece": false,
                           "size": {"x": 45, "y": 9, "z": 7}
@@ -1816,12 +1816,12 @@
                         {
                           "id": "50",
                           "name": "R-Calf2",
-                          "position": {"x": -15, "y": -1.4761, "z": 0},
+                          "position": {"x": -10.85709, "y": -5.81546, "z": -0.07887},
                           "orientation": {"x": 0, "y": 0, "z": 0.68064, "w": 0.73262},
                           "shape": {
                             "type": "box",
-                            "offset": {"x": -14, "y": 2.9761, "z": 0},
-                            "stretch": {"x": 1, "y": 1, "z": 1},
+                            "offset": {"x": -10, "y": 6.9761, "z": 0},
+                            "stretch": {"x": 1, "y": 1.4, "z": 1.4},
                             "settings": {
                               "isPiece": false,
                               "size": {"x": 40, "y": 12, "z": 9}
@@ -1867,7 +1867,7 @@
                             {
                               "id": "51",
                               "name": "R-Foot2",
-                              "position": {"x": -18.5, "y": -2.9761, "z": 0},
+                              "position": {"x": -22.5, "y": -6.9761, "z": 0},
                               "orientation": {"x": 0, "y": 0, "z": 0.28488, "w": 0.95856},
                               "shape": {
                                 "type": "none",
@@ -1890,8 +1890,8 @@
                                   "orientation": {"x": -0.70711, "y": 0, "z": 0, "w": 0.70711},
                                   "shape": {
                                     "type": "box",
-                                    "offset": {"x": -13.5, "y": -0.0239, "z": 0},
-                                    "stretch": {"x": 1, "y": 1, "z": 1},
+                                    "offset": {"x": -7.5, "y": -0.0239, "z": 2},
+                                    "stretch": {"x": 1, "y": 1.4, "z": 1.4},
                                     "settings": {
                                       "isPiece": false,
                                       "size": {"x": 30, "y": 6, "z": 8}
@@ -1947,8 +1947,8 @@
                       "orientation": {"x": 0.13049, "y": -0.39516, "z": -0.31352, "w": 0.85354},
                       "shape": {
                         "type": "box",
-                        "offset": {"x": -24.00045, "y": 1.14846, "z": -0.00006},
-                        "stretch": {"x": 1, "y": 1, "z": 1},
+                        "offset": {"x": -27.19213, "y": 4.99522, "z": 0.12508},
+                        "stretch": {"x": 1, "y": 1.4, "z": 1.4},
                         "settings": {
                           "isPiece": false,
                           "size": {"x": 45, "y": 9, "z": 7}
@@ -1994,12 +1994,12 @@
                         {
                           "id": "54",
                           "name": "R-Calf",
-                          "position": {"x": -15, "y": -1.14845, "z": 0},
+                          "position": {"x": -11.80832, "y": -4.99521, "z": -0.12514},
                           "orientation": {"x": 0, "y": 0, "z": 0.64803, "w": 0.76161},
                           "shape": {
                             "type": "box",
-                            "offset": {"x": -14, "y": 2.64845, "z": 0},
-                            "stretch": {"x": 1, "y": 1, "z": 1},
+                            "offset": {"x": -11.65723, "y": 6.89517, "z": -0.02503},
+                            "stretch": {"x": 1, "y": 1.4, "z": 1.4},
                             "settings": {
                               "isPiece": false,
                               "size": {"x": 40, "y": 12, "z": 9}
@@ -2045,7 +2045,7 @@
                             {
                               "id": "55",
                               "name": "R-Foot",
-                              "position": {"x": -18.5, "y": -2.64845, "z": 0},
+                              "position": {"x": -20.84277, "y": -6.89517, "z": 0.02503},
                               "orientation": {"x": 0, "y": 0, "z": 0.28488, "w": 0.95856},
                               "shape": {
                                 "type": "none",
@@ -2064,12 +2064,12 @@
                                 {
                                   "id": "56",
                                   "name": "Hand_Volume",
-                                  "position": {"x": 14, "y": 0, "z": 0},
+                                  "position": {"x": 15, "y": 1, "z": 0},
                                   "orientation": {"x": -0.70711, "y": 0, "z": 0, "w": 0.70711},
                                   "shape": {
                                     "type": "box",
-                                    "offset": {"x": -13.5, "y": -0.35155, "z": 0},
-                                    "stretch": {"x": 1, "y": 1, "z": 1},
+                                    "offset": {"x": -9.46195, "y": -0.32652, "z": 2.72793},
+                                    "stretch": {"x": 1, "y": 1.4, "z": 1.4},
                                     "settings": {
                                       "isPiece": false,
                                       "size": {"x": 30, "y": 6, "z": 8}

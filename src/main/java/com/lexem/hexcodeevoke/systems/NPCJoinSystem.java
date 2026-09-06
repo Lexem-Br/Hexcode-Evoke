@@ -11,6 +11,7 @@ import com.lexem.hexcodeevoke.hexitems.AllowedHexCreatureMinionsAsset;
 import com.lexem.hexcodeevoke.hexitems.AllowedHexItemsAsset;
 import com.lexem.hexcodeevoke.utils.DespawnHCUtils;
 import com.lexem.hexcodeevoke.components.HexCreatureComponent;
+import com.lexem.hexcodeevoke.utils.DespawnMinionUtils;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -61,21 +62,26 @@ public class NPCJoinSystem extends RefSystem<EntityStore> {
         NPCEntity npc = store.getComponent(ref, Objects.requireNonNull(NPCEntity.getComponentType()));
         if (npc == null) return;
 
-        AllowedHexItemsAsset.HexItem hexCreatures = AllowedHexItemsAsset.getByEntityId(npc.getNPCTypeId());
-        if (hexCreatures == null) return;
+        AllowedHexCreatureMinionsAsset.HexMinion hexMinions = AllowedHexCreatureMinionsAsset.getByEntityId(npc.getNPCTypeId());
+        if (hexMinions != null) {
+            DespawnMinionUtils.despawnMinion(store, ref, commandBuffer);
+        } else {
+            AllowedHexItemsAsset.HexItem hexCreatures = AllowedHexItemsAsset.getByEntityId(npc.getNPCTypeId());
+            if (hexCreatures == null) return;
 
-        HexCreatureComponent hexCreatureComponent = store.getComponent(ref, HexCreatureComponent.getComponentType());
-        if (hexCreatureComponent == null || hexCreatureComponent.getEvokerUUID() == null) { return; }
+            HexCreatureComponent hexCreatureComponent = store.getComponent(ref, HexCreatureComponent.getComponentType());
+            if (hexCreatureComponent == null || hexCreatureComponent.getEvokerUUID() == null) return;
 
-        UUID playerUUID = UUID.fromString(hexCreatureComponent.getEvokerUUID());
-        Ref<EntityStore> playerRef = store.getExternalData().getRefFromUUID(playerUUID);
-        if (playerRef == null) return;
+            UUID playerUUID = UUID.fromString(hexCreatureComponent.getEvokerUUID());
+            Ref<EntityStore> playerRef = store.getExternalData().getRefFromUUID(playerUUID);
+            if (playerRef == null) return;
 
-        EvokerComponent evoker = store.getComponent(playerRef, EvokerComponent.getComponentType());
-        if (evoker == null || !evoker.hexCreatureBelongsToPlayer(hexCreatureComponent.getUUID())) return;
+            EvokerComponent evoker = store.getComponent(playerRef, EvokerComponent.getComponentType());
+            if (evoker == null || !evoker.hexCreatureBelongsToPlayer(hexCreatureComponent.getUUID())) return;
 
-        DespawnHCUtils despawnHCUtils = new DespawnHCUtils(store, ref, commandBuffer);
-        despawnHCUtils.despawnHexCreature();
+            DespawnHCUtils despawnHCUtils = new DespawnHCUtils(store, ref, commandBuffer);
+            despawnHCUtils.despawnHexCreature();
+        }
     }
 
     @Nullable
