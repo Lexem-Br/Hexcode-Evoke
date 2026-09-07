@@ -275,8 +275,31 @@
               },
               "Actions": [
                 {
+                  "Type": "PlayAnimation",
+                  "Slot": "Status",
+                  "Animation": "ChestOpen"
+                },
+                {
+                  "Type": "PlaySound",
+                  "SoundEventId": "SFX_Chest_Wooden_Open",
+                  "Once": true
+                },
+                {
                   "Type": "EvokeSpawnMinion",
                   "EntityId": "Baby_Chest_Spider"
+                },
+                {
+                  "Type": "Timeout",
+                  "Delay": [1, 1],
+                  "Action":  {
+                    "Type": "Sequence",
+                    "Actions": [
+                      {
+                        "Type": "PlayAnimation",
+                        "Slot": "Status"
+                      }
+                    ]
+                  }
                 }
               ]
             },

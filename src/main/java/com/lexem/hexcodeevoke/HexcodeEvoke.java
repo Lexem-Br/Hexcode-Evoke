@@ -104,6 +104,7 @@ public class HexcodeEvoke extends JavaPlugin {
         npcPlugin.registerCoreComponentType("EvokeTakeItemFromChestTask", BuilderActionTakeItemFromChestTask::new);
         npcPlugin.registerCoreComponentType("EvokeRemoveMinionTask", BuilderRemoveMinionTask::new);
         npcPlugin.registerCoreComponentType("EvokeOpenChestAnimation", BuilderOpenChestAnimation::new);
+        npcPlugin.registerCoreComponentType("EvokeTargetPlayAnimation", BuilderActionTargetPlayAnimation::new);
     }
 
     private void registerBodyMotions(NPCPlugin npcPlugin) {

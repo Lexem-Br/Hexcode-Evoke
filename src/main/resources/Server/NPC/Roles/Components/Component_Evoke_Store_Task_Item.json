@@ -61,6 +61,7 @@
             "Sensor": {
               "Type": "Mob",
               "Range": 2,
+              "LockOnTarget": true,
               "Filters": [
                 {
                   "Type": "EvokeIsOwner"
@@ -70,55 +71,49 @@
                 }
               ]
             },
-            "Instructions": [
+            "Actions": [
               {
-                "$Comment": "Take Item From chest task",
-                "Sensor": {
-                  "Type": "Any"
-                },
-                "Actions": [
-                  {
-                    "Type": "PlayAnimation",
-                    "Slot": "Status",
-                    "Animation": "InteractAndChestOpen"
-                  },
-                  {
-                    "Type": "PlaySound",
-                    "SoundEventId": "SFX_Chest_Wooden_Open",
-                    "Once": true
-                  },
-                  {
-                    "Type": "EvokeOpenChestAnimation"
-                  },
-                  {
-                    "Type": "Timeout",
-                    "Delay": [1, 2],
-                    "Action": {
-                      "Type": "Sequence",
-                      "Actions": [
-                        {
-                          "Type": "PlaySound",
-                          "SoundEventId": "SFX_Chest_Wooden_Close"
-                        },
-                        {
-                          "Type": "EvokeOpenChestAnimation",
-                          "Reverse": true
-                        },
-                        {
-                          "Type": "EvokeTakeItemFromChestTask"
-                        },
-                        {
-                          "Type": "PlayAnimation",
-                          "Slot": "Status"
-                        },
-                        {
-                          "Type": "State",
-                          "State": ".StoringItem"
-                        }
-                      ]
+                "Type": "PlayAnimation",
+                "Slot": "Status",
+                "Animation": "InteractAndChestOpen"
+              },
+              {
+                "Type": "PlaySound",
+                "SoundEventId": "SFX_Chest_Wooden_Open",
+                "Once": true
+              },
+              {
+                "Type": "EvokeTargetPlayAnimation",
+                "Slot": "Status",
+                "Animation": "ChestOpen"
+              },
+              {
+                "Type": "Timeout",
+                "Delay": [1, 2],
+                "Action": {
+                  "Type": "Sequence",
+                  "Actions": [
+                    {
+                      "Type": "PlaySound",
+                      "SoundEventId": "SFX_Chest_Wooden_Close"
+                    },
+                    {
+                      "Type": "EvokeTakeItemFromChestTask"
+                    },
+                    {
+                      "Type": "PlayAnimation",
+                      "Slot": "Status"
+                    },
+                    {
+                      "Type": "EvokeTargetPlayAnimation",
+                      "Slot": "Status"
+                    },
+                    {
+                      "Type": "State",
+                      "State": ".StoringItem"
                     }
-                  }
-                ]
+                  ]
+                }
               }
             ]
           },
@@ -210,7 +205,7 @@
                     },
                     {
                       "Type": "EvokeStoreItems",
-                      "SkipHotbarSlotZero": false
+                      "SkipHotbarSlotZero": true
                     },
                     {
                       "Type": "EvokeRemoveMinionTask"

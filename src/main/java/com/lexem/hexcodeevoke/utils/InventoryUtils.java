@@ -2,6 +2,7 @@ package com.lexem.hexcodeevoke.utils;
 
 import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.component.Store;
+import com.hypixel.hytale.logger.HytaleLogger;
 import com.hypixel.hytale.server.core.asset.type.item.config.Item;
 import com.hypixel.hytale.server.core.inventory.InventoryComponent;
 import com.hypixel.hytale.server.core.inventory.ItemStack;
@@ -13,6 +14,7 @@ import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import java.util.*;
 
 public class InventoryUtils {
+    private static final HytaleLogger LOGGER = HytaleLogger.forEnclosingClass();
 
     private InventoryUtils() {
         throw new UnsupportedOperationException("Utility class cannot be instantiated");
@@ -182,7 +184,7 @@ public class InventoryUtils {
         return false;
     }
 
-    public static boolean transferAllItemsOfType(CombinedItemContainer fromContainer, CombinedItemContainer toContainer, String itemId) {
+    public static boolean transferAllItemsOfType(CombinedItemContainer fromContainer, CombinedItemContainer toContainer, String itemId, int skipSlot) {
         if (fromContainer == null || toContainer == null || itemId == null || itemId.isEmpty()) {
             return false;
         }
@@ -194,11 +196,15 @@ public class InventoryUtils {
 
             if (!ItemStack.isEmpty(itemStack) && itemId.equals(itemStack.getItem().getId())) {
                 for (short toSlot = 0; toSlot < toContainer.getCapacity(); toSlot++) {
+                    if (skipSlot >= 0 && toSlot == skipSlot) {
+                        continue;
+                    }
+
                     if (toContainer.canAddItemStackToSlot(toSlot, itemStack, false, false)) {
                         ItemStack removedItem = fromContainer.removeItemStackFromSlot(fromSlot).getSlotBefore();
 
                         if (removedItem != null && !removedItem.isEmpty()) {
-                            var addResult = toContainer.addItemStack(removedItem, false, false, false);
+                            var addResult = toContainer.addItemStackToSlot(toSlot, removedItem, false, false);
 
                             if (addResult.succeeded()) {
                                 ItemStack remainder = addResult.getRemainder();
