@@ -9,16 +9,20 @@ import com.hypixel.hytale.server.npc.sensorinfo.InfoProvider;
 import com.lexem.hexcodeevoke.components.ChestTaskComponent;
 import com.lexem.hexcodeevoke.components.HexCreatureComponent;
 import com.lexem.hexcodeevoke.components.HexCreatureMinionComponent;
-import com.lexem.hexcodeevoke.npc.actions.builders.BuilderActionRemoveMinionTask;
-import com.lexem.hexcodeevoke.utils.ChestMemoryUtils;
+import com.lexem.hexcodeevoke.npc.actions.builders.BuilderActionTakeChestTask;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 import java.util.UUID;
 
-public class ActionRemoveTask extends ActionBase {
+public class ActionTakeChestTask extends ActionBase {
+    protected ChestTaskComponent.TaskType taskType;
+    private static final Random RANDOM = new Random();
 
-    public ActionRemoveTask(@Nonnull BuilderActionRemoveMinionTask builder) {
+    public ActionTakeChestTask(@Nonnull BuilderActionTakeChestTask builder) {
       super(builder);
    }
 
@@ -36,11 +40,24 @@ public class ActionRemoveTask extends ActionBase {
         HexCreatureComponent hexCreatureComponent = store.getComponent(hcRef, HexCreatureComponent.getComponentType());
         if (hexCreatureComponent == null) return false;
 
-        ChestMemoryUtils.registerChestInMemory(sensorInfo, store, hexCreatureComponent);
+        ChestTaskComponent[] allTasks = hexCreatureComponent.getListChestTask();
+        if (allTasks == null || allTasks.length == 0) return false;
 
-        ChestTaskComponent chestTaskComponent = minionComponent.getChestTask();
-        chestTaskComponent.setFinished(true);
-        hexCreatureComponent.removeChestTask(chestTaskComponent);
+        List<ChestTaskComponent> validTasks = new ArrayList<>();
+        for (ChestTaskComponent task : allTasks) {
+            if (task != null && !task.isFinished()) {
+                if (this.taskType == null || task.getTaskType() == this.taskType) {
+                    validTasks.add(task);
+                }
+            }
+        }
+
+        if (validTasks.isEmpty()) return false;
+
+        ChestTaskComponent selectedTask = validTasks.get(RANDOM.nextInt(validTasks.size()));
+
+        minionComponent.setChestTask(selectedTask);
+        hexCreatureComponent.removeChestTask(selectedTask);
 
         return true;
     }

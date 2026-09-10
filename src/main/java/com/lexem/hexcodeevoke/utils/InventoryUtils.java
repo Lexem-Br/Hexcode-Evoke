@@ -2,7 +2,6 @@ package com.lexem.hexcodeevoke.utils;
 
 import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.component.Store;
-import com.hypixel.hytale.logger.HytaleLogger;
 import com.hypixel.hytale.server.core.asset.type.item.config.Item;
 import com.hypixel.hytale.server.core.inventory.InventoryComponent;
 import com.hypixel.hytale.server.core.inventory.ItemStack;
@@ -14,7 +13,6 @@ import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import java.util.*;
 
 public class InventoryUtils {
-    private static final HytaleLogger LOGGER = HytaleLogger.forEnclosingClass();
 
     private InventoryUtils() {
         throw new UnsupportedOperationException("Utility class cannot be instantiated");
@@ -47,26 +45,6 @@ public class InventoryUtils {
             if (!ItemStack.isEmpty(npcItemStack)) {
                 for (short chestSlot = 0; chestSlot < chestContainer.getCapacity(); chestSlot++) {
                     if (chestContainer.canAddItemStackToSlot(chestSlot, npcItemStack, false, false)) {
-                        return true;
-                    }
-                }
-            }
-        }
-
-        return false;
-    }
-
-    public static boolean canAddAnyItemToContainer(SimpleItemContainer targetContainer, ItemContainer entityContainer) {
-        if (targetContainer == null || entityContainer == null) {
-            return false;
-        }
-
-        for (short entitySlot = 0; entitySlot < entityContainer.getCapacity(); entitySlot++) {
-            ItemStack npcItemStack = entityContainer.getItemStack(entitySlot);
-
-            if (!ItemStack.isEmpty(npcItemStack)) {
-                for (short chestSlot = 0; chestSlot < targetContainer.getCapacity(); chestSlot++) {
-                    if (targetContainer.canAddItemStackToSlot(chestSlot, npcItemStack, false, false)) {
                         return true;
                     }
                 }
@@ -223,5 +201,57 @@ public class InventoryUtils {
         }
 
         return itemTransferred;
+    }
+
+    public static boolean canReturnAnyItemToOwner(CombinedItemContainer minionContainer, CombinedItemContainer ownerContainer) {
+        if (minionContainer == null || ownerContainer == null) {
+            return false;
+        }
+
+        for (short slot = 0; slot < minionContainer.getCapacity(); slot++) {
+            ItemStack itemStack = minionContainer.getItemStack(slot);
+            if (!ItemStack.isEmpty(itemStack)) {
+                String itemId = itemStack.getItem().getId();
+                if (itemId != null && !itemId.isEmpty()) {
+                    if (canReturnItemsToOwner(minionContainer, ownerContainer, itemId)) {
+                        return true;
+                    }
+                }
+            }
+        }
+
+        return false;
+    }
+
+    public static boolean canReturnItemsToOwner(CombinedItemContainer minionContainer, CombinedItemContainer ownerContainer, String itemId) {
+        if (minionContainer == null || ownerContainer == null || itemId == null || itemId.isEmpty()) {
+            return false;
+        }
+
+        boolean hasItem = false;
+        for (short slot = 0; slot < minionContainer.getCapacity(); slot++) {
+            ItemStack itemStack = minionContainer.getItemStack(slot);
+            if (!ItemStack.isEmpty(itemStack) && itemId.equals(itemStack.getItem().getId())) {
+                hasItem = true;
+                break;
+            }
+        }
+
+        if (!hasItem) {
+            return false;
+        }
+
+        ItemStack tempItemStack = new ItemStack(itemId, 1);
+        if (tempItemStack.getItem() == null) {
+            return false;
+        }
+
+        for (short slot = 0; slot < ownerContainer.getCapacity(); slot++) {
+            if (ownerContainer.canAddItemStackToSlot(slot, tempItemStack, false, false)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

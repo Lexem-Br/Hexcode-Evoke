@@ -102,9 +102,11 @@ public class HexcodeEvoke extends JavaPlugin {
         npcPlugin.registerCoreComponentType("EvokeCreateTasks", BuilderActionCreateTasks::new);
         npcPlugin.registerCoreComponentType("EvokeAnalyzeChest", BuilderActionAnalyzeChest::new);
         npcPlugin.registerCoreComponentType("EvokeTakeItemFromChestTask", BuilderActionTakeItemFromChestTask::new);
-        npcPlugin.registerCoreComponentType("EvokeRemoveMinionTask", BuilderRemoveMinionTask::new);
-        npcPlugin.registerCoreComponentType("EvokeOpenChestAnimation", BuilderOpenChestAnimation::new);
+        npcPlugin.registerCoreComponentType("EvokeRemoveMinionTask", BuilderActionRemoveMinionTask::new);
+        npcPlugin.registerCoreComponentType("EvokeOpenChestAnimation", BuilderActionOpenChestAnimation::new);
         npcPlugin.registerCoreComponentType("EvokeTargetPlayAnimation", BuilderActionTargetPlayAnimation::new);
+        npcPlugin.registerCoreComponentType("EvokeTakeChestTask", BuilderActionTakeChestTask::new);
+        npcPlugin.registerCoreComponentType("EvokeTransferItemsToTargetNPC", BuilderActionTransferItemsToTargetNPC::new);
     }
 
     private void registerBodyMotions(NPCPlugin npcPlugin) {
@@ -122,8 +124,9 @@ public class HexcodeEvoke extends JavaPlugin {
         npcPlugin.registerCoreComponentType("EvokeHasMinionOnStatus", BuilderFilterHasMinionOnStatus::new);
         npcPlugin.registerCoreComponentType("EvokeHasChestTask", BuilderFilterHasChestTask::new);
         npcPlugin.registerCoreComponentType("EvokeIsOwner", BuilderFilterIsOwner::new);
-        npcPlugin.registerCoreComponentType("EvokeOwnerHasItem", BuilderOwnerHasItem::new);
-
+        npcPlugin.registerCoreComponentType("EvokeOwnerHasItem", BuilderFilterOwnerHasItem::new);
+        npcPlugin.registerCoreComponentType("EvokeMinionHasActiveTask", BuilderFilterMinionHasActiveTask::new);
+        npcPlugin.registerCoreComponentType("EvokeCanTransferItemsToTargetNPC", BuilderFilterCanTransferItemsToTargetNPC::new);
     }
 
     private void registerSensors(NPCPlugin npcPlugin) {

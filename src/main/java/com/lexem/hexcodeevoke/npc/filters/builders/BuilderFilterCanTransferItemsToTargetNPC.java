@@ -6,20 +6,19 @@ import com.hypixel.hytale.server.npc.asset.builder.BuilderDescriptorState;
 import com.hypixel.hytale.server.npc.asset.builder.BuilderSupport;
 import com.hypixel.hytale.server.npc.corecomponents.IEntityFilter;
 import com.hypixel.hytale.server.npc.corecomponents.builders.BuilderEntityFilterBase;
-import com.lexem.hexcodeevoke.npc.filters.FilterOwnerHasItem;
+import com.lexem.hexcodeevoke.npc.filters.FilterCanTransferItemsToTargetNPC;
 
 import javax.annotation.Nonnull;
 
-public class BuilderOwnerHasItem extends BuilderEntityFilterBase {
+public class BuilderFilterCanTransferItemsToTargetNPC extends BuilderEntityFilterBase {
    protected boolean reverse;
 
-   public BuilderOwnerHasItem() {
-   }
+   public BuilderFilterCanTransferItemsToTargetNPC() {}
 
    @Nonnull
    @Override
    public String getShortDescription() {
-      return "Checks if the owner has the item.";
+      return "Checks if can transfer items between NPCs.";
    }
 
    @Nonnull
@@ -30,7 +29,7 @@ public class BuilderOwnerHasItem extends BuilderEntityFilterBase {
 
    @Nonnull
    public IEntityFilter build(@Nonnull BuilderSupport builderSupport) {
-      return new FilterOwnerHasItem(this);
+      return new FilterCanTransferItemsToTargetNPC(this);
    }
 
    @Nonnull
@@ -42,19 +41,19 @@ public class BuilderOwnerHasItem extends BuilderEntityFilterBase {
               s -> this.reverse = s,
               false,
               BuilderDescriptorState.Stable,
-              "If true, it checks whether the owner does not have the item.",
+              "If true, checks if cannot transfer items between NPCs",
               ""
       );
       return this;
+   }
+
+   public boolean getReverse() {
+      return this.reverse;
    }
 
    @Nonnull
    @Override
    public BuilderDescriptorState getBuilderDescriptorState() {
       return BuilderDescriptorState.Stable;
-   }
-
-   public boolean getReverse() {
-      return this.reverse;
    }
 }

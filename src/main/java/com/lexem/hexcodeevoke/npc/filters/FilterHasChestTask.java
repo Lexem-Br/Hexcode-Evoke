@@ -41,8 +41,6 @@ public class FilterHasChestTask extends EntityFilterBase {
 
         for (ChestTaskComponent chestTask : hexCreatureComponent.getListChestTask()) {
             if (chestTask.getTaskType() == taskType) {
-                minionComponent.setChestTask(chestTask);
-                hexCreatureComponent.removeChestTask(chestTask);
                 return true;
             }
         }

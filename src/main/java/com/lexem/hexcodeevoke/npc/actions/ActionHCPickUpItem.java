@@ -1,7 +1,6 @@
 package com.lexem.hexcodeevoke.npc.actions;
 
 import com.hypixel.hytale.component.*;
-import com.hypixel.hytale.logger.HytaleLogger;
 import com.hypixel.hytale.server.core.inventory.InventoryComponent;
 import com.hypixel.hytale.server.core.inventory.ItemStack;
 import com.hypixel.hytale.server.core.inventory.container.ItemContainer;

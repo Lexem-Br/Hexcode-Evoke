@@ -1,0 +1,165 @@
+{
+  "$Comment": "Search for an item on the task list",
+  "Class": "Instruction",
+  "Parameters": {
+    "_ImportStates": ["Main"]
+  },
+  "DefaultState": ".ReturnTheItems",
+  "StateTransitions": [
+    {
+      "$Comment": "Clear",
+      "States": [
+        {
+          "From": [ ],
+          "To": [ ]
+        }
+      ],
+      "Actions": [
+        {
+          "Type": "ReleaseTarget"
+        },
+        {
+          "Type": "ResetInstructions"
+        },
+        {
+          "Type": "PlayAnimation",
+          "Slot": "Status"
+        }
+      ]
+    }
+  ],
+  "Content":  {
+    "Instructions": [
+      {
+        "$Comment": "Return the items to the owner",
+        "Sensor": {
+          "Type": "State",
+          "State": ".ReturnTheItems"
+        },
+        "Instructions": [
+          {
+            "$Comment": "Search for the owner",
+            "Continue": true,
+            "Sensor": {
+              "Type": "Mob",
+              "Range": 100,
+              "Filters": [
+                {
+                  "Type": "EvokeIsOwner"
+                }
+              ]
+            },
+            "BodyMotion": {
+              "Type": "Seek",
+              "SlowDownDistance": 2.0,
+              "StopDistance": 1.0,
+              "RelativeSpeed": 0.5
+            }
+          },
+          {
+            "$Comment": "Is the owner nearby",
+            "Sensor": {
+              "Type": "Mob",
+              "Range": 2,
+              "LockOnTarget": true,
+              "Filters": [
+                {
+                  "Type": "EvokeIsOwner"
+                },
+                {
+                  "Type": "EvokeCanTransferItemsToTargetNPC"
+                }
+              ]
+            },
+            "Actions": [
+              {
+                "Type": "PlayAnimation",
+                "Slot": "Status",
+                "Animation": "InteractAndChestOpen"
+              },
+              {
+                "Type": "PlaySound",
+                "SoundEventId": "SFX_Chest_Wooden_Open",
+                "Once": true
+              },
+              {
+                "Type": "EvokeTargetPlayAnimation",
+                "Slot": "Status",
+                "Animation": "ChestOpen"
+              },
+              {
+                "Type": "Timeout",
+                "Delay": [1, 2],
+                "Action": {
+                  "Type": "Sequence",
+                  "Actions": [
+                    {
+                      "Type": "PlaySound",
+                      "SoundEventId": "SFX_Chest_Wooden_Close"
+                    },
+                    {
+                      "Type": "EvokeTransferItemsToTargetNPC"
+                    },
+                    {
+                      "Type": "PlayAnimation",
+                      "Slot": "Status"
+                    },
+                    {
+                      "Type": "EvokeTargetPlayAnimation",
+                      "Slot": "Status"
+                    },
+                    {
+                      "Type": "ParentState",
+                      "State": "Main"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "$Comment": "If the item was not found with the owner, remove the task from the minion",
+            "Sensor": {
+              "Type": "Mob",
+              "Range": 2,
+              "LockOnTarget": true,
+              "Filters": [
+                {
+                  "Type": "EvokeIsOwner"
+                },
+                {
+                  "Type": "EvokeCanTransferItemsToTargetNPC",
+                  "Reverse": true
+                }
+              ]
+            },
+            "Actions": [
+              {
+                "Type": "State",
+                "State": ".WaitingSlot"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "$Comment": "Waiting to have space to return the item",
+        "Sensor": {
+          "Type": "State",
+          "State": ".WaitingSlot"
+        },
+        "Actions": [
+          {
+            "Type": "Timeout",
+            "Delay": [5, 5],
+            "Action": {
+              "Type": "State",
+              "State": ".ReturnTheItems"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "Type": "Component"
+}

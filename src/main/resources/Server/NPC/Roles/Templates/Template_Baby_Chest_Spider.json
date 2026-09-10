@@ -128,6 +128,27 @@
               }
             },
             {
+              "$Comment": "If there are any items left in the inventory, return them to the mother.",
+              "Sensor": {
+                "Type": "Self",
+                "Filters": [
+                  {
+                    "Type": "EvokeHasItemsOnInventory"
+                  },
+                  {
+                    "Type": "EvokeMinionHasActiveTask",
+                    "Reverse": true
+                  }
+                ]
+              },
+              "Actions": [
+                {
+                  "Type": "State",
+                  "State": ".ReturnItems"
+                }
+              ]
+            },
+            {
               "$Comment": "Starts storing a task list item.",
               "Sensor": {
                 "Type": "Self",
@@ -139,6 +160,10 @@
                 ]
               },
               "Actions": [
+                {
+                  "Type": "EvokeTakeChestTask",
+                  "TaskType": "Store"
+                },
                 {
                   "Type": "State",
                   "State": ".StoreItem"
@@ -158,6 +183,10 @@
               },
               "Actions": [
                 {
+                  "Type": "EvokeTakeChestTask",
+                  "TaskType": "Search"
+                },
+                {
                   "Type": "State",
                   "State": ".SearchItem"
                 }
@@ -174,6 +203,21 @@
                   "State": ".Standby"
                 }
               ]
+            }
+          ]
+        },
+        {
+          "$Comment": "Return the items to the mother",
+          "Sensor": {
+            "Type": "State",
+            "State": ".ReturnItems"
+          },
+          "Instructions": [
+            {
+              "Reference": "Component_Evoke_Return_Items",
+              "Modify": {
+                "_ExportStates": ["CheckTasks"]
+              }
             }
           ]
         },
@@ -248,7 +292,7 @@
               "Actions": [
                 {
                   "Type": "Timeout",
-                  "Delay": [2, 3],
+                  "Delay": [1, 2],
                   "Action": {
                     "Type": "State",
                     "State": "CheckTasks"

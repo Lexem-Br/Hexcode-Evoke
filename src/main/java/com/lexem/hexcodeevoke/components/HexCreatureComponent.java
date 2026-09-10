@@ -274,25 +274,25 @@ public class HexCreatureComponent implements Component<EntityStore> {
         listChestMemory = newArray;
     }
 
-    public ChestMemoryComponent findChestMemoryByItemId(String itemId) {
-        if (itemId == null || itemId.isEmpty() || listChestMemory == null) {
-            return null;
+    public void updateChestMemory(Vector3d chestPosition, String[] itemsId) {
+        if (chestPosition == null || listChestMemory == null) {
+            return;
         }
+
+        String[] safeItemsId = itemsId != null ? itemsId : new String[0];
 
         for (ChestMemoryComponent memory : listChestMemory) {
             if (memory == null) continue;
 
-            String[] items = memory.getListItemsId();
-            if (items == null) continue;
-
-            for (String id : items) {
-                if (itemId.equals(id)) {
-                    return memory;
-                }
+            Vector3d pos = memory.getChestPosition();
+            if (pos != null && pos.equals(chestPosition)) {
+                memory.setListItemsId(safeItemsId);
+                return;
             }
         }
 
-        return null;
+        ChestMemoryComponent newMemory = new ChestMemoryComponent(chestPosition, safeItemsId);
+        addChestMemory(newMemory);
     }
 
     public ChestMemoryComponent findEmptyChestMemory() {

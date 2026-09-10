@@ -5,19 +5,19 @@ import com.hypixel.hytale.server.npc.asset.builder.BuilderDescriptorState;
 import com.hypixel.hytale.server.npc.asset.builder.BuilderSupport;
 import com.hypixel.hytale.server.npc.corecomponents.builders.BuilderActionBase;
 import com.hypixel.hytale.server.npc.instructions.Action;
-import com.lexem.hexcodeevoke.npc.actions.ActionRemoveTask;
+import com.lexem.hexcodeevoke.npc.actions.ActionTransferItemsToTargetNPC;
 
 import javax.annotation.Nonnull;
 
-public class BuilderRemoveMinionTask extends BuilderActionBase {
+public class BuilderActionTransferItemsToTargetNPC extends BuilderActionBase {
 
-   public BuilderRemoveMinionTask() {
+   public BuilderActionTransferItemsToTargetNPC() {
    }
 
    @Nonnull
    @Override
    public String getShortDescription() {
-      return "Remove minion task.";
+      return "Transfer items to target NPC.";
    }
 
    @Nonnull
@@ -28,7 +28,7 @@ public class BuilderRemoveMinionTask extends BuilderActionBase {
 
    @Nonnull
    public Action build(@Nonnull BuilderSupport builderSupport) {
-      return new ActionRemoveTask(this);
+      return new ActionTransferItemsToTargetNPC(this);
    }
 
    @Nonnull
@@ -38,8 +38,7 @@ public class BuilderRemoveMinionTask extends BuilderActionBase {
    }
 
    @Nonnull
-   public BuilderRemoveMinionTask readConfig(@Nonnull JsonElement data) {
+   public BuilderActionTransferItemsToTargetNPC readConfig(@Nonnull JsonElement data) {
       return this;
    }
-
 }

@@ -10,15 +10,16 @@ import com.hypixel.hytale.server.npc.instructions.ExecutionSupport;
 import com.hypixel.hytale.server.npc.sensorinfo.InfoProvider;
 import com.lexem.hexcodeevoke.components.HexCreatureMinionComponent;
 import com.lexem.hexcodeevoke.npc.actions.builders.BuilderActionTakeItemFromChestTask;
+import com.lexem.hexcodeevoke.npc.actions.builders.BuilderActionTransferItemsToTargetNPC;
 import com.lexem.hexcodeevoke.utils.InventoryUtils;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.UUID;
 
-public class ActionTakeItemFromChestTask extends ActionBase {
+public class ActionTransferItemsToTargetNPC extends ActionBase {
 
-    public ActionTakeItemFromChestTask(@Nonnull BuilderActionTakeItemFromChestTask builderActionBase) {
+    public ActionTransferItemsToTargetNPC(@Nonnull BuilderActionTransferItemsToTargetNPC builderActionBase) {
         super(builderActionBase);
     }
 
@@ -32,20 +33,20 @@ public class ActionTakeItemFromChestTask extends ActionBase {
         Ref<EntityStore> hcRef = store.getExternalData().getRefFromUUID(uuid);
         if (hcRef == null) return false;
 
-        CombinedItemContainer hcCombinedContainer = InventoryComponent.getCombined(
+        CombinedItemContainer npcContainer = InventoryComponent.getCombined(
+                store,
+                npcRef,
+                InventoryComponent.Hotbar.getComponentType()
+        );
+
+        CombinedItemContainer targetContainer = InventoryComponent.getCombined(
                 store,
                 hcRef,
                 InventoryComponent.Storage.getComponentType(),
                 InventoryComponent.Hotbar.getComponentType()
         );
 
-        CombinedItemContainer minionCombinedContainer = InventoryComponent.getCombined(
-                store,
-                npcRef,
-                InventoryComponent.Hotbar.getComponentType()
-        );
-
         String itemToTransferId = minionComponent.getChestTask().getItemId();
-        return InventoryUtils.transferAllItemsOfType(hcCombinedContainer, minionCombinedContainer, itemToTransferId, 0);
+        return InventoryUtils.transferAllItemsOfType(npcContainer, targetContainer, itemToTransferId, -1);
     }
 }

@@ -269,7 +269,7 @@
                 "Filters": [
                   {
                     "Type": "EvokeFilterNeedsMoreMinions",
-                    "DesiredQuantity": 1
+                    "DesiredQuantity": 3
                   }
                 ]
               },
@@ -287,19 +287,6 @@
                 {
                   "Type": "EvokeSpawnMinion",
                   "EntityId": "Baby_Chest_Spider"
-                },
-                {
-                  "Type": "Timeout",
-                  "Delay": [1, 1],
-                  "Action":  {
-                    "Type": "Sequence",
-                    "Actions": [
-                      {
-                        "Type": "PlayAnimation",
-                        "Slot": "Status"
-                      }
-                    ]
-                  }
                 }
               ]
             },
@@ -350,22 +337,15 @@
             "Type": "State",
             "State": ".StoreItems"
           },
-          "Instructions": [
+          "Actions": [
             {
-              "Sensor":  {
-                "Type": "Any"
-              },
-              "Actions": [
-                {
-                  "Type": "EvokeCreateTasks",
-                  "HorizontalRange": 10,
-                  "VerticalRange": 4
-                },
-                {
-                  "Type": "State",
-                  "State": ".Standby"
-                }
-              ]
+              "Type": "EvokeCreateTasks",
+              "HorizontalRange": 10,
+              "VerticalRange": 4
+            },
+            {
+              "Type": "State",
+              "State": ".Standby"
             }
           ]
         },
@@ -379,9 +359,18 @@
             {
               "Type": "Timeout",
               "Delay": [3, 3],
-              "Action": {
-                "Type": "State",
-                "State": "CheckTasks"
+              "Action":  {
+                "Type": "Sequence",
+                "Actions": [
+                  {
+                    "Type": "PlayAnimation",
+                    "Slot": "Status"
+                  },
+                  {
+                    "Type": "State",
+                    "State": "CheckTasks"
+                  }
+                ]
               }
             }
           ]

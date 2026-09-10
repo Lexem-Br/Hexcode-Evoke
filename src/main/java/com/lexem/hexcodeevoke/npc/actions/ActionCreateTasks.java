@@ -2,7 +2,6 @@ package com.lexem.hexcodeevoke.npc.actions;
 
 import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.component.Store;
-import com.hypixel.hytale.logger.HytaleLogger;
 import com.hypixel.hytale.server.core.inventory.InventoryComponent;
 import com.hypixel.hytale.server.core.inventory.ItemStack;
 import com.hypixel.hytale.server.core.inventory.container.ItemContainer;
@@ -13,7 +12,6 @@ import com.hypixel.hytale.server.npc.asset.builder.BuilderSupport;
 import com.hypixel.hytale.server.npc.corecomponents.ActionBase;
 import com.hypixel.hytale.server.npc.instructions.ExecutionSupport;
 import com.hypixel.hytale.server.npc.sensorinfo.InfoProvider;
-import com.lexem.hexcodeevoke.components.ChestMemoryComponent;
 import com.lexem.hexcodeevoke.components.ChestTaskComponent;
 import com.lexem.hexcodeevoke.components.HexCreatureComponent;
 import com.lexem.hexcodeevoke.components.HexCreatureMinionComponent;
@@ -28,7 +26,6 @@ import java.util.*;
 public class ActionCreateTasks extends ActionBase {
    private final double horizontalRange;
    private final double verticalRange;
-   private static final HytaleLogger LOGGER = HytaleLogger.forEnclosingClass();
 
    public ActionCreateTasks(@Nonnull BuilderActionCreateTasks builder,  @Nonnull BuilderSupport support) {
       super(builder);
@@ -64,42 +61,25 @@ public class ActionCreateTasks extends ActionBase {
 
       for (Vector3d chestPosition : listChestsPosition) {
          for (ItemData npcChestItem : listNPCChestItems) {
-            ChestTaskComponent chestTaskComponent = getChestTaskComponent(chestPosition, npcChestItem, hexCreatureComponent);
+            ChestTaskComponent chestTaskComponent = getChestTaskComponent(chestPosition, npcChestItem);
             hexCreatureComponent.addChestTask(chestTaskComponent);
          }
       }
 
-      LOGGER.atInfo().log("ChestTaskComponent: %s", Arrays.toString(hexCreatureComponent.getListChestTask()));
       return true;
    }
 
    private static ChestTaskComponent getChestTaskComponent(
            Vector3d chestPosition,
-           ItemData npcChestItem,
-           HexCreatureComponent hexCreatureComponent
+           ItemData npcChestItem
    ) {
-      ChestTaskComponent chestTaskComponent;
-      ChestMemoryComponent chestMemoryComponent = hexCreatureComponent.findChestMemoryByItemId(npcChestItem.itemId);
-
-      if (chestMemoryComponent != null) {
-         chestTaskComponent = new ChestTaskComponent(
-                 ChestTaskComponent.TaskType.Store,
-                 chestMemoryComponent.getChestPosition(),
-                 npcChestItem.itemId,
-                 npcChestItem.itemQuantity,
-                 false
-         );
-      } else {
-         chestTaskComponent = new ChestTaskComponent(
-                 ChestTaskComponent.TaskType.Search,
-                 chestPosition,
-                 npcChestItem.itemId,
-                 npcChestItem.itemQuantity,
-                 false
-         );
-      }
-
-      return chestTaskComponent;
+      return new ChestTaskComponent(
+              ChestTaskComponent.TaskType.Search,
+              chestPosition,
+              npcChestItem.itemId,
+              npcChestItem.itemQuantity,
+              false
+      );
    }
 
    private List<ItemData> getChestItemsId(Store<EntityStore> store, Ref<EntityStore> npcRef) {

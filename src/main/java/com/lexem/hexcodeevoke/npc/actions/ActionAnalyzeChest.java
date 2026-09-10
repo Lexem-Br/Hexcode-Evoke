@@ -21,6 +21,7 @@ import com.lexem.hexcodeevoke.components.ChestTaskComponent;
 import com.lexem.hexcodeevoke.components.HexCreatureComponent;
 import com.lexem.hexcodeevoke.components.HexCreatureMinionComponent;
 import com.lexem.hexcodeevoke.npc.actions.builders.BuilderActionAnalyzeChest;
+import com.lexem.hexcodeevoke.utils.ChestMemoryUtils;
 import com.lexem.hexcodeevoke.utils.InventoryUtils;
 import org.joml.Vector3d;
 
@@ -66,7 +67,6 @@ public class ActionAnalyzeChest extends ActionBase {
       if (itemContainerBlock == null) return false;
 
       SimpleItemContainer chestContainer = itemContainerBlock.getItemContainer();
-      String[] differentItemsOnChest = InventoryUtils.getItemIdsFromContainer(chestContainer);
 
       HexCreatureMinionComponent minionComponent = store.getComponent(npcRef, HexCreatureMinionComponent.getComponentType());
       if (minionComponent == null) return false;
@@ -77,9 +77,6 @@ public class ActionAnalyzeChest extends ActionBase {
 
       HexCreatureComponent hexCreatureComponent = store.getComponent(hcRef, HexCreatureComponent.getComponentType());
       if (hexCreatureComponent == null) return false;
-
-      ChestMemoryComponent chestMemoryComponent = new ChestMemoryComponent(chestPosition, differentItemsOnChest);
-      hexCreatureComponent.addChestMemory(chestMemoryComponent);
 
       ChestTaskComponent chestTask = minionComponent.getChestTask();
       String itemId = chestTask.getItemId();
@@ -97,7 +94,6 @@ public class ActionAnalyzeChest extends ActionBase {
                  itemId,
                  itemQuantity,
                  false
-
          );
          hexCreatureComponent.addChestTask(chestTaskComponent);
       } else {
@@ -105,7 +101,7 @@ public class ActionAnalyzeChest extends ActionBase {
          ChestTaskComponent[] tasks = hexCreatureComponent.getListChestTask();
 
          for (ChestTaskComponent task : tasks) {
-            if (task != null && task != chestTask && itemId.equals(task.getItemId())) {
+            if (task != null && task != chestTask && itemId.equals(task.getItemId()) && !task.isFinished()) {
                hasOtherTaskForItem = true;
                break;
             }
@@ -139,9 +135,8 @@ public class ActionAnalyzeChest extends ActionBase {
          }
          hexCreatureComponent.removeChestTask(chestTask);
       }
-
+      ChestMemoryUtils.registerChestInMemory(sensorInfo, store, hexCreatureComponent);
       chestTask.setFinished(true);
       return true;
    }
-
 }

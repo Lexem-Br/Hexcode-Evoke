@@ -12,7 +12,7 @@ import com.hypixel.hytale.server.npc.corecomponents.ActionBase;
 import com.hypixel.hytale.server.npc.instructions.ExecutionSupport;
 import com.hypixel.hytale.server.npc.sensorinfo.IPositionProvider;
 import com.hypixel.hytale.server.npc.sensorinfo.InfoProvider;
-import com.lexem.hexcodeevoke.npc.actions.builders.BuilderOpenChestAnimation;
+import com.lexem.hexcodeevoke.npc.actions.builders.BuilderActionOpenChestAnimation;
 import org.joml.Vector3i;
 
 import javax.annotation.Nonnull;
@@ -21,7 +21,7 @@ import javax.annotation.Nullable;
 public class ActionOpenChestAnimation extends ActionBase {
     protected boolean reverse;
 
-    public ActionOpenChestAnimation(@Nonnull BuilderOpenChestAnimation builder) {
+    public ActionOpenChestAnimation(@Nonnull BuilderActionOpenChestAnimation builder) {
         super(builder);
         this.reverse = builder.getReverse();
    }

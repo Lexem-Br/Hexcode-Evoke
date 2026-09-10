@@ -5,20 +5,21 @@ import com.hypixel.hytale.server.npc.asset.builder.BuilderDescriptorState;
 import com.hypixel.hytale.server.npc.asset.builder.BuilderSupport;
 import com.hypixel.hytale.server.npc.corecomponents.builders.BuilderActionBase;
 import com.hypixel.hytale.server.npc.instructions.Action;
-import com.lexem.hexcodeevoke.npc.actions.ActionOpenChestAnimation;
+import com.lexem.hexcodeevoke.components.ChestTaskComponent;
+import com.lexem.hexcodeevoke.npc.actions.ActionTakeChestTask;
 
 import javax.annotation.Nonnull;
 
-public class BuilderOpenChestAnimation extends BuilderActionBase {
-   protected boolean reverse;
+public class BuilderActionTakeChestTask extends BuilderActionBase {
+   protected ChestTaskComponent.TaskType taskType;
 
-   public BuilderOpenChestAnimation() {
+   public BuilderActionTakeChestTask() {
    }
 
    @Nonnull
    @Override
    public String getShortDescription() {
-      return "Remove minion task.";
+      return "Take a task to complete.";
    }
 
    @Nonnull
@@ -29,7 +30,7 @@ public class BuilderOpenChestAnimation extends BuilderActionBase {
 
    @Nonnull
    public Action build(@Nonnull BuilderSupport builderSupport) {
-      return new ActionOpenChestAnimation(this);
+      return new ActionTakeChestTask(this);
    }
 
    @Nonnull
@@ -39,20 +40,23 @@ public class BuilderOpenChestAnimation extends BuilderActionBase {
    }
 
    @Nonnull
-   public BuilderOpenChestAnimation readConfig(@Nonnull JsonElement data) {
-      this.getBoolean(
+   public BuilderActionTakeChestTask readConfig(@Nonnull JsonElement data) {
+      this.getEnum(
               data,
-              "Reverse",
-              s -> this.reverse = s,
-              false,
+              "TaskType",
+              v -> this.taskType = v,
+              ChestTaskComponent.TaskType.class,
+              ChestTaskComponent.TaskType.Search,
               BuilderDescriptorState.Stable,
-              "If true, triggers the chest-closing animation instead of the opening one.",
-              ""
+              "Specifies the task type",
+              null
       );
       return this;
    }
 
-   public boolean getReverse() {
-      return this.reverse;
+   public ChestTaskComponent.TaskType getTaskType() {
+      return this.taskType;
    }
+
+
 }

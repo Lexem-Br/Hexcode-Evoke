@@ -4,13 +4,12 @@ import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.component.Store;
 import com.hypixel.hytale.server.core.inventory.InventoryComponent;
 import com.hypixel.hytale.server.core.inventory.container.CombinedItemContainer;
-import com.hypixel.hytale.server.core.inventory.container.SimpleItemContainer;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.hypixel.hytale.server.npc.corecomponents.EntityFilterBase;
 import com.hypixel.hytale.server.npc.instructions.ExecutionSupport;
 import com.lexem.hexcodeevoke.components.HexCreatureComponent;
 import com.lexem.hexcodeevoke.components.HexCreatureMinionComponent;
-import com.lexem.hexcodeevoke.npc.filters.builders.BuilderOwnerHasItem;
+import com.lexem.hexcodeevoke.npc.filters.builders.BuilderFilterOwnerHasItem;
 import com.lexem.hexcodeevoke.utils.InventoryUtils;
 
 import javax.annotation.Nonnull;
@@ -19,7 +18,7 @@ import java.util.UUID;
 public class FilterOwnerHasItem extends EntityFilterBase {
     protected boolean reverse;
 
-    public FilterOwnerHasItem(@Nonnull BuilderOwnerHasItem builder) {
+    public FilterOwnerHasItem(@Nonnull BuilderFilterOwnerHasItem builder) {
         this.reverse = builder.getReverse();
     }
 
