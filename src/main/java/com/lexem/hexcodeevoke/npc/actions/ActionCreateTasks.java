@@ -12,6 +12,7 @@ import com.hypixel.hytale.server.npc.asset.builder.BuilderSupport;
 import com.hypixel.hytale.server.npc.corecomponents.ActionBase;
 import com.hypixel.hytale.server.npc.instructions.ExecutionSupport;
 import com.hypixel.hytale.server.npc.sensorinfo.InfoProvider;
+import com.lexem.hexcodeevoke.components.ChestMemoryComponent;
 import com.lexem.hexcodeevoke.components.ChestTaskComponent;
 import com.lexem.hexcodeevoke.components.HexCreatureComponent;
 import com.lexem.hexcodeevoke.components.HexCreatureMinionComponent;
@@ -51,35 +52,63 @@ public class ActionCreateTasks extends ActionBase {
       List<ItemData> listNPCChestItems = getChestItemsId(store, npcRef);
       if (listNPCChestItems.isEmpty()) return false;
 
-      List<Vector3d> listChestsPosition = FinderUtils.findAllChestsInRange(
-              transformComponent.getPosition(),
-              (int) Math.ceil(horizontalRange),
-              (int) Math.ceil(verticalRange),
-              world
-      );
-      if (listChestsPosition.isEmpty()) return false;
+      for (ItemData npcChestItem : listNPCChestItems) {
+         ChestMemoryComponent memoryWithItem = findChestMemoryByItemId(hexCreatureComponent, npcChestItem.itemId);
 
-      for (Vector3d chestPosition : listChestsPosition) {
-         for (ItemData npcChestItem : listNPCChestItems) {
-            ChestTaskComponent chestTaskComponent = getChestTaskComponent(chestPosition, npcChestItem);
-            hexCreatureComponent.addChestTask(chestTaskComponent);
+         if (memoryWithItem != null) {
+            ChestTaskComponent storeTask = new ChestTaskComponent(
+                    ChestTaskComponent.TaskType.Store,
+                    memoryWithItem.getChestPosition(),
+                    npcChestItem.itemId,
+                    npcChestItem.itemQuantity,
+                    false
+            );
+            hexCreatureComponent.addChestTask(storeTask);
+         } else {
+            List<Vector3d> listChestsPosition = FinderUtils.findAllChestsInRange(
+                    transformComponent.getPosition(),
+                    (int) Math.ceil(horizontalRange),
+                    (int) Math.ceil(verticalRange),
+                    world
+            );
+
+            if (listChestsPosition.isEmpty()) continue;
+
+            for (Vector3d chestPosition : listChestsPosition) {
+               ChestTaskComponent searchTask = new ChestTaskComponent(
+                       ChestTaskComponent.TaskType.Search,
+                       chestPosition,
+                       npcChestItem.itemId,
+                       npcChestItem.itemQuantity,
+                       false
+               );
+               hexCreatureComponent.addChestTask(searchTask);
+            }
          }
       }
 
       return true;
    }
 
-   private static ChestTaskComponent getChestTaskComponent(
-           Vector3d chestPosition,
-           ItemData npcChestItem
-   ) {
-      return new ChestTaskComponent(
-              ChestTaskComponent.TaskType.Search,
-              chestPosition,
-              npcChestItem.itemId,
-              npcChestItem.itemQuantity,
-              false
-      );
+   private static ChestMemoryComponent findChestMemoryByItemId(HexCreatureComponent hexCreatureComponent, String itemId) {
+      if (itemId == null || itemId.isEmpty() || hexCreatureComponent.getListChestMemory() == null) {
+         return null;
+      }
+
+      for (ChestMemoryComponent memory : hexCreatureComponent.getListChestMemory()) {
+         if (memory == null) continue;
+
+         String[] items = memory.getListItemsId();
+         if (items == null) continue;
+
+         for (String id : items) {
+            if (itemId.equals(id)) {
+               return memory;
+            }
+         }
+      }
+
+      return null;
    }
 
    private List<ItemData> getChestItemsId(Store<EntityStore> store, Ref<EntityStore> npcRef) {
@@ -133,5 +162,4 @@ public class ActionCreateTasks extends ActionBase {
    }
 
    private record ItemData(@Nonnull String itemId, int itemQuantity) {}
-
 }

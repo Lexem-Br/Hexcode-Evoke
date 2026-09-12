@@ -165,7 +165,7 @@
       "Instructions": [
         {
           "Sensor": {
-            "Type": "EvokeReadPosition",
+            "Type": "Evoke:ReadPosition",
             "Range": 30
           },
           "BodyMotion": {
@@ -213,7 +213,7 @@
                 "ExcludeOwnType": true,
                 "Filters": [
                   {
-                    "Type": "IsEvoker"
+                    "Type": "Evoke:IsEvoker"
                   }
                 ]
               },
@@ -239,7 +239,7 @@
                 "LockOnTarget": true,
                 "Filters": [
                   {
-                    "Type": "IsEvoker"
+                    "Type": "Evoke:IsEvoker"
                   }
                 ]
               },
@@ -256,12 +256,12 @@
                 "Type": "Target",
                 "Filters": [
                   {
-                    "Type": "IsEvoker"
+                    "Type": "Evoke:IsEvoker"
                   }
                 ]
               },
               "BodyMotion": {
-                "Type": "TeleportHexCreature",
+                "Type": "Evoke:Teleport",
                 "MinYOffset": 1.0,
                 "OffsetRange": [2, 3],
                 "OffsetSector": 2,

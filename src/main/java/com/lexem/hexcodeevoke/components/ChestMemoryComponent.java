@@ -10,6 +10,7 @@ import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import org.joml.Vector3d;
 
 import javax.annotation.Nullable;
+import java.util.Arrays;
 
 public class ChestMemoryComponent implements Component<EntityStore> {
     private Vector3d chestPosition = new Vector3d();
@@ -75,4 +76,11 @@ public class ChestMemoryComponent implements Component<EntityStore> {
         );
     }
 
+    @Override
+    public String toString() {
+        return "ChestMemoryComponent{" +
+                "chestPosition=" + chestPosition +
+                ", listItemsId=" + Arrays.toString(listItemsId) +
+                '}';
+    }
 }

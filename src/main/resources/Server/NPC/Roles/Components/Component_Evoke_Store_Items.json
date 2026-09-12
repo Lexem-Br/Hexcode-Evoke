@@ -10,7 +10,7 @@
         "$Comment": "Search for a chest that has available slots",
         "Continue": true,
         "Sensor":  {
-          "Type": "EvokeChestFinder",
+          "Type": "Evoke:ChestFinder",
           "HorizontalRange": 10,
           "VerticalRange": 3,
           "CheckCanStore": true
@@ -26,7 +26,7 @@
         "$Comment": "Store the items",
         "Continue": true,
         "Sensor":  {
-          "Type": "EvokeChestFinder",
+          "Type": "Evoke:ChestFinder",
           "HorizontalRange": 2,
           "VerticalRange": 3,
           "CheckCanStore": true
@@ -43,7 +43,7 @@
             "Once": true
           },
           {
-            "Type": "EvokeOpenChestAnimation"
+            "Type": "Evoke:OpenChestAnimation"
           },
           {
             "Type": "Timeout",
@@ -56,11 +56,11 @@
                   "SoundEventId": "SFX_Chest_Wooden_Close"
                 },
                 {
-                  "Type": "EvokeOpenChestAnimation",
+                  "Type": "Evoke:OpenChestAnimation",
                   "Reverse": true
                 },
                 {
-                  "Type": "EvokeStoreItems"
+                  "Type": "Evoke:StoreItems"
                 },
                 {
                   "Type": "PlayAnimation",

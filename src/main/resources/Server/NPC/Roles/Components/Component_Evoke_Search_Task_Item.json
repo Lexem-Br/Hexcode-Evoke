@@ -10,7 +10,7 @@
         "$Comment": "Search for an item on the task list",
         "Continue": true,
         "Sensor":  {
-          "Type": "EvokeSearchChestTaskPosition",
+          "Type": "Evoke:SearchChestTaskPosition",
           "HorizontalRange": 30,
           "VerticalRange": 4
         },
@@ -25,7 +25,7 @@
         "$Comment": "Store the items",
         "Continue": true,
         "Sensor":  {
-          "Type": "EvokeSearchChestTaskPosition",
+          "Type": "Evoke:SearchChestTaskPosition",
           "HorizontalRange": 2,
           "VerticalRange": 4
         },
@@ -41,7 +41,7 @@
             "Once": true
           },
           {
-            "Type": "EvokeOpenChestAnimation"
+            "Type": "Evoke:OpenChestAnimation"
           },
           {
             "Type": "Timeout",
@@ -54,11 +54,11 @@
                   "SoundEventId": "SFX_Chest_Wooden_Close"
                 },
                 {
-                  "Type": "EvokeOpenChestAnimation",
+                  "Type": "Evoke:OpenChestAnimation",
                   "Reverse": true
                 },
                 {
-                  "Type": "EvokeAnalyzeChest"
+                  "Type": "Evoke:AnalyzeChest"
                 },
                 {
                   "Type": "PlayAnimation",

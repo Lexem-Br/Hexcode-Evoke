@@ -1,12 +1,11 @@
 items.Weapon_Spellbook_Evoke.name=Evoke Book
 items.Weapon_Spellbook_Evoke.description=<b>To evoke creatures</b>\nUse it on <b>Hex items</b> to bring them to life and have them follow you
 items.Weapon.Wand.Evoke_Wand_Crude.name=Crude Evoke Wand
-items.Weapon.Wand.Evoke_Wand_Crude.description=<color is="#8888ff"><b>1</b></color> <color is="#aaaaaa">Selection</color> - <color is="#ffcc00"><b>10</b></color> <color is="#aaaaaa">Distance</color>\n\n<b>To give orders to the mannequins</b>\n\n<b>Primary</b> to send them to a location and have them stay there\n<b>Secondary</b> to have them followed again\n<b>Ability2</b> to select\n<b>Charged Ability2</b> to select all\n<b>Ability3</b> to deselect the Hex Creature\n<b>Charged Ability3</b> to deselect all Hex Creatures
+items.Weapon.Wand.Evoke_Wand_Crude.description=<color is="#8888ff"><b>1</b></color> <color is="#aaaaaa">Selection</color> - <color is="#ffcc00"><b>10</b></color> <color is="#aaaaaa">Distance</color>\n\n<b>To give orders to the mannequins</b>\n\n<b>Primary</b> to send them to a location and have them stay there\n<b>Secondary</b> to have them followed again\n<b>Ability2</b> to select\n<b>Charged Ability2</b> to select all\n<b>Ability3</b> to deselect the Hex Creature\n<b>Charged Ability3</b> to deselect all Hex Creatures\n\nArt by: Gwentor
 items.Weapon.Wand.Evoke_Wand_Wooden.name=Wooden Evoke Wand
-items.Weapon.Wand.Evoke_Wand_Wooden.description=<color is="#8888ff"><b>3</b></color> <color is="#aaaaaa">Selection</color> - <color is="#ffcc00"><b>20</b></color> <color is="#aaaaaa">Distance</color>\n\n<b>To give orders to the mannequins</b>\n\n<b>Primary</b> to send them to a location and have them stay there\n<b>Secondary</b> to have them followed again\n<b>Ability2</b> to select\n<b>Charged Ability2</b> to select all\n<b>Ability3</b> to deselect the Hex Creature\n<b>Charged Ability3</b> to deselect all Hex Creatures
+items.Weapon.Wand.Evoke_Wand_Wooden.description=<color is="#8888ff"><b>3</b></color> <color is="#aaaaaa">Selection</color> - <color is="#ffcc00"><b>20</b></color> <color is="#aaaaaa">Distance</color>\n\n<b>To give orders to the mannequins</b>\n\n<b>Primary</b> to send them to a location and have them stay there\n<b>Secondary</b> to have them followed again\n<b>Ability2</b> to select\n<b>Charged Ability2</b> to select all\n<b>Ability3</b> to deselect the Hex Creature\n<b>Charged Ability3</b> to deselect all Hex Creatures\n\nArt by: Gwentor
 items.Weapon.Wand.Evoke_Wand_Iron.name=Iron Evoke Wand
-items.Weapon.Wand.Evoke_Wand_Iron.description=<color is="#8888ff"><b>6</b></color> <color is="#aaaaaa">Selection</color> - <color is="#ffcc00"><b>30</b></color> <color is="#aaaaaa">Distance</color>\n\n<b>To give orders to the mannequins</b>\n\n<b>Primary</b> to send them to a location and have them stay there\n<b>Secondary</b> to have them followed again\n<b>Ability2</b> to select\n<b>Charged Ability2</b> to select all\n<b>Ability3</b> to deselect the Hex Creature\n<b>Charged Ability3</b> to deselect all Hex Creatures
-
+items.Weapon.Wand.Evoke_Wand_Iron.description=<color is="#8888ff"><b>6</b></color> <color is="#aaaaaa">Selection</color> - <color is="#ffcc00"><b>30</b></color> <color is="#aaaaaa">Distance</color>\n\n<b>To give orders to the mannequins</b>\n\n<b>Primary</b> to send them to a location and have them stay there\n<b>Secondary</b> to have them followed again\n<b>Ability2</b> to select\n<b>Charged Ability2</b> to select all\n<b>Ability3</b> to deselect the Hex Creature\n<b>Charged Ability3</b> to deselect all Hex Creatures\n\nArt by: Gwentor
 
 items.HexItems.Hex_Mannequin.name=Hex Mannequin
 items.HexItems.Hex_Mannequin.description=Give him one of the following items:\n- <b>Sickle</b>: Harvests crops and stores them in the nearest chest\n- <b>Watering Can</b>: Waters dry soil\n- <b>Torch</b>: Lights the way
@@ -16,7 +15,7 @@ items.HexItems.Hex_Fairy_Ice.name=Hex Fairy Ice
 items.HexItems.Hex_Homunculus.name=Homunculus
 items.HexItems.Hex_Homunculus.description=Give him one of the following items:\n- <b>Sickle</b>: Harvests crops and stores them in the nearest chest\n- <b>Watering Can</b>: Waters dry soil\n- <b>Candle</b>: Lights the way
 items.HexItems.Chest_Spider.name=Chest Spider
-items.HexItems.Chest_Spider.description=.
+items.HexItems.Chest_Spider.description=<color is="#aaaaaa">Chest memory: </color> <color is="#8888ff"><b>128</b></color>\n<color is="#aaaaaa">View distance: </color> <color is="#8888ff"><b>16</b></color>\n<color is="#aaaaaa">Minions: </color> <color is="#8888ff"><b>3</b></color>\n\nPut items inside its inventory so they get stored in chests automatically.\n\nArt by: Gwentor
 items.HexItems.Baby_Chest_Spider.name=Baby Chest Spider
 items.HexItems.Baby_Chest_Spider.description=.
 
@@ -26,7 +25,7 @@ npcRoles.Hex_Fairy.name=Hex Fairy
 npcRoles.Hex_Fairy_Void.name=Hex Fairy Void
 npcRoles.Hex_Fairy_Ice.name=Hex Fairy Ice
 npcRoles.Hex_Homunculus.name=Homunculus
-npcRoles.Hex_Homunculus.description=Give him a candle to help light up the path
+npcRoles.Hex_Homunculus.description=Give him a candle to help light up the path\n\nArt by: Gwentor
 
 workbench.benchCategories.evoke=Hexcode Evoke
 

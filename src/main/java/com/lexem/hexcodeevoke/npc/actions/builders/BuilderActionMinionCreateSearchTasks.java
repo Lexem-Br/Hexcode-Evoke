@@ -7,21 +7,21 @@ import com.hypixel.hytale.server.npc.asset.builder.holder.DoubleHolder;
 import com.hypixel.hytale.server.npc.asset.builder.validators.DoubleRangeValidator;
 import com.hypixel.hytale.server.npc.corecomponents.builders.BuilderActionBase;
 import com.hypixel.hytale.server.npc.instructions.Action;
-import com.lexem.hexcodeevoke.npc.actions.ActionCreateTasks;
+import com.lexem.hexcodeevoke.npc.actions.ActionMinionCreateSearchTasks;
 
 import javax.annotation.Nonnull;
 
-public class BuilderActionCreateTasks extends BuilderActionBase {
+public class BuilderActionMinionCreateSearchTasks extends BuilderActionBase {
    protected final DoubleHolder horizontalRange = new DoubleHolder();
    protected final DoubleHolder verticalRange = new DoubleHolder();
 
-   public BuilderActionCreateTasks() {
+   public BuilderActionMinionCreateSearchTasks() {
    }
 
    @Nonnull
    @Override
    public String getShortDescription() {
-      return "Create tasks to store items.";
+      return "Causes a minion to create search tasks..";
    }
 
    @Nonnull
@@ -32,7 +32,7 @@ public class BuilderActionCreateTasks extends BuilderActionBase {
 
    @Nonnull
    public Action build(@Nonnull BuilderSupport builderSupport) {
-      return new ActionCreateTasks(this, builderSupport);
+      return new ActionMinionCreateSearchTasks(this, builderSupport);
    }
 
    @Nonnull
@@ -42,7 +42,7 @@ public class BuilderActionCreateTasks extends BuilderActionBase {
    }
 
    @Nonnull
-   public BuilderActionCreateTasks readConfig(@Nonnull JsonElement data) {
+   public BuilderActionMinionCreateSearchTasks readConfig(@Nonnull JsonElement data) {
       this.requireDouble(data,
               "HorizontalRange",
               this.horizontalRange,
@@ -67,5 +67,4 @@ public class BuilderActionCreateTasks extends BuilderActionBase {
    public double getVerticalRange(@Nonnull BuilderSupport support) {
       return this.verticalRange.get(support.getExecutionContext());
    }
-
 }

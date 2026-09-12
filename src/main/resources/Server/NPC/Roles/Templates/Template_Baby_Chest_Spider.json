@@ -133,10 +133,10 @@
                 "Type": "Self",
                 "Filters": [
                   {
-                    "Type": "EvokeHasItemsOnInventory"
+                    "Type": "Evoke:HasItemsOnInventory"
                   },
                   {
-                    "Type": "EvokeMinionHasActiveTask",
+                    "Type": "Evoke:MinionHasActiveTask",
                     "Reverse": true
                   }
                 ]
@@ -154,14 +154,14 @@
                 "Type": "Self",
                 "Filters": [
                   {
-                    "Type": "EvokeHasChestTask",
+                    "Type": "Evoke:HasChestTask",
                     "TaskType": "Store"
                   }
                 ]
               },
               "Actions": [
                 {
-                  "Type": "EvokeTakeChestTask",
+                  "Type": "Evoke:TakeChestTask",
                   "TaskType": "Store"
                 },
                 {
@@ -176,14 +176,14 @@
                 "Type": "Self",
                 "Filters": [
                   {
-                    "Type": "EvokeHasChestTask",
+                    "Type": "Evoke:HasChestTask",
                     "TaskType": "Search"
                   }
                 ]
               },
               "Actions": [
                 {
-                  "Type": "EvokeTakeChestTask",
+                  "Type": "Evoke:TakeChestTask",
                   "TaskType": "Search"
                 },
                 {

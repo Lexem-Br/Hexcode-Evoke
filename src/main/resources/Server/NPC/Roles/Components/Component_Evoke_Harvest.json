@@ -13,7 +13,7 @@
           "Type": "Self",
           "Filters": [
             {
-              "Type": "EvokeIsInventoryFull",
+              "Type": "Evoke:IsInventoryFull",
               "Inventories": ["Hotbar", "Storage"]
             }
           ]
@@ -29,7 +29,7 @@
         "$Comment": "Search for a plantation that is ready to harvest",
         "Continue": true,
         "Sensor":  {
-          "Type": "EvokeHarvestableCropFinder",
+          "Type": "Evoke:HarvestableCropFinder",
           "HorizontalRange": 10,
           "VerticalRange": 3
         },
@@ -48,7 +48,7 @@
         "$Comment": "Harvest the crop",
         "Continue": true,
         "Sensor": {
-          "Type": "EvokeHarvestableCropFinder",
+          "Type": "Evoke:HarvestableCropFinder",
           "HorizontalRange": 2,
           "VerticalRange": 3
         },
@@ -66,7 +66,7 @@
               "Type": "Sequence",
               "Actions": [
                 {
-                  "Type": "EvokeHarvestCrop"
+                  "Type": "Evoke:HarvestCrop"
                 },
                 {
                   "Type": "PlaySound",
@@ -97,7 +97,7 @@
             {
               "Type": "Not",
               "Sensor": {
-                "Type": "EvokeHarvestableCropFinder",
+                "Type": "Evoke:HarvestableCropFinder",
                 "HorizontalRange": 10,
                 "VerticalRange": 3
               }
@@ -105,7 +105,7 @@
             {
               "Type": "Not",
               "Sensor": {
-                "Type": "EvokeReadPosition",
+                "Type": "Evoke:ReadPosition",
                 "Range": 1
               }
             }

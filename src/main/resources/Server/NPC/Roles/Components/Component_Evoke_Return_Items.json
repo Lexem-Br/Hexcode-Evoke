@@ -45,7 +45,7 @@
               "Range": 100,
               "Filters": [
                 {
-                  "Type": "EvokeIsOwner"
+                  "Type": "Evoke:IsOwner"
                 }
               ]
             },
@@ -64,10 +64,10 @@
               "LockOnTarget": true,
               "Filters": [
                 {
-                  "Type": "EvokeIsOwner"
+                  "Type": "Evoke:IsOwner"
                 },
                 {
-                  "Type": "EvokeCanTransferItemsToTargetNPC"
+                  "Type": "Evoke:CanTransferItemsToTargetNPC"
                 }
               ]
             },
@@ -83,7 +83,7 @@
                 "Once": true
               },
               {
-                "Type": "EvokeTargetPlayAnimation",
+                "Type": "Evoke:TargetPlayAnimation",
                 "Slot": "Status",
                 "Animation": "ChestOpen"
               },
@@ -98,14 +98,19 @@
                       "SoundEventId": "SFX_Chest_Wooden_Close"
                     },
                     {
-                      "Type": "EvokeTransferItemsToTargetNPC"
+                      "Type": "Evoke:TransferItemsToTargetNPC"
+                    },
+                    {
+                      "Type": "Evoke:MinionCreateSearchTasks",
+                      "HorizontalRange": 16,
+                      "VerticalRange": 4
                     },
                     {
                       "Type": "PlayAnimation",
                       "Slot": "Status"
                     },
                     {
-                      "Type": "EvokeTargetPlayAnimation",
+                      "Type": "Evoke:TargetPlayAnimation",
                       "Slot": "Status"
                     },
                     {
@@ -125,10 +130,10 @@
               "LockOnTarget": true,
               "Filters": [
                 {
-                  "Type": "EvokeIsOwner"
+                  "Type": "Evoke:IsOwner"
                 },
                 {
-                  "Type": "EvokeCanTransferItemsToTargetNPC",
+                  "Type": "Evoke:CanTransferItemsToTargetNPC",
                   "Reverse": true
                 }
               ]

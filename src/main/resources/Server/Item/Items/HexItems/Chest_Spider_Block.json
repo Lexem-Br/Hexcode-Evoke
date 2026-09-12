@@ -60,12 +60,12 @@
     "Scale": 0.3,
     "Rotation": [
       18,
-      326,
-      355
+      327,
+      350
     ],
     "Translation": [
-      2,
-      -35
+      -2,
+      -33
     ]
   },
   "ItemSoundSetId": "ISS_Blocks_Wood",

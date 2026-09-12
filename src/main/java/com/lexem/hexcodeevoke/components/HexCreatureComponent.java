@@ -7,6 +7,7 @@ import com.hypixel.hytale.codec.codecs.array.ArrayCodec;
 import com.hypixel.hytale.component.Component;
 import com.hypixel.hytale.component.ComponentType;
 import com.hypixel.hytale.component.Ref;
+import com.hypixel.hytale.logger.HytaleLogger;
 import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import org.joml.Vector3d;
@@ -17,6 +18,9 @@ import java.util.Arrays;
 import java.util.List;
 
 public class HexCreatureComponent implements Component<EntityStore> {
+    public static HytaleLogger LOGGER = HytaleLogger.forEnclosingClass();
+
+    private static final int MAX_CHEST_MEMORY = 128;
 
     private String UUID;
     private String evokerUUID;
@@ -188,10 +192,6 @@ public class HexCreatureComponent implements Component<EntityStore> {
         return listChestTask;
     }
 
-    public void setListChestTask(ChestTaskComponent[] listChestTask) {
-        this.listChestTask = listChestTask;
-    }
-
     public boolean isListChestTaskEmpty() {
         return listChestTask == null || listChestTask.length == 0;
     }
@@ -268,10 +268,25 @@ public class HexCreatureComponent implements Component<EntityStore> {
     }
 
     public void addChestMemory(ChestMemoryComponent chestMemory) {
-        ChestMemoryComponent[] newArray = new ChestMemoryComponent[listChestMemory.length + 1];
-        System.arraycopy(listChestMemory, 0, newArray, 0, listChestMemory.length);
-        newArray[listChestMemory.length] = chestMemory;
-        listChestMemory = newArray;
+        if (chestMemory == null) {
+            return;
+        }
+
+        if (listChestMemory == null) {
+            listChestMemory = new ChestMemoryComponent[0];
+        }
+
+        if (listChestMemory.length < MAX_CHEST_MEMORY) {
+            ChestMemoryComponent[] newArray = new ChestMemoryComponent[listChestMemory.length + 1];
+            System.arraycopy(listChestMemory, 0, newArray, 0, listChestMemory.length);
+            newArray[listChestMemory.length] = chestMemory;
+            listChestMemory = newArray;
+        } else {
+            ChestMemoryComponent[] newArray = new ChestMemoryComponent[MAX_CHEST_MEMORY];
+            System.arraycopy(listChestMemory, 1, newArray, 0, MAX_CHEST_MEMORY - 1);
+            newArray[MAX_CHEST_MEMORY - 1] = chestMemory;
+            listChestMemory = newArray;
+        }
     }
 
     public void updateChestMemory(Vector3d chestPosition, String[] itemsId) {

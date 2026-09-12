@@ -126,7 +126,7 @@
         {
           "Continue": true,
           "Sensor": {
-            "Type": "EvokeReadPosition",
+            "Type": "Evoke:ReadPosition",
             "Range": 30
           },
           "BodyMotion": {
@@ -138,7 +138,7 @@
         },
         {
           "Sensor": {
-            "Type": "EvokeReadPosition",
+            "Type": "Evoke:ReadPosition",
             "Range": 2
           },
           "Actions": [
@@ -197,7 +197,7 @@
             "LockOnTarget": true,
             "Filters": [
               {
-                "Type": "IsEvoker"
+                "Type": "Evoke:IsEvoker"
               }
             ]
           },
@@ -221,7 +221,7 @@
             "Type": "Target",
             "Filters": [
               {
-                "Type": "IsEvoker"
+                "Type": "Evoke:IsEvoker"
               }
             ]
           },
@@ -268,8 +268,8 @@
                 "Once": true,
                 "Filters": [
                   {
-                    "Type": "EvokeFilterNeedsMoreMinions",
-                    "DesiredQuantity": 1
+                    "Type": "Evoke:NeedsMoreMinions",
+                    "DesiredQuantity": 3
                   }
                 ]
               },
@@ -285,7 +285,7 @@
                   "Once": true
                 },
                 {
-                  "Type": "EvokeSpawnMinion",
+                  "Type": "Evoke:SpawnMinion",
                   "EntityId": "Baby_Chest_Spider"
                 }
               ]
@@ -297,14 +297,14 @@
                 "Once": true,
                 "Filters": [
                   {
-                    "Type": "EvokeHasItemsOnInventory"
+                    "Type": "Evoke:HasItemsOnInventory"
                   },
                   {
-                    "Type": "EvokeHasMinionOnStatus",
+                    "Type": "Evoke:HasMinionOnStatus",
                     "Status": "Standby"
                   },
                   {
-                    "Type": "EvokeFilterHasChestNearby",
+                    "Type": "Evoke:HasChestNearby",
                     "HorizontalRange": 16,
                     "VerticalRange": 4
                   }
@@ -339,8 +339,8 @@
           },
           "Actions": [
             {
-              "Type": "EvokeCreateTasks",
-              "HorizontalRange": 10,
+              "Type": "Evoke:CreateTasks",
+              "HorizontalRange": 16,
               "VerticalRange": 4
             },
             {
@@ -401,7 +401,7 @@
           {
             "Actions": [
               {
-                "Type": "OpenHCProfile"
+                "Type": "Evoke:OpenHCProfile"
               }
             ]
           }

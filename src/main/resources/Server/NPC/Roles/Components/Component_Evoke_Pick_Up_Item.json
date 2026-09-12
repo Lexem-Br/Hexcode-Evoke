@@ -16,7 +16,7 @@
             "Type": "Self",
             "Filters": [
               {
-                "Type": "EvokeIsInventoryFull",
+                "Type": "Evoke:IsInventoryFull",
                 "Inventories": ["Hotbar", "Storage"]
               }
             ]
@@ -31,7 +31,7 @@
             },
             "Actions": [
               {
-                "Type": "HCPickUpItem",
+                "Type": "Evoke:HCPickUpItem",
                 "Items": { "Compute": "holdableItems" },
                 "Hoover": true
               }
