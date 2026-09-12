@@ -53,7 +53,7 @@
   },
   "PlayerAnimationsId": "Item",
   "ItemSoundSetId": "ISS_Blocks_Stone",
-  "Quality": "Rare",
+  "Quality": "Uncommon",
   "MaxStack": 1,
   "IconProperties": {
     "Scale": 0.58823,

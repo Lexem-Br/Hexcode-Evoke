@@ -269,7 +269,7 @@
                 "Filters": [
                   {
                     "Type": "EvokeFilterNeedsMoreMinions",
-                    "DesiredQuantity": 3
+                    "DesiredQuantity": 1
                   }
                 ]
               },

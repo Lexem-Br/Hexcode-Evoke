@@ -19,6 +19,14 @@
   "MaxScale": 1,
   "DefaultAttachments": [],
   "AnimationSets": {
+    "Laydown": {
+      "Animations": [
+        {
+          "Animation": "NPC/Chest_Spider/Animations/Laydown.blockyanim",
+          "Looping": false
+        }
+      ]
+    },
     "Interact": {
       "Animations": [
         {
@@ -65,7 +73,7 @@
     "Walk": {
       "Animations": [
         {
-          "Animation": "NPC/Beast/Spider/Animations/Default/Walk.blockyanim"
+          "Animation": "NPC/Chest_Spider/Animations/Walk.blockyanim"
         }
       ]
     },
@@ -79,7 +87,7 @@
     "Run": {
       "Animations": [
         {
-          "Animation": "NPC/Beast/Spider/Animations/Default/Run.blockyanim"
+          "Animation": "NPC/Chest_Spider/Animations/Run.blockyanim"
         }
       ]
     },
@@ -210,18 +218,10 @@
         }
       ]
     },
-    "Laydown": {
-      "Animations": [
-        {
-          "Animation": "NPC/Beast/Spider/Animations/Default/Laydown.blockyanim",
-          "Looping": false
-        }
-      ]
-    },
     "Sleep": {
       "Animations": [
         {
-          "Animation": "NPC/Beast/Spider/Animations/Default/Sleep.blockyanim"
+          "Animation": "NPC/Chest_Spider/Animations/Sleep.blockyanim"
         }
       ]
     },
