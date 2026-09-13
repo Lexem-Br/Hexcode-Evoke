@@ -1,0 +1,231 @@
+{
+  "$Comment": "Search for an item on the task list",
+  "Class": "Instruction",
+  "Parameters": {
+    "_ImportStates": ["Main"]
+  },
+  "DefaultState": ".TakingTheItem",
+  "StateTransitions": [
+    {
+      "$Comment": "Clear",
+      "States": [
+        {
+          "From": [ ],
+          "To": [ ]
+        }
+      ],
+      "Actions": [
+        {
+          "Type": "ReleaseTarget"
+        },
+        {
+          "Type": "ResetInstructions"
+        },
+        {
+          "Type": "PlayAnimation",
+          "Slot": "Status"
+        }
+      ]
+    }
+  ],
+  "Content":  {
+    "Instructions": [
+      {
+        "$Comment": "Store a task list item",
+        "Sensor": {
+          "Type": "State",
+          "State": ".TakingTheItem"
+        },
+        "Instructions": [
+          {
+            "$Comment": "Search for the owner",
+            "Continue": true,
+            "Sensor": {
+              "Type": "Mob",
+              "Range": 100,
+              "Filters": [
+                {
+                  "Type": "Evoke:IsOwner"
+                }
+              ]
+            },
+            "BodyMotion": {
+              "Type": "Seek",
+              "SlowDownDistance": 2.0,
+              "StopDistance": 1.0,
+              "RelativeSpeed": 0.5
+            }
+          },
+          {
+            "$Comment": "Is the owner nearby",
+            "Sensor": {
+              "Type": "Mob",
+              "Range": 2,
+              "LockOnTarget": true,
+              "Filters": [
+                {
+                  "Type": "Evoke:IsOwner"
+                },
+                {
+                  "Type": "Evoke:OwnerHasItem"
+                }
+              ]
+            },
+            "Actions": [
+              {
+                "Type": "PlayAnimation",
+                "Slot": "Status",
+                "Animation": "InteractAndChestOpen"
+              },
+              {
+                "Type": "PlaySound",
+                "SoundEventId": "SFX_Chest_Wooden_Open",
+                "Once": true
+              },
+              {
+                "Type": "Evoke:TargetPlayAnimation",
+                "Slot": "Status",
+                "Animation": "ChestOpen"
+              },
+              {
+                "Type": "Timeout",
+                "Delay": [1, 2],
+                "Action": {
+                  "Type": "Sequence",
+                  "Actions": [
+                    {
+                      "Type": "PlaySound",
+                      "SoundEventId": "SFX_Chest_Wooden_Close"
+                    },
+                    {
+                      "Type": "Evoke:TakeItemFromChestTask"
+                    },
+                    {
+                      "Type": "PlayAnimation",
+                      "Slot": "Status"
+                    },
+                    {
+                      "Type": "Evoke:TargetPlayAnimation",
+                      "Slot": "Status"
+                    },
+                    {
+                      "Type": "State",
+                      "State": ".StoringItem"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "$Comment": "If the item was not found with the owner, remove the task from the minion",
+            "Sensor": {
+              "Type": "Mob",
+              "Range": 2,
+              "LockOnTarget": true,
+              "Filters": [
+                {
+                  "Type": "Evoke:IsOwner"
+                },
+                {
+                  "Type": "Evoke:OwnerHasItem",
+                  "Reverse": true
+                }
+              ]
+            },
+            "Actions": [
+              {
+                "Type": "Evoke:RemoveMinionTask"
+              },
+              {
+                "Type": "ParentState",
+                "State": "Main"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "$Comment": "Store a task list item",
+        "Sensor": {
+          "Type": "State",
+          "State": ".StoringItem"
+        },
+        "Instructions": [
+          {
+            "$Comment": "Search for an chest on the chest task",
+            "Continue": true,
+            "Sensor":  {
+              "Type": "Evoke:SearchChestTaskPosition",
+              "HorizontalRange": 30,
+              "VerticalRange": 3
+            },
+            "BodyMotion": {
+              "Type": "Seek",
+              "SlowDownDistance": 2.0,
+              "StopDistance": 1.0,
+              "RelativeSpeed": 0.5
+            }
+          },
+          {
+            "$Comment": "Store the items",
+            "Continue": true,
+            "Sensor":  {
+              "Type": "Evoke:SearchChestTaskPosition",
+              "HorizontalRange": 2,
+              "VerticalRange": 3
+            },
+            "Actions": [
+              {
+                "Type": "PlayAnimation",
+                "Slot": "Status",
+                "Animation": "InteractAndChestOpen"
+              },
+              {
+                "Type": "PlaySound",
+                "SoundEventId": "SFX_Chest_Wooden_Open",
+                "Once": true
+              },
+              {
+                "Type": "Evoke:OpenChestAnimation"
+              },
+              {
+                "Type": "Timeout",
+                "Delay": [1, 2],
+                "Action": {
+                  "Type": "Sequence",
+                  "Actions": [
+                    {
+                      "Type": "PlaySound",
+                      "SoundEventId": "SFX_Chest_Wooden_Close"
+                    },
+                    {
+                      "Type": "Evoke:OpenChestAnimation",
+                      "Reverse": true
+                    },
+                    {
+                      "Type": "Evoke:StoreItems",
+                      "SkipHotbarSlotZero": true
+                    },
+                    {
+                      "Type": "Evoke:RemoveMinionTask"
+                    },
+                    {
+                      "Type": "PlayAnimation",
+                      "Slot": "Status"
+                    },
+                    {
+                      "Type": "State",
+                      "State": ".TakingTheItem"
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "Type": "Component"
+}

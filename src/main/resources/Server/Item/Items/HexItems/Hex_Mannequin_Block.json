@@ -9,7 +9,7 @@
     "Input": [
       {
         "ResourceTypeId": "Wood_Trunk",
-        "Quantity": 2
+        "Quantity": 5
       },
       {
         "ItemId": "Ingredient_Stick",
@@ -21,7 +21,7 @@
       },
       {
         "ItemId": "Ingredient_Life_Essence",
-        "Quantity": 25
+        "Quantity": 50
       }
     ],
     "BenchRequirement": [
@@ -74,6 +74,6 @@
     ]
   },
   "ItemSoundSetId": "ISS_Blocks_Wood",
-  "Quality": "Rare",
+  "Quality": "Uncommon",
   "MaxStack": 1
 }

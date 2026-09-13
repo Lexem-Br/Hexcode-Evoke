@@ -10,7 +10,7 @@
         "$Comment": "Search for dry soil",
         "Continue": true,
         "Sensor":  {
-          "Type": "EvokeWettableSoilFinder",
+          "Type": "Evoke:WettableSoilFinder",
           "HorizontalRange": 10,
           "VerticalRange": 3
         },
@@ -25,7 +25,7 @@
         "$Comment": "Water soil",
         "Continue": true,
         "Sensor": {
-          "Type": "EvokeWettableSoilFinder",
+          "Type": "Evoke:WettableSoilFinder",
           "HorizontalRange": 2,
           "VerticalRange": 3
         },
@@ -43,7 +43,7 @@
               "Type": "Sequence",
               "Actions": [
                 {
-                  "Type": "EvokeWaterSoil"
+                  "Type": "Evoke:WaterSoil"
                 },
                 {
                   "Type": "PlaySound",
@@ -70,7 +70,7 @@
             {
               "Type": "Not",
               "Sensor": {
-                "Type": "EvokeWettableSoilFinder",
+                "Type": "Evoke:WettableSoilFinder",
                 "HorizontalRange": 10,
                 "VerticalRange": 3
               }
@@ -78,7 +78,7 @@
             {
               "Type": "Not",
               "Sensor": {
-                "Type": "EvokeReadPosition",
+                "Type": "Evoke:ReadPosition",
                 "Range": 1
               }
             }

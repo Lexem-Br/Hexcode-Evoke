@@ -6,7 +6,6 @@ import com.hypixel.hytale.server.npc.asset.builder.BuilderSupport;
 import com.hypixel.hytale.server.npc.corecomponents.builders.BuilderActionBase;
 import com.hypixel.hytale.server.npc.instructions.Action;
 import com.lexem.hexcodeevoke.npc.actions.ActionHarvestCrop;
-import com.lexem.hexcodeevoke.npc.actions.ActionOpenHCProfile;
 
 import javax.annotation.Nonnull;
 

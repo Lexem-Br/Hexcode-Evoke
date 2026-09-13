@@ -4,27 +4,29 @@ import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.component.Store;
 import com.hypixel.hytale.logger.HytaleLogger;
 import com.hypixel.hytale.math.vector.Vector3dUtil;
-import com.hypixel.hytale.server.core.entity.group.EntityGroup;
 import com.hypixel.hytale.server.core.modules.entity.component.TransformComponent;
-import com.hypixel.hytale.server.core.universe.PlayerRef;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
-import com.hypixel.hytale.server.flock.FlockMembership;
 import com.hypixel.hytale.server.npc.asset.builder.BuilderSupport;
 import com.hypixel.hytale.server.npc.corecomponents.SensorBase;
 import com.hypixel.hytale.server.npc.instructions.ExecutionSupport;
 import com.hypixel.hytale.server.npc.sensorinfo.InfoProvider;
 import com.hypixel.hytale.server.npc.sensorinfo.PositionProvider;
 import com.lexem.hexcodeevoke.components.EvokerComponent;
+import com.lexem.hexcodeevoke.components.HexCreatureComponent;
 import com.lexem.hexcodeevoke.npc.sensors.builders.BuilderSensorEvokeReadPosition;
 import org.joml.Vector3d;
 
 import javax.annotation.Nonnull;
+import java.util.UUID;
 
 public class SensorEvokeReadPosition extends SensorBase {
    protected final double minRange;
    protected final double range;
    protected final PositionProvider positionProvider = new PositionProvider();
    private static final HytaleLogger LOGGER = HytaleLogger.forEnclosingClass();
+
+   private static final double BASE_DISTANCE = 2.0;
+   private static final double DISTANCE_INCREMENT = 0.5;
 
    public SensorEvokeReadPosition(@Nonnull BuilderSensorEvokeReadPosition builder, @Nonnull BuilderSupport support) {
       super(builder);
@@ -51,11 +53,8 @@ public class SensorEvokeReadPosition extends SensorBase {
 
             int qtdHexCreatures = evoker.getSelectedHexCreatures().length;
             double dist = transformComponent.getPosition().distanceSquared(position);
-            if (
-                  (qtdHexCreatures == 1 && dist < 1.0) ||
-                  (qtdHexCreatures == 2 && dist < 2.0) ||
-                  (qtdHexCreatures >= 3 && dist < 2.5)
-            ) {
+
+            if (isWithinAllowedDistance(qtdHexCreatures, dist)) {
                this.positionProvider.clear();
                return false;
             } else if (!(dist > this.range * this.range) && !(dist < this.minRange * this.minRange)) {
@@ -69,24 +68,29 @@ public class SensorEvokeReadPosition extends SensorBase {
       }
    }
 
-   private EvokerComponent getEvoker(Ref<EntityStore> ref, Store<EntityStore> store) {
-      FlockMembership membership = store.getComponent(ref, FlockMembership.getComponentType());
-      if (membership == null) {return null;}
 
-      EntityGroup group = null;
-      Ref<EntityStore> flockReference = membership.getFlockRef();
-      if (flockReference != null && flockReference.isValid()) {
-         group = store.getComponent(flockReference, EntityGroup.getComponentType());
+   private boolean isWithinAllowedDistance(int qtdHexCreatures, double dist) {
+      if (qtdHexCreatures == 1) {
+         return dist < 0.1;
       }
-      if (group == null || group.getLeaderRef() == null) {return null;}
 
-      PlayerRef playerRef = store.getComponent(group.getLeaderRef(), PlayerRef.getComponentType());
+      if (qtdHexCreatures >= 2) {
+         double maxDistance = BASE_DISTANCE + (qtdHexCreatures - 2) * DISTANCE_INCREMENT;
+         return dist < maxDistance;
+      }
+
+      return false;
+   }
+
+   private EvokerComponent getEvoker(Ref<EntityStore> ref, Store<EntityStore> store) {
+      HexCreatureComponent hexCreatureComponent = store.getComponent(ref, HexCreatureComponent.getComponentType());
+      if (hexCreatureComponent == null) {return null;}
+
+      UUID playerUUID = UUID.fromString(hexCreatureComponent.getEvokerUUID());
+      Ref<EntityStore> playerRef = store.getExternalData().getRefFromUUID(playerUUID);
       if (playerRef == null) {return null;}
 
-      Ref<EntityStore> playerEntityRef = playerRef.getReference();
-      if (playerEntityRef == null) {return null;}
-
-      return store.getComponent(playerEntityRef, EvokerComponent.getComponentType());
+      return store.getComponent(playerRef, EvokerComponent.getComponentType());
    }
 
    private Vector3d getPostion(EvokerComponent evoker) {

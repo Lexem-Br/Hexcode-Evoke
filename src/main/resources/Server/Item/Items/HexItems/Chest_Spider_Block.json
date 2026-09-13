@@ -1,0 +1,74 @@
+{
+  "TranslationProperties": {
+    "Name": "evoke.items.HexItems.Chest_Spider.name",
+    "Description": "evoke.items.HexItems.Chest_Spider.description"
+  },
+  "Icon": "Icons/ItemsGenerated/Chest_Spider_Block.png",
+  "Recipe": {
+    "TimeSeconds": 1,
+    "Input": [
+      {
+        "ResourceTypeId": "Wood_Trunk",
+        "Quantity": 20
+      },
+      {
+        "ItemId": "Ingredient_Stick",
+        "Quantity": 24
+      },
+      {
+        "ItemId": "Ingredient_Life_Essence_Concentrated",
+        "Quantity": 5
+      }
+    ],
+    "BenchRequirement": [
+      {
+        "Id": "Arcanebench",
+        "Categories": [
+          "Arcane_Hexcode_Evoke"
+        ]
+      }
+    ]
+  },
+  "BlockType": {
+    "Material": "Solid",
+    "DrawType": "Model",
+    "Opacity": "Transparent",
+    "CustomModel": "Blocks/Chest_Spider/Model.blockymodel",
+    "CustomModelTexture": [
+      {
+        "Texture": "Blocks/Chest_Spider/Texture.png",
+        "Weight": 1
+      }
+    ],
+    "VariantRotation": "NESW",
+    "Flags": {},
+    "Gathering": {
+      "Breaking": {
+        "GatherType": "Woods"
+      }
+    },
+    "BlockSoundSetId": "Wood",
+    "PhysicalMaterialId": "Wood",
+    "ParticleColor": "#65482d",
+    "BlockParticleSetId": "Wood",
+    "TextureComputedColor": "#67412B",
+    "RequiresAlphaBlending": false,
+    "CustomModelScale": 0.5
+  },
+  "PlayerAnimationsId": "Block",
+  "IconProperties": {
+    "Scale": 0.3,
+    "Rotation": [
+      18,
+      327,
+      350
+    ],
+    "Translation": [
+      -2,
+      -33
+    ]
+  },
+  "ItemSoundSetId": "ISS_Blocks_Wood",
+  "Quality": "Rare",
+  "MaxStack": 1
+}

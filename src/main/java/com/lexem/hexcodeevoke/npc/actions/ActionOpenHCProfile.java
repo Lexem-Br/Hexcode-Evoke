@@ -18,33 +18,28 @@ import javax.annotation.Nullable;
 import java.util.UUID;
 
 public class ActionOpenHCProfile extends ActionBase {
-   private String pageName = "HCProfilePage";
-   private String cardName = "HCProfileSlotEntry";
-
-
-   public ActionOpenHCProfile(@Nonnull BuilderActionOpenHCProfile builder, @Nonnull BuilderSupport support) {
+    public ActionOpenHCProfile(@Nonnull BuilderActionOpenHCProfile builder) {
       super(builder);
    }
 
-   @Override
-   public boolean execute(@Nonnull Ref<EntityStore> npcRef, @Nonnull ExecutionSupport executionSupport, @Nullable InfoProvider sensorInfo, double dt, @Nonnull Store<EntityStore> store) {
-      super.execute(npcRef, executionSupport, sensorInfo, dt, store);
+    @Override
+    public boolean execute(@Nonnull Ref<EntityStore> npcRef, @Nonnull ExecutionSupport executionSupport, @Nullable InfoProvider sensorInfo, double dt, @Nonnull Store<EntityStore> store) {
+        super.execute(npcRef, executionSupport, sensorInfo, dt, store);
 
-      HexCreatureComponent hexCreatureComponent = store.getComponent(npcRef, HexCreatureComponent.getComponentType());
-      if (hexCreatureComponent == null) {return false;}
+        Ref<EntityStore> refESPlayer = executionSupport.getStateSupport().getInteractionIterationTarget();
+        if (refESPlayer == null || !refESPlayer.isValid()) return false;
 
-      Ref<EntityStore> refESPlayer = store.getExternalData().getRefFromUUID(UUID.fromString(hexCreatureComponent.getEvokerUUID()));
-      if (refESPlayer == null) return false;
+        PlayerRef playerRef = store.getComponent(refESPlayer, PlayerRef.getComponentType());
+        if (playerRef == null) return false;
 
-      PlayerRef playerRef = store.getComponent(refESPlayer, PlayerRef.getComponentType());
-      if (playerRef == null) { return false; }
+        Player player = store.getComponent(refESPlayer, Player.getComponentType());
+        if (player == null) return false;
 
-      Player player = store.getComponent(refESPlayer, Player.getComponentType());
-      if (player == null) { return false; }
+        String cardName = "HCProfileSlotEntry";
+        String pageName = "HCProfilePage";
+        HCProfilePage hcProfilePage = new HCProfilePage(playerRef, npcRef, pageName, cardName, store);
+        player.getPageManager().openCustomPage(refESPlayer, store, hcProfilePage);
 
-      HCProfilePage hcProfilePage = new HCProfilePage(playerRef, npcRef, pageName, cardName);
-      player.getPageManager().openCustomPage(refESPlayer, store, hcProfilePage);
-
-      return true;
-   }
+        return true;
+    }
 }

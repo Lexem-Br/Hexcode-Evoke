@@ -1,0 +1,308 @@
+{
+  "StartState": "CheckTasks",
+  "Type": "Abstract",
+  "Invulnerable": false,
+  "Parameters": {
+    "Appearance": {
+      "Value": "Baby_Chest_Spider",
+      "Description": "Model to be used."
+    },
+    "NameTranslationKey": {
+      "Value": "Baby Chest Spider",
+      "Description": "Translation key for NPC name display"
+    }
+  },
+  "IsMemory": false,
+  "BreathesInWater": true,
+  "Appearance": {"Compute": "Appearance"},
+  "DefaultNPCAttitude": "Ignore",
+  "DefaultPlayerAttitude": "Ignore",
+  "ApplySeparation": true,
+  "SeparationDistance": 1.0,
+  "SeparationWeight": 0.6,
+  "InventorySize": 0,
+  "HotbarSize": 3,
+  "OffHandSlots": 1,
+  "DefaultOffHandSlot": 0,
+  "PickupDropOnDeath": true,
+  "MaxHealth": 50,
+  "KnockbackScale": 0.5,
+  "NameTranslationKey": {"Compute": "NameTranslationKey"},
+  "MotionControllerList": [
+    {
+      "Type": "Walk",
+      "MaxWalkSpeed": 7,
+      "Gravity": 10,
+      "RunThreshold": 0.3,
+      "MaxFallSpeed": 15,
+      "MaxRotationSpeed": 360,
+      "Acceleration": 8,
+      "MaxClimbHeight": 1,
+      "MaxDropHeight": 3
+    }
+  ],
+  "StateTransitions": [
+    {
+      "$Comment": "Clear",
+      "States": [
+        {
+          "From": [ ],
+          "To": [ ]
+        }
+      ],
+      "Actions": [
+        {
+          "Type": "ReleaseTarget"
+        },
+        {
+          "Type": "ResetInstructions"
+        },
+        {
+          "Type": "PlayAnimation",
+          "Slot": "Status"
+        }
+      ]
+    }
+  ],
+  "Instructions": [
+    {
+      "$Comment": "Despawn if mother not found",
+      "Continue": true,
+      "Sensor":  {
+        "Type": "Not",
+        "Sensor": {
+          "Type": "FlockLeader"
+        }
+      },
+      "Actions": [
+        {
+          "Type": "SpawnParticles",
+          "Offset": [ 0, 0.5, 0 ],
+          "ParticleSystem": "Effect_Death",
+          "Once": true
+        },
+        {
+          "Type": "Despawn"
+        }
+      ]
+    },
+    {
+      "$Comment": "Check tasks to do",
+      "Continue": true,
+      "Sensor": {
+        "Type": "State",
+        "State": "CheckTasks"
+      },
+      "Instructions": [
+        {
+          "Sensor": {
+            "Type": "State",
+            "State": ".Default"
+          },
+          "Instructions": [
+            {
+              "$Comment": "Follow the mother",
+              "Continue": true,
+              "Sensor": {
+                "Type": "And",
+                "Sensors": [
+                  {
+                    "Type": "FlockLeader"
+                  },
+                  {
+                    "Type": "Self",
+                    "Filters": [
+                      {
+                        "Type": "Flock",
+                        "FlockStatus": "Member"
+                      }
+                    ]
+                  }
+                ]
+              },
+              "BodyMotion": {
+                "Type": "Seek",
+                "SlowDownDistance": 3,
+                "StopDistance": 2,
+                "RelativeSpeed": 0.5
+              }
+            },
+            {
+              "$Comment": "If there are any items left in the inventory, return them to the mother.",
+              "Sensor": {
+                "Type": "Self",
+                "Filters": [
+                  {
+                    "Type": "Evoke:HasItemsOnInventory"
+                  },
+                  {
+                    "Type": "Evoke:MinionHasActiveTask",
+                    "Reverse": true
+                  }
+                ]
+              },
+              "Actions": [
+                {
+                  "Type": "State",
+                  "State": ".ReturnItems"
+                }
+              ]
+            },
+            {
+              "$Comment": "Starts storing a task list item.",
+              "Sensor": {
+                "Type": "Self",
+                "Filters": [
+                  {
+                    "Type": "Evoke:HasChestTask",
+                    "TaskType": "Store"
+                  }
+                ]
+              },
+              "Actions": [
+                {
+                  "Type": "Evoke:TakeChestTask",
+                  "TaskType": "Store"
+                },
+                {
+                  "Type": "State",
+                  "State": ".StoreItem"
+                }
+              ]
+            },
+            {
+              "$Comment": "Start searching for an item on the task list",
+              "Sensor": {
+                "Type": "Self",
+                "Filters": [
+                  {
+                    "Type": "Evoke:HasChestTask",
+                    "TaskType": "Search"
+                  }
+                ]
+              },
+              "Actions": [
+                {
+                  "Type": "Evoke:TakeChestTask",
+                  "TaskType": "Search"
+                },
+                {
+                  "Type": "State",
+                  "State": ".SearchItem"
+                }
+              ]
+            },
+            {
+              "$Comment": "Returns to standby mode",
+              "Sensor": {
+                "Type": "Any"
+              },
+              "Actions": [
+                {
+                  "Type": "State",
+                  "State": ".Standby"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$Comment": "Return the items to the mother",
+          "Sensor": {
+            "Type": "State",
+            "State": ".ReturnItems"
+          },
+          "Instructions": [
+            {
+              "Reference": "Component_Evoke_Return_Items",
+              "Modify": {
+                "_ExportStates": ["CheckTasks"]
+              }
+            }
+          ]
+        },
+        {
+          "$Comment": "Store a task list item",
+          "Sensor": {
+            "Type": "State",
+            "State": ".StoreItem"
+          },
+          "Instructions": [
+            {
+              "Reference": "Component_Evoke_Store_Task_Item",
+              "Modify": {
+                "_ExportStates": ["CheckTasks"]
+              }
+            }
+          ]
+        },
+        {
+          "$Comment": "Search for an item on the task list",
+          "Sensor": {
+            "Type": "State",
+            "State": ".SearchItem"
+          },
+          "Instructions": [
+            {
+              "Reference": "Component_Evoke_Search_Task_Item",
+              "Modify": {
+                "_ExportStates": ["CheckTasks"]
+              }
+            }
+          ]
+        },
+        {
+          "$Comment": "Standby state",
+          "Sensor": {
+            "Type": "State",
+            "State": ".Standby"
+          },
+          "Instructions": [
+            {
+              "$Comment": "Follow the mother",
+              "Continue": true,
+              "Sensor": {
+                "Type": "And",
+                "Sensors": [
+                  {
+                    "Type": "FlockLeader"
+                  },
+                  {
+                    "Type": "Self",
+                    "Filters": [
+                      {
+                        "Type": "Flock",
+                        "FlockStatus": "Member"
+                      }
+                    ]
+                  }
+                ]
+              },
+              "BodyMotion": {
+                "Type": "Seek",
+                "SlowDownDistance": 3,
+                "StopDistance": 2,
+                "RelativeSpeed": 0.5
+              }
+            },
+            {
+              "Sensor": {
+                "Type": "Any"
+              },
+              "Actions": [
+                {
+                  "Type": "Timeout",
+                  "Delay": [1, 2],
+                  "Action": {
+                    "Type": "State",
+                    "State": "CheckTasks"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

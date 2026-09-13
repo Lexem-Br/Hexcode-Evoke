@@ -2,6 +2,7 @@ package com.lexem.hexcodeevoke.npc.actions;
 
 import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.component.Store;
+import com.hypixel.hytale.logger.HytaleLogger;
 import com.hypixel.hytale.math.util.ChunkUtil;
 import com.hypixel.hytale.server.core.inventory.container.SimpleItemContainer;
 import com.hypixel.hytale.server.core.modules.block.BlockModule;
@@ -21,9 +22,11 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 public class ActionStoreItems extends ActionBase {
+    protected boolean skipHotbarSlotZero;
 
     public ActionStoreItems(@Nonnull BuilderActionStoreItems builderActionBase) {
         super(builderActionBase);
+        this.skipHotbarSlotZero = builderActionBase.getSkipHotbarSlotZero();
     }
 
     public boolean execute(@Nonnull Ref<EntityStore> npcRef, @Nonnull ExecutionSupport executionSupport, @Nullable InfoProvider sensorInfo, double dt, @Nonnull Store<EntityStore> store) {
@@ -58,10 +61,11 @@ public class ActionStoreItems extends ActionBase {
 
         SimpleItemContainer chestContainer = itemContainerBlock.getItemContainer();
 
-        if (!InventoryUtils.canAddAnyItemToContainerNPC(chestContainer, npcRef, store)) {
+        if (!InventoryUtils.canAddAnyItemToContainerNPC(chestContainer, npcRef, store, skipHotbarSlotZero)) {
             return false;
         }
 
-        return InventoryUtils.transferItemsToChestNPC(npcRef, store, chestContainer);
+        InventoryUtils.transferItemsToChestNPC(npcRef, store, chestContainer, skipHotbarSlotZero);
+        return true;
     }
 }

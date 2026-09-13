@@ -1,0 +1,14 @@
+{
+  "Type": "Variant",
+  "Reference": "Template_Baby_Chest_Spider",
+  "Modify": {
+    "Appearance": "Baby_Chest_Spider",
+    "NameTranslationKey": { "Compute": "NameTranslationKey" }
+  },
+  "Parameters": {
+    "NameTranslationKey": {
+      "Value": "evoke.items.HexItems.Baby_Chest_Spider.name",
+      "Description": "Translation key for NPC name display"
+    }
+  }
+}
