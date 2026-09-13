@@ -1,0 +1,79 @@
+{
+  "$Comment": "Search for an item on the task list",
+  "Class": "Instruction",
+  "Parameters": {
+    "_ImportStates": ["Main"]
+  },
+  "Content":  {
+    "Instructions": [
+      {
+        "$Comment": "Search for an item on the task list",
+        "Continue": true,
+        "Sensor":  {
+          "Type": "Evoke:SearchChestTaskPosition",
+          "HorizontalRange": 30,
+          "VerticalRange": 3
+        },
+        "BodyMotion": {
+          "Type": "Seek",
+          "SlowDownDistance": 2.0,
+          "StopDistance": 1.0,
+          "RelativeSpeed": 0.5
+        }
+      },
+      {
+        "$Comment": "Store the items",
+        "Continue": true,
+        "Sensor":  {
+          "Type": "Evoke:SearchChestTaskPosition",
+          "HorizontalRange": 2,
+          "VerticalRange": 3
+        },
+        "Actions": [
+          {
+            "Type": "PlayAnimation",
+            "Slot": "Status",
+            "Animation": "Interact"
+          },
+          {
+            "Type": "PlaySound",
+            "SoundEventId": "SFX_Chest_Wooden_Open",
+            "Once": true
+          },
+          {
+            "Type": "Evoke:OpenChestAnimation"
+          },
+          {
+            "Type": "Timeout",
+            "Delay": [1, 2],
+            "Action": {
+              "Type": "Sequence",
+              "Actions": [
+                {
+                  "Type": "PlaySound",
+                  "SoundEventId": "SFX_Chest_Wooden_Close"
+                },
+                {
+                  "Type": "Evoke:OpenChestAnimation",
+                  "Reverse": true
+                },
+                {
+                  "Type": "Evoke:AnalyzeChest"
+                },
+                {
+                  "Type": "PlayAnimation",
+                  "Slot": "Status"
+                },
+                {
+                  "Type": "ParentState",
+                  "State": "Main"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "Type": "Component"
+}

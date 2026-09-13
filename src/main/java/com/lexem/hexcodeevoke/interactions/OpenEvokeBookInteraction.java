@@ -58,7 +58,7 @@ public class OpenEvokeBookInteraction extends SimpleInteraction {
 
             EvokerComponent evoker = store.getComponent(refESPlayer, EvokerComponent.getComponentType());
             if (evoker != null && evoker.getHexCreatureUUIDs() != null && evoker.getHexCreatureUUIDs().length > 0) {
-                evoker.deleteUnusedHexCreatureUUID(world, evoker.getHexCreatureUUIDs());
+                evoker.deleteUnusedHexCreatureUUID(world);
             }
 
             Player player = store.getComponent(refESPlayer, Player.getComponentType());

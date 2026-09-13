@@ -1,0 +1,324 @@
+<mxfile host="app.diagrams.net">
+  <diagram name="Página-1" id="qx6DC2YIXYyNRQPG3vZk">
+    <mxGraphModel dx="2349" dy="842" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="epAPdeqS5fcndvVQvPjk-217" edge="1" parent="1" source="epAPdeqS5fcndvVQvPjk-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" target="epAPdeqS5fcndvVQvPjk-194">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="epAPdeqS5fcndvVQvPjk-1" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;aspect=fixed;" value="Item added to chest" vertex="1">
+          <mxGeometry height="80" width="80" x="80" y="360" as="geometry" />
+        </mxCell>
+        <mxCell id="epAPdeqS5fcndvVQvPjk-207" edge="1" parent="1" source="epAPdeqS5fcndvVQvPjk-2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="epAPdeqS5fcndvVQvPjk-6">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="epAPdeqS5fcndvVQvPjk-2" parent="1" style="whiteSpace=wrap;html=1;aspect=fixed;" value="Creates search tasks" vertex="1">
+          <mxGeometry height="80" width="80" x="240" y="200" as="geometry" />
+        </mxCell>
+        <mxCell id="epAPdeqS5fcndvVQvPjk-10" edge="1" parent="1" source="epAPdeqS5fcndvVQvPjk-6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="epAPdeqS5fcndvVQvPjk-9">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="epAPdeqS5fcndvVQvPjk-6" parent="1" style="whiteSpace=wrap;html=1;aspect=fixed;" value="Go to the search chest" vertex="1">
+          <mxGeometry height="80" width="80" x="400" y="200" as="geometry" />
+        </mxCell>
+        <mxCell id="epAPdeqS5fcndvVQvPjk-16" edge="1" parent="1" source="epAPdeqS5fcndvVQvPjk-9" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="epAPdeqS5fcndvVQvPjk-15">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="epAPdeqS5fcndvVQvPjk-17" connectable="0" parent="epAPdeqS5fcndvVQvPjk-16" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Yes" vertex="1">
+          <mxGeometry relative="1" x="-0.1598" y="-2" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="epAPdeqS5fcndvVQvPjk-39" edge="1" parent="1" source="epAPdeqS5fcndvVQvPjk-9" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="epAPdeqS5fcndvVQvPjk-22">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="epAPdeqS5fcndvVQvPjk-40" connectable="0" parent="epAPdeqS5fcndvVQvPjk-39" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="No" vertex="1">
+          <mxGeometry relative="1" x="-0.6689" y="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="epAPdeqS5fcndvVQvPjk-9" parent="1" style="rhombus;whiteSpace=wrap;html=1;shapeInside=1;fontSize=10;" value="Was the item found?" vertex="1">
+          <mxGeometry height="80" width="80" x="560" y="200" as="geometry" />
+        </mxCell>
+        <mxCell id="epAPdeqS5fcndvVQvPjk-23" edge="1" parent="1" source="epAPdeqS5fcndvVQvPjk-15" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="epAPdeqS5fcndvVQvPjk-22">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="epAPdeqS5fcndvVQvPjk-24" connectable="0" parent="epAPdeqS5fcndvVQvPjk-23" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="No" vertex="1">
+          <mxGeometry relative="1" x="-0.0131" y="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="epAPdeqS5fcndvVQvPjk-185" edge="1" parent="1" source="epAPdeqS5fcndvVQvPjk-15" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="epAPdeqS5fcndvVQvPjk-183">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="epAPdeqS5fcndvVQvPjk-186" connectable="0" parent="epAPdeqS5fcndvVQvPjk-185" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Yes" vertex="1">
+          <mxGeometry relative="1" x="0.1625" y="1" as="geometry">
+            <mxPoint x="7" y="-1" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="epAPdeqS5fcndvVQvPjk-15" parent="1" style="rhombus;whiteSpace=wrap;html=1;shapeInside=1;fontSize=7;" value="Can the item be stored in some quantity?" vertex="1">
+          <mxGeometry height="80" width="80" x="560" y="360" as="geometry" />
+        </mxCell>
+        <mxCell id="epAPdeqS5fcndvVQvPjk-20" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;aspect=fixed;fontSize=11;" value="Removes all other tasks from that item." vertex="1">
+          <mxGeometry height="80" width="80" x="400" y="520" as="geometry" />
+        </mxCell>
+        <mxCell id="epAPdeqS5fcndvVQvPjk-26" edge="1" parent="1" source="epAPdeqS5fcndvVQvPjk-22" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="epAPdeqS5fcndvVQvPjk-25">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="epAPdeqS5fcndvVQvPjk-27" connectable="0" parent="epAPdeqS5fcndvVQvPjk-26" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Yes" vertex="1">
+          <mxGeometry relative="1" x="-0.0808" y="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="epAPdeqS5fcndvVQvPjk-29" edge="1" parent="1" source="epAPdeqS5fcndvVQvPjk-22" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="epAPdeqS5fcndvVQvPjk-136">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="epAPdeqS5fcndvVQvPjk-30" connectable="0" parent="epAPdeqS5fcndvVQvPjk-29" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="No" vertex="1">
+          <mxGeometry relative="1" x="-0.1354" y="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="epAPdeqS5fcndvVQvPjk-22" parent="1" style="rhombus;whiteSpace=wrap;html=1;shapeInside=1;fontSize=9;" value="Is there any other task for this item?" vertex="1">
+          <mxGeometry height="80" width="80" x="720" y="360" as="geometry" />
+        </mxCell>
+        <mxCell id="epAPdeqS5fcndvVQvPjk-25" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;aspect=fixed;" value="Remove item from the to-do list" vertex="1">
+          <mxGeometry height="80" width="80" x="720" y="520" as="geometry" />
+        </mxCell>
+        <mxCell id="epAPdeqS5fcndvVQvPjk-42" edge="1" parent="1" source="epAPdeqS5fcndvVQvPjk-33" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="epAPdeqS5fcndvVQvPjk-41">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points" />
+            <mxPoint x="390.0000000000002" y="880" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="epAPdeqS5fcndvVQvPjk-33" parent="1" style="whiteSpace=wrap;html=1;aspect=fixed;" value="Go to the mother spider." vertex="1">
+          <mxGeometry height="80" width="80" x="240" y="840" as="geometry" />
+        </mxCell>
+        <mxCell id="epAPdeqS5fcndvVQvPjk-44" edge="1" parent="1" source="epAPdeqS5fcndvVQvPjk-41" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="epAPdeqS5fcndvVQvPjk-43">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="epAPdeqS5fcndvVQvPjk-45" connectable="0" parent="epAPdeqS5fcndvVQvPjk-44" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Yes" vertex="1">
+          <mxGeometry relative="1" x="-0.251" y="2" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="epAPdeqS5fcndvVQvPjk-96" edge="1" parent="1" source="epAPdeqS5fcndvVQvPjk-41" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;" target="epAPdeqS5fcndvVQvPjk-95">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="360" y="870" as="sourcePoint" />
+            <mxPoint x="440" y="710" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="epAPdeqS5fcndvVQvPjk-97" connectable="0" parent="epAPdeqS5fcndvVQvPjk-96" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="No" vertex="1">
+          <mxGeometry relative="1" x="-0.077" y="-1" as="geometry">
+            <mxPoint x="-65" y="69" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="epAPdeqS5fcndvVQvPjk-41" parent="1" style="rhombus;whiteSpace=wrap;html=1;shapeInside=1;fontSize=10;" value="Was the item found?" vertex="1">
+          <mxGeometry height="80" width="80" x="400" y="840" as="geometry" />
+        </mxCell>
+        <mxCell id="epAPdeqS5fcndvVQvPjk-47" edge="1" parent="1" source="epAPdeqS5fcndvVQvPjk-43" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="epAPdeqS5fcndvVQvPjk-46">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="epAPdeqS5fcndvVQvPjk-43" parent="1" style="whiteSpace=wrap;html=1;aspect=fixed;" value="Take as much of the item as possible and carry it to the chest" vertex="1">
+          <mxGeometry height="80" width="80" x="560" y="840" as="geometry" />
+        </mxCell>
+        <mxCell id="epAPdeqS5fcndvVQvPjk-49" edge="1" parent="1" source="epAPdeqS5fcndvVQvPjk-46" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="epAPdeqS5fcndvVQvPjk-48">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="epAPdeqS5fcndvVQvPjk-50" connectable="0" parent="epAPdeqS5fcndvVQvPjk-49" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Yes" vertex="1">
+          <mxGeometry relative="1" x="-0.1131" y="-2" as="geometry">
+            <mxPoint y="-2" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="epAPdeqS5fcndvVQvPjk-92" edge="1" parent="1" source="epAPdeqS5fcndvVQvPjk-46" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" target="epAPdeqS5fcndvVQvPjk-53">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="760.03" y="960.03" />
+              <mxPoint x="1240.03" y="960.03" />
+            </Array>
+            <mxPoint x="760" y="799.97" as="sourcePoint" />
+            <mxPoint x="1240" y="799.97" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="epAPdeqS5fcndvVQvPjk-93" connectable="0" parent="epAPdeqS5fcndvVQvPjk-92" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="No" vertex="1">
+          <mxGeometry relative="1" x="0.0499" y="-1" as="geometry">
+            <mxPoint x="-254" y="-21" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="epAPdeqS5fcndvVQvPjk-46" parent="1" style="rhombus;whiteSpace=wrap;html=1;shapeInside=1;fontSize=7;" value="Can the item be stored in some quantity?" vertex="1">
+          <mxGeometry height="80" width="80" x="720" y="840" as="geometry" />
+        </mxCell>
+        <mxCell id="epAPdeqS5fcndvVQvPjk-52" edge="1" parent="1" source="epAPdeqS5fcndvVQvPjk-48" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="epAPdeqS5fcndvVQvPjk-51">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="epAPdeqS5fcndvVQvPjk-48" parent="1" style="whiteSpace=wrap;html=1;aspect=fixed;" value="Save whatever is possible" vertex="1">
+          <mxGeometry height="80" width="80" x="880" y="840" as="geometry" />
+        </mxCell>
+        <mxCell id="epAPdeqS5fcndvVQvPjk-54" edge="1" parent="1" source="epAPdeqS5fcndvVQvPjk-51" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="epAPdeqS5fcndvVQvPjk-53">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="epAPdeqS5fcndvVQvPjk-55" connectable="0" parent="epAPdeqS5fcndvVQvPjk-54" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Yes" vertex="1">
+          <mxGeometry relative="1" x="-0.1852" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="epAPdeqS5fcndvVQvPjk-67" edge="1" parent="1" source="epAPdeqS5fcndvVQvPjk-51" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;" target="epAPdeqS5fcndvVQvPjk-95">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1080.06" y="720.06" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="epAPdeqS5fcndvVQvPjk-68" connectable="0" parent="epAPdeqS5fcndvVQvPjk-67" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="No" vertex="1">
+          <mxGeometry relative="1" x="-0.5934" as="geometry">
+            <mxPoint y="31" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="epAPdeqS5fcndvVQvPjk-51" parent="1" style="rhombus;whiteSpace=wrap;html=1;shapeInside=1;fontSize=11;" value="Are there any items left?" vertex="1">
+          <mxGeometry height="80" width="80" x="1040" y="840" as="geometry" />
+        </mxCell>
+        <mxCell id="epAPdeqS5fcndvVQvPjk-57" edge="1" parent="1" source="epAPdeqS5fcndvVQvPjk-53" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="epAPdeqS5fcndvVQvPjk-56">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="epAPdeqS5fcndvVQvPjk-53" parent="1" style="whiteSpace=wrap;html=1;aspect=fixed;" value="Take the item to be returned" vertex="1">
+          <mxGeometry height="80" width="80" x="1200" y="840" as="geometry" />
+        </mxCell>
+        <mxCell id="epAPdeqS5fcndvVQvPjk-64" edge="1" parent="1" source="epAPdeqS5fcndvVQvPjk-56" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1400.03" y="1040" />
+            </Array>
+            <mxPoint x="1520" y="1040" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="epAPdeqS5fcndvVQvPjk-65" connectable="0" parent="epAPdeqS5fcndvVQvPjk-64" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="No" vertex="1">
+          <mxGeometry relative="1" x="-0.6169" y="-1" as="geometry">
+            <mxPoint x="1" y="-16" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="epAPdeqS5fcndvVQvPjk-245" edge="1" parent="1" source="epAPdeqS5fcndvVQvPjk-56" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" target="epAPdeqS5fcndvVQvPjk-173">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="epAPdeqS5fcndvVQvPjk-246" connectable="0" parent="epAPdeqS5fcndvVQvPjk-245" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Yes" vertex="1">
+          <mxGeometry relative="1" x="-0.1131" y="2" as="geometry">
+            <mxPoint x="2" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="epAPdeqS5fcndvVQvPjk-56" parent="1" style="rhombus;whiteSpace=wrap;html=1;shapeInside=1;fontSize=7;" value="Is it possible to return the item completely?" vertex="1">
+          <mxGeometry height="80" width="80" x="1360" y="840" as="geometry" />
+        </mxCell>
+        <mxCell id="epAPdeqS5fcndvVQvPjk-61" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;aspect=fixed;" value="Remove item from the to-do list" vertex="1">
+          <mxGeometry height="80" width="80" x="1520" y="680" as="geometry" />
+        </mxCell>
+        <mxCell id="epAPdeqS5fcndvVQvPjk-244" edge="1" parent="1" source="epAPdeqS5fcndvVQvPjk-72" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" target="epAPdeqS5fcndvVQvPjk-56">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1560.03" y="880" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="epAPdeqS5fcndvVQvPjk-72" parent="1" style="whiteSpace=wrap;html=1;aspect=fixed;" value="&lt;div&gt;Wait 5 seconds&lt;/div&gt;" vertex="1">
+          <mxGeometry height="80" width="80" x="1520" y="1000" as="geometry" />
+        </mxCell>
+        <mxCell id="epAPdeqS5fcndvVQvPjk-95" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;aspect=fixed;" value="Remove the Store task" vertex="1">
+          <mxGeometry height="80" width="80" x="720" y="680" as="geometry" />
+        </mxCell>
+        <mxCell id="epAPdeqS5fcndvVQvPjk-158" edge="1" parent="1" source="epAPdeqS5fcndvVQvPjk-136" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="epAPdeqS5fcndvVQvPjk-210">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="920.03" y="320" />
+              <mxPoint x="1240.03" y="320" />
+            </Array>
+            <mxPoint x="1200" y="240" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="epAPdeqS5fcndvVQvPjk-159" connectable="0" parent="epAPdeqS5fcndvVQvPjk-158" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="No" vertex="1">
+          <mxGeometry relative="1" x="-0.6704" as="geometry">
+            <mxPoint x="-26" y="20" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="epAPdeqS5fcndvVQvPjk-181" edge="1" parent="1" source="epAPdeqS5fcndvVQvPjk-136" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="epAPdeqS5fcndvVQvPjk-179">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="epAPdeqS5fcndvVQvPjk-182" connectable="0" parent="epAPdeqS5fcndvVQvPjk-181" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Yes" vertex="1">
+          <mxGeometry relative="1" x="-0.1417" y="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="epAPdeqS5fcndvVQvPjk-136" parent="1" style="rhombus;whiteSpace=wrap;html=1;shapeInside=1;fontSize=8;" value="Is there an empty chest in memory?" vertex="1">
+          <mxGeometry height="80" width="80" x="880" y="360" as="geometry" />
+        </mxCell>
+        <mxCell id="epAPdeqS5fcndvVQvPjk-169" edge="1" parent="1" source="epAPdeqS5fcndvVQvPjk-161" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="epAPdeqS5fcndvVQvPjk-33">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="280" y="850" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="epAPdeqS5fcndvVQvPjk-161" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;aspect=fixed;" value="Added task to store item" vertex="1">
+          <mxGeometry height="80" width="80" x="80" y="840" as="geometry" />
+        </mxCell>
+        <mxCell id="epAPdeqS5fcndvVQvPjk-176" edge="1" parent="1" source="epAPdeqS5fcndvVQvPjk-173" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="epAPdeqS5fcndvVQvPjk-61">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="epAPdeqS5fcndvVQvPjk-173" parent="1" style="whiteSpace=wrap;html=1;aspect=fixed;" value="Return the item" vertex="1">
+          <mxGeometry height="80" width="80" x="1360" y="680" as="geometry" />
+        </mxCell>
+        <mxCell id="epAPdeqS5fcndvVQvPjk-180" edge="1" parent="1" source="epAPdeqS5fcndvVQvPjk-179" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" target="epAPdeqS5fcndvVQvPjk-25">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1080" y="560" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="epAPdeqS5fcndvVQvPjk-179" parent="1" style="whiteSpace=wrap;html=1;aspect=fixed;" value="&lt;span style=&quot;font-size: 11px;&quot;&gt;Adds a task to store the item in the nearest empty chest.&lt;/span&gt;" vertex="1">
+          <mxGeometry height="80" width="80" x="1040" y="360" as="geometry" />
+        </mxCell>
+        <mxCell id="epAPdeqS5fcndvVQvPjk-184" edge="1" parent="1" source="epAPdeqS5fcndvVQvPjk-183" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="epAPdeqS5fcndvVQvPjk-20">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="epAPdeqS5fcndvVQvPjk-183" parent="1" style="whiteSpace=wrap;html=1;aspect=fixed;" value="Adds a task to store the item" vertex="1">
+          <mxGeometry height="80" width="80" x="400" y="360" as="geometry" />
+        </mxCell>
+        <mxCell id="epAPdeqS5fcndvVQvPjk-196" edge="1" parent="1" source="epAPdeqS5fcndvVQvPjk-194" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="epAPdeqS5fcndvVQvPjk-2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="epAPdeqS5fcndvVQvPjk-197" connectable="0" parent="epAPdeqS5fcndvVQvPjk-196" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Yes" vertex="1">
+          <mxGeometry relative="1" x="-0.3027" as="geometry">
+            <mxPoint x="12" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="epAPdeqS5fcndvVQvPjk-201" edge="1" parent="1" source="epAPdeqS5fcndvVQvPjk-194" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" target="epAPdeqS5fcndvVQvPjk-200">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="epAPdeqS5fcndvVQvPjk-203" connectable="0" parent="epAPdeqS5fcndvVQvPjk-201" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="No" vertex="1">
+          <mxGeometry relative="1" x="-0.6367" y="-2" as="geometry">
+            <mxPoint x="-2" y="-26" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="epAPdeqS5fcndvVQvPjk-194" parent="1" style="rhombus;whiteSpace=wrap;html=1;shapeInside=1;fontSize=10;" value="Is the task list empty?" vertex="1">
+          <mxGeometry height="80" width="80" x="80" y="200" as="geometry" />
+        </mxCell>
+        <mxCell id="epAPdeqS5fcndvVQvPjk-206" edge="1" parent="1" source="epAPdeqS5fcndvVQvPjk-200" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="epAPdeqS5fcndvVQvPjk-194">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="40.03" y="80" />
+              <mxPoint x="40.03" y="240" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="epAPdeqS5fcndvVQvPjk-200" parent="1" style="whiteSpace=wrap;html=1;aspect=fixed;" value="Waits for tasks to be completed" vertex="1">
+          <mxGeometry height="80" width="80" x="80" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="epAPdeqS5fcndvVQvPjk-214" edge="1" parent="1" source="epAPdeqS5fcndvVQvPjk-210" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" target="epAPdeqS5fcndvVQvPjk-25">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1240.03" y="560" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="epAPdeqS5fcndvVQvPjk-210" parent="1" style="whiteSpace=wrap;html=1;aspect=fixed;" value="&lt;font size=&quot;1&quot;&gt;Adds a task to store the item in the nearest chest that isn&#39;t full.&lt;/font&gt;" vertex="1">
+          <mxGeometry height="80" width="80" x="1200" y="360" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

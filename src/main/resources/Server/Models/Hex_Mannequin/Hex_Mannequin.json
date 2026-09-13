@@ -1,4 +1,5 @@
 {
+  "Parent": "Player",
   "Model": "NPC/MISC/Mannequin/Models/Model.blockymodel",
   "Texture": "NPC/MISC/Mannequin/Models/Model_Default.png",
   "EyeHeight": 1.6,
@@ -17,7 +18,6 @@
   },
   "MinScale": 1,
   "MaxScale": 1,
-  "Parent": "Player",
   "DefaultAttachments": [],
   "AnimationSets": {
     "Interact": {

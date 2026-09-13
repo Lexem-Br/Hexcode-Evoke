@@ -27,7 +27,7 @@
         },
         "Actions": [
           {
-            "Type": "SetInteractableFlockLeader",
+            "Type": "Evoke:SetInteractableFlockLeader",
             "Interactable": true
           }
         ]
