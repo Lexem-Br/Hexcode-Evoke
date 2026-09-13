@@ -12,7 +12,8 @@
       "HasArmorHeadSlot": false,
       "HasArmorChestSlot": false,
       "HasArmorHandsSlot": false,
-      "HasArmorLegSlot": false
+      "HasArmorLegSlot": false,
+      "HasHotbarSlot": false
     },
     {
       "BlockId": "Hex_Fairy_Void_Block",
@@ -22,7 +23,8 @@
       "HasArmorHeadSlot": false,
       "HasArmorChestSlot": false,
       "HasArmorHandsSlot": false,
-      "HasArmorLegSlot": false
+      "HasArmorLegSlot": false,
+      "HasHotbarSlot": false
     },
     {
       "BlockId": "Hex_Fairy_Ice_Block",
@@ -32,7 +34,8 @@
       "HasArmorHeadSlot": false,
       "HasArmorChestSlot": false,
       "HasArmorHandsSlot": false,
-      "HasArmorLegSlot": false
+      "HasArmorLegSlot": false,
+      "HasHotbarSlot": false
     },
     {
       "BlockId": "Alive_Homunculus_Jar",
@@ -49,7 +52,8 @@
       "HasArmorHeadSlot": false,
       "HasArmorChestSlot": false,
       "HasArmorHandsSlot": false,
-      "HasArmorLegSlot": false
+      "HasArmorLegSlot": false,
+      "HasHotbarSlot": false
     }
   ]
 }

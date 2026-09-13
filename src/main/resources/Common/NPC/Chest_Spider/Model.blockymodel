@@ -63,13 +63,45 @@
                   "position": {"x": 0, "y": 0.93932, "z": 4.96845},
                   "orientation": {"x": 0, "y": 0, "z": 0, "w": 1},
                   "shape": {
-                    "type": "none",
+                    "type": "box",
                     "offset": {"x": 0, "y": -8, "z": -7.5},
                     "stretch": {"x": 1, "y": 1, "z": 1},
                     "settings": {
-                      "isPiece": false
+                      "isPiece": false,
+                      "size": {"x": 36, "y": 8, "z": 29}
                     },
-                    "textureLayout": {},
+                    "textureLayout": {
+                      "back": {
+                        "offset": {"x": 27, "y": 110},
+                        "mirror": {"x": false, "y": false},
+                        "angle": 0
+                      },
+                      "right": {
+                        "offset": {"x": 41, "y": 96},
+                        "mirror": {"x": false, "y": true},
+                        "angle": 90
+                      },
+                      "front": {
+                        "offset": {"x": 63, "y": 110},
+                        "mirror": {"x": true, "y": false},
+                        "angle": 0
+                      },
+                      "left": {
+                        "offset": {"x": 41, "y": 125},
+                        "mirror": {"x": true, "y": true},
+                        "angle": 90
+                      },
+                      "top": {
+                        "offset": {"x": 63, "y": 125},
+                        "mirror": {"x": true, "y": true},
+                        "angle": 0
+                      },
+                      "bottom": {
+                        "offset": {"x": 63, "y": 96},
+                        "mirror": {"x": true, "y": false},
+                        "angle": 0
+                      }
+                    },
                     "unwrapMode": "custom",
                     "visible": true,
                     "doubleSided": false,
@@ -1849,64 +1881,13 @@
                           ]
                         }
                       ]
-                    },
-                    {
-                      "id": "45",
-                      "name": "Chest3",
-                      "position": {"x": 0, "y": 8, "z": 7.5},
-                      "orientation": {"x": 0, "y": 0, "z": 0, "w": 1},
-                      "shape": {
-                        "type": "box",
-                        "offset": {"x": 0, "y": -8, "z": -7.5},
-                        "stretch": {"x": 1, "y": 1, "z": 1},
-                        "settings": {
-                          "isPiece": false,
-                          "size": {"x": 36, "y": 8, "z": 29}
-                        },
-                        "textureLayout": {
-                          "back": {
-                            "offset": {"x": 27, "y": 110},
-                            "mirror": {"x": false, "y": false},
-                            "angle": 0
-                          },
-                          "right": {
-                            "offset": {"x": 41, "y": 96},
-                            "mirror": {"x": false, "y": true},
-                            "angle": 90
-                          },
-                          "front": {
-                            "offset": {"x": 63, "y": 110},
-                            "mirror": {"x": true, "y": false},
-                            "angle": 0
-                          },
-                          "left": {
-                            "offset": {"x": 41, "y": 125},
-                            "mirror": {"x": true, "y": true},
-                            "angle": 90
-                          },
-                          "top": {
-                            "offset": {"x": 63, "y": 125},
-                            "mirror": {"x": true, "y": true},
-                            "angle": 0
-                          },
-                          "bottom": {
-                            "offset": {"x": 63, "y": 96},
-                            "mirror": {"x": true, "y": false},
-                            "angle": 0
-                          }
-                        },
-                        "unwrapMode": "custom",
-                        "visible": true,
-                        "doubleSided": false,
-                        "shadingMode": "flat"
-                      }
                     }
                   ]
                 }
               ]
             },
             {
-              "id": "46",
+              "id": "45",
               "name": "Abdomen",
               "position": {"x": 0, "y": 29.45, "z": 0.271},
               "orientation": {"x": 0, "y": 1, "z": 0, "w": 0},
@@ -1957,7 +1938,7 @@
               },
               "children": [
                 {
-                  "id": "47",
+                  "id": "46",
                   "name": "Block",
                   "position": {"x": -1, "y": 30.80305, "z": 16.08968},
                   "orientation": {"x": 0, "y": 1, "z": 0, "w": 0},
@@ -2008,7 +1989,7 @@
                   },
                   "children": [
                     {
-                      "id": "48",
+                      "id": "47",
                       "name": "Lid",
                       "position": {"x": 0, "y": 17.5, "z": -27},
                       "orientation": {"x": 0, "y": 0, "z": 0, "w": 1},
@@ -2059,7 +2040,7 @@
                       },
                       "children": [
                         {
-                          "id": "49",
+                          "id": "48",
                           "name": "MetalBar",
                           "position": {"x": -11, "y": -11, "z": -1},
                           "orientation": {"x": 0, "y": 0, "z": 0, "w": 1},
@@ -2110,7 +2091,7 @@
                           }
                         },
                         {
-                          "id": "50",
+                          "id": "49",
                           "name": "MetalBar2",
                           "position": {"x": 11, "y": -11, "z": -1},
                           "orientation": {"x": 0, "y": 0, "z": 0, "w": 1},
@@ -2161,7 +2142,7 @@
                           }
                         },
                         {
-                          "id": "51",
+                          "id": "50",
                           "name": "Lock-Hinge",
                           "position": {"x": 0, "y": -5.5, "z": 30},
                           "orientation": {"x": 0, "y": 0, "z": 0, "w": 1},
@@ -2209,7 +2190,7 @@
                       ]
                     },
                     {
-                      "id": "52",
+                      "id": "51",
                       "name": "Window",
                       "position": {"x": 0, "y": 4.23932, "z": 27.44745},
                       "orientation": {"x": 0, "y": 0, "z": 0, "w": 1},
@@ -2260,7 +2241,7 @@
                       }
                     },
                     {
-                      "id": "53",
+                      "id": "52",
                       "name": "Back",
                       "position": {"x": -0.5, "y": -8, "z": 26.8},
                       "orientation": {"x": 0, "y": 0, "z": 0, "w": 1},

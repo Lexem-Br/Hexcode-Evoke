@@ -6,6 +6,10 @@ $C = "../Common.ui";
   Wrap: true
 );
 
+@InfoIconStyle = TextButtonStyle(
+  Default: (Background: "../Icons/circleIcon.png", LabelStyle: (TextColor: #ffffff, RenderBold: true))
+);
+
 $C.@PageOverlay {}
 
 Group {
@@ -223,7 +227,8 @@ Group {
             }
 
             Group {
-                $C.@Panel {
+                 $C.@Panel {
+                    LayoutMode: CenterMiddle;
                     Anchor: (Width: 530, Height: 100);
                     Group {
                         LayoutMode: MiddleCenter;
@@ -233,6 +238,15 @@ Group {
                             @Text = "Transfer item";
                             TooltipText: "Transfer an item from one slot to another";
                         }
+                    }
+
+                     Group { Anchor: (Width: 10); }
+
+                    TextButton #InfoIcon {
+                        Text: "  i";
+                        Anchor: (Width: 22, Height: 22);
+                        Style: @InfoIconStyle;
+                        TooltipText: "Right-click to quickly transfer the item";
                     }
                 }
             }

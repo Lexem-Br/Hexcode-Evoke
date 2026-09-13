@@ -16,8 +16,10 @@ import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 
 public class HexCreatureComponent implements Component<EntityStore> {
+    private static final Random RANDOM = new Random();
     public static HytaleLogger LOGGER = HytaleLogger.forEnclosingClass();
 
     private static final int MAX_CHEST_MEMORY = 128;
@@ -311,15 +313,25 @@ public class HexCreatureComponent implements Component<EntityStore> {
     }
 
     public ChestMemoryComponent findEmptyChestMemory() {
-        if (listChestMemory == null) return null;
+        if (listChestMemory == null || listChestMemory.length == 0) {
+            return null;
+        }
+
+        List<ChestMemoryComponent> validMemories = new ArrayList<>();
 
         for (ChestMemoryComponent memory : listChestMemory) {
-            if (memory != null && memory.getListItemsId() != null && memory.getListItemsId().length == 0) {
-                return memory;
+            if (memory != null
+                    && memory.getListItemsId() != null
+                    && memory.getListItemsId().length == 0) {
+                validMemories.add(memory);
             }
         }
 
-        return null;
+        if (validMemories.isEmpty()) {
+            return null;
+        }
+
+        return validMemories.get(RANDOM.nextInt(validMemories.size()));
     }
 
     public ChestMemoryComponent findChestMemoryWithSpace() {

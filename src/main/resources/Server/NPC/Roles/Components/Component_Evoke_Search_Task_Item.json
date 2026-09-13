@@ -12,7 +12,7 @@
         "Sensor":  {
           "Type": "Evoke:SearchChestTaskPosition",
           "HorizontalRange": 30,
-          "VerticalRange": 4
+          "VerticalRange": 3
         },
         "BodyMotion": {
           "Type": "Seek",
@@ -27,7 +27,7 @@
         "Sensor":  {
           "Type": "Evoke:SearchChestTaskPosition",
           "HorizontalRange": 2,
-          "VerticalRange": 4
+          "VerticalRange": 3
         },
         "Actions": [
           {

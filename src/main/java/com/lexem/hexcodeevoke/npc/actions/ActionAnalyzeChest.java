@@ -2,6 +2,7 @@ package com.lexem.hexcodeevoke.npc.actions;
 
 import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.component.Store;
+import com.hypixel.hytale.logger.HytaleLogger;
 import com.hypixel.hytale.math.util.ChunkUtil;
 import com.hypixel.hytale.server.core.inventory.container.SimpleItemContainer;
 import com.hypixel.hytale.server.core.modules.block.BlockModule;
@@ -29,6 +30,7 @@ import javax.annotation.Nullable;
 import java.util.*;
 
 public class ActionAnalyzeChest extends ActionBase {
+   public static HytaleLogger LOGGER = HytaleLogger.forEnclosingClass();
 
    public ActionAnalyzeChest(@Nonnull BuilderActionAnalyzeChest builder, @Nonnull BuilderSupport support) {
       super(builder);

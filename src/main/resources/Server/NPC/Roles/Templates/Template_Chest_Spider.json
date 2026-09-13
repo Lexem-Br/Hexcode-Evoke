@@ -306,8 +306,7 @@
                   {
                     "Type": "Evoke:HasChestNearby",
                     "HorizontalRange": 16,
-                    "VerticalRange": 4
-                  }
+                    "VerticalRange": 3                  }
                 ]
               },
               "Actions": [
@@ -341,7 +340,7 @@
             {
               "Type": "Evoke:CreateTasks",
               "HorizontalRange": 16,
-              "VerticalRange": 4
+              "VerticalRange": 3
             },
             {
               "Type": "State",

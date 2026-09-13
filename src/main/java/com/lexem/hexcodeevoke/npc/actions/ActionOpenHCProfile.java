@@ -25,25 +25,25 @@ public class ActionOpenHCProfile extends ActionBase {
 
    @Override
    public boolean execute(@Nonnull Ref<EntityStore> npcRef, @Nonnull ExecutionSupport executionSupport, @Nullable InfoProvider sensorInfo, double dt, @Nonnull Store<EntityStore> store) {
-      super.execute(npcRef, executionSupport, sensorInfo, dt, store);
+        super.execute(npcRef, executionSupport, sensorInfo, dt, store);
 
-      HexCreatureComponent hexCreatureComponent = store.getComponent(npcRef, HexCreatureComponent.getComponentType());
-      if (hexCreatureComponent == null) {return false;}
+        HexCreatureComponent hexCreatureComponent = store.getComponent(npcRef, HexCreatureComponent.getComponentType());
+        if (hexCreatureComponent == null) {return false;}
 
-      Ref<EntityStore> refESPlayer = store.getExternalData().getRefFromUUID(UUID.fromString(hexCreatureComponent.getEvokerUUID()));
-      if (refESPlayer == null) return false;
+        Ref<EntityStore> refESPlayer = store.getExternalData().getRefFromUUID(UUID.fromString(hexCreatureComponent.getEvokerUUID()));
+        if (refESPlayer == null) return false;
 
-      PlayerRef playerRef = store.getComponent(refESPlayer, PlayerRef.getComponentType());
-      if (playerRef == null) { return false; }
+        PlayerRef playerRef = store.getComponent(refESPlayer, PlayerRef.getComponentType());
+        if (playerRef == null) { return false; }
 
-      Player player = store.getComponent(refESPlayer, Player.getComponentType());
-      if (player == null) { return false; }
+        Player player = store.getComponent(refESPlayer, Player.getComponentType());
+        if (player == null) { return false; }
 
-       String cardName = "HCProfileSlotEntry";
-       String pageName = "HCProfilePage";
-       HCProfilePage hcProfilePage = new HCProfilePage(playerRef, npcRef, pageName, cardName);
-      player.getPageManager().openCustomPage(refESPlayer, store, hcProfilePage);
+        String cardName = "HCProfileSlotEntry";
+        String pageName = "HCProfilePage";
+        HCProfilePage hcProfilePage = new HCProfilePage(playerRef, npcRef, pageName, cardName, store);
+        player.getPageManager().openCustomPage(refESPlayer, store, hcProfilePage);
 
-      return true;
+        return true;
    }
 }

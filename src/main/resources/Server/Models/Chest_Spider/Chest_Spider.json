@@ -19,6 +19,15 @@
   "MaxScale": 1,
   "DefaultAttachments": [],
   "AnimationSets": {
+    "Spawn": {
+      "Animations": [
+        {
+          "Animation": "NPC/Chest_Spider/Animations/Spawn.blockyanim",
+          "Looping": false,
+          "Speed": 0.8
+        }
+      ]
+    },
     "Laydown": {
       "Animations": [
         {

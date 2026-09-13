@@ -55,6 +55,8 @@ public class AllowedHexItemsAsset implements JsonAssetWithMap<String, DefaultAss
                                         .add()
                                         .append(new KeyedCodec<>("HasArmorLegSlot", Codec.BOOLEAN), (item, s) -> item.hasArmorLegSlot = s, item -> item.hasArmorLegSlot)
                                         .add()
+                                        .append(new KeyedCodec<>("HasHotbarSlot", Codec.BOOLEAN), (item, s) -> item.hasHotbarSlot = s, item -> item.hasHotbarSlot)
+                                        .add()
                                         .build(),
                                 AllowedHexItemsAsset.HexItem[]::new
                         )),
@@ -75,6 +77,7 @@ public class AllowedHexItemsAsset implements JsonAssetWithMap<String, DefaultAss
         public boolean hasArmorChestSlot = true;
         public boolean hasArmorHandsSlot = true;
         public boolean hasArmorLegSlot = true;
+        public boolean hasHotbarSlot = true;
 
         public HexItem() {}
     }
@@ -162,6 +165,11 @@ public class AllowedHexItemsAsset implements JsonAssetWithMap<String, DefaultAss
     public static boolean hasArmorLegSlotByEntityId(String entityId) {
         HexItem item = getByEntityId(entityId);
         return item != null && item.hasArmorLegSlot;
+    }
+
+    public static boolean hasHotbarSlotByEntityId(String entityId) {
+        HexItem item = getByEntityId(entityId);
+        return item != null && item.hasHotbarSlot;
     }
 
     public static boolean isHexCreature(@Nonnull String entityId) {
