@@ -8,12 +8,12 @@
     "TimeSeconds": 1,
     "Input": [
       {
-        "ResourceTypeId": "Wood_Trunk",
-        "Quantity": 20
+        "ItemId": "Wood_Darkwood_Planks",
+        "Quantity": 3
       },
       {
-        "ItemId": "Ingredient_Stick",
-        "Quantity": 24
+        "ItemId": "Ingredient_Bar_Iron",
+        "Quantity": 2
       },
       {
         "ItemId": "Ingredient_Life_Essence_Concentrated",

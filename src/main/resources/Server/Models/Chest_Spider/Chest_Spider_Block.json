@@ -1,8 +1,8 @@
 {
-  "Model": "NPC/Chest_Spider_Baby/Model.blockymodel",
-  "Texture": "NPC/Chest_Spider/Texture.png",
-  "EyeHeight": 0.3,
-  "CrouchOffset": -0.1,
+  "Model": "NPC/Chest_Spider_Block/Model.blockymodel",
+  "Texture": "NPC/Chest_Spider_Block/Texture.png",
+  "EyeHeight": 1,
+  "CrouchOffset": -0.3,
   "HitBox": {
     "Max": {
       "X": 0.5,
@@ -15,19 +15,9 @@
       "Z": -1.1
     }
   },
-  "MinScale": 0.35,
-  "MaxScale": 0.35,
-  "Phobia": "Arachnophobia",
-  "PhobiaModelAssetId": "Baby_Chest_Spider_Block",
+  "MinScale": 1,
+  "MaxScale": 1,
   "AnimationSets": {
-    "Laydown": {
-      "Animations": [
-        {
-          "Animation": "NPC/Chest_Spider/Animations/Laydown.blockyanim",
-          "Looping": false
-        }
-      ]
-    },
     "Interact": {
       "Animations": [
         {

@@ -17,6 +17,8 @@
   },
   "MinScale": 1,
   "MaxScale": 1,
+  "Phobia": "Arachnophobia",
+  "PhobiaModelAssetId": "Chest_Spider_Block",
   "DefaultAttachments": [],
   "AnimationSets": {
     "Spawn": {
