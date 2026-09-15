@@ -64,21 +64,21 @@
     "Walk": {
       "Animations": [
         {
-          "Animation": "NPC/Chest_Spider/Animations/Walk.blockyanim"
+          "Animation": "NPC/Chest_Spider_Block/Animations/Walk.blockyanim"
         }
       ]
     },
     "WalkBackward": {
       "Animations": [
         {
-          "Animation": "NPC/Beast/Spider/Animations/Default/Walk_Backward.blockyanim"
+          "Animation": "NPC/Chest_Spider_Block/Animations/Walk.blockyanim"
         }
       ]
     },
     "Run": {
       "Animations": [
         {
-          "Animation": "NPC/Chest_Spider/Animations/Run.blockyanim"
+          "Animation": "NPC/Chest_Spider_Block/Animations/Walk.blockyanim"
         }
       ]
     },
@@ -93,7 +93,7 @@
     "CrouchWalk": {
       "Animations": [
         {
-          "Animation": "NPC/Beast/Spider/Animations/Default/Crouch_Walk.blockyanim",
+          "Animation": "NPC/Chest_Spider_Block/Animations/Walk.blockyanim",
           "BlendingDuration": 0.1
         }
       ]
@@ -119,7 +119,7 @@
     "JumpWalk": {
       "Animations": [
         {
-          "Animation": "NPC/Beast/Spider/Animations/Default/Jump.blockyanim",
+          "Animation": "NPC/Chest_Spider_Block/Animations/Walk.blockyanim",
           "BlendingDuration": 0.1,
           "Looping": false,
           "Speed": 0.8
