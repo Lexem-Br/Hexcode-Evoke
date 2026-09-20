@@ -1,5 +1,5 @@
 {
-  "Model": "NPC/Chest_Spider_Block/Model.blockymodel",
+  "Model": "NPC/Chest_Spider_Block_Baby/Model.blockymodel",
   "Texture": "NPC/Chest_Spider_Block/Texture.png",
   "EyeHeight": 0.3,
   "CrouchOffset": -0.1,
@@ -64,7 +64,7 @@
     "Walk": {
       "Animations": [
         {
-          "Animation": "NPC/Chest_Spider/Animations/Walk.blockyanim"
+          "Animation": "NPC/Chest_Spider_Block/Animations/Walk.blockyanim"
         }
       ]
     },
@@ -78,7 +78,7 @@
     "Run": {
       "Animations": [
         {
-          "Animation": "NPC/Chest_Spider/Animations/Run.blockyanim"
+          "Animation": "NPC/Chest_Spider_Block/Animations/Walk.blockyanim"
         }
       ]
     },
