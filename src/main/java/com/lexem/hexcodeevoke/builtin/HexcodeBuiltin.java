@@ -6,8 +6,9 @@ import com.riprod.hexcode.core.common.glyphs.registry.GlyphRegistry;
 
 public class HexcodeBuiltin {
     public static HytaleLogger LOGGER = HytaleLogger.forEnclosingClass();
+
     public static void Setup() {
-        GlyphRegistry.register(new EvokeGlyph());
+//        GlyphRegistry.register(new EvokeGlyph());
         LOGGER.atInfo().log("Registered Hexcode Evoke Builtin Glyph");
     }
 }

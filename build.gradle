@@ -15,7 +15,7 @@ configurations {
 }
 
 dependencies {
-    vineImplementation('curse.maven:hexcode-1448311:8758841')
+    vineImplementation files('lib/Hexcode-0.11.0.jar')
     shadowBundle('com.riprod:patchly:3.+')
 }
 
@@ -32,7 +32,7 @@ hytaleTools {
     includesPack = project.includes_pack.toString().toBoolean()
     patchline = project.patchline.toString()
 
-    manifestOptionalDependencies='Riprod:Hexcode=^0.10.1,Riprod:Patchly=*'
+    manifestOptionalDependencies='Riprod:Hexcode=^0.11.0,Riprod:Patchly=*'
 
     debugEnabled = true
     debugSuspend = false

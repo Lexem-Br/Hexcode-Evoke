@@ -1,4 +1,5 @@
 {
+  "Parent": "Template_HexStaff",
   "TranslationProperties": {
     "Name": "evoke.items.Weapon.Wand.Evoke_Wand_Iron.name",
     "Description": "evoke.items.Weapon.Wand.Evoke_Wand_Iron.description"
@@ -54,8 +55,6 @@
   },
   "ItemSoundSetId": "ISS_Weapons_Books",
   "Interactions": {
-    "Primary": "Root_Evoke_Wand_Primary",
-    "Secondary": "Root_Evoke_Wand_Secondary",
     "Ability2": "Root_Evoke_Wand_Ability2",
     "Ability3": "Root_Evoke_Wand_Ability3",
     "SwapTo": "Root_Change_Stat_Wand_Particles"
@@ -165,17 +164,173 @@
           "Failed": "Evoke_Interact_Fail"
         }
       ]
+    },
+    "HexTier1": {
+      "Interactions": [
+        {
+          "Parent": "CastSpell_Template",
+          "Type": "HexExecute",
+          "Effects": {
+            "ItemAnimationId": "HexExecution_Primary"
+          },
+          "Config": {
+            "HexStorageType": "ExecutionConfig",
+            "Parent": "CastConfig_Tier1",
+            "Style": "Hexstaff_Basic_Adamantite",
+            "HexStats": {
+              "Resources": {
+                "Initial": {
+                  "Arcane": 22
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "HexTier2": {
+      "Interactions": [
+        {
+          "Parent": "CastSpell_Template",
+          "Type": "HexExecute",
+          "Effects": {
+            "ItemAnimationId": "HexExecution_Primary"
+          },
+          "Config": {
+            "HexStorageType": "ExecutionConfig",
+            "Parent": "CastConfig_Tier2",
+            "Style": "Hexstaff_Basic_Adamantite",
+            "HexStats": {
+              "Resources": {
+                "Initial": {
+                  "Arcane": 25
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "HexTier3": {
+      "Interactions": [
+        {
+          "Parent": "CastSpell_Template",
+          "Type": "HexExecute",
+          "Effects": {
+            "ItemAnimationId": "HexExecution_Primary"
+          },
+          "Config": {
+            "HexStorageType": "ExecutionConfig",
+            "Parent": "CastConfig_Tier3",
+            "Style": "Hexstaff_Basic_Adamantite",
+            "HexStats": {
+              "Resources": {
+                "Initial": {
+                  "Arcane": 28.5
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "HexTier4": {
+      "Interactions": [
+        {
+          "Parent": "CastSpell_Template",
+          "Type": "HexExecute",
+          "Effects": {
+            "ItemAnimationId": "HexExecution_Primary"
+          },
+          "Config": {
+            "HexStorageType": "ExecutionConfig",
+            "Parent": "CastConfig_Tier4",
+            "Style": "Hexstaff_Basic_Adamantite",
+            "HexStats": {
+              "Resources": {
+                "Initial": {
+                  "Arcane": 31.5
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "Drawmode": {
+      "Interactions": [
+        {
+          "Type": "HexDrawMode",
+          "Parent": "Drawmode_Default",
+          "AuraParticles": [
+            {
+              "SystemId": "Hexstaff_Smoke_Wisp",
+              "PositionOffset": {
+                "Y": 1.5
+              },
+              "Color": "#EF5350",
+              "Scale": 1.2
+            },
+            {
+              "SystemId": "Hexstaff_Sparks_Heavy",
+              "PositionOffset": {
+                "Y": 0.0
+              },
+              "Color": "#D32F2F",
+              "Scale": 1.1
+            },
+            {
+              "SystemId": "Hexstaff_Ember_Rise",
+              "PositionOffset": {
+                "Y": -1.0
+              },
+              "Color": "#EF5350",
+              "Scale": 1.2
+            }
+          ]
+        }
+      ]
     }
   },
   "Weapon": {
     "EntityStatsToClear": [
-      "DeployablePreview"
+      "DeployablePreview",
+      "Flag_IsHolding",
+      "MagicCharges",
+      "Volatility"
     ],
     "StatModifiers": {
       "DeployablePreview": [
         {
           "Amount": 6,
           "CalculationType": "Additive"
+        }
+      ],
+      "Flag_IsHolding": [
+        {
+          "Target": "Max",
+          "CalculationType": "Additive",
+          "Amount": 1
+        }
+      ],
+      "MagicCharges": [
+        {
+          "CalculationType": "Additive",
+          "Amount": 7
+        }
+      ],
+      "Stability": [
+        {
+          "Target": "Max",
+          "CalculationType": "Additive",
+          "Amount": 19
+        }
+      ],
+      "Volatility": [
+        {
+          "Target": "Max",
+          "CalculationType": "Additive",
+          "Amount": 45
         }
       ]
     }
