@@ -1,0 +1,27 @@
+{
+  "Type": "Variant",
+  "Reference": "Template_Summoned_Ally_Evoke",
+  "Modify": {
+    "DeathParticles": "Effect_Death_Bones",
+    "MaxHealth": 100,
+    "HearingRange": 8,
+    "ViewSector": 270,
+    "Appearance": "Hex_Void_Mannequin",
+    "Weapons": [],
+    "OffHand": [],
+    "DefaultOffHandSlot": 0,
+    "FlockArray": [ "Risen_Knight" ],
+    "Attack": "Root_NPC_Skeleton_Knight_Attack",
+    "AttackDistance": 3,
+    "AttackPauseRange": [ 1, 1.5 ],
+    "CombatAttackPreDelay": [ 0.1, 0.3 ],
+    "DesiredAttackDistanceRange": [ 1, 2 ],
+    "MaxSpeed": 12,
+    "ApplySeparation": true,
+    "BreathesInWater": true,
+    "CombatBackOffAfterAttack": false,
+    "CombatStrafingDurationRange": [ 0.2, 1 ],
+    "BlockProbability": 0,
+    "NameTranslationKey": "evoke.npcRoles.Hex_Mannequin.name"
+  }
+}

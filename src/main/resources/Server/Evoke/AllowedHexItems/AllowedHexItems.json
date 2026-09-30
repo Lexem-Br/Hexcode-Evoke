@@ -54,6 +54,28 @@
       "HasArmorHandsSlot": false,
       "HasArmorLegSlot": false,
       "HasHotbarSlot": false
+    },
+    {
+      "BlockId": "Deco_Halloween_Pumpkin_Scary",
+      "EntityId": "Hex_Pumpkin_Scary",
+      "HasLeftHandSlot": false,
+      "HasRightHandSlot": false,
+      "HasArmorHeadSlot": false,
+      "HasArmorChestSlot": false,
+      "HasArmorHandsSlot": false,
+      "HasArmorLegSlot": false,
+      "HasHotbarSlot": false
+    },
+    {
+      "BlockId": "Deco_Halloween_Pumpkin_Cute",
+      "EntityId": "Hex_Pumpkin_Cute",
+      "HasLeftHandSlot": false,
+      "HasRightHandSlot": false,
+      "HasArmorHeadSlot": false,
+      "HasArmorChestSlot": false,
+      "HasArmorHandsSlot": false,
+      "HasArmorLegSlot": false,
+      "HasHotbarSlot": false
     }
   ]
 }

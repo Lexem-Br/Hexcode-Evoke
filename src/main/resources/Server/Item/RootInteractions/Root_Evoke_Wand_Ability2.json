@@ -7,13 +7,11 @@
       },
       "AllowIndefiniteHold": true,
       "HorizontalSpeedMultiplier": 0.8,
-      "CancelOnItemChange": true,
       "RunTime": 0,
       "Next": {
         "0": {
           "Type": "Replace",
           "Var": "Evoke_Wand_Selection_Var",
-          "DefaultOk": true,
           "DefaultValue": {
             "Interactions": [
               {
@@ -22,8 +20,7 @@
                 "Failed": "Evoke_Interact_Fail"
               }
             ]
-          },
-          "Failed": "Evoke_Interact_Fail"
+          }
         },
         "0.8": {
           "Type": "Replace",
@@ -38,8 +35,7 @@
                 "Failed": "Evoke_Interact_Fail"
               }
             ]
-          },
-          "Failed": "Evoke_Interact_Fail"
+          }
         }
       }
     }

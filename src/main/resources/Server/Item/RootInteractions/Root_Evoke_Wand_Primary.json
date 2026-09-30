@@ -3,7 +3,6 @@
     {
       "Type": "Replace",
       "Var": "Evoke_Wand_Target_Selection_Var",
-      "DefaultOk": true,
       "DefaultValue": {
         "Interactions": [
           {
@@ -12,8 +11,7 @@
             "Failed": "Evoke_Interact_Fail"
           }
         ]
-      },
-      "Failed": "Evoke_Interact_Fail"
+      }
     }
   ]
 }

@@ -182,6 +182,7 @@ public class HexcodeEvoke extends JavaPlugin {
         this.getCodecRegistry(Interaction.CODEC).register("OpenEvokeBook", OpenEvokeBookInteraction.class, OpenEvokeBookInteraction.CODEC);
         this.getCodecRegistry(Interaction.CODEC).register("EvokeHCSelection", EvokeHCSelectionInteraction.class, EvokeHCSelectionInteraction.CODEC);
         this.getCodecRegistry(Interaction.CODEC).register("ChangeStatWandParticles", ChangeStatWandParticlesInteraction.class, ChangeStatWandParticlesInteraction.CODEC);
+        this.getCodecRegistry(Interaction.CODEC).register("Evoke:Summon", SummonInteraction.class, SummonInteraction.CODEC);
     }
 
     @Override

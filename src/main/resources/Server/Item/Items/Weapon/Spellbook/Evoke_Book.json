@@ -68,7 +68,6 @@
           },
           "AllowIndefiniteHold": true,
           "HorizontalSpeedMultiplier": 0.8,
-          "CancelOnItemChange": true,
           "RunTime": 0,
           "Next": {
             "0": {

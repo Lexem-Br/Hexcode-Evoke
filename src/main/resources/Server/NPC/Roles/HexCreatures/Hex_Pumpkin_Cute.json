@@ -1,0 +1,15 @@
+{
+  "Type": "Variant",
+  "Reference": "Template_Hex_Creature_Basic",
+  "Modify": {
+    "Appearance": "Hex_Pumpkin_Cute",
+    "DropHexItem": "Deco_Halloween_Pumpkin_Cute",
+    "StopDistance": 3,
+    "NameTranslationKey": { "Compute": "NameTranslationKey" }
+  },
+  "Parameters": {
+    "NameTranslationKey": {
+      "Value": "evoke.npcRoles.Hex_Pumpkin_Cute.name"
+    }
+  }
+}

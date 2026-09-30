@@ -1,0 +1,9 @@
+{
+  "Parent": "Hex_Pumpkin_Scary",
+  "Model": "Items/Halloween_Props/Pumpkin_Carve_01.blockymodel",
+  "Texture": "Items/Halloween_Props/Pumpkin_Carve_Texture_01.png",
+  "DefaultAttachments": [],
+  "EyeHeight": 0.4,
+  "MinScale": 2,
+  "MaxScale": 2
+}
