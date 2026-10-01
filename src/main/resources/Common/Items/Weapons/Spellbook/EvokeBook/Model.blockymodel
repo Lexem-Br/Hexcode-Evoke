@@ -1073,7 +1073,7 @@
                       "orientation": {"x": 0, "y": 0, "z": 0, "w": 1},
                       "shape": {
                         "type": "box",
-                        "offset": {"x": 10, "y": -2.5, "z": 0},
+                        "offset": {"x": 10, "y": -2.45786, "z": 0},
                         "stretch": {"x": 1, "y": 1, "z": 1},
                         "settings": {
                           "isPiece": false,
@@ -1106,8 +1106,8 @@
                             "angle": 0
                           },
                           "bottom": {
-                            "offset": {"x": 24, "y": 32},
-                            "mirror": {"x": false, "y": true},
+                            "offset": {"x": 48, "y": 32},
+                            "mirror": {"x": true, "y": true},
                             "angle": 0
                           }
                         },
@@ -1120,7 +1120,7 @@
                         {
                           "id": "25",
                           "name": "Bookmark",
-                          "position": {"x": -2.5, "y": 2, "z": 14},
+                          "position": {"x": 1.5, "y": 1.95786, "z": 14},
                           "orientation": {"x": -0.60876, "y": 0, "z": 0, "w": 0.79335},
                           "shape": {
                             "type": "quad",
@@ -1200,7 +1200,7 @@
                         {
                           "id": "27",
                           "name": "Page-Bot",
-                          "position": {"x": -10, "y": 2.6, "z": 0},
+                          "position": {"x": -10, "y": 2.55786, "z": 0},
                           "orientation": {"x": 0, "y": 0, "z": 0, "w": 1},
                           "shape": {
                             "type": "quad",
@@ -1227,7 +1227,7 @@
                         {
                           "id": "28",
                           "name": "Iron-Top",
-                          "position": {"x": 11, "y": -1.11612, "z": -13},
+                          "position": {"x": 11, "y": -1.15826, "z": -13},
                           "orientation": {"x": 0, "y": -0.70711, "z": 0, "w": 0.70711},
                           "shape": {
                             "type": "box",
@@ -1326,7 +1326,7 @@
                         {
                           "id": "30",
                           "name": "Iron-Bot",
-                          "position": {"x": 11, "y": -1.11612, "z": 13},
+                          "position": {"x": 11, "y": -1.15826, "z": 13},
                           "orientation": {"x": 0, "y": 0.70711, "z": 0, "w": 0.70711},
                           "shape": {
                             "type": "box",
@@ -1421,11 +1421,63 @@
                               }
                             }
                           ]
+                        },
+                        {
+                          "id": "32",
+                          "name": "glyph--C1",
+                          "position": {"x": -10, "y": 2.45786, "z": 0},
+                          "orientation": {"x": 0, "y": 0, "z": 0, "w": 1},
+                          "shape": {
+                            "type": "box",
+                            "offset": {"x": 9.5, "y": -5, "z": -0.5},
+                            "stretch": {"x": 1, "y": 1, "z": 1},
+                            "settings": {
+                              "isPiece": false,
+                              "size": {"x": 15, "y": 0, "z": 15},
+                              "isStaticBox": true
+                            },
+                            "textureLayout": {
+                              "back": {
+                                "offset": {"x": 77, "y": 41},
+                                "mirror": {"x": false, "y": false},
+                                "angle": 0
+                              },
+                              "right": {
+                                "offset": {"x": 77, "y": 41},
+                                "mirror": {"x": false, "y": false},
+                                "angle": 0
+                              },
+                              "front": {
+                                "offset": {"x": 77, "y": 41},
+                                "mirror": {"x": false, "y": false},
+                                "angle": 0
+                              },
+                              "left": {
+                                "offset": {"x": 77, "y": 41},
+                                "mirror": {"x": false, "y": false},
+                                "angle": 0
+                              },
+                              "top": {
+                                "offset": {"x": 77, "y": 41},
+                                "mirror": {"x": false, "y": false},
+                                "angle": 0
+                              },
+                              "bottom": {
+                                "offset": {"x": 77, "y": 56},
+                                "mirror": {"x": false, "y": true},
+                                "angle": 0
+                              }
+                            },
+                            "unwrapMode": "custom",
+                            "visible": true,
+                            "doubleSided": false,
+                            "shadingMode": "flat"
+                          }
                         }
                       ]
                     },
                     {
-                      "id": "32",
+                      "id": "33",
                       "name": "Book-Top",
                       "position": {"x": 1.5, "y": 1.5, "z": -14.5},
                       "orientation": {"x": 0, "y": 0, "z": 0, "w": 1},
@@ -1471,7 +1523,7 @@
                       }
                     },
                     {
-                      "id": "33",
+                      "id": "34",
                       "name": "Book-Top",
                       "position": {"x": 1.5, "y": 1.5, "z": 14.5},
                       "orientation": {"x": 0, "y": 0, "z": 0, "w": 1},
@@ -1517,7 +1569,7 @@
                       }
                     },
                     {
-                      "id": "34",
+                      "id": "35",
                       "name": "Book-Bot",
                       "position": {"x": 1.5, "y": -1.5, "z": -14.5},
                       "orientation": {"x": 0, "y": 0, "z": 0, "w": 1},
@@ -1563,7 +1615,7 @@
                       }
                     },
                     {
-                      "id": "35",
+                      "id": "36",
                       "name": "Book-Bot",
                       "position": {"x": 1.5, "y": -1.5, "z": 14.5},
                       "orientation": {"x": 0, "y": 0, "z": 0, "w": 1},
@@ -1609,7 +1661,7 @@
                       }
                     },
                     {
-                      "id": "36",
+                      "id": "37",
                       "name": "Iron-Spine-Top",
                       "position": {"x": -1, "y": 3.5, "z": -13},
                       "orientation": {"x": 0, "y": 0.70711, "z": 0, "w": 0.70711},
@@ -1660,7 +1712,7 @@
                       }
                     },
                     {
-                      "id": "37",
+                      "id": "38",
                       "name": "Iron-Spine-Top",
                       "position": {"x": -1, "y": -3.5, "z": -13},
                       "orientation": {"x": 0, "y": 0.70711, "z": 0, "w": 0.70711},
@@ -1711,7 +1763,7 @@
                       }
                     },
                     {
-                      "id": "38",
+                      "id": "39",
                       "name": "Iron-Spine-Bot",
                       "position": {"x": -1, "y": -3.5, "z": 13},
                       "orientation": {"x": 0, "y": -0.70711, "z": 0, "w": 0.70711},
@@ -1762,7 +1814,7 @@
                       }
                     },
                     {
-                      "id": "39",
+                      "id": "40",
                       "name": "Iron-Spine-Bot",
                       "position": {"x": -1, "y": 3.5, "z": 13},
                       "orientation": {"x": 0, "y": -0.70711, "z": 0, "w": 0.70711},

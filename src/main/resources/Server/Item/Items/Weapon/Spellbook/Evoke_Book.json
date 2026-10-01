@@ -127,5 +127,17 @@
         }
       ]
     }
+  },
+  "IconProperties": {
+    "Scale": 0.6,
+    "Rotation": [
+      42,
+      104,
+      0
+    ],
+    "Translation": [
+      -10,
+      -12
+    ]
   }
 }
