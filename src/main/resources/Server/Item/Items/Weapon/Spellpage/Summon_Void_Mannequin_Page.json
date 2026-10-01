@@ -13,7 +13,7 @@
   "Texture": "Items/Consumables/Recipes/Recipe_Texture.png",
   "Icon": "Icons/ItemsGenerated/Summon_Void_Mannequin.png",
   "DroppedItemAnimation": "Items/Animations/Dropped/Dropped_Diagonal_Left.blockyanim",
-  "PlayerAnimationsId": "Spellbook",
+  "PlayerAnimationsId": "Evoke_Spellbook",
   "MaxStack": 100,
   "Tags": {
     "Type": [
