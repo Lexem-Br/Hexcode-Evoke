@@ -88,5 +88,42 @@
         }
       ]
     }
-  }
+  },
+  "Particles": [
+    {
+      "SystemId": "Evoke_Corrupeted_Void",
+      "TargetNodeName": "Chest",
+      "Scale": 0.5,
+      "PositionOffset": {
+        "Y": 0
+      }
+    },
+    {
+      "SystemId": "Evoke_Spectre_Void_Body",
+      "TargetNodeName": "Chest",
+      "Scale": 2
+    },
+    {
+      "SystemId": "Spectre_Void_Hands",
+      "TargetNodeName": "Chest",
+      "Scale": 2,
+      "PositionOffset": {
+        "Z": 0.1
+      }
+    },
+    {
+      "PositionOffset": {
+        "Y": 0
+      },
+      "SystemId": "Spectre_Void_Hands",
+      "TargetNodeName": "R-Hand"
+    },
+    {
+      "PositionOffset": {
+        "Y": 0
+      },
+      "SystemId": "Spectre_Void_Hands",
+      "TargetNodeName": "L-Hand"
+    }
+  ]
 }

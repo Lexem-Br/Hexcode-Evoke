@@ -47,9 +47,9 @@
             "0.8":  {
               "Type": "Evoke:Summon",
               "EntityId": "Summon_Void_Mannequin",
-              "ParticleId": "MagicPortal_VoidKeyArt",
+              "ParticleId": "Evoke_MagicPortal_VoidKeyArt",
               "ParticleScale": 0.6,
-              "ParticleMaxDuration": 2.0,
+              "ParticleMaxDuration": 4.0,
               "Next": {
                 "Type": "Serial",
                 "Interactions": [

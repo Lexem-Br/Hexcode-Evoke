@@ -187,7 +187,7 @@ public class SummonInteraction extends SimpleInteraction {
                     (float)Math.toRadians(rotation.y),
                     (float)Math.toRadians(rotation.z),
                     (float)this.scale,
-                    3.0F,
+                    (float)maxDuration,
                     store
             );
         }
