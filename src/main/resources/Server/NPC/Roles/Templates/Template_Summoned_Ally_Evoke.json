@@ -369,15 +369,6 @@
                 "Type": "Timer",
                 "Name": "DespawnTimer",
                 "State": "Stopped"
-              },
-              {
-                "Type": "Self",
-                "Filters": [
-                  {
-                    "Type": "Flock",
-                    "FlockPlayerStatus": "NotMember"
-                  }
-                ]
               }
             ]
           },
@@ -676,7 +667,7 @@
                       "HeadMotion": {
                         "Type": "Aim",
                         "HitProbability": { "Compute": "AimingHitProbability" },
-                        "Deflection": true,
+                        "Deflection": false,
                         "Spread": { "Compute": "AimingSpread" }
                       },
                       "BodyMotion": {
@@ -710,7 +701,7 @@
                       "HeadMotion": {
                         "Type": "Aim",
                         "HitProbability": { "Compute": "AimingHitProbability" },
-                        "Deflection": true,
+                        "Deflection": false,
                         "Spread": { "Compute": "AimingSpread" }
                       },
                       "BodyMotion": {
@@ -864,10 +855,13 @@
               }
             },
             {
+              "$Comment": "Check whether the target should be swapped for a closer one",
               "Reference": "Component_Instruction_Combat_Target_Swap",
               "Modify": {
                 "TargetSwitchTimer": { "Compute": "TargetSwitchTimer" },
-                "TargetRange": { "Compute": "TargetRange" }
+                "TargetRange": { "Compute": "TargetRange" },
+                "NextTargetRangeView": { "Compute": "ViewRange" },
+                "NextTargetRangeHearing": { "Compute": "HearingRange" }
               }
             },
             {
@@ -1131,6 +1125,12 @@
         "Instructions": [
           {
             "Actions": [
+              {
+                "Type": "SpawnParticles",
+                "Offset": [ 0, 0.5, 0 ],
+                "ParticleSystem": "Effect_Death",
+                "Once": true
+              },
               {
                 "Type": "Despawn"
               }

@@ -1,7 +1,7 @@
 {
   "TranslationProperties": {
-    "Name": "evoke.items.Evoke_Book.name",
-    "Description": "evoke.items.Evoke_Book.description"
+    "Name": "evoke.items.Void_Evoke_Book.name",
+    "Description": "evoke.items.Void_Evoke_Book.description"
   },
   "Categories": [
     "Items.Weapons"
@@ -9,9 +9,9 @@
   "Quality": "Rare",
   "ItemLevel": 40,
   "Model": "Items/Weapons/Spellbook/EvokeBook/Model.blockymodel",
-  "Texture": "Items/Weapons/Spellbook/EvokeBook/Life.png",
+  "Texture": "Items/Weapons/Spellbook/EvokeBook/Void.png",
   "PlayerAnimationsId": "Evoke_Spellbook",
-  "Icon": "Icons/ItemsGenerated/Evoke_Book.png",
+  "Icon": "Icons/ItemsGenerated/Void_Evoke_Book.png",
   "DroppedItemAnimation": "Items/Animations/Dropped/Dropped_Diagonal_Left.blockyanim",
   "MaxStack": 1,
   "Tags": {
@@ -20,39 +20,6 @@
     ],
     "Family": [
       "Spellbook"
-    ]
-  },
-  "Recipe": {
-    "TimeSeconds": 1,
-    "Input": [
-      {
-        "ItemId": "Ingredient_Leather_Medium",
-        "Quantity": 5
-      },
-      {
-        "ItemId": "Ingredient_Bar_Iron",
-        "Quantity": 10
-      },
-      {
-        "ItemId": "Ingredient_Charcoal",
-        "Quantity": 10
-      },
-      {
-        "ItemId": "Ingredient_Fabric_Scrap_Linen",
-        "Quantity": 10
-      },
-      {
-        "ItemId": "Ingredient_Life_Essence_Concentrated",
-        "Quantity": 1
-      }
-    ],
-    "BenchRequirement": [
-      {
-        "Categories": [
-          "Arcane_Hexcode_Evoke"
-        ],
-        "Id": "Arcanebench"
-      }
     ]
   },
   "Weapon": {},
@@ -77,7 +44,11 @@
               }
             },
             "0.8": {
-              "Type": "EvokeHexCreature",
+              "Type": "Evoke:Summon",
+              "EntityId": "Summon_Void_Mannequin",
+              "ParticleId": "Evoke_MagicPortal_VoidKeyArt",
+              "ParticleScale": 0.6,
+              "ParticleMaxDuration": 4.0,
               "Next": {
                 "Type": "Serial",
                 "Interactions": [
@@ -97,31 +68,6 @@
                   "ItemAnimationId": "Interact"
                 }
               }
-            }
-          }
-        }
-      ]
-    },
-    "Secondary": {
-      "Interactions": [
-        {
-          "Type": "OpenEvokeBook",
-          "Next": {
-            "Type": "Serial",
-            "Interactions": [
-              {
-                "Type": "Simple",
-                "RunTime": 0.5,
-                "Effects": {
-                  "WorldSoundEventId": "SFX_Skeleton_Mage_Spellbook_Charge"
-                }
-              }
-            ]
-          },
-          "Failed": {
-            "Type": "Simple",
-            "Effects": {
-              "ItemAnimationId": "Interact"
             }
           }
         }

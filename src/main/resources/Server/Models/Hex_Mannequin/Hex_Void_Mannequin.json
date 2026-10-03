@@ -1,7 +1,7 @@
 {
   "Parent": "Player",
   "Model": "NPC/MISC/Mannequin/Models/Model.blockymodel",
-  "Texture": "NPC/MISC/Mannequin/Models/Model_Default.png",
+  "Texture": "NPC/Mannequin/Model_Void.png",
   "EyeHeight": 1.6,
   "CrouchOffset": -0.4,
   "HitBox": {
@@ -18,7 +18,16 @@
   },
   "MinScale": 1,
   "MaxScale": 1,
-  "DefaultAttachments": [],
+  "DefaultAttachments": [
+    {
+      "Model": "NPC/Mannequin/Attachments/Void.blockymodel",
+      "Texture": "NPC/Mannequin/Void.png"
+    },
+    {
+      "Model": "NPC/Mannequin/Attachments/Root.blockymodel",
+      "Texture": "NPC/Mannequin/Attachments/Root.png"
+    }
+  ],
   "AnimationSets": {
     "Spawn": {
       "Animations": [
@@ -106,10 +115,7 @@
     {
       "SystemId": "Spectre_Void_Hands",
       "TargetNodeName": "Chest",
-      "Scale": 2,
-      "PositionOffset": {
-        "Z": 0.1
-      }
+      "Scale": 2
     },
     {
       "PositionOffset": {

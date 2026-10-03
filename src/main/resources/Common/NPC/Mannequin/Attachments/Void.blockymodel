@@ -1,0 +1,362 @@
+{
+  "nodes": [
+    {
+      "id": "1",
+      "name": "Chest",
+      "position": {"x": 0, "y": 26, "z": 1},
+      "orientation": {"x": 0, "y": 0, "z": 0, "w": 1},
+      "shape": {
+        "type": "none",
+        "offset": {"x": 0, "y": 0, "z": 0},
+        "stretch": {"x": 1, "y": 1, "z": 1},
+        "settings": {
+          "isPiece": true
+        },
+        "textureLayout": {},
+        "unwrapMode": "custom",
+        "visible": true,
+        "doubleSided": false,
+        "shadingMode": "flat"
+      },
+      "children": [
+        {
+          "id": "2",
+          "name": "Core3",
+          "position": {"x": -8, "y": -6, "z": 12},
+          "orientation": {"x": 0.69707, "y": -0.11869, "z": 0.26127, "w": 0.65708},
+          "shape": {
+            "type": "none",
+            "offset": {"x": 0, "y": 0.5, "z": 0},
+            "stretch": {"x": 1, "y": 1, "z": 1},
+            "settings": {
+              "isPiece": false
+            },
+            "textureLayout": {},
+            "unwrapMode": "custom",
+            "visible": true,
+            "doubleSided": false,
+            "shadingMode": "flat"
+          },
+          "children": [
+            {
+              "id": "3",
+              "name": "bone",
+              "position": {"x": 0, "y": 2, "z": 0},
+              "orientation": {"x": 0, "y": 0, "z": 0, "w": 1},
+              "shape": {
+                "type": "box",
+                "offset": {"x": 7, "y": -5.5, "z": -4},
+                "stretch": {"x": 0.3, "y": 0.3, "z": 0.3},
+                "settings": {
+                  "isPiece": false,
+                  "size": {"x": 11, "y": 19, "z": 10}
+                },
+                "textureLayout": {
+                  "back": {
+                    "offset": {"x": 33, "y": 17},
+                    "mirror": {"x": false, "y": false},
+                    "angle": 0,
+                    "transparent": true
+                  },
+                  "right": {
+                    "offset": {"x": 44, "y": 17},
+                    "mirror": {"x": false, "y": false},
+                    "angle": 0,
+                    "transparent": true
+                  },
+                  "front": {
+                    "offset": {"x": 33, "y": 17},
+                    "mirror": {"x": false, "y": false},
+                    "angle": 0,
+                    "transparent": true
+                  },
+                  "left": {
+                    "offset": {"x": 44, "y": 17},
+                    "mirror": {"x": false, "y": false},
+                    "angle": 0,
+                    "transparent": true
+                  },
+                  "top": {
+                    "offset": {"x": 55, "y": 26},
+                    "mirror": {"x": false, "y": false},
+                    "angle": 0,
+                    "transparent": true
+                  },
+                  "bottom": {
+                    "offset": {"x": 6, "y": 33},
+                    "mirror": {"x": false, "y": false},
+                    "angle": 0,
+                    "transparent": true
+                  }
+                },
+                "unwrapMode": "custom",
+                "visible": true,
+                "doubleSided": false,
+                "shadingMode": "reflective"
+              },
+              "children": [
+                {
+                  "id": "4",
+                  "name": "cube--C1",
+                  "position": {"x": -7, "y": 15.95623, "z": 4},
+                  "orientation": {"x": 0, "y": -0.38268, "z": 0, "w": 0.92388},
+                  "shape": {
+                    "type": "quad",
+                    "offset": {"x": 1.62132, "y": -12, "z": -7.77817},
+                    "stretch": {"x": 0.3, "y": 0.3, "z": 0.3},
+                    "settings": {
+                      "isPiece": false,
+                      "size": {"x": 13, "y": 7},
+                      "normal": "+Z",
+                      "isStaticBox": true
+                    },
+                    "textureLayout": {
+                      "front": {
+                        "offset": {"x": 18, "y": 6},
+                        "mirror": {"x": true, "y": false},
+                        "angle": 0,
+                        "transparent": true
+                      }
+                    },
+                    "unwrapMode": "custom",
+                    "visible": true,
+                    "doubleSided": true,
+                    "shadingMode": "flat"
+                  }
+                },
+                {
+                  "id": "5",
+                  "name": "cube--C2",
+                  "position": {"x": -7, "y": 15.95623, "z": 4},
+                  "orientation": {"x": 0, "y": 0.38268, "z": 0, "w": 0.92388},
+                  "shape": {
+                    "type": "quad",
+                    "offset": {"x": 7.98528, "y": -12, "z": 1.41421},
+                    "stretch": {"x": 0.3, "y": 0.3, "z": 0.3},
+                    "settings": {
+                      "isPiece": false,
+                      "size": {"x": 13, "y": 7},
+                      "normal": "+Z",
+                      "isStaticBox": true
+                    },
+                    "textureLayout": {
+                      "front": {
+                        "offset": {"x": 5, "y": 6},
+                        "mirror": {"x": false, "y": false},
+                        "angle": 0,
+                        "transparent": true
+                      }
+                    },
+                    "unwrapMode": "custom",
+                    "visible": true,
+                    "doubleSided": true,
+                    "shadingMode": "flat"
+                  }
+                }
+              ]
+            },
+            {
+              "id": "6",
+              "name": "Core",
+              "position": {"x": 6.24652, "y": -4.04006, "z": 2.49089},
+              "orientation": {"x": 0.00121, "y": -0.13012, "z": -0.11584, "w": 0.98471},
+              "shape": {
+                "type": "box",
+                "offset": {"x": 0, "y": 0, "z": -6},
+                "stretch": {"x": 0.3, "y": 0.3, "z": 0.3},
+                "settings": {
+                  "isPiece": false,
+                  "size": {"x": 11, "y": 11, "z": 16}
+                },
+                "textureLayout": {
+                  "back": {
+                    "offset": {"x": 1, "y": 17},
+                    "mirror": {"x": false, "y": false},
+                    "angle": 0,
+                    "transparent": true
+                  },
+                  "right": {
+                    "offset": {"x": 17, "y": 17},
+                    "mirror": {"x": false, "y": false},
+                    "angle": 0,
+                    "transparent": true
+                  },
+                  "front": {
+                    "offset": {"x": 1, "y": 17},
+                    "mirror": {"x": false, "y": false},
+                    "angle": 0,
+                    "transparent": true
+                  },
+                  "left": {
+                    "offset": {"x": 17, "y": 17},
+                    "mirror": {"x": false, "y": false},
+                    "angle": 0,
+                    "transparent": true
+                  },
+                  "top": {
+                    "offset": {"x": 56, "y": 23},
+                    "mirror": {"x": false, "y": false},
+                    "angle": 0,
+                    "transparent": true
+                  },
+                  "bottom": {
+                    "offset": {"x": 1, "y": 44},
+                    "mirror": {"x": false, "y": false},
+                    "angle": 270,
+                    "transparent": true
+                  }
+                },
+                "unwrapMode": "custom",
+                "visible": true,
+                "doubleSided": false,
+                "shadingMode": "reflective"
+              },
+              "children": [
+                {
+                  "id": "7",
+                  "name": "Node",
+                  "position": {"x": -2.25627, "y": -0.28668, "z": -2.51532},
+                  "orientation": {"x": -0.22326, "y": 0.11192, "z": -0.18938, "w": 0.94961},
+                  "shape": {
+                    "type": "none",
+                    "offset": {"x": 0, "y": 0, "z": 0},
+                    "stretch": {"x": 1, "y": 1, "z": 1},
+                    "settings": {
+                      "isPiece": false
+                    },
+                    "textureLayout": {},
+                    "unwrapMode": "custom",
+                    "visible": true,
+                    "doubleSided": false,
+                    "shadingMode": "flat"
+                  },
+                  "children": [
+                    {
+                      "id": "8",
+                      "name": "bone",
+                      "position": {"x": 0, "y": 0, "z": 0},
+                      "orientation": {"x": 0, "y": 0, "z": 0, "w": 1},
+                      "shape": {
+                        "type": "box",
+                        "offset": {"x": 0, "y": -0.5, "z": 0},
+                        "stretch": {"x": 0.3, "y": 0.3, "z": 0.3},
+                        "settings": {
+                          "isPiece": false,
+                          "size": {"x": 16, "y": 13, "z": 16}
+                        },
+                        "textureLayout": {
+                          "back": {
+                            "offset": {"x": 1, "y": 17},
+                            "mirror": {"x": false, "y": false},
+                            "angle": 0,
+                            "transparent": true
+                          },
+                          "right": {
+                            "offset": {"x": 1, "y": 17},
+                            "mirror": {"x": false, "y": false},
+                            "angle": 0,
+                            "transparent": true
+                          },
+                          "front": {
+                            "offset": {"x": 17, "y": 17},
+                            "mirror": {"x": false, "y": false},
+                            "angle": 0,
+                            "transparent": true
+                          },
+                          "left": {
+                            "offset": {"x": 17, "y": 17},
+                            "mirror": {"x": false, "y": false},
+                            "angle": 0,
+                            "transparent": true
+                          },
+                          "top": {
+                            "offset": {"x": 55, "y": 23},
+                            "mirror": {"x": false, "y": false},
+                            "angle": 0,
+                            "transparent": true
+                          },
+                          "bottom": {
+                            "offset": {"x": 1, "y": 33},
+                            "mirror": {"x": false, "y": false},
+                            "angle": 0,
+                            "transparent": true
+                          }
+                        },
+                        "unwrapMode": "custom",
+                        "visible": true,
+                        "doubleSided": false,
+                        "shadingMode": "reflective"
+                      },
+                      "children": [
+                        {
+                          "id": "9",
+                          "name": "cube--C1",
+                          "position": {"x": 0, "y": 14.7, "z": 0},
+                          "orientation": {"x": 0, "y": 0.92388, "z": 0, "w": -0.38268},
+                          "shape": {
+                            "type": "quad",
+                            "offset": {"x": 0, "y": -11, "z": 0},
+                            "stretch": {"x": 0.3, "y": 0.3, "z": 0.3},
+                            "settings": {
+                              "isPiece": false,
+                              "size": {"x": 22, "y": 11},
+                              "normal": "+Z",
+                              "isStaticBox": true
+                            },
+                            "textureLayout": {
+                              "front": {
+                                "offset": {"x": 23, "y": 6},
+                                "mirror": {"x": true, "y": false},
+                                "angle": 0,
+                                "transparent": true
+                              }
+                            },
+                            "unwrapMode": "custom",
+                            "visible": true,
+                            "doubleSided": true,
+                            "shadingMode": "flat"
+                          }
+                        },
+                        {
+                          "id": "10",
+                          "name": "cube--C2",
+                          "position": {"x": 0, "y": 14.7, "z": 0},
+                          "orientation": {"x": 0, "y": -0.38268, "z": 0, "w": 0.92388},
+                          "shape": {
+                            "type": "quad",
+                            "offset": {"x": 0, "y": -11, "z": 0},
+                            "stretch": {"x": 0.3, "y": 0.3, "z": 0.3},
+                            "settings": {
+                              "isPiece": false,
+                              "size": {"x": 21, "y": 11},
+                              "normal": "+Z",
+                              "isStaticBox": true
+                            },
+                            "textureLayout": {
+                              "front": {
+                                "offset": {"x": 1, "y": 6},
+                                "mirror": {"x": false, "y": false},
+                                "angle": 0,
+                                "transparent": true
+                              }
+                            },
+                            "unwrapMode": "custom",
+                            "visible": true,
+                            "doubleSided": true,
+                            "shadingMode": "flat"
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "format": "character",
+  "lod": "auto"
+}

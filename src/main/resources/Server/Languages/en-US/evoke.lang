@@ -1,5 +1,7 @@
-items.Weapon_Spellbook_Evoke.name=Evoke Book
-items.Weapon_Spellbook_Evoke.description=<b>To evoke creatures</b>\nUse it on <b>Hex items</b> to bring them to life and have them follow you
+items.Evoke_Book.name=Evoke Book
+items.Evoke_Book.description=<b>To evoke creatures</b>\nUse it on <b>Hex items</b> to bring them to life and have them follow you
+items.Void_Evoke_Book.name=Void Evoke Book
+items.Void_Evoke_Book.description=<b>To evoke creatures</b>\nUse it on <b>Hex items</b> to bring them to life and have them follow you
 items.Summon_Void_Mannequin.name=Summon Void Mannequin Page
 items.Summon_Void_Mannequin.description=.
 items.Weapon.Wand.Evoke_Wand_Crude.name=Crude Evoke Wand
