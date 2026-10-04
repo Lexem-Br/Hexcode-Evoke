@@ -6,6 +6,8 @@ import com.hypixel.hytale.math.util.ChunkUtil;
 import com.hypixel.hytale.server.core.asset.type.blocktype.config.BlockType;
 import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.chunk.BlockChunk;
+import com.hypixel.hytale.server.core.universe.world.chunk.BlockOperations;
+import com.hypixel.hytale.server.core.universe.world.chunk.section.BlockSection;
 import com.hypixel.hytale.server.core.universe.world.storage.ChunkStore;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.hypixel.hytale.server.npc.corecomponents.ActionBase;
@@ -13,6 +15,7 @@ import com.hypixel.hytale.server.npc.instructions.ExecutionSupport;
 import com.hypixel.hytale.server.npc.sensorinfo.IPositionProvider;
 import com.hypixel.hytale.server.npc.sensorinfo.InfoProvider;
 import com.lexem.hexcodeevoke.npc.actions.builders.BuilderActionOpenChestAnimation;
+import com.lexem.hexcodeevoke.utils.BlockUtils;
 import org.joml.Vector3i;
 
 import javax.annotation.Nonnull;
@@ -35,7 +38,7 @@ public class ActionOpenChestAnimation extends ActionBase {
         if (positionProvider == null || !positionProvider.hasPosition()) return false;
 
         World world = store.getExternalData().getWorld();
-        Vector3i chestPosition = new Vector3i(
+        Vector3i chestPos= new Vector3i(
                 (int) Math.floor(positionProvider.getX()),
                 (int) Math.floor(positionProvider.getY()),
                 (int) Math.floor(positionProvider.getZ())
@@ -45,16 +48,22 @@ public class ActionOpenChestAnimation extends ActionBase {
         Ref<ChunkStore> chunkRef = world.getChunkStore().getChunkReference(chunkIndex);
         if (chunkRef == null) return false;
 
+        final var chunkStore = world.getChunkStore();
+        final var sectionRef = chunkStore.getChunkSectionReferenceAtBlock(chestPos.x, chestPos.y, chestPos.z);
+        if (sectionRef == null || !sectionRef.isValid()) return false;
+
+        final var blockSection = chunkStore.getStore().getComponent(sectionRef, BlockSection.getComponentType());
+        if (blockSection == null) return false;
+
         Store<ChunkStore> chunkComponentStore = world.getChunkStore().getStore();
         BlockChunk blockChunkComponent = chunkComponentStore.getComponent(chunkRef, BlockChunk.getComponentType());
         if (blockChunkComponent != null) {
-            int blockId = blockChunkComponent.getBlock(chestPosition.x, chestPosition.y, chestPosition.z);
-            BlockType blockType = BlockType.getAssetMap().getAsset(blockId);
+            final var blockType = BlockType.getAssetMap().getAsset(blockSection.get(chestPos.x, chestPos.y, chestPos.z));
             if (blockType != null) {
                 if (reverse) {
-                    world.setBlockInteractionState(chestPosition, blockType, "CloseWindow");
+                    BlockOperations.setBlockInteractionState(chunkStore, sectionRef, chestPos.x, chestPos.y, chestPos.z, blockType, "CloseWindow", true);
                 } else {
-                    world.setBlockInteractionState(chestPosition, blockType, "OpenWindow");
+                    BlockOperations.setBlockInteractionState(chunkStore, sectionRef, chestPos.x, chestPos.y, chestPos.z, blockType, "CloseWindow", true);
                 }
             }
         }

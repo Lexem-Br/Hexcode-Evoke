@@ -121,9 +121,12 @@ public class EvokeHCSelectionInteraction extends SimpleInteraction {
                     }
                 }
             } else {
+                boolean hasSelectedHC = evoker.getSelectedHexCreatures().length > 0;
                 Ref<EntityStore> targetEntity = TargetUtil.getTargetEntity(playerRef, accessor);
                 if (targetEntity == null) {
-                    messageInvalidTarget(playerRef, store);
+                    if (!hasSelectedHC && !reverse) {
+                        messageInvalidTarget(playerRef, store);
+                    }
                     context.getState().state = InteractionState.Failed;
                     super.tick0(firstRun, time, type, context, cooldownHandler);
                     return;
@@ -131,7 +134,9 @@ public class EvokeHCSelectionInteraction extends SimpleInteraction {
 
                 NPCEntity npcEntity = store.getComponent(targetEntity, Objects.requireNonNull(NPCEntity.getComponentType()));
                 if (npcEntity == null) {
-                    messageInvalidTarget(playerRef, store);
+                    if (!hasSelectedHC && !reverse) {
+                        messageInvalidTarget(playerRef, store);
+                    }
                     context.getState().state = InteractionState.Failed;
                     super.tick0(firstRun, time, type, context, cooldownHandler);
                     return;
@@ -146,7 +151,9 @@ public class EvokeHCSelectionInteraction extends SimpleInteraction {
 
                 UUIDComponent uuidtargetEntity = store.getComponent(targetEntity, UUIDComponent.getComponentType());
                 if (uuidtargetEntity == null) {
-                    messageInvalidTarget(playerRef, store);
+                    if (!hasSelectedHC && !reverse) {
+                        messageInvalidTarget(playerRef, store);
+                    }
                     context.getState().state = InteractionState.Failed;
                     super.tick0(firstRun, time, type, context, cooldownHandler);
                     return;
@@ -198,7 +205,7 @@ public class EvokeHCSelectionInteraction extends SimpleInteraction {
         if (playerRef != null) {
             NotificationUtil.sendNotification(
                     playerRef.getPacketHandler(), Message.translation("errors.invalid_target"),
-                    Message.translation("No enitity founded")
+                    Message.translation("No entity founded")
             );
         }
     }

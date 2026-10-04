@@ -50,19 +50,17 @@
   },
   "ItemSoundSetId": "ISS_Weapons_Books",
   "Interactions": {
-    "Primary": "Root_Evoke_Wand_Primary",
-    "Secondary": "Root_Evoke_Wand_Secondary",
-    "Ability2": "Root_Evoke_Wand_Ability2",
-    "Ability3": "Root_Evoke_Wand_Ability3",
+    "Primary": "Root_Evoke_Wand_Selection",
+    "Secondary": "Root_Evoke_Wand_Deselection",
     "SwapTo": "Root_Change_Stat_Wand_Particles"
   },
   "InteractionVars": {
-    "Evoke_Wand_Follow_Var": {
+    "Evoke_Wand_Target_Selection_Var": {
       "Interactions": [
         {
-          "Type": "EvokeFollow",
+          "Type": "EvokeTargetSelection",
           "MaxDistance": 10,
-          "Next": "Evoke_Wand_Follow_Generic",
+          "Next": "Evoke_Wand_Selection_Generic",
           "Failed": "Evoke_Interact_Fail"
         }
       ]
@@ -79,12 +77,12 @@
         }
       ]
     },
-    "Evoke_Wand_Target_Selection_Var": {
+    "Evoke_Wand_Follow_Var": {
       "Interactions": [
         {
-          "Type": "EvokeTargetSelection",
+          "Type": "EvokeFollow",
           "MaxDistance": 10,
-          "Next": "Evoke_Wand_Selection_Generic",
+          "Next": "Evoke_Wand_Follow_Generic",
           "Failed": "Evoke_Interact_Fail"
         }
       ]

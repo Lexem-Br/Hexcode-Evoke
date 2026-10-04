@@ -8,11 +8,14 @@
             "Name": "Lexem"
         },
         {
+            "Name": "Riprod"
+        },
+        {
             "Name": "Gwentor"
         }
     ],
     "Website": "",
-    "ServerVersion": ">=0.6.0 <0.7.0",
+    "ServerVersion": ">=0.6.0 <0.8.0",
     "Dependencies": {
         "Hytale:AssetModule": "*"
     },

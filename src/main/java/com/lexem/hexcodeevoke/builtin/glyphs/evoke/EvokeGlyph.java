@@ -3,8 +3,10 @@ package com.lexem.hexcodeevoke.builtin.glyphs.evoke;
 import com.hypixel.hytale.component.*;
 import com.hypixel.hytale.server.core.asset.type.blocktype.config.BlockType;
 import com.hypixel.hytale.server.core.universe.world.World;
+import com.hypixel.hytale.server.core.universe.world.chunk.section.BlockSection;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.lexem.hexcodeevoke.builtin.glyphs.evoke.style.EvokeStyle;
+import com.lexem.hexcodeevoke.utils.BlockUtils;
 import com.lexem.hexcodeevoke.utils.HexCreatureUtils;
 import com.lexem.hexcodeevoke.hexitems.AllowedHexItemsAsset;
 import com.riprod.hexcode.api.event.GlyphFizzleEvent;
@@ -58,10 +60,13 @@ public class EvokeGlyph implements GlyphHandler {
             World world) {
 
         Vector3i blockPos = blockVar.getValue();
-        BlockType blockType = world.getBlockType(blockPos);
-        if (blockType == null) { return; }
+        String blockId = BlockUtils.getBlockIdByPosition(blockPos, world);
+        if (blockId == null) {
+            LOGGER.atWarning().log("Evoke: block must be a Hex item");
+            return;
+        }
 
-        AllowedHexItemsAsset.HexItem hexItem = AllowedHexItemsAsset.getByBlockId(blockType.getId());
+        AllowedHexItemsAsset.HexItem hexItem = AllowedHexItemsAsset.getByBlockId(blockId);
 
         if (hexItem == null) {
             LOGGER.atWarning().log("Evoke: block must be a Hex item");

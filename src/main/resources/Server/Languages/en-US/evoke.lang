@@ -1,15 +1,15 @@
 items.Evoke_Book.name=Evoke Book
-items.Evoke_Book.description=<b>To evoke creatures</b>\nUse it on <b>Hex items</b> to bring them to life and have them follow you
+items.Evoke_Book.description=<b>Bring objects to life</b>\nUse it on <b>Hex items</b> to bring them to life and have them follow you
 items.Void_Evoke_Book.name=Void Evoke Book
-items.Void_Evoke_Book.description=<b>To evoke creatures</b>\nUse it on <b>Hex items</b> to bring them to life and have them follow you
+items.Void_Evoke_Book.description=<b>Summon a Void Mannquin</b>
 items.Summon_Void_Mannequin.name=Summon Void Mannequin Page
 items.Summon_Void_Mannequin.description=.
 items.Weapon.Wand.Evoke_Wand_Crude.name=Crude Evoke Wand
-items.Weapon.Wand.Evoke_Wand_Crude.description=<color is="#8888ff"><b>1</b></color> <color is="#aaaaaa">Selection</color> - <color is="#ffcc00"><b>10</b></color> <color is="#aaaaaa">Distance</color>\n\n<b>To give orders to the mannequins</b>\n\n<b>Primary</b> to send them to a location and have them stay there\n<b>Secondary</b> to have them followed again\n<b>Ability2</b> to select\n<b>Charged Ability2</b> to select all\n<b>Ability3</b> to deselect the Hex Creature\n<b>Charged Ability3</b> to deselect all Hex Creatures\n\nArt by: Gwentor
+items.Weapon.Wand.Evoke_Wand_Crude.description=<color is="#8888ff"><b>1</b></color> <color is="#aaaaaa">Selection</color> - <color is="#ffcc00"><b>10</b></color> <color is="#aaaaaa">Distance</color>\n\n<b>Give orders to the Hex Creatures</b>\n\n<b>Primary</b> to select the Hex Creature or to send them to a location and have them stay there\n<b>Charged Primary</b> to select all Hex Creature\n<b>Secondary</b> to have them followed again\n<b>Charged Secondary</b> to deselect all Hex Creatures\n\nArt by: Gwentor
 items.Weapon.Wand.Evoke_Wand_Wooden.name=Wooden Evoke Wand
-items.Weapon.Wand.Evoke_Wand_Wooden.description=<color is="#8888ff"><b>3</b></color> <color is="#aaaaaa">Selection</color> - <color is="#ffcc00"><b>20</b></color> <color is="#aaaaaa">Distance</color>\n\n<b>To give orders to the mannequins</b>\n\n<b>Primary</b> to send them to a location and have them stay there\n<b>Secondary</b> to have them followed again\n<b>Ability2</b> to select\n<b>Charged Ability2</b> to select all\n<b>Ability3</b> to deselect the Hex Creature\n<b>Charged Ability3</b> to deselect all Hex Creatures\n\nArt by: Gwentor
+items.Weapon.Wand.Evoke_Wand_Wooden.description=<color is="#8888ff"><b>3</b></color> <color is="#aaaaaa">Selection</color> - <color is="#ffcc00"><b>20</b></color> <color is="#aaaaaa">Distance</color>\n\n<b>Give orders to the Hex Creatures</b>\n\n<b>Primary</b> to select the Hex Creature or to send them to a location and have them stay there\n<b>Charged Primary</b> to select all Hex Creature\n<b>Secondary</b> to have them followed again\n<b>Charged Secondary</b> to deselect all Hex Creatures\n\nArt by: Gwentor
 items.Weapon.Wand.Evoke_Wand_Iron.name=Iron Evoke Wand
-items.Weapon.Wand.Evoke_Wand_Iron.description=<color is="#8888ff"><b>6</b></color> <color is="#aaaaaa">Selection</color> - <color is="#ffcc00"><b>30</b></color> <color is="#aaaaaa">Distance</color>\n\n<b>To give orders to the mannequins</b>\n\n<b>Primary</b> to send them to a location and have them stay there\n<b>Secondary</b> to have them followed again\n<b>Ability2</b> to select\n<b>Charged Ability2</b> to select all\n<b>Ability3</b> to deselect the Hex Creature\n<b>Charged Ability3</b> to deselect all Hex Creatures\n\nArt by: Gwentor
+items.Weapon.Wand.Evoke_Wand_Iron.description=<color is="#8888ff"><b>6</b></color> <color is="#aaaaaa">Selection</color> - <color is="#ffcc00"><b>30</b></color> <color is="#aaaaaa">Distance</color>\n\n<b>Give orders to the Hex Creatures</b>\n\n<b>Primary</b> to select the Hex Creature or to send them to a location and have them stay there\n<b>Charged Primary</b> to select all Hex Creature\n<b>Secondary</b> to have them followed again\n<b>Charged Secondary</b> to deselect all Hex Creatures\n\nArt by: Gwentor
 
 items.HexItems.Hex_Mannequin.name=Hex Mannequin
 items.HexItems.Hex_Mannequin.description=Give him one of the following items:\n- <b>Sickle</b>: Harvests crops and stores them in the nearest chest\n- <b>Watering Can</b>: Waters dry soil\n- <b>Torch</b>: Lights the way
@@ -24,12 +24,12 @@ items.HexItems.Baby_Chest_Spider.name=Baby Chest Spider
 items.HexItems.Baby_Chest_Spider.description=.
 
 npcRoles.Hex_Mannequin.name=Hex Mannequin
-npcRoles.Hex_Mannequin.description=Give him a torch to help light up the path
+npcRoles.Hex_Mannequin.description=Give him a sickle to harvest your crops and store the items in the chest, or a watering can to water the plants.
 npcRoles.Hex_Fairy.name=Hex Fairy
 npcRoles.Hex_Fairy_Void.name=Hex Fairy Void
 npcRoles.Hex_Fairy_Ice.name=Hex Fairy Ice
 npcRoles.Hex_Homunculus.name=Homunculus
-npcRoles.Hex_Homunculus.description=Give him a candle to help light up the path\n\nArt by: Gwentor
+npcRoles.Hex_Homunculus.description=Give him a sickle to harvest your crops and store the items in the chest, or a watering can to water the plants.\n\nArt by: Gwentor
 npcRoles.Hex_Pumpkin_Scary.name=Hex Pumpkin Scary
 npcRoles.Hex_Pumpkin_Cute.name=Hex Pumpkin Cute
 

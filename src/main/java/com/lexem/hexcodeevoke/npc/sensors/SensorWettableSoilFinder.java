@@ -16,6 +16,7 @@ import com.hypixel.hytale.server.npc.role.Role;
 import com.hypixel.hytale.server.npc.sensorinfo.InfoProvider;
 import com.hypixel.hytale.server.npc.sensorinfo.PositionProvider;
 import com.lexem.hexcodeevoke.npc.sensors.builders.BuilderSensorWettableSoilFinder;
+import com.lexem.hexcodeevoke.utils.BlockUtils;
 import com.lexem.hexcodeevoke.utils.FinderUtils;
 import org.joml.Vector3d;
 import org.joml.Vector3i;
@@ -67,7 +68,7 @@ public class SensorWettableSoilFinder extends SensorBase {
     }
 
     private final FinderUtils.BlockValidator<World> soilValidator = (block, world) -> {
-        BlockType blockType = world.getBlockType(block);
+        BlockType blockType = BlockUtils.getBlockTypeByPosition(block, world);
         if (blockType == null || blockType.getId() == null) {
             return false;
         } else {

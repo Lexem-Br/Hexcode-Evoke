@@ -15,7 +15,8 @@ configurations {
 }
 
 dependencies {
-    vineImplementation('curse.maven:hexcode-1448311:8758841')
+    optionalDependency files('lib/Hexcode-0.11.0.jar')
+//    vineImplementation('curse.maven:hexcode-1448311:8758841')
     shadowBundle('com.riprod:patchly:3.+')
 }
 

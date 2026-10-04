@@ -7,10 +7,13 @@ import com.hypixel.hytale.server.core.Message;
 import com.hypixel.hytale.server.core.asset.type.blocktype.config.BlockType;
 import com.hypixel.hytale.server.core.asset.type.blocktype.config.RotationTuple;
 import com.hypixel.hytale.server.core.universe.PlayerRef;
+import com.hypixel.hytale.server.core.universe.world.SetBlockSettings;
 import com.hypixel.hytale.server.core.universe.world.World;
+import com.hypixel.hytale.server.core.universe.world.chunk.BlockOperations;
 import com.hypixel.hytale.server.core.universe.world.chunk.section.BlockSection;
 import com.hypixel.hytale.server.core.universe.world.storage.ChunkStore;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
+import com.hypixel.hytale.server.core.util.FillerBlockUtil;
 import com.hypixel.hytale.server.core.util.NotificationUtil;
 import com.hypixel.hytale.server.npc.NPCPlugin;
 import com.hypixel.hytale.server.npc.entities.NPCEntity;
@@ -40,8 +43,7 @@ public class HexCreatureUtils {
         RotationTuple rotation = RotationTuple.get(blockRotationIndex);
         Rotation3f blockRotation = new Rotation3f(0.0F, (float) (rotation.yaw().getRadians() + Math.PI), 0.0F);
 
-        BlockType blockType = world.getBlockType(blockPos);
-
+        BlockType blockType = BlockUtils.getBlockTypeByPosition(blockPos, world);
         if (blockType == null) {
             LOGGER.atWarning().log("Evoke: invalid block");
             return false;
@@ -71,7 +73,8 @@ public class HexCreatureUtils {
                 Pair<Ref<EntityStore>, NPCEntity> npcPair = NPCPlugin.get().spawnEntity(_store, roleIndex, blockVector, blockRotation, null, null);
                 if (npcPair == null) { return; }
 
-                world.breakBlock(blockPos.x, blockPos.y, blockPos.z, 0);
+                final var chunkStore = world.getChunkStore().getStore();
+                BlockOperations.setBlock(chunkStore.getExternalData(), section, blockPos.x, blockPos.y, blockPos.z, BlockType.EMPTY_ID, BlockType.EMPTY, RotationTuple.NONE_INDEX, FillerBlockUtil.NO_FILLER, SetBlockSettings.NONE);
 
                 Ref<EntityStore> refESNPC = npcPair.first();
                 SaveHexCreatureEvent.dispatch(refESPlayer, refESNPC);

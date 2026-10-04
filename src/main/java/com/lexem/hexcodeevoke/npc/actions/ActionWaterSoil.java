@@ -16,6 +16,7 @@ import com.hypixel.hytale.server.npc.instructions.ExecutionSupport;
 import com.hypixel.hytale.server.npc.sensorinfo.IPositionProvider;
 import com.hypixel.hytale.server.npc.sensorinfo.InfoProvider;
 import com.lexem.hexcodeevoke.npc.actions.builders.BuilderActionWaterSoil;
+import com.lexem.hexcodeevoke.utils.BlockUtils;
 import org.joml.Vector3i;
 
 import javax.annotation.Nonnull;
@@ -45,7 +46,7 @@ public class ActionWaterSoil extends ActionBase {
                 (int) Math.floor(positionProvider.getZ())
         );
 
-        BlockType blockType = world.getBlockType(blockPosition);
+        BlockType blockType = BlockUtils.getBlockTypeByPosition(blockPosition, world);
         if (blockType == null || blockType.getId() == null) return false;
 
         if (!Objects.equals(blockType.getId(), "Soil_Dirt_Tilled")) return false;

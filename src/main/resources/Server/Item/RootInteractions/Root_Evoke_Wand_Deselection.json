@@ -13,7 +13,7 @@
           "Type": "EvokeHCSelection",
           "Reverse": true,
           "Next": "Evoke_Wand_Selection_Generic",
-          "Failed": "Evoke_Interact_Fail"
+          "Failed": "Evoke_Wand_Follow"
         },
         "0.8": {
           "Type": "EvokeHCSelection",

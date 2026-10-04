@@ -23,6 +23,10 @@
       "Value": "Empty",
       "Description": "Drop Items"
     },
+    "MaxBeaconDistance": {
+      "Value": 100,
+      "Description": "The maximum distance the wand reaches"
+    },
     "NameTranslationKey": {
       "Value": "server.npcRoles.Template.name",
       "Description": "Translation key for NPC name display"
@@ -57,7 +61,7 @@
       "MaxHover": 1,
       "HoverFreq": 10,
       "MaxClimbHeight": 3,
-      "MaxDropHeight": 30
+      "MaxDropHeight": 3
     }
   ],
   "MaxHealth": 100,
@@ -101,7 +105,12 @@
             {
               "Sensor": {
                 "Type": "Player",
-                "Range": 15
+                "Range": 15,
+                "Filters": [
+                  {
+                    "Type": "Evoke:IsEvoker"
+                  }
+                ]
               },
               "Actions": [
                 {
@@ -119,9 +128,15 @@
       "Continue": true,
       "Instructions": [
         {
+          "$Comment": "Beacon wand command",
           "Continue": true,
           "Sensor": {
-            "Type": "FlockLeader"
+            "Type": "Any",
+            "Filters": [
+              {
+                "Type": "Evoke:IsEvoker"
+              }
+            ]
           },
           "Instructions": [
             {
@@ -129,7 +144,7 @@
               "Sensor": {
                 "Type": "Beacon",
                 "Message": "EvokeTargetPosition",
-                "Range": 90
+                "Range": { "Compute": "MaxBeaconDistance" }
               },
               "Actions": [
                 {
@@ -143,7 +158,7 @@
               "Sensor": {
                 "Type": "Beacon",
                 "Message": "EvokeFollowLeader",
-                "Range": 100
+                "Range": { "Compute": "MaxBeaconDistance" }
               },
               "Actions": [
                 {
@@ -211,6 +226,7 @@
                 "Type": "Player",
                 "Range": 5,
                 "ExcludeOwnType": true,
+                "LockOnTarget": true,
                 "Filters": [
                   {
                     "Type": "Evoke:IsEvoker"
@@ -249,6 +265,26 @@
                 "StopDistance": 2,
                 "RelativeSpeed": 0.6
               }
+            },
+            {
+              "$Comment": "Prevents the NPC from losing sight of the player",
+              "Continue": true,
+              "Sensor": {
+                "Type": "Player",
+                "Range": { "Compute": "MaxBeaconDistance" },
+                "ExcludeOwnType": true,
+                "LockOnTarget": true,
+                "Filters": [
+                  {
+                    "Type": "Evoke:IsEvoker"
+                  }
+                ]
+              },
+              "Actions": [
+                {
+                  "Type": "Nothing"
+                }
+              ]
             },
             {
               "$Comment": "Teleports to the leader if more than 15 blocks away",

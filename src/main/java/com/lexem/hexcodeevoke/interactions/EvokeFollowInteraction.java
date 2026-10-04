@@ -99,7 +99,11 @@ public class EvokeFollowInteraction extends SimpleInteraction {
             }
 
             if (countFindedHC == 0) {
-                messageMaxDistanceExceeded(playerRef, store, maxDistance);
+                boolean hasSelectedHC = evoker.getSelectedHexCreatures().length > 0;
+                if (hasSelectedHC) {
+                    messageMaxDistanceExceeded(playerRef, store, maxDistance);
+                }
+
                 context.getState().state = InteractionState.Failed;
             } else {
                 context.getState().state = InteractionState.Finished;

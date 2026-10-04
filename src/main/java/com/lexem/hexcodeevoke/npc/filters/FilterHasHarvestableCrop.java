@@ -13,6 +13,7 @@ import com.hypixel.hytale.server.npc.asset.builder.BuilderSupport;
 import com.hypixel.hytale.server.npc.corecomponents.EntityFilterBase;
 import com.hypixel.hytale.server.npc.instructions.ExecutionSupport;
 import com.lexem.hexcodeevoke.npc.filters.builders.BuilderFilterHasHarvestableCrop;
+import com.lexem.hexcodeevoke.utils.BlockUtils;
 import com.lexem.hexcodeevoke.utils.FinderUtils;
 import org.joml.Vector3i;
 
@@ -45,7 +46,7 @@ public class FilterHasHarvestableCrop extends EntityFilterBase {
    }
 
     private final FinderUtils.BlockValidator<World> cropValidator = (block, world) -> {
-        BlockType blockType = world.getBlockType(block);
+        BlockType blockType = BlockUtils.getBlockTypeByPosition(block, world);
         if (blockType == null || blockType.getId() == null || blockType.getGathering() == null) {
             return false;
         }

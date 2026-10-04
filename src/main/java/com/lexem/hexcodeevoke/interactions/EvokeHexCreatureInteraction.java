@@ -14,6 +14,7 @@ import com.hypixel.hytale.server.core.modules.interaction.interaction.config.Sim
 import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.lexem.hexcodeevoke.hexitems.AllowedHexItemsAsset;
+import com.lexem.hexcodeevoke.utils.BlockUtils;
 import com.lexem.hexcodeevoke.utils.FinderUtils;
 import com.lexem.hexcodeevoke.utils.HexCreatureUtils;
 import org.joml.Vector3i;
@@ -88,9 +89,10 @@ public class EvokeHexCreatureInteraction extends SimpleInteraction {
     }
 
     private final FinderUtils.BlockValidator<World> hexItemValidator = (block, world) -> {
-        BlockType blockType = world.getBlockType(block);
-        if (blockType == null || blockType.getId() == null) return false;
-        AllowedHexItemsAsset.HexItem hexItem = AllowedHexItemsAsset.getByBlockId(blockType.getId());
+        String blockId = BlockUtils.getBlockIdByPosition(block, world);
+        if (blockId == null) return false;
+
+        AllowedHexItemsAsset.HexItem hexItem = AllowedHexItemsAsset.getByBlockId(blockId);
         return hexItem != null;
     };
 }

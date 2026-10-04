@@ -17,7 +17,7 @@
               {
                 "Type": "EvokeHCSelection",
                 "Next": "Evoke_Wand_Selection_Generic",
-                "Failed": "Evoke_Interact_Fail"
+                "Failed": "Evoke_Wand_Target_Selection"
               }
             ]
           }
