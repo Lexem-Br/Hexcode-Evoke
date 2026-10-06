@@ -1,0 +1,493 @@
+{
+  "StartState": "Following",
+  "Type": "Generic",
+  "Parameters": {
+    "Appearance": {
+      "Value": "Hex_Broom",
+      "Description": "Model to be used."
+    },
+    "FlockArray": {
+      "Value": [],
+      "TypeHint": "String",
+      "Description": "Array containing NPCs for this flock type."
+    },
+    "DropHexItem": {
+      "Value": "Hex_Broom_Block",
+      "Description": "Drop from Hex Creature"
+    },
+    "holdableItems": {
+      "Value": [ "" ],
+      "Description": "Items that can be held in the hand"
+    },
+    "DropList": {
+      "Value": "Empty",
+      "Description": "Drop Items"
+    },
+    "MaxBeaconDistance": {
+      "Value": 100,
+      "Description": "The maximum distance the wand reaches"
+    },
+    "StopDistance": {
+      "Value": 2,
+      "Description": "The distance to stop"
+    },
+    "NameTranslationKey": {
+      "Value": "server.npcRoles.Template.name",
+      "Description": "Translation key for NPC name display"
+    }
+  },
+  "DropList": { "Compute": "DropList" },
+  "Appearance": {"Compute": "Appearance"},
+  "FlockSpawnTypes": {"Compute": "FlockArray"},
+  "FlockAllowedNPC": {"Compute": "FlockArray"},
+  "DisableDamageFlock": true,
+  "ApplySeparation": true,
+  "SeparationDistance": 1.2,
+  "SeparationWeight": 0.6,
+  "InventorySize": 5,
+  "HotbarSize": 3,
+  "OffHandSlots": 0,
+  "NameTranslationKey": {"Compute": "NameTranslationKey"},
+  "MotionControllerList": [
+    {
+      "Type": "Walk",
+      "MaxWalkSpeed": 5,
+      "Gravity": 10,
+      "RunThreshold": 0.3,
+      "MaxFallSpeed": 15,
+      "MaxRotationSpeed": 360,
+      "Acceleration": 3,
+      "MaxClimbHeight": 1,
+      "MaxDropHeight": 2
+    }
+  ],
+  "MaxHealth": 50,
+  "StateTransitions": [
+    {
+      "$Comment": "Clear",
+      "States": [
+        {
+          "From": [ ],
+          "To": [ ]
+        }
+      ],
+      "Actions": [
+        {
+          "Type": "ReleaseTarget"
+        },
+        {
+          "Type": "ResetInstructions"
+        }
+      ]
+    }
+  ],
+  "Instructions": [
+    {
+      "$Comment": "Adds the entity to the flock to prevent flock damage",
+      "Continue": true,
+      "Sensor": {
+        "Type": "Self",
+        "Filters": [
+          {
+            "Type": "Flock",
+            "FlockStatus": "NotMember"
+          }
+        ]
+      },
+      "Instructions": [
+        {
+          "Sensor": {
+            "Type": "Player",
+            "Range": 15,
+            "Filters": [
+              {
+                "Type": "Evoke:IsEvoker"
+              }
+            ]
+          },
+          "Actions": [
+            {
+              "Type": "JoinFlock",
+              "ForceJoin": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "$Comment": "Beacon wand command",
+      "Continue": true,
+      "Sensor": {
+        "Type": "Any",
+        "Filters": [
+          {
+            "Type": "Evoke:IsEvoker"
+          }
+        ]
+      },
+      "Instructions": [
+        {
+          "$Comment": "Store target position",
+          "Sensor": {
+            "Type": "Beacon",
+            "Message": "EvokeTargetPosition",
+            "Range": { "Compute": "MaxBeaconDistance" }
+          },
+          "Actions": [
+            {
+              "Type": "State",
+              "State": "SeekPosition"
+            }
+          ]
+        },
+        {
+          "$Comment": "Follow the leader",
+          "Sensor": {
+            "Type": "Beacon",
+            "Message": "EvokeFollowLeader",
+            "Range": { "Compute": "MaxBeaconDistance" }
+          },
+          "Actions": [
+            {
+              "Type": "State",
+              "State": "Following"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "$Comment": "Go to target position",
+      "Sensor": {
+        "Type": "State",
+        "State": "SeekPosition"
+      },
+      "Instructions": [
+        {
+          "Sensor": {
+            "Type": "Evoke:ReadPosition",
+            "Range": 30,
+            "MinRange": 1
+          },
+          "BodyMotion": {
+            "Type": "Seek",
+            "SlowDownDistance": 3,
+            "StopDistance": 1,
+            "RelativeSpeed": 0.8,
+            "RecomputeDistance": 0
+          }
+        },
+        {
+          "Sensor": {
+            "Type": "Any"
+          },
+          "Actions": [
+            {
+              "Type": "State",
+              "State": "Idle"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "$Comment": "Less than 1 block away from the player",
+      "Sensor": {
+        "Type": "Player",
+        "Range": 1
+      },
+      "BodyMotion": {
+        "Type": "MaintainDistance",
+        "DesiredDistanceRange": [1.5, 1.5],
+        "MoveThreshold": 0.2,
+        "RelativeForwardsSpeed": 0.6,
+        "RelativeBackwardsSpeed": 0.3
+      }
+    },
+    {
+      "$Comment": "Wanders the area, sweeping",
+      "Sensor": {
+        "Type": "State",
+        "State": "Idle"
+      },
+      "Instructions": [
+        {
+          "$Comment": "If there are any items in the inventory, store them in a chest",
+          "Continue": true,
+          "Sensor": {
+            "Type": "Self",
+            "Filters": [
+              {
+                "Type": "Inventory",
+                "Items": [ "*" ]
+              }
+            ]
+          },
+          "Actions": [
+            {
+              "Type": "State",
+              "State": "FindChest"
+            }
+          ]
+        },
+        {
+          "Sensor": {
+            "Type": "DroppedItem",
+            "Range": 15,
+            "Items": [ "*" ]
+          },
+          "BodyMotion": {
+            "Type": "Seek",
+            "SlowDownDistance": 0.5,
+            "StopDistance": 0.5
+          },
+          "Actions": [
+            {
+              "Type": "PickUpItem",
+              "Range": 1,
+              "StorageTarget": "Inventory"
+            }
+          ]
+        },
+        {
+          "BodyMotion": {
+            "Type": "Sequence",
+            "Looped": true,
+            "Motions": [
+              {
+                "Type": "Timer",
+                "Time": [ 16, 20 ],
+                "Motion": {
+                  "Type": "WanderInCircle",
+                  "Radius": 20,
+                  "MaxHeadingChange": 45,
+                  "RelativeSpeed": 0.15
+                }
+              },
+              {
+                "Type": "Timer",
+                "Time": [ 0.5, 1.5 ],
+                "Motion": {
+                  "Type": "Nothing"
+                }
+              },
+              {
+                "Type": "Timer",
+                "Time": [ 14, 18 ],
+                "Motion": {
+                  "Type": "WanderInCircle",
+                  "Radius": 5,
+                  "MaxHeadingChange": 45,
+                  "RelativeSpeed": 0.15
+                }
+              },
+              {
+                "Type": "Timer",
+                "Time": [ 0.5, 1.5 ],
+                "Motion": {
+                  "Type": "Nothing"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "Sensor": {
+        "Type": "State",
+        "State": "FindChest"
+      },
+      "Instructions": [
+        {
+          "Sensor": {
+            "Type": "State",
+            "State": ".Default"
+          },
+          "Instructions": [
+            {
+              "$Comment": "Checks if the inventory is full and if there is a chest nearby",
+              "Sensor": {
+                "Type": "Self",
+                "Filters": [
+                  {
+                    "Type": "Evoke:HasChestNearby",
+                    "HorizontalRange": 15,
+                    "VerticalRange": 2
+                  }
+                ]
+              },
+              "Actions": [
+                {
+                  "Type": "State",
+                  "State": ".StoreItems"
+                }
+              ]
+            },
+            {
+              "$Comment": "Returns to Idle mode",
+              "Sensor": {
+                "Type": "Any"
+              },
+              "Actions": [
+                {
+                  "Type": "State",
+                  "State": "Idle"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$Comment": "Search for a chest that has available slots",
+          "Sensor": {
+            "Type": "State",
+            "State": ".StoreItems"
+          },
+          "Instructions": [
+            {
+              "Reference": "Component_Evoke_Store_Items",
+              "Modify": {
+                "_ExportStates": ["Idle"]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "$Comment": "Follow the player",
+      "Sensor": {
+        "Type": "State",
+        "State": "Following"
+      },
+      "Instructions": [
+        {
+          "$Comment": "Less than 5 block away from the leader",
+          "Sensor": {
+            "Type": "Player",
+            "Range": 5,
+            "LockOnTarget": true,
+            "Filters": [
+              {
+                "Type": "Evoke:IsEvoker"
+              }
+            ]
+          },
+          "HeadMotion": {
+            "Type": "Aim",
+            "Deflection": true,
+            "Spread": 1,
+            "RelativeTurnSpeed": 2
+          },
+          "BodyMotion": {
+            "Type": "Seek",
+            "SlowDownDistance": 5,
+            "StopDistance": {"Compute": "StopDistance"},
+            "RelativeSpeed": 0.4
+          }
+        },
+        {
+          "$Comment": "Less than 30 blocks away from the leader",
+          "Sensor": {
+            "Type": "Player",
+            "Range": 30,
+            "LockOnTarget": true,
+            "Filters": [
+              {
+                "Type": "Evoke:IsEvoker"
+              }
+            ]
+          },
+          "BodyMotion": {
+            "Type": "Seek",
+            "SlowDownDistance": 5,
+            "StopDistance": 2,
+            "RelativeSpeed": 0.6
+          }
+        },
+        {
+          "$Comment": "Prevents the NPC from losing sight of the player",
+          "Continue": true,
+          "Sensor": {
+            "Type": "Player",
+            "Range": { "Compute": "MaxBeaconDistance" },
+            "LockOnTarget": true,
+            "Filters": [
+              {
+                "Type": "Evoke:IsEvoker"
+              }
+            ]
+          },
+          "Actions": [
+            {
+              "Type": "Nothing"
+            }
+          ]
+        },
+        {
+          "$Comment": "Teleports to the leader if more than 15 blocks away",
+          "Sensor": {
+            "Type": "Target",
+            "Filters": [
+              {
+                "Type": "Evoke:IsEvoker"
+              }
+            ]
+          },
+          "BodyMotion": {
+            "Type": "Evoke:Teleport",
+            "MinYOffset": 1.0,
+            "OffsetRange": [2, 3],
+            "OffsetSector": 2,
+            "Orientation": "TowardsTarget"
+          },
+          "Actions": [
+            {
+              "Type": "SpawnParticles",
+              "Offset": [ 0, 0.5, 0 ],
+              "ParticleSystem": "Effect_Death",
+              "Once": true
+            },
+            {
+              "Type": "Timeout",
+              "Delay": [ 2, 2 ],
+              "DelayAfter": true
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "InteractionInstruction": {
+    "$Comment": "Opens the Hex Creature profile when interacted with",
+    "Instructions": [
+      {
+        "Continue": true,
+        "Sensor": {
+          "Type": "Any"
+        },
+        "Actions": [
+          {
+            "Type": "SetInteractable",
+            "Interactable": true
+          }
+        ]
+      },
+      {
+        "Sensor": {
+          "Type": "HasInteracted"
+        },
+        "Instructions": [
+          {
+            "Actions": [
+              {
+                "Type": "Evoke:OpenHCProfile"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

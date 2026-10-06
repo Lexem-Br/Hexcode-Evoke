@@ -57,8 +57,8 @@
       "MaxFallSpeed": 15,
       "MaxRotationSpeed": 360,
       "Acceleration": 10,
-      "MaxClimbHeight": 4,
-      "MaxDropHeight": 5
+      "MaxClimbHeight": 2,
+      "MaxDropHeight": 3
     }
   ],
   "MaxHealth": 100,
@@ -121,48 +121,37 @@
       ]
     },
     {
-      "$Comment": "Change the state",
+      "$Comment": "Beacon wand command",
       "Continue": true,
+      "Sensor": {
+        "Type": "Any"
+      },
       "Instructions": [
         {
-          "$Comment": "Beacon wand command",
-          "Continue": true,
+          "$Comment": "Store target position",
           "Sensor": {
-            "Type": "Any",
-            "Filters": [
-              {
-                "Type": "Evoke:IsEvoker"
-              }
-            ]
+            "Type": "Beacon",
+            "Message": "EvokeTargetPosition",
+            "Range": { "Compute": "MaxBeaconDistance" }
           },
-          "Instructions": [
+          "Actions": [
             {
-              "$Comment": "Store target position",
-              "Sensor": {
-                "Type": "Beacon",
-                "Message": "EvokeTargetPosition",
-                "Range": { "Compute": "MaxBeaconDistance" }
-              },
-              "Actions": [
-                {
-                  "Type": "State",
-                  "State": "SeekPosition"
-                }
-              ]
-            },
+              "Type": "State",
+              "State": "SeekPosition"
+            }
+          ]
+        },
+        {
+          "$Comment": "Follow the leader",
+          "Sensor": {
+            "Type": "Beacon",
+            "Message": "EvokeFollowLeader",
+            "Range": { "Compute": "MaxBeaconDistance" }
+          },
+          "Actions": [
             {
-              "$Comment": "Follow the leader",
-              "Sensor": {
-                "Type": "Beacon",
-                "Message": "EvokeFollowLeader",
-                "Range": { "Compute": "MaxBeaconDistance" }
-              },
-              "Actions": [
-                {
-                  "Type": "State",
-                  "State": "Following"
-                }
-              ]
+              "Type": "State",
+              "State": "Following"
             }
           ]
         }
@@ -178,7 +167,8 @@
         {
           "Sensor": {
             "Type": "Evoke:ReadPosition",
-            "Range": 30
+            "Range": 30,
+            "MinRange": 1
           },
           "BodyMotion": {
             "Type": "Seek",
@@ -236,7 +226,6 @@
               "Sensor": {
                 "Type": "Player",
                 "Range": 5,
-                "ExcludeOwnType": true,
                 "LockOnTarget": true,
                 "Filters": [
                   {
@@ -262,7 +251,6 @@
               "Sensor": {
                 "Type": "Player",
                 "Range": 30,
-                "ExcludeOwnType": true,
                 "LockOnTarget": true,
                 "Filters": [
                   {
@@ -283,7 +271,6 @@
               "Sensor": {
                 "Type": "Player",
                 "Range": { "Compute": "MaxBeaconDistance" },
-                "ExcludeOwnType": true,
                 "LockOnTarget": true,
                 "Filters": [
                   {

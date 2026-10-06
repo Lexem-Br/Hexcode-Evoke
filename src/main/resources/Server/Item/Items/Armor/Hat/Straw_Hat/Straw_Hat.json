@@ -1,10 +1,10 @@
 {
   "TranslationProperties": {
-    "Name": "evoke.items.armor.Armor_Straw_Hat_Head.name"
+    "Name": "evoke.items.armor.Straw_Hat.name"
   },
   "Parent": "Armor_Iron_Head",
   "ItemLevel": 1,
-  "Icon": "Icons/ItemsGenerated/Armor_Straw_Hat_Head.png",
+  "Icon": "Icons/ItemsGenerated/Straw_Hat.png",
   "Model": "Items/Armors/Hat/Straw_Hat/Head.blockymodel",
   "Texture": "Items/Armors/Hat/Straw_Hat/Head_Texture.png",
   "Recipe": {
@@ -16,15 +16,15 @@
     ],
     "BenchRequirement": [
       {
-        "Id": "Armor_Bench",
         "Type": "Crafting",
         "Categories": [
-          "Armor_Head"
-        ]
+          "Farming"
+        ],
+        "Id": "Farmingbench"
       }
     ],
     "KnowledgeRequired": false,
-    "TimeSeconds": 3
+    "TimeSeconds": 2
   },
   "Armor": {
     "ArmorSlot": "Head",

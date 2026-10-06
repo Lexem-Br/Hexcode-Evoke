@@ -175,6 +175,7 @@
               "HorizontalRange": 2,
               "VerticalRange": 3
             },
+            "ActionsBlocking": true,
             "Actions": [
               {
                 "Type": "PlayAnimation",

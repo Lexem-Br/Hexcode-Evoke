@@ -2,7 +2,15 @@
   "$Comment": "Store items",
   "Class": "Instruction",
   "Parameters": {
-    "_ImportStates": ["Main"]
+    "_ImportStates": ["Main"],
+    "HorizontalRange": {
+      "Value": 10,
+      "Description": "Max horizontal range to search"
+    },
+    "VerticalRange": {
+      "Value": 3,
+      "Description": "Max vertical range to search"
+    }
   },
   "Content":  {
     "Instructions": [
@@ -11,8 +19,8 @@
         "Continue": true,
         "Sensor":  {
           "Type": "Evoke:ChestFinder",
-          "HorizontalRange": 10,
-          "VerticalRange": 3,
+          "HorizontalRange": { "Compute": "HorizontalRange" },
+          "VerticalRange": { "Compute": "VerticalRange" },
           "CheckCanStore": true
         },
         "BodyMotion": {
@@ -31,6 +39,7 @@
           "VerticalRange": 3,
           "CheckCanStore": true
         },
+        "ActionsBlocking": true,
         "Actions": [
           {
             "Type": "PlayAnimation",

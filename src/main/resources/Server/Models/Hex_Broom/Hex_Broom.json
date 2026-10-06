@@ -1,0 +1,77 @@
+{
+  "Model": "NPC/Broom/Broomstick.blockymodel",
+  "Texture": "Items/Halloween_Props/Broomstick_Texture.png",
+  "DefaultAttachments": [],
+  "HitBox": {
+    "Min": {
+      "X": -0.5,
+      "Y": 0,
+      "Z": -0.5
+    },
+    "Max": {
+      "X": -0,
+      "Y": 2.6,
+      "Z": 0
+    }
+  },
+  "EyeHeight": 1.4,
+  "MinScale": 0.8,
+  "MaxScale": 0.8,
+  "AnimationSets": {
+    "Spawn": {
+      "Animations": [
+        {
+          "Animation": "NPC/Broom/Animations/Spawn.blockyanim",
+          "Speed": 2.0,
+          "BlendingDuration": 0,
+          "Looping": false
+        }
+      ]
+    },
+    "Interact": {
+      "Animations": [
+        {
+          "Animation": "NPC/Broom/Animations/Walk.blockyanim",
+          "Speed": 0.7,
+          "Looping": true
+        }
+      ]
+    },
+    "Walk": {
+      "Animations": [
+        {
+          "Animation": "NPC/Broom/Animations/Walk.blockyanim",
+          "Speed": 0.7,
+          "Looping": true
+        }
+      ]
+    },
+    "Run": {
+      "Animations": [
+        {
+          "Animation": "NPC/Broom/Animations/Walk.blockyanim",
+          "Speed": 1,
+          "Looping": true
+        }
+      ]
+    },
+    "Jump": {
+      "Animations": [
+        {
+          "Animation": "NPC/Broom/Animations/Walk.blockyanim",
+          "Speed": 0.7,
+          "Looping": false
+        }
+      ]
+    },
+    "Sprint": {
+      "Animations": [
+        {
+          "Animation": "NPC/Broom/Animations/Walk.blockyanim",
+          "Speed": 1,
+          "Looping": true
+        }
+      ]
+    }
+  }
+}

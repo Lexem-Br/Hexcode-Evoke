@@ -22,8 +22,8 @@
         {
           "id": "2",
           "name": "Core3",
-          "position": {"x": -8, "y": -6, "z": 12},
-          "orientation": {"x": 0.69707, "y": -0.11869, "z": 0.26127, "w": 0.65708},
+          "position": {"x": -7, "y": -6, "z": 10},
+          "orientation": {"x": 0.69707, "y": -0.11869, "z": 0.26127, "w": 0.65707},
           "shape": {
             "type": "none",
             "offset": {"x": 0, "y": 0.5, "z": 0},
@@ -201,8 +201,8 @@
                   },
                   "bottom": {
                     "offset": {"x": 1, "y": 44},
-                    "mirror": {"x": false, "y": false},
-                    "angle": 270,
+                    "mirror": {"x": true, "y": true},
+                    "angle": 90,
                     "transparent": true
                   }
                 },

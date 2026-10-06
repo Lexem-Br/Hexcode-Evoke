@@ -71,6 +71,7 @@
                 }
               ]
             },
+            "ActionsBlocking": true,
             "Actions": [
               {
                 "Type": "PlayAnimation",

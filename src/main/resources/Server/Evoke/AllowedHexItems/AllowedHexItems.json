@@ -76,6 +76,17 @@
       "HasArmorHandsSlot": false,
       "HasArmorLegSlot": false,
       "HasHotbarSlot": false
+    },
+    {
+      "BlockId": "Hex_Broom_Block",
+      "EntityId": "Hex_Broom",
+      "HasLeftHandSlot": false,
+      "HasRightHandSlot": false,
+      "HasArmorHeadSlot": false,
+      "HasArmorChestSlot": false,
+      "HasArmorHandsSlot": false,
+      "HasArmorLegSlot": false,
+      "HasHotbarSlot": false
     }
   ]
 }

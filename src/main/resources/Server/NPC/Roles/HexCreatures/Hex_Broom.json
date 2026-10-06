@@ -1,0 +1,15 @@
+{
+  "Type": "Variant",
+  "Reference": "Template_Hex_Broom",
+  "Modify": {
+    "Appearance": "Hex_Broom",
+    "DropHexItem": "Hex_Broom_Block",
+    "StopDistance": 3,
+    "NameTranslationKey": { "Compute": "NameTranslationKey" }
+  },
+  "Parameters": {
+    "NameTranslationKey": {
+      "Value": "evoke.npcRoles.Hex_Broom.name"
+    }
+  }
+}

@@ -2,6 +2,7 @@ package com.lexem.hexcodeevoke.npc.actions;
 
 import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.component.Store;
+import com.hypixel.hytale.logger.HytaleLogger;
 import com.hypixel.hytale.math.util.ChunkUtil;
 import com.hypixel.hytale.server.core.asset.type.blocktype.config.BlockType;
 import com.hypixel.hytale.server.core.universe.world.World;
@@ -22,6 +23,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 public class ActionOpenChestAnimation extends ActionBase {
+    private static final HytaleLogger LOGGER = HytaleLogger.forEnclosingClass();
     protected boolean reverse;
 
     public ActionOpenChestAnimation(@Nonnull BuilderActionOpenChestAnimation builder) {
@@ -61,9 +63,9 @@ public class ActionOpenChestAnimation extends ActionBase {
             final var blockType = BlockType.getAssetMap().getAsset(blockSection.get(chestPos.x, chestPos.y, chestPos.z));
             if (blockType != null) {
                 if (reverse) {
-                    BlockOperations.setBlockInteractionState(chunkStore, sectionRef, chestPos.x, chestPos.y, chestPos.z, blockType, "CloseWindow", true);
+                    BlockOperations.setBlockInteractionState(chunkStore, sectionRef, chestPos.x, chestPos.y, chestPos.z, blockType, "CloseWindow", false);
                 } else {
-                    BlockOperations.setBlockInteractionState(chunkStore, sectionRef, chestPos.x, chestPos.y, chestPos.z, blockType, "CloseWindow", true);
+                    BlockOperations.setBlockInteractionState(chunkStore, sectionRef, chestPos.x, chestPos.y, chestPos.z, blockType, "OpenWindow", false);
                 }
             }
         }

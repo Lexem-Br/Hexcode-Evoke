@@ -13,6 +13,7 @@
           "Type": "Any",
           "Once": true
         },
+        "ActionsBlocking": true,
         "Actions": [
           {
             "Type": "SpawnParticles",

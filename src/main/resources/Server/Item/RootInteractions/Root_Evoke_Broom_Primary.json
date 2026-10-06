@@ -1,0 +1,12 @@
+{
+  "Interactions": [
+    {
+      "Type": "Chaining",
+      "ChainingAllowance": 1.25,
+      "Next": [
+        "Spear_Swing_Left",
+        "Spear_Swing_Right"
+      ]
+    }
+  ]
+}
