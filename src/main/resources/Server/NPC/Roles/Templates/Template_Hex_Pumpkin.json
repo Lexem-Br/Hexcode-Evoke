@@ -426,7 +426,7 @@
           {
             "Type": "SetInteractable",
             "Interactable": true,
-            "Hint": "Active jump scare mode"
+            "Hint": "evoke.interactionHints.ActiveJumpScare"
           }
         ]
       },
@@ -440,7 +440,7 @@
           {
             "Type": "SetInteractable",
             "Interactable": true,
-            "Hint": "Desactive jump scare mode"
+            "Hint": "evoke.interactionHints.DesactiveJumpScare"
           }
         ]
       },
@@ -455,7 +455,7 @@
           {
             "Type": "SetInteractable",
             "Interactable": true,
-            "Hint": "Despawn"
+            "Hint": "evoke.interactionHints.despawn"
           }
         ]
       },
