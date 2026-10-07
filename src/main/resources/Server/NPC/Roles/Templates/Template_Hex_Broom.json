@@ -1,5 +1,5 @@
 {
-  "StartState": "Following",
+  "StartState": "Idle",
   "Type": "Generic",
   "Parameters": {
     "Appearance": {
@@ -115,44 +115,32 @@
       ]
     },
     {
-      "$Comment": "Beacon wand command",
+      "$Comment": "Beacon wand command - Store target position",
       "Continue": true,
       "Sensor": {
-        "Type": "Any",
-        "Filters": [
-          {
-            "Type": "Evoke:IsEvoker"
-          }
-        ]
+        "Type": "Beacon",
+        "Message": "EvokeTargetPosition",
+        "Range": { "Compute": "MaxBeaconDistance" }
       },
-      "Instructions": [
+      "Actions": [
         {
-          "$Comment": "Store target position",
-          "Sensor": {
-            "Type": "Beacon",
-            "Message": "EvokeTargetPosition",
-            "Range": { "Compute": "MaxBeaconDistance" }
-          },
-          "Actions": [
-            {
-              "Type": "State",
-              "State": "SeekPosition"
-            }
-          ]
-        },
+          "Type": "State",
+          "State": "SeekPosition"
+        }
+      ]
+    },
+    {
+      "$Comment": "Beacon wand command - Follow the leader",
+      "Continue": true,
+      "Sensor": {
+        "Type": "Beacon",
+        "Message": "EvokeFollowLeader",
+        "Range": { "Compute": "MaxBeaconDistance" }
+      },
+      "Actions": [
         {
-          "$Comment": "Follow the leader",
-          "Sensor": {
-            "Type": "Beacon",
-            "Message": "EvokeFollowLeader",
-            "Range": { "Compute": "MaxBeaconDistance" }
-          },
-          "Actions": [
-            {
-              "Type": "State",
-              "State": "Following"
-            }
-          ]
+          "Type": "State",
+          "State": "Following"
         }
       ]
     },

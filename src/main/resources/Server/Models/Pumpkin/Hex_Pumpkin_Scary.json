@@ -43,7 +43,7 @@
     "Jump": {
       "Animations": [
         {
-          "Animation": "NPC/Pumpkin/Animations/Walk.blockyanim",
+          "Animation": "NPC/Pumpkin/Animations/Jump.blockyanim",
           "Speed": 0.80,
           "Looping": false
         }

@@ -1,6 +1,6 @@
 {
   "Type": "Variant",
-  "Reference": "Template_Hex_Creature_Basic",
+  "Reference": "Template_Hex_Pumpkin",
   "Modify": {
     "Appearance": "Hex_Pumpkin_Scary",
     "DropHexItem": "Deco_Halloween_Pumpkin_Scary",

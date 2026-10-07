@@ -1,0 +1,24 @@
+{
+  "Layers": [
+    {
+      "Files": [
+        "Sounds/NPC/Undead/Zombie/Zombie_Attack_Bite_01.ogg",
+        "Sounds/NPC/Undead/Zombie/Zombie_Attack_Bite_02.ogg",
+        "Sounds/NPC/Undead/Zombie/Zombie_Attack_Bite_03.ogg",
+        "Sounds/NPC/Undead/Zombie/Zombie_Attack_Bite_04.ogg",
+        "Sounds/NPC/Undead/Zombie/Zombie_Attack_Bite_05.ogg",
+        "Sounds/NPC/Undead/Zombie/Zombie_Attack_Bite_06.ogg"
+      ],
+      "RandomSettings": {
+        "MinPitch": -1.8240371213405997,
+        "MinVolume": -1.0
+      },
+      "Volume": 4.0
+    }
+  ],
+  "PreventSoundInterruption": true,
+  "Volume": 4.0,
+  "MaxInstance": 1,
+  "AudioCategory": "AudioCat_NPC_Zombie",
+  "Parent": "SFX_Attn_Moderate"
+}

@@ -20,10 +20,6 @@
         },
         {
           "Type": "ResetInstructions"
-        },
-        {
-          "Type": "PlayAnimation",
-          "Slot": "Status"
         }
       ]
     }

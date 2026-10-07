@@ -128,6 +128,7 @@ public class HexcodeEvoke extends JavaPlugin {
         npcPlugin.registerCoreComponentType("Evoke:OwnerHasItem", BuilderFilterOwnerHasItem::new);
         npcPlugin.registerCoreComponentType("Evoke:MinionHasActiveTask", BuilderFilterMinionHasActiveTask::new);
         npcPlugin.registerCoreComponentType("Evoke:CanTransferItemsToTargetNPC", BuilderFilterCanTransferItemsToTargetNPC::new);
+        npcPlugin.registerCoreComponentType("Evoke:IsEvokerCrouch", BuilderFilterIsEvokerCrouch::new);
     }
 
     private void registerSensors(NPCPlugin npcPlugin) {

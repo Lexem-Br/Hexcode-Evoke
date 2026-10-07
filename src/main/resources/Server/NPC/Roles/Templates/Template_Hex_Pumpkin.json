@@ -1,0 +1,548 @@
+{
+  "StartState": "Idle",
+  "Type": "Generic",
+  "Parameters": {
+    "Appearance": {
+      "Value": "Hex_Fairy",
+      "Description": "Model to be used."
+    },
+    "FlockArray": {
+      "Value": [],
+      "TypeHint": "String",
+      "Description": "Array containing NPCs for this flock type."
+    },
+    "DropHexItem": {
+      "Value": "Hex_Fairy_Block",
+      "Description": "Drop from Hex Creature"
+    },
+    "holdableItems": {
+      "Value": [ "" ],
+      "Description": "Items that can be held in the hand"
+    },
+    "DropList": {
+      "Value": "Empty",
+      "Description": "Drop Items"
+    },
+    "MaxBeaconDistance": {
+      "Value": 100,
+      "Description": "The maximum distance the wand reaches"
+    },
+    "StopDistance": {
+      "Value": 2,
+      "Description": "The distance to stop"
+    },
+    "NameTranslationKey": {
+      "Value": "server.npcRoles.Template.name",
+      "Description": "Translation key for NPC name display"
+    }
+  },
+  "DropList": { "Compute": "DropList" },
+  "Appearance": {"Compute": "Appearance"},
+  "FlockSpawnTypes": {"Compute": "FlockArray"},
+  "FlockAllowedNPC": {"Compute": "FlockArray"},
+  "DisableDamageFlock": true,
+  "ApplySeparation": true,
+  "SeparationDistance": 1.2,
+  "SeparationWeight": 0.6,
+  "InventorySize": 0,
+  "HotbarSize": 3,
+  "OffHandSlots": 0,
+  "NameTranslationKey": {"Compute": "NameTranslationKey"},
+  "MotionControllerList": [
+    {
+      "Type": "Walk",
+      "MaxWalkSpeed": 12,
+      "Gravity": 10,
+      "RunThreshold": 0.3,
+      "MaxFallSpeed": 15,
+      "MaxRotationSpeed": 360,
+      "Acceleration": 10,
+      "MaxClimbHeight": 2,
+      "MaxDropHeight": 3
+    }
+  ],
+  "MaxHealth": 100,
+  "StateTransitions": [
+    {
+      "$Comment": "Clear",
+      "States": [
+        {
+          "From": [ ],
+          "To": [ ]
+        }
+      ],
+      "Actions": [
+        {
+          "Type": "ReleaseTarget"
+        },
+        {
+          "Type": "ResetInstructions"
+        },
+        {
+          "Type": "PlayAnimation",
+          "Slot": "Status"
+        }
+      ]
+    }
+  ],
+  "Instructions": [
+    {
+      "$Comment": "Adds the entity to the flock of the first player it finds",
+      "Continue": true,
+      "Instructions": [
+        {
+          "$Comment": "Add creature to flock",
+          "Continue": true,
+          "Sensor": {
+            "Type": "Self",
+            "Filters": [
+              {
+                "Type": "Flock",
+                "FlockStatus": "NotMember"
+              }
+            ]
+          },
+          "Instructions": [
+            {
+              "Sensor": {
+                "Type": "Player",
+                "Range": 15,
+                "Filters": [
+                  {
+                    "Type": "Evoke:IsEvoker"
+                  }
+                ]
+              },
+              "Actions": [
+                {
+                  "Type": "JoinFlock",
+                  "ForceJoin": true
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "$Comment": "Beacon wand command",
+      "Continue": true,
+      "Sensor": {
+        "Type": "Any"
+      },
+      "Instructions": [
+        {
+          "$Comment": "Store target position",
+          "Sensor": {
+            "Type": "Beacon",
+            "Message": "EvokeTargetPosition",
+            "Range": { "Compute": "MaxBeaconDistance" }
+          },
+          "Actions": [
+            {
+              "Type": "State",
+              "State": "SeekPosition"
+            }
+          ]
+        },
+        {
+          "$Comment": "Follow the leader",
+          "Sensor": {
+            "Type": "Beacon",
+            "Message": "EvokeFollowLeader",
+            "Range": { "Compute": "MaxBeaconDistance" }
+          },
+          "Actions": [
+            {
+              "Type": "State",
+              "State": "Following"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "$Comment": "Go to target position",
+      "Sensor": {
+        "Type": "State",
+        "State": "SeekPosition"
+      },
+      "Instructions": [
+        {
+          "Sensor": {
+            "Type": "Evoke:ReadPosition",
+            "Range": 30,
+            "MinRange": 1
+          },
+          "BodyMotion": {
+            "Type": "Seek",
+            "SlowDownDistance": 3,
+            "StopDistance": 1,
+            "RelativeSpeed": 0.8,
+            "RecomputeDistance": 0
+          }
+        },
+        {
+          "Sensor": {
+            "Type": "Any"
+          },
+          "Actions": [
+            {
+              "Type": "State",
+              "State": "Idle.Default"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "$Comment": "Less than 1 block away from the player",
+      "Continue": true,
+      "Sensor": {
+        "Type": "Player",
+        "Range": 1
+      },
+      "BodyMotion": {
+        "Type": "MaintainDistance",
+        "DesiredDistanceRange": [1.5, 1.5],
+        "MoveThreshold": 0.2,
+        "RelativeForwardsSpeed": 0.6,
+        "RelativeBackwardsSpeed": 0.3
+      }
+    },
+    {
+      "$Comment": "Target the player",
+      "Continue": true,
+      "Sensor": {
+        "Type": "Player",
+        "Range": 3,
+        "LockOnTarget": true
+      },
+      "BodyMotion": {
+        "Type": "Nothing"
+      }
+    },
+    {
+      "$Comment": "Idle state",
+      "Sensor": {
+        "Type": "State",
+        "State": "Idle"
+      },
+      "Instructions": [
+        {
+          "Sensor": {
+            "Type": "State",
+            "State": ".Default"
+          }
+        },
+        {
+          "Sensor": {
+            "Type": "State",
+            "State": ".JumpScare"
+          },
+          "Instructions": [
+            {
+              "Sensor": {
+                "Type": "Player",
+                "Range": 2,
+                "LockOnTarget": true
+              },
+              "ActionsBlocking": true,
+              "Actions": [
+                {
+                  "Type": "PlaySound",
+                  "SoundEventId": "SFX_Pumpkin_Jump_Scare",
+                  "Once": true
+                },
+                {
+                  "Type": "PlayAnimation",
+                  "Slot": "Status",
+                  "Animation": "Jump"
+                },
+                {
+                  "Type": "Timeout",
+                  "Delay": [1, 1]
+                },
+                {
+                  "Type": "PlaySound",
+                  "SoundEventId": "SFX_Goblin_Miner_VO_Laugh",
+                  "Once": true
+                },
+                {
+                  "Type": "Timeout",
+                  "Delay": [5, 5]
+                },
+                {
+                  "Type": "PlayAnimation",
+                  "Slot": "Status"
+                },
+                {
+                  "Type": "State",
+                  "State": "Idle.JumpScare"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "$Comment": "Entity movement",
+      "Instructions": [
+        {
+          "Sensor": {
+            "Type": "State",
+            "State": "Following"
+          },
+          "Instructions": [
+            {
+              "$Comment": "Less than 5 block away from the leader",
+              "Sensor": {
+                "Type": "Player",
+                "Range": 5,
+                "LockOnTarget": true,
+                "Filters": [
+                  {
+                    "Type": "Evoke:IsEvoker"
+                  }
+                ]
+              },
+              "HeadMotion": {
+                "Type": "Aim",
+                "Deflection": true,
+                "Spread": 1,
+                "RelativeTurnSpeed": 2
+              },
+              "BodyMotion": {
+                "Type": "Seek",
+                "SlowDownDistance": 5,
+                "StopDistance": {"Compute": "StopDistance"},
+                "RelativeSpeed": 0.4
+              }
+            },
+            {
+              "$Comment": "Less than 30 blocks away from the leader",
+              "Sensor": {
+                "Type": "Player",
+                "Range": 30,
+                "LockOnTarget": true,
+                "Filters": [
+                  {
+                    "Type": "Evoke:IsEvoker"
+                  }
+                ]
+              },
+              "BodyMotion": {
+                "Type": "Seek",
+                "SlowDownDistance": 5,
+                "StopDistance": 2,
+                "RelativeSpeed": 0.6
+              }
+            },
+            {
+              "$Comment": "Prevents the NPC from losing sight of the player",
+              "Continue": true,
+              "Sensor": {
+                "Type": "Player",
+                "Range": { "Compute": "MaxBeaconDistance" },
+                "LockOnTarget": true,
+                "Filters": [
+                  {
+                    "Type": "Evoke:IsEvoker"
+                  }
+                ]
+              },
+              "Actions": [
+                {
+                  "Type": "Nothing"
+                }
+              ]
+            },
+            {
+              "$Comment": "Teleports to the leader if more than 15 blocks away",
+              "Sensor": {
+                "Type": "Target",
+                "Filters": [
+                  {
+                    "Type": "Evoke:IsEvoker"
+                  }
+                ]
+              },
+              "BodyMotion": {
+                "Type": "Evoke:Teleport",
+                "MinYOffset": 1.0,
+                "OffsetRange": [2, 3],
+                "OffsetSector": 2,
+                "Orientation": "TowardsTarget"
+              },
+              "Actions": [
+                {
+                  "Type": "SpawnParticles",
+                  "Offset": [ 0, 0.5, 0 ],
+                  "ParticleSystem": "Effect_Death",
+                  "Once": true
+                },
+                {
+                  "Type": "Timeout",
+                  "Delay": [ 2, 2 ],
+                  "DelayAfter": true
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "InteractionInstruction": {
+    "Instructions": [
+      {
+        "Sensor": {
+          "Type": "Not",
+          "Sensor": {
+            "Type": "Target",
+            "Filters": [
+              {
+                "Type": "Evoke:IsEvokerCrouch"
+              }
+            ]
+          }
+        },
+        "Actions": [
+          {
+            "Type": "SetInteractable",
+            "Interactable": false,
+            "Hint": " "
+          }
+        ]
+      },
+      {
+        "Continue": true,
+        "Sensor": {
+          "Type": "State",
+          "State": "Idle.Default"
+        },
+        "Actions": [
+          {
+            "Type": "SetInteractable",
+            "Interactable": true,
+            "Hint": "Active jump scare mode"
+          }
+        ]
+      },
+      {
+        "Continue": true,
+        "Sensor": {
+          "Type": "State",
+          "State": "Idle.JumpScare"
+        },
+        "Actions": [
+          {
+            "Type": "SetInteractable",
+            "Interactable": true,
+            "Hint": "Desactive jump scare mode"
+          }
+        ]
+      },
+      {
+        "$Comment": "Despawn the Hex Creature",
+        "Continue": true,
+        "Sensor": {
+          "Type": "State",
+          "State": "Following"
+        },
+        "Actions": [
+          {
+            "Type": "SetInteractable",
+            "Interactable": true,
+            "Hint": "Despawn"
+          }
+        ]
+      },
+      {
+        "Continue": true,
+        "Sensor": {
+          "Type": "And",
+          "Sensors": [
+            {
+              "Type": "State",
+              "State": "Idle.Default"
+            },
+            {
+              "Type": "HasInteracted"
+            }
+          ]
+        },
+        "Instructions": [
+          {
+            "Actions": [
+              {
+                "Type": "State",
+                "State": "Idle.JumpScare"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "Continue": true,
+        "Sensor": {
+          "Type": "And",
+          "Sensors": [
+            {
+              "Type": "State",
+              "State": "Idle.JumpScare"
+            },
+            {
+              "Type": "HasInteracted"
+            }
+          ]
+        },
+        "Instructions": [
+          {
+            "Actions": [
+              {
+                "Type": "State",
+                "State": "Idle.Default"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "Sensor": {
+          "Type": "And",
+          "Sensors": [
+            {
+              "Type": "State",
+              "State": "Following"
+            },
+            {
+              "Type": "HasInteracted"
+            },
+            {
+              "Type": "Target",
+              "Filters": [
+                {
+                  "Type": "Evoke:IsEvokerCrouch"
+                },
+                {
+                  "Type": "Evoke:IsEvoker"
+                }
+              ]
+            }
+          ]
+        },
+        "Instructions": [
+          {
+            "Actions": [
+              {
+                "Type": "Despawn"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}
