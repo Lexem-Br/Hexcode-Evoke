@@ -77,6 +77,10 @@
         },
         {
           "Type": "ResetInstructions"
+        },
+        {
+          "Type": "PlayAnimation",
+          "Slot": "Status"
         }
       ]
     }
@@ -208,6 +212,11 @@
               {
                 "Type": "Inventory",
                 "Items": [ "*" ]
+              },
+              {
+                "Type": "Evoke:HasChestNearby",
+                "HorizontalRange": 15,
+                "VerticalRange": 2
               }
             ]
           },
@@ -225,11 +234,38 @@
             "Items": [ "*" ]
           },
           "BodyMotion": {
-            "Type": "Seek",
-            "SlowDownDistance": 0.5,
-            "StopDistance": 0.5
+            "Type": "Sequence",
+            "Looped": true,
+            "Motions": [
+              {
+                "Type": "Timer",
+                "Time": [ 1.0, 1.0 ],
+                "Motion": {
+                  "Type": "Nothing"
+                }
+              },
+              {
+                "Type": "Seek",
+                "SlowDownDistance": 0.5,
+                "StopDistance": 0.5
+              }
+            ]
           },
+          "ActionsBlocking": true,
           "Actions": [
+            {
+              "Type": "PlayAnimation",
+              "Slot": "Status",
+              "Animation": "Jump"
+            },
+            {
+              "Type": "Timeout",
+              "Delay": [1, 1]
+            },
+            {
+              "Type": "PlayAnimation",
+              "Slot": "Status"
+            },
             {
               "Type": "PickUpItem",
               "Range": 1,
@@ -294,7 +330,7 @@
           },
           "Instructions": [
             {
-              "$Comment": "Checks if the inventory is full and if there is a chest nearby",
+              "$Comment": "Checks if there is a chest nearby",
               "Sensor": {
                 "Type": "Self",
                 "Filters": [

@@ -313,6 +313,26 @@
     "$Comment": "Despawn the Hex Creature",
     "Instructions": [
       {
+        "Sensor": {
+          "Type": "Not",
+          "Sensor": {
+            "Type": "Target",
+            "Filters": [
+              {
+                "Type": "Evoke:IsTargetCrouch"
+              }
+            ]
+          }
+        },
+        "Actions": [
+          {
+            "Type": "SetInteractable",
+            "Interactable": false,
+            "Hint": " "
+          }
+        ]
+      },
+      {
         "Continue": true,
         "Sensor": {
           "Type": "Any"
@@ -320,13 +340,30 @@
         "Actions": [
           {
             "Type": "SetInteractable",
-            "Interactable": true
+            "Interactable": true,
+            "Hint": "evoke.interactionHints.despawn"
           }
         ]
       },
       {
         "Sensor": {
-          "Type": "HasInteracted"
+          "Type": "And",
+          "Sensors": [
+            {
+              "Type": "HasInteracted"
+            },
+            {
+              "Type": "Target",
+              "Filters": [
+                {
+                  "Type": "Evoke:IsTargetCrouch"
+                },
+                {
+                  "Type": "Evoke:IsEvoker"
+                }
+              ]
+            }
+          ]
         },
         "Instructions": [
           {

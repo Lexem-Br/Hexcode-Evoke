@@ -4,8 +4,8 @@
       "Type": "Chaining",
       "ChainingAllowance": 1.25,
       "Next": [
-        "Spear_Swing_Left",
-        "Spear_Swing_Right"
+        "Evoke_Broom_Swing_Left",
+        "Evoke_Broom_Swing_Right"
       ]
     }
   ]

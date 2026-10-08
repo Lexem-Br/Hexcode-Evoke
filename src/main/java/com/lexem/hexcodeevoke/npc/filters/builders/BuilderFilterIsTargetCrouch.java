@@ -6,19 +6,19 @@ import com.hypixel.hytale.server.npc.asset.builder.BuilderDescriptorState;
 import com.hypixel.hytale.server.npc.asset.builder.BuilderSupport;
 import com.hypixel.hytale.server.npc.corecomponents.IEntityFilter;
 import com.hypixel.hytale.server.npc.corecomponents.builders.BuilderEntityFilterBase;
-import com.lexem.hexcodeevoke.npc.filters.FilterIsEvokerCrouch;
+import com.lexem.hexcodeevoke.npc.filters.FilterIsTargetCrouch;
 
 import javax.annotation.Nonnull;
 
-public class BuilderFilterIsEvokerCrouch extends BuilderEntityFilterBase {
+public class BuilderFilterIsTargetCrouch extends BuilderEntityFilterBase {
 
-   public BuilderFilterIsEvokerCrouch() {
+   public BuilderFilterIsTargetCrouch() {
    }
 
    @Nonnull
    @Override
    public String getShortDescription() {
-      return "Check if the evoker is crouching.";
+      return "Check if the target is crouching.";
    }
 
    @Nonnull
@@ -29,7 +29,7 @@ public class BuilderFilterIsEvokerCrouch extends BuilderEntityFilterBase {
 
    @Nonnull
    public IEntityFilter build(@Nonnull BuilderSupport builderSupport) {
-      return new FilterIsEvokerCrouch();
+      return new FilterIsTargetCrouch();
    }
    @Nonnull
    @Override

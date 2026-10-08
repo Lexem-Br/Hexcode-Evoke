@@ -403,7 +403,7 @@
             "Type": "Target",
             "Filters": [
               {
-                "Type": "Evoke:IsEvokerCrouch"
+                "Type": "Evoke:IsTargetCrouch"
               }
             ]
           }
@@ -524,7 +524,7 @@
               "Type": "Target",
               "Filters": [
                 {
-                  "Type": "Evoke:IsEvokerCrouch"
+                  "Type": "Evoke:IsTargetCrouch"
                 },
                 {
                   "Type": "Evoke:IsEvoker"

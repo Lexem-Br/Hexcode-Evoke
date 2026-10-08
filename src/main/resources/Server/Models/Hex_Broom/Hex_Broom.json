@@ -58,7 +58,7 @@
     "Jump": {
       "Animations": [
         {
-          "Animation": "NPC/Broom/Animations/Walk.blockyanim",
+          "Animation": "NPC/Broom/Animations/Jump.blockyanim",
           "Speed": 0.7,
           "Looping": false
         }

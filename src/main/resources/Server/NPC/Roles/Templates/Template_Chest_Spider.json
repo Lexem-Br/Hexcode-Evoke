@@ -308,7 +308,8 @@
                   {
                     "Type": "Evoke:HasChestNearby",
                     "HorizontalRange": 16,
-                    "VerticalRange": 3                  }
+                    "VerticalRange": 3
+                  }
                 ]
               },
               "Actions": [

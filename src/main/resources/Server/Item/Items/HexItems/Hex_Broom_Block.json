@@ -29,6 +29,12 @@
     "Primary": "Root_Evoke_Broom_Primary",
     "Secondary": "Block_Secondary"
   },
+  "InteractionVars": {
+    "Spear_Swing_Left_Damage": "Spear_Swing_Left_Damage",
+    "Spear_Swing_Right_Damage": "Spear_Swing_Right_Damage",
+    "Spear_Swing_Left_Effect": "Spear_Swing_Left_Effect",
+    "Spear_Swing_Right_Effect": "Spear_Swing_Right_Effect"
+  },
   "BlockType": {
     "Material": "Solid",
     "DrawType": "Model",
@@ -41,13 +47,13 @@
     ],
     "HitboxType": "Plant_Tall_Full",
     "VariantRotation": "NESW",
-    "Flags": {},
     "Gathering": {
       "Harvest": {},
       "Soft": {}
     },
     "BlockSoundSetId": "Wood",
-    "PhysicalMaterialId": "Wood",
+    "PhysicalMaterialId": "Wool",
+    "Opacity": "Transparent",
     "ParticleColor": "#65482d",
     "BlockParticleSetId": "Wood",
     "TextureComputedColor": "#67412B",
@@ -69,6 +75,6 @@
   },
   "ItemSoundSetId": "ISS_Blocks_Wood",
   "Quality": "Uncommon",
-  "MaxStack": 10,
+  "MaxStack": 1,
   "Scale": 1.6
 }
