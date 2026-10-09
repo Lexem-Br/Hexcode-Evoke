@@ -1,0 +1,38 @@
+items.Evoke_Book.name=Livro de Evocação
+items.Evoke_Book.description=<b>Da vida a objetos Hex</b>\nFornece informações sobre as criaturas Hex
+items.Void_Evoke_Book.name=Livro de Evocação do Vazio
+items.Void_Evoke_Book.description=<b>Invoca um manequim do vazio - Item de desenvolvimento</b>
+items.Summon_Void_Mannequin.name=Manequim do Vazio
+items.Summon_Void_Mannequin.description=.
+items.Weapon.Wand.Evoke_Wand_Crude.name=Varinha de Evocação Rústica
+items.Weapon.Wand.Evoke_Wand_Crude.description=<color is="#8888ff"><b>1</b></color> <color is="#aaaaaa">Seleção</color> - <color is="#ffcc00"><b>10</b></color> <color is="#aaaaaa">Distância</color>\n\n<b>Dá ordem a criaturas Hex</b>\n\n<b>Ação Primária</b> para selecionar a criatura Hex ou para enviá-la a um local\n<b>Ação Primária Carregada</b> para selecionar todas as criaturas Hex\n<b>Ação Secundária</b> para remover a seleção da criatura Hex ou fazer ela te seguir\n<b>Ação Secundária Carregada</b> Para remover a seleção de todas as criaturas Hex\n\nArte feita por: Gwentor
+items.Weapon.Wand.Evoke_Wand_Wooden.name=Varinha de Evocação de Mandeira
+items.Weapon.Wand.Evoke_Wand_Wooden.description=<color is="#8888ff"><b>3</b></color> <color is="#aaaaaa">Seleção</color> - <color is="#ffcc00"><b>20</b></color> <color is="#aaaaaa">Distância</color>\n\n<b>Dá ordem a criaturas Hex</b>\n\n<b>Ação Primária</b> para selecionar a criatura Hex ou para enviá-la a um local\n<b>Ação Primária Carregada</b> para selecionar todas as criaturas Hex\n<b>Ação Secundária</b> para remover a seleção da criatura Hex ou fazer ela te seguir\n<b>Ação Secundária Carregada</b> Para remover a seleção de todas as criaturas Hex\n\nArte feita por: Gwentor
+items.Weapon.Wand.Evoke_Wand_Iron.name=Varinha de Evocação de Ferro
+items.Weapon.Wand.Evoke_Wand_Iron.description=<color is="#8888ff"><b>6</b></color> <color is="#aaaaaa">Seleção</color> - <color is="#ffcc00"><b>30</b></color> <color is="#aaaaaa">Distância</color>\n\n<b>Dá ordem a criaturas Hex</b>\n\n<b>Ação Primária</b> para selecionar a criatura Hex ou para enviá-la a um local\n<b>Ação Primária Carregada</b> para selecionar todas as criaturas Hex\n<b>Ação Secundária</b> para remover a seleção da criatura Hex ou fazer ela te seguir\n<b>Ação Secundária Carregada</b> Para remover a seleção de todas as criaturas Hex\n\nArte feita por: Gwentor
+
+items.HexItems.Hex_Mannequin.name=Manequim Hex
+items.HexItems.Hex_Mannequin.description=Dê a ele um dos seguintes itens:\n- <b>Foice</b>: Colhe plantações e as armazena no baú mais próximo\n- <b>Regador</b>: Rega o solo seco\n- <b>Tocha</b>: Ilumina o caminho
+items.HexItems.Hex_Fairy.name=Fada Hex
+items.HexItems.Hex_Fairy_Void.name=Fada do Vazio Hex
+items.HexItems.Hex_Fairy_Ice.name=Fada de Gelo Hex
+items.HexItems.Hex_Homunculus.name=Hex Homunculus
+items.HexItems.Hex_Homunculus.description=Dê a ele um dos seguintes itens:\n- <b>Foice</b>: Colhe plantações e as armazena no baú mais próximo\n- <b>Regador</b>: Rega o solo seco\n- <b>Vela</b>: Ilumina o caminho
+items.HexItems.Chest_Spider.name=Aranha Baú
+items.HexItems.Chest_Spider.description=<color is="#aaaaaa">Memória dos baús: </color> <color is="#8888ff"><b>128</b></color>\n<color is="#aaaaaa">Distância da visão: </color> <color is="#8888ff"><b>16</b></color>\n<color is="#aaaaaa">Filhotes: </color> <color is="#8888ff"><b>3</b></color>\n\nColoque itens no inventário dela para que sejam armazenados automaticamente em baús.\n\nArte feita por: Gwentor
+items.HexItems.Baby_Chest_Spider.name=Aranha Baú Bebê
+items.HexItems.Baby_Chest_Spider.description=.
+items.HexItems.Hex_Broom.name=Vassoura Hex
+items.HexItems.Hex_Broom.description=Vaga aleatóriamente pelo local, coleta itens e os guarda no baú mais próximo
+
+npcRoles.Void_Mannequin.name=Manequim do Vazio
+npcRoles.Hex_Pumpkin_Scary.name=Abóbora Hex Assustadora
+npcRoles.Hex_Pumpkin_Cute.name=Abóbora Hex Fofa
+
+workbench.benchCategories.evoke=Hexcode Evoke
+
+items.armor.Straw_Hat.name=Chapéu de palha
+
+interactionHints.despawn= Pressione [{key}] para recolher
+interactionHints.ActiveJumpScare= Pressione [{key}] para ativar o modo susto
+interactionHints.DesactiveJumpScare= Pressione [{key}] para desativar o modo susto

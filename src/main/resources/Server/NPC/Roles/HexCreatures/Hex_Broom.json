@@ -9,7 +9,7 @@
   },
   "Parameters": {
     "NameTranslationKey": {
-      "Value": "evoke.npcRoles.Hex_Broom.name"
+      "Value": "evoke.items.HexItems.Hex_Broom.name"
     }
   }
 }

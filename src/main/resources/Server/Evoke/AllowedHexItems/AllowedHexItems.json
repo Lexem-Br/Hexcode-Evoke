@@ -2,91 +2,54 @@
   "AllowedHexItems": [
     {
       "BlockId": "Hex_Mannequin_Block",
-      "EntityId": "Hex_Mannequin"
+      "EntityId": "Hex_Mannequin",
+      "HasLeftHandSlot": true,
+      "HasRightHandSlot": true,
+      "HasArmorHeadSlot": true,
+      "HasArmorChestSlot": true,
+      "HasArmorHandsSlot": true,
+      "HasArmorLegSlot": true,
+      "HasHotbarSlot": true
     },
     {
       "BlockId": "Hex_Fairy_Block",
-      "EntityId": "Hex_Fairy",
-      "HasLeftHandSlot": false,
-      "HasRightHandSlot": false,
-      "HasArmorHeadSlot": false,
-      "HasArmorChestSlot": false,
-      "HasArmorHandsSlot": false,
-      "HasArmorLegSlot": false,
-      "HasHotbarSlot": false
+      "EntityId": "Hex_Fairy"
     },
     {
       "BlockId": "Hex_Fairy_Void_Block",
-      "EntityId": "Hex_Fairy_Void",
-      "HasLeftHandSlot": false,
-      "HasRightHandSlot": false,
-      "HasArmorHeadSlot": false,
-      "HasArmorChestSlot": false,
-      "HasArmorHandsSlot": false,
-      "HasArmorLegSlot": false,
-      "HasHotbarSlot": false
+      "EntityId": "Hex_Fairy_Void"
     },
     {
       "BlockId": "Hex_Fairy_Ice_Block",
-      "EntityId": "Hex_Fairy_Ice",
-      "HasLeftHandSlot": false,
-      "HasRightHandSlot": false,
-      "HasArmorHeadSlot": false,
-      "HasArmorChestSlot": false,
-      "HasArmorHandsSlot": false,
-      "HasArmorLegSlot": false,
-      "HasHotbarSlot": false
+      "EntityId": "Hex_Fairy_Ice"
     },
     {
       "BlockId": "Alive_Homunculus_Jar",
       "EntityId": "Homunculus",
-      "HasArmorChestSlot": false,
-      "HasArmorHandsSlot": false,
-      "HasArmorLegSlot": false
-    },
-    {
-      "BlockId": "Chest_Spider_Block",
-      "EntityId": "Chest_Spider",
-      "HasLeftHandSlot": false,
-      "HasRightHandSlot": false,
-      "HasArmorHeadSlot": false,
+      "HasLeftHandSlot": true,
+      "HasRightHandSlot": true,
+      "HasArmorHeadSlot": true,
       "HasArmorChestSlot": false,
       "HasArmorHandsSlot": false,
       "HasArmorLegSlot": false,
-      "HasHotbarSlot": false
+      "HasHotbarSlot": true
+    },
+    {
+      "BlockId": "Chest_Spider_Block",
+      "EntityId": "Chest_Spider"
     },
     {
       "BlockId": "Deco_Halloween_Pumpkin_Scary",
       "EntityId": "Hex_Pumpkin_Scary",
-      "HasLeftHandSlot": false,
-      "HasRightHandSlot": false,
-      "HasArmorHeadSlot": false,
-      "HasArmorChestSlot": false,
-      "HasArmorHandsSlot": false,
-      "HasArmorLegSlot": false,
-      "HasHotbarSlot": false
+      "EssenceCost": 10
     },
     {
       "BlockId": "Deco_Halloween_Pumpkin_Cute",
-      "EntityId": "Hex_Pumpkin_Cute",
-      "HasLeftHandSlot": false,
-      "HasRightHandSlot": false,
-      "HasArmorHeadSlot": false,
-      "HasArmorChestSlot": false,
-      "HasArmorHandsSlot": false,
-      "HasArmorLegSlot": false,
-      "HasHotbarSlot": false
+      "EntityId": "Hex_Pumpkin_Cute"
     },
     {
       "BlockId": "Hex_Broom_Block",
-      "EntityId": "Hex_Broom",
-      "HasLeftHandSlot": false,
-      "HasRightHandSlot": false,
-      "HasArmorHeadSlot": false,
-      "HasArmorChestSlot": false,
-      "HasArmorHandsSlot": false,
-      "HasArmorLegSlot": false,
-      "HasHotbarSlot": false
+      "EntityId": "Hex_Broom"
     }
   ]
 }

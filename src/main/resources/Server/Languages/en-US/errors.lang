@@ -1,1 +1,18 @@
 invalid_target=Invalid Target
+no_entity_founded=No entity founded
+target_must_be_hex_creatures=Target must be a Hex creature
+hex_creature_must_belong_evoker=The Hex creature must belong to the evoker
+no_hex_creture_found=No Hex creature found
+
+max_hex_creatures.title=Maximum number of Hex creatures reached
+max_hex_creatures.description1=You can only have up to
+max_hex_creatures.description2=Hex creatures under your control
+
+max_distance.description1=Target distance must be less than
+max_distance.description2=blocks
+
+max_wand_selection_exceeded.description1=The wand can only select up to
+max_wand_selection_exceeded.description2=Hex creatures
+
+insufficient_life_essence_quantity.title=Insufficient Life Essence
+insufficient_life_essence_quantity.description=Life Essences are needed

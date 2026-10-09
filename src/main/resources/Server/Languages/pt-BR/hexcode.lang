@@ -1,0 +1,6 @@
+glyphs.Evoke.name=Evoke
+glyphs.Evoke.description=Da vida a objetos
+glyphs.Evoke.target.name=Alvo
+glyphs.Evoke.target.description=O alvo do Evoke
+glyphs.Evoke.Next.name=Próximo Hex
+glyphs.Evoke.Next.description=O próximo glifo a ser executado

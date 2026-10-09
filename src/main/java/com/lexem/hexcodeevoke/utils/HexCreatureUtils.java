@@ -65,7 +65,7 @@ public class HexCreatureUtils {
 
         accessor.run(_store -> {
             if (!evoker.canAddHexCreature()) {
-                messageMaxHexCreatures(refESPlayer, store, evoker);
+                ErrorMessageUtils.messageMaxHexCreatures(refESPlayer, store, evoker);
                 return;
             }
             if (roleIndex >= 0) {
@@ -85,20 +85,4 @@ public class HexCreatureUtils {
 
         return true;
     }
-
-    private static void messageMaxHexCreatures(Ref<EntityStore> refESPlayer, Store<EntityStore> store, EvokerComponent evoker) {
-        PlayerRef playerRef = store.getComponent(refESPlayer, PlayerRef.getComponentType());
-        if (playerRef != null) {
-            NotificationUtil.sendNotification(
-                    playerRef.getPacketHandler(), Message.translation("evoke.utils.HexCreatureUtils.title.maxHexCreatures"),
-                    Message.join(
-                            Message.translation("evoke.utils.HexCreatureUtils.description.maxHexCreatures1"),
-                            Message.raw(" " + evoker.getMaxHexCreatures() + " "),
-                            Message.translation("evoke.utils.HexCreatureUtils.description.maxHexCreatures2")
-                    )
-            );
-        }
-        LOGGER.atWarning().log("Evoke: maximum number of Hex creatures reached");
-    }
-
 }

@@ -1,6 +1,5 @@
 package com.lexem.hexcodeevoke.npc.actions;
 
-import com.hypixel.hytale.component.Holder;
 import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.component.Store;
 import com.hypixel.hytale.logger.HytaleLogger;

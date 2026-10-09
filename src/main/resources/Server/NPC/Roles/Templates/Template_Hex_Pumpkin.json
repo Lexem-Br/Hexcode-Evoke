@@ -31,6 +31,14 @@
       "Value": 2,
       "Description": "The distance to stop"
     },
+    "SFX_Pumpkin_Jump": {
+      "Value": "SFX_Pumpkin_Jump_Scare",
+      "Description": "The sound in jump-scare mode"
+    },
+    "SFX_Pumpkin_Laugh": {
+      "Value": "SFX_Goblin_Miner_VO_Laugh",
+      "Description": "The sound after jump-scare"
+    },
     "NameTranslationKey": {
       "Value": "server.npcRoles.Template.name",
       "Description": "Translation key for NPC name display"
@@ -251,7 +259,7 @@
               "Actions": [
                 {
                   "Type": "PlaySound",
-                  "SoundEventId": "SFX_Pumpkin_Jump_Scare",
+                  "SoundEventId": { "Compute": "SFX_Pumpkin_Jump" },
                   "Once": true
                 },
                 {
@@ -265,7 +273,7 @@
                 },
                 {
                   "Type": "PlaySound",
-                  "SoundEventId": "SFX_Goblin_Miner_VO_Laugh",
+                  "SoundEventId": { "Compute": "SFX_Pumpkin_Laugh" },
                   "Once": true
                 },
                 {

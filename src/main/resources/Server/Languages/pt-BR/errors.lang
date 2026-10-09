@@ -1,0 +1,18 @@
+invalid_target=Alvo inválido
+no_entity_founded=NPC não encontrado
+target_must_be_hex_creatures=O alvo deve ser uma criatura Hex
+hex_creature_must_belong_evoker=A criatura Hex deve pertencer ao evoker
+no_hex_creture_found=Criatura Hex não encontrada
+
+max_hex_creatures.title=O número máximo de criatura Hex foi alcançado
+max_hex_creatures.description1=Você só pode ter
+max_hex_creatures.description2=criaturas Hex sobre seu controle
+
+max_distance.description1=A distância do alvo deve ser menor que
+max_distance.description2=blocos
+
+max_wand_selection_exceeded.description1=A varinha só pode selecionar
+max_wand_selection_exceeded.description2=criaturas Hex
+
+insufficient_life_essence_quantity.title=Essência de Vida insuficiente
+insufficient_life_essence_quantity.description=Essência de vida são necessárias

@@ -10,8 +10,8 @@
         "Sounds/NPC/Undead/Zombie/Zombie_Attack_Bite_06.ogg"
       ],
       "RandomSettings": {
-        "MinPitch": -1.8240371213405997,
-        "MinVolume": -1.0
+        "MinPitch": 0,
+        "MaxPitch": 7
       },
       "Volume": 4.0
     }

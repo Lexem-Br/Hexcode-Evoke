@@ -11,6 +11,7 @@ import com.hypixel.hytale.server.core.universe.PlayerRef;
 import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.lexem.hexcodeevoke.components.HexCreatureComponent;
+import com.lexem.hexcodeevoke.utils.ErrorMessageUtils;
 
 import javax.annotation.Nonnull;
 import java.util.UUID;
@@ -35,13 +36,13 @@ public class HexCreatureCommand extends AbstractPlayerCommand {
 
         Ref<EntityStore> npcRef = world.getEntityStore().getRefFromUUID(npcUUID);
         if (npcRef == null) {
-            playerRef.sendMessage(Message.raw("Hex creature not found"));
+            ErrorMessageUtils.messageNoHCFound(ref, store);
             return;
         }
 
         HexCreatureComponent hexCreature = store.getComponent(npcRef, HexCreatureComponent.getComponentType());
         if (hexCreature == null) {
-            playerRef.sendMessage(Message.raw("Hex creature not found"));
+            ErrorMessageUtils.messageNoHCFound(ref, store);
             return;
         }
 

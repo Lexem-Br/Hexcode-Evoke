@@ -57,6 +57,8 @@ public class AllowedHexItemsAsset implements JsonAssetWithMap<String, DefaultAss
                                         .add()
                                         .append(new KeyedCodec<>("HasHotbarSlot", Codec.BOOLEAN), (item, s) -> item.hasHotbarSlot = s, item -> item.hasHotbarSlot)
                                         .add()
+                                        .append(new KeyedCodec<>("EssenceCost", Codec.INTEGER), (item, s) -> item.essenceCost = s, item -> item.essenceCost)
+                                        .add()
                                         .build(),
                                 AllowedHexItemsAsset.HexItem[]::new
                         )),
@@ -71,13 +73,14 @@ public class AllowedHexItemsAsset implements JsonAssetWithMap<String, DefaultAss
     public static class HexItem {
         public String blockId = "";
         public String entityId = "";
-        public boolean hasLeftHandSlot = true;
-        public boolean hasRightHandSlot = true;
-        public boolean hasArmorHeadSlot = true;
-        public boolean hasArmorChestSlot = true;
-        public boolean hasArmorHandsSlot = true;
-        public boolean hasArmorLegSlot = true;
-        public boolean hasHotbarSlot = true;
+        public boolean hasLeftHandSlot = false;
+        public boolean hasRightHandSlot = false;
+        public boolean hasArmorHeadSlot = false;
+        public boolean hasArmorChestSlot = false;
+        public boolean hasArmorHandsSlot = false;
+        public boolean hasArmorLegSlot = false;
+        public boolean hasHotbarSlot = false;
+        public int essenceCost = 0;
 
         public HexItem() {}
     }

@@ -6,15 +6,21 @@ import com.hypixel.hytale.logger.HytaleLogger;
 import com.hypixel.hytale.protocol.BlockPosition;
 import com.hypixel.hytale.protocol.InteractionState;
 import com.hypixel.hytale.protocol.InteractionType;
-import com.hypixel.hytale.server.core.asset.type.blocktype.config.BlockType;
+import com.hypixel.hytale.server.core.Message;
 import com.hypixel.hytale.server.core.entity.InteractionContext;
+import com.hypixel.hytale.server.core.inventory.InventoryComponent;
+import com.hypixel.hytale.server.core.inventory.ItemStack;
 import com.hypixel.hytale.server.core.modules.entity.component.TransformComponent;
 import com.hypixel.hytale.server.core.modules.interaction.interaction.CooldownHandler;
 import com.hypixel.hytale.server.core.modules.interaction.interaction.config.SimpleInteraction;
+import com.hypixel.hytale.server.core.universe.PlayerRef;
 import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
+import com.hypixel.hytale.server.core.util.NotificationUtil;
+import com.lexem.hexcodeevoke.components.EvokerComponent;
 import com.lexem.hexcodeevoke.hexitems.AllowedHexItemsAsset;
 import com.lexem.hexcodeevoke.utils.BlockUtils;
+import com.lexem.hexcodeevoke.utils.ErrorMessageUtils;
 import com.lexem.hexcodeevoke.utils.FinderUtils;
 import com.lexem.hexcodeevoke.utils.HexCreatureUtils;
 import org.joml.Vector3i;
@@ -74,6 +80,25 @@ public class EvokeHexCreatureInteraction extends SimpleInteraction {
                 return;
             }
 
+            String blockId = BlockUtils.getBlockIdByPosition(hexItemPosition, world);
+            AllowedHexItemsAsset.HexItem hexItem = AllowedHexItemsAsset.getByBlockId(blockId);
+            if (hexItem == null) {
+                context.getState().state = InteractionState.Failed;
+                super.tick0(firstRun, time, type, context, cooldownHandler);
+                return;
+            }
+
+            if (hexItem.essenceCost > 0) {
+                ItemStack itemStack = new ItemStack("Ingredient_Life_Essence", hexItem.essenceCost);
+                final var combinedHotbarFirst = InventoryComponent.getCombined(accessor, refESPlayer, InventoryComponent.HOTBAR_STORAGE_BACKPACK);
+                var removeItemStack = combinedHotbarFirst.removeItemStack(itemStack, true, true);
+                if (!removeItemStack.succeeded()) {
+                    ErrorMessageUtils.messageInsufficientLifeEssenceQuantity(hexItem.essenceCost, refESPlayer, accessor);
+                    context.getState().state = InteractionState.Failed;
+                    return;
+                }
+            }
+
             boolean spawned = HexCreatureUtils.trySpawnHexCreature(hexItemPosition, refESPlayer, accessor);
             if (!spawned) {
                 context.getState().state = InteractionState.Failed;
@@ -95,4 +120,5 @@ public class EvokeHexCreatureInteraction extends SimpleInteraction {
         AllowedHexItemsAsset.HexItem hexItem = AllowedHexItemsAsset.getByBlockId(blockId);
         return hexItem != null;
     };
+
 }

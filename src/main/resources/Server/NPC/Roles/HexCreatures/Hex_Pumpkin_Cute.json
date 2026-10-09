@@ -5,6 +5,8 @@
     "Appearance": "Hex_Pumpkin_Cute",
     "DropHexItem": "Deco_Halloween_Pumpkin_Cute",
     "StopDistance": 3,
+    "SFX_Pumpkin_Jump": "SFX_Pumpkin_Jump_Cute",
+    "SFX_Pumpkin_Laugh": "SFX_Pumpkin_Laugh_Cute",
     "NameTranslationKey": { "Compute": "NameTranslationKey" }
   },
   "Parameters": {

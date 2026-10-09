@@ -24,6 +24,6 @@
     "CombatBackOffAfterAttack": false,
     "CombatStrafingDurationRange": [ 0.2, 1 ],
     "BlockProbability": 0,
-    "NameTranslationKey": "evoke.npcRoles.Hex_Mannequin.name"
+    "NameTranslationKey": "evoke.npcRoles.Void_Mannequin.name"
   }
 }

@@ -19,6 +19,7 @@ import com.hypixel.hytale.server.core.util.NotificationUtil;
 import com.hypixel.hytale.server.core.util.TargetUtil;
 import com.hypixel.hytale.server.npc.components.messaging.BeaconSupport;
 import com.lexem.hexcodeevoke.components.EvokerComponent;
+import com.lexem.hexcodeevoke.utils.ErrorMessageUtils;
 import org.joml.Vector3d;
 
 import javax.annotation.Nonnull;
@@ -66,7 +67,7 @@ public class EvokeTargetSelectionInteraction extends SimpleInteraction {
 
             Vector3d targetPosition = TargetUtil.getTargetLocation(playerRef, maxDistance, accessor);
             if (targetPosition == null) {
-                messageMaxDistanceExceeded(playerRef, store, maxDistance);
+                ErrorMessageUtils.messageMaxDistanceExceeded(playerRef, store, maxDistance);
                 context.getState().state = InteractionState.Failed;
                 super.tick0(firstRun, time, type, context, cooldownHandler);
                 return;
@@ -91,19 +92,4 @@ public class EvokeTargetSelectionInteraction extends SimpleInteraction {
             context.getState().state = InteractionState.Failed;
         }
     }
-
-    private static void messageMaxDistanceExceeded(Ref<EntityStore> refESPlayer, Store<EntityStore> store, double maxDistance) {
-        PlayerRef playerRef = store.getComponent(refESPlayer, PlayerRef.getComponentType());
-        if (playerRef != null) {
-            NotificationUtil.sendNotification(
-                    playerRef.getPacketHandler(), Message.translation("errors.invalid_target"),
-                    Message.join(
-                            Message.translation("evoke.interactions.EvokeTargetSelectionInteraction.description.messageMaxDistance1"),
-                            Message.raw(" " + (int) maxDistance + " "),
-                            Message.translation("evoke.interactions.EvokeTargetSelectionInteraction.description.messageMaxDistance2")
-                    )
-            );
-        }
-    }
-
 }
