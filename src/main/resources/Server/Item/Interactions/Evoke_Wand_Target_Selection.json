@@ -1,18 +1,13 @@
 {
-  "Type": "Serial",
-  "Interactions": [
-    {
-      "Type": "Replace",
-      "Var": "Evoke_Wand_Target_Selection_Var",
-      "DefaultValue": {
-        "Interactions": [
-          {
-            "Type": "EvokeTargetSelection",
-            "Next": "Evoke_Wand_Selection_Generic",
-            "Failed": "Evoke_Interact_Fail"
-          }
-        ]
+  "Type": "Replace",
+  "Var": "Evoke_Wand_Target_Selection_Var",
+  "DefaultValue": {
+    "Interactions": [
+      {
+        "Type": "EvokeTargetSelection",
+        "Next": "Evoke_Wand_Selection_Generic",
+        "Failed": "Evoke_Interact_Fail"
       }
-    }
-  ]
+    ]
+  }
 }

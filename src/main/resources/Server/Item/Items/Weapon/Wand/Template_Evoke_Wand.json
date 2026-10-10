@@ -1,49 +1,45 @@
 {
-  "Parent": "Template_Evoke_Wand",
   "TranslationProperties": {
     "Name": "evoke.items.Weapon.Wand.Evoke_Wand_Iron.name",
     "Description": "evoke.items.Weapon.Wand.Evoke_Wand_Iron.description"
   },
-  "Quality": "Rare",
+  "Categories": [
+    "Items.Weapons"
+  ],
+  "Utility": {
+    "Compatible": true
+  },
+  "Quality": "Template",
   "ItemLevel": 40,
-  "Model": "Items/Weapons/EvokeWand/Iron/Model.blockymodel",
-  "Texture": "Items/Weapons/EvokeWand/Iron/Texture.png",
-  "Icon": "Icons/ItemsGenerated/Iron_Evoke_Wand.png",
-  "Recipe": {
-    "TimeSeconds": 1,
-    "Input": [
-      {
-        "ItemId": "Ingredient_Fabric_Scrap_Linen",
-        "Quantity": 2
-      },
-      {
-        "ItemId": "Ingredient_Bar_Iron",
-        "Quantity": 2
-      },
-      {
-        "ItemId": "Ingredient_Stick",
-        "Quantity": 2
-      },
-      {
-        "ItemId": "Ingredient_Life_Essence_Concentrated",
-        "Quantity": 5
-      }
+  "Model": "Items/Weapons/EvokeWand/Crude/Model.blockymodel",
+  "Texture": "Items/Weapons/EvokeWand/Crude/Texture.png",
+  "PlayerAnimationsId": "Evoke_Wand",
+  "Icon": "Icons/ItemsGenerated/Crude_Evoke_Wand.png",
+  "DroppedItemAnimation": "Items/Animations/Dropped/Dropped_Diagonal_Left.blockyanim",
+  "MaxStack": 1,
+  "Scale": 1,
+  "Tags": {
+    "Type": [
+      "Weapon"
     ],
-    "BenchRequirement": [
-      {
-        "Categories": [
-          "Arcane_Hexcode_Evoke"
-        ],
-        "Id": "Arcanebench"
-      }
+    "Family": [
+      "Spellbook"
     ]
+  },
+  "ItemSoundSetId": "ISS_Weapons_Books",
+  "Interactions": {
+    "Primary": "Root_Evoke_Wand_Selection",
+    "Secondary": "Root_Evoke_Wand_Deselection",
+    "SwapTo": "Root_Change_Stat_Wand_Particles",
+    "Ability1": "Root_Wand_Evoke",
+    "Ability4": "Root_Wand_Open_Evoke_Book"
   },
   "InteractionVars": {
     "Evoke_Wand_Target_Selection_Var": {
       "Interactions": [
         {
           "Type": "EvokeTargetSelection",
-          "MaxDistance": 30,
+          "MaxDistance": 10,
           "Next": "Evoke_Wand_Selection_Generic",
           "Failed": "Evoke_Interact_Fail"
         }
@@ -53,8 +49,8 @@
       "Interactions": [
         {
           "Type": "EvokeHCSelection",
-          "MaxSelection": 6,
-          "MaxDistance": 30,
+          "MaxSelection": 1,
+          "MaxDistance": 10,
           "Next": "Evoke_Wand_Selection_Generic",
           "Failed": "Evoke_Wand_Target_Selection"
         }
@@ -65,8 +61,8 @@
         {
           "Type": "EvokeHCSelection",
           "All": true,
-          "MaxSelection": 6,
-          "MaxDistance": 30,
+          "MaxSelection": 1,
+          "MaxDistance": 10,
           "Next": "Evoke_Wand_Selection_Generic",
           "Failed": "Evoke_Interact_Fail"
         }
@@ -76,9 +72,22 @@
       "Interactions": [
         {
           "Type": "EvokeFollow",
-          "MaxDistance": 30,
+          "MaxDistance": 10,
           "Next": "Evoke_Wand_Follow_Generic",
           "Failed": "Evoke_Interact_Fail"
+        }
+      ]
+    }
+  },
+  "Weapon": {
+    "EntityStatsToClear": [
+      "DeployablePreview"
+    ],
+    "StatModifiers": {
+      "DeployablePreview": [
+        {
+          "Amount": 6,
+          "CalculationType": "Additive"
         }
       ]
     }
@@ -301,6 +310,18 @@
           }
         ]
       }
+    ]
+  },
+  "IconProperties": {
+    "Scale": 0.6,
+    "Rotation": [
+      20,
+      165,
+      41
+    ],
+    "Translation": [
+      -15,
+      -15
     ]
   }
 }

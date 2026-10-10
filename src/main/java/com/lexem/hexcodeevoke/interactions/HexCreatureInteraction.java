@@ -6,18 +6,14 @@ import com.hypixel.hytale.logger.HytaleLogger;
 import com.hypixel.hytale.protocol.BlockPosition;
 import com.hypixel.hytale.protocol.InteractionState;
 import com.hypixel.hytale.protocol.InteractionType;
-import com.hypixel.hytale.server.core.Message;
 import com.hypixel.hytale.server.core.entity.InteractionContext;
 import com.hypixel.hytale.server.core.inventory.InventoryComponent;
 import com.hypixel.hytale.server.core.inventory.ItemStack;
 import com.hypixel.hytale.server.core.modules.entity.component.TransformComponent;
 import com.hypixel.hytale.server.core.modules.interaction.interaction.CooldownHandler;
 import com.hypixel.hytale.server.core.modules.interaction.interaction.config.SimpleInteraction;
-import com.hypixel.hytale.server.core.universe.PlayerRef;
 import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
-import com.hypixel.hytale.server.core.util.NotificationUtil;
-import com.lexem.hexcodeevoke.components.EvokerComponent;
 import com.lexem.hexcodeevoke.hexitems.AllowedHexItemsAsset;
 import com.lexem.hexcodeevoke.utils.BlockUtils;
 import com.lexem.hexcodeevoke.utils.ErrorMessageUtils;
@@ -27,11 +23,11 @@ import org.joml.Vector3i;
 
 import javax.annotation.Nonnull;
 
-public class EvokeHexCreatureInteraction extends SimpleInteraction {
+public class HexCreatureInteraction extends SimpleInteraction {
     private static final HytaleLogger LOGGER = HytaleLogger.forEnclosingClass();
 
-    public static final BuilderCodec<EvokeHexCreatureInteraction> CODEC =
-            BuilderCodec.builder(EvokeHexCreatureInteraction.class, EvokeHexCreatureInteraction::new,
+    public static final BuilderCodec<HexCreatureInteraction> CODEC =
+            BuilderCodec.builder(HexCreatureInteraction.class, HexCreatureInteraction::new,
                             SimpleInteraction.CODEC)
                     .build();
 

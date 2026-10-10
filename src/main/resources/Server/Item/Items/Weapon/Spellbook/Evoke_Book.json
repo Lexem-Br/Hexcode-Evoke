@@ -6,12 +6,16 @@
   "Categories": [
     "Items.Weapons"
   ],
+  "Utility": {
+    "Usable": true
+  },
   "Quality": "Rare",
   "ItemLevel": 40,
   "Model": "Items/Weapons/Spellbook/EvokeBook/Model.blockymodel",
   "Texture": "Items/Weapons/Spellbook/EvokeBook/Life.png",
-  "PlayerAnimationsId": "Evoke_Spellbook",
   "Icon": "Icons/ItemsGenerated/Evoke_Book.png",
+  "PlayerAnimationsId": "Evoke_Spellbook",
+  "ItemSoundSetId": "ISS_Weapons_Books",
   "DroppedItemAnimation": "Items/Animations/Dropped/Dropped_Diagonal_Left.blockyanim",
   "MaxStack": 1,
   "Tags": {
@@ -51,79 +55,13 @@
       }
     ]
   },
-  "Weapon": {},
-  "ItemSoundSetId": "ISS_Weapons_Books",
   "Interactions": {
-    "Primary": {
-      "Interactions": [
-        {
-          "Type": "Charging",
-          "Effects": {
-            "WorldSoundEventId": "SFX_Skeleton_Mage_Spellbook_Charge",
-            "ItemAnimationId": "CastHurlCharging"
-          },
-          "AllowIndefiniteHold": true,
-          "HorizontalSpeedMultiplier": 0.8,
-          "RunTime": 0,
-          "Next": {
-            "0": {
-              "Type": "Simple",
-              "Effects": {
-                "ItemAnimationId": "Interact"
-              }
-            },
-            "0.8": {
-              "Type": "EvokeHexCreature",
-              "Next": {
-                "Type": "Serial",
-                "Interactions": [
-                  {
-                    "Type": "Simple",
-                    "RunTime": 0.5,
-                    "Effects": {
-                      "ItemAnimationId": "CastHurlCharged",
-                      "ClearAnimationOnFinish": true
-                    }
-                  }
-                ]
-              },
-              "Failed": {
-                "Type": "Simple",
-                "Effects": {
-                  "ItemAnimationId": "Interact"
-                }
-              }
-            }
-          }
-        }
-      ]
-    },
-    "Secondary": {
-      "Interactions": [
-        {
-          "Type": "OpenEvokeBook",
-          "Next": {
-            "Type": "Serial",
-            "Interactions": [
-              {
-                "Type": "Simple",
-                "RunTime": 0.5,
-                "Effects": {
-                  "WorldSoundEventId": "SFX_Skeleton_Mage_Spellbook_Charge"
-                }
-              }
-            ]
-          },
-          "Failed": {
-            "Type": "Simple",
-            "Effects": {
-              "ItemAnimationId": "Interact"
-            }
-          }
-        }
-      ]
-    }
+    "Primary": "Root_Evoke",
+    "Secondary": "Root_Open_Evoke_Book",
+    "Ability1": "Root_Evoke",
+    "Ability4": "Root_Open_Evoke_Book"
   },
+  "Weapon": {},
   "IconProperties": {
     "Scale": 0.6,
     "Rotation": [

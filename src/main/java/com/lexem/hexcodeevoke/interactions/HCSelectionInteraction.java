@@ -10,14 +10,11 @@ import com.hypixel.hytale.logger.HytaleLogger;
 import com.hypixel.hytale.math.vector.Transform;
 import com.hypixel.hytale.protocol.InteractionState;
 import com.hypixel.hytale.protocol.InteractionType;
-import com.hypixel.hytale.server.core.Message;
 import com.hypixel.hytale.server.core.entity.InteractionContext;
 import com.hypixel.hytale.server.core.entity.UUIDComponent;
 import com.hypixel.hytale.server.core.modules.interaction.interaction.CooldownHandler;
 import com.hypixel.hytale.server.core.modules.interaction.interaction.config.SimpleInteraction;
-import com.hypixel.hytale.server.core.universe.PlayerRef;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
-import com.hypixel.hytale.server.core.util.NotificationUtil;
 import com.hypixel.hytale.server.core.util.TargetUtil;
 import com.hypixel.hytale.server.npc.entities.NPCEntity;
 import com.lexem.hexcodeevoke.components.EvokerComponent;
@@ -28,15 +25,15 @@ import org.joml.Vector3d;
 import javax.annotation.Nonnull;
 import java.util.*;
 
-public class EvokeHCSelectionInteraction extends SimpleInteraction {
+public class HCSelectionInteraction extends SimpleInteraction {
     private static final HytaleLogger LOGGER = HytaleLogger.forEnclosingClass();
     private double maxDistance = 10;
     private int maxSelection = 1;
     private boolean reverse = false;
     private boolean all = false;
 
-    public static final BuilderCodec<EvokeHCSelectionInteraction> CODEC =
-            BuilderCodec.builder(EvokeHCSelectionInteraction.class, EvokeHCSelectionInteraction::new,
+    public static final BuilderCodec<HCSelectionInteraction> CODEC =
+            BuilderCodec.builder(HCSelectionInteraction.class, HCSelectionInteraction::new,
                             SimpleInteraction.CODEC)
                     .append(new KeyedCodec<>("MaxDistance", Codec.DOUBLE),
                             (config, value) -> config.maxDistance = value,

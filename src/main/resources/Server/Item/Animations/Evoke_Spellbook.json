@@ -1,31 +1,96 @@
 {
-  "Parent": "Item",
+  "Parent": "Shield",
   "Animations": {
-    "CastHurlCharging": {
-      "ThirdPerson": "Characters/Animations/Items/Dual_Handed/Spellbook/Attacks/Cast_Hurl_Charged/Cast_Hurl_Charging.blockyanim",
-      "ThirdPersonMoving": "Characters/Animations/Items/Dual_Handed/Spellbook/Attacks/Cast_Hurl_Charged/Cast_Hurl_Charging_Moving.blockyanim",
-      "FirstPerson": "Characters/Animations/Items/Dual_Handed/Spellbook/Attacks/Cast_Hurl_Charged/Cast_Hurl_Charging_FPS.blockyanim",
+    "Interact": {
+      "FirstPerson": "Characters/Animations/Items/Main_Handed/Item/Interact_FPS.blockyanim",
+      "ThirdPerson": "Characters/Animations/Items/Main_Handed/Item/Interact.blockyanim",
+      "Speed": 1,
+      "BlendingDuration": 0.1
+    },
+    "Evoke_Wand_Primary": {
+      "ThirdPerson": "Characters/Animations/Wand/Wand_Primary.blockyanim",
+      "FirstPerson": "Characters/Animations/Wand/Wand_Primary_FPS.blockyanim",
       "Speed": 1
     },
-    "CastHurlCharged": {
-      "ThirdPerson": "Characters/Animations/Items/Dual_Handed/Spellbook/Attacks/Cast_Hurl_Charged/Cast_Hurl_Charged.blockyanim",
-      "ThirdPersonMoving": "Characters/Animations/Items/Dual_Handed/Spellbook/Attacks/Cast_Hurl_Charged/Cast_Hurl_Charged_Moving.blockyanim",
-      "FirstPerson": "Characters/Animations/Items/Dual_Handed/Spellbook/Attacks/Cast_Hurl_Charged/Cast_Hurl_Charged_FPS.blockyanim",
-      "Speed": 1,
-      "BlendingDuration": 0
+    "Evoke_Wand_Follow": {
+      "ThirdPerson": "Characters/Animations/Wand/Wand_Follow.blockyanim",
+      "FirstPerson": "Characters/Animations/Wand/Wand_Follow_FPS.blockyanim",
+      "Speed": 1
+    },
+    "Evoke_Wand_Select_All": {
+      "ThirdPerson": "Characters/Animations/Wand/Wand_Select_All.blockyanim",
+      "FirstPerson": "Characters/Animations/Wand/Wand_Select_All_FPS.blockyanim",
+      "Speed": 0.5
     },
     "CastPushCharging": {
-      "ThirdPerson": "Characters/Animations/Items/Dual_Handed/Spellbook/Attacks/Cast_Push_Charged/Cast_Push_Charging.blockyanim",
-      "ThirdPersonMoving": "Characters/Animations/Items/Dual_Handed/Spellbook/Attacks/Cast_Push_Charged/Cast_Push_Charging_Moving.blockyanim",
-      "FirstPerson": "Characters/Animations/Items/Dual_Handed/Spellbook/Attacks/Cast_Push_Charged/Cast_Push_Charging_FPS.blockyanim",
+      "ThirdPerson": "Characters/Animations/Spellbook/Cast_Push/Mirrored_Cast_Push.blockyanim",
+      "ThirdPersonMoving": "Characters/Animations/Spellbook/Cast_Push/Mirrored_Cast_Push_Moving.blockyanim",
+      "FirstPerson": "Characters/Animations/Spellbook/Cast_Push/Mirrored_Cast_Push_FPS.blockyanim",
       "Speed": 1
     },
     "CastPushCharged": {
-      "ThirdPerson": "Characters/Animations/Items/Dual_Handed/Spellbook/Attacks/Cast_Push_Charged/Cast_Push_Charged.blockyanim",
-      "ThirdPersonMoving": "Characters/Animations/Items/Dual_Handed/Spellbook/Attacks/Cast_Push_Charged/Cast_Push_Charged_Moving.blockyanim",
-      "FirstPerson": "Characters/Animations/Items/Dual_Handed/Spellbook/Attacks/Cast_Push_Charged/Cast_Push_Charged_FPS.blockyanim",
+      "ThirdPerson": "Characters/Animations/Spellbook/Cast_Push_Charged/Mirrored_Cast_Push_Charged.blockyanim",
+      "ThirdPersonMoving": "Characters/Animations/Spellbook/Cast_Push_Charged/Mirrored_Cast_Push_Charged_Moving.blockyanim",
+      "FirstPerson": "Characters/Animations/Spellbook/Cast_Push_Charged/Mirrored_Cast_Push_Charged_FPS.blockyanim",
       "Speed": 1,
       "BlendingDuration": 0
+    },
+    "Idle": {
+      "FirstPerson": "Characters/Animations/Spellbook/Off_Hand/Idle_FPS.blockyanim",
+      "Speed": 0.5,
+      "ThirdPerson": "Characters/Animations/Spellbook/Off_Hand/Idle.blockyanim",
+      "Looping": true
+    },
+    "Walk": {
+      "FirstPerson": "Characters/Animations/Items/Off_Handed/Torch/Walk_FPS.blockyanim",
+      "Speed": 1.0,
+      "ThirdPerson": "Characters/Animations/Items/Off_Handed/Shield/Walk.blockyanim",
+      "Looping": true
+    },
+    "WalkBackward": {
+      "FirstPerson": "Characters/Animations/Items/Off_Handed/Torch/Walk_Backward_FPS.blockyanim",
+      "Speed": 1.0,
+      "ThirdPerson": "Characters/Animations/Items/Off_Handed/Shield/Walk_Backward.blockyanim",
+      "Looping": true
+    },
+    "Run": {
+      "FirstPerson": "Characters/Animations/Items/Off_Handed/Torch/Run_FPS.blockyanim",
+      "Speed": 0.9,
+      "ThirdPerson": "Characters/Animations/Items/Off_Handed/Shield/Run_Backward.blockyanim",
+      "Looping": true
+    },
+    "RunBackward": {
+      "FirstPerson": "Characters/Animations/Items/Off_Handed/Torch/Run_Backward_FPS.blockyanim",
+      "Speed": 0.9,
+      "ThirdPerson": "Characters/Animations/Items/Off_Handed/Shield/Run_Backward.blockyanim",
+      "Looping": true
+    },
+    "Sprint": {
+      "FirstPerson": "Characters/Animations/Items/Off_Handed/Torch/Sprint_FPS.blockyanim",
+      "Speed": 1.1,
+      "ThirdPerson": "Characters/Animations/Items/Off_Handed/Shield/Sprint.blockyanim",
+      "Looping": true
+    },
+    "Crouch": {
+      "BlendingDuration": 0.1,
+      "FirstPerson": "Characters/Animations/Items/Off_Handed/Torch/Crouch_FPS.blockyanim",
+      "Speed": 0.5,
+      "ThirdPerson": "Characters/Animations/Items/Main_Handed/Item/Crouch.blockyanim",
+      "Looping": true
+    },
+    "CrouchWalk": {
+      "BlendingDuration": 0.1,
+      "FirstPerson": "Characters/Animations/Items/Off_Handed/Torch/Crouch_FPS.blockyanim",
+      "Speed": 0.8,
+      "ThirdPerson": "Characters/Animations/Items/Main_Handed/Item/Crouch_Walk.blockyanim",
+      "Looping": true
+    },
+    "CrouchWalkBackward": {
+      "BlendingDuration": 0.1,
+      "FirstPerson": "Characters/Animations/Items/Off_Handed/Torch/Crouch_FPS.blockyanim",
+      "Speed": 0.8,
+      "ThirdPerson": "Characters/Animations/Items/Main_Handed/Item/Crouch_Walk_Backward.blockyanim",
+      "Looping": true
     }
   },
   "WiggleWeights": {

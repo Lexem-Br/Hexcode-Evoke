@@ -36,3 +36,5 @@ items.armor.Straw_Hat.name=Chapéu de palha
 interactionHints.despawn= Pressione [{key}] para recolher
 interactionHints.ActiveJumpScare= Pressione [{key}] para ativar o modo susto
 interactionHints.DesactiveJumpScare= Pressione [{key}] para desativar o modo susto
+
+hud.inputBinding.open = Abrir Livro

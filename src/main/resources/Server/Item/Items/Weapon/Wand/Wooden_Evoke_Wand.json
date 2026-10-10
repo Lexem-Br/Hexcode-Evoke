@@ -1,28 +1,14 @@
 {
+  "Parent": "Template_Evoke_Wand",
   "TranslationProperties": {
     "Name": "evoke.items.Weapon.Wand.Evoke_Wand_Wooden.name",
     "Description": "evoke.items.Weapon.Wand.Evoke_Wand_Wooden.description"
   },
-  "Categories": [
-    "Items.Weapons"
-  ],
   "Quality": "Uncommon",
   "ItemLevel": 20,
   "Model": "Items/Weapons/EvokeWand/Wooden/Model.blockymodel",
   "Texture": "Items/Weapons/EvokeWand/Wooden/Texture.png",
-  "PlayerAnimationsId": "Evoke_Wand",
   "Icon": "Icons/ItemsGenerated/Wooden_Evoke_Wand.png",
-  "DroppedItemAnimation": "Items/Animations/Dropped/Dropped_Diagonal_Left.blockyanim",
-  "MaxStack": 1,
-  "Scale": 1,
-  "Tags": {
-    "Type": [
-      "Weapon"
-    ],
-    "Family": [
-      "Spellbook"
-    ]
-  },
   "Recipe": {
     "TimeSeconds": 1,
     "Input": [
@@ -49,11 +35,6 @@
     ]
   },
   "ItemSoundSetId": "ISS_Weapons_Books",
-  "Interactions": {
-    "Primary": "Root_Evoke_Wand_Selection",
-    "Secondary": "Root_Evoke_Wand_Deselection",
-    "SwapTo": "Root_Change_Stat_Wand_Particles"
-  },
   "InteractionVars": {
     "Evoke_Wand_Target_Selection_Var": {
       "Interactions": [
@@ -95,19 +76,6 @@
           "MaxDistance": 20,
           "Next": "Evoke_Wand_Follow_Generic",
           "Failed": "Evoke_Interact_Fail"
-        }
-      ]
-    }
-  },
-  "Weapon": {
-    "EntityStatsToClear": [
-      "DeployablePreview"
-    ],
-    "StatModifiers": {
-      "DeployablePreview": [
-        {
-          "Amount": 6,
-          "CalculationType": "Additive"
         }
       ]
     }
@@ -186,18 +154,6 @@
           }
         ]
       }
-    ]
-  },
-  "IconProperties": {
-    "Scale": 0.6,
-    "Rotation": [
-      20,
-      165,
-      41
-    ],
-    "Translation": [
-      -15,
-      -15
     ]
   }
 }

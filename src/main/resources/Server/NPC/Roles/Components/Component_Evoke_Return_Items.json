@@ -5,25 +5,6 @@
     "_ImportStates": ["Main"]
   },
   "DefaultState": ".ReturnTheItems",
-  "StateTransitions": [
-    {
-      "$Comment": "Clear",
-      "States": [
-        {
-          "From": [ ],
-          "To": [ ]
-        }
-      ],
-      "Actions": [
-        {
-          "Type": "ReleaseTarget"
-        },
-        {
-          "Type": "ResetInstructions"
-        }
-      ]
-    }
-  ],
   "Content":  {
     "Instructions": [
       {

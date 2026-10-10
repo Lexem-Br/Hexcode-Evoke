@@ -1,0 +1,19 @@
+{
+  "RequireNewClick": true,
+  "Interactions": [
+    {
+      "Type": "Evoke:IsHoldingCondition",
+      "MainHanded": false,
+      "Items": [
+        "Evoke_Book"
+      ],
+      "RunTime": 0.2,
+      "Next": "Evoke",
+      "Failed": {
+        "Type": "Evoke:SendMessage",
+        "Title": "errors.evoke_book_not_found.title",
+        "Description": "errors.evoke_book_not_found.description"
+      }
+    }
+  ]
+}

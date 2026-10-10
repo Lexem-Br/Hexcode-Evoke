@@ -1,0 +1,20 @@
+{
+  "RequireNewClick": true,
+  "HudInputBindingEntry": "evoke.hud.inputBinding.open",
+  "Interactions": [
+    {
+      "Type": "Evoke:IsHoldingCondition",
+      "MainHanded": false,
+      "Items": [
+        "Evoke_Book"
+      ],
+      "RunTime": 0.2,
+      "Next": "Open_Evoke_Book",
+      "Failed": {
+        "Type": "Evoke:SendMessage",
+        "Title": "errors.evoke_book_not_found.title",
+        "Description": "errors.evoke_book_not_found.description"
+      }
+    }
+  ]
+}

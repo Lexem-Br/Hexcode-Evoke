@@ -36,3 +36,5 @@ items.armor.Straw_Hat.name=Straw Hat
 interactionHints.despawn= Press [{key}] to despawn
 interactionHints.ActiveJumpScare= Press [{key}] to active jump scare mode
 interactionHints.DesactiveJumpScare= Press [{key}] to desactive jump scare mode
+
+hud.inputBinding.open = Open Book

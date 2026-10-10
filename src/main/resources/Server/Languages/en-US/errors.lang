@@ -16,3 +16,6 @@ max_wand_selection_exceeded.description2=Hex creatures
 
 insufficient_life_essence_quantity.title=Insufficient Life Essence
 insufficient_life_essence_quantity.description=Life Essences are needed
+
+evoke_book_not_found.title=Evoke Book not found
+evoke_book_not_found.description=The Evoke Book must be equipped in the utility slot

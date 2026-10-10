@@ -16,3 +16,6 @@ max_wand_selection_exceeded.description2=criaturas Hex
 
 insufficient_life_essence_quantity.title=Essência de Vida insuficiente
 insufficient_life_essence_quantity.description=Essência de vida são necessárias
+
+evoke_book_not_found.title=Evoke Book não encontrado
+evoke_book_not_found.description=O Evoke Book deve estar equipado no espaço de utilitário

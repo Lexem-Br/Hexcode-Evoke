@@ -2,7 +2,7 @@
   "nodes": [
     {
       "id": "1",
-      "name": "R-Attachment",
+      "name": "L-Attachment",
       "position": {"x": -2, "y": 16, "z": -11},
       "orientation": {"x": 0, "y": 0, "z": 0, "w": 1},
       "shape": {
@@ -22,7 +22,7 @@
         {
           "id": "2",
           "name": "Origin_Projectile",
-          "position": {"x": 2, "y": 11, "z": 20},
+          "position": {"x": -1, "y": 11, "z": 20},
           "orientation": {"x": 0.38268, "y": 0, "z": 0, "w": 0.92388},
           "shape": {
             "type": "none",

@@ -2,7 +2,6 @@ package com.lexem.hexcodeevoke.npc.actions;
 
 import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.component.Store;
-import com.hypixel.hytale.logger.HytaleLogger;
 import com.hypixel.hytale.math.util.ChunkUtil;
 import com.hypixel.hytale.server.core.asset.type.blocktype.config.BlockType;
 import com.hypixel.hytale.server.core.universe.world.World;
@@ -16,14 +15,12 @@ import com.hypixel.hytale.server.npc.instructions.ExecutionSupport;
 import com.hypixel.hytale.server.npc.sensorinfo.IPositionProvider;
 import com.hypixel.hytale.server.npc.sensorinfo.InfoProvider;
 import com.lexem.hexcodeevoke.npc.actions.builders.BuilderActionOpenChestAnimation;
-import com.lexem.hexcodeevoke.utils.BlockUtils;
 import org.joml.Vector3i;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 public class ActionOpenChestAnimation extends ActionBase {
-    private static final HytaleLogger LOGGER = HytaleLogger.forEnclosingClass();
     protected boolean reverse;
 
     public ActionOpenChestAnimation(@Nonnull BuilderActionOpenChestAnimation builder) {

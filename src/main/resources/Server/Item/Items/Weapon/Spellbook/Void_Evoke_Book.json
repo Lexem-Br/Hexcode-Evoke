@@ -31,7 +31,7 @@
           "Type": "Charging",
           "Effects": {
             "WorldSoundEventId": "SFX_Skeleton_Mage_Spellbook_Charge",
-            "ItemAnimationId": "CastHurlCharging"
+            "ItemAnimationId": "CastPushCharging"
           },
           "AllowIndefiniteHold": true,
           "HorizontalSpeedMultiplier": 0.8,
@@ -49,18 +49,13 @@
               "ParticleId": "Evoke_MagicPortal_VoidKeyArt",
               "ParticleScale": 0.6,
               "ParticleMaxDuration": 4.0,
-              "Next": {
-                "Type": "Serial",
-                "Interactions": [
-                  {
-                    "Type": "Simple",
-                    "RunTime": 0.5,
-                    "Effects": {
-                      "ItemAnimationId": "CastHurlCharged",
-                      "ClearAnimationOnFinish": true
-                    }
-                  }
-                ]
+              "Next":   {
+                "Type": "Simple",
+                "RunTime": 0.5,
+                "Effects": {
+                  "ItemAnimationId": "CastPushCharged",
+                  "ClearAnimationOnFinish": true
+                }
               },
               "Failed": {
                 "Type": "Simple",

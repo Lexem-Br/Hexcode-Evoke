@@ -32,7 +32,7 @@
       "Description": "The distance to stop"
     },
     "SFX_Pumpkin_Jump": {
-      "Value": "SFX_Pumpkin_Jump_Scare",
+      "Value": "SFX_Pumpkin_Jump_Scary",
       "Description": "The sound in jump-scare mode"
     },
     "SFX_Pumpkin_Laugh": {

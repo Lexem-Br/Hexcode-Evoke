@@ -9,14 +9,11 @@ import com.hypixel.hytale.component.Store;
 import com.hypixel.hytale.logger.HytaleLogger;
 import com.hypixel.hytale.protocol.InteractionState;
 import com.hypixel.hytale.protocol.InteractionType;
-import com.hypixel.hytale.server.core.Message;
 import com.hypixel.hytale.server.core.entity.InteractionContext;
 import com.hypixel.hytale.server.core.modules.entity.component.TransformComponent;
 import com.hypixel.hytale.server.core.modules.interaction.interaction.CooldownHandler;
 import com.hypixel.hytale.server.core.modules.interaction.interaction.config.SimpleInteraction;
-import com.hypixel.hytale.server.core.universe.PlayerRef;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
-import com.hypixel.hytale.server.core.util.NotificationUtil;
 import com.hypixel.hytale.server.core.util.TargetUtil;
 import com.hypixel.hytale.server.npc.components.messaging.BeaconSupport;
 import com.lexem.hexcodeevoke.components.EvokerComponent;
@@ -27,12 +24,12 @@ import javax.annotation.Nonnull;
 import java.util.List;
 import java.util.UUID;
 
-public class EvokeFollowInteraction extends SimpleInteraction {
+public class FollowInteraction extends SimpleInteraction {
     private static final HytaleLogger LOGGER = HytaleLogger.forEnclosingClass();
     double maxDistance = 10;
 
-    public static final BuilderCodec<EvokeFollowInteraction> CODEC =
-            BuilderCodec.builder(EvokeFollowInteraction.class, EvokeFollowInteraction::new,
+    public static final BuilderCodec<FollowInteraction> CODEC =
+            BuilderCodec.builder(FollowInteraction.class, FollowInteraction::new,
                             SimpleInteraction.CODEC)
                     .append(new KeyedCodec<>("MaxDistance", Codec.DOUBLE),
                             (config, value) -> config.maxDistance = value,
