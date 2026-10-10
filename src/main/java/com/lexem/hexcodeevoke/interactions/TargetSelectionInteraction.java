@@ -12,6 +12,7 @@ import com.hypixel.hytale.protocol.InteractionType;
 import com.hypixel.hytale.server.core.entity.InteractionContext;
 import com.hypixel.hytale.server.core.modules.interaction.interaction.CooldownHandler;
 import com.hypixel.hytale.server.core.modules.interaction.interaction.config.SimpleInteraction;
+import com.hypixel.hytale.server.core.universe.PlayerRef;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.hypixel.hytale.server.core.util.TargetUtil;
 import com.hypixel.hytale.server.npc.components.messaging.BeaconSupport;
@@ -64,7 +65,14 @@ public class TargetSelectionInteraction extends SimpleInteraction {
 
             Vector3d targetPosition = TargetUtil.getTargetLocation(playerRef, maxDistance, accessor);
             if (targetPosition == null) {
-                ErrorMessageUtils.messageMaxDistanceExceeded(playerRef, store, maxDistance);
+                PlayerRef playerRef2 = store.getComponent(playerRef, PlayerRef.getComponentType());
+                ErrorMessageUtils.sendMessageErrorJoinInt2(
+                        playerRef2,
+                        "errors.invalid_target",
+                        "errors.max_distance.description1",
+                        (int) maxDistance,
+                        "errors.max_distance.description2"
+                );
                 context.getState().state = InteractionState.Failed;
                 super.tick0(firstRun, time, type, context, cooldownHandler);
                 return;

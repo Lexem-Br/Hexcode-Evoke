@@ -65,7 +65,14 @@ public class HexCreatureUtils {
 
         accessor.run(_store -> {
             if (!evoker.canAddHexCreature()) {
-                ErrorMessageUtils.messageMaxHexCreatures(refESPlayer, store, evoker);
+                PlayerRef playerRef = store.getComponent(refESPlayer, PlayerRef.getComponentType());
+                ErrorMessageUtils.sendMessageErrorJoinInt2(
+                        playerRef,
+                        "errors.max_hex_creatures.title",
+                        "errors.max_hex_creatures.description1",
+                        evoker.getMaxHexCreatures(),
+                        "errors.max_hex_creatures.description2"
+                );
                 return;
             }
             if (roleIndex >= 0) {

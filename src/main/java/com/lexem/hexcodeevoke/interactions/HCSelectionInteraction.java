@@ -14,6 +14,7 @@ import com.hypixel.hytale.server.core.entity.InteractionContext;
 import com.hypixel.hytale.server.core.entity.UUIDComponent;
 import com.hypixel.hytale.server.core.modules.interaction.interaction.CooldownHandler;
 import com.hypixel.hytale.server.core.modules.interaction.interaction.config.SimpleInteraction;
+import com.hypixel.hytale.server.core.universe.PlayerRef;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.hypixel.hytale.server.core.util.TargetUtil;
 import com.hypixel.hytale.server.npc.entities.NPCEntity;
@@ -112,7 +113,8 @@ public class HCSelectionInteraction extends SimpleInteraction {
                     }
 
                     if (count == 0) {
-                        ErrorMessageUtils.messageNoHCFound(playerRef, store);
+                        PlayerRef playerRef2 = store.getComponent(playerRef, PlayerRef.getComponentType());
+                        ErrorMessageUtils.sendMessageError(playerRef2, "errors.invalid_target", "errors.no_hex_creture_found");
                         context.getState().state = InteractionState.Failed;
                         super.tick0(firstRun, time, type, context, cooldownHandler);
                         return;
@@ -123,7 +125,8 @@ public class HCSelectionInteraction extends SimpleInteraction {
                 Ref<EntityStore> targetEntity = TargetUtil.getTargetEntity(playerRef, accessor);
                 if (targetEntity == null) {
                     if (!hasSelectedHC && !reverse) {
-                        ErrorMessageUtils.messageInvalidTarget(playerRef, store);
+                        PlayerRef playerRef2 = store.getComponent(playerRef, PlayerRef.getComponentType());
+                        ErrorMessageUtils.sendMessageError(playerRef2, "errors.invalid_target", "errors.no_entity_founded");
                     }
                     context.getState().state = InteractionState.Failed;
                     super.tick0(firstRun, time, type, context, cooldownHandler);
@@ -133,7 +136,8 @@ public class HCSelectionInteraction extends SimpleInteraction {
                 NPCEntity npcEntity = store.getComponent(targetEntity, Objects.requireNonNull(NPCEntity.getComponentType()));
                 if (npcEntity == null) {
                     if (!hasSelectedHC && !reverse) {
-                        ErrorMessageUtils.messageInvalidTarget(playerRef, store);
+                        PlayerRef playerRef2 = store.getComponent(playerRef, PlayerRef.getComponentType());
+                        ErrorMessageUtils.sendMessageError(playerRef2, "errors.invalid_target", "errors.no_entity_founded");
                     }
                     context.getState().state = InteractionState.Failed;
                     super.tick0(firstRun, time, type, context, cooldownHandler);
@@ -141,7 +145,8 @@ public class HCSelectionInteraction extends SimpleInteraction {
                 }
 
                 if (!AllowedHexItemsAsset.isHexCreature(npcEntity.getNPCTypeId())) {
-                    ErrorMessageUtils.messageTargetMustBeHC(playerRef, store);
+                    PlayerRef playerRef2 = store.getComponent(playerRef, PlayerRef.getComponentType());
+                    ErrorMessageUtils.sendMessageError(playerRef2, "errors.invalid_target", "errors.target_must_be_hex_creatures");
                     context.getState().state = InteractionState.Failed;
                     super.tick0(firstRun, time, type, context, cooldownHandler);
                     return;
@@ -150,7 +155,8 @@ public class HCSelectionInteraction extends SimpleInteraction {
                 UUIDComponent uuidtargetEntity = store.getComponent(targetEntity, UUIDComponent.getComponentType());
                 if (uuidtargetEntity == null) {
                     if (!hasSelectedHC && !reverse) {
-                        ErrorMessageUtils.messageInvalidTarget(playerRef, store);
+                        PlayerRef playerRef2 = store.getComponent(playerRef, PlayerRef.getComponentType());
+                        ErrorMessageUtils.sendMessageError(playerRef2, "errors.invalid_target", "errors.no_entity_founded");
                     }
                     context.getState().state = InteractionState.Failed;
                     super.tick0(firstRun, time, type, context, cooldownHandler);
@@ -158,7 +164,8 @@ public class HCSelectionInteraction extends SimpleInteraction {
                 }
 
                 if (!evoker.hexCreatureBelongsToPlayer(uuidtargetEntity.getUuid().toString())) {
-                    ErrorMessageUtils.messageHCMustBelongToTheEvoker(playerRef, store);
+                    PlayerRef playerRef2 = store.getComponent(playerRef, PlayerRef.getComponentType());
+                    ErrorMessageUtils.sendMessageError(playerRef2, "errors.invalid_target", "errors.hex_creature_must_belong_evoker");
                     context.getState().state = InteractionState.Failed;
                     super.tick0(firstRun, time, type, context, cooldownHandler);
                     return;
@@ -170,7 +177,14 @@ public class HCSelectionInteraction extends SimpleInteraction {
                     if (evoker.canSelectHexCreature(maxSelection)) {
                         evoker.addSelectedHexCreature(uuidtargetEntity.getUuid().toString());
                     } else {
-                        ErrorMessageUtils.messageMaxWandSelectionExceeded(playerRef, store, maxSelection);
+                        PlayerRef playerRef2 = store.getComponent(playerRef, PlayerRef.getComponentType());
+                        ErrorMessageUtils.sendMessageErrorJoinInt2(
+                                playerRef2,
+                                "errors.invalid_target",
+                                "errors.max_wand_selection_exceeded.description1",
+                                maxSelection,
+                                "errors.max_wand_selection_exceeded.description2"
+                        );
                         context.getState().state = InteractionState.Failed;
                         super.tick0(firstRun, time, type, context, cooldownHandler);
                         return;

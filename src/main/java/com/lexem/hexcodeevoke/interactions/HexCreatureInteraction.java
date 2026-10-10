@@ -12,6 +12,7 @@ import com.hypixel.hytale.server.core.inventory.ItemStack;
 import com.hypixel.hytale.server.core.modules.entity.component.TransformComponent;
 import com.hypixel.hytale.server.core.modules.interaction.interaction.CooldownHandler;
 import com.hypixel.hytale.server.core.modules.interaction.interaction.config.SimpleInteraction;
+import com.hypixel.hytale.server.core.universe.PlayerRef;
 import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.lexem.hexcodeevoke.hexitems.AllowedHexItemsAsset;
@@ -89,7 +90,13 @@ public class HexCreatureInteraction extends SimpleInteraction {
                 final var combinedHotbarFirst = InventoryComponent.getCombined(accessor, refESPlayer, InventoryComponent.HOTBAR_STORAGE_BACKPACK);
                 var removeItemStack = combinedHotbarFirst.removeItemStack(itemStack, true, true);
                 if (!removeItemStack.succeeded()) {
-                    ErrorMessageUtils.messageInsufficientLifeEssenceQuantity(hexItem.essenceCost, refESPlayer, accessor);
+                    PlayerRef playerRef = accessor.getComponent(refESPlayer, PlayerRef.getComponentType());
+                    ErrorMessageUtils.sendMessageErrorJoinInt(
+                            playerRef,
+                            "errors.insufficient_life_essence_quantity.title",
+                            hexItem.essenceCost,
+                            "errors.insufficient_life_essence_quantity.description"
+                    );
                     context.getState().state = InteractionState.Failed;
                     return;
                 }

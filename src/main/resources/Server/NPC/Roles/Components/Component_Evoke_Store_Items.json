@@ -83,6 +83,29 @@
             }
           }
         ]
+      },
+      {
+        "$Comment": "Search for a chest that has available slots",
+        "Continue": true,
+        "Sensor": {
+          "Type": "Not",
+          "Sensor":  {
+            "Type": "Evoke:ChestFinder",
+            "HorizontalRange": { "Compute": "HorizontalRange" },
+            "VerticalRange": { "Compute": "VerticalRange" },
+            "CheckCanStore": true
+          }
+        },
+        "Actions": [
+          {
+            "Type": "PlayAnimation",
+            "Slot": "Status"
+          },
+          {
+            "Type": "ParentState",
+            "State": "Main"
+          }
+        ]
       }
     ]
   },

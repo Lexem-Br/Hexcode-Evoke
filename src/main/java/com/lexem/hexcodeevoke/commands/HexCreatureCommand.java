@@ -36,13 +36,13 @@ public class HexCreatureCommand extends AbstractPlayerCommand {
 
         Ref<EntityStore> npcRef = world.getEntityStore().getRefFromUUID(npcUUID);
         if (npcRef == null) {
-            ErrorMessageUtils.messageNoHCFound(ref, store);
+            ErrorMessageUtils.sendMessageError(playerRef, "errors.invalid_target", "errors.no_hex_creture_found");
             return;
         }
 
         HexCreatureComponent hexCreature = store.getComponent(npcRef, HexCreatureComponent.getComponentType());
         if (hexCreature == null) {
-            ErrorMessageUtils.messageNoHCFound(ref, store);
+            ErrorMessageUtils.sendMessageError(playerRef, "errors.invalid_target", "errors.no_hex_creture_found");
             return;
         }
 
