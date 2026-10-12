@@ -1,0 +1,80 @@
+{
+  "TranslationProperties": {
+    "Name": "evoke.items.HexItems.Hex_Broom.name",
+    "Description": "evoke.items.HexItems.Hex_Broom.description"
+  },
+  "Icon": "Icons/ItemsGenerated/Hex_Broom.png",
+  "Recipe": {
+    "TimeSeconds": 1,
+    "Input": [
+      {
+        "ResourceTypeId": "Wood_Trunk",
+        "Quantity": 2
+      },
+      {
+        "ItemId": "Ingredient_Life_Essence",
+        "Quantity": 20
+      }
+    ],
+    "BenchRequirement": [
+      {
+        "Id": "Arcanebench",
+        "Categories": [
+          "Arcane_Hexcode_Evoke"
+        ]
+      }
+    ]
+  },
+  "Interactions": {
+    "Primary": "Root_Evoke_Broom_Primary",
+    "Secondary": "Block_Secondary"
+  },
+  "InteractionVars": {
+    "Spear_Swing_Left_Damage": "Spear_Swing_Left_Damage",
+    "Spear_Swing_Right_Damage": "Spear_Swing_Right_Damage",
+    "Spear_Swing_Left_Effect": "Spear_Swing_Left_Effect",
+    "Spear_Swing_Right_Effect": "Spear_Swing_Right_Effect"
+  },
+  "BlockType": {
+    "Material": "Solid",
+    "DrawType": "Model",
+    "CustomModel": "Items/Decorations/Broom/Broom.blockymodel",
+    "CustomModelTexture": [
+      {
+        "Texture": "Items/Halloween_Props/Broomstick_Texture.png",
+        "Weight": 0
+      }
+    ],
+    "HitboxType": "Plant_Tall_Full",
+    "VariantRotation": "NESW",
+    "Gathering": {
+      "Harvest": {},
+      "Soft": {}
+    },
+    "BlockSoundSetId": "Wood",
+    "PhysicalMaterialId": "Wool",
+    "Opacity": "Transparent",
+    "ParticleColor": "#65482d",
+    "BlockParticleSetId": "Wood",
+    "TextureComputedColor": "#67412B",
+    "RequiresAlphaBlending": false,
+    "CustomModelScale": 0.4
+  },
+  "PlayerAnimationsId": "Staff",
+  "IconProperties": {
+    "Scale": 0.2,
+    "Rotation": [
+      0,
+      179,
+      25
+    ],
+    "Translation": [
+      -44,
+      -68
+    ]
+  },
+  "ItemSoundSetId": "ISS_Blocks_Wood",
+  "Quality": "Uncommon",
+  "MaxStack": 1,
+  "Scale": 1.6
+}

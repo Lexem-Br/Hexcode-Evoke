@@ -22,13 +22,14 @@
         }
       },
       {
-        "$Comment": "Store the items",
+        "$Comment": "Search the items",
         "Continue": true,
         "Sensor":  {
           "Type": "Evoke:SearchChestTaskPosition",
-          "HorizontalRange": 2,
-          "VerticalRange": 3
+          "HorizontalRange": 3,
+          "VerticalRange": 4
         },
+        "ActionsBlocking": true,
         "Actions": [
           {
             "Type": "PlayAnimation",

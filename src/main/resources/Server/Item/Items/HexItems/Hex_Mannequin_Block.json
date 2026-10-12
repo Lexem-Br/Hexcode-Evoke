@@ -48,9 +48,8 @@
     "VariantRotation": "NESW",
     "Flags": {},
     "Gathering": {
-      "Breaking": {
-        "GatherType": "Woods"
-      }
+      "Harvest": {},
+      "Soft": {}
     },
     "BlockSoundSetId": "Wood",
     "PhysicalMaterialId": "Wood",

@@ -27,7 +27,8 @@ import com.lexem.hexcodeevoke.npc.bodymotions.builders.BuilderTeleportHexCreatur
 import com.lexem.hexcodeevoke.npc.filters.builders.*;
 import com.lexem.hexcodeevoke.npc.sensors.builders.*;
 import com.lexem.hexcodeevoke.builtin.HexcodeBuiltin;
-import com.lexem.hexcodeevoke.systems.NPCJoinSystem;
+import com.lexem.hexcodeevoke.systems.NPCDeathSystem;
+import com.lexem.hexcodeevoke.systems.NPCSpawnSystem;
 import com.lexem.hexcodeevoke.systems.PlayerJoinSystem;
 import org.checkerframework.checker.nullness.compatqual.NonNullDecl;
 import com.riprod.patchly.PatchManager;
@@ -128,6 +129,7 @@ public class HexcodeEvoke extends JavaPlugin {
         npcPlugin.registerCoreComponentType("Evoke:OwnerHasItem", BuilderFilterOwnerHasItem::new);
         npcPlugin.registerCoreComponentType("Evoke:MinionHasActiveTask", BuilderFilterMinionHasActiveTask::new);
         npcPlugin.registerCoreComponentType("Evoke:CanTransferItemsToTargetNPC", BuilderFilterCanTransferItemsToTargetNPC::new);
+        npcPlugin.registerCoreComponentType("Evoke:IsTargetCrouch", BuilderFilterIsTargetCrouch::new);
     }
 
     private void registerSensors(NPCPlugin npcPlugin) {
@@ -163,7 +165,8 @@ public class HexcodeEvoke extends JavaPlugin {
         HexCreatureMinionComponent.setComponentType(hexCreatureMinionType);
 
         registery.registerSystem(new PlayerJoinSystem());
-        registery.registerSystem(new NPCJoinSystem());
+        registery.registerSystem(new NPCSpawnSystem());
+        registery.registerSystem(new NPCDeathSystem());
     }
 
     private void registerEvents() {
@@ -176,12 +179,15 @@ public class HexcodeEvoke extends JavaPlugin {
     }
 
     private void registerHexItems() {
-        this.getCodecRegistry(Interaction.CODEC).register("EvokeHexCreature", EvokeHexCreatureInteraction.class, EvokeHexCreatureInteraction.CODEC);
-        this.getCodecRegistry(Interaction.CODEC).register("EvokeTargetSelection", EvokeTargetSelectionInteraction.class, EvokeTargetSelectionInteraction.CODEC);
-        this.getCodecRegistry(Interaction.CODEC).register("EvokeFollow", EvokeFollowInteraction.class, EvokeFollowInteraction.CODEC);
+        this.getCodecRegistry(Interaction.CODEC).register("EvokeHexCreature", HexCreatureInteraction.class, HexCreatureInteraction.CODEC);
+        this.getCodecRegistry(Interaction.CODEC).register("EvokeTargetSelection", TargetSelectionInteraction.class, TargetSelectionInteraction.CODEC);
+        this.getCodecRegistry(Interaction.CODEC).register("EvokeFollow", FollowInteraction.class, FollowInteraction.CODEC);
         this.getCodecRegistry(Interaction.CODEC).register("OpenEvokeBook", OpenEvokeBookInteraction.class, OpenEvokeBookInteraction.CODEC);
-        this.getCodecRegistry(Interaction.CODEC).register("EvokeHCSelection", EvokeHCSelectionInteraction.class, EvokeHCSelectionInteraction.CODEC);
+        this.getCodecRegistry(Interaction.CODEC).register("EvokeHCSelection", HCSelectionInteraction.class, HCSelectionInteraction.CODEC);
         this.getCodecRegistry(Interaction.CODEC).register("ChangeStatWandParticles", ChangeStatWandParticlesInteraction.class, ChangeStatWandParticlesInteraction.CODEC);
+        this.getCodecRegistry(Interaction.CODEC).register("Evoke:Summon", SummonInteraction.class, SummonInteraction.CODEC);
+        this.getCodecRegistry(Interaction.CODEC).register("Evoke:IsHoldingCondition", IsHoldingConditionInteraction.class, IsHoldingConditionInteraction.CODEC);
+        this.getCodecRegistry(Interaction.CODEC).register("Evoke:SendMessage", SendMessageInteraction.class, SendMessageInteraction.CODEC);
     }
 
     @Override

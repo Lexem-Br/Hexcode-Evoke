@@ -6,25 +6,25 @@ $C = "../Common.ui";
 );
 
 @InputFieldStyle = InputFieldDecorationStyle(
-    Default: (OutlineSize: 2, OutlineColor: #000000, Background: #c0955e),
-    Focused: (OutlineSize: 3, OutlineColor: #000000, Background: #c0955e)
+    Default: (OutlineSize: 2, OutlineColor: #000000, Background: #ededed),
+    Focused: (OutlineSize: 3, OutlineColor: #000000, Background: #ededed)
 );
 
 @SaveButtonStyle = TextButtonStyle(
-    Default: (Background: #c0955e, LabelStyle: (FontSize: 16, TextColor: #000000, RenderBold: true, HorizontalAlignment: Center, VerticalAlignment: Center, OutlineColor: #000000)),
-    Hovered: (Background: #c0955e, LabelStyle: (FontSize: 18, TextColor: #000000, RenderBold: true, HorizontalAlignment: Center, VerticalAlignment: Center, OutlineColor: #000000)),
-    Pressed: (Background: #c0955e, LabelStyle: (FontSize: 18, TextColor: #000000, RenderBold: true, HorizontalAlignment: Center, VerticalAlignment: Center, OutlineColor: #000000))
+    Default: (Background: #ededed, LabelStyle: (FontSize: 16, TextColor: #000000, RenderBold: true, HorizontalAlignment: Center, VerticalAlignment: Center, OutlineColor: #000000)),
+    Hovered: (Background: #ededed, LabelStyle: (FontSize: 18, TextColor: #000000, RenderBold: true, HorizontalAlignment: Center, VerticalAlignment: Center, OutlineColor: #000000)),
+    Pressed: (Background: #ededed, LabelStyle: (FontSize: 18, TextColor: #000000, RenderBold: true, HorizontalAlignment: Center, VerticalAlignment: Center, OutlineColor: #000000))
 );
 
 @CustomCheckBoxStyle = CheckBoxStyle(
     Unchecked: (
-        DefaultBackground: (Color: #c0955e),
-        HoveredBackground: (Color: #c0955e),
-        PressedBackground: (Color: #c0955e),
-        DisabledBackground: (Color: #c0955e)
+        DefaultBackground: (Color: #ededed),
+        HoveredBackground: (Color: #ededed),
+        PressedBackground: (Color: #ededed),
+        DisabledBackground: (Color: #ededed)
     ),
     Checked: (
-       DefaultBackground: (Color: #c0955e, TexturePath: "../Icons/checkIcon.png", Area: (Full: 8))
+       DefaultBackground: (Color: #ededed, TexturePath: "../Icons/checkIcon.png")
     )
 );
 

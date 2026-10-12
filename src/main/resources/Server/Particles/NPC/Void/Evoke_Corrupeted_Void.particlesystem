@@ -1,0 +1,9 @@
+{
+  "Spawners": [
+    {
+      "SpawnerId": "MagicPortal_VoidSparksDark"
+    }
+  ],
+  "CullDistance": 50.0,
+  "IsImportant": true
+}

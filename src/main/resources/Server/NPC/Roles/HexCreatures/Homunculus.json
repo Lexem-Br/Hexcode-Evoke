@@ -8,7 +8,7 @@
   },
   "Parameters": {
     "NameTranslationKey": {
-      "Value": "evoke.npcRoles.Hex_Homunculus.name",
+      "Value": "evoke.items.HexItems.Hex_Homunculus.name",
       "Description": "Translation key for NPC name display"
     }
   }

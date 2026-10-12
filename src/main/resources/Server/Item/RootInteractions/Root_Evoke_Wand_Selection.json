@@ -1,0 +1,43 @@
+{
+  "Interactions": [
+    {
+      "Type": "Charging",
+      "Effects": {
+        "ItemAnimationId": "Evoke_Wand_Select_All"
+      },
+      "AllowIndefiniteHold": true,
+      "HorizontalSpeedMultiplier": 0.8,
+      "RunTime": 0,
+      "Next": {
+        "0": {
+          "Type": "Replace",
+          "Var": "Evoke_Wand_Selection_Var",
+          "DefaultValue": {
+            "Interactions": [
+              {
+                "Type": "EvokeHCSelection",
+                "Next": "Evoke_Wand_Selection_Generic",
+                "Failed": "Evoke_Wand_Target_Selection"
+              }
+            ]
+          }
+        },
+        "0.8": {
+          "Type": "Replace",
+          "Var": "Evoke_Wand_Selection_All_Var",
+          "DefaultOk": true,
+          "DefaultValue": {
+            "Interactions": [
+              {
+                "Type": "EvokeHCSelection",
+                "All": true,
+                "Next": "Evoke_Wand_Selection_Generic",
+                "Failed": "Evoke_Interact_Fail"
+              }
+            ]
+          }
+        }
+      }
+    }
+  ]
+}

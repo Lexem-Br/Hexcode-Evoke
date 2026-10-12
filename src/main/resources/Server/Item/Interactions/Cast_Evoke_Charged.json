@@ -1,0 +1,18 @@
+{
+  "Type": "EvokeHexCreature",
+  "RunTime": 0.167,
+  "Next":  {
+    "Type": "Simple",
+    "RunTime": 0.5,
+    "Effects": {
+      "ItemAnimationId": "CastPushCharged",
+      "ClearAnimationOnFinish": true
+    }
+  },
+  "Failed": {
+    "Type": "Simple",
+    "Effects": {
+      "ItemAnimationId": "Interact"
+    }
+  }
+}

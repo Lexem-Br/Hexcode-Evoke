@@ -127,7 +127,8 @@
           "Continue": true,
           "Sensor": {
             "Type": "Evoke:ReadPosition",
-            "Range": 30
+            "Range": 30,
+            "MinRange": 1
           },
           "BodyMotion": {
             "Type": "Seek",
@@ -139,7 +140,8 @@
         {
           "Sensor": {
             "Type": "Evoke:ReadPosition",
-            "Range": 2
+            "Range": 2,
+            "MinRange": 1
           },
           "Actions": [
             {

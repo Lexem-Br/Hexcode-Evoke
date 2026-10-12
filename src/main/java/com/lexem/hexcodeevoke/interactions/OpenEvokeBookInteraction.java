@@ -45,24 +45,22 @@ public class OpenEvokeBookInteraction extends SimpleInteraction {
     protected void tick0(boolean firstRun, float time, @Nonnull InteractionType type, @Nonnull InteractionContext context, @Nonnull CooldownHandler cooldownHandler) {
         try {
             Ref<EntityStore> refESPlayer = context.getOwningEntity();
-            if (refESPlayer == null) { return; }
+            if (refESPlayer == null) return;
 
             Store<EntityStore> store = refESPlayer.getStore();
             PlayerRef playerRef = store.getComponent(refESPlayer, PlayerRef.getComponentType());
-            if (playerRef == null) { return; }
+            if (playerRef == null) return;
 
             CommandBuffer<EntityStore> commandBuffer = context.getCommandBuffer();
-            if (commandBuffer == null) { return; }
+            if (commandBuffer == null) return;
 
-            World world = commandBuffer.getExternalData().getWorld();
-
-            EvokerComponent evoker = store.getComponent(refESPlayer, EvokerComponent.getComponentType());
-            if (evoker != null && evoker.getHexCreatureUUIDs() != null && evoker.getHexCreatureUUIDs().length > 0) {
-                evoker.deleteUnusedHexCreatureUUID(world);
-            }
+//            EvokerComponent evoker = store.getComponent(refESPlayer, EvokerComponent.getComponentType());
+//            if (evoker != null && evoker.getHexCreatureUUIDs() != null && evoker.getHexCreatureUUIDs().length > 0) {
+//                evoker.deleteUnusedHexCreatureUUID(store);
+//            }
 
             Player player = store.getComponent(refESPlayer, Player.getComponentType());
-            if (player == null) { return; }
+            if (player == null) return;
 
             EvokeBookPage evokeBookPage = new EvokeBookPage(playerRef, pageName, cardName);
             player.getPageManager().openCustomPage(refESPlayer, store, evokeBookPage);

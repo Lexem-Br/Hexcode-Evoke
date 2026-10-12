@@ -1,0 +1,29 @@
+{
+  "Layers": [
+    {
+      "Files": [
+        "Sounds/NPC/Intelligent/Goblins/Miner/NPC_Goblin_Miner_VO_Laugh_01.ogg",
+        "Sounds/NPC/Intelligent/Goblins/Miner/NPC_Goblin_Miner_VO_Laugh_02.ogg",
+        "Sounds/NPC/Intelligent/Goblins/Miner/NPC_Goblin_Miner_VO_Laugh_03.ogg",
+        "Sounds/NPC/Intelligent/Goblins/Miner/NPC_Goblin_Miner_VO_Laugh_04.ogg",
+        "Sounds/NPC/Intelligent/Goblins/Miner/NPC_Goblin_Miner_VO_Laugh_05.ogg",
+        "Sounds/NPC/Intelligent/Goblins/Miner/NPC_Goblin_Miner_VO_Laugh_06.ogg",
+        "Sounds/NPC/Intelligent/Goblins/Miner/NPC_Goblin_Miner_VO_Laugh_07.ogg"
+      ],
+      "RandomSettings": {
+        "MinPitch": 0,
+        "MaxPitch": 7,
+        "MinVolume": -1
+      },
+      "RoundRobinHistorySize": 5,
+      "Probability": 100,
+      "StartDelay": 0,
+      "Volume": 0
+    }
+  ],
+  "MaxInstance": 5,
+  "Volume": -4,
+  "PreventSoundInterruption": true,
+  "AudioCategory": "AudioCat_NPC_Goblin_Miner",
+  "Parent": "SFX_Attn_Moderate"
+}

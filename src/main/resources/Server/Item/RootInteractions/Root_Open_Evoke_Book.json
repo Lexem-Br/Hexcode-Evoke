@@ -1,0 +1,17 @@
+{
+  "RequireNewClick": true,
+  "HudInputBindingEntry": "evoke.hud.inputBinding.open",
+  "Interactions": [
+    {
+      "Type": "Evoke:IsHoldingCondition",
+      "MainHanded": true,
+      "Items": [
+        "Crude_Evoke_Wand",
+        "Wooden_Evoke_Wand",
+        "Iron_Evoke_Wand"
+      ],
+      "Next": "Evoke_Wand_Plus_Book_Deselection",
+      "Failed": "Open_Evoke_Book"
+    }
+  ]
+}

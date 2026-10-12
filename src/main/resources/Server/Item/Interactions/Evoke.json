@@ -1,0 +1,35 @@
+{
+  "Type": "Charging",
+  "Effects": {
+    "ItemAnimationId": "CastPushCharging",
+    "WorldSoundEventId": "SFX_Skeleton_Mage_Spellbook_Charge"
+  },
+  "AllowIndefiniteHold": true,
+  "HorizontalSpeedMultiplier": 0.8,
+  "OnItemChangeBehavior": "Cancel",
+  "RunTime": 0,
+  "Next": {
+    "0": {
+      "Type": "Simple",
+      "Effects": {
+        "ItemAnimationId": "Interact"
+      }
+    },
+    "0.8": {
+      "Type": "EvokeHexCreature",
+      "RunTime": 0.167,
+      "Next":  {
+        "Type": "Simple",
+        "Effects": {
+          "ItemAnimationId": "CastPushCharged"
+        }
+      },
+      "Failed": {
+        "Type": "Simple",
+        "Effects": {
+          "ItemAnimationId": "Interact"
+        }
+      }
+    }
+  }
+}

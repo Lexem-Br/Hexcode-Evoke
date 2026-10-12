@@ -1,0 +1,115 @@
+{
+  "Spawners": [
+    {
+      "SpawnerId": "MagicPortal_VoidSpawn",
+      "LifeSpan": {
+        "Min": 1.5,
+        "Max": 1.5
+      }
+    },
+    {
+      "SpawnerId": "MagicPortal_VoidFlash",
+      "LifeSpan": {
+        "Min": 1.5,
+        "Max": 1.5
+      }
+    },
+    {
+      "SpawnerId": "MagicPortal_VoidCenterCircle",
+      "LifeSpan": {
+        "Min": 1,
+        "Max": 1
+      }
+    },
+    {
+      "SpawnerId": "MagicPortal_VoidSmokeAlpha",
+      "StartDelay": 0,
+      "PositionOffset": {
+        "Y": 0.2
+      },
+      "LifeSpan": {
+        "Min": 1.5,
+        "Max": 1.5
+      }
+    },
+    {
+      "SpawnerId": "MagicPortal_VoidSparks",
+      "LifeSpan": {
+        "Min": 1.5,
+        "Max": 1.5
+      }
+    },
+    {
+      "SpawnerId": "MagicPortal_VoidSparksDark",
+      "LifeSpan": {
+        "Min": 1.5,
+        "Max": 1.5
+      }
+    },
+    {
+      "SpawnerId": "MagicPortal_Center",
+      "StartDelay": 0.5,
+      "LifeSpan": {
+        "Min": 1.5,
+        "Max": 1.5
+      }
+    },
+    {
+      "SpawnerId": "MagicPortal_VoidCenterGlow",
+      "StartDelay": 0.5,
+      "LifeSpan": {
+        "Min": 1.5,
+        "Max": 1.5
+      }
+    },
+    {
+      "SpawnerId": "MagicPortal_VoidSmokeMiddle",
+      "RotationOffset": {
+        "Pitch": 90.0
+      },
+      "LifeSpan": {
+        "Min": 1.5,
+        "Max": 1.5
+      }
+    },
+    {
+      "SpawnerId": "MagicPortal_VoidGlowSmoke",
+      "RotationOffset": {
+        "Pitch": 90.0
+      },
+      "LifeSpan": {
+        "Min": 1.5,
+        "Max": 1.5
+      }
+    },
+    {
+      "SpawnerId": "MagicPortal_VoidGlowCenterIntense",
+      "LifeSpan": {
+        "Min": 1.5,
+        "Max": 1.5
+      }
+    },
+    {
+      "SpawnerId": "MagicPortal_VoidOuterCircle",
+      "RotationOffset": {
+        "Pitch": 90.0
+      },
+      "LifeSpan": {
+        "Min": 1.5,
+        "Max": 1.5
+      }
+    },
+    {
+      "SpawnerId": "MagicPortal_VoidTentacles",
+      "PositionOffset": {
+        "Z": 0.4
+      },
+      "LifeSpan": {
+        "Min": 1.5,
+        "Max": 1.5
+      }
+    }
+  ],
+  "CullDistance": 50.0,
+  "IsImportant": true
+}

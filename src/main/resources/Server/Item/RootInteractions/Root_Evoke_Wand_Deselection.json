@@ -1,0 +1,28 @@
+{
+  "Interactions": [
+    {
+      "Type": "Charging",
+      "Effects": {
+        "ItemAnimationId": "Evoke_Wand_Select_All"
+      },
+      "AllowIndefiniteHold": true,
+      "HorizontalSpeedMultiplier": 0.8,
+      "RunTime": 0,
+      "Next": {
+        "0": {
+          "Type": "EvokeHCSelection",
+          "Reverse": true,
+          "Next": "Evoke_Wand_Selection_Generic",
+          "Failed": "Evoke_Wand_Follow"
+        },
+        "0.8": {
+          "Type": "EvokeHCSelection",
+          "All": true,
+          "Reverse": true,
+          "Next": "Evoke_Wand_Selection_Generic",
+          "Failed": "Evoke_Interact_Fail"
+        }
+      }
+    }
+  ]
+}

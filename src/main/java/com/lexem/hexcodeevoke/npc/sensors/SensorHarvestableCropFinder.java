@@ -15,6 +15,7 @@ import com.hypixel.hytale.server.npc.instructions.ExecutionSupport;
 import com.hypixel.hytale.server.npc.sensorinfo.InfoProvider;
 import com.hypixel.hytale.server.npc.sensorinfo.PositionProvider;
 import com.lexem.hexcodeevoke.npc.sensors.builders.BuilderSensorHarvestableCropFinder;
+import com.lexem.hexcodeevoke.utils.BlockUtils;
 import com.lexem.hexcodeevoke.utils.FinderUtils;
 import org.joml.Vector3d;
 import org.joml.Vector3i;
@@ -66,7 +67,7 @@ public class SensorHarvestableCropFinder extends SensorBase {
     }
 
     private final FinderUtils.BlockValidator<World> cropValidator = (block, world) -> {
-        BlockType blockType = world.getBlockType(block);
+        BlockType blockType = BlockUtils.getBlockTypeByPosition(block, world);
         if (blockType == null || blockType.getId() == null || blockType.getGathering() == null) {
             return false;
         }

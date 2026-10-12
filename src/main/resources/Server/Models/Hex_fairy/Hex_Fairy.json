@@ -27,6 +27,13 @@
           "Animation": "NPC/Hex_Fairy/Animations/Idle.blockyanim"
         }
       ]
+    },
+    "Jump": {
+      "Animations": [
+        {
+          "Animation": "NPC/Hex_Fairy/Animations/Idle.blockyanim"
+        }
+      ]
     }
   }
 }
