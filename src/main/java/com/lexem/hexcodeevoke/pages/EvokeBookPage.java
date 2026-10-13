@@ -22,8 +22,7 @@ import com.hypixel.hytale.server.npc.role.support.DisplayNameSupport;
 import com.lexem.hexcodeevoke.components.EvokerComponent;
 import com.lexem.hexcodeevoke.components.HexCreatureComponent;
 import com.lexem.hexcodeevoke.hexitems.AllowedHexItemsAsset;
-import com.lexem.hexcodeevoke.pages.records.HexCreatureRecord;
-import com.lexem.hexcodeevoke.utils.DespawnHCUtils;
+import com.lexem.hexcodeevoke.utils.HexCreatureDespawner;
 
 import javax.annotation.Nonnull;
 import java.util.*;
@@ -33,7 +32,7 @@ public class EvokeBookPage extends InteractiveCustomUIPage<EvokeBookPage.EvokeBo
     private boolean isEditModeEnabled = false;
     private final String pageNameFile;
     private final String cardNameFile;
-    private Map<String, String> nameHCMap = new HashMap<>();
+    private final Map<String, String> nameHCMap = new HashMap<>();
     private static final HytaleLogger LOGGER = HytaleLogger.forEnclosingClass();
 
     public static class EvokeBookEventData {
@@ -77,9 +76,13 @@ public class EvokeBookPage extends InteractiveCustomUIPage<EvokeBookPage.EvokeBo
                 new EventData().append("Action", "Edit")
         );
 
-        List<HexCreatureRecord> hexCreatures = this.hexCreatures(store, ref);
-        createHCCards(commandBuilder, eventBuilder, hexCreatures);
+        HexCreatureComponent[] listHexCreatures = new  HexCreatureComponent[0];
+        EvokerComponent evoker = store.getComponent(ref, EvokerComponent.getComponentType());
+        if (evoker != null) {
+            listHexCreatures = evoker.getListHexCreatures();
+        }
 
+        createHCCards(commandBuilder, eventBuilder, listHexCreatures);
         commandBuilder.set("#SaveButton.Visible", isEditModeEnabled);
 
         eventBuilder.addEventBinding(
@@ -106,20 +109,21 @@ public class EvokeBookPage extends InteractiveCustomUIPage<EvokeBookPage.EvokeBo
     private void createHCCards(
             @Nonnull UICommandBuilder commandBuilder,
             @Nonnull UIEventBuilder eventBuilder,
-            List<HexCreatureRecord> hexCreatures
+            HexCreatureComponent[] hexCreatures
     ) {
         commandBuilder.clear("#ItemList");
 
         int index = 0;
-        for (HexCreatureRecord hexCreature : hexCreatures) {
+        for (HexCreatureComponent hexCreature : hexCreatures) {
+            if (hexCreature.isMarkedToDespawn()) continue;
 
             String selector = "#ItemList[" + index + "]";
             commandBuilder.append("#ItemList", ("Pages/" + cardNameFile + ".ui"));
 
-            commandBuilder.set(selector + " #HCIcon.ItemId", hexCreature.blockId());
-            commandBuilder.set(selector + " #HCName.Text", hexCreature.name());
-            commandBuilder.set(selector + " #NameInput.Value", hexCreature.name());
-            commandBuilder.set(selector + " #ShowName.Value", hexCreature.showName());
+            commandBuilder.set(selector + " #HCIcon.ItemId", getBlockId(hexCreature));
+            commandBuilder.set(selector + " #HCName.Text", hexCreature.getName());
+            commandBuilder.set(selector + " #NameInput.Value", hexCreature.getName());
+            commandBuilder.set(selector + " #ShowName.Value", hexCreature.getShowName());
 
             if (isEditModeEnabled) {
                 commandBuilder.set(selector + " #HCName.Visible", false);
@@ -131,7 +135,7 @@ public class EvokeBookPage extends InteractiveCustomUIPage<EvokeBookPage.EvokeBo
                     selector + " #NameInput",
                     new EventData().append("Action", "UpdateLabel")
                             .append("@HexCreatureName", selector + " #NameInput.Value")
-                            .append("UUID", hexCreature.uuid()),
+                            .append("UUID", hexCreature.getUUID()),
                     false
             );
 
@@ -140,7 +144,7 @@ public class EvokeBookPage extends InteractiveCustomUIPage<EvokeBookPage.EvokeBo
                     selector + " #ShowName",
                     new EventData().append("Action", "ShowName")
                             .append("Type", "Toggle")
-                            .append("UUID", hexCreature.uuid()),
+                            .append("UUID", hexCreature.getUUID()),
                             false
             );
 
@@ -148,7 +152,7 @@ public class EvokeBookPage extends InteractiveCustomUIPage<EvokeBookPage.EvokeBo
                     CustomUIEventBindingType.Activating,
                     selector + " #DespawnButton",
                     new EventData().append("Action", "Despawn")
-                            .append("UUID", hexCreature.uuid()),
+                            .append("UUID", hexCreature.getUUID()),
                     false
             );
             index++;
@@ -171,13 +175,14 @@ public class EvokeBookPage extends InteractiveCustomUIPage<EvokeBookPage.EvokeBo
                     break;
                 case "Save":
                     for (Map.Entry<String, String> entry : nameHCMap.entrySet()) {
+                        EvokerComponent evoker = store.getComponent(ref, EvokerComponent.getComponentType());
+                        if (evoker == null) break;
+
+                        HexCreatureComponent hexCreature = evoker.getHexCreatureByUUID(entry.getKey());
+                        hexCreature.setName(entry.getValue());
+
                         Ref<EntityStore> npcESRef = store.getExternalData().getRefFromUUID(UUID.fromString(entry.getKey()));
                         if (npcESRef == null) break;
-
-                        HexCreatureComponent hexCreature = store.getComponent(npcESRef, HexCreatureComponent.getComponentType());
-                        if (hexCreature == null) break;
-
-                        hexCreature.setName(entry.getValue());
 
                         if (hexCreature.getShowName()) {
                             DisplayNameSupport displayNameSupport = store.getComponent(npcESRef, DisplayNameSupport.getComponentType());
@@ -200,13 +205,14 @@ public class EvokeBookPage extends InteractiveCustomUIPage<EvokeBookPage.EvokeBo
                         Role role = npcEntity.getRole();
                         if (role == null) break;
 
-                        HexCreatureComponent hexCreature = store.getComponent(npcESRef, HexCreatureComponent.getComponentType());
-                        if (hexCreature == null) break;
-
-                        hexCreature.setShowName(!hexCreature.getShowName());
-
                         DisplayNameSupport displayNameSupport = store.getComponent(npcESRef, DisplayNameSupport.getComponentType());
                         if (displayNameSupport == null) break;
+
+                        EvokerComponent evoker = store.getComponent(ref, EvokerComponent.getComponentType());
+                        if (evoker == null) break;
+
+                        HexCreatureComponent hexCreature = evoker.getHexCreatureByUUID(data.uuid);
+                        hexCreature.setShowName(!hexCreature.getShowName());
 
                         if (hexCreature.getShowName()){
                             displayNameSupport.nominateDisplayName(hexCreature.getName());
@@ -219,11 +225,17 @@ public class EvokeBookPage extends InteractiveCustomUIPage<EvokeBookPage.EvokeBo
                 case "Despawn":
                     if (data.uuid != null) {
                         UUID npcUUID = UUID.fromString(data.uuid);
-                        Ref<EntityStore> npcRef = store.getExternalData().getRefFromUUID(npcUUID);
-                        if (npcRef == null) break;
 
-                        DespawnHCUtils despawnHCUtils = new DespawnHCUtils(store, npcRef, store, true);
-                        despawnHCUtils.despawnHexCreature();
+                        EvokerComponent evoker = store.getComponent(ref, EvokerComponent.getComponentType());
+                        if (evoker == null) break;
+
+                        HexCreatureComponent hexCreature = evoker.getHexCreatureByUUID(data.uuid);
+                        hexCreature.markToDespawn();
+
+                        Ref<EntityStore> npcRef = store.getExternalData().getRefFromUUID(npcUUID);
+                        if (npcRef != null) {
+                            HexCreatureDespawner.despawn(store, npcRef, store, true);
+                        }
 
                         player.getPageManager().setPage(ref, store, Page.None);
                     }
@@ -240,41 +252,6 @@ public class EvokeBookPage extends InteractiveCustomUIPage<EvokeBookPage.EvokeBo
         }
     }
 
-    private List<HexCreatureRecord> hexCreatures (
-            @Nonnull Store<EntityStore> store,
-            @Nonnull Ref<EntityStore> ref) {
-        List<HexCreatureRecord> listHexCreatures = new ArrayList<>();
-
-        EvokerComponent evoker = store.getComponent(ref, EvokerComponent.getComponentType());
-        if (evoker == null) { return listHexCreatures; }
-
-        String[] hexCreaturesUUIDs = evoker.getHexCreatureUUIDs();
-
-        int index = 0;
-
-        for (String uuid : hexCreaturesUUIDs) {
-            Ref<EntityStore> npcRef = store.getExternalData().getRefFromUUID(UUID.fromString(uuid));
-            if (npcRef == null) continue;
-
-            HexCreatureComponent hexCreature = store.getComponent(npcRef, HexCreatureComponent.getComponentType());
-            if (hexCreature == null) continue;
-
-            String blockId = hexCreature.getBlockName();
-            if (AllowedHexItemsAsset.getByBlockId(blockId) == null) {
-                blockId = DEFAULT_ICON;
-            }
-
-            String name = hexCreature.getName();
-            boolean showName = hexCreature.getShowName();
-
-            listHexCreatures.add(new HexCreatureRecord(index, name, blockId, npcRef, uuid, showName));
-
-            index++;
-        }
-
-        return listHexCreatures;
-    }
-
     private void refreshPage(Ref<EntityStore> ref, Store<EntityStore> store) {
         UICommandBuilder commandBuilder = new UICommandBuilder();
         UIEventBuilder eventBuilder = new UIEventBuilder();
@@ -282,11 +259,25 @@ public class EvokeBookPage extends InteractiveCustomUIPage<EvokeBookPage.EvokeBo
         String hexCount = createHexCount(ref, store);
         commandBuilder.set("#HexCount.Text", hexCount);
 
-        List<HexCreatureRecord> hexCreatures = this.hexCreatures(store, ref);
-        createHCCards(commandBuilder, eventBuilder, hexCreatures);
+        HexCreatureComponent[] listHexCreatures = new  HexCreatureComponent[0];
+        EvokerComponent evoker = store.getComponent(ref, EvokerComponent.getComponentType());
+        if (evoker != null) {
+            listHexCreatures = evoker.getListHexCreatures();
+        }
+
+        createHCCards(commandBuilder, eventBuilder,  listHexCreatures);
 
         commandBuilder.set("#SaveButton.Visible", isEditModeEnabled);
 
         sendUpdate(commandBuilder, eventBuilder, false);
+    }
+
+    private String getBlockId(HexCreatureComponent hexCreature) {
+        String blockId = hexCreature.getBlockName();
+        if (AllowedHexItemsAsset.getByBlockId(blockId) == null) {
+            return DEFAULT_ICON;
+        }
+
+        return blockId;
     }
 }

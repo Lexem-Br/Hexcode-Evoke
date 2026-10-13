@@ -27,7 +27,7 @@ import org.joml.Vector3d;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.*;
+import java.util.UUID;
 
 public class ActionAnalyzeChest extends ActionBase {
    public static HytaleLogger LOGGER = HytaleLogger.forEnclosingClass();

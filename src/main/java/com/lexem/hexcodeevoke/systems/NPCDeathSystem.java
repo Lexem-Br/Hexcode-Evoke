@@ -1,6 +1,8 @@
 package com.lexem.hexcodeevoke.systems;
 
-import com.hypixel.hytale.component.*;
+import com.hypixel.hytale.component.CommandBuffer;
+import com.hypixel.hytale.component.Ref;
+import com.hypixel.hytale.component.Store;
 import com.hypixel.hytale.component.query.Query;
 import com.hypixel.hytale.server.core.modules.entity.damage.DeathComponent;
 import com.hypixel.hytale.server.core.modules.entity.damage.DeathSystems;
@@ -10,7 +12,7 @@ import com.lexem.hexcodeevoke.components.EvokerComponent;
 import com.lexem.hexcodeevoke.components.HexCreatureComponent;
 import com.lexem.hexcodeevoke.hexitems.AllowedHexCreatureMinionsAsset;
 import com.lexem.hexcodeevoke.hexitems.AllowedHexItemsAsset;
-import com.lexem.hexcodeevoke.utils.DespawnHCUtils;
+import com.lexem.hexcodeevoke.utils.HexCreatureDespawner;
 import com.lexem.hexcodeevoke.utils.DespawnMinionUtils;
 
 import javax.annotation.Nonnull;
@@ -46,8 +48,7 @@ public class NPCDeathSystem extends DeathSystems.OnDeathSystem{
             EvokerComponent evoker = store.getComponent(playerRef, EvokerComponent.getComponentType());
             if (evoker == null || !evoker.hexCreatureBelongsToPlayer(hexCreatureComponent.getUUID())) return;
 
-            DespawnHCUtils despawnHCUtils = new DespawnHCUtils(store, ref, commandBuffer);
-            despawnHCUtils.despawnHexCreature();
+            HexCreatureDespawner.despawn(store, ref, store);
         }
     }
 

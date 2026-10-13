@@ -10,9 +10,9 @@
 );
 
 @SaveButtonStyle = TextButtonStyle(
-    Default: (LabelStyle: (FontSize: 16, TextColor: #000000, RenderBold: true, HorizontalAlignment: Center, VerticalAlignment: Center, OutlineColor: #000000)),
-    Hovered: (LabelStyle: (FontSize: 18, TextColor: #000000, RenderBold: true, HorizontalAlignment: Center, VerticalAlignment: Center, OutlineColor: #000000)),
-    Pressed: (LabelStyle: (FontSize: 18, TextColor: #000000, RenderBold: true, HorizontalAlignment: Center, VerticalAlignment: Center, OutlineColor: #000000))
+    Default: (LabelStyle: (FontSize: 16, TextColor: #000000, RenderBold: true, HorizontalAlignment: Center, VerticalAlignment: Center)),
+    Hovered: (LabelStyle: (FontSize: 18, TextColor: #000000, RenderBold: true, HorizontalAlignment: Center, VerticalAlignment: Center)),
+    Pressed: (LabelStyle: (FontSize: 18, TextColor: #000000, RenderBold: true, HorizontalAlignment: Center, VerticalAlignment: Center))
 );
 
 Group {

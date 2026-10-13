@@ -3,20 +3,19 @@ package com.lexem.hexcodeevoke.systems;
 import com.hypixel.hytale.component.*;
 import com.hypixel.hytale.component.query.Query;
 import com.hypixel.hytale.component.system.RefSystem;
-import com.hypixel.hytale.logger.HytaleLogger;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.hypixel.hytale.server.npc.entities.NPCEntity;
+import com.lexem.hexcodeevoke.components.HexCreatureComponent;
 import com.lexem.hexcodeevoke.components.HexCreatureMinionComponent;
 import com.lexem.hexcodeevoke.hexitems.AllowedHexCreatureMinionsAsset;
 import com.lexem.hexcodeevoke.hexitems.AllowedHexItemsAsset;
-import com.lexem.hexcodeevoke.components.HexCreatureComponent;
+import com.lexem.hexcodeevoke.utils.HexCreatureDespawner;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Objects;
 
 public class NPCSpawnSystem extends RefSystem<EntityStore> {
-    private static final HytaleLogger LOGGER = HytaleLogger.forEnclosingClass();
 
     public NPCSpawnSystem() {
     }
@@ -46,13 +45,14 @@ public class NPCSpawnSystem extends RefSystem<EntityStore> {
 
             if (hexCreature == null) {
                 commandBuffer.addComponent(ref, HexCreatureComponent.getComponentType(), new HexCreatureComponent());
+            } else if (hexCreature.isMarkedToDespawn()) {
+                HexCreatureDespawner.despawn(store, ref, commandBuffer);
             }
         }
     }
 
     @Override
     public void onEntityRemove(@Nonnull Ref<EntityStore> ref, @Nonnull RemoveReason removeReason, @Nonnull Store<EntityStore> store, @Nonnull CommandBuffer<EntityStore> commandBuffer) {
-
     }
 
     @Nullable

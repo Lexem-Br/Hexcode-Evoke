@@ -52,12 +52,11 @@ public class SaveHexCreatureHandler implements Consumer<SaveHexCreatureEvent> {
 
             hexCreatureComponent.setUUID(npcUUID);
             hexCreatureComponent.setEvokerUUID(playerUUID);
-            hexCreatureComponent.setEvokerName(playerName);
             hexCreatureComponent.setName(npcName);
             hexCreatureComponent.setTypeId(npcEntity.getNPCTypeId());
             hexCreatureComponent.setBlockName(blockId);
 
-            evoker.addHexCreatureUUID(npcUUID);
+            evoker.addHexCreature(hexCreatureComponent);
         } else {
             LOGGER.atWarning().log("EvokerComponent is null");
         }

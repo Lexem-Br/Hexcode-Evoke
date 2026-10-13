@@ -10,7 +10,8 @@ import com.hypixel.hytale.server.core.inventory.container.ItemContainer;
 import com.hypixel.hytale.server.core.inventory.container.SimpleItemContainer;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.Set;
 
 public class InventoryUtils {
 
