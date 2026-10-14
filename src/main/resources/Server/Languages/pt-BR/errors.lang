@@ -3,6 +3,7 @@ no_entity_founded=NPC não encontrado
 target_must_be_hex_creatures=O alvo deve ser uma criatura Hex
 hex_creature_must_belong_evoker=A criatura Hex deve pertencer ao evoker
 no_hex_creture_found=Criatura Hex não encontrada
+block_must_be_hex_item=O bloco deve ser um item Hex
 
 max_hex_creatures.title=O número máximo de criatura Hex foi alcançado
 max_hex_creatures.description1=Você só pode ter

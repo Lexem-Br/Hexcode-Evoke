@@ -164,17 +164,6 @@ public class EvokerComponent implements Component<EntityStore> {
         listHexCreatures = newArray;
     }
 
-    //TODO: Fix this
-//    public void deleteUnusedHexCreatureUUID(Store<EntityStore> store) {
-//        for (String uuidString : getHexCreatureUUIDs()) {
-//            UUID uuid = UUID.fromString(uuidString);
-//            Ref<EntityStore> npcESRef = store.getExternalData().getRefFromUUID(uuid);
-//            if (npcESRef == null) {
-//                removeHexCreatureUUID(uuidString);
-//            }
-//        }
-//    }
-
     public boolean canAddHexCreature() {
         return listHexCreatures.length < maxHexCreatures;
     }

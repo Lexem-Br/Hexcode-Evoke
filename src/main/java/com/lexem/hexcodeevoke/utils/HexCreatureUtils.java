@@ -45,21 +45,22 @@ public class HexCreatureUtils {
 
         BlockType blockType = BlockUtils.getBlockTypeByPosition(blockPos, world);
         if (blockType == null) {
-            LOGGER.atWarning().log("Evoke: invalid block");
+            PlayerRef playerRef = accessor.getComponent(refESPlayer, PlayerRef.getComponentType());
+            ErrorMessageUtils.sendMessageError(playerRef, "errors.invalid_target", "errors.block_must_be_hex_item");
             return false;
         }
 
         AllowedHexItemsAsset.HexItem hexItem = AllowedHexItemsAsset.getByBlockId(blockType.getId());
 
         if (hexItem == null) {
-            LOGGER.atWarning().log("Evoke: block must be a Hex item");
+            PlayerRef playerRef = accessor.getComponent(refESPlayer, PlayerRef.getComponentType());
+            ErrorMessageUtils.sendMessageError(playerRef, "errors.invalid_target", "errors.block_must_be_hex_item");
             return false;
         }
 
         Store<EntityStore> store = refESPlayer.getStore();
         EvokerComponent evoker = store.getComponent(refESPlayer, EvokerComponent.getComponentType());
         if (evoker == null) { return false; }
-//        evoker.deleteUnusedHexCreatureUUID(store);
 
         int roleIndex = NPCPlugin.get().getIndex(hexItem.entityId);
 

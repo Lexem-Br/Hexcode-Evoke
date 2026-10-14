@@ -545,7 +545,8 @@
           {
             "Actions": [
               {
-                "Type": "Despawn"
+                "Type": "Evoke:DespawnHC",
+                "DropHexItem": true
               }
             ]
           }

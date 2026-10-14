@@ -109,6 +109,7 @@ public class HexcodeEvoke extends JavaPlugin {
         npcPlugin.registerCoreComponentType("Evoke:TakeChestTask", BuilderActionTakeChestTask::new);
         npcPlugin.registerCoreComponentType("Evoke:TransferItemsToTargetNPC", BuilderActionTransferItemsToTargetNPC::new);
         npcPlugin.registerCoreComponentType("Evoke:MinionCreateSearchTasks", BuilderActionMinionCreateSearchTasks::new);
+        npcPlugin.registerCoreComponentType("Evoke:DespawnHC", BuilderDespawnHC::new);
     }
 
     private void registerBodyMotions(NPCPlugin npcPlugin) {
@@ -130,6 +131,7 @@ public class HexcodeEvoke extends JavaPlugin {
         npcPlugin.registerCoreComponentType("Evoke:MinionHasActiveTask", BuilderFilterMinionHasActiveTask::new);
         npcPlugin.registerCoreComponentType("Evoke:CanTransferItemsToTargetNPC", BuilderFilterCanTransferItemsToTargetNPC::new);
         npcPlugin.registerCoreComponentType("Evoke:IsTargetCrouch", BuilderFilterIsTargetCrouch::new);
+        npcPlugin.registerCoreComponentType("Evoke:DespawnHC", BuilderFilterIsTargetCrouch::new);
     }
 
     private void registerSensors(NPCPlugin npcPlugin) {

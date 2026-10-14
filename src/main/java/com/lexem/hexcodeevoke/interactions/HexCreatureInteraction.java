@@ -33,13 +33,10 @@ public class HexCreatureInteraction extends SimpleInteraction {
                             SimpleInteraction.CODEC)
                     .build();
 
-    protected int maxCount = 1;
-
     @Override
     protected void tick0(boolean firstRun, float time, @Nonnull InteractionType type, @Nonnull InteractionContext context, @Nonnull CooldownHandler cooldownHandler) {
         try {
             CommandBuffer<EntityStore> accessor = context.getCommandBuffer();
-
             if (accessor == null) {
                 context.getState().state = InteractionState.Failed;
                 super.tick0(firstRun, time, type, context, cooldownHandler);
@@ -81,6 +78,8 @@ public class HexCreatureInteraction extends SimpleInteraction {
             String blockId = BlockUtils.getBlockIdByPosition(hexItemPosition, world);
             AllowedHexItemsAsset.HexItem hexItem = AllowedHexItemsAsset.getByBlockId(blockId);
             if (hexItem == null) {
+                PlayerRef playerRef = accessor.getComponent(refESPlayer, PlayerRef.getComponentType());
+                ErrorMessageUtils.sendMessageError(playerRef, "errors.invalid_target", "errors.block_must_be_hex_item");
                 context.getState().state = InteractionState.Failed;
                 super.tick0(firstRun, time, type, context, cooldownHandler);
                 return;
