@@ -55,7 +55,7 @@ public class SensorWettableSoilFinder extends SensorBase {
         );
 
         if (soil != null) {
-            this.positionProvider.setTarget(new Vector3d(soil.x, soil.y, soil.z));
+            this.positionProvider.setTarget(new Vector3d(soil.x + 0.5, soil.y, soil.z + 0.5));
         } else {
             this.positionProvider.clear();
         }
