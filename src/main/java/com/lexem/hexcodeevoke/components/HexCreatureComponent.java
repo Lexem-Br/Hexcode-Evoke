@@ -330,7 +330,7 @@ public class HexCreatureComponent implements Component<EntityStore> {
     @Nullable
     @Override
     public Component<EntityStore> clone() {
-        return new HexCreatureComponent(
+        HexCreatureComponent clone = new HexCreatureComponent(
                 this.UUID,
                 this.evokerUUID,
                 this.name,
@@ -340,6 +340,9 @@ public class HexCreatureComponent implements Component<EntityStore> {
                 this.minionUUIDs,
                 this.markedToDespawn
         );
+        clone.listChestMemory = this.listChestMemory;
+        clone.listChestTask = this.listChestTask;
+        return clone;
     }
 
     @Override
@@ -358,4 +361,4 @@ public class HexCreatureComponent implements Component<EntityStore> {
                 ", markedToDespawn=" + markedToDespawn +
                 '}';
     }
-}
+}

@@ -23,6 +23,7 @@ import com.lexem.hexcodeevoke.components.EvokerComponent;
 import com.lexem.hexcodeevoke.components.HexCreatureComponent;
 import com.lexem.hexcodeevoke.hexitems.AllowedHexItemsAsset;
 import com.lexem.hexcodeevoke.utils.HexCreatureDespawner;
+import com.lexem.hexcodeevoke.utils.UnloadedHexCreatureDespawner;
 
 import javax.annotation.Nonnull;
 import java.util.*;
@@ -229,13 +230,15 @@ public class EvokeBookPage extends InteractiveCustomUIPage<EvokeBookPage.EvokeBo
                         EvokerComponent evoker = store.getComponent(ref, EvokerComponent.getComponentType());
                         if (evoker == null) break;
 
-                        HexCreatureComponent hexCreature = evoker.getHexCreatureByUUID(data.uuid);
-                        hexCreature.markToDespawn();
-
                         Ref<EntityStore> npcRef = store.getExternalData().getRefFromUUID(npcUUID);
-                        if (npcRef != null) {
+                        if (npcRef != null && npcRef.isValid()) {
                             HexCreatureDespawner.despawn(store, npcRef, store, true);
+                        } else {
+                            UnloadedHexCreatureDespawner.despawn(data.uuid);
                         }
+
+                        evoker.removeHexCreatureByUUID(data.uuid);
+                        evoker.removeSelectedHexCreature(data.uuid);
 
                         player.getPageManager().setPage(ref, store, Page.None);
                     }
@@ -259,7 +262,7 @@ public class EvokeBookPage extends InteractiveCustomUIPage<EvokeBookPage.EvokeBo
         String hexCount = createHexCount(ref, store);
         commandBuilder.set("#HexCount.Text", hexCount);
 
-        HexCreatureComponent[] listHexCreatures = new  HexCreatureComponent[0];
+        HexCreatureComponent[] listHexCreatures = new HexCreatureComponent[0];
         EvokerComponent evoker = store.getComponent(ref, EvokerComponent.getComponentType());
         if (evoker != null) {
             listHexCreatures = evoker.getListHexCreatures();

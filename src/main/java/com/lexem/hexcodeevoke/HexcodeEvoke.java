@@ -10,6 +10,7 @@ import com.hypixel.hytale.server.core.plugin.JavaPlugin;
 import com.hypixel.hytale.server.core.plugin.JavaPluginInit;
 import com.hypixel.hytale.server.core.plugin.PluginBase;
 import com.hypixel.hytale.server.core.plugin.PluginManager;
+import com.hypixel.hytale.server.core.universe.Universe;
 import com.hypixel.hytale.server.npc.NPCPlugin;
 import com.lexem.hexcodeevoke.builtin.HexcodeBuiltin;
 import com.lexem.hexcodeevoke.commands.EvokerCommand;
@@ -27,6 +28,8 @@ import com.lexem.hexcodeevoke.npc.actions.builders.*;
 import com.lexem.hexcodeevoke.npc.bodymotions.builders.BuilderTeleportHexCreature;
 import com.lexem.hexcodeevoke.npc.filters.builders.*;
 import com.lexem.hexcodeevoke.npc.sensors.builders.*;
+import com.lexem.hexcodeevoke.resources.HexCreatureRegistry;
+import com.lexem.hexcodeevoke.systems.HexCreatureTrackingSystem;
 import com.lexem.hexcodeevoke.systems.NPCDeathSystem;
 import com.lexem.hexcodeevoke.systems.NPCSpawnSystem;
 import com.lexem.hexcodeevoke.systems.PlayerJoinSystem;
@@ -169,6 +172,13 @@ public class HexcodeEvoke extends JavaPlugin {
         registery.registerSystem(new PlayerJoinSystem());
         registery.registerSystem(new NPCSpawnSystem());
         registery.registerSystem(new NPCDeathSystem());
+        registery.registerSystem(new HexCreatureTrackingSystem());
+
+        HexCreatureRegistry.setResourceType(Universe.registerResource(
+                HexCreatureRegistry.class,
+                HexCreatureRegistry.ID,
+                HexCreatureRegistry.CODEC
+        ));
     }
 
     private void registerEvents() {

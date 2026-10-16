@@ -125,7 +125,7 @@ public class EvokerComponent implements Component<EntityStore> {
 
     public HexCreatureComponent getHexCreatureByUUID(String npcUUID) {
         for (HexCreatureComponent hc : listHexCreatures) {
-            if (hc.getUUID().equals(npcUUID)) {
+            if (npcUUID != null && npcUUID.equals(hc.getUUID())) {
                 return hc;
             }
         }
@@ -149,15 +149,22 @@ public class EvokerComponent implements Component<EntityStore> {
     }
 
     public void removeHexCreature(HexCreatureComponent hexCreature) {
+        if (hexCreature == null) return;
+        removeHexCreatureByUUID(hexCreature.getUUID());
+    }
+
+    public void removeHexCreatureByUUID(String uuid) {
+        if (uuid == null) return;
+
         int count = 0;
         for (HexCreatureComponent s : listHexCreatures) {
-            if (!s.equals(hexCreature)) count++;
+            if (!uuid.equals(s.getUUID())) count++;
         }
 
         HexCreatureComponent[] newArray = new HexCreatureComponent[count];
         int index = 0;
         for (HexCreatureComponent s : listHexCreatures) {
-            if (!s.equals(hexCreature)) {
+            if (!uuid.equals(s.getUUID())) {
                 newArray[index++] = s;
             }
         }
@@ -175,11 +182,13 @@ public class EvokerComponent implements Component<EntityStore> {
     @NullableDecl
     @Override
     public Component<EntityStore> clone() {
-        return new EvokerComponent(
+        EvokerComponent clone = new EvokerComponent(
                 this.targetPosition,
                 this.maxHexCreatures,
-                this.selectedHexCreatures
+                this.selectedHexCreatures.clone()
         );
+        clone.listHexCreatures = this.listHexCreatures.clone();
+        return clone;
     }
 
     @Override

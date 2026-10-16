@@ -3,12 +3,14 @@ package com.lexem.hexcodeevoke.systems;
 import com.hypixel.hytale.component.*;
 import com.hypixel.hytale.component.query.Query;
 import com.hypixel.hytale.component.system.RefSystem;
+import com.hypixel.hytale.server.core.entity.UUIDComponent;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.hypixel.hytale.server.npc.entities.NPCEntity;
 import com.lexem.hexcodeevoke.components.HexCreatureComponent;
 import com.lexem.hexcodeevoke.components.HexCreatureMinionComponent;
 import com.lexem.hexcodeevoke.hexitems.AllowedHexCreatureMinionsAsset;
 import com.lexem.hexcodeevoke.hexitems.AllowedHexItemsAsset;
+import com.lexem.hexcodeevoke.resources.HexCreatureRegistry;
 import com.lexem.hexcodeevoke.utils.HexCreatureDespawner;
 
 import javax.annotation.Nonnull;
@@ -45,10 +47,24 @@ public class NPCSpawnSystem extends RefSystem<EntityStore> {
 
             if (hexCreature == null) {
                 commandBuffer.addComponent(ref, HexCreatureComponent.getComponentType(), new HexCreatureComponent());
-            } else if (hexCreature.isMarkedToDespawn()) {
-                HexCreatureDespawner.despawn(store, ref, commandBuffer);
+            } else if (addReason == AddReason.LOAD && isRevoked(ref, store, hexCreature)) {
+                HexCreatureDespawner.despawn(store, ref, commandBuffer, true);
+                commandBuffer.tryRemoveEntity(ref, RemoveReason.REMOVE);
             }
         }
+    }
+
+    private static boolean isRevoked(
+            @Nonnull Ref<EntityStore> ref,
+            @Nonnull Store<EntityStore> store,
+            @Nonnull HexCreatureComponent hexCreature
+    ) {
+        if (hexCreature.isMarkedToDespawn()) return true;
+
+        UUIDComponent uuidComponent = store.getComponent(ref, UUIDComponent.getComponentType());
+        if (uuidComponent == null) return false;
+
+        return HexCreatureRegistry.get().isRevoked(uuidComponent.getUuid().toString());
     }
 
     @Override
