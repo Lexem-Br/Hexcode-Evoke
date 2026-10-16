@@ -103,18 +103,20 @@ public class AllowedHexItemsAsset implements JsonAssetWithMap<String, DefaultAss
         return this.id;
     }
 
-    private static AllowedHexItemsAsset getAsset() {
-        return getAssetMap().getAsset("AllowedHexItems");
+    @Nonnull
+    private static Collection<AllowedHexItemsAsset> getAssets() {
+        return getAssetMap().getAssetMap().values();
     }
 
     @Nullable
     public static HexItem getByBlockId(@Nonnull String blockId) {
-        AllowedHexItemsAsset asset = getAsset();
-        if (asset == null) return null;
+        for (AllowedHexItemsAsset asset : getAssets()) {
+            if (asset.hexItems == null) continue;
 
-        for (HexItem item : asset.hexItems) {
-            if (blockId.equals(item.blockId)) {
-                return item;
+            for (HexItem item : asset.hexItems) {
+                if (blockId.equals(item.blockId)) {
+                    return item;
+                }
             }
         }
         return null;
@@ -122,12 +124,13 @@ public class AllowedHexItemsAsset implements JsonAssetWithMap<String, DefaultAss
 
     @Nullable
     public static HexItem getByEntityId(@Nonnull String entityId) {
-        AllowedHexItemsAsset asset = getAsset();
-        if (asset == null) return null;
+        for (AllowedHexItemsAsset asset : getAssets()) {
+            if (asset.hexItems == null) continue;
 
-        for (HexItem item : asset.hexItems) {
-            if (entityId.equals(item.entityId)) {
-                return item;
+            for (HexItem item : asset.hexItems) {
+                if (entityId.equals(item.entityId)) {
+                    return item;
+                }
             }
         }
         return null;
@@ -180,18 +183,18 @@ public class AllowedHexItemsAsset implements JsonAssetWithMap<String, DefaultAss
 
     @Nonnull
     public static List<HexItem> getAllItems() {
-        AllowedHexItemsAsset asset = getAsset();
-        return asset != null ? Arrays.asList(asset.hexItems) : Collections.emptyList();
+        List<HexItem> items = new ArrayList<>();
+        for (AllowedHexItemsAsset asset : getAssets()) {
+            if (asset.hexItems != null) Collections.addAll(items, asset.hexItems);
+        }
+        return items;
     }
 
     @Nonnull
     public static Map<String, String> getAllAsMap() {
-        AllowedHexItemsAsset asset = getAsset();
-        if (asset == null) return Collections.emptyMap();
-
         Map<String, String> map = new HashMap<>();
-        for (HexItem item : asset.hexItems) {
-            map.put(item.blockId, item.entityId);
+        for (HexItem item : getAllItems()) {
+            map.putIfAbsent(item.blockId, item.entityId);
         }
         return map;
     }

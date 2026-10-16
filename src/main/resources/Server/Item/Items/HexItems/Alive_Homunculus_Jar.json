@@ -22,10 +22,6 @@
       {
         "ItemId": "Evoke_Jar_Empty",
         "Quantity": 1
-      },
-      {
-        "ItemId": "Potion_Health_Small",
-        "Quantity": 1
       }
     ],
     "BenchRequirement": [
