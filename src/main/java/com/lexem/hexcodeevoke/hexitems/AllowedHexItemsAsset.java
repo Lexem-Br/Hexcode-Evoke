@@ -103,37 +103,45 @@ public class AllowedHexItemsAsset implements JsonAssetWithMap<String, DefaultAss
         return this.id;
     }
 
+    private record Lookup(List<HexItem> items, Map<String, HexItem> byBlockId, Map<String, HexItem> byEntityId) {}
+
+    private static volatile Lookup lookup;
+
+    public static void invalidateCache() {
+        lookup = null;
+    }
+
     @Nonnull
-    private static Collection<AllowedHexItemsAsset> getAssets() {
-        return getAssetMap().getAssetMap().values();
+    private static Lookup getLookup() {
+        Lookup current = lookup;
+        if (current != null) return current;
+
+        List<HexItem> items = new ArrayList<>();
+        Map<String, HexItem> byBlockId = new HashMap<>();
+        Map<String, HexItem> byEntityId = new HashMap<>();
+        for (AllowedHexItemsAsset asset : getAssetMap().getAssetMap().values()) {
+            if (asset.hexItems == null) continue;
+
+            for (HexItem item : asset.hexItems) {
+                items.add(item);
+                if (item.blockId != null) byBlockId.putIfAbsent(item.blockId, item);
+                if (item.entityId != null) byEntityId.putIfAbsent(item.entityId, item);
+            }
+        }
+
+        current = new Lookup(Collections.unmodifiableList(items), byBlockId, byEntityId);
+        lookup = current;
+        return current;
     }
 
     @Nullable
     public static HexItem getByBlockId(@Nonnull String blockId) {
-        for (AllowedHexItemsAsset asset : getAssets()) {
-            if (asset.hexItems == null) continue;
-
-            for (HexItem item : asset.hexItems) {
-                if (blockId.equals(item.blockId)) {
-                    return item;
-                }
-            }
-        }
-        return null;
+        return getLookup().byBlockId().get(blockId);
     }
 
     @Nullable
     public static HexItem getByEntityId(@Nonnull String entityId) {
-        for (AllowedHexItemsAsset asset : getAssets()) {
-            if (asset.hexItems == null) continue;
-
-            for (HexItem item : asset.hexItems) {
-                if (entityId.equals(item.entityId)) {
-                    return item;
-                }
-            }
-        }
-        return null;
+        return getLookup().byEntityId().get(entityId);
     }
 
     @Nonnull
@@ -183,11 +191,7 @@ public class AllowedHexItemsAsset implements JsonAssetWithMap<String, DefaultAss
 
     @Nonnull
     public static List<HexItem> getAllItems() {
-        List<HexItem> items = new ArrayList<>();
-        for (AllowedHexItemsAsset asset : getAssets()) {
-            if (asset.hexItems != null) Collections.addAll(items, asset.hexItems);
-        }
-        return items;
+        return getLookup().items();
     }
 
     @Nonnull

@@ -16,6 +16,7 @@ import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.Random;
 
 public class HexCreatureComponent implements Component<EntityStore> {
@@ -26,7 +27,6 @@ public class HexCreatureComponent implements Component<EntityStore> {
 
     private String UUID;
     private String evokerUUID;
-    private String evokerName;
     private String name;
     private String typeId;
     private String blockName;
@@ -35,6 +35,8 @@ public class HexCreatureComponent implements Component<EntityStore> {
     private ChestMemoryComponent[] listChestMemory = new ChestMemoryComponent[0];
     private ChestTaskComponent[] listChestTask = new ChestTaskComponent[0];
     private boolean markedToDespawn = false;
+    private String lastState;
+    private String lastSubState;
 
     private static ComponentType<EntityStore, HexCreatureComponent> TYPE;
 
@@ -58,6 +60,8 @@ public class HexCreatureComponent implements Component<EntityStore> {
             .append(new KeyedCodec<>("ListChestMemories", new ArrayCodec<>(ChestMemoryComponent.CODEC, ChestMemoryComponent[]::new)), (component, objects) -> component.listChestMemory = objects, component -> component.listChestMemory).add()
             .append(new KeyedCodec<>("ListChestTasks", new ArrayCodec<>(ChestTaskComponent.CODEC, ChestTaskComponent[]::new)), (component, objects) -> component.listChestTask = objects, component -> component.listChestTask).add()
             .append(new KeyedCodec<>("MarkedToDespawn", Codec.BOOLEAN), (component, value) -> component.markedToDespawn = value, component -> component.markedToDespawn).add()
+            .append(new KeyedCodec<>("LastState", Codec.STRING), (component, value) -> component.lastState = value, component -> component.lastState).add()
+            .append(new KeyedCodec<>("LastSubState", Codec.STRING), (component, value) -> component.lastSubState = value, component -> component.lastSubState).add()
             .build();
 
     public HexCreatureComponent() {
@@ -149,6 +153,22 @@ public class HexCreatureComponent implements Component<EntityStore> {
 
     public boolean isMarkedToDespawn() {
         return markedToDespawn;
+    }
+
+    public String getLastState() {
+        return lastState;
+    }
+
+    public String getLastSubState() {
+        return lastSubState;
+    }
+
+    public boolean setLastState(String state, String subState) {
+        if (Objects.equals(lastState, state) && Objects.equals(lastSubState, subState)) return false;
+
+        lastState = state;
+        lastSubState = subState;
+        return true;
     }
 
     public void addMinionUUID(String uuid) {
@@ -342,6 +362,8 @@ public class HexCreatureComponent implements Component<EntityStore> {
         );
         clone.listChestMemory = this.listChestMemory;
         clone.listChestTask = this.listChestTask;
+        clone.lastState = this.lastState;
+        clone.lastSubState = this.lastSubState;
         return clone;
     }
 
@@ -350,7 +372,6 @@ public class HexCreatureComponent implements Component<EntityStore> {
         return "HexCreatureComponent{" +
                 "UUID='" + UUID + '\'' +
                 ", evokerUUID='" + evokerUUID + '\'' +
-                ", evokerName='" + evokerName + '\'' +
                 ", name='" + name + '\'' +
                 ", typeId='" + typeId + '\'' +
                 ", blockName='" + blockName + '\'' +
@@ -359,6 +380,8 @@ public class HexCreatureComponent implements Component<EntityStore> {
                 ", listChestMemory=" + Arrays.toString(listChestMemory) +
                 ", listChestTask=" + Arrays.toString(listChestTask) +
                 ", markedToDespawn=" + markedToDespawn +
+                ", lastState='" + lastState + '\'' +
+                ", lastSubState='" + lastSubState + '\'' +
                 '}';
     }
-}
+}

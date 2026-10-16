@@ -1,6 +1,8 @@
 package com.lexem.hexcodeevoke;
 
 import com.hypixel.hytale.assetstore.AssetRegistry;
+import com.hypixel.hytale.assetstore.event.LoadedAssetsEvent;
+import com.hypixel.hytale.assetstore.event.RemovedAssetsEvent;
 import com.hypixel.hytale.assetstore.map.DefaultAssetMap;
 import com.hypixel.hytale.common.plugin.PluginIdentifier;
 import com.hypixel.hytale.logger.HytaleLogger;
@@ -29,9 +31,12 @@ import com.lexem.hexcodeevoke.npc.bodymotions.builders.BuilderTeleportHexCreatur
 import com.lexem.hexcodeevoke.npc.filters.builders.*;
 import com.lexem.hexcodeevoke.npc.sensors.builders.*;
 import com.lexem.hexcodeevoke.resources.HexCreatureRegistry;
+import com.lexem.hexcodeevoke.systems.HexCreatureComponentsSystem;
+import com.lexem.hexcodeevoke.systems.HexCreatureRevocationSystem;
+import com.lexem.hexcodeevoke.systems.HexCreatureStateRestoreSystem;
+import com.lexem.hexcodeevoke.systems.HexCreatureStateSaveSystem;
 import com.lexem.hexcodeevoke.systems.HexCreatureTrackingSystem;
 import com.lexem.hexcodeevoke.systems.NPCDeathSystem;
-import com.lexem.hexcodeevoke.systems.NPCSpawnSystem;
 import com.lexem.hexcodeevoke.systems.PlayerJoinSystem;
 import com.riprod.patchly.PatchManager;
 import org.checkerframework.checker.nullness.compatqual.NonNullDecl;
@@ -85,6 +90,27 @@ public class HexcodeEvoke extends JavaPlugin {
                         .setCodec(AllowedHexCreatureMinionsAsset.CODEC)
                         .setKeyFunction(AllowedHexCreatureMinionsAsset::getId)
                         .build());
+
+        getEventRegistry().register(LoadedAssetsEvent.class, AllowedHexItemsAsset.class, this::onHexItemsLoaded);
+        getEventRegistry().register(RemovedAssetsEvent.class, AllowedHexItemsAsset.class, this::onHexItemsRemoved);
+        getEventRegistry().register(LoadedAssetsEvent.class, AllowedHexCreatureMinionsAsset.class, this::onHexMinionsLoaded);
+        getEventRegistry().register(RemovedAssetsEvent.class, AllowedHexCreatureMinionsAsset.class, this::onHexMinionsRemoved);
+    }
+
+    private void onHexItemsLoaded(@NonNullDecl LoadedAssetsEvent<String, AllowedHexItemsAsset, DefaultAssetMap<String, AllowedHexItemsAsset>> event) {
+        AllowedHexItemsAsset.invalidateCache();
+    }
+
+    private void onHexItemsRemoved(@NonNullDecl RemovedAssetsEvent<String, AllowedHexItemsAsset, DefaultAssetMap<String, AllowedHexItemsAsset>> event) {
+        AllowedHexItemsAsset.invalidateCache();
+    }
+
+    private void onHexMinionsLoaded(@NonNullDecl LoadedAssetsEvent<String, AllowedHexCreatureMinionsAsset, DefaultAssetMap<String, AllowedHexCreatureMinionsAsset>> event) {
+        AllowedHexCreatureMinionsAsset.invalidateCache();
+    }
+
+    private void onHexMinionsRemoved(@NonNullDecl RemovedAssetsEvent<String, AllowedHexCreatureMinionsAsset, DefaultAssetMap<String, AllowedHexCreatureMinionsAsset>> event) {
+        AllowedHexCreatureMinionsAsset.invalidateCache();
     }
 
     private void registerNPCComponents() {
@@ -170,9 +196,12 @@ public class HexcodeEvoke extends JavaPlugin {
         HexCreatureMinionComponent.setComponentType(hexCreatureMinionType);
 
         registery.registerSystem(new PlayerJoinSystem());
-        registery.registerSystem(new NPCSpawnSystem());
+        registery.registerSystem(new HexCreatureComponentsSystem());
+        registery.registerSystem(new HexCreatureRevocationSystem());
         registery.registerSystem(new NPCDeathSystem());
         registery.registerSystem(new HexCreatureTrackingSystem());
+        registery.registerSystem(new HexCreatureStateSaveSystem());
+        registery.registerSystem(new HexCreatureStateRestoreSystem());
 
         HexCreatureRegistry.setResourceType(Universe.registerResource(
                 HexCreatureRegistry.class,

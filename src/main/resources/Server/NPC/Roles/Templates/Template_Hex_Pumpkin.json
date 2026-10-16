@@ -1,5 +1,5 @@
 {
-  "StartState": "Idle",
+  "StartState": "Following",
   "Type": "Generic",
   "Parameters": {
     "Appearance": {

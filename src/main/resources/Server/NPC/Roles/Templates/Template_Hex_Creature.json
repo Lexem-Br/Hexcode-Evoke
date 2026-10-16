@@ -1,5 +1,5 @@
 {
-  "StartState": "CheckTasks",
+  "StartState": "Following",
   "Type": "Abstract",
   "Invulnerable": false,
   "Parameters": {
