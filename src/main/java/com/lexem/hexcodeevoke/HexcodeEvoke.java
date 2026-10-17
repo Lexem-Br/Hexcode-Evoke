@@ -19,6 +19,7 @@ import com.lexem.hexcodeevoke.commands.EvokerCommand;
 import com.lexem.hexcodeevoke.components.EvokerComponent;
 import com.lexem.hexcodeevoke.components.HexCreatureComponent;
 import com.lexem.hexcodeevoke.components.HexCreatureMinionComponent;
+import com.lexem.hexcodeevoke.components.MannequinArmorComponent;
 import com.lexem.hexcodeevoke.events.SaveHexCreatureEvent;
 import com.lexem.hexcodeevoke.events.SaveHexCreatureMinionEvent;
 import com.lexem.hexcodeevoke.handlers.SaveHexCreatureHandler;
@@ -36,6 +37,7 @@ import com.lexem.hexcodeevoke.systems.HexCreatureRevocationSystem;
 import com.lexem.hexcodeevoke.systems.HexCreatureStateRestoreSystem;
 import com.lexem.hexcodeevoke.systems.HexCreatureStateSaveSystem;
 import com.lexem.hexcodeevoke.systems.HexCreatureTrackingSystem;
+import com.lexem.hexcodeevoke.systems.MannequinArmorSystems;
 import com.lexem.hexcodeevoke.systems.NPCDeathSystem;
 import com.lexem.hexcodeevoke.systems.PlayerJoinSystem;
 import com.riprod.patchly.PatchManager;
@@ -208,6 +210,18 @@ public class HexcodeEvoke extends JavaPlugin {
                 HexCreatureRegistry.ID,
                 HexCreatureRegistry.CODEC
         ));
+
+        var chunkRegistry = getChunkStoreRegistry();
+
+        var mannequinArmorType = chunkRegistry.registerComponent(
+                MannequinArmorComponent.class,
+                MannequinArmorComponent.ID,
+                MannequinArmorComponent.CODEC
+        );
+        MannequinArmorComponent.setComponentType(mannequinArmorType);
+
+        chunkRegistry.registerSystem(new MannequinArmorSystems.Lifecycle());
+        chunkRegistry.registerSystem(new MannequinArmorSystems.Reconcile());
     }
 
     private void registerEvents() {
@@ -230,6 +244,7 @@ public class HexcodeEvoke extends JavaPlugin {
         this.getCodecRegistry(Interaction.CODEC).register("Evoke:IsHoldingCondition", IsHoldingConditionInteraction.class, IsHoldingConditionInteraction.CODEC);
         this.getCodecRegistry(Interaction.CODEC).register("Evoke:SendMessage", SendMessageInteraction.class, SendMessageInteraction.CODEC);
         this.getCodecRegistry(Interaction.CODEC).register("Evoke:MainHandReplace", MainHandReplaceInteraction.class, MainHandReplaceInteraction.CODEC);
+        this.getCodecRegistry(Interaction.CODEC).register("Evoke:MannequinArmor", MannequinArmorInteraction.class, MannequinArmorInteraction.CODEC);
     }
 
     @Override

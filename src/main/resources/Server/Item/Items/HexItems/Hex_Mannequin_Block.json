@@ -48,7 +48,6 @@
     "VariantRotation": "NESW",
     "Flags": {},
     "Gathering": {
-      "Harvest": {},
       "Soft": {}
     },
     "BlockSoundSetId": "Wood",
@@ -57,7 +56,18 @@
     "BlockParticleSetId": "Wood",
     "TextureComputedColor": "#67412B",
     "RequiresAlphaBlending": false,
-    "CustomModelScale": 0.5
+    "CustomModelScale": 0.5,
+    "BlockEntity": {
+      "Components": {
+        "Evoke_MannequinArmor": {
+          "WearerModel": "Hex_Mannequin_Armor_Wearer"
+        }
+      }
+    },
+    "InteractionHint": "",
+    "Interactions": {
+      "Use": "Root_Evoke_Mannequin_Armor"
+    }
   },
   "PlayerAnimationsId": "Block",
   "IconProperties": {
