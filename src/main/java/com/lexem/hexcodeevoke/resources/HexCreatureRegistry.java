@@ -35,12 +35,20 @@ public class HexCreatureRegistry {
                     },
                     registry -> registry.lastKnownLocations
             ).add()
+            .append(new KeyedCodec<>("RemovedWhileOwnerAway", Codec.STRING_ARRAY),
+                    (registry, value) -> {
+                        registry.removedWhileOwnerAway.clear();
+                        if (value != null) registry.removedWhileOwnerAway.addAll(Arrays.asList(value));
+                    },
+                    registry -> registry.removedWhileOwnerAway.toArray(new String[0])
+            ).add()
             .build();
 
     private static UniverseResourceType<HexCreatureRegistry> TYPE;
 
     private final Set<String> revoked = ConcurrentHashMap.newKeySet();
     private final Map<String, LastKnownLocation> lastKnownLocations = new ConcurrentHashMap<>();
+    private final Set<String> removedWhileOwnerAway = ConcurrentHashMap.newKeySet();
 
     public HexCreatureRegistry() {
     }
@@ -77,6 +85,14 @@ public class HexCreatureRegistry {
 
     public void removeLastKnownLocation(@Nonnull String npcUUID) {
         lastKnownLocations.remove(npcUUID);
+    }
+
+    public void markRemovedWhileOwnerAway(@Nonnull String npcUUID) {
+        removedWhileOwnerAway.add(npcUUID);
+    }
+
+    public boolean consumeRemovedWhileOwnerAway(@Nonnull String npcUUID) {
+        return removedWhileOwnerAway.remove(npcUUID);
     }
 
     public void forget(@Nonnull String npcUUID) {

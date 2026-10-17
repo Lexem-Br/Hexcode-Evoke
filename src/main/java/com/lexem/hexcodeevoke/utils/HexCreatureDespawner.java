@@ -135,6 +135,6 @@ public final class HexCreatureDespawner {
         if (evoker == null) return;
 
         evoker.removeHexCreature(hexCreature);
-        evoker.removeSelectedHexCreature(hexCreature.getUUID());
+        WandIndicatorUtils.refresh(playerRef, store);
     }
 }

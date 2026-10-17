@@ -227,6 +227,45 @@ public class HexCreatureComponent implements Component<EntityStore> {
         listChestTask = newArray;
     }
 
+    public void forgetChest(Vector3d chestPosition) {
+        if (chestPosition == null) return;
+
+        if (listChestMemory != null) {
+            List<ChestMemoryComponent> remainingMemories = new ArrayList<>();
+            for (ChestMemoryComponent memory : listChestMemory) {
+                if (memory != null && !isSameBlock(memory.getChestPosition(), chestPosition)) {
+                    remainingMemories.add(memory);
+                }
+            }
+            listChestMemory = remainingMemories.toArray(new ChestMemoryComponent[0]);
+        }
+
+        if (listChestTask != null) {
+            List<ChestTaskComponent> remainingTasks = new ArrayList<>();
+            for (ChestTaskComponent task : listChestTask) {
+                if (task != null && !isSameBlock(task.getChestPosition(), chestPosition)) {
+                    remainingTasks.add(task);
+                }
+            }
+            listChestTask = remainingTasks.toArray(new ChestTaskComponent[0]);
+        }
+    }
+
+    private static boolean isExcluded(Vector3d position, List<Vector3d> excludedPositions) {
+        for (Vector3d excluded : excludedPositions) {
+            if (isSameBlock(position, excluded)) return true;
+        }
+        return false;
+    }
+
+    private static boolean isSameBlock(Vector3d a, Vector3d b) {
+        if (a == null || b == null) return false;
+
+        return Math.floor(a.x) == Math.floor(b.x)
+                && Math.floor(a.y) == Math.floor(b.y)
+                && Math.floor(a.z) == Math.floor(b.z);
+    }
+
     public void removeChestTasksByItemId(String itemId) {
         if (itemId == null || itemId.isEmpty() || listChestTask == null || listChestTask.length == 0) {
             return;
@@ -286,6 +325,10 @@ public class HexCreatureComponent implements Component<EntityStore> {
     }
 
     public ChestMemoryComponent findEmptyChestMemory() {
+        return findEmptyChestMemory(List.of());
+    }
+
+    public ChestMemoryComponent findEmptyChestMemory(List<Vector3d> excludedPositions) {
         if (listChestMemory == null || listChestMemory.length == 0) {
             return null;
         }
@@ -295,7 +338,8 @@ public class HexCreatureComponent implements Component<EntityStore> {
         for (ChestMemoryComponent memory : listChestMemory) {
             if (memory != null
                     && memory.getListItemsId() != null
-                    && memory.getListItemsId().length == 0) {
+                    && memory.getListItemsId().length == 0
+                    && !isExcluded(memory.getChestPosition(), excludedPositions)) {
                 validMemories.add(memory);
             }
         }
@@ -320,6 +364,10 @@ public class HexCreatureComponent implements Component<EntityStore> {
     }
 
     public ChestMemoryComponent findNearestChestMemory(Vector3d position) {
+        return findNearestChestMemory(position, List.of());
+    }
+
+    public ChestMemoryComponent findNearestChestMemory(Vector3d position, List<Vector3d> excludedPositions) {
         if (listChestMemory == null || listChestMemory.length == 0 || position == null) {
             return null;
         }
@@ -331,7 +379,7 @@ public class HexCreatureComponent implements Component<EntityStore> {
             if (memory == null) continue;
 
             Vector3d chestPos = memory.getChestPosition();
-            if (chestPos == null) continue;
+            if (chestPos == null || isExcluded(chestPos, excludedPositions)) continue;
 
             double distance = position.distance(chestPos);
             if (distance < nearestDistance) {

@@ -46,6 +46,7 @@ public class ChangeStatWandParticlesInteraction extends ChangeStatWandParticlesB
 
       Int2FloatMap entityStatsNew = new Int2FloatOpenHashMap();
       int index = EntityStatType.getAssetMap().getIndex(this.statModifier);
+      evoker.pruneSelection();
       entityStatsNew.put(index, evoker.getSelectedHexCreatures().length);
 
       entityStatMapComponent.processStatChanges(EntityStatMap.Predictable.SELF, entityStatsNew, ValueType.Absolute, ChangeStatBehaviour.Set);

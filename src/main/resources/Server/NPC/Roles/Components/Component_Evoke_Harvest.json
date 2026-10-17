@@ -7,6 +7,27 @@
   "Content":  {
     "Instructions": [
       {
+        "$Comment": "Stops harvesting if the sickle is no longer in hand",
+        "Sensor": {
+          "Type": "Not",
+          "Sensor": {
+            "Type": "Self",
+            "Filters": [
+              {
+                "Type": "ItemInHand",
+                "Items": [ "Tool_Sickle*" ]
+              }
+            ]
+          }
+        },
+        "Actions": [
+          {
+            "Type": "ParentState",
+            "State": "Main"
+          }
+        ]
+      },
+      {
         "$Comment": "Checks if the inventory is full",
         "Continue": true,
         "Sensor": {
@@ -66,7 +87,8 @@
               "Type": "Sequence",
               "Actions": [
                 {
-                  "Type": "Evoke:HarvestCrop"
+                  "Type": "Evoke:HarvestCrop",
+                  "RequiredItems": [ "Tool_Sickle*" ]
                 },
                 {
                   "Type": "PlaySound",

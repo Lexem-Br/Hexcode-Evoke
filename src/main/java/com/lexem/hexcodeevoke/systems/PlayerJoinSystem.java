@@ -8,6 +8,7 @@ import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.lexem.hexcodeevoke.components.EvokerComponent;
 import com.lexem.hexcodeevoke.components.HexCreatureComponent;
 import com.lexem.hexcodeevoke.resources.HexCreatureRegistry;
+import com.lexem.hexcodeevoke.utils.WandIndicatorUtils;
 import org.checkerframework.checker.nullness.compatqual.NonNullDecl;
 import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
@@ -28,6 +29,17 @@ public class PlayerJoinSystem extends RefSystem<EntityStore> {
             commandBuffer.addComponent(ref, EvokerComponent.getComponentType(), new EvokerComponent());
         } else {
             migrateMarkedToDespawn(evoker);
+            removeCreaturesLostWhileAway(evoker);
+            WandIndicatorUtils.refresh(ref, store);
+        }
+    }
+
+    private static void removeCreaturesLostWhileAway(EvokerComponent evoker) {
+        HexCreatureRegistry registry = HexCreatureRegistry.get();
+        for (String uuid : evoker.getHexCreatureUUIDs()) {
+            if (uuid != null && registry.consumeRemovedWhileOwnerAway(uuid)) {
+                evoker.removeHexCreatureByUUID(uuid);
+            }
         }
     }
 

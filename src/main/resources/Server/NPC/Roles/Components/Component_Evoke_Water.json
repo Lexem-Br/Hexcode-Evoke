@@ -7,6 +7,27 @@
   "Content":  {
     "Instructions": [
       {
+        "$Comment": "Stops watering if the watering can is no longer in hand",
+        "Sensor": {
+          "Type": "Not",
+          "Sensor": {
+            "Type": "Self",
+            "Filters": [
+              {
+                "Type": "ItemInHand",
+                "Items": [ "Tool_Watering_Can" ]
+              }
+            ]
+          }
+        },
+        "Actions": [
+          {
+            "Type": "ParentState",
+            "State": "Main"
+          }
+        ]
+      },
+      {
         "$Comment": "Search for dry soil",
         "Continue": true,
         "Sensor":  {

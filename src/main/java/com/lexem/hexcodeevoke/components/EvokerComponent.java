@@ -156,6 +156,8 @@ public class EvokerComponent implements Component<EntityStore> {
     public void removeHexCreatureByUUID(String uuid) {
         if (uuid == null) return;
 
+        removeSelectedHexCreature(uuid);
+
         int count = 0;
         for (HexCreatureComponent s : listHexCreatures) {
             if (!uuid.equals(s.getUUID())) count++;
@@ -169,6 +171,24 @@ public class EvokerComponent implements Component<EntityStore> {
             }
         }
         listHexCreatures = newArray;
+    }
+
+    public boolean pruneSelection() {
+        Set<String> ownedUUIDs = new HashSet<>(Arrays.asList(getHexCreatureUUIDs()));
+
+        int count = 0;
+        for (String s : selectedHexCreatures) {
+            if (ownedUUIDs.contains(s)) count++;
+        }
+        if (count == selectedHexCreatures.length) return false;
+
+        String[] newArray = new String[count];
+        int index = 0;
+        for (String s : selectedHexCreatures) {
+            if (ownedUUIDs.contains(s)) newArray[index++] = s;
+        }
+        selectedHexCreatures = newArray;
+        return true;
     }
 
     public boolean canAddHexCreature() {

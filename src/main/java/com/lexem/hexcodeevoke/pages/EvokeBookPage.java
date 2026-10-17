@@ -24,6 +24,7 @@ import com.lexem.hexcodeevoke.components.HexCreatureComponent;
 import com.lexem.hexcodeevoke.hexitems.AllowedHexItemsAsset;
 import com.lexem.hexcodeevoke.utils.HexCreatureDespawner;
 import com.lexem.hexcodeevoke.utils.UnloadedHexCreatureDespawner;
+import com.lexem.hexcodeevoke.utils.WandIndicatorUtils;
 
 import javax.annotation.Nonnull;
 import java.util.*;
@@ -238,7 +239,7 @@ public class EvokeBookPage extends InteractiveCustomUIPage<EvokeBookPage.EvokeBo
                         }
 
                         evoker.removeHexCreatureByUUID(data.uuid);
-                        evoker.removeSelectedHexCreature(data.uuid);
+                        WandIndicatorUtils.refresh(ref, store);
 
                         player.getPageManager().setPage(ref, store, Page.None);
                     }
