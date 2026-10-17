@@ -4,7 +4,9 @@ import com.hypixel.hytale.codec.builder.BuilderCodec;
 import com.hypixel.hytale.component.CommandBuffer;
 import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.component.Store;
-import com.hypixel.hytale.protocol.*;
+import com.hypixel.hytale.protocol.ChangeStatBehaviour;
+import com.hypixel.hytale.protocol.InteractionType;
+import com.hypixel.hytale.protocol.ValueType;
 import com.hypixel.hytale.server.core.entity.InteractionContext;
 import com.hypixel.hytale.server.core.modules.entitystats.EntityStatMap;
 import com.hypixel.hytale.server.core.modules.entitystats.asset.EntityStatType;
@@ -44,6 +46,7 @@ public class ChangeStatWandParticlesInteraction extends ChangeStatWandParticlesB
 
       Int2FloatMap entityStatsNew = new Int2FloatOpenHashMap();
       int index = EntityStatType.getAssetMap().getIndex(this.statModifier);
+      evoker.pruneSelection();
       entityStatsNew.put(index, evoker.getSelectedHexCreatures().length);
 
       entityStatMapComponent.processStatChanges(EntityStatMap.Predictable.SELF, entityStatsNew, ValueType.Absolute, ChangeStatBehaviour.Set);

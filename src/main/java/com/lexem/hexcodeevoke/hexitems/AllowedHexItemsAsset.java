@@ -16,7 +16,6 @@ import com.hypixel.hytale.codec.validation.Validators;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
 import java.util.*;
 
 public class AllowedHexItemsAsset implements JsonAssetWithMap<String, DefaultAssetMap<String, AllowedHexItemsAsset>> {
@@ -104,34 +103,45 @@ public class AllowedHexItemsAsset implements JsonAssetWithMap<String, DefaultAss
         return this.id;
     }
 
-    private static AllowedHexItemsAsset getAsset() {
-        return getAssetMap().getAsset("AllowedHexItems");
+    private record Lookup(List<HexItem> items, Map<String, HexItem> byBlockId, Map<String, HexItem> byEntityId) {}
+
+    private static volatile Lookup lookup;
+
+    public static void invalidateCache() {
+        lookup = null;
+    }
+
+    @Nonnull
+    private static Lookup getLookup() {
+        Lookup current = lookup;
+        if (current != null) return current;
+
+        List<HexItem> items = new ArrayList<>();
+        Map<String, HexItem> byBlockId = new HashMap<>();
+        Map<String, HexItem> byEntityId = new HashMap<>();
+        for (AllowedHexItemsAsset asset : getAssetMap().getAssetMap().values()) {
+            if (asset.hexItems == null) continue;
+
+            for (HexItem item : asset.hexItems) {
+                items.add(item);
+                if (item.blockId != null) byBlockId.putIfAbsent(item.blockId, item);
+                if (item.entityId != null) byEntityId.putIfAbsent(item.entityId, item);
+            }
+        }
+
+        current = new Lookup(Collections.unmodifiableList(items), byBlockId, byEntityId);
+        lookup = current;
+        return current;
     }
 
     @Nullable
     public static HexItem getByBlockId(@Nonnull String blockId) {
-        AllowedHexItemsAsset asset = getAsset();
-        if (asset == null) return null;
-
-        for (HexItem item : asset.hexItems) {
-            if (blockId.equals(item.blockId)) {
-                return item;
-            }
-        }
-        return null;
+        return getLookup().byBlockId().get(blockId);
     }
 
     @Nullable
     public static HexItem getByEntityId(@Nonnull String entityId) {
-        AllowedHexItemsAsset asset = getAsset();
-        if (asset == null) return null;
-
-        for (HexItem item : asset.hexItems) {
-            if (entityId.equals(item.entityId)) {
-                return item;
-            }
-        }
-        return null;
+        return getLookup().byEntityId().get(entityId);
     }
 
     @Nonnull
@@ -181,18 +191,14 @@ public class AllowedHexItemsAsset implements JsonAssetWithMap<String, DefaultAss
 
     @Nonnull
     public static List<HexItem> getAllItems() {
-        AllowedHexItemsAsset asset = getAsset();
-        return asset != null ? Arrays.asList(asset.hexItems) : Collections.emptyList();
+        return getLookup().items();
     }
 
     @Nonnull
     public static Map<String, String> getAllAsMap() {
-        AllowedHexItemsAsset asset = getAsset();
-        if (asset == null) return Collections.emptyMap();
-
         Map<String, String> map = new HashMap<>();
-        for (HexItem item : asset.hexItems) {
-            map.put(item.blockId, item.entityId);
+        for (HexItem item : getAllItems()) {
+            map.putIfAbsent(item.blockId, item.entityId);
         }
         return map;
     }

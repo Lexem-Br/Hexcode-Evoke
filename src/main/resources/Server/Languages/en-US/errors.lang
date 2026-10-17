@@ -3,6 +3,7 @@ no_entity_founded=No entity founded
 target_must_be_hex_creatures=Target must be a Hex creature
 hex_creature_must_belong_evoker=The Hex creature must belong to the evoker
 no_hex_creture_found=No Hex creature found
+block_must_be_hex_item=The block must be a Hex item
 
 max_hex_creatures.title=Maximum number of Hex creatures reached
 max_hex_creatures.description1=You can only have up to

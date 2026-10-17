@@ -7,6 +7,27 @@
   "Content":  {
     "Instructions": [
       {
+        "$Comment": "Stops watering if the watering can is no longer in hand",
+        "Sensor": {
+          "Type": "Not",
+          "Sensor": {
+            "Type": "Self",
+            "Filters": [
+              {
+                "Type": "ItemInHand",
+                "Items": [ "Tool_Watering_Can" ]
+              }
+            ]
+          }
+        },
+        "Actions": [
+          {
+            "Type": "ParentState",
+            "State": "Main"
+          }
+        ]
+      },
+      {
         "$Comment": "Search for dry soil",
         "Continue": true,
         "Sensor":  {
@@ -17,7 +38,7 @@
         "BodyMotion": {
           "Type": "Seek",
           "SlowDownDistance": 2.0,
-          "StopDistance": 0.05,
+          "StopDistance": 0.9,
           "RelativeSpeed": 0.5
         }
       },

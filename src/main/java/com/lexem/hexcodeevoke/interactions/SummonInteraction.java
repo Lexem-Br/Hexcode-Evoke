@@ -169,8 +169,6 @@ public class SummonInteraction extends SimpleInteraction {
                 eyeHeight = modelComponent.getModel().getEyeHeight(ref, store);
             }
 
-            //TODO:Add pitch
-
             Vector3d particlePos = new Vector3d(transformComponent.getPosition());
             particlePos.add(0.0F, eyeHeight, -0.8F);
 

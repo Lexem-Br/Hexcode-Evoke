@@ -17,6 +17,8 @@ import com.hypixel.hytale.logger.HytaleLogger;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.HashMap;
+import java.util.Map;
 
 public class AllowedHexCreatureMinionsAsset implements JsonAssetWithMap<String, DefaultAssetMap<String, AllowedHexCreatureMinionsAsset>> {
     public static final AssetBuilderCodec<String, AllowedHexCreatureMinionsAsset> CODEC;
@@ -76,22 +78,26 @@ public class AllowedHexCreatureMinionsAsset implements JsonAssetWithMap<String, 
         return this.id;
     }
 
+    private static volatile Map<String, HexMinion> byEntityId;
+
+    public static void invalidateCache() {
+        byEntityId = null;
+    }
+
     @Nullable
     public static AllowedHexCreatureMinionsAsset.HexMinion getByEntityId(@Nonnull String entityId) {
-        AllowedHexCreatureMinionsAsset asset = getAsset();
-        if (asset == null) return null;
+        Map<String, HexMinion> current = byEntityId;
+        if (current == null) {
+            current = new HashMap<>();
+            for (AllowedHexCreatureMinionsAsset asset : getAssetMap().getAssetMap().values()) {
+                if (asset.hexMinions == null) continue;
 
-        for (AllowedHexCreatureMinionsAsset.HexMinion minion : asset.hexMinions) {
-            if (entityId.equals(minion.entityId)) {
-                return minion;
+                for (HexMinion minion : asset.hexMinions) {
+                    if (minion.entityId != null) current.putIfAbsent(minion.entityId, minion);
+                }
             }
+            byEntityId = current;
         }
-        return null;
+        return current.get(entityId);
     }
-
-
-    private static AllowedHexCreatureMinionsAsset getAsset() {
-        return getAssetMap().getAsset("AllowedHexCreatureMinions");
-    }
-
 }

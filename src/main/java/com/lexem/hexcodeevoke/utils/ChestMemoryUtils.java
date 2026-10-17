@@ -29,31 +29,47 @@ public class ChestMemoryUtils {
         }
 
         World world = store.getExternalData().getWorld();
-        long chunkIndex = ChunkUtil.indexChunkFromBlock(positionProvider.getX(), positionProvider.getZ());
-        Ref<ChunkStore> chunkRef = world.getChunkStore().getChunkReference(chunkIndex);
-        if (chunkRef == null) return;
-
         Vector3d chestPosition = new Vector3d(
                 Math.floor(positionProvider.getX()),
                 Math.floor(positionProvider.getY()),
                 Math.floor(positionProvider.getZ())
         );
 
-        Store<ChunkStore> chunkComponentStore = world.getChunkStore().getStore();
-        ChunkStore chunkStore = world.getChunkStore();
-        Ref<ChunkStore> sectionRef = chunkStore.getChunkSectionReferenceAtBlock((int)chestPosition.x, (int)chestPosition.y, (int)chestPosition.z);
-        if (sectionRef == null) return;
+        ChestLookup lookup = findChest(world, chestPosition);
+        if (lookup.missing()) {
+            hexCreatureComponent.forgetChest(chestPosition);
+            return;
+        }
+        if (lookup.container() == null) return;
 
-        Ref<ChunkStore> blockRef = BlockModule.getBlockEntity(chunkComponentStore, sectionRef, (int)chestPosition.x, (int)chestPosition.y, (int)chestPosition.z);
-        if (blockRef == null) return;
-
-        ItemContainerBlock itemContainerBlock = chunkComponentStore.getComponent(blockRef, ItemContainerBlock.getComponentType());
-        if (itemContainerBlock == null) return;
-
-        SimpleItemContainer chestContainer = itemContainerBlock.getItemContainer();
-        String[] differentItemsOnChest = InventoryUtils.getItemIdsFromContainer(chestContainer);
-
+        String[] differentItemsOnChest = InventoryUtils.getItemIdsFromContainer(lookup.container());
         hexCreatureComponent.updateChestMemory(chestPosition, differentItemsOnChest);
     }
 
+    public static ChestLookup findChest(World world, Vector3d chestPosition) {
+        int x = (int) Math.floor(chestPosition.x);
+        int y = (int) Math.floor(chestPosition.y);
+        int z = (int) Math.floor(chestPosition.z);
+
+        ChunkStore chunkStore = world.getChunkStore();
+        Ref<ChunkStore> chunkRef = chunkStore.getChunkReference(ChunkUtil.indexChunkFromBlock(x, z));
+        if (chunkRef == null || !chunkRef.isValid()) return ChestLookup.UNKNOWN;
+
+        Ref<ChunkStore> sectionRef = chunkStore.getChunkSectionReferenceAtBlock(x, y, z);
+        if (sectionRef == null || !sectionRef.isValid()) return ChestLookup.UNKNOWN;
+
+        Store<ChunkStore> chunkComponentStore = chunkStore.getStore();
+        Ref<ChunkStore> blockRef = BlockModule.getBlockEntity(chunkComponentStore, sectionRef, x, y, z);
+        if (blockRef == null) return ChestLookup.MISSING;
+
+        ItemContainerBlock itemContainerBlock = chunkComponentStore.getComponent(blockRef, ItemContainerBlock.getComponentType());
+        if (itemContainerBlock == null) return ChestLookup.MISSING;
+
+        return new ChestLookup(false, itemContainerBlock.getItemContainer());
+    }
+
+    public record ChestLookup(boolean missing, SimpleItemContainer container) {
+        public static final ChestLookup UNKNOWN = new ChestLookup(false, null);
+        public static final ChestLookup MISSING = new ChestLookup(true, null);
+    }
 }

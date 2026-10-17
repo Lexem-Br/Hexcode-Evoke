@@ -22,10 +22,11 @@ import com.hypixel.hytale.server.core.universe.PlayerRef;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.lexem.hexcodeevoke.components.HexCreatureComponent;
 import com.lexem.hexcodeevoke.hexitems.AllowedHexItemsAsset;
-import com.lexem.hexcodeevoke.utils.DespawnHCUtils;
+import com.lexem.hexcodeevoke.utils.HexCreatureDespawner;
 
 import javax.annotation.Nonnull;
-import java.util.*;
+import java.util.Objects;
+import java.util.UUID;
 
 public class HCProfilePage extends InteractiveCustomUIPage<HCProfilePage.HCProfileEventData> {
     private final String pageNameFile;
@@ -367,8 +368,7 @@ public class HCProfilePage extends InteractiveCustomUIPage<HCProfilePage.HCProfi
         if (player == null) { return; }
 
         if (data.action != null && data.action.equals("Despawn")) {
-            DespawnHCUtils despawnHCUtils = new DespawnHCUtils(store, npcRef, store, true);
-            despawnHCUtils.despawnHexCreature();
+            HexCreatureDespawner.despawn(store, npcRef, store, true);
             player.getPageManager().setPage(ref, store, Page.None);
         } else if (data.action != null && data.action.equals("Selector")) {
             if (Objects.equals(data.isPlayerSelector, "true")) {

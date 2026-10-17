@@ -16,6 +16,7 @@ import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.Random;
 
 public class HexCreatureComponent implements Component<EntityStore> {
@@ -26,7 +27,6 @@ public class HexCreatureComponent implements Component<EntityStore> {
 
     private String UUID;
     private String evokerUUID;
-    private String evokerName;
     private String name;
     private String typeId;
     private String blockName;
@@ -34,6 +34,9 @@ public class HexCreatureComponent implements Component<EntityStore> {
     private String[] minionUUIDs = new String[0];
     private ChestMemoryComponent[] listChestMemory = new ChestMemoryComponent[0];
     private ChestTaskComponent[] listChestTask = new ChestTaskComponent[0];
+    private boolean markedToDespawn = false;
+    private String lastState;
+    private String lastSubState;
 
     private static ComponentType<EntityStore, HexCreatureComponent> TYPE;
 
@@ -47,56 +50,18 @@ public class HexCreatureComponent implements Component<EntityStore> {
 
     public static final BuilderCodec<HexCreatureComponent> CODEC = BuilderCodec
             .builder(HexCreatureComponent.class, HexCreatureComponent::new)
-            .append(
-                    new KeyedCodec<>("UUID", Codec.STRING),
-                    (component, value) -> component.UUID = value,
-                    component -> component.UUID
-            ).add()
-            .append(
-                    new KeyedCodec<>("EvokerUUID", Codec.STRING),
-                    (component, value) -> component.evokerUUID = value,
-                    component -> component.evokerUUID
-            ).add()
-            .append(
-                    new KeyedCodec<>("EvokerName", Codec.STRING),
-                    (component, value) -> component.evokerName = value,
-                    component -> component.evokerName
-            ).add()
-            .append(
-                    new KeyedCodec<>("Name", Codec.STRING),
-                    (component, value) -> component.name = value,
-                    component -> component.name
-            ).add()
-            .append(
-                    new KeyedCodec<>("TypeId", Codec.STRING),
-                    (component, value) -> component.typeId = value,
-                    component -> component.typeId
-            ).add()
-            .append(
-                    new KeyedCodec<>("BlockName", Codec.STRING),
-                    (component, value) -> component.blockName = value,
-                    component -> component.blockName
-            ).add()
-            .append(
-                    new KeyedCodec<>("ShowName", Codec.BOOLEAN),
-                    (component, value) -> component.showName = value,
-                    component -> component.showName
-            ).add()
-            .append(
-                    new KeyedCodec<>("MinionUUIDs", Codec.STRING_ARRAY),
-                    (component, value) -> component.minionUUIDs = value,
-                    component -> component.minionUUIDs
-            ).add()
-            .append(new KeyedCodec<>("ListChestMemory", new ArrayCodec<>(ChestMemoryComponent.CODEC, ChestMemoryComponent[]::new)),
-                    (component, objects) -> component.listChestMemory = objects,
-                    component -> component.listChestMemory
-            )
-            .add()
-            .append(new KeyedCodec<>("ListChestTask", new ArrayCodec<>(ChestTaskComponent.CODEC, ChestTaskComponent[]::new)),
-                    (component, objects) -> component.listChestTask = objects,
-                    component -> component.listChestTask
-            )
-            .add()
+            .append(new KeyedCodec<>("UUID", Codec.STRING), (component, value) -> component.UUID = value, component -> component.UUID).add()
+            .append(new KeyedCodec<>("EvokerUUID", Codec.STRING), (component, value) -> component.evokerUUID = value, component -> component.evokerUUID).add()
+            .append(new KeyedCodec<>("Name", Codec.STRING), (component, value) -> component.name = value, component -> component.name).add()
+            .append(new KeyedCodec<>("TypeId", Codec.STRING), (component, value) -> component.typeId = value, component -> component.typeId).add()
+            .append(new KeyedCodec<>("BlockName", Codec.STRING), (component, value) -> component.blockName = value, component -> component.blockName).add()
+            .append(new KeyedCodec<>("ShowName", Codec.BOOLEAN), (component, value) -> component.showName = value, component -> component.showName).add()
+            .append(new KeyedCodec<>("MinionUUIDs", Codec.STRING_ARRAY), (component, value) -> component.minionUUIDs = value, component -> component.minionUUIDs).add()
+            .append(new KeyedCodec<>("ListChestMemories", new ArrayCodec<>(ChestMemoryComponent.CODEC, ChestMemoryComponent[]::new)), (component, objects) -> component.listChestMemory = objects, component -> component.listChestMemory).add()
+            .append(new KeyedCodec<>("ListChestTasks", new ArrayCodec<>(ChestTaskComponent.CODEC, ChestTaskComponent[]::new)), (component, objects) -> component.listChestTask = objects, component -> component.listChestTask).add()
+            .append(new KeyedCodec<>("MarkedToDespawn", Codec.BOOLEAN), (component, value) -> component.markedToDespawn = value, component -> component.markedToDespawn).add()
+            .append(new KeyedCodec<>("LastState", Codec.STRING), (component, value) -> component.lastState = value, component -> component.lastState).add()
+            .append(new KeyedCodec<>("LastSubState", Codec.STRING), (component, value) -> component.lastSubState = value, component -> component.lastSubState).add()
             .build();
 
     public HexCreatureComponent() {
@@ -105,21 +70,21 @@ public class HexCreatureComponent implements Component<EntityStore> {
     public HexCreatureComponent(
             String UUID,
             String evokerUUID,
-            String evokerName,
             String name,
             String typeId,
             String blockName,
             boolean showName,
-            String[] minionUUIDs
+            String[] minionUUIDs,
+            boolean markedToDespawn
     ) {
         this.UUID = UUID;
         this.evokerUUID = evokerUUID;
-        this.evokerName = evokerName;
         this.name = name;
         this.typeId = typeId;
         this.blockName = blockName;
         this.showName = showName;
         this.minionUUIDs = minionUUIDs;
+        this.markedToDespawn = markedToDespawn;
     }
 
     public String getUUID() {
@@ -136,14 +101,6 @@ public class HexCreatureComponent implements Component<EntityStore> {
 
     public void setEvokerUUID(String evokerUUID) {
         this.evokerUUID = evokerUUID;
-    }
-
-    public String getEvokerName() {
-        return (this.evokerName == null) ? "" : this.evokerName;
-    }
-
-    public void setEvokerName(String evokerName) {
-        this.evokerName = evokerName;
     }
 
     public String getName() {
@@ -186,16 +143,32 @@ public class HexCreatureComponent implements Component<EntityStore> {
         return listChestMemory;
     }
 
-    public void setListChestMemory(ChestMemoryComponent[] listChestMemory) {
-        this.listChestMemory = listChestMemory;
-    }
-
     public ChestTaskComponent[] getListChestTask() {
         return listChestTask;
     }
 
     public boolean isListChestTaskEmpty() {
         return listChestTask == null || listChestTask.length == 0;
+    }
+
+    public boolean isMarkedToDespawn() {
+        return markedToDespawn;
+    }
+
+    public String getLastState() {
+        return lastState;
+    }
+
+    public String getLastSubState() {
+        return lastSubState;
+    }
+
+    public boolean setLastState(String state, String subState) {
+        if (Objects.equals(lastState, state) && Objects.equals(lastSubState, subState)) return false;
+
+        lastState = state;
+        lastSubState = subState;
+        return true;
     }
 
     public void addMinionUUID(String uuid) {
@@ -252,6 +225,45 @@ public class HexCreatureComponent implements Component<EntityStore> {
             }
         }
         listChestTask = newArray;
+    }
+
+    public void forgetChest(Vector3d chestPosition) {
+        if (chestPosition == null) return;
+
+        if (listChestMemory != null) {
+            List<ChestMemoryComponent> remainingMemories = new ArrayList<>();
+            for (ChestMemoryComponent memory : listChestMemory) {
+                if (memory != null && !isSameBlock(memory.getChestPosition(), chestPosition)) {
+                    remainingMemories.add(memory);
+                }
+            }
+            listChestMemory = remainingMemories.toArray(new ChestMemoryComponent[0]);
+        }
+
+        if (listChestTask != null) {
+            List<ChestTaskComponent> remainingTasks = new ArrayList<>();
+            for (ChestTaskComponent task : listChestTask) {
+                if (task != null && !isSameBlock(task.getChestPosition(), chestPosition)) {
+                    remainingTasks.add(task);
+                }
+            }
+            listChestTask = remainingTasks.toArray(new ChestTaskComponent[0]);
+        }
+    }
+
+    private static boolean isExcluded(Vector3d position, List<Vector3d> excludedPositions) {
+        for (Vector3d excluded : excludedPositions) {
+            if (isSameBlock(position, excluded)) return true;
+        }
+        return false;
+    }
+
+    private static boolean isSameBlock(Vector3d a, Vector3d b) {
+        if (a == null || b == null) return false;
+
+        return Math.floor(a.x) == Math.floor(b.x)
+                && Math.floor(a.y) == Math.floor(b.y)
+                && Math.floor(a.z) == Math.floor(b.z);
     }
 
     public void removeChestTasksByItemId(String itemId) {
@@ -313,6 +325,10 @@ public class HexCreatureComponent implements Component<EntityStore> {
     }
 
     public ChestMemoryComponent findEmptyChestMemory() {
+        return findEmptyChestMemory(List.of());
+    }
+
+    public ChestMemoryComponent findEmptyChestMemory(List<Vector3d> excludedPositions) {
         if (listChestMemory == null || listChestMemory.length == 0) {
             return null;
         }
@@ -322,7 +338,8 @@ public class HexCreatureComponent implements Component<EntityStore> {
         for (ChestMemoryComponent memory : listChestMemory) {
             if (memory != null
                     && memory.getListItemsId() != null
-                    && memory.getListItemsId().length == 0) {
+                    && memory.getListItemsId().length == 0
+                    && !isExcluded(memory.getChestPosition(), excludedPositions)) {
                 validMemories.add(memory);
             }
         }
@@ -347,6 +364,10 @@ public class HexCreatureComponent implements Component<EntityStore> {
     }
 
     public ChestMemoryComponent findNearestChestMemory(Vector3d position) {
+        return findNearestChestMemory(position, List.of());
+    }
+
+    public ChestMemoryComponent findNearestChestMemory(Vector3d position, List<Vector3d> excludedPositions) {
         if (listChestMemory == null || listChestMemory.length == 0 || position == null) {
             return null;
         }
@@ -358,7 +379,7 @@ public class HexCreatureComponent implements Component<EntityStore> {
             if (memory == null) continue;
 
             Vector3d chestPos = memory.getChestPosition();
-            if (chestPos == null) continue;
+            if (chestPos == null || isExcluded(chestPos, excludedPositions)) continue;
 
             double distance = position.distance(chestPos);
             if (distance < nearestDistance) {
@@ -370,19 +391,28 @@ public class HexCreatureComponent implements Component<EntityStore> {
         return nearest;
     }
 
+    public void markToDespawn() {
+        markedToDespawn = true;
+    }
+
     @Nullable
     @Override
     public Component<EntityStore> clone() {
-        return new HexCreatureComponent(
+        HexCreatureComponent clone = new HexCreatureComponent(
                 this.UUID,
                 this.evokerUUID,
-                this.evokerName,
                 this.name,
                 this.typeId,
                 this.blockName,
                 this.showName,
-                this.minionUUIDs
+                this.minionUUIDs,
+                this.markedToDespawn
         );
+        clone.listChestMemory = this.listChestMemory;
+        clone.listChestTask = this.listChestTask;
+        clone.lastState = this.lastState;
+        clone.lastSubState = this.lastSubState;
+        return clone;
     }
 
     @Override
@@ -390,12 +420,16 @@ public class HexCreatureComponent implements Component<EntityStore> {
         return "HexCreatureComponent{" +
                 "UUID='" + UUID + '\'' +
                 ", evokerUUID='" + evokerUUID + '\'' +
-                ", evokerName='" + evokerName + '\'' +
                 ", name='" + name + '\'' +
                 ", typeId='" + typeId + '\'' +
                 ", blockName='" + blockName + '\'' +
                 ", showName=" + showName +
                 ", minionUUIDs=" + Arrays.toString(minionUUIDs) +
+                ", listChestMemory=" + Arrays.toString(listChestMemory) +
+                ", listChestTask=" + Arrays.toString(listChestTask) +
+                ", markedToDespawn=" + markedToDespawn +
+                ", lastState='" + lastState + '\'' +
+                ", lastSubState='" + lastSubState + '\'' +
                 '}';
     }
 }

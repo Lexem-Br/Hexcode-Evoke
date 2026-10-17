@@ -9,7 +9,6 @@ import com.hypixel.hytale.server.npc.corecomponents.ActionBase;
 import com.hypixel.hytale.server.npc.instructions.ExecutionSupport;
 import com.hypixel.hytale.server.npc.sensorinfo.InfoProvider;
 import com.lexem.hexcodeevoke.components.HexCreatureMinionComponent;
-import com.lexem.hexcodeevoke.npc.actions.builders.BuilderActionTakeItemFromChestTask;
 import com.lexem.hexcodeevoke.npc.actions.builders.BuilderActionTransferItemsToTargetNPC;
 import com.lexem.hexcodeevoke.utils.InventoryUtils;
 

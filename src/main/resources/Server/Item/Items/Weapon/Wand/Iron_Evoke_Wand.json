@@ -72,6 +72,18 @@
         }
       ]
     },
+    "Evoke_Wand_Deselection_All_Var": {
+      "Interactions": [
+        {
+          "Type": "EvokeHCSelection",
+          "All": true,
+          "Reverse": true,
+          "MaxDistance": 30,
+          "Next": "Evoke_Wand_Selection_Generic",
+          "Failed": "Evoke_Interact_Fail"
+        }
+      ]
+    },
     "Evoke_Wand_Follow_Var": {
       "Interactions": [
         {

@@ -18,32 +18,48 @@ import com.lexem.hexcodeevoke.components.HexCreatureComponent;
 import org.joml.Vector3d;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.Objects;
 import java.util.UUID;
 
-public class DespawnHCUtils {
-    private final Ref<EntityStore> npcRef;
+public final class HexCreatureDespawner {
     private final Store<EntityStore> store;
+    private final Ref<EntityStore> npcRef;
     private final ComponentAccessor<EntityStore> commandBuffer;
     private final boolean dropHexItem;
 
     private static final HytaleLogger LOGGER = HytaleLogger.forEnclosingClass();
 
-    public DespawnHCUtils(@Nonnull Store<EntityStore> store, @Nonnull Ref<EntityStore> npcRef, @Nonnull ComponentAccessor<EntityStore> commandBuffer, boolean dropHexItem) {
-        this.store = store;
-        this.npcRef = npcRef;
-        this.commandBuffer = commandBuffer;
+    public static void despawn(
+            @Nonnull Store<EntityStore> store,
+            @Nonnull Ref<EntityStore> npcRef,
+            @Nonnull ComponentAccessor<EntityStore> commandBuffer
+    ) {
+        new HexCreatureDespawner(store, npcRef, commandBuffer, false).run();
+    }
+
+    public static void despawn(
+            @Nonnull Store<EntityStore> store,
+            @Nonnull Ref<EntityStore> npcRef,
+            @Nonnull ComponentAccessor<EntityStore> commandBuffer,
+            boolean dropHexItem
+    ) {
+        new HexCreatureDespawner(store, npcRef, commandBuffer, dropHexItem).run();
+    }
+
+    private HexCreatureDespawner(
+             @Nonnull Store<EntityStore> store,
+             @Nonnull Ref<EntityStore> npcRef,
+             @Nonnull ComponentAccessor<EntityStore> commandBuffer,
+             boolean dropHexItem
+    ) {
+        this.store = Objects.requireNonNull(store, "store");
+        this.npcRef = Objects.requireNonNull(npcRef, "npcRef");
+        this.commandBuffer = Objects.requireNonNull(commandBuffer, "commandBuffer");
         this.dropHexItem = dropHexItem;
     }
 
-    public DespawnHCUtils(@Nonnull Store<EntityStore> store, @Nonnull Ref<EntityStore> npcRef, @Nonnull ComponentAccessor<EntityStore> commandBuffer) {
-        this.store = store;
-        this.npcRef = npcRef;
-        this.commandBuffer = commandBuffer;
-        this.dropHexItem = false;
-    }
-
-    public void despawnHexCreature() {
+    private void run() {
         NPCEntity npcComponent = store.getComponent(npcRef, Objects.requireNonNull(NPCEntity.getComponentType()));
         if (npcComponent == null) return;
 
@@ -51,12 +67,13 @@ public class DespawnHCUtils {
         dropAllInventoryItems();
 
         DropItemsUtils.spawnDeathParticleEffect(npcRef, 0, store);
-        deleteHexCreatureUUIDFromEvoker();
+        deleteHexCreatureFromEvoker();
         npcComponent.setToDespawn();
     }
 
     private void dropAllInventoryItems() {
         CombinedItemContainer everythingInventoryComponent = InventoryComponent.getCombined(store, npcRef, InventoryComponent.EVERYTHING);
+
         for (short i = 0; i < everythingInventoryComponent.getCapacity(); i++) {
             ItemStack itemStack = everythingInventoryComponent.getItemStack(i);
             if (itemStack != null) {
@@ -71,32 +88,33 @@ public class DespawnHCUtils {
 
     private void dropHCItem(NPCEntity npcComponent) {
         HexCreatureComponent hexCreatureComponent = store.getComponent(npcRef, HexCreatureComponent.getComponentType());
-        if (hexCreatureComponent == null || hexCreatureComponent.getEvokerUUID() == null) { return; }
+        if (hexCreatureComponent == null || hexCreatureComponent.getEvokerUUID() == null) return;
 
         String blockId = hexCreatureComponent.getBlockName();
         ItemStack hexDropItem = InventoryHelper.createItem(blockId);
-        if (hexDropItem != null) {
-            Role npcRole = npcComponent.getRole();
+        if (hexDropItem == null) return;
 
-            if (dropHexItem || npcRole == null || Objects.equals(npcRole.getDropListId(), "Empty")) {
-                UUID uuid = UUID.fromString(hexCreatureComponent.getEvokerUUID());
-                Ref<EntityStore> refESPlayer = store.getExternalData().getRefFromUUID(uuid);
+        Role npcRole = npcComponent.getRole();
 
-                if (refESPlayer != null) {
-                    Vector3d direction = throwItem(refESPlayer, hexDropItem,  1);
-                    if (direction == null) {
-                        double distance = RandomExtra.randomRange(0.2, 0.4);
-                        throwItem(npcRef, hexDropItem,  distance);
-                    }
-                } else {
+        if (dropHexItem || npcRole == null || Objects.equals(npcRole.getDropListId(), "Empty")) {
+            UUID uuid = UUID.fromString(hexCreatureComponent.getEvokerUUID());
+            Ref<EntityStore> refESPlayer = store.getExternalData().getRefFromUUID(uuid);
+
+            if (refESPlayer != null) {
+                Vector3d direction = throwItem(refESPlayer, hexDropItem,  1);
+                if (direction == null) {
                     double distance = RandomExtra.randomRange(0.2, 0.4);
                     throwItem(npcRef, hexDropItem,  distance);
                 }
+            } else {
+                double distance = RandomExtra.randomRange(0.2, 0.4);
+                throwItem(npcRef, hexDropItem,  distance);
             }
         }
     }
 
-    private Vector3d throwItem(Ref<EntityStore> ref, ItemStack hexDropItem, double distance) {
+    @Nullable
+    private Vector3d throwItem(@Nonnull Ref<EntityStore> ref, @Nonnull ItemStack hexDropItem, double distance) {
         Vector3d direction = DropItemsUtils.newDirection(ref, distance, store);
         if (direction != null) {
             ItemUtils.throwItem(ref, commandBuffer, hexDropItem, direction, 100);
@@ -105,9 +123,9 @@ public class DespawnHCUtils {
         return direction;
     }
 
-    public void deleteHexCreatureUUIDFromEvoker() {
+    private void deleteHexCreatureFromEvoker() {
         HexCreatureComponent hexCreature = store.getComponent(npcRef, HexCreatureComponent.getComponentType());
-        if (hexCreature == null || hexCreature.getEvokerUUID() == null || hexCreature.getUUID() == null) return;
+        if (hexCreature == null || hexCreature.getEvokerUUID() == null) return;
 
         UUID playerUUID = UUID.fromString(hexCreature.getEvokerUUID());
         Ref<EntityStore> playerRef = store.getExternalData().getRefFromUUID(playerUUID);
@@ -116,8 +134,7 @@ public class DespawnHCUtils {
         EvokerComponent evoker = store.getComponent(playerRef, EvokerComponent.getComponentType());
         if (evoker == null) return;
 
-        evoker.removeHexCreatureUUID(hexCreature.getUUID());
-        evoker.removeSelectedHexCreature(hexCreature.getUUID());
+        evoker.removeHexCreature(hexCreature);
+        WandIndicatorUtils.refresh(playerRef, store);
     }
-
 }

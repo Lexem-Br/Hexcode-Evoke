@@ -1,7 +1,7 @@
 {
     "Group": "Lexem",
     "Name": "HexcodeEvoke",
-    "Version": "0.7.0",
+    "Version": "0.7.2",
     "Description": "Bring objects to life.",
     "Authors": [
         {
@@ -20,7 +20,7 @@
         "Hytale:AssetModule": "*"
     },
     "OptionalDependencies": {
-        "Riprod:Hexcode": "^0.10.1",
+        "Riprod:Hexcode": "^0.11.0",
         "Riprod:Patchly": "*"
     },
     "DisabledByDefault": false,

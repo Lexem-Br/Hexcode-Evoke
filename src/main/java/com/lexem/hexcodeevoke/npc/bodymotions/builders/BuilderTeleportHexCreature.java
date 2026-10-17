@@ -8,8 +8,8 @@ import com.hypixel.hytale.server.npc.asset.builder.validators.DoubleRangeValidat
 import com.hypixel.hytale.server.npc.asset.builder.validators.DoubleSequenceValidator;
 import com.hypixel.hytale.server.npc.asset.builder.validators.DoubleSingleValidator;
 import com.hypixel.hytale.server.npc.corecomponents.builders.BuilderBodyMotionBase;
-import com.lexem.hexcodeevoke.npc.bodymotions.BodyMotionTeleportHexCreature;
 import com.hypixel.hytale.server.npc.instructions.BodyMotion;
+import com.lexem.hexcodeevoke.npc.bodymotions.BodyMotionTeleportHexCreature;
 
 import javax.annotation.Nonnull;
 

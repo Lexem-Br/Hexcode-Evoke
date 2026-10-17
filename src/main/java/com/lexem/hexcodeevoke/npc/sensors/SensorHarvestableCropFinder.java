@@ -58,7 +58,7 @@ public class SensorHarvestableCropFinder extends SensorBase {
         );
 
         if (crop != null) {
-            this.positionProvider.setTarget(new Vector3d(crop.x, crop.y, crop.z));
+            this.positionProvider.setTarget(new Vector3d(crop.x + 0.5, crop.y, crop.z + 0.5));
         } else {
             this.positionProvider.clear();
         }

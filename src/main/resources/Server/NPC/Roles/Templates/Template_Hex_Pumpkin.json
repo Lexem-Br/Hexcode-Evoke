@@ -1,5 +1,5 @@
 {
-  "StartState": "Idle",
+  "StartState": "Following",
   "Type": "Generic",
   "Parameters": {
     "Appearance": {
@@ -252,7 +252,7 @@
             {
               "Sensor": {
                 "Type": "Player",
-                "Range": 2,
+                "Range": 2.5,
                 "LockOnTarget": true
               },
               "ActionsBlocking": true,
@@ -545,7 +545,8 @@
           {
             "Actions": [
               {
-                "Type": "Despawn"
+                "Type": "Evoke:DespawnHC",
+                "DropHexItem": true
               }
             ]
           }
