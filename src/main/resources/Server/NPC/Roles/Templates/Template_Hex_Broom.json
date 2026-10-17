@@ -51,7 +51,7 @@
   "MotionControllerList": [
     {
       "Type": "Walk",
-      "MaxWalkSpeed": 5,
+      "MaxWalkSpeed": 3,
       "Gravity": 10,
       "RunThreshold": 0.3,
       "MaxFallSpeed": 15,
@@ -204,7 +204,58 @@
       },
       "Instructions": [
         {
-          "$Comment": "If there are any items in the inventory, store them in a chest",
+          "$Comment": "Store the items in a chest once there is nothing left to pick up nearby or the inventory is full",
+          "Continue": true,
+          "Sensor": {
+            "Type": "And",
+            "Sensors": [
+              {
+                "Type": "Self",
+                "Filters": [
+                  {
+                    "Type": "Inventory",
+                    "Items": [ "*" ]
+                  },
+                  {
+                    "Type": "Evoke:HasChestNearby",
+                    "HorizontalRange": 15,
+                    "VerticalRange": 2
+                  }
+                ]
+              },
+              {
+                "Type": "Or",
+                "Sensors": [
+                  {
+                    "Type": "Not",
+                    "Sensor": {
+                      "Type": "DroppedItem",
+                      "Range": 15,
+                      "Items": [ "*" ]
+                    }
+                  },
+                  {
+                    "Type": "Self",
+                    "Filters": [
+                      {
+                        "Type": "Evoke:IsInventoryFull",
+                        "Inventories": [ "Hotbar", "Storage" ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          "Actions": [
+            {
+              "Type": "State",
+              "State": "FindChest"
+            }
+          ]
+        },
+        {
+          "$Comment": "Stops collecting after a while and stores what was collected, in case an item cannot be reached",
           "Continue": true,
           "Sensor": {
             "Type": "Self",
@@ -222,8 +273,12 @@
           },
           "Actions": [
             {
-              "Type": "State",
-              "State": "FindChest"
+              "Type": "Timeout",
+              "Delay": [10, 10],
+              "Action": {
+                "Type": "State",
+                "State": "FindChest"
+              }
             }
           ]
         },
@@ -247,7 +302,8 @@
               {
                 "Type": "Seek",
                 "SlowDownDistance": 0.5,
-                "StopDistance": 0.5
+                "StopDistance": 0.5,
+                "RecomputeDistance": 1
               }
             ]
           },
@@ -336,7 +392,7 @@
                 "Filters": [
                   {
                     "Type": "Evoke:HasChestNearby",
-                    "HorizontalRange": 15,
+                    "HorizontalRange": 30,
                     "VerticalRange": 2
                   }
                 ]

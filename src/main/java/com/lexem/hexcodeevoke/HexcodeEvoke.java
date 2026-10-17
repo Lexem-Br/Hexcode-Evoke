@@ -229,6 +229,7 @@ public class HexcodeEvoke extends JavaPlugin {
         this.getCodecRegistry(Interaction.CODEC).register("Evoke:Summon", SummonInteraction.class, SummonInteraction.CODEC);
         this.getCodecRegistry(Interaction.CODEC).register("Evoke:IsHoldingCondition", IsHoldingConditionInteraction.class, IsHoldingConditionInteraction.CODEC);
         this.getCodecRegistry(Interaction.CODEC).register("Evoke:SendMessage", SendMessageInteraction.class, SendMessageInteraction.CODEC);
+        this.getCodecRegistry(Interaction.CODEC).register("Evoke:MainHandReplace", MainHandReplaceInteraction.class, MainHandReplaceInteraction.CODEC);
     }
 
     @Override

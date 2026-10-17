@@ -48,7 +48,7 @@
   "MotionControllerList": [
     {
       "Type": "Walk",
-      "MaxWalkSpeed": 10,
+      "MaxWalkSpeed": 8,
       "Gravity": 10,
       "RunThreshold": 0.3,
       "MaxFallSpeed": 15,
