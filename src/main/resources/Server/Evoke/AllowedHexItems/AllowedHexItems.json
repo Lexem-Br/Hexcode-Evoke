@@ -32,8 +32,9 @@
       "HasHotbarSlot": true
     },
     {
-      "BlockId": "Chest_Spider_Block",
-      "EntityId": "Chest_Spider"
+      "BlockId": "Furniture_Tavern_Chest_Small",
+      "EntityId": "Chest_Spider",
+      "EssenceCost": 200
     },
     {
       "BlockId": "Deco_Halloween_Pumpkin_Scary",

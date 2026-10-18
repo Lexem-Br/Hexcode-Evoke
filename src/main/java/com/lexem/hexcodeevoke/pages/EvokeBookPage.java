@@ -233,7 +233,7 @@ public class EvokeBookPage extends InteractiveCustomUIPage<EvokeBookPage.EvokeBo
 
                         Ref<EntityStore> npcRef = store.getExternalData().getRefFromUUID(npcUUID);
                         if (npcRef != null && npcRef.isValid()) {
-                            HexCreatureDespawner.despawn(store, npcRef, store, true);
+                            HexCreatureDespawner.despawnFromEvokeBook(store, npcRef, store);
                         } else {
                             UnloadedHexCreatureDespawner.despawn(data.uuid);
                         }

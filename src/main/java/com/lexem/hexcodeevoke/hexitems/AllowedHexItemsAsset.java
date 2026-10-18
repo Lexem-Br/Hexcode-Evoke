@@ -13,6 +13,7 @@ import com.hypixel.hytale.codec.builder.BuilderCodec;
 import com.hypixel.hytale.codec.codecs.array.ArrayCodec;
 import com.hypixel.hytale.codec.validation.ValidatorCache;
 import com.hypixel.hytale.codec.validation.Validators;
+import com.hypixel.hytale.server.core.asset.type.blocktype.config.BlockType;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -136,7 +137,13 @@ public class AllowedHexItemsAsset implements JsonAssetWithMap<String, DefaultAss
 
     @Nullable
     public static HexItem getByBlockId(@Nonnull String blockId) {
-        return getLookup().byBlockId().get(blockId);
+        HexItem item = getLookup().byBlockId().get(blockId);
+        if (item != null) return item;
+
+        BlockType blockType = BlockType.getAssetMap().getAsset(blockId);
+        String baseBlockId = blockType != null ? blockType.getDefaultStateKey() : null;
+        if (baseBlockId == null || baseBlockId.equals(blockId)) return null;
+        return getLookup().byBlockId().get(baseBlockId);
     }
 
     @Nullable

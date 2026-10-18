@@ -57,13 +57,17 @@ public class DropItemsUtils {
             Vector3d particlePos = new Vector3d(transformComponent.getPosition());
             particlePos.add(0.0F, eyeHeight, 0.0F).add(direction);
 
-            SpatialResource<Ref<EntityStore>, EntityStore> playerSpatialResource = store.getResource(
-                    EntityModule.get().getPlayerSpatialResourceType()
-            );
-            List<Ref<EntityStore>> results = SpatialResource.getThreadLocalReferenceList();
-            playerSpatialResource.getSpatialStructure().collect(particlePos, 75.0, results);
-            ParticleUtil.spawnParticleEffect("Effect_Death", particlePos, results, store);
+            spawnDeathParticleEffectAt(particlePos, store);
         }
+    }
+
+    public static void spawnDeathParticleEffectAt(@Nonnull Vector3d particlePos, Store<EntityStore> store) {
+        SpatialResource<Ref<EntityStore>, EntityStore> playerSpatialResource = store.getResource(
+                EntityModule.get().getPlayerSpatialResourceType()
+        );
+        List<Ref<EntityStore>> results = SpatialResource.getThreadLocalReferenceList();
+        playerSpatialResource.getSpatialStructure().collect(particlePos, 75.0, results);
+        ParticleUtil.spawnParticleEffect("Effect_Death", particlePos, results, store);
     }
 
     public static Vector3d newDirection(@Nonnull Ref<EntityStore> ref, double distance, Store<EntityStore> store) {

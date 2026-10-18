@@ -8,10 +8,8 @@ import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.component.RemoveReason;
 import com.hypixel.hytale.component.Store;
 import com.hypixel.hytale.logger.HytaleLogger;
-import com.hypixel.hytale.math.util.ChunkUtil;
 import com.hypixel.hytale.math.vector.Rotation3f;
 import com.hypixel.hytale.protocol.ItemArmorSlot;
-import com.hypixel.hytale.server.core.asset.type.blocktype.config.BlockType;
 import com.hypixel.hytale.server.core.asset.type.blocktype.config.RotationTuple;
 import com.hypixel.hytale.server.core.asset.type.item.config.Item;
 import com.hypixel.hytale.server.core.asset.type.item.config.ItemArmor;
@@ -26,7 +24,6 @@ import com.hypixel.hytale.server.core.inventory.ItemStack;
 import com.hypixel.hytale.server.core.inventory.container.ItemContainer;
 import com.hypixel.hytale.server.core.inventory.container.SimpleItemContainer;
 import com.hypixel.hytale.server.core.inventory.transaction.ItemStackSlotTransaction;
-import com.hypixel.hytale.server.core.modules.block.BlockEntity;
 import com.hypixel.hytale.server.core.modules.block.BlockModule;
 import com.hypixel.hytale.server.core.modules.entity.component.HeadRotation;
 import com.hypixel.hytale.server.core.modules.entity.component.Intangible;
@@ -36,7 +33,6 @@ import com.hypixel.hytale.server.core.modules.entity.component.TransformComponen
 import com.hypixel.hytale.server.core.modules.entity.item.ItemComponent;
 import com.hypixel.hytale.server.core.modules.entity.tracker.NetworkId;
 import com.hypixel.hytale.server.core.universe.world.World;
-import com.hypixel.hytale.server.core.universe.world.chunk.section.BlockComponentSection;
 import com.hypixel.hytale.server.core.universe.world.chunk.section.BlockSection;
 import com.hypixel.hytale.server.core.universe.world.storage.ChunkStore;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
@@ -59,24 +55,7 @@ public final class MannequinArmorUtils {
 
     @Nullable
     public static Ref<ChunkStore> getBlockRef(@Nonnull World world, @Nonnull Vector3i pos, boolean create) {
-        Store<ChunkStore> chunkStore = world.getChunkStore().getStore();
-        Ref<ChunkStore> section = world.getChunkStore().getChunkSectionReferenceAtBlock(pos.x, pos.y, pos.z);
-        if (section == null || !section.isValid()) return null;
-
-        BlockSection blockSection = chunkStore.getComponent(section, BlockSection.getComponentType());
-        BlockComponentSection blockComponentSection = chunkStore.getComponent(section, BlockComponentSection.getComponentType());
-        if (blockSection == null || blockComponentSection == null) return null;
-
-        int blockIndex = ChunkUtil.indexBlock(pos.x, pos.y, pos.z);
-        Ref<ChunkStore> blockRef = blockComponentSection.getBlockReference(blockIndex);
-        if (blockRef != null && blockRef.isValid()) return blockRef;
-        if (!create) return null;
-
-        BlockType blockType = BlockType.getAssetMap().getAsset(blockSection.get(blockIndex));
-        if (blockType == null || !BlockEntity.declaresComponent(blockType, MannequinArmorComponent.getComponentType())) return null;
-
-        blockRef = BlockEntity.ensureBlockEntity(chunkStore, section, blockComponentSection, pos.x, pos.y, pos.z, blockType, blockSection.getFiller(blockIndex));
-        return blockRef != null && blockRef.isValid() ? blockRef : null;
+        return BlockUtils.getBlockEntityRef(world, pos, create ? MannequinArmorComponent.getComponentType() : null);
     }
 
     public static boolean use(@Nonnull World world, @Nonnull ComponentAccessor<EntityStore> accessor, @Nonnull InteractionContext context, @Nonnull Vector3i pos) {
@@ -155,6 +134,64 @@ public final class MannequinArmorUtils {
         if (item.getWeapon() == null || item.getModel() == null) return false;
         item.getUtility();
         return item.getUtility().isCompatible();
+    }
+
+    public static void storeHexCreatureEquipment(
+            @Nonnull World world,
+            @Nonnull Vector3i pos,
+            @Nonnull Store<EntityStore> store,
+            @Nonnull Ref<EntityStore> npcRef
+    ) {
+        Ref<ChunkStore> blockRef = getBlockRef(world, pos, true);
+        if (blockRef == null) return;
+
+        Store<ChunkStore> chunkStore = world.getChunkStore().getStore();
+        MannequinArmorComponent mannequin = chunkStore.getComponent(blockRef, MannequinArmorComponent.getComponentType());
+        if (mannequin == null) return;
+
+        InventoryComponent.Armor armor = store.getComponent(npcRef, InventoryComponent.Armor.getComponentType());
+        InventoryComponent.Hotbar hotbar = store.getComponent(npcRef, InventoryComponent.Hotbar.getComponentType());
+
+        boolean stored = false;
+        if (armor != null) {
+            ItemContainer armorInventory = armor.getInventory();
+            for (ItemArmorSlot slot : ItemArmorSlot.VALUES) {
+                short index = (short) slot.ordinal();
+                if (index >= armorInventory.getCapacity()) continue;
+
+                ItemStack stack = armorInventory.getItemStack(index);
+                if (!fitsArmorSlot(stack, slot) || mannequin.getItem(slot) != null) continue;
+
+                mannequin.setItem(slot, stack);
+                armorInventory.removeItemStackFromSlot(index);
+                stored = true;
+            }
+        }
+
+        if (hotbar != null && hotbar.getInventory().getCapacity() > 0) {
+            ItemContainer hotbarInventory = hotbar.getInventory();
+            ItemStack stack = hotbarInventory.getItemStack((short) 0);
+            if (!ItemStack.isEmpty(stack) && stack.getItem() != null && isOneHandedWeapon(stack.getItem())
+                    && mannequin.getRightHandItem() == null) {
+                mannequin.setRightHandItem(stack.withQuantity(1));
+                if (stack.getQuantity() > 1) {
+                    hotbarInventory.setItemStackForSlot((short) 0, stack.withQuantity(stack.getQuantity() - 1));
+                } else {
+                    hotbarInventory.removeItemStackFromSlot((short) 0);
+                }
+                stored = true;
+            }
+        }
+
+        if (!stored) return;
+        markNeedsSaving(chunkStore, blockRef);
+        requestSync(world, blockRef);
+    }
+
+    private static boolean fitsArmorSlot(@Nullable ItemStack stack, @Nonnull ItemArmorSlot slot) {
+        if (ItemStack.isEmpty(stack) || stack.getItem() == null) return false;
+        ItemArmor armor = stack.getItem().getArmor();
+        return armor != null && armor.getArmorSlot() == slot;
     }
 
     public static void transferToHexCreature(
