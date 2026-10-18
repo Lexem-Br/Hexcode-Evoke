@@ -33,6 +33,7 @@ import com.lexem.hexcodeevoke.npc.filters.builders.*;
 import com.lexem.hexcodeevoke.npc.sensors.builders.*;
 import com.lexem.hexcodeevoke.resources.HexCreatureRegistry;
 import com.lexem.hexcodeevoke.systems.HexCreatureComponentsSystem;
+import com.lexem.hexcodeevoke.systems.HexCreaturePickupSystem;
 import com.lexem.hexcodeevoke.systems.HexCreatureRevocationSystem;
 import com.lexem.hexcodeevoke.systems.HexCreatureStateRestoreSystem;
 import com.lexem.hexcodeevoke.systems.HexCreatureStateSaveSystem;
@@ -204,6 +205,7 @@ public class HexcodeEvoke extends JavaPlugin {
         registery.registerSystem(new HexCreatureTrackingSystem());
         registery.registerSystem(new HexCreatureStateSaveSystem());
         registery.registerSystem(new HexCreatureStateRestoreSystem());
+        registery.registerSystem(new HexCreaturePickupSystem());
 
         HexCreatureRegistry.setResourceType(Universe.registerResource(
                 HexCreatureRegistry.class,

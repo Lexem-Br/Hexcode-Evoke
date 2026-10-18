@@ -6,7 +6,6 @@ import com.hypixel.hytale.component.Store;
 import com.hypixel.hytale.math.util.ChunkUtil;
 import com.hypixel.hytale.server.core.asset.type.blocktype.config.BlockType;
 import com.hypixel.hytale.server.core.asset.type.blocktype.config.HarvestingDropType;
-import com.hypixel.hytale.server.core.asset.type.blocktype.config.farming.FarmingData;
 import com.hypixel.hytale.server.core.inventory.InventoryComponent;
 import com.hypixel.hytale.server.core.inventory.ItemStack;
 import com.hypixel.hytale.server.core.universe.world.World;
@@ -57,9 +56,6 @@ public class ActionHarvestCrop extends ActionBase {
 
         BlockType blockType = BlockUtils.getBlockTypeByPosition(blockPosition, world);
         if (blockType == null || blockType.getId() == null || blockType.getGathering() == null) return false;
-
-        FarmingData farmingData = blockType.getFarming();
-        if (farmingData == null || farmingData.getStages() == null) return false;
 
         HarvestingDropType harvestingDropType = blockType.getGathering().getHarvest();
         if (harvestingDropType == null) return false;

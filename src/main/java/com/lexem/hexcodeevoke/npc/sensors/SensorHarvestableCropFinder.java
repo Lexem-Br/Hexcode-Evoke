@@ -3,9 +3,6 @@ package com.lexem.hexcodeevoke.npc.sensors;
 import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.component.Store;
 import com.hypixel.hytale.logger.HytaleLogger;
-import com.hypixel.hytale.server.core.asset.type.blocktype.config.BlockType;
-import com.hypixel.hytale.server.core.asset.type.blocktype.config.HarvestingDropType;
-import com.hypixel.hytale.server.core.asset.type.blocktype.config.farming.FarmingData;
 import com.hypixel.hytale.server.core.modules.entity.component.TransformComponent;
 import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
@@ -15,16 +12,18 @@ import com.hypixel.hytale.server.npc.instructions.ExecutionSupport;
 import com.hypixel.hytale.server.npc.sensorinfo.InfoProvider;
 import com.hypixel.hytale.server.npc.sensorinfo.PositionProvider;
 import com.lexem.hexcodeevoke.npc.sensors.builders.BuilderSensorHarvestableCropFinder;
-import com.lexem.hexcodeevoke.utils.BlockUtils;
+import com.lexem.hexcodeevoke.utils.CropUtils;
 import com.lexem.hexcodeevoke.utils.FinderUtils;
 import org.joml.Vector3d;
 import org.joml.Vector3i;
 
 import javax.annotation.Nonnull;
+import java.util.List;
 
 public class SensorHarvestableCropFinder extends SensorBase {
     private final double horizontalRange;
     private final double verticalRange;
+    private final List<String> soilBlocks;
     protected boolean wasSteering = false;
     private final PositionProvider positionProvider = new PositionProvider();
     private static final HytaleLogger LOGGER = HytaleLogger.forEnclosingClass();
@@ -33,6 +32,8 @@ public class SensorHarvestableCropFinder extends SensorBase {
         super(builder);
         this.horizontalRange = builder.getHorizontalRange(support);
         this.verticalRange = builder.getVerticalRange(support);
+        String[] soils = builder.getSoilBlocks(support);
+        this.soilBlocks = soils != null && soils.length > 0 ? List.of(soils) : null;
     }
 
     @Override
@@ -66,20 +67,11 @@ public class SensorHarvestableCropFinder extends SensorBase {
         return crop != null;
     }
 
-    private final FinderUtils.BlockValidator<World> cropValidator = (block, world) -> {
-        BlockType blockType = BlockUtils.getBlockTypeByPosition(block, world);
-        if (blockType == null || blockType.getId() == null || blockType.getGathering() == null) {
-            return false;
-        }
+    private final FinderUtils.BlockValidator<World> cropValidator = this::isHarvestableCrop;
 
-        FarmingData farmingData = blockType.getFarming();
-        if (farmingData != null && farmingData.getStages() != null) {
-            HarvestingDropType harvestingDropType = blockType.getGathering().getHarvest();
-            return harvestingDropType != null;
-        }
-
-        return false;
-    };
+    private boolean isHarvestableCrop(@Nonnull Vector3i block, @Nonnull World world) {
+        return CropUtils.isHarvestableCrop(block, world, soilBlocks);
+    }
 
     public InfoProvider getSensorInfo() { return this.positionProvider; }
 }

@@ -26,7 +26,7 @@
         "BodyMotion": {
           "Type": "Seek",
           "SlowDownDistance": 2.0,
-          "StopDistance": 1.0,
+          "StopDistance": 1.3,
           "RelativeSpeed": 0.5
         }
       },

@@ -19,6 +19,7 @@ public class BuilderFilterHasItemsOnInventory extends BuilderEntityFilterBase {
    private static final String[] DEFAULT_INVENTORIES = new String[]{"Hotbar", "Storage"};
 
    protected final AssetArrayHolder inventoryTypes = new AssetArrayHolder();
+   protected boolean skipHotbarSlotZero;
 
    public BuilderFilterHasItemsOnInventory() {}
 
@@ -53,6 +54,15 @@ public class BuilderFilterHasItemsOnInventory extends BuilderEntityFilterBase {
               "A set of inventory types to check",
               "A set of inventory types to check (Armor, Hotbar, Storage, Utility, Tool, Backpack). Defaults to Hotbar and Storage"
       );
+      this.getBoolean(
+              data,
+              "SkipHotbarSlotZero",
+              b -> this.skipHotbarSlotZero = b,
+              false,
+              BuilderDescriptorState.Stable,
+              "Whether the NPC's hotbar slot 0 should be ignored.",
+              null
+      );
       return this;
    }
 
@@ -65,5 +75,9 @@ public class BuilderFilterHasItemsOnInventory extends BuilderEntityFilterBase {
    @Nullable
    public String[] getInventoryTypes(@Nonnull BuilderSupport support) {
       return this.inventoryTypes.get(support.getExecutionContext());
+   }
+
+   public boolean getSkipHotbarSlotZero() {
+      return this.skipHotbarSlotZero;
    }
 }
