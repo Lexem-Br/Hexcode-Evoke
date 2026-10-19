@@ -131,6 +131,7 @@ public class HexcodeEvoke extends JavaPlugin {
         npcPlugin.registerCoreComponentType("Evoke:HarvestCrop", BuilderActionHarvestCrop::new);
         npcPlugin.registerCoreComponentType("Evoke:StoreItems", BuilderActionStoreItems::new);
         npcPlugin.registerCoreComponentType("Evoke:WaterSoil", BuilderActionWaterSoil::new);
+        npcPlugin.registerCoreComponentType("Evoke:FertilizeSoil", BuilderActionFertilizeSoil::new);
         npcPlugin.registerCoreComponentType("Evoke:SpawnMinion", BuilderActionSpawnMinion::new);
         npcPlugin.registerCoreComponentType("Evoke:CreateTasks", BuilderActionCreateTasks::new);
         npcPlugin.registerCoreComponentType("Evoke:AnalyzeChest", BuilderActionAnalyzeChest::new);
@@ -153,6 +154,7 @@ public class HexcodeEvoke extends JavaPlugin {
         npcPlugin.registerCoreComponentType("Evoke:IsEvoker", BuilderFilterIsEvoker::new);
         npcPlugin.registerCoreComponentType("Evoke:HasHarvestableCrop", BuilderFilterHasHarvestableCrop::new);
         npcPlugin.registerCoreComponentType("Evoke:HasWettableSoil", BuilderFilterHasWettableSoil::new);
+        npcPlugin.registerCoreComponentType("Evoke:HasFertilizableSoil", BuilderFilterHasFertilizableSoil::new);
         npcPlugin.registerCoreComponentType("Evoke:HasChestNearby", BuilderFilterHasChestNearby::new);
         npcPlugin.registerCoreComponentType("Evoke:NeedsMoreMinions", BuilderFilterNeedsMoreMinions::new);
         npcPlugin.registerCoreComponentType("Evoke:HasItemsOnInventory", BuilderFilterHasItemsOnInventory::new);
@@ -171,6 +173,7 @@ public class HexcodeEvoke extends JavaPlugin {
         npcPlugin.registerCoreComponentType("Evoke:HarvestableCropFinder", BuilderSensorHarvestableCropFinder::new);
         npcPlugin.registerCoreComponentType("Evoke:ChestFinder", BuilderSensorChestFinder::new);
         npcPlugin.registerCoreComponentType("Evoke:WettableSoilFinder", BuilderSensorWettableSoilFinder::new);
+        npcPlugin.registerCoreComponentType("Evoke:FertilizableSoilFinder", BuilderSensorFertilizableSoilFinder::new);
         npcPlugin.registerCoreComponentType("Evoke:SearchChestTaskPosition", BuilderSensorSearchChestTaskPosition::new);
     }
 

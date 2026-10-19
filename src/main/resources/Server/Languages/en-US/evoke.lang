@@ -12,7 +12,7 @@ items.Weapon.Wand.Evoke_Wand_Iron.name=Iron Evoke Wand
 items.Weapon.Wand.Evoke_Wand_Iron.description=<color is="#8888ff"><b>6</b></color> <color is="#aaaaaa">Selection</color> - <color is="#ffcc00"><b>30</b></color> <color is="#aaaaaa">Distance</color>\n\n<b>Give orders to the Hex Creatures</b>\n\n<b>Primary</b> to select the Hex Creature or to send them to a location and have them stay there\n<b>Charged Primary</b> to select all Hex Creature\n<b>Secondary</b>to deselect the Hex creature or make it follow you\n<b>Charged Secondary</b> to deselect all Hex Creatures\n\nArt by: Gwentor
 
 items.HexItems.Hex_Mannequin.name=Hex Mannequin
-items.HexItems.Hex_Mannequin.description=Give him one of the following items:\n- <b>Sickle</b>: Harvests crops and stores them in the nearest chest\n- <b>Watering Can</b>: Waters dry soil\n- <b>Torch</b>: Lights the way
+items.HexItems.Hex_Mannequin.description=Give him one of the following items:\n- <b>Sickle</b>: Harvests crops and stores them in the nearest chest\n- <b>Watering Can</b>: Waters dry soil\n- <b>Fertilizer Bag</b>: Fertilizes the soil of growing crops\n- <b>Torch</b>: Lights the way
 items.HexItems.Hex_Fairy.name=Hex Fairy
 items.HexItems.Hex_Fairy_Void.name=Hex Fairy Void
 items.HexItems.Hex_Fairy_Ice.name=Hex Fairy Ice

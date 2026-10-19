@@ -334,6 +334,29 @@
               ]
             },
             {
+              "$Comment": "Checks if you are holding a fertilizer and if has soil to fertilize",
+              "Sensor": {
+                "Type": "Self",
+                "Filters": [
+                  {
+                    "Type": "ItemInHand",
+                    "Items": [ "Tool_Fertilizer" ]
+                  },
+                  {
+                    "Type": "Evoke:HasFertilizableSoil",
+                    "HorizontalRange": 10,
+                    "VerticalRange": 3
+                  }
+                ]
+              },
+              "Actions": [
+                {
+                  "Type": "State",
+                  "State": ".Fertilize"
+                }
+              ]
+            },
+            {
               "$Comment": "Returns to standby mode",
               "Sensor": {
                 "Type": "Any"
@@ -386,6 +409,21 @@
           "Instructions": [
             {
               "Reference": "Component_Evoke_Water",
+              "Modify": {
+                "_ExportStates": ["SeekPosition"]
+              }
+            }
+          ]
+        },
+        {
+          "$Comment": "Search for soil to fertilize",
+          "Sensor": {
+            "Type": "State",
+            "State": ".Fertilize"
+          },
+          "Instructions": [
+            {
+              "Reference": "Component_Evoke_Fertilize",
               "Modify": {
                 "_ExportStates": ["SeekPosition"]
               }
