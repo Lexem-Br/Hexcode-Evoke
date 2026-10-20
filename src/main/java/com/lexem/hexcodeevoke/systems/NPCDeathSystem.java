@@ -48,7 +48,7 @@ public class NPCDeathSystem extends DeathSystems.OnDeathSystem{
             EvokerComponent evoker = store.getComponent(playerRef, EvokerComponent.getComponentType());
             if (evoker == null || !evoker.hexCreatureBelongsToPlayer(hexCreatureComponent.getUUID())) return;
 
-            HexCreatureDespawner.despawn(store, ref, store);
+            HexCreatureDespawner.despawn(store, ref, commandBuffer);
         }
     }
 

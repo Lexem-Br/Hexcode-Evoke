@@ -1,0 +1,9 @@
+{
+  "Spawners": [
+    {
+      "SpawnerId": "Evoke_Fairy_Dust"
+    }
+  ],
+  "$Comment": "White dust trailing the Hex Fairies",
+  "CullDistance": 50
+}

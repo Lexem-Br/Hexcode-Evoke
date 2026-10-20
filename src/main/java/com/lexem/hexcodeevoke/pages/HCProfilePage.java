@@ -9,6 +9,7 @@ import com.hypixel.hytale.logger.HytaleLogger;
 import com.hypixel.hytale.protocol.packets.interface_.CustomPageLifetime;
 import com.hypixel.hytale.protocol.packets.interface_.CustomUIEventBindingType;
 import com.hypixel.hytale.protocol.packets.interface_.Page;
+import com.hypixel.hytale.server.core.entity.UUIDComponent;
 import com.hypixel.hytale.server.core.entity.entities.Player;
 import com.hypixel.hytale.server.core.entity.entities.player.pages.InteractiveCustomUIPage;
 import com.hypixel.hytale.server.core.inventory.InventoryComponent;
@@ -179,7 +180,7 @@ public class HCProfilePage extends InteractiveCustomUIPage<HCProfilePage.HCProfi
             commandBuilder.set("#HCName.Text", hexCreatureComponent.getName());
 
             String uuidString = hexCreatureComponent.getEvokerUUID();
-            Ref<EntityStore> evokerRef = store.getExternalData().getRefFromUUID(UUID.fromString(uuidString));
+            Ref<EntityStore> evokerRef = uuidString != null ? store.getExternalData().getRefFromUUID(UUID.fromString(uuidString)) : null;
             if (evokerRef != null) {
                 PlayerRef playerRef = store.getComponent(evokerRef, PlayerRef.getComponentType());
                 if (playerRef != null) {
@@ -228,7 +229,11 @@ public class HCProfilePage extends InteractiveCustomUIPage<HCProfilePage.HCProfi
             String itemQuantity = String.valueOf(itemContext.getItemStack().getQuantity());
             if (itemId != null && !itemId.isEmpty()) {
                 commandBuilder.set(selector + " #OutputSlot.ItemId", itemId);
-                commandBuilder.set(selector + " #OutputQuantity.Text", itemQuantity);
+                if (itemStack.isUnbreakable()) {
+                    commandBuilder.set(selector + " #OutputQuantity.Text", itemQuantity);
+                } else {
+                    bindDurability(selector, itemStack);
+                }
             }
             if (this.selectedPlayerSlot.equals(selector)) {
                 this.selectedPlayerItemContext = new ItemData(itemContainer, slot, itemStack);
@@ -264,6 +269,24 @@ public class HCProfilePage extends InteractiveCustomUIPage<HCProfilePage.HCProfi
                         .append("IsPlayerSelector", String.valueOf(isPlayerSelector)),
                 false
         );
+    }
+
+    private void bindDurability(String selector, ItemStack itemStack) {
+        float ratio = (float) Math.max(0.0, Math.min(1.0, itemStack.getDurability() / itemStack.getMaxDurability()));
+
+        String fill;
+        if (ratio > 0.5f) {
+            fill = "#DurabilityFillHigh";
+        } else if (ratio > 0.2f) {
+            fill = "#DurabilityFillMid";
+        } else {
+            fill = "#DurabilityFillLow";
+        }
+
+        commandBuilder.set(selector + " #DurabilityBar.Visible", true);
+        commandBuilder.set(selector + " " + fill + ".Visible", true);
+        commandBuilder.set(selector + " " + fill + ".Value", ratio);
+        commandBuilder.set(selector + " #BrokenOverlay.Visible", itemStack.isBroken());
     }
 
     private void bindNPCArmors() {
@@ -333,20 +356,26 @@ public class HCProfilePage extends InteractiveCustomUIPage<HCProfilePage.HCProfi
     }
 
     private void bindNPCButtons() {
-        if (hexCreatureComponent != null) {
-            UUID uuid = UUID.fromString(hexCreatureComponent.getEvokerUUID());
-            Ref<EntityStore> playerRefByHC = store.getExternalData().getRefFromUUID(uuid);
-
-            if (playerRef.equals(playerRefByHC)) {
-                commandBuilder.set("#DespawnButtonContainer.Visible", true);
-                eventBuilder.addEventBinding(
-                        CustomUIEventBindingType.Activating,
-                        "#DespawnButton",
-                        new EventData().append("Action", "Despawn"),
-                        false
-                );
-            }
+        if (isOwner(playerRef, store)) {
+            commandBuilder.set("#DespawnButtonContainer.Visible", true);
+            eventBuilder.addEventBinding(
+                    CustomUIEventBindingType.Activating,
+                    "#DespawnButton",
+                    new EventData().append("Action", "Despawn"),
+                    false
+            );
         }
+    }
+
+    private boolean isOwner(@Nonnull Ref<EntityStore> viewerRef, @Nonnull Store<EntityStore> store) {
+        if (!npcRef.isValid()) return false;
+
+        HexCreatureComponent hexCreature = store.getComponent(npcRef, HexCreatureComponent.getComponentType());
+        String evokerUUID = hexCreature != null ? hexCreature.getEvokerUUID() : null;
+        if (evokerUUID == null) return false;
+
+        UUIDComponent viewerUUID = store.getComponent(viewerRef, UUIDComponent.getComponentType());
+        return viewerUUID != null && evokerUUID.equals(viewerUUID.getUuid().toString());
     }
 
     private void bindButtons() {
@@ -368,6 +397,8 @@ public class HCProfilePage extends InteractiveCustomUIPage<HCProfilePage.HCProfi
         if (player == null) { return; }
 
         if (data.action != null && data.action.equals("Despawn")) {
+            if (!isOwner(ref, store)) return;
+
             HexCreatureDespawner.despawn(store, npcRef, store, true);
             player.getPageManager().setPage(ref, store, Page.None);
         } else if (data.action != null && data.action.equals("Selector")) {

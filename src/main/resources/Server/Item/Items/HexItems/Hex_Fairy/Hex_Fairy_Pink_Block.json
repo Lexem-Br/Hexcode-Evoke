@@ -1,0 +1,58 @@
+{
+  "Parent": "Hex_Fairy_Block",
+  "TranslationProperties": {
+    "Name": "evoke.items.HexItems.Hex_Fairy_Pink.name"
+  },
+  "Icon": "Icons/ItemsGenerated/Hex_Fairy_Pink_Block.png",
+  "Quality": "Uncommon",
+  "Recipe": {
+    "TimeSeconds": 1,
+    "Input": [
+      {
+        "ItemId": "Ingredient_Life_Essence",
+        "Quantity": 25
+      },
+      {
+        "ItemId": "Ingredient_Crystal_Pink",
+        "Quantity": 10
+      },
+      {
+        "ItemId": "Ingredient_Feathers_Light",
+        "Quantity": 2
+      }
+    ],
+    "BenchRequirement": [
+      {
+        "Id": "Arcanebench",
+        "Categories": [
+          "Arcane_Hexcode_Evoke"
+        ]
+      }
+    ]
+  },
+  "BlockType": {
+    "CustomModelTexture": [
+      {
+        "Texture": "NPC/Hex_Fairy/Models/Textures/Pink.png",
+        "Weight": 1
+      }
+    ],
+    "Gathering": {
+      "Harvest": {
+        "ItemId": "Hex_Fairy_Pink_Block"
+      }
+    }
+  },
+  "IconProperties": {
+    "Scale": 0.58823,
+    "Rotation": [
+      22.5,
+      45,
+      22.5
+    ],
+    "Translation": [
+      7,
+      -15
+    ]
+  }
+}

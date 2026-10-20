@@ -38,7 +38,7 @@
   "SeparationDistance": 1.0,
   "SeparationWeight": 0.6,
   "InventorySize": 0,
-  "HotbarSize": 4,
+  "HotbarSize": 6,
   "OffHandSlots": 1,
   "DefaultOffHandSlot": 0,
   "PickupDropOnDeath": true,
@@ -275,7 +275,7 @@
                   },
                   {
                     "Type": "Evoke:HasChestNearby",
-                    "HorizontalRange": 10,
+                    "HorizontalRange": 15,
                     "VerticalRange": 3
                   }
                 ]
@@ -288,17 +288,17 @@
               ]
             },
             {
-              "$Comment": "Checks if you are holding a sickle and if has harvestable crop",
+              "$Comment": "Checks if you are holding a sickle that is not broken and if has harvestable crop",
               "Sensor": {
                 "Type": "Self",
                 "Filters": [
                   {
-                    "Type": "ItemInHand",
+                    "Type": "Evoke:HasUsableItemInHand",
                     "Items": [ "Tool_Sickle*" ]
                   },
                   {
                     "Type": "Evoke:HasHarvestableCrop",
-                    "HorizontalRange": 10,
+                    "HorizontalRange": 15,
                     "VerticalRange": 3
                   }
                 ]
@@ -311,17 +311,17 @@
               ]
             },
             {
-              "$Comment": "Checks if you are holding a watering can and if has dry soil",
+              "$Comment": "Checks if you are holding a watering can with water and if has dry soil",
               "Sensor": {
                 "Type": "Self",
                 "Filters": [
                   {
-                    "Type": "ItemInHand",
-                    "Items": [ "Tool_Watering_Can" ]
+                    "Type": "Evoke:HasWateringCan",
+                    "Filled": true
                   },
                   {
                     "Type": "Evoke:HasWettableSoil",
-                    "HorizontalRange": 10,
+                    "HorizontalRange": 15,
                     "VerticalRange": 3
                   }
                 ]
@@ -330,6 +330,82 @@
                 {
                   "Type": "State",
                   "State": ".Water"
+                }
+              ]
+            },
+            {
+              "$Comment": "Checks if you are holding an empty watering can, if has dry soil and water nearby to fill it",
+              "Sensor": {
+                "Type": "Self",
+                "Filters": [
+                  {
+                    "Type": "Evoke:HasWateringCan",
+                    "Filled": false
+                  },
+                  {
+                    "Type": "Evoke:HasWettableSoil",
+                    "HorizontalRange": 15,
+                    "VerticalRange": 3
+                  },
+                  {
+                    "Type": "Evoke:HasWaterSourceNearby",
+                    "HorizontalRange": 15,
+                    "VerticalRange": 3
+                  }
+                ]
+              },
+              "Actions": [
+                {
+                  "Type": "State",
+                  "State": ".Water"
+                }
+              ]
+            },
+            {
+              "$Comment": "Checks if you are holding a fertilizer and if has soil to fertilize",
+              "Sensor": {
+                "Type": "Self",
+                "Filters": [
+                  {
+                    "Type": "ItemInHand",
+                    "Items": [ "Tool_Fertilizer" ]
+                  },
+                  {
+                    "Type": "Evoke:HasFertilizableSoil",
+                    "HorizontalRange": 15,
+                    "VerticalRange": 3
+                  }
+                ]
+              },
+              "Actions": [
+                {
+                  "Type": "State",
+                  "State": ".Fertilize"
+                }
+              ]
+            },
+            {
+              "$Comment": "Stores the items when there is no task to do",
+              "Sensor": {
+                "Type": "Self",
+                "Filters": [
+                  {
+                    "Type": "Evoke:HasItemsOnInventory",
+                    "Inventories": ["Hotbar", "Storage"],
+                    "SkipHotbarSlotZero": true
+                  },
+                  {
+                    "Type": "Evoke:HasChestNearby",
+                    "HorizontalRange": 15,
+                    "VerticalRange": 3,
+                    "CheckCanStore": true
+                  }
+                ]
+              },
+              "Actions": [
+                {
+                  "Type": "State",
+                  "State": ".StoreItems"
                 }
               ]
             },
@@ -386,6 +462,21 @@
           "Instructions": [
             {
               "Reference": "Component_Evoke_Water",
+              "Modify": {
+                "_ExportStates": ["SeekPosition"]
+              }
+            }
+          ]
+        },
+        {
+          "$Comment": "Search for soil to fertilize",
+          "Sensor": {
+            "Type": "State",
+            "State": ".Fertilize"
+          },
+          "Instructions": [
+            {
+              "Reference": "Component_Evoke_Fertilize",
               "Modify": {
                 "_ExportStates": ["SeekPosition"]
               }

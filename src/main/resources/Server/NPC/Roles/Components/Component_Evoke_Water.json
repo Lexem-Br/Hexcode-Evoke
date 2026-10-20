@@ -15,7 +15,7 @@
             "Filters": [
               {
                 "Type": "ItemInHand",
-                "Items": [ "Tool_Watering_Can" ]
+                "Items": [ "Tool_Watering_Can", "*Tool_Watering_Can_State_Filled_Water" ]
               }
             ]
           }
@@ -26,6 +26,90 @@
             "State": "Main"
           }
         ]
+      },
+      {
+        "$Comment": "Stops if the watering can is empty and there is no water nearby to fill it",
+        "Sensor": {
+          "Type": "And",
+          "Sensors": [
+            {
+              "Type": "Self",
+              "Filters": [
+                {
+                  "Type": "Evoke:HasWateringCan",
+                  "Filled": false
+                }
+              ]
+            },
+            {
+              "Type": "Not",
+              "Sensor": {
+                "Type": "Evoke:WaterSourceFinder",
+                "HorizontalRange": 10,
+                "VerticalRange": 3
+              }
+            }
+          ]
+        },
+        "Actions": [
+          {
+            "Type": "ParentState",
+            "State": "Main"
+          }
+        ]
+      },
+      {
+        "$Comment": "Fill the empty watering can when close to the water",
+        "Sensor": {
+          "Type": "Evoke:WaterSourceFinder",
+          "HorizontalRange": 2,
+          "VerticalRange": 3
+        },
+        "HeadMotion": {
+          "Type": "Aim",
+          "RelativeTurnSpeed": 1
+        },
+        "ActionsBlocking": true,
+        "Actions": [
+          {
+            "Type": "Timeout",
+            "Delay": [0.4, 0.6],
+            "Action": {
+              "Type": "Sequence",
+              "Actions": [
+                {
+                  "Type": "Evoke:RefillWateringCan"
+                },
+                {
+                  "Type": "PlaySound",
+                  "SoundEventId": "SFX_Water_MoveIn"
+                }
+              ]
+            }
+          },
+          {
+            "Type": "Timeout",
+            "Delay": [0.8, 1.0]
+          }
+        ]
+      },
+      {
+        "$Comment": "Go to the nearest water to fill the empty watering can",
+        "Sensor": {
+          "Type": "Evoke:WaterSourceFinder",
+          "HorizontalRange": 10,
+          "VerticalRange": 3
+        },
+        "BodyMotion": {
+          "Type": "Seek",
+          "SlowDownDistance": 2.0,
+          "StopDistance": 1.5,
+          "RelativeSpeed": 0.5
+        },
+        "HeadMotion": {
+          "Type": "Aim",
+          "RelativeTurnSpeed": 1
+        }
       },
       {
         "$Comment": "Search for dry soil",

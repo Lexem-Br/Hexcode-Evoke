@@ -167,9 +167,6 @@ public class FinderUtils {
         return chestPositions;
     }
 
-    /**
-     * Searches for all chests within the specified range using BFS, without checking storage capacity
-     */
     public static List<Vector3d> findAllChestsInRange(
             Vector3d startPos,
             int horizontalRange,

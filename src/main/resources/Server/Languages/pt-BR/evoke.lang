@@ -12,12 +12,18 @@ items.Weapon.Wand.Evoke_Wand_Iron.name=Varinha de Evocação de Ferro
 items.Weapon.Wand.Evoke_Wand_Iron.description=<color is="#8888ff"><b>6</b></color> <color is="#aaaaaa">Seleção</color> - <color is="#ffcc00"><b>30</b></color> <color is="#aaaaaa">Distância</color>\n\n<b>Dá ordem a criaturas Hex</b>\n\n<b>Ação Primária</b> para selecionar a criatura Hex ou para enviá-la a um local\n<b>Ação Primária Carregada</b> para selecionar todas as criaturas Hex\n<b>Ação Secundária</b> para remover a seleção da criatura Hex ou fazer ela te seguir\n<b>Ação Secundária Carregada</b> Para remover a seleção de todas as criaturas Hex\n\nArte feita por: Gwentor
 
 items.HexItems.Hex_Mannequin.name=Manequim Hex
-items.HexItems.Hex_Mannequin.description=Dê a ele um dos seguintes itens:\n- <b>Foice</b>: Colhe plantações e as armazena no baú mais próximo\n- <b>Regador</b>: Rega o solo seco\n- <b>Tocha</b>: Ilumina o caminho
+items.HexItems.Hex_Mannequin.description=Dê a ele um dos seguintes itens:\n- <b>Foice</b>: Colhe plantações e as armazena no baú mais próximo\n- <b>Regador</b>: Rega o solo seco e enche em água próxima quando esvazia\n- <b>Saco de Fertilizante</b>: Fertiliza o solo das plantações em crescimento\n- <b>Tocha</b>: Ilumina o caminho
 items.HexItems.Hex_Fairy.name=Fada Hex
 items.HexItems.Hex_Fairy_Void.name=Fada do Vazio Hex
-items.HexItems.Hex_Fairy_Ice.name=Fada de Gelo Hex
+items.HexItems.Hex_Fairy_Cyan.name=Fada Ciano Hex
+items.HexItems.Hex_Fairy_Red.name=Fada Vermelha Hex
+items.HexItems.Hex_Fairy_Green.name=Fada Verde Hex
+items.HexItems.Hex_Fairy_Blue.name=Fada Azul Hex
+items.HexItems.Hex_Fairy_Pink.name=Fada Rosa Hex
+items.HexItems.Hex_Fairy_White.name=Fada Branca Hex
+items.HexItems.Hex_Fairy_Purple.name=Fada Roxa Hex
 items.HexItems.Hex_Homunculus.name=Hex Homunculus
-items.HexItems.Hex_Homunculus.description=Dê a ele um dos seguintes itens:\n- <b>Foice</b>: Colhe plantações e as armazena no baú mais próximo\n- <b>Regador</b>: Rega o solo seco\n- <b>Vela</b>: Ilumina o caminho
+items.HexItems.Hex_Homunculus.description=Colhe plantações cultivadas em <b>Terra Cristalizada</b> e as armazena no baú mais próximo\n\nArte feita por: Gwentor
 items.HexItems.Chest_Spider.name=Aranha Baú
 items.HexItems.Chest_Spider.description=<color is="#aaaaaa">Memória dos baús: </color> <color is="#8888ff"><b>128</b></color>\n<color is="#aaaaaa">Distância da visão: </color> <color is="#8888ff"><b>16</b></color>\n<color is="#aaaaaa">Filhotes: </color> <color is="#8888ff"><b>3</b></color>\n\nColoque itens no inventário dela para que sejam armazenados automaticamente em baús.\n\nArte feita por: Gwentor
 items.HexItems.Baby_Chest_Spider.name=Aranha Baú Bebê

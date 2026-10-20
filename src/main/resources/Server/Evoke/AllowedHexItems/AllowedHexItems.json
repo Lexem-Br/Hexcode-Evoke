@@ -20,8 +20,32 @@
       "EntityId": "Hex_Fairy_Void"
     },
     {
-      "BlockId": "Hex_Fairy_Ice_Block",
-      "EntityId": "Hex_Fairy_Ice"
+      "BlockId": "Hex_Fairy_Cyan_Block",
+      "EntityId": "Hex_Fairy_Cyan"
+    },
+    {
+      "BlockId": "Hex_Fairy_Red_Block",
+      "EntityId": "Hex_Fairy_Red"
+    },
+    {
+      "BlockId": "Hex_Fairy_Green_Block",
+      "EntityId": "Hex_Fairy_Green"
+    },
+    {
+      "BlockId": "Hex_Fairy_Blue_Block",
+      "EntityId": "Hex_Fairy_Blue"
+    },
+    {
+      "BlockId": "Hex_Fairy_Pink_Block",
+      "EntityId": "Hex_Fairy_Pink"
+    },
+    {
+      "BlockId": "Hex_Fairy_White_Block",
+      "EntityId": "Hex_Fairy_White"
+    },
+    {
+      "BlockId": "Hex_Fairy_Purple_Block",
+      "EntityId": "Hex_Fairy_Purple"
     },
     {
       "BlockId": "Alive_Homunculus_Jar",
@@ -32,8 +56,9 @@
       "HasHotbarSlot": true
     },
     {
-      "BlockId": "Chest_Spider_Block",
-      "EntityId": "Chest_Spider"
+      "BlockId": "Furniture_Tavern_Chest_Small",
+      "EntityId": "Chest_Spider",
+      "EssenceCost": 200
     },
     {
       "BlockId": "Deco_Halloween_Pumpkin_Scary",

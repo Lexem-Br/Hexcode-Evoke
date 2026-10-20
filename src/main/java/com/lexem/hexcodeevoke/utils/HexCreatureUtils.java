@@ -81,6 +81,9 @@ public class HexCreatureUtils {
                 Pair<Ref<EntityStore>, NPCEntity> npcPair = NPCPlugin.get().spawnEntity(_store, roleIndex, blockVector, blockRotation, null, null);
                 if (npcPair == null) { return; }
 
+                MannequinArmorUtils.transferToHexCreature(world, blockPos, _store, npcPair.first(), blockVector);
+                BlockContainerUtils.transferToHexCreature(world, blockPos, _store, npcPair.first(), blockVector);
+
                 final var chunkStore = world.getChunkStore().getStore();
                 BlockOperations.setBlock(chunkStore.getExternalData(), section, blockPos.x, blockPos.y, blockPos.z, BlockType.EMPTY_ID, BlockType.EMPTY, RotationTuple.NONE_INDEX, FillerBlockUtil.NO_FILLER, SetBlockSettings.NONE);
 

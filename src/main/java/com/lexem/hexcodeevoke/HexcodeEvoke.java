@@ -19,6 +19,7 @@ import com.lexem.hexcodeevoke.commands.EvokerCommand;
 import com.lexem.hexcodeevoke.components.EvokerComponent;
 import com.lexem.hexcodeevoke.components.HexCreatureComponent;
 import com.lexem.hexcodeevoke.components.HexCreatureMinionComponent;
+import com.lexem.hexcodeevoke.components.MannequinArmorComponent;
 import com.lexem.hexcodeevoke.events.SaveHexCreatureEvent;
 import com.lexem.hexcodeevoke.events.SaveHexCreatureMinionEvent;
 import com.lexem.hexcodeevoke.handlers.SaveHexCreatureHandler;
@@ -31,11 +32,14 @@ import com.lexem.hexcodeevoke.npc.bodymotions.builders.BuilderTeleportHexCreatur
 import com.lexem.hexcodeevoke.npc.filters.builders.*;
 import com.lexem.hexcodeevoke.npc.sensors.builders.*;
 import com.lexem.hexcodeevoke.resources.HexCreatureRegistry;
+import com.lexem.hexcodeevoke.systems.HexCreatureClimbStateSystem;
 import com.lexem.hexcodeevoke.systems.HexCreatureComponentsSystem;
+import com.lexem.hexcodeevoke.systems.HexCreaturePickupSystem;
 import com.lexem.hexcodeevoke.systems.HexCreatureRevocationSystem;
 import com.lexem.hexcodeevoke.systems.HexCreatureStateRestoreSystem;
 import com.lexem.hexcodeevoke.systems.HexCreatureStateSaveSystem;
 import com.lexem.hexcodeevoke.systems.HexCreatureTrackingSystem;
+import com.lexem.hexcodeevoke.systems.MannequinArmorSystems;
 import com.lexem.hexcodeevoke.systems.NPCDeathSystem;
 import com.lexem.hexcodeevoke.systems.PlayerJoinSystem;
 import com.riprod.patchly.PatchManager;
@@ -128,6 +132,9 @@ public class HexcodeEvoke extends JavaPlugin {
         npcPlugin.registerCoreComponentType("Evoke:HarvestCrop", BuilderActionHarvestCrop::new);
         npcPlugin.registerCoreComponentType("Evoke:StoreItems", BuilderActionStoreItems::new);
         npcPlugin.registerCoreComponentType("Evoke:WaterSoil", BuilderActionWaterSoil::new);
+        npcPlugin.registerCoreComponentType("Evoke:RefillWateringCan", BuilderActionRefillWateringCan::new);
+        npcPlugin.registerCoreComponentType("Evoke:SetMotionController", BuilderActionSetMotionController::new);
+        npcPlugin.registerCoreComponentType("Evoke:FertilizeSoil", BuilderActionFertilizeSoil::new);
         npcPlugin.registerCoreComponentType("Evoke:SpawnMinion", BuilderActionSpawnMinion::new);
         npcPlugin.registerCoreComponentType("Evoke:CreateTasks", BuilderActionCreateTasks::new);
         npcPlugin.registerCoreComponentType("Evoke:AnalyzeChest", BuilderActionAnalyzeChest::new);
@@ -139,6 +146,7 @@ public class HexcodeEvoke extends JavaPlugin {
         npcPlugin.registerCoreComponentType("Evoke:TransferItemsToTargetNPC", BuilderActionTransferItemsToTargetNPC::new);
         npcPlugin.registerCoreComponentType("Evoke:MinionCreateSearchTasks", BuilderActionMinionCreateSearchTasks::new);
         npcPlugin.registerCoreComponentType("Evoke:DespawnHC", BuilderDespawnHC::new);
+        npcPlugin.registerCoreComponentType("Evoke:Unstuck", BuilderActionUnstuck::new);
     }
 
     private void registerBodyMotions(NPCPlugin npcPlugin) {
@@ -149,7 +157,11 @@ public class HexcodeEvoke extends JavaPlugin {
         npcPlugin.registerCoreComponentType("Evoke:IsInventoryFull", BuilderFilterIsInventoryFull::new);
         npcPlugin.registerCoreComponentType("Evoke:IsEvoker", BuilderFilterIsEvoker::new);
         npcPlugin.registerCoreComponentType("Evoke:HasHarvestableCrop", BuilderFilterHasHarvestableCrop::new);
+        npcPlugin.registerCoreComponentType("Evoke:HasUsableItemInHand", BuilderFilterHasUsableItemInHand::new);
         npcPlugin.registerCoreComponentType("Evoke:HasWettableSoil", BuilderFilterHasWettableSoil::new);
+        npcPlugin.registerCoreComponentType("Evoke:HasWateringCan", BuilderFilterHasWateringCan::new);
+        npcPlugin.registerCoreComponentType("Evoke:HasWaterSourceNearby", BuilderFilterHasWaterSourceNearby::new);
+        npcPlugin.registerCoreComponentType("Evoke:HasFertilizableSoil", BuilderFilterHasFertilizableSoil::new);
         npcPlugin.registerCoreComponentType("Evoke:HasChestNearby", BuilderFilterHasChestNearby::new);
         npcPlugin.registerCoreComponentType("Evoke:NeedsMoreMinions", BuilderFilterNeedsMoreMinions::new);
         npcPlugin.registerCoreComponentType("Evoke:HasItemsOnInventory", BuilderFilterHasItemsOnInventory::new);
@@ -168,7 +180,11 @@ public class HexcodeEvoke extends JavaPlugin {
         npcPlugin.registerCoreComponentType("Evoke:HarvestableCropFinder", BuilderSensorHarvestableCropFinder::new);
         npcPlugin.registerCoreComponentType("Evoke:ChestFinder", BuilderSensorChestFinder::new);
         npcPlugin.registerCoreComponentType("Evoke:WettableSoilFinder", BuilderSensorWettableSoilFinder::new);
+        npcPlugin.registerCoreComponentType("Evoke:WaterSourceFinder", BuilderSensorWaterSourceFinder::new);
+        npcPlugin.registerCoreComponentType("Evoke:EvokerPosition", BuilderSensorEvokerPosition::new);
+        npcPlugin.registerCoreComponentType("Evoke:FertilizableSoilFinder", BuilderSensorFertilizableSoilFinder::new);
         npcPlugin.registerCoreComponentType("Evoke:SearchChestTaskPosition", BuilderSensorSearchChestTaskPosition::new);
+        npcPlugin.registerCoreComponentType("Evoke:IsStuck", BuilderSensorIsStuck::new);
     }
 
     private void registerComponents() {
@@ -202,12 +218,26 @@ public class HexcodeEvoke extends JavaPlugin {
         registery.registerSystem(new HexCreatureTrackingSystem());
         registery.registerSystem(new HexCreatureStateSaveSystem());
         registery.registerSystem(new HexCreatureStateRestoreSystem());
+        registery.registerSystem(new HexCreaturePickupSystem());
+        registery.registerSystem(new HexCreatureClimbStateSystem());
 
         HexCreatureRegistry.setResourceType(Universe.registerResource(
                 HexCreatureRegistry.class,
                 HexCreatureRegistry.ID,
                 HexCreatureRegistry.CODEC
         ));
+
+        var chunkRegistry = getChunkStoreRegistry();
+
+        var mannequinArmorType = chunkRegistry.registerComponent(
+                MannequinArmorComponent.class,
+                MannequinArmorComponent.ID,
+                MannequinArmorComponent.CODEC
+        );
+        MannequinArmorComponent.setComponentType(mannequinArmorType);
+
+        chunkRegistry.registerSystem(new MannequinArmorSystems.Lifecycle());
+        chunkRegistry.registerSystem(new MannequinArmorSystems.Reconcile());
     }
 
     private void registerEvents() {
@@ -230,6 +260,7 @@ public class HexcodeEvoke extends JavaPlugin {
         this.getCodecRegistry(Interaction.CODEC).register("Evoke:IsHoldingCondition", IsHoldingConditionInteraction.class, IsHoldingConditionInteraction.CODEC);
         this.getCodecRegistry(Interaction.CODEC).register("Evoke:SendMessage", SendMessageInteraction.class, SendMessageInteraction.CODEC);
         this.getCodecRegistry(Interaction.CODEC).register("Evoke:MainHandReplace", MainHandReplaceInteraction.class, MainHandReplaceInteraction.CODEC);
+        this.getCodecRegistry(Interaction.CODEC).register("Evoke:MannequinArmor", MannequinArmorInteraction.class, MannequinArmorInteraction.CODEC);
     }
 
     @Override

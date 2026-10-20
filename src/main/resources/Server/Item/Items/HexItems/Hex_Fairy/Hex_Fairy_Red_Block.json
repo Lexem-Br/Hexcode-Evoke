@@ -1,0 +1,58 @@
+{
+  "Parent": "Hex_Fairy_Block",
+  "TranslationProperties": {
+    "Name": "evoke.items.HexItems.Hex_Fairy_Red.name"
+  },
+  "Icon": "Icons/ItemsGenerated/Hex_Fairy_Red_Block.png",
+  "Quality": "Uncommon",
+  "Recipe": {
+    "TimeSeconds": 1,
+    "Input": [
+      {
+        "ItemId": "Ingredient_Life_Essence",
+        "Quantity": 100
+      },
+      {
+        "ItemId": "Ingredient_Crystal_Red",
+        "Quantity": 10
+      },
+      {
+        "ItemId": "Ingredient_Feathers_Light",
+        "Quantity": 2
+      }
+    ],
+    "BenchRequirement": [
+      {
+        "Id": "Arcanebench",
+        "Categories": [
+          "Arcane_Hexcode_Evoke"
+        ]
+      }
+    ]
+  },
+  "BlockType": {
+    "CustomModelTexture": [
+      {
+        "Texture": "NPC/Hex_Fairy/Models/Textures/Red.png",
+        "Weight": 1
+      }
+    ],
+    "Gathering": {
+      "Harvest": {
+        "ItemId": "Hex_Fairy_Red_Block"
+      }
+    }
+  },
+  "IconProperties": {
+    "Scale": 0.58823,
+    "Rotation": [
+      22.5,
+      45,
+      22.5
+    ],
+    "Translation": [
+      7,
+      -15
+    ]
+  }
+}

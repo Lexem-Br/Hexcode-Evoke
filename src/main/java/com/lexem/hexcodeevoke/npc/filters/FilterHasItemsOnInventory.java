@@ -4,7 +4,9 @@ import com.hypixel.hytale.component.ComponentType;
 import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.component.Store;
 import com.hypixel.hytale.server.core.inventory.InventoryComponent;
+import com.hypixel.hytale.server.core.inventory.ItemStack;
 import com.hypixel.hytale.server.core.inventory.container.CombinedItemContainer;
+import com.hypixel.hytale.server.core.inventory.container.ItemContainer;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.hypixel.hytale.server.npc.corecomponents.EntityFilterBase;
 import com.hypixel.hytale.server.npc.asset.builder.BuilderSupport;
@@ -18,6 +20,7 @@ import java.util.List;
 public class FilterHasItemsOnInventory extends EntityFilterBase {
 
     protected final ComponentType<EntityStore, ? extends InventoryComponent>[] inventoryTypes;
+    protected final boolean skipHotbarSlotZero;
 
     @SuppressWarnings("unchecked")
     public FilterHasItemsOnInventory(@Nonnull BuilderFilterHasItemsOnInventory builder, @Nonnull BuilderSupport support) {
@@ -30,6 +33,7 @@ public class FilterHasItemsOnInventory extends EntityFilterBase {
             }
         }
         this.inventoryTypes = types.toArray(new ComponentType[0]);
+        this.skipHotbarSlotZero = builder.getSkipHotbarSlotZero();
     }
 
     @Override
@@ -41,8 +45,23 @@ public class FilterHasItemsOnInventory extends EntityFilterBase {
     ) {
         if (inventoryTypes.length == 0) return false;
 
-        CombinedItemContainer npcContainer = InventoryComponent.getCombined(store, npcRef, inventoryTypes);
-        return !npcContainer.isEmpty();
+        if (!skipHotbarSlotZero) {
+            CombinedItemContainer npcContainer = InventoryComponent.getCombined(store, npcRef, inventoryTypes);
+            return !npcContainer.isEmpty();
+        }
+
+        for (ComponentType<EntityStore, ? extends InventoryComponent> type : inventoryTypes) {
+            InventoryComponent inventoryComponent = store.getComponent(npcRef, type);
+            ItemContainer inventory = inventoryComponent != null ? inventoryComponent.getInventory() : null;
+            if (inventory == null) continue;
+
+            boolean isHotbar = type == InventoryComponent.Hotbar.getComponentType();
+            for (short slot = 0; slot < inventory.getCapacity(); slot++) {
+                if (isHotbar && slot == 0) continue;
+                if (!ItemStack.isEmpty(inventory.getItemStack(slot))) return true;
+            }
+        }
+        return false;
     }
 
     private static ComponentType<EntityStore, ? extends InventoryComponent> toComponentType(String type) {

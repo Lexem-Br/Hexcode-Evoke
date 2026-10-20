@@ -1,0 +1,118 @@
+{
+  "$Comment": "Fertilize tilled soil with a growing crop, consuming the fertilizer",
+  "Class": "Instruction",
+  "Parameters": {
+    "_ImportStates": ["Main"]
+  },
+  "Content":  {
+    "Instructions": [
+      {
+        "$Comment": "Stops fertilizing if the fertilizer is no longer in hand",
+        "Sensor": {
+          "Type": "Not",
+          "Sensor": {
+            "Type": "Self",
+            "Filters": [
+              {
+                "Type": "ItemInHand",
+                "Items": [ "Tool_Fertilizer" ]
+              }
+            ]
+          }
+        },
+        "Actions": [
+          {
+            "Type": "ParentState",
+            "State": "Main"
+          }
+        ]
+      },
+      {
+        "$Comment": "Search for soil to fertilize",
+        "Continue": true,
+        "Sensor":  {
+          "Type": "Evoke:FertilizableSoilFinder",
+          "HorizontalRange": 10,
+          "VerticalRange": 3
+        },
+        "BodyMotion": {
+          "Type": "Seek",
+          "SlowDownDistance": 2.0,
+          "StopDistance": 0.9,
+          "RelativeSpeed": 0.5
+        }
+      },
+      {
+        "$Comment": "Fertilize soil",
+        "Continue": true,
+        "Sensor": {
+          "Type": "Evoke:FertilizableSoilFinder",
+          "HorizontalRange": 2,
+          "VerticalRange": 3
+        },
+        "ActionsBlocking": true,
+        "Actions": [
+          {
+            "Type": "PlayAnimation",
+            "Slot": "Status",
+            "Animation": "Interact"
+          },
+          {
+            "Type": "Timeout",
+            "Delay": [0.6, 0.8],
+            "Action": {
+              "Type": "Sequence",
+              "Actions": [
+                {
+                  "Type": "Evoke:FertilizeSoil"
+                },
+                {
+                  "Type": "PlaySound",
+                  "SoundEventId": "SFX_Dirt_Hit"
+                },
+                {
+                  "Type": "PlayAnimation",
+                  "Slot": "Status"
+                }
+              ]
+            }
+          },
+          {
+            "Type": "Timeout",
+            "Delay": [1.2, 1.5]
+          }
+        ]
+      },
+      {
+        "$Comment": "If no soil to fertilize is found, return to the initial position",
+        "Sensor": {
+          "Type": "And",
+          "Sensors": [
+            {
+              "Type": "Not",
+              "Sensor": {
+                "Type": "Evoke:FertilizableSoilFinder",
+                "HorizontalRange": 10,
+                "VerticalRange": 3
+              }
+            },
+            {
+              "Type": "Not",
+              "Sensor": {
+                "Type": "Evoke:ReadPosition",
+                "Range": 1
+              }
+            }
+          ]
+        },
+        "Actions": [
+          {
+            "Type": "ParentState",
+            "State": "Main"
+          }
+        ]
+      }
+    ]
+  },
+  "Type": "Component"
+}

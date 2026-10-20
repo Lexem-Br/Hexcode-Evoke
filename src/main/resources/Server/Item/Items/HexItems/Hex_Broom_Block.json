@@ -48,7 +48,6 @@
     "HitboxType": "Plant_Tall_Full",
     "VariantRotation": "NESW",
     "Gathering": {
-      "Harvest": {},
       "Soft": {}
     },
     "BlockSoundSetId": "Wood",

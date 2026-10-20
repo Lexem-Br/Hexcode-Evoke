@@ -16,10 +16,12 @@ import com.hypixel.hytale.server.core.modules.interaction.interaction.config.Sim
 import com.hypixel.hytale.server.core.universe.PlayerRef;
 import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
+import com.hypixel.hytale.server.core.util.TargetUtil;
 import com.lexem.hexcodeevoke.hexitems.AllowedHexItemsAsset;
 import com.lexem.hexcodeevoke.utils.BlockUtils;
 import com.lexem.hexcodeevoke.utils.ErrorMessageUtils;
 import com.lexem.hexcodeevoke.utils.FinderUtils;
+import com.lexem.hexcodeevoke.utils.HexCreatureReverter;
 import com.lexem.hexcodeevoke.utils.HexCreatureUtils;
 import org.joml.Vector3i;
 
@@ -43,15 +45,23 @@ public class HexCreatureInteraction extends SimpleInteraction {
                 return;
             }
 
-            BlockPosition blockPosition = context.getTargetBlock();
-            if (blockPosition == null) {
+            Ref<EntityStore> refESPlayer = context.getOwningEntity();
+            if (refESPlayer == null) {
                 context.getState().state = InteractionState.Failed;
                 super.tick0(firstRun, time, type, context, cooldownHandler);
                 return;
             }
 
-            Ref<EntityStore> refESPlayer = context.getOwningEntity();
-            if (refESPlayer == null) {
+            Ref<EntityStore> targetEntity = TargetUtil.getTargetEntity(refESPlayer, accessor);
+            if (HexCreatureReverter.getHexCreature(targetEntity, accessor) != null) {
+                boolean reverted = HexCreatureReverter.tryRevert(refESPlayer, targetEntity, accessor);
+                context.getState().state = reverted ? InteractionState.Finished : InteractionState.Failed;
+                super.tick0(firstRun, time, type, context, cooldownHandler);
+                return;
+            }
+
+            BlockPosition blockPosition = context.getTargetBlock();
+            if (blockPosition == null) {
                 context.getState().state = InteractionState.Failed;
                 super.tick0(firstRun, time, type, context, cooldownHandler);
                 return;
