@@ -2,13 +2,13 @@
   "Type": "Variant",
   "Reference": "Template_Hex_Creature_Hovering",
   "Modify": {
-    "Appearance": "Hex_Fairy_Ice",
-    "DropHexItem": "Hex_Fairy_Ice_Block",
+    "Appearance": "Hex_Fairy_Cyan",
+    "DropHexItem": "Hex_Fairy_Cyan_Block",
     "NameTranslationKey": { "Compute": "NameTranslationKey" }
   },
   "Parameters": {
     "NameTranslationKey": {
-      "Value": "evoke.items.HexItems.Hex_Fairy_Ice.name",
+      "Value": "evoke.items.HexItems.Hex_Fairy_Cyan.name",
       "Description": "Translation key for NPC name display"
     }
   }

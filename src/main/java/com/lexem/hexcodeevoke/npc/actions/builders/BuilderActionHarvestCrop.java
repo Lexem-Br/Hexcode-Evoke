@@ -4,7 +4,9 @@ import com.google.gson.JsonElement;
 import com.hypixel.hytale.server.npc.asset.builder.BuilderDescriptorState;
 import com.hypixel.hytale.server.npc.asset.builder.BuilderSupport;
 import com.hypixel.hytale.server.npc.asset.builder.holder.AssetArrayHolder;
+import com.hypixel.hytale.server.npc.asset.builder.holder.DoubleHolder;
 import com.hypixel.hytale.server.npc.asset.builder.validators.AssetValidator;
+import com.hypixel.hytale.server.npc.asset.builder.validators.DoubleRangeValidator;
 import com.hypixel.hytale.server.npc.asset.builder.validators.asset.ItemExistsValidator;
 import com.hypixel.hytale.server.npc.corecomponents.builders.BuilderActionBase;
 import com.hypixel.hytale.server.npc.instructions.Action;
@@ -15,6 +17,7 @@ import java.util.EnumSet;
 
 public class BuilderActionHarvestCrop extends BuilderActionBase {
    protected final AssetArrayHolder requiredItems = new AssetArrayHolder();
+   protected final DoubleHolder durabilityLoss = new DoubleHolder();
 
    public BuilderActionHarvestCrop() {
    }
@@ -56,7 +59,21 @@ public class BuilderActionHarvestCrop extends BuilderActionBase {
          "Items that the NPC must be holding to harvest",
          "Items that the NPC must be holding in one of their hands to perform the collection. If omitted, no item is required"
       );
+      this.getDouble(
+         data,
+         "DurabilityLoss",
+         this.durabilityLoss,
+         1.0,
+         DoubleRangeValidator.between(0.0, Double.MAX_VALUE),
+         BuilderDescriptorState.Stable,
+         "Durability lost by the required item on each harvest",
+         "Durability lost by the held required item on each successful harvest. Broken items can't be used to harvest"
+      );
       return this;
+   }
+
+   public double getDurabilityLoss(@Nonnull BuilderSupport support) {
+      return this.durabilityLoss.get(support.getExecutionContext());
    }
 
    public String[] getRequiredItems(@Nonnull BuilderSupport support) {

@@ -1,0 +1,17 @@
+{
+  "Type": "Variant",
+  "Reference": "Template_Hex_Creature_Hovering",
+  "Modify": {
+    "Appearance": "Hex_Fairy_White",
+    "DropHexItem": "Hex_Fairy_White_Block",
+    "NameTranslationKey": {
+      "Compute": "NameTranslationKey"
+    }
+  },
+  "Parameters": {
+    "NameTranslationKey": {
+      "Value": "evoke.items.HexItems.Hex_Fairy_White.name",
+      "Description": "Translation key for NPC name display"
+    }
+  }
+}

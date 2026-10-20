@@ -35,6 +35,9 @@ public class BodyMotionTeleportHexCreature extends BodyMotionBase {
    protected final Vector3d target = new Vector3d();
    protected final Vector3d offsetVector = new Vector3d();
    protected final Vector3d lastTriedTarget = new Vector3d();
+   protected final Vector3d originalTarget = new Vector3d();
+   protected final Vector3d candidate = new Vector3d();
+   protected static final double VERTICAL_SEARCH_STEP = 0.5;
    protected int tries;
    protected double cooldown;
 
@@ -86,14 +89,7 @@ public class BodyMotionTeleportHexCreature extends BodyMotionBase {
                this.target.add(this.offsetVector);
                MotionController motionController = executionSupport.getMotionContextSupport().getActiveMotionController();
                BoundingBox boundingBoxComponent = componentAccessor.getComponent(ref, BOUNDING_BOX_COMPONENT_TYPE);
-                if (motionController != null && motionController.translateToAccessiblePosition(
-                       this.target,
-                       boundingBoxComponent != null ? boundingBoxComponent.getBoundingBox() : null,
-                       this.target.y - this.maxYOffset,
-                       this.target.y + this.maxYOffset,
-                       componentAccessor
-               )
-                       && motionController.isValidPosition(this.target, componentAccessor)) {
+               if (motionController != null && this.findValidTarget(motionController, boundingBoxComponent, componentAccessor)) {
                   Vector3d teleportPos = new Vector3d(this.target).add(0, this.minYOffset, 0);
                   switch (this.orientation) {
                      case Unchanged: {
@@ -150,6 +146,40 @@ public class BodyMotionTeleportHexCreature extends BodyMotionBase {
       } else {
          return false;
       }
+   }
+
+   protected boolean findValidTarget(
+           @Nonnull MotionController motionController,
+           @Nullable BoundingBox boundingBoxComponent,
+           @Nonnull ComponentAccessor<EntityStore> componentAccessor
+   ) {
+      this.originalTarget.set(this.target);
+      if (motionController.translateToAccessiblePosition(
+              this.target,
+              boundingBoxComponent != null ? boundingBoxComponent.getBoundingBox() : null,
+              this.target.y - this.maxYOffset,
+              this.target.y + this.maxYOffset,
+              componentAccessor
+      ) && motionController.isValidPosition(this.target, componentAccessor)) {
+         return true;
+      }
+
+      for (double dy = VERTICAL_SEARCH_STEP; dy <= this.maxYOffset; dy += VERTICAL_SEARCH_STEP) {
+         if (this.trySetTarget(this.originalTarget.x, this.originalTarget.y + dy, this.originalTarget.z, motionController, componentAccessor)
+                 || this.trySetTarget(this.originalTarget.x, this.originalTarget.y - dy, this.originalTarget.z, motionController, componentAccessor)) {
+            return true;
+         }
+      }
+
+      return this.trySetTarget(this.lastTriedTarget.x, this.lastTriedTarget.y, this.lastTriedTarget.z, motionController, componentAccessor);
+   }
+
+   private boolean trySetTarget(double x, double y, double z, @Nonnull MotionController motionController, @Nonnull ComponentAccessor<EntityStore> componentAccessor) {
+      this.candidate.set(x, y + this.minYOffset, z);
+      if (!motionController.isValidPosition(this.candidate, componentAccessor)) return false;
+
+      this.target.set(x, y, z);
+      return true;
    }
 
    protected boolean tickCooldown(double dt) {

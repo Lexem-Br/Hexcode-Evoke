@@ -38,7 +38,7 @@
   "SeparationDistance": 1.0,
   "SeparationWeight": 0.6,
   "InventorySize": 0,
-  "HotbarSize": 4,
+  "HotbarSize": 6,
   "OffHandSlots": 1,
   "DefaultOffHandSlot": 0,
   "PickupDropOnDeath": true,
@@ -288,12 +288,12 @@
               ]
             },
             {
-              "$Comment": "Checks if you are holding a sickle and if has harvestable crop",
+              "$Comment": "Checks if you are holding a sickle that is not broken and if has harvestable crop",
               "Sensor": {
                 "Type": "Self",
                 "Filters": [
                   {
-                    "Type": "ItemInHand",
+                    "Type": "Evoke:HasUsableItemInHand",
                     "Items": [ "Tool_Sickle*" ]
                   },
                   {
@@ -311,16 +311,44 @@
               ]
             },
             {
-              "$Comment": "Checks if you are holding a watering can and if has dry soil",
+              "$Comment": "Checks if you are holding a watering can with water and if has dry soil",
               "Sensor": {
                 "Type": "Self",
                 "Filters": [
                   {
-                    "Type": "ItemInHand",
-                    "Items": [ "Tool_Watering_Can" ]
+                    "Type": "Evoke:HasWateringCan",
+                    "Filled": true
                   },
                   {
                     "Type": "Evoke:HasWettableSoil",
+                    "HorizontalRange": 10,
+                    "VerticalRange": 3
+                  }
+                ]
+              },
+              "Actions": [
+                {
+                  "Type": "State",
+                  "State": ".Water"
+                }
+              ]
+            },
+            {
+              "$Comment": "Checks if you are holding an empty watering can, if has dry soil and water nearby to fill it",
+              "Sensor": {
+                "Type": "Self",
+                "Filters": [
+                  {
+                    "Type": "Evoke:HasWateringCan",
+                    "Filled": false
+                  },
+                  {
+                    "Type": "Evoke:HasWettableSoil",
+                    "HorizontalRange": 10,
+                    "VerticalRange": 3
+                  },
+                  {
+                    "Type": "Evoke:HasWaterSourceNearby",
                     "HorizontalRange": 10,
                     "VerticalRange": 3
                   }

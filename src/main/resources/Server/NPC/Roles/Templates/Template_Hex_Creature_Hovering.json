@@ -48,20 +48,39 @@
   "ApplyAvoidance": true,
   "AvoidanceMode": "Slowdown",
   "NameTranslationKey": {"Compute": "NameTranslationKey"},
+  "InitialMotionController": "Walk",
   "MotionControllerList": [
     {
+      "$Comment": "Only used right after spawning or when touching the ground, the creature takes off right away",
       "Type": "Walk",
       "MaxWalkSpeed": 15,
       "Gravity": 10,
       "RunThreshold": 0.5,
       "MaxFallSpeed": 30,
       "MaxRotationSpeed": 360,
-      "Acceleration": 10,
+      "Acceleration": 20,
       "MinHover": 1,
       "MaxHover": 1,
       "HoverFreq": 10,
       "MaxClimbHeight": 3,
       "MaxDropHeight": 3
+    },
+    {
+      "$Comment": "MinAirSpeed 0 lets the creature stop and hover in place instead of circling like a bird",
+      "Type": "Fly",
+      "MaxHorizontalSpeed": 15,
+      "MaxClimbSpeed": 10,
+      "MaxSinkSpeed": 8,
+      "MinAirSpeed": 0,
+      "Acceleration": 20,
+      "Deceleration": 10,
+      "MaxClimbAngle": 90,
+      "MaxSinkAngle": 90,
+      "MaxTurnSpeed": 180,
+      "MaxRollAngle": 20,
+      "MinHeightOverGround": 1,
+      "MaxHeightOverGround": 3,
+      "DesiredAltitudeWeight": 0.5
     }
   ],
   "MaxHealth": 100,
@@ -85,6 +104,39 @@
     }
   ],
   "Instructions": [
+    {
+      "$Comment": "Switches back to Walk if the creature touches the ground while flying, so it can take off again",
+      "Continue": true,
+      "Sensor": {
+        "Type": "And",
+        "Sensors": [
+          {
+            "Type": "MotionController",
+            "MotionController": "Fly"
+          },
+          {
+            "Type": "OnGround"
+          }
+        ]
+      },
+      "Actions": [
+        {
+          "Type": "Evoke:SetMotionController",
+          "MotionController": "Walk"
+        }
+      ]
+    },
+    {
+      "$Comment": "Takes off whenever the creature is not flying",
+      "Sensor": {
+        "Type": "MotionController",
+        "MotionController": "Walk"
+      },
+      "BodyMotion": {
+        "Type": "TakeOff",
+        "JumpSpeed": 4
+      }
+    },
     {
       "$Comment": "Adds the entity to the flock of the first player it finds",
       "Continue": true,
@@ -168,17 +220,20 @@
       },
       "Instructions": [
         {
+          "$Comment": "Flies to 1.5 blocks above the target point, a flying creature can't reach the ground point itself and would circle around it",
           "Sensor": {
             "Type": "Evoke:ReadPosition",
             "Range": 30,
-            "MinRange": 1
+            "MinRange": 0.3,
+            "HeightOffset": 1.5
           },
           "BodyMotion": {
             "Type": "Seek",
-            "SlowDownDistance": 3,
-            "StopDistance": 1,
+            "SlowDownDistance": 4,
+            "StopDistance": 0.2,
             "RelativeSpeed": 0.8,
-            "RecomputeDistance": 0
+            "RecomputeDistance": 0,
+            "DesiredAltitudeWeight": 0
           }
         },
         {
@@ -211,10 +266,11 @@
           },
           "Instructions": [
             {
-              "$Comment": "Less than 5 block away from the leader",
+              "$Comment": "Prevents the NPC from losing sight of the player",
+              "Continue": true,
               "Sensor": {
                 "Type": "Player",
-                "Range": 5,
+                "Range": { "Compute": "MaxBeaconDistance" },
                 "LockOnTarget": true,
                 "Filters": [
                   {
@@ -222,40 +278,54 @@
                   }
                 ]
               },
+              "Actions": [
+                {
+                  "Type": "Nothing"
+                }
+              ]
+            },
+            {
+              "$Comment": "Less than 5 block away from the leader, flies at the player's head height, ahead of them while they walk",
+              "Sensor": {
+                "Type": "Evoke:EvokerPosition",
+                "Range": 5,
+                "HeightOffset": 1.5,
+                "LeadDistance": 4,
+                "LeadFullSpeed": 5,
+                "LeadSideOffset": 1.5
+              },
               "HeadMotion": {
                 "Type": "Aim",
-                "Deflection": true,
-                "Spread": 1,
                 "RelativeTurnSpeed": 2
               },
               "BodyMotion": {
                 "Type": "Seek",
-                "SlowDownDistance": 5,
+                "SlowDownDistance": 4,
                 "StopDistance": 2,
-                "RelativeSpeed": 0.4
+                "RelativeSpeed": 0.6,
+                "DesiredAltitudeWeight": 0
               }
             },
             {
-              "$Comment": "Less than 15 blocks away from the leader",
+              "$Comment": "Less than 15 blocks away from the leader, flies at the player's head height, ahead of them while they walk",
               "Sensor": {
-                "Type": "Player",
+                "Type": "Evoke:EvokerPosition",
                 "Range": 15,
-                "LockOnTarget": true,
-                "Filters": [
-                  {
-                    "Type": "Evoke:IsEvoker"
-                  }
-                ]
+                "HeightOffset": 1.5,
+                "LeadDistance": 4,
+                "LeadFullSpeed": 5,
+                "LeadSideOffset": 1.5
               },
               "BodyMotion": {
                 "Type": "Seek",
-                "SlowDownDistance": 5,
+                "SlowDownDistance": 4,
                 "StopDistance": 2,
-                "RelativeSpeed": 0.6
+                "RelativeSpeed": 0.8,
+                "DesiredAltitudeWeight": 0
               }
             },
             {
-              "$Comment": "Prevents the NPC from losing sight of the player",
+              "$Comment": "Keeps the target locked for the teleport below",
               "Continue": true,
               "Sensor": {
                 "Type": "Player",

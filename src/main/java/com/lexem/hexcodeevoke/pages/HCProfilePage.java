@@ -229,7 +229,11 @@ public class HCProfilePage extends InteractiveCustomUIPage<HCProfilePage.HCProfi
             String itemQuantity = String.valueOf(itemContext.getItemStack().getQuantity());
             if (itemId != null && !itemId.isEmpty()) {
                 commandBuilder.set(selector + " #OutputSlot.ItemId", itemId);
-                commandBuilder.set(selector + " #OutputQuantity.Text", itemQuantity);
+                if (itemStack.isUnbreakable()) {
+                    commandBuilder.set(selector + " #OutputQuantity.Text", itemQuantity);
+                } else {
+                    bindDurability(selector, itemStack);
+                }
             }
             if (this.selectedPlayerSlot.equals(selector)) {
                 this.selectedPlayerItemContext = new ItemData(itemContainer, slot, itemStack);
@@ -265,6 +269,24 @@ public class HCProfilePage extends InteractiveCustomUIPage<HCProfilePage.HCProfi
                         .append("IsPlayerSelector", String.valueOf(isPlayerSelector)),
                 false
         );
+    }
+
+    private void bindDurability(String selector, ItemStack itemStack) {
+        float ratio = (float) Math.max(0.0, Math.min(1.0, itemStack.getDurability() / itemStack.getMaxDurability()));
+
+        String fill;
+        if (ratio > 0.5f) {
+            fill = "#DurabilityFillHigh";
+        } else if (ratio > 0.2f) {
+            fill = "#DurabilityFillMid";
+        } else {
+            fill = "#DurabilityFillLow";
+        }
+
+        commandBuilder.set(selector + " #DurabilityBar.Visible", true);
+        commandBuilder.set(selector + " " + fill + ".Visible", true);
+        commandBuilder.set(selector + " " + fill + ".Value", ratio);
+        commandBuilder.set(selector + " #BrokenOverlay.Visible", itemStack.isBroken());
     }
 
     private void bindNPCArmors() {

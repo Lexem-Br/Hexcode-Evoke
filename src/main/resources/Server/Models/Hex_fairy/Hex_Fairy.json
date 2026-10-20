@@ -18,7 +18,8 @@
   "MinScale": 1,
   "MaxScale": 1,
   "Light": {
-    "Color": "#997"
+    "Color": "#997",
+    "Radius": 9
   },
   "AnimationSets": {
     "Idle": {
@@ -32,6 +33,77 @@
       "Animations": [
         {
           "Animation": "NPC/Hex_Fairy/Animations/Idle.blockyanim"
+        }
+      ]
+    },
+    "FlyIdle": {
+      "Animations": [
+        {
+          "Animation": "NPC/Hex_Fairy/Animations/Idle.blockyanim"
+        }
+      ]
+    },
+    "Fly": {
+      "Animations": [
+        {
+          "Animation": "NPC/Hex_Fairy/Animations/Fly.blockyanim",
+          "Speed": 0.7
+        }
+      ]
+    },
+    "FlyFast": {
+      "Animations": [
+        {
+          "Animation": "NPC/Hex_Fairy/Animations/Fly.blockyanim",
+          "Speed": 1.0
+        }
+      ]
+    },
+    "FlyBackward": {
+      "Animations": [
+        {
+          "Animation": "NPC/Hex_Fairy/Animations/Fly.blockyanim",
+          "Speed": 0.7
+        }
+      ]
+    },
+    "Walk": {
+      "Animations": [
+        {
+          "Animation": "NPC/Hex_Fairy/Animations/Fly.blockyanim",
+          "Speed": 0.7
+        }
+      ]
+    },
+    "WalkBackward": {
+      "Animations": [
+        {
+          "Animation": "NPC/Hex_Fairy/Animations/Fly.blockyanim",
+          "Speed": 0.7
+        }
+      ]
+    },
+    "Run": {
+      "Animations": [
+        {
+          "Animation": "NPC/Hex_Fairy/Animations/Fly.blockyanim",
+          "Speed": 1.0
+        }
+      ]
+    },
+    "RunBackward": {
+      "Animations": [
+        {
+          "Animation": "NPC/Hex_Fairy/Animations/Fly.blockyanim",
+          "Speed": 1.0
+        }
+      ]
+    },
+    "Sprint": {
+      "Animations": [
+        {
+          "Animation": "NPC/Hex_Fairy/Animations/Fly.blockyanim",
+          "Speed": 1.0
         }
       ]
     }

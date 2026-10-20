@@ -22,6 +22,7 @@ import java.util.UUID;
 public class SensorEvokeReadPosition extends SensorBase {
    protected final double minRange;
    protected final double range;
+   protected final double heightOffset;
    protected final PositionProvider positionProvider = new PositionProvider();
    private static final HytaleLogger LOGGER = HytaleLogger.forEnclosingClass();
 
@@ -32,6 +33,7 @@ public class SensorEvokeReadPosition extends SensorBase {
       super(builder);
       this.minRange = builder.getMinRange(support);
       this.range = builder.getRange(support);
+      this.heightOffset = builder.getHeightOffset(support);
    }
 
    @Override
@@ -43,13 +45,16 @@ public class SensorEvokeReadPosition extends SensorBase {
          EvokerComponent evoker = this.getEvoker(ref, store);
          if (evoker == null) { return false; }
 
-         Vector3d position = this.getPostion(evoker);
-         if (position.equals(Vector3dUtil.MIN)) {
+         Vector3d storedPosition = this.getPostion(evoker);
+         if (storedPosition.equals(Vector3dUtil.MIN)) {
             this.positionProvider.clear();
             return false;
          } else {
             TransformComponent transformComponent = store.getComponent(ref, TransformComponent.getComponentType());
             if (transformComponent == null) { return false; }
+
+            // Flying creatures can't reach a point on the ground, so they aim above it
+            Vector3d position = new Vector3d(storedPosition).add(0, this.heightOffset, 0);
 
             int qtdHexCreatures = evoker.getSelectedHexCreatures().length;
             double dist = transformComponent.getPosition().distanceSquared(position);

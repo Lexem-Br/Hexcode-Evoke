@@ -7,14 +7,14 @@
   "Content":  {
     "Instructions": [
       {
-        "$Comment": "Stops harvesting if the sickle is no longer in hand",
+        "$Comment": "Stops harvesting if the sickle is no longer in hand or is broken",
         "Sensor": {
           "Type": "Not",
           "Sensor": {
             "Type": "Self",
             "Filters": [
               {
-                "Type": "ItemInHand",
+                "Type": "Evoke:HasUsableItemInHand",
                 "Items": [ "Tool_Sickle*" ]
               }
             ]

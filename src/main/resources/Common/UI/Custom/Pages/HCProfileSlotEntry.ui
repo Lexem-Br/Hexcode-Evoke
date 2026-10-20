@@ -51,7 +51,43 @@ Group #OutputSection {
             ItemSlot #OutputSlot {
                Anchor: (Full: 0);
                ShowQualityBackground: true;
-               ShowDurabilityBar: true;
+               ShowDurabilityBar: false;
+            }
+        }
+
+        Group #BrokenOverlay {
+            Anchor: (Full: 3);
+            Background: #8b0000(0.45);
+            Visible: false;
+
+            Group #BrokenIcon {
+                Anchor: (Left: 3, Top: 3, Width: 18, Height: 18);
+                Background: "../Icons/brokenIcon.png";
+            }
+        }
+
+        Group #DurabilityBar {
+            Anchor: (Left: 6, Right: 6, Bottom: 6, Height: 5);
+            Background: #000000(0.7);
+            Padding: 1;
+            Visible: false;
+
+            ProgressBar #DurabilityFillHigh {
+                BarTexturePath: "../Icons/durabilityHigh.png";
+                Value: 1.0;
+                Visible: false;
+            }
+
+            ProgressBar #DurabilityFillMid {
+                BarTexturePath: "../Icons/durabilityMid.png";
+                Value: 1.0;
+                Visible: false;
+            }
+
+            ProgressBar #DurabilityFillLow {
+                BarTexturePath: "../Icons/durabilityLow.png";
+                Value: 1.0;
+                Visible: false;
             }
         }
 

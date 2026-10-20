@@ -1,21 +1,19 @@
 {
+  "Parent": "Hex_Fairy_Block",
   "TranslationProperties": {
     "Name": "evoke.items.HexItems.Hex_Fairy_Void.name"
   },
   "Icon": "Icons/ItemsGenerated/Hex_Fairy_Void_Block.png",
-  "Interactions": {
-    "Primary": "Root_Unarmed_Attack_Swing_Left",
-    "Secondary": "Block_Secondary"
-  },
+  "Quality": "Uncommon",
   "Recipe": {
     "TimeSeconds": 1,
     "Input": [
       {
         "ItemId": "Ingredient_Life_Essence",
-        "Quantity": 25
+        "Quantity": 100
       },
       {
-        "ItemId": "Ingredient_Void_Essence",
+        "ItemId": "Ingredient_Crystal_Void",
         "Quantity": 10
       },
       {
@@ -33,32 +31,18 @@
     ]
   },
   "BlockType": {
-    "Material": "Solid",
-    "DrawType": "Model",
-    "CustomModel": "Blocks/Hex_Fairy/Model.blockymodel",
     "CustomModelTexture": [
       {
         "Texture": "NPC/Hex_Fairy/Models/Textures/Void.png",
         "Weight": 1
       }
     ],
-    "HitboxType": "Plant_Medium",
-    "VariantRotation": "NESW",
     "Gathering": {
       "Harvest": {
         "ItemId": "Hex_Fairy_Void_Block"
       }
-    },
-    "PhysicalMaterialId": "Stone",
-    "ParticleColor": "#65482d",
-    "TextureComputedColor": "#67412B",
-    "RequiresAlphaBlending": false,
-    "CustomModelScale": 0.5
+    }
   },
-  "PlayerAnimationsId": "Item",
-  "ItemSoundSetId": "ISS_Blocks_Stone",
-  "Quality": "Uncommon",
-  "MaxStack": 1,
   "IconProperties": {
     "Scale": 0.58823,
     "Rotation": [
@@ -67,7 +51,7 @@
       22.5
     ],
     "Translation": [
-      6,
+      7,
       -15
     ]
   }

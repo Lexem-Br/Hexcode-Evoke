@@ -1,6 +1,6 @@
 {
   "Parent": "Hex_Fairy",
-  "Texture": "NPC/Hex_Fairy/Models/Textures/Ice.png",
+  "Texture": "NPC/Hex_Fairy/Models/Textures/Cyan.png",
   "Light": {
     "Color": "#6afffe"
   }

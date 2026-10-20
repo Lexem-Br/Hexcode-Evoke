@@ -1,8 +1,8 @@
 {
   "TranslationProperties": {
-    "Name": "evoke.items.HexItems.Hex_Fairy_Ice.name"
+    "Name": "evoke.items.HexItems.Hex_Fairy.name"
   },
-  "Icon": "Icons/ItemsGenerated/Hex_Fairy_Ice_Block.png",
+  "Icon": "Icons/ItemsGenerated/Hex_Fairy_Block.png",
   "Interactions": {
     "Primary": "Root_Unarmed_Attack_Swing_Left",
     "Secondary": "Block_Secondary"
@@ -12,10 +12,10 @@
     "Input": [
       {
         "ItemId": "Ingredient_Life_Essence",
-        "Quantity": 25
+        "Quantity": 100
       },
       {
-        "ItemId": "Ingredient_Ice_Essence",
+        "ItemId": "Ingredient_Crystal_Yellow",
         "Quantity": 10
       },
       {
@@ -38,7 +38,7 @@
     "CustomModel": "Blocks/Hex_Fairy/Model.blockymodel",
     "CustomModelTexture": [
       {
-        "Texture": "NPC/Hex_Fairy/Models/Textures/Ice.png",
+        "Texture": "NPC/Hex_Fairy/Models/Textures/Default.png",
         "Weight": 1
       }
     ],
@@ -46,7 +46,7 @@
     "VariantRotation": "NESW",
     "Gathering": {
       "Harvest": {
-        "ItemId": "Hex_Fairy_Ice_Block"
+        "ItemId": "Hex_Fairy_Block"
       }
     },
     "PhysicalMaterialId": "Stone",
@@ -67,7 +67,7 @@
       22.5
     ],
     "Translation": [
-      6,
+      7,
       -15
     ]
   }
