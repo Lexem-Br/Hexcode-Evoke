@@ -32,6 +32,7 @@ import com.lexem.hexcodeevoke.npc.bodymotions.builders.BuilderTeleportHexCreatur
 import com.lexem.hexcodeevoke.npc.filters.builders.*;
 import com.lexem.hexcodeevoke.npc.sensors.builders.*;
 import com.lexem.hexcodeevoke.resources.HexCreatureRegistry;
+import com.lexem.hexcodeevoke.systems.HexCreatureClimbStateSystem;
 import com.lexem.hexcodeevoke.systems.HexCreatureComponentsSystem;
 import com.lexem.hexcodeevoke.systems.HexCreaturePickupSystem;
 import com.lexem.hexcodeevoke.systems.HexCreatureRevocationSystem;
@@ -145,6 +146,7 @@ public class HexcodeEvoke extends JavaPlugin {
         npcPlugin.registerCoreComponentType("Evoke:TransferItemsToTargetNPC", BuilderActionTransferItemsToTargetNPC::new);
         npcPlugin.registerCoreComponentType("Evoke:MinionCreateSearchTasks", BuilderActionMinionCreateSearchTasks::new);
         npcPlugin.registerCoreComponentType("Evoke:DespawnHC", BuilderDespawnHC::new);
+        npcPlugin.registerCoreComponentType("Evoke:Unstuck", BuilderActionUnstuck::new);
     }
 
     private void registerBodyMotions(NPCPlugin npcPlugin) {
@@ -182,6 +184,7 @@ public class HexcodeEvoke extends JavaPlugin {
         npcPlugin.registerCoreComponentType("Evoke:EvokerPosition", BuilderSensorEvokerPosition::new);
         npcPlugin.registerCoreComponentType("Evoke:FertilizableSoilFinder", BuilderSensorFertilizableSoilFinder::new);
         npcPlugin.registerCoreComponentType("Evoke:SearchChestTaskPosition", BuilderSensorSearchChestTaskPosition::new);
+        npcPlugin.registerCoreComponentType("Evoke:IsStuck", BuilderSensorIsStuck::new);
     }
 
     private void registerComponents() {
@@ -216,6 +219,7 @@ public class HexcodeEvoke extends JavaPlugin {
         registery.registerSystem(new HexCreatureStateSaveSystem());
         registery.registerSystem(new HexCreatureStateRestoreSystem());
         registery.registerSystem(new HexCreaturePickupSystem());
+        registery.registerSystem(new HexCreatureClimbStateSystem());
 
         HexCreatureRegistry.setResourceType(Universe.registerResource(
                 HexCreatureRegistry.class,

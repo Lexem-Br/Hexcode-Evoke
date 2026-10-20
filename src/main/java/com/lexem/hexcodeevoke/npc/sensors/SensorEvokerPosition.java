@@ -7,6 +7,7 @@ import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.hypixel.hytale.server.npc.asset.builder.BuilderSupport;
 import com.hypixel.hytale.server.npc.corecomponents.SensorBase;
 import com.hypixel.hytale.server.npc.instructions.ExecutionSupport;
+import com.hypixel.hytale.server.npc.movement.controllers.MotionController;
 import com.hypixel.hytale.server.npc.sensorinfo.InfoProvider;
 import com.hypixel.hytale.server.npc.sensorinfo.PositionProvider;
 import com.lexem.hexcodeevoke.components.HexCreatureComponent;
@@ -31,6 +32,8 @@ public class SensorEvokerPosition extends SensorBase {
     private static final double MAX_TRACKED_SPEED = 30.0;
     private static final double MIN_LEAD_SPEED = 0.5;
     private static final double SIDE_SWITCH_DISTANCE = 0.75;
+    private static final double FREE_SEARCH_STEP = 0.5;
+    private static final double MIN_FREE_HEIGHT = 0.25;
 
     private final Vector3d smoothedVelocity = new Vector3d();
     private int currentSide = 1;
@@ -73,8 +76,38 @@ public class SensorEvokerPosition extends SensorBase {
             return false;
         }
 
-        this.positionProvider.setTarget(target.add(getLeadOffset(transform.getPosition(), evokerPosition)));
+        MotionController motionController = executionSupport.getMotionContextSupport().getActiveMotionController();
+        if (motionController != null) {
+            target = findFreeTarget(motionController, evokerPosition, getLeadOffset(transform.getPosition(), evokerPosition), store);
+        } else {
+            target.add(getLeadOffset(transform.getPosition(), evokerPosition));
+        }
+
+        this.positionProvider.setTarget(target);
         return true;
+    }
+
+    @Nonnull
+    private Vector3d findFreeTarget(@Nonnull MotionController motionController, @Nonnull Vector3d evokerPosition, @Nonnull Vector3d leadOffset, @Nonnull Store<EntityStore> store) {
+        Vector3d base = new Vector3d(evokerPosition).add(0, heightOffset, 0);
+        for (double height = heightOffset; height >= MIN_FREE_HEIGHT; height -= FREE_SEARCH_STEP) {
+            base.set(evokerPosition.x, evokerPosition.y + height, evokerPosition.z);
+            if (motionController.isValidPosition(base, store)) break;
+        }
+
+        double leadLength = leadOffset.length();
+        if (leadLength < FREE_SEARCH_STEP) return base.add(leadOffset);
+
+        int steps = (int) Math.ceil(leadLength / FREE_SEARCH_STEP);
+        Vector3d candidate = new Vector3d();
+        for (int step = 1; step <= steps; step++) {
+            candidate.set(leadOffset).mul((double) step / steps).add(base);
+            if (!motionController.isValidPosition(candidate, store)) {
+                return candidate.set(leadOffset).mul(Math.max(0, step - 2) / (double) steps).add(base);
+            }
+        }
+
+        return base.add(leadOffset);
     }
 
     private void updateEvokerVelocity(@Nonnull Vector3d evokerPosition) {
@@ -100,10 +133,6 @@ public class SensorEvokerPosition extends SensorBase {
         lastUpdateNanos = now;
     }
 
-    /**
-     * Moves the target ahead of the evoker and, so it doesn't block a first person view, slightly to the side the
-     * creature is already on. Both grow with the evoker's speed and are zero while they stand still.
-     */
     @Nonnull
     private Vector3d getLeadOffset(@Nonnull Vector3d creaturePosition, @Nonnull Vector3d evokerPosition) {
         double speed = Math.sqrt(smoothedVelocity.x * smoothedVelocity.x + smoothedVelocity.z * smoothedVelocity.z);
@@ -112,8 +141,6 @@ public class SensorEvokerPosition extends SensorBase {
         double factor = Math.min(speed / leadFullSpeed, 1.0);
         double dirX = smoothedVelocity.x / speed;
         double dirZ = smoothedVelocity.z / speed;
-
-        // Perpendicular to the movement; the sign tells which side of the evoker the creature is on
         double sideX = -dirZ;
         double sideZ = dirX;
         double sideDistance = (creaturePosition.x - evokerPosition.x) * sideX + (creaturePosition.z - evokerPosition.z) * sideZ;

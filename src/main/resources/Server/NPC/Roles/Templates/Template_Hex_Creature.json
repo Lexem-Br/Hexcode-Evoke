@@ -275,7 +275,7 @@
                   },
                   {
                     "Type": "Evoke:HasChestNearby",
-                    "HorizontalRange": 10,
+                    "HorizontalRange": 15,
                     "VerticalRange": 3
                   }
                 ]
@@ -298,7 +298,7 @@
                   },
                   {
                     "Type": "Evoke:HasHarvestableCrop",
-                    "HorizontalRange": 10,
+                    "HorizontalRange": 15,
                     "VerticalRange": 3
                   }
                 ]
@@ -321,7 +321,7 @@
                   },
                   {
                     "Type": "Evoke:HasWettableSoil",
-                    "HorizontalRange": 10,
+                    "HorizontalRange": 15,
                     "VerticalRange": 3
                   }
                 ]
@@ -344,12 +344,12 @@
                   },
                   {
                     "Type": "Evoke:HasWettableSoil",
-                    "HorizontalRange": 10,
+                    "HorizontalRange": 15,
                     "VerticalRange": 3
                   },
                   {
                     "Type": "Evoke:HasWaterSourceNearby",
-                    "HorizontalRange": 10,
+                    "HorizontalRange": 15,
                     "VerticalRange": 3
                   }
                 ]
@@ -372,7 +372,7 @@
                   },
                   {
                     "Type": "Evoke:HasFertilizableSoil",
-                    "HorizontalRange": 10,
+                    "HorizontalRange": 15,
                     "VerticalRange": 3
                   }
                 ]
@@ -381,6 +381,31 @@
                 {
                   "Type": "State",
                   "State": ".Fertilize"
+                }
+              ]
+            },
+            {
+              "$Comment": "Stores the items when there is no task to do",
+              "Sensor": {
+                "Type": "Self",
+                "Filters": [
+                  {
+                    "Type": "Evoke:HasItemsOnInventory",
+                    "Inventories": ["Hotbar", "Storage"],
+                    "SkipHotbarSlotZero": true
+                  },
+                  {
+                    "Type": "Evoke:HasChestNearby",
+                    "HorizontalRange": 15,
+                    "VerticalRange": 3,
+                    "CheckCanStore": true
+                  }
+                ]
+              },
+              "Actions": [
+                {
+                  "Type": "State",
+                  "State": ".StoreItems"
                 }
               ]
             },

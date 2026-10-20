@@ -34,11 +34,18 @@
       "MaxWalkSpeed": 7,
       "Gravity": 10,
       "RunThreshold": 0.3,
-      "MaxFallSpeed": 15,
+      "MaxFallSpeed": 3,
       "MaxRotationSpeed": 360,
       "Acceleration": 8,
-      "MaxClimbHeight": 2,
-      "MaxDropHeight": 3
+      "MaxClimbHeight": 5,
+      "JumpHeight": 0,
+      "AscentAnimationType": "Climb",
+      "ClimbSpeedConst": 3,
+      "MaxDropHeight": 5,
+      "DescendFlatness": 0.1,
+      "DescendSpeedCompensation": 0,
+      "DescentSteepness": 0.5,
+      "DescentBlending": 1
     }
   ],
   "StateTransitions": [

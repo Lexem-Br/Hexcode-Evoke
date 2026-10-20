@@ -39,7 +39,7 @@
   "DisableDamageFlock": true,
   "ApplySeparation": true,
   "SeparationDistance": 0.5,
-  "SeparationWeight": 1,
+  "SeparationWeight": 0.5,
   "SeparationDistanceTarget": 1,
   "SeparationNearRadiusTarget": 1.2,
   "InventorySize": 0,
@@ -105,6 +105,128 @@
   ],
   "Instructions": [
     {
+      "$Comment": "After the Follow command, the target flies directly to the summoner through any block and returns to the Following command when nearby",
+      "Sensor": {
+        "Type": "State",
+        "State": "Recall"
+      },
+      "Instructions": [
+        {
+          "Continue": true,
+          "Sensor": {
+            "Type": "MotionController",
+            "MotionController": "Walk"
+          },
+          "Actions": [
+            {
+              "Type": "Evoke:SetMotionController",
+              "MotionController": "Fly"
+            }
+          ]
+        },
+        {
+          "Sensor": {
+            "Type": "Beacon",
+            "Message": "EvokeTargetPosition",
+            "Range": { "Compute": "MaxBeaconDistance" }
+          },
+          "Actions": [
+            {
+              "Type": "State",
+              "State": "SeekPosition"
+            }
+          ]
+        },
+        {
+          "Sensor": {
+            "Type": "Evoke:EvokerPosition",
+            "Range": 2
+          },
+          "Actions": [
+            {
+              "Type": "State",
+              "State": "Following"
+            }
+          ]
+        },
+        {
+          "Sensor": {
+            "Type": "Any"
+          },
+          "Actions": [
+            {
+              "Type": "Evoke:Unstuck",
+              "Speed": 8,
+              "TurnRate": 10,
+              "StartSpread": 90
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "$Comment": "After the wand command flies straight to 1.5 blocks above the target point through any block, then waits there",
+      "Sensor": {
+        "Type": "State",
+        "State": "SeekPosition"
+      },
+      "Instructions": [
+        {
+          "Continue": true,
+          "Sensor": {
+            "Type": "MotionController",
+            "MotionController": "Walk"
+          },
+          "Actions": [
+            {
+              "Type": "Evoke:SetMotionController",
+              "MotionController": "Fly"
+            }
+          ]
+        },
+        {
+          "Sensor": {
+            "Type": "Beacon",
+            "Message": "EvokeFollowLeader",
+            "Range": { "Compute": "MaxBeaconDistance" }
+          },
+          "Actions": [
+            {
+              "Type": "State",
+              "State": "Recall"
+            }
+          ]
+        },
+        {
+          "Sensor": {
+            "Type": "Evoke:ReadPosition",
+            "Range": { "Compute": "MaxBeaconDistance" },
+            "MinRange": 0.3,
+            "HeightOffset": 1.5
+          },
+          "Actions": [
+            {
+              "Type": "Evoke:Unstuck",
+              "Speed": 8,
+              "TurnRate": 10,
+              "StartSpread": 90
+            }
+          ]
+        },
+        {
+          "Sensor": {
+            "Type": "Any"
+          },
+          "Actions": [
+            {
+              "Type": "State",
+              "State": "Idle"
+            }
+          ]
+        }
+      ]
+    },
+    {
       "$Comment": "Switches back to Walk if the creature touches the ground while flying, so it can take off again",
       "Continue": true,
       "Sensor": {
@@ -123,6 +245,22 @@
         {
           "Type": "Evoke:SetMotionController",
           "MotionController": "Walk"
+        }
+      ]
+    },
+    {
+      "$Comment": "While stuck against a block, flies straight through the blocks to the evoker (or to the wand target)",
+      "Continue": true,
+      "Sensor": {
+        "Type": "Evoke:IsStuck",
+        "Delay": 0.15,
+        "MinProgress": 0.5,
+        "MaxStuckTime": 2
+      },
+      "Actions": [
+        {
+          "Type": "Evoke:Unstuck",
+          "Speed": 4
         }
       ]
     },
@@ -206,44 +344,7 @@
           "Actions": [
             {
               "Type": "State",
-              "State": "Following"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "$Comment": "Go to target position",
-      "Sensor": {
-        "Type": "State",
-        "State": "SeekPosition"
-      },
-      "Instructions": [
-        {
-          "$Comment": "Flies to 1.5 blocks above the target point, a flying creature can't reach the ground point itself and would circle around it",
-          "Sensor": {
-            "Type": "Evoke:ReadPosition",
-            "Range": 30,
-            "MinRange": 0.3,
-            "HeightOffset": 1.5
-          },
-          "BodyMotion": {
-            "Type": "Seek",
-            "SlowDownDistance": 4,
-            "StopDistance": 0.2,
-            "RelativeSpeed": 0.8,
-            "RecomputeDistance": 0,
-            "DesiredAltitudeWeight": 0
-          }
-        },
-        {
-          "Sensor": {
-            "Type": "Any"
-          },
-          "Actions": [
-            {
-              "Type": "State",
-              "State": "Idle"
+              "State": "Recall"
             }
           ]
         }

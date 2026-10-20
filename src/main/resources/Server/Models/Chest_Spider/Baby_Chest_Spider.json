@@ -67,28 +67,32 @@
     "Idle": {
       "Animations": [
         {
-          "Animation": "NPC/Beast/Spider/Animations/Default/Idle.blockyanim"
+          "Animation": "NPC/Beast/Spider/Animations/Default/Idle.blockyanim",
+          "BlendingDuration": 0.25
         }
       ]
     },
     "Walk": {
       "Animations": [
         {
-          "Animation": "NPC/Chest_Spider/Animations/Walk.blockyanim"
+          "Animation": "NPC/Chest_Spider/Animations/Walk.blockyanim",
+          "BlendingDuration": 0.25
         }
       ]
     },
     "WalkBackward": {
       "Animations": [
         {
-          "Animation": "NPC/Beast/Spider/Animations/Default/Walk_Backward.blockyanim"
+          "Animation": "NPC/Beast/Spider/Animations/Default/Walk_Backward.blockyanim",
+          "BlendingDuration": 0.25
         }
       ]
     },
     "Run": {
       "Animations": [
         {
-          "Animation": "NPC/Chest_Spider/Animations/Run.blockyanim"
+          "Animation": "NPC/Chest_Spider/Animations/Run.blockyanim",
+          "BlendingDuration": 0.25
         }
       ]
     },
@@ -149,8 +153,9 @@
     "Fall": {
       "Animations": [
         {
-          "Animation": "NPC/Beast/Spider/Animations/Default/Fall.blockyanim",
-          "BlendingDuration": 0.4
+          "Animation": "NPC/Chest_Spider_Baby/Animations/Descend.blockyanim",
+          "BlendingDuration": 0.25,
+          "Speed": 3.0
         }
       ]
     },
@@ -165,40 +170,45 @@
     "ClimbIdle": {
       "Animations": [
         {
-          "Animation": "NPC/Beast/Spider/Animations/Climb/Climb_Idle.blockyanim",
-          "BlendingDuration": 0.4
+          "Animation": "NPC/Chest_Spider_Baby/Animations/Climb/Climb_Idle.blockyanim",
+          "BlendingDuration": 0.25,
+          "Speed": 3.0
         }
       ]
     },
     "ClimbUp": {
       "Animations": [
         {
-          "Animation": "NPC/Beast/Spider/Animations/Climb/Climb_Up.blockyanim",
-          "BlendingDuration": 0.4
+          "Animation": "NPC/Chest_Spider_Baby/Animations/Climb/Climb_Up.blockyanim",
+          "BlendingDuration": 0.25,
+          "Speed": 3.0
         }
       ]
     },
     "ClimbDown": {
       "Animations": [
         {
-          "Animation": "NPC/Beast/Spider/Animations/Climb/Climb_Down.blockyanim",
-          "BlendingDuration": 0.4
+          "Animation": "NPC/Chest_Spider_Baby/Animations/Climb/Climb_Down.blockyanim",
+          "BlendingDuration": 0.25,
+          "Speed": 3.0
         }
       ]
     },
     "ClimbLeft": {
       "Animations": [
         {
-          "Animation": "NPC/Beast/Spider/Animations/Climb/Climb_Left.blockyanim",
-          "BlendingDuration": 0.4
+          "Animation": "NPC/Chest_Spider_Baby/Animations/Climb/Climb_Left.blockyanim",
+          "BlendingDuration": 0.25,
+          "Speed": 3.0
         }
       ]
     },
     "ClimbRight": {
       "Animations": [
         {
-          "Animation": "NPC/Beast/Spider/Animations/Climb/Climb_Right.blockyanim",
-          "BlendingDuration": 0.4
+          "Animation": "NPC/Chest_Spider_Baby/Animations/Climb/Climb_Right.blockyanim",
+          "BlendingDuration": 0.25,
+          "Speed": 3.0
         }
       ]
     },

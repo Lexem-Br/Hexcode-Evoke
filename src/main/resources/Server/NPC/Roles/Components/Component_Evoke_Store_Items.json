@@ -35,7 +35,7 @@
         "Continue": true,
         "Sensor":  {
           "Type": "Evoke:ChestFinder",
-          "HorizontalRange": 2,
+          "HorizontalRange": 2.5,
           "VerticalRange": 3,
           "CheckCanStore": true
         },
