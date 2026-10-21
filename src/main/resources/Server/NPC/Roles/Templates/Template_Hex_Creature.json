@@ -37,6 +37,7 @@
   "ApplySeparation": true,
   "SeparationDistance": 1.0,
   "SeparationWeight": 0.6,
+  "SeparationLegacySteeringStrength": 0.2,
   "InventorySize": 0,
   "HotbarSize": 6,
   "OffHandSlots": 1,

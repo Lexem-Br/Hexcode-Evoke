@@ -147,6 +147,7 @@ public class HexcodeEvoke extends JavaPlugin {
         npcPlugin.registerCoreComponentType("Evoke:MinionCreateSearchTasks", BuilderActionMinionCreateSearchTasks::new);
         npcPlugin.registerCoreComponentType("Evoke:DespawnHC", BuilderDespawnHC::new);
         npcPlugin.registerCoreComponentType("Evoke:Unstuck", BuilderActionUnstuck::new);
+        npcPlugin.registerCoreComponentType("Evoke:AbandonMinionTask", BuilderActionAbandonMinionTask::new);
     }
 
     private void registerBodyMotions(NPCPlugin npcPlugin) {
@@ -185,6 +186,7 @@ public class HexcodeEvoke extends JavaPlugin {
         npcPlugin.registerCoreComponentType("Evoke:FertilizableSoilFinder", BuilderSensorFertilizableSoilFinder::new);
         npcPlugin.registerCoreComponentType("Evoke:SearchChestTaskPosition", BuilderSensorSearchChestTaskPosition::new);
         npcPlugin.registerCoreComponentType("Evoke:IsStuck", BuilderSensorIsStuck::new);
+        npcPlugin.registerCoreComponentType("Evoke:ChestTaskStuck", BuilderSensorChestTaskStuck::new);
     }
 
     private void registerComponents() {

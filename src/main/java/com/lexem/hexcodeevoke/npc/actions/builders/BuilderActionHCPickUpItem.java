@@ -23,6 +23,7 @@ public class BuilderActionHCPickUpItem extends BuilderActionWithDelay {
    protected final EnumHolder<ActionPickUpItem.StorageTarget> pickupTarget = new EnumHolder<>();
    protected AssetArrayHolder items = new AssetArrayHolder();
    protected boolean hoover;
+   protected boolean skipHandSlot;
 
    public BuilderActionHCPickUpItem() {
    }
@@ -70,6 +71,15 @@ public class BuilderActionHCPickUpItem extends BuilderActionWithDelay {
          "A list of glob item patterns to match",
          "A list of glob item patterns to match for hoover mode. If omitted, will match any item. Ignored outside hoover mode"
       );
+      this.getBoolean(
+         data,
+         "SkipHandSlot",
+         s -> this.skipHandSlot = s,
+         false,
+         BuilderDescriptorState.Stable,
+         "Never put the item in the hand",
+         "Puts the item in the hotbar from slot 1 on and then in the storage, keeping hotbar slot 0 (the hand) free"
+      );
       this.requireFeatureIf("Hoover", false, this.hoover, EnumSet.of(Feature.Drop));
       return this;
    }
@@ -86,6 +96,10 @@ public class BuilderActionHCPickUpItem extends BuilderActionWithDelay {
 
    public boolean getHoover() {
       return this.hoover;
+   }
+
+   public boolean getSkipHandSlot() {
+      return this.skipHandSlot;
    }
 
    public double getRange(@Nonnull BuilderSupport support) {

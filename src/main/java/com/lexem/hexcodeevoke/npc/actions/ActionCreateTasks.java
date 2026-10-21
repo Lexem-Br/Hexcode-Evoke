@@ -58,7 +58,7 @@ public class ActionCreateTasks extends ActionBase {
       for (ItemData npcChestItem : listNPCChestItems) {
          ChestMemoryComponent memoryWithItem = findChestMemoryByItemId(hexCreatureComponent, npcChestItem.itemId);
 
-         if (memoryWithItem != null) {
+         if (memoryWithItem != null && !hexCreatureComponent.isChestUnreachable(memoryWithItem.getChestPosition())) {
             ChestTaskComponent storeTask = new ChestTaskComponent(
                     ChestTaskComponent.TaskType.Store,
                     memoryWithItem.getChestPosition(),
@@ -68,12 +68,12 @@ public class ActionCreateTasks extends ActionBase {
             );
             hexCreatureComponent.addChestTask(storeTask);
          } else {
-            List<Vector3d> listChestsPosition = FinderUtils.findAllChestsInRange(
+            List<Vector3d> listChestsPosition = hexCreatureComponent.withoutUnreachableChests(FinderUtils.findAllChestsInRange(
                     transformComponent.getPosition(),
                     (int) Math.ceil(horizontalRange),
                     (int) Math.ceil(verticalRange),
                     world
-            );
+            ));
 
             if (listChestsPosition.isEmpty()) continue;
 

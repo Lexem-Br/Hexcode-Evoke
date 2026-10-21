@@ -3,6 +3,7 @@ package com.lexem.hexcodeevoke.npc.actions;
 import com.hypixel.hytale.component.ComponentAccessor;
 import com.hypixel.hytale.component.ComponentType;
 import com.hypixel.hytale.component.Ref;
+import com.hypixel.hytale.component.RemoveReason;
 import com.hypixel.hytale.component.Store;
 import com.hypixel.hytale.server.core.inventory.InventoryComponent;
 import com.hypixel.hytale.server.core.inventory.ItemStack;
@@ -28,6 +29,7 @@ public class ActionHCPickUpItem extends ActionWithDelay {
    protected static final ComponentType<EntityStore, TransformComponent> TRANSFORM_COMPONENT_TYPE = TransformComponent.getComponentType();
    protected final double range;
    protected final boolean hoover;
+   protected final boolean skipHandSlot;
    @Nullable
    protected final List<String> hooverItems;
 
@@ -35,6 +37,7 @@ public class ActionHCPickUpItem extends ActionWithDelay {
       super(builder, support);
       this.range = builder.getRange(support);
       this.hoover = builder.getHoover();
+      this.skipHandSlot = builder.getSkipHandSlot();
       String[] items = builder.getItems(support);
       this.hooverItems = items != null ? List.of(items) : null;
    }
@@ -98,6 +101,11 @@ public class ActionHCPickUpItem extends ActionWithDelay {
       if (itemRef == null) {
          return false;
       } else {
+         if (this.skipHandSlot) {
+            addOutsideHand(ref, itemRef, store);
+            return true;
+         }
+
          ItemContainer hotbarContainer = Objects.requireNonNull(store.getComponent(ref, InventoryComponent.Hotbar.getComponentType())).getInventory();
          if (hotbarContainer != null && hotbarContainer.getCapacity() > 0) {
             ItemStack itemStack = hotbarContainer.getItemStack((short) 0);
@@ -118,6 +126,50 @@ public class ActionHCPickUpItem extends ActionWithDelay {
 
          return true;
       }
+   }
+
+   private static void addOutsideHand(@Nonnull Ref<EntityStore> ref, @Nonnull Ref<EntityStore> itemRef, @Nonnull Store<EntityStore> store) {
+      if (!itemRef.isValid()) return;
+
+      ItemComponent itemComponent = store.getComponent(itemRef, ITEM_COMPONENT_TYPE);
+      if (itemComponent == null || !itemComponent.canPickUp()) return;
+
+      ItemStack itemStack = itemComponent.getItemStack();
+      if (ItemStack.isEmpty(itemStack)) return;
+
+      InventoryComponent.Hotbar hotbar = store.getComponent(ref, InventoryComponent.Hotbar.getComponentType());
+      InventoryComponent.Storage storage = store.getComponent(ref, InventoryComponent.Storage.getComponentType());
+      ItemContainer hotbarInventory = hotbar != null ? hotbar.getInventory() : null;
+      ItemContainer storageInventory = storage != null ? storage.getInventory() : null;
+
+      // Same order as items taken from the mother: first joins existing stacks, then fills empty slots, never slot 0
+      ItemStack remainder = itemStack;
+      for (boolean mergeOnly : new boolean[]{true, false}) {
+         remainder = addToSlots(hotbarInventory, 1, remainder, mergeOnly);
+         remainder = addToSlots(storageInventory, 0, remainder, mergeOnly);
+      }
+
+      if (ItemStack.isEmpty(remainder)) {
+         store.removeEntity(itemRef, RemoveReason.REMOVE);
+      } else if (remainder.getQuantity() != itemStack.getQuantity()) {
+         itemComponent.setItemStack(remainder);
+      }
+   }
+
+   @Nullable
+   private static ItemStack addToSlots(@Nullable ItemContainer inventory, int firstSlot, @Nullable ItemStack itemStack, boolean mergeOnly) {
+      if (inventory == null || ItemStack.isEmpty(itemStack)) return itemStack;
+
+      ItemStack remainder = itemStack;
+      for (short slot = (short) firstSlot; slot < inventory.getCapacity() && !ItemStack.isEmpty(remainder); slot++) {
+         ItemStack current = inventory.getItemStack(slot);
+         boolean empty = ItemStack.isEmpty(current);
+         if (mergeOnly && (empty || !current.getItemId().equals(remainder.getItemId()))) continue;
+         if (!mergeOnly && !empty) continue;
+
+         remainder = inventory.addItemStackToSlot(slot, remainder).getRemainder();
+      }
+      return remainder;
    }
 
    protected boolean filterItem(@Nonnull Ref<EntityStore> ref, @Nonnull ComponentAccessor<EntityStore> componentAccessor) {

@@ -15,7 +15,9 @@ import org.joml.Vector3d;
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Random;
 
@@ -37,6 +39,8 @@ public class HexCreatureComponent implements Component<EntityStore> {
     private boolean markedToDespawn = false;
     private String lastState;
     private String lastSubState;
+    // Not saved: chests a minion couldn't reach, skipped by new tasks until the time runs out
+    private Map<Long, Long> unreachableChests = new HashMap<>();
 
     private static ComponentType<EntityStore, HexCreatureComponent> TYPE;
 
@@ -251,6 +255,36 @@ public class HexCreatureComponent implements Component<EntityStore> {
         }
     }
 
+    public void markChestUnreachable(Vector3d chestPosition, long durationMillis) {
+        if (chestPosition == null) return;
+        unreachableChests.put(blockKey(chestPosition), System.currentTimeMillis() + durationMillis);
+    }
+
+    public boolean isChestUnreachable(Vector3d chestPosition) {
+        if (chestPosition == null || unreachableChests.isEmpty()) return false;
+
+        long now = System.currentTimeMillis();
+        unreachableChests.values().removeIf(expiresAt -> expiresAt <= now);
+        return unreachableChests.containsKey(blockKey(chestPosition));
+    }
+
+    public List<Vector3d> withoutUnreachableChests(List<Vector3d> chestPositions) {
+        if (unreachableChests.isEmpty()) return chestPositions;
+
+        List<Vector3d> reachable = new ArrayList<>();
+        for (Vector3d chestPosition : chestPositions) {
+            if (!isChestUnreachable(chestPosition)) reachable.add(chestPosition);
+        }
+        return reachable;
+    }
+
+    private static long blockKey(Vector3d position) {
+        long x = (long) Math.floor(position.x) & 0x3FFFFFFL;
+        long y = (long) Math.floor(position.y) & 0xFFFL;
+        long z = (long) Math.floor(position.z) & 0x3FFFFFFL;
+        return (x << 38) | (y << 26) | z;
+    }
+
     private static boolean isExcluded(Vector3d position, List<Vector3d> excludedPositions) {
         for (Vector3d excluded : excludedPositions) {
             if (isSameBlock(position, excluded)) return true;
@@ -412,6 +446,7 @@ public class HexCreatureComponent implements Component<EntityStore> {
         clone.listChestTask = this.listChestTask;
         clone.lastState = this.lastState;
         clone.lastSubState = this.lastSubState;
+        clone.unreachableChests = this.unreachableChests;
         return clone;
     }
 
