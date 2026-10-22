@@ -2,7 +2,9 @@ package com.lexem.hexcodeevoke.npc.sensors;
 
 import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.component.Store;
+import com.hypixel.hytale.server.core.modules.entity.component.HeadRotation;
 import com.hypixel.hytale.server.core.modules.entity.component.TransformComponent;
+import com.hypixel.hytale.server.core.modules.physics.util.PhysicsMath;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.hypixel.hytale.server.npc.asset.builder.BuilderSupport;
 import com.hypixel.hytale.server.npc.corecomponents.SensorBase;
@@ -25,12 +27,16 @@ public class SensorEvokerPosition extends SensorBase {
     private final double leadDistance;
     private final double leadFullSpeed;
     private final double leadSideOffset;
+    private final BuilderSensorEvokerPosition.Formation formation;
+    private final double formationDistance;
+    private final BuilderSensorEvokerPosition.FormationSide formationSide;
     private final PositionProvider positionProvider = new PositionProvider();
 
     private static final double VELOCITY_SMOOTHING_SECONDS = 0.25;
     private static final double MAX_SAMPLE_GAP_SECONDS = 0.5;
     private static final double MAX_TRACKED_SPEED = 30.0;
     private static final double MIN_LEAD_SPEED = 0.5;
+    private static final double MIN_NEAREST_DISTANCE = 0.1;
     private static final double SIDE_SWITCH_DISTANCE = 0.75;
     private static final double FREE_SEARCH_STEP = 0.5;
     private static final double MIN_FREE_HEIGHT = 0.25;
@@ -49,6 +55,9 @@ public class SensorEvokerPosition extends SensorBase {
         this.leadDistance = builder.getLeadDistance(support);
         this.leadFullSpeed = builder.getLeadFullSpeed(support);
         this.leadSideOffset = builder.getLeadSideOffset(support);
+        this.formation = builder.getFormation(support);
+        this.formationDistance = builder.getFormationDistance(support);
+        this.formationSide = builder.getFormationSide(support);
     }
 
     @Override
@@ -76,11 +85,15 @@ public class SensorEvokerPosition extends SensorBase {
             return false;
         }
 
+        Vector3d offset = formation == BuilderSensorEvokerPosition.Formation.Lead
+                ? getLeadOffset(transform.getPosition(), evokerPosition)
+                : getFormationOffset(evokerRef, evokerTransform, transform.getPosition(), store);
+
         MotionController motionController = executionSupport.getMotionContextSupport().getActiveMotionController();
         if (motionController != null) {
-            target = findFreeTarget(motionController, evokerPosition, getLeadOffset(transform.getPosition(), evokerPosition), store);
+            target = findFreeTarget(motionController, evokerPosition, offset, store);
         } else {
-            target.add(getLeadOffset(transform.getPosition(), evokerPosition));
+            target.add(offset);
         }
 
         this.positionProvider.setTarget(target);
@@ -151,6 +164,59 @@ public class SensorEvokerPosition extends SensorBase {
         double lead = leadDistance * factor;
         double side = leadSideOffset * factor * currentSide;
         return new Vector3d(dirX * lead + sideX * side, 0, dirZ * lead + sideZ * side);
+    }
+
+    @Nonnull
+    private Vector3d getFormationOffset(@Nonnull Ref<EntityStore> evokerRef, @Nonnull TransformComponent evokerTransform, @Nonnull Vector3d creaturePosition, @Nonnull Store<EntityStore> store) {
+        HeadRotation headRotation = store.getComponent(evokerRef, HeadRotation.getComponentType());
+        float yaw = headRotation != null ? headRotation.getRotation().yaw() : evokerTransform.getRotation().yaw();
+        double forwardX = PhysicsMath.headingX(yaw);
+        double forwardZ = PhysicsMath.headingZ(yaw);
+
+        if (formation == BuilderSensorEvokerPosition.Formation.Nearest) {
+            return getNearestOffset(evokerTransform.getPosition(), creaturePosition, forwardX, forwardZ);
+        }
+
+        if (formation == BuilderSensorEvokerPosition.Formation.Behind) {
+            return new Vector3d(-forwardX * formationDistance, 0, -forwardZ * formationDistance);
+        }
+
+        double rightX = -forwardZ;
+        double rightZ = forwardX;
+        int side = switch (formationSide) {
+            case Left -> -1;
+            case Right -> 1;
+            case Nearest -> {
+                Vector3d evokerPosition = evokerTransform.getPosition();
+                double sideDistance = (creaturePosition.x - evokerPosition.x) * rightX + (creaturePosition.z - evokerPosition.z) * rightZ;
+                if (sideDistance * currentSide < -SIDE_SWITCH_DISTANCE) currentSide = -currentSide;
+                yield currentSide;
+            }
+        };
+        return new Vector3d(rightX * formationDistance * side, 0, rightZ * formationDistance * side);
+    }
+
+    @Nonnull
+    private Vector3d getNearestOffset(@Nonnull Vector3d evokerPosition, @Nonnull Vector3d creaturePosition, double forwardX, double forwardZ) {
+        double speed = Math.sqrt(smoothedVelocity.x * smoothedVelocity.x + smoothedVelocity.z * smoothedVelocity.z);
+        double dirX;
+        double dirZ;
+        if (speed >= MIN_LEAD_SPEED) {
+            dirX = -smoothedVelocity.x / speed;
+            dirZ = -smoothedVelocity.z / speed;
+        } else {
+            dirX = creaturePosition.x - evokerPosition.x;
+            dirZ = creaturePosition.z - evokerPosition.z;
+            double length = Math.sqrt(dirX * dirX + dirZ * dirZ);
+            if (length < MIN_NEAREST_DISTANCE) {
+                dirX = -forwardX;
+                dirZ = -forwardZ;
+            } else {
+                dirX /= length;
+                dirZ /= length;
+            }
+        }
+        return new Vector3d(dirX * formationDistance, 0, dirZ * formationDistance);
     }
 
     @Nullable

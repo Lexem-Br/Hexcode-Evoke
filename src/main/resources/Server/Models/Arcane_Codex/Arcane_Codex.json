@@ -1,0 +1,109 @@
+{
+  "Model": "Items/Weapons/Spellbook/Grimoire.blockymodel",
+  "Texture": "Items/Weapons/Spellbook/Grimoire_Purple_Texture.png",
+  "DefaultAttachments": [],
+  "HitBox": {
+    "Max": {
+      "X": 0.35,
+      "Y": 0.8,
+      "Z": 0.35
+    },
+    "Min": {
+      "X": -0.35,
+      "Y": 0,
+      "Z": -0.35
+    }
+  },
+  "EyeHeight": 0.4,
+  "MinScale": 2,
+  "MaxScale": 2,
+  "AnimationSets": {
+    "Idle": {
+      "Animations": [
+        {
+          "Animation": "NPC/Arcane_Codex/Idle.blockyanim",
+          "Speed": 0.5
+        }
+      ]
+    },
+    "Jump": {
+      "Animations": [
+        {
+          "Animation": "NPC/Arcane_Codex/Idle.blockyanim"
+        }
+      ]
+    },
+    "FlyIdle": {
+      "Animations": [
+        {
+          "Animation": "NPC/Arcane_Codex/Idle.blockyanim",
+          "Speed": 0.5
+        }
+      ]
+    },
+    "Fly": {
+      "Animations": [
+        {
+          "Animation": "NPC/Arcane_Codex/Idle.blockyanim",
+          "Speed": 1
+        }
+      ]
+    },
+    "FlyFast": {
+      "Animations": [
+        {
+          "Animation": "NPC/Arcane_Codex/Idle.blockyanim",
+          "Speed": 1.2
+        }
+      ]
+    },
+    "FlyBackward": {
+      "Animations": [
+        {
+          "Animation": "NPC/Arcane_Codex/Idle.blockyanim",
+          "Speed": 1
+        }
+      ]
+    },
+    "Walk": {
+      "Animations": [
+        {
+          "Animation": "NPC/Arcane_Codex/Idle.blockyanim",
+          "Speed": 1
+        }
+      ]
+    },
+    "WalkBackward": {
+      "Animations": [
+        {
+          "Animation": "NPC/Arcane_Codex/Idle.blockyanim",
+          "Speed": 1
+        }
+      ]
+    },
+    "Run": {
+      "Animations": [
+        {
+          "Animation": "NPC/Arcane_Codex/Idle.blockyanim",
+          "Speed": 1.2
+        }
+      ]
+    },
+    "RunBackward": {
+      "Animations": [
+        {
+          "Animation": "NPC/Arcane_Codex/Idle.blockyanim",
+          "Speed": 1.2
+        }
+      ]
+    },
+    "Sprint": {
+      "Animations": [
+        {
+          "Animation": "NPC/Arcane_Codex/Idle.blockyanim",
+          "Speed": 1.2
+        }
+      ]
+    }
+  }
+}

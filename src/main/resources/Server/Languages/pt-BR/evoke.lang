@@ -30,6 +30,8 @@ items.HexItems.Baby_Chest_Spider.name=Aranha Baú Bebê
 items.HexItems.Baby_Chest_Spider.description=.
 items.HexItems.Hex_Broom.name=Vassoura Hex
 items.HexItems.Hex_Broom.description=Vaga aleatóriamente pelo local, coleta itens e os guarda no baú mais próximo
+items.HexItems.Arcane_Codex_Void.name=Códex Arcano do Vazio
+items.HexItems.Arcane_Codex_Air.name=Códex Arcano do Ar
 
 npcRoles.Void_Mannequin.name=Manequim do Vazio
 npcRoles.Hex_Pumpkin_Scary.name=Abóbora Hex Assustadora
@@ -42,5 +44,6 @@ items.armor.Straw_Hat.name=Chapéu de palha
 interactionHints.despawn= Pressione [{key}] para recolher
 interactionHints.ActiveJumpScare= Pressione [{key}] para ativar o modo susto
 interactionHints.DesactiveJumpScare= Pressione [{key}] para desativar o modo susto
+interactionHints.searchItem= Pressione [{key}] para procurar um item
 
 hud.inputBinding.open = Abrir Livro

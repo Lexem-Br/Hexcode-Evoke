@@ -72,6 +72,16 @@
     {
       "BlockId": "Hex_Broom_Block",
       "EntityId": "Hex_Broom"
+    },
+    {
+      "BlockId": "Recipe_Book_Magic_Void",
+      "EntityId": "Arcane_Codex_Void",
+      "EssenceCost": 100
+    },
+    {
+      "BlockId": "Recipe_Book_Magic_Air",
+      "EntityId": "Arcane_Codex_Air",
+      "EssenceCost": 100
     }
   ]
 }

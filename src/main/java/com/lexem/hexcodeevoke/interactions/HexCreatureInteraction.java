@@ -73,8 +73,8 @@ public class HexCreatureInteraction extends SimpleInteraction {
 
             Vector3i hexItemPosition = FinderUtils.findNearestBlockBFS(
                     transformComponent.getPosition(),
-                    (int) 2.0,
-                    (int) 2.0,
+                    3,
+                    3,
                     hexItemValidator,
                     world
             );

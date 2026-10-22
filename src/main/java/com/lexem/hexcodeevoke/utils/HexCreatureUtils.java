@@ -63,6 +63,16 @@ public class HexCreatureUtils {
         if (evoker == null) { return false; }
 
         int roleIndex = NPCPlugin.get().getIndex(hexItem.entityId);
+        if (roleIndex >= 0) {
+            try {
+                NPCPlugin.get().prepareRoleBuilderInfo(roleIndex);
+            } catch (RuntimeException e) {
+                LOGGER.atWarning().log("Invalid role '" + hexItem.entityId + "': " + e.getMessage());
+                PlayerRef playerRef = accessor.getComponent(refESPlayer, PlayerRef.getComponentType());
+                ErrorMessageUtils.sendMessageError(playerRef, "errors.invalid_target", "errors.block_must_be_hex_item");
+                return false;
+            }
+        }
 
         accessor.run(_store -> {
             if (!evoker.canAddHexCreature()) {

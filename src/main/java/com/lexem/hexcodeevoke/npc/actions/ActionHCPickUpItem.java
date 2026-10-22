@@ -142,7 +142,6 @@ public class ActionHCPickUpItem extends ActionWithDelay {
       ItemContainer hotbarInventory = hotbar != null ? hotbar.getInventory() : null;
       ItemContainer storageInventory = storage != null ? storage.getInventory() : null;
 
-      // Same order as items taken from the mother: first joins existing stacks, then fills empty slots, never slot 0
       ItemStack remainder = itemStack;
       for (boolean mergeOnly : new boolean[]{true, false}) {
          remainder = addToSlots(hotbarInventory, 1, remainder, mergeOnly);

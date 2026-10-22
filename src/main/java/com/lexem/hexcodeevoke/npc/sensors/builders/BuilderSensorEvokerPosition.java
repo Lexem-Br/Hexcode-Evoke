@@ -6,6 +6,7 @@ import com.hypixel.hytale.server.npc.asset.builder.BuilderDescriptorState;
 import com.hypixel.hytale.server.npc.asset.builder.BuilderSupport;
 import com.hypixel.hytale.server.npc.asset.builder.Feature;
 import com.hypixel.hytale.server.npc.asset.builder.holder.DoubleHolder;
+import com.hypixel.hytale.server.npc.asset.builder.holder.EnumHolder;
 import com.hypixel.hytale.server.npc.asset.builder.validators.DoubleRangeValidator;
 import com.hypixel.hytale.server.npc.asset.builder.validators.DoubleSingleValidator;
 import com.hypixel.hytale.server.npc.corecomponents.builders.BuilderSensorBase;
@@ -13,6 +14,7 @@ import com.hypixel.hytale.server.npc.instructions.Sensor;
 import com.lexem.hexcodeevoke.npc.sensors.SensorEvokerPosition;
 
 import javax.annotation.Nonnull;
+import java.util.function.Supplier;
 
 public class BuilderSensorEvokerPosition extends BuilderSensorBase {
    protected final DoubleHolder range = new DoubleHolder();
@@ -21,6 +23,9 @@ public class BuilderSensorEvokerPosition extends BuilderSensorBase {
    protected final DoubleHolder leadDistance = new DoubleHolder();
    protected final DoubleHolder leadFullSpeed = new DoubleHolder();
    protected final DoubleHolder leadSideOffset = new DoubleHolder();
+   protected final EnumHolder<Formation> formation = new EnumHolder<>();
+   protected final DoubleHolder formationDistance = new DoubleHolder();
+   protected final EnumHolder<FormationSide> formationSide = new EnumHolder<>();
 
    public BuilderSensorEvokerPosition() {
    }
@@ -57,8 +62,58 @@ public class BuilderSensorEvokerPosition extends BuilderSensorBase {
       this.getDouble(data, "LeadDistance", this.leadDistance, 0.0, DoubleSingleValidator.greaterEqual0(), BuilderDescriptorState.Stable, "How far ahead of the evoker the position moves while they walk", "Maximum distance the position moves ahead of the evoker in their walking direction. 0 disables it");
       this.getDouble(data, "LeadFullSpeed", this.leadFullSpeed, 5.0, DoubleSingleValidator.greater0(), BuilderDescriptorState.Stable, "Evoker speed at which the full lead distance is used", "Evoker horizontal speed (blocks per second) at which the full lead distance is used. Slower movement uses a proportional lead");
       this.getDouble(data, "LeadSideOffset", this.leadSideOffset, 0.0, DoubleSingleValidator.greaterEqual0(), BuilderDescriptorState.Stable, "How far to the side of the walking direction the position moves", "Distance the position moves to the left or right of the evoker's walking direction, towards the side the creature is already on, so it doesn't block a first person view. Scales with speed like LeadDistance");
+      this.getEnum(data, "Formation", this.formation, Formation.class, Formation.Lead, BuilderDescriptorState.Stable, "Where the position is placed around the evoker", "Lead uses LeadDistance/LeadSideOffset (ahead of the evoker while they walk). Behind and Side use FormationDistance relative to where the evoker is looking, even when standing still. Nearest uses FormationDistance on the side opposite to the evoker's walking direction, or the point closest to the creature while they stand still");
+      this.getDouble(data, "FormationDistance", this.formationDistance, 1.5, DoubleSingleValidator.greaterEqual0(), BuilderDescriptorState.Stable, "Distance from the evoker used by the Behind, Side and Nearest formations", null);
+      this.getEnum(data, "FormationSide", this.formationSide, FormationSide.class, FormationSide.Nearest, BuilderDescriptorState.Stable, "Side used by the Side formation", "Nearest keeps the side the creature is already on");
       this.provideFeature(Feature.Position);
       return this;
+   }
+
+   public Formation getFormation(@Nonnull BuilderSupport support) {
+      return this.formation.get(support.getExecutionContext());
+   }
+
+   public double getFormationDistance(@Nonnull BuilderSupport support) {
+      return this.formationDistance.get(support.getExecutionContext());
+   }
+
+   public FormationSide getFormationSide(@Nonnull BuilderSupport support) {
+      return this.formationSide.get(support.getExecutionContext());
+   }
+
+   public enum Formation implements Supplier<String> {
+      Lead("Ahead of the evoker while they walk, like the Hex Fairy"),
+      Behind("Behind the evoker"),
+      Side("Beside the evoker"),
+      Nearest("On the side opposite to where the evoker walks: behind when walking forward, in front when walking backwards, and so on. Standing still, the point closest to the creature");
+
+      private final String description;
+
+      Formation(String description) {
+         this.description = description;
+      }
+
+      @Override
+      public String get() {
+         return this.description;
+      }
+   }
+
+   public enum FormationSide implements Supplier<String> {
+      Nearest("The side the creature is already on"),
+      Left("The evoker's left side"),
+      Right("The evoker's right side");
+
+      private final String description;
+
+      FormationSide(String description) {
+         this.description = description;
+      }
+
+      @Override
+      public String get() {
+         return this.description;
+      }
    }
 
    public double getLeadSideOffset(@Nonnull BuilderSupport support) {

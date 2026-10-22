@@ -21,3 +21,6 @@ insufficient_life_essence_quantity.description=Life Essences are needed
 
 evoke_book_not_found.title=Evoke Book not found
 evoke_book_not_found.description=The Evoke Book must be equipped in the utility slot
+
+item_not_found_in_chests.title=Item not found
+item_not_found_in_chests.description=The book does not remember a nearby chest with this item

@@ -148,6 +148,9 @@ public class HexcodeEvoke extends JavaPlugin {
         npcPlugin.registerCoreComponentType("Evoke:DespawnHC", BuilderDespawnHC::new);
         npcPlugin.registerCoreComponentType("Evoke:Unstuck", BuilderActionUnstuck::new);
         npcPlugin.registerCoreComponentType("Evoke:AbandonMinionTask", BuilderActionAbandonMinionTask::new);
+        npcPlugin.registerCoreComponentType("Evoke:MemorizeChest", BuilderActionMemorizeChest::new);
+        npcPlugin.registerCoreComponentType("Evoke:ResetChestExploration", BuilderActionResetChestExploration::new);
+        npcPlugin.registerCoreComponentType("Evoke:OpenArcaneCodexSearch", BuilderActionOpenArcaneCodexSearch::new);
     }
 
     private void registerBodyMotions(NPCPlugin npcPlugin) {
@@ -187,6 +190,9 @@ public class HexcodeEvoke extends JavaPlugin {
         npcPlugin.registerCoreComponentType("Evoke:SearchChestTaskPosition", BuilderSensorSearchChestTaskPosition::new);
         npcPlugin.registerCoreComponentType("Evoke:IsStuck", BuilderSensorIsStuck::new);
         npcPlugin.registerCoreComponentType("Evoke:ChestTaskStuck", BuilderSensorChestTaskStuck::new);
+        npcPlugin.registerCoreComponentType("Evoke:SearchedChestPosition", BuilderSensorSearchedChestPosition::new);
+        npcPlugin.registerCoreComponentType("Evoke:FindChestToExplore", BuilderSensorFindChestToExplore::new);
+        npcPlugin.registerCoreComponentType("Evoke:Interactor", BuilderSensorInteractor::new);
     }
 
     private void registerComponents() {

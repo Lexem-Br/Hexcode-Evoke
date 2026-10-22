@@ -12,6 +12,7 @@ import com.hypixel.hytale.server.npc.corecomponents.ActionBase;
 import com.hypixel.hytale.server.npc.instructions.ExecutionSupport;
 import com.hypixel.hytale.server.npc.movement.controllers.MotionController;
 import com.hypixel.hytale.server.npc.role.support.StateSupport;
+import com.hypixel.hytale.server.npc.sensorinfo.IPositionProvider;
 import com.hypixel.hytale.server.npc.sensorinfo.InfoProvider;
 import com.lexem.hexcodeevoke.components.EvokerComponent;
 import com.lexem.hexcodeevoke.components.HexCreatureComponent;
@@ -36,6 +37,7 @@ public class ActionUnstuck extends ActionBase {
     protected final double heightOffset;
     protected final double turnRate;
     protected final double startSpread;
+    protected final boolean useSensorPosition;
     private final Vector3d target = new Vector3d();
     private final Vector3d direction = new Vector3d();
     private final Vector3d desired = new Vector3d();
@@ -48,6 +50,7 @@ public class ActionUnstuck extends ActionBase {
         this.heightOffset = builder.getHeightOffset(support);
         this.turnRate = builder.getTurnRate(support);
         this.startSpread = builder.getStartSpread(support);
+        this.useSensorPosition = builder.getUseSensorPosition(support);
     }
 
     @Override
@@ -55,7 +58,14 @@ public class ActionUnstuck extends ActionBase {
         super.execute(npcRef, executionSupport, sensorInfo, dt, store);
 
         TransformComponent transformComponent = store.getComponent(npcRef, TransformComponent.getComponentType());
-        if (transformComponent == null || !this.findTarget(npcRef, executionSupport, store)) return false;
+        if (transformComponent == null) return false;
+
+        if (this.useSensorPosition) {
+            IPositionProvider positionProvider = sensorInfo != null ? sensorInfo.getPositionProvider() : null;
+            if (positionProvider == null || !positionProvider.providePosition(this.target)) return false;
+        } else if (!this.findTarget(npcRef, executionSupport, store)) {
+            return false;
+        }
 
         Vector3d position = transformComponent.getPosition();
         this.direction.set(this.target).sub(position);
@@ -71,7 +81,6 @@ public class ActionUnstuck extends ActionBase {
         } else {
             if (starting) this.startCurve(transformComponent, distance);
 
-            // Turns the current velocity towards the target a bit each tick, which bends the path into a curve
             double blend = distance < CLOSE_DISTANCE ? 1.0 : Math.min(1.0, this.turnRate * dt);
             this.desired.set(this.direction).mul(this.speed / distance);
             this.velocity.lerp(this.desired, blend);
@@ -93,8 +102,6 @@ public class ActionUnstuck extends ActionBase {
         double spread = Math.toRadians(this.startSpread) * (ThreadLocalRandom.current().nextBoolean() ? 1 : -1);
         double cos = Math.cos(spread);
         double sin = Math.sin(spread);
-
-        // Starts from the direction to the target turned to a random side, lifted slightly
         double x = this.direction.x / distance;
         double z = this.direction.z / distance;
         this.velocity.set(x * cos - z * sin, this.direction.y / distance + START_LIFT, x * sin + z * cos);

@@ -1,0 +1,15 @@
+{
+  "Type": "Variant",
+  "Reference": "Template_Arcane_Codex",
+  "Modify": {
+    "Appearance": "Arcane_Codex_Void",
+    "DropHexItem": "Recipe_Book_Magic_Void",
+    "NameTranslationKey": { "Compute": "NameTranslationKey" }
+  },
+  "Parameters": {
+    "NameTranslationKey": {
+      "Value": "evoke.items.HexItems.Arcane_Codex_Void.name",
+      "Description": "Translation key for NPC name display"
+    }
+  }
+}

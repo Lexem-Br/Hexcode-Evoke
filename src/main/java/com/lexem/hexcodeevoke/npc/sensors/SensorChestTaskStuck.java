@@ -61,10 +61,8 @@ public class SensorChestTaskStuck extends SensorBase {
             targetPosition = new Vector3d(Math.floor(chestPosition.x) + 0.5, Math.floor(chestPosition.y), Math.floor(chestPosition.z) + 0.5);
         }
 
-        // Without a mother it never gets closer, so it ends up counting as stuck
         double distance = targetPosition != null ? transformComponent.getPosition().distance(targetPosition) : Double.MAX_VALUE;
 
-        // A new task, or the first check after a while doing something else, starts counting again
         long now = System.nanoTime();
         if (chestTask != this.trackedTask || now - this.lastMatchNanos > RESET_GAP_NANOS) {
             this.trackedTask = chestTask;

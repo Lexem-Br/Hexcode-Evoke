@@ -39,8 +39,13 @@ public class HexCreatureComponent implements Component<EntityStore> {
     private boolean markedToDespawn = false;
     private String lastState;
     private String lastSubState;
-    // Not saved: chests a minion couldn't reach, skipped by new tasks until the time runs out
     private Map<Long, Long> unreachableChests = new HashMap<>();
+    private Vector3d searchChestPosition;
+    private Vector3d exploreChestPosition;
+    private Vector3d exploreAnchor;
+    private long exploreChestSince;
+    private long lastExploreSearch;
+    private Map<Long, Long> visitedChests = new HashMap<>();
 
     private static ComponentType<EntityStore, HexCreatureComponent> TYPE;
 
@@ -425,6 +430,91 @@ public class HexCreatureComponent implements Component<EntityStore> {
         return nearest;
     }
 
+    public List<String> getRememberedItemIds() {
+        List<String> itemIds = new ArrayList<>();
+        if (listChestMemory == null) return itemIds;
+
+        for (ChestMemoryComponent memory : listChestMemory) {
+            if (memory == null || memory.getListItemsId() == null) continue;
+
+            for (String itemId : memory.getListItemsId()) {
+                if (itemId != null && !itemId.isEmpty() && !itemIds.contains(itemId)) itemIds.add(itemId);
+            }
+        }
+        return itemIds;
+    }
+
+    public List<ChestMemoryComponent> findChestMemoriesWithItem(String itemId, Vector3d position) {
+        List<ChestMemoryComponent> memories = new ArrayList<>();
+        if (listChestMemory == null || itemId == null) return memories;
+
+        for (ChestMemoryComponent memory : listChestMemory) {
+            if (memory == null || memory.getChestPosition() == null || memory.getListItemsId() == null) continue;
+            if (Arrays.asList(memory.getListItemsId()).contains(itemId)) memories.add(memory);
+        }
+
+        if (position != null) {
+            memories.sort((a, b) -> Double.compare(position.distanceSquared(a.getChestPosition()), position.distanceSquared(b.getChestPosition())));
+        }
+        return memories;
+    }
+
+    @Nullable
+    public Vector3d getSearchChestPosition() {
+        return searchChestPosition;
+    }
+
+    public void setSearchChestPosition(@Nullable Vector3d searchChestPosition) {
+        this.searchChestPosition = searchChestPosition;
+    }
+
+    @Nullable
+    public Vector3d getExploreChestPosition() {
+        return exploreChestPosition;
+    }
+
+    public void setExploreChestPosition(@Nullable Vector3d exploreChestPosition) {
+        this.exploreChestPosition = exploreChestPosition;
+        this.exploreChestSince = System.currentTimeMillis();
+    }
+
+    public long getExploreChestSince() {
+        return exploreChestSince;
+    }
+
+    public long getLastExploreSearch() {
+        return lastExploreSearch;
+    }
+
+    public void setLastExploreSearch(long lastExploreSearch) {
+        this.lastExploreSearch = lastExploreSearch;
+    }
+
+    @Nullable
+    public Vector3d getExploreAnchor() {
+        return exploreAnchor;
+    }
+
+    public void setExploreAnchor(@Nullable Vector3d exploreAnchor) {
+        this.exploreAnchor = exploreAnchor;
+    }
+
+    public void markChestVisited(Vector3d chestPosition) {
+        if (chestPosition == null) return;
+        visitedChests.put(blockKey(chestPosition), System.currentTimeMillis());
+    }
+
+    public boolean wasChestVisitedRecently(Vector3d chestPosition, long durationMillis) {
+        if (chestPosition == null) return false;
+
+        Long visitedAt = visitedChests.get(blockKey(chestPosition));
+        return visitedAt != null && System.currentTimeMillis() - visitedAt < durationMillis;
+    }
+
+    public void clearVisitedChests() {
+        visitedChests.clear();
+    }
+
     public void markToDespawn() {
         markedToDespawn = true;
     }
@@ -447,6 +537,12 @@ public class HexCreatureComponent implements Component<EntityStore> {
         clone.lastState = this.lastState;
         clone.lastSubState = this.lastSubState;
         clone.unreachableChests = this.unreachableChests;
+        clone.searchChestPosition = this.searchChestPosition;
+        clone.exploreChestPosition = this.exploreChestPosition;
+        clone.exploreAnchor = this.exploreAnchor;
+        clone.exploreChestSince = this.exploreChestSince;
+        clone.lastExploreSearch = this.lastExploreSearch;
+        clone.visitedChests = this.visitedChests;
         return clone;
     }
 

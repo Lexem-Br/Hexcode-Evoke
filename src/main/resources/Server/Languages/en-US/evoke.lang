@@ -30,6 +30,8 @@ items.HexItems.Baby_Chest_Spider.name=Baby Chest Spider
 items.HexItems.Baby_Chest_Spider.description=.
 items.HexItems.Hex_Broom.name=Hex Broom
 items.HexItems.Hex_Broom.description=Wander randomly around the area, collect items and store them in the nearest chest
+items.HexItems.Arcane_Codex_Void.name=Arcane Codex Void
+items.HexItems.Arcane_Codex_Air.name=Arcane Codex Air
 
 npcRoles.Void_Mannequin.name=Void Mannequin
 npcRoles.Hex_Pumpkin_Scary.name=Hex Pumpkin Scary
@@ -42,5 +44,6 @@ items.armor.Straw_Hat.name=Straw Hat
 interactionHints.despawn= Press [{key}] to despawn
 interactionHints.ActiveJumpScare= Press [{key}] to active jump scare mode
 interactionHints.DesactiveJumpScare= Press [{key}] to desactive jump scare mode
+interactionHints.searchItem= Press [{key}] to search for an item
 
 hud.inputBinding.open = Open Book
