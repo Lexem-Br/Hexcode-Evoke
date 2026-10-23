@@ -34,6 +34,9 @@ items.HexItems.Hex_Broom.description=Vaga aleatóriamente pelo local, coleta ite
 npcRoles.Void_Mannequin.name=Manequim do Vazio
 npcRoles.Hex_Pumpkin_Scary.name=Abóbora Hex Assustadora
 npcRoles.Hex_Pumpkin_Cute.name=Abóbora Hex Fofa
+npcRoles.Hex_Pumpkin_Green.name=Abóbora Hex Verde
+npcRoles.Hex_Pumpkin_Orange.name=Abóbora Hex Laranja
+npcRoles.Hex_Pumpkin_Yellow.name=Abóbora Hex Amarela
 
 workbench.benchCategories.evoke=Hexcode Evoke
 
