@@ -36,6 +36,9 @@ items.HexItems.Arcane_Codex_Air.name=Arcane Codex Air
 npcRoles.Void_Mannequin.name=Void Mannequin
 npcRoles.Hex_Pumpkin_Scary.name=Hex Pumpkin Scary
 npcRoles.Hex_Pumpkin_Cute.name=Hex Pumpkin Cute
+npcRoles.Hex_Pumpkin_Green.name=Hex Pumpkin Green
+npcRoles.Hex_Pumpkin_Orange.name=Hex Pumpkin Orange
+npcRoles.Hex_Pumpkin_Yellow.name=Hex Pumpkin Yellow
 
 workbench.benchCategories.evoke=Hexcode Evoke
 

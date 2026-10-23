@@ -63,11 +63,27 @@
     {
       "BlockId": "Deco_Halloween_Pumpkin_Scary",
       "EntityId": "Hex_Pumpkin_Scary",
-      "EssenceCost": 10
+      "EssenceCost": 25
     },
     {
       "BlockId": "Deco_Halloween_Pumpkin_Cute",
-      "EntityId": "Hex_Pumpkin_Cute"
+      "EntityId": "Hex_Pumpkin_Cute",
+      "EssenceCost": 25
+    },
+    {
+      "BlockId": "Deco_Halloween_Pumpkin_Lamp_Green",
+      "EntityId": "Hex_Pumpkin_Green",
+      "EssenceCost": 25
+    },
+    {
+      "BlockId": "Deco_Halloween_Pumpkin_Lamp_Orange",
+      "EntityId": "Hex_Pumpkin_Orange",
+      "EssenceCost": 25
+    },
+    {
+      "BlockId": "Deco_Halloween_Pumpkin_Lamp_Yellow",
+      "EntityId": "Hex_Pumpkin_Yellow",
+      "EssenceCost": 25
     },
     {
       "BlockId": "Hex_Broom_Block",
