@@ -27,6 +27,9 @@ public class SensorEvokerPosition extends SensorBase {
     private final double leadDistance;
     private final double leadFullSpeed;
     private final double leadSideOffset;
+    private final double idleLeadDistance;
+    private final double idleSideOffset;
+    private final BuilderSensorEvokerPosition.IdleDirection idleDirection;
     private final BuilderSensorEvokerPosition.Formation formation;
     private final double formationDistance;
     private final BuilderSensorEvokerPosition.FormationSide formationSide;
@@ -43,6 +46,9 @@ public class SensorEvokerPosition extends SensorBase {
 
     private final Vector3d smoothedVelocity = new Vector3d();
     private int currentSide = 1;
+    private boolean hasLastMoveDirection;
+    private double lastMoveDirX;
+    private double lastMoveDirZ;
     @Nullable
     private Vector3d lastEvokerPosition;
     private long lastUpdateNanos;
@@ -55,6 +61,9 @@ public class SensorEvokerPosition extends SensorBase {
         this.leadDistance = builder.getLeadDistance(support);
         this.leadFullSpeed = builder.getLeadFullSpeed(support);
         this.leadSideOffset = builder.getLeadSideOffset(support);
+        this.idleLeadDistance = builder.getIdleLeadDistance(support);
+        this.idleSideOffset = builder.getIdleSideOffset(support);
+        this.idleDirection = builder.getIdleDirection(support);
         this.formation = builder.getFormation(support);
         this.formationDistance = builder.getFormationDistance(support);
         this.formationSide = builder.getFormationSide(support);
@@ -86,7 +95,7 @@ public class SensorEvokerPosition extends SensorBase {
         }
 
         Vector3d offset = formation == BuilderSensorEvokerPosition.Formation.Lead
-                ? getLeadOffset(transform.getPosition(), evokerPosition)
+                ? getLeadOffset(evokerRef, evokerTransform, transform.getPosition(), store)
                 : getFormationOffset(evokerRef, evokerTransform, transform.getPosition(), store);
 
         MotionController motionController = executionSupport.getMotionContextSupport().getActiveMotionController();
@@ -129,6 +138,7 @@ public class SensorEvokerPosition extends SensorBase {
 
         if (lastEvokerPosition == null || elapsed <= 0 || elapsed > MAX_SAMPLE_GAP_SECONDS) {
             smoothedVelocity.set(0, 0, 0);
+            hasLastMoveDirection = false;
         } else {
             double velocityX = (evokerPosition.x - lastEvokerPosition.x) / elapsed;
             double velocityZ = (evokerPosition.z - lastEvokerPosition.z) / elapsed;
@@ -147,13 +157,33 @@ public class SensorEvokerPosition extends SensorBase {
     }
 
     @Nonnull
-    private Vector3d getLeadOffset(@Nonnull Vector3d creaturePosition, @Nonnull Vector3d evokerPosition) {
+    private Vector3d getLeadOffset(@Nonnull Ref<EntityStore> evokerRef, @Nonnull TransformComponent evokerTransform, @Nonnull Vector3d creaturePosition, @Nonnull Store<EntityStore> store) {
+        Vector3d evokerPosition = evokerTransform.getPosition();
         double speed = Math.sqrt(smoothedVelocity.x * smoothedVelocity.x + smoothedVelocity.z * smoothedVelocity.z);
-        if (leadDistance <= 0 || speed < MIN_LEAD_SPEED) return new Vector3d();
+        boolean hasIdleOffset = idleLeadDistance > 0 || idleSideOffset > 0;
+        if (!hasIdleOffset && (leadDistance <= 0 || speed < MIN_LEAD_SPEED)) return new Vector3d();
 
-        double factor = Math.min(speed / leadFullSpeed, 1.0);
-        double dirX = smoothedVelocity.x / speed;
-        double dirZ = smoothedVelocity.z / speed;
+        double factor;
+        double dirX;
+        double dirZ;
+        if (speed >= MIN_LEAD_SPEED) {
+            factor = Math.min(speed / leadFullSpeed, 1.0);
+            dirX = smoothedVelocity.x / speed;
+            dirZ = smoothedVelocity.z / speed;
+            setLastMoveDirection(dirX, dirZ);
+        } else {
+            factor = 0;
+            if (idleDirection == BuilderSensorEvokerPosition.IdleDirection.LastMove && hasLastMoveDirection) {
+                dirX = lastMoveDirX;
+                dirZ = lastMoveDirZ;
+            } else {
+                HeadRotation headRotation = store.getComponent(evokerRef, HeadRotation.getComponentType());
+                float yaw = headRotation != null ? headRotation.getRotation().yaw() : evokerTransform.getRotation().yaw();
+                dirX = PhysicsMath.headingX(yaw);
+                dirZ = PhysicsMath.headingZ(yaw);
+                setLastMoveDirection(dirX, dirZ);
+            }
+        }
         double sideX = -dirZ;
         double sideZ = dirX;
         double sideDistance = (creaturePosition.x - evokerPosition.x) * sideX + (creaturePosition.z - evokerPosition.z) * sideZ;
@@ -161,9 +191,15 @@ public class SensorEvokerPosition extends SensorBase {
             currentSide = -currentSide;
         }
 
-        double lead = leadDistance * factor;
-        double side = leadSideOffset * factor * currentSide;
+        double lead = idleLeadDistance + (leadDistance - idleLeadDistance) * factor;
+        double side = (idleSideOffset + (leadSideOffset - idleSideOffset) * factor) * currentSide;
         return new Vector3d(dirX * lead + sideX * side, 0, dirZ * lead + sideZ * side);
+    }
+
+    private void setLastMoveDirection(double dirX, double dirZ) {
+        this.lastMoveDirX = dirX;
+        this.lastMoveDirZ = dirZ;
+        this.hasLastMoveDirection = true;
     }
 
     @Nonnull

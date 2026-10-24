@@ -39,6 +39,8 @@ npcRoles.Hex_Pumpkin_Cute.name=Hex Pumpkin Cute
 npcRoles.Hex_Pumpkin_Green.name=Hex Pumpkin Green
 npcRoles.Hex_Pumpkin_Orange.name=Hex Pumpkin Orange
 npcRoles.Hex_Pumpkin_Yellow.name=Hex Pumpkin Yellow
+npcRoles.Wisp_Torch.name=Wisp Torch
+npcRoles.Creeping_Torch.name=Creeping Torch
 
 workbench.benchCategories.evoke=Hexcode Evoke
 

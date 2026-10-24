@@ -10,8 +10,10 @@ import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.logger.HytaleLogger;
 import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
+import com.lexem.hexcodeevoke.utils.SurfaceCrawlState;
 import org.joml.Vector3d;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -46,6 +48,8 @@ public class HexCreatureComponent implements Component<EntityStore> {
     private long exploreChestSince;
     private long lastExploreSearch;
     private Map<Long, Long> visitedChests = new HashMap<>();
+    private SurfaceCrawlState crawlState = new SurfaceCrawlState();
+    private Boolean ascentSmallStep;
 
     private static ComponentType<EntityStore, HexCreatureComponent> TYPE;
 
@@ -468,6 +472,20 @@ public class HexCreatureComponent implements Component<EntityStore> {
         this.searchChestPosition = searchChestPosition;
     }
 
+    @Nonnull
+    public SurfaceCrawlState getCrawlState() {
+        return crawlState;
+    }
+
+    @Nullable
+    public Boolean getAscentSmallStep() {
+        return ascentSmallStep;
+    }
+
+    public void setAscentSmallStep(@Nullable Boolean ascentSmallStep) {
+        this.ascentSmallStep = ascentSmallStep;
+    }
+
     @Nullable
     public Vector3d getExploreChestPosition() {
         return exploreChestPosition;
@@ -543,6 +561,8 @@ public class HexCreatureComponent implements Component<EntityStore> {
         clone.exploreChestSince = this.exploreChestSince;
         clone.lastExploreSearch = this.lastExploreSearch;
         clone.visitedChests = this.visitedChests;
+        clone.crawlState = this.crawlState;
+        clone.ascentSmallStep = this.ascentSmallStep;
         return clone;
     }
 

@@ -59,6 +59,10 @@ public class AllowedHexItemsAsset implements JsonAssetWithMap<String, DefaultAss
                                         .add()
                                         .append(new KeyedCodec<>("EssenceCost", Codec.INTEGER), (item, s) -> item.essenceCost = s, item -> item.essenceCost)
                                         .add()
+                                        .append(new KeyedCodec<>("ReturnBlockId", Codec.STRING), (item, s) -> item.returnBlockId = s, item -> item.returnBlockId)
+                                        .add()
+                                        .append(new KeyedCodec<>("JumpSmallSteps", Codec.BOOLEAN), (item, s) -> item.jumpSmallSteps = s, item -> item.jumpSmallSteps)
+                                        .add()
                                         .build(),
                                 AllowedHexItemsAsset.HexItem[]::new
                         )),
@@ -81,6 +85,8 @@ public class AllowedHexItemsAsset implements JsonAssetWithMap<String, DefaultAss
         public boolean hasArmorLegSlot = false;
         public boolean hasHotbarSlot = false;
         public int essenceCost = 0;
+        public String returnBlockId = "";
+        public boolean jumpSmallSteps = false;
 
         public HexItem() {}
     }
@@ -146,6 +152,13 @@ public class AllowedHexItemsAsset implements JsonAssetWithMap<String, DefaultAss
         return getLookup().byBlockId().get(baseBlockId);
     }
 
+    @Nonnull
+    public static String getReturnBlockId(@Nonnull String blockId) {
+        HexItem item = getByBlockId(blockId);
+        if (item == null || item.returnBlockId == null || item.returnBlockId.isEmpty()) return blockId;
+        return item.returnBlockId;
+    }
+
     @Nullable
     public static HexItem getByEntityId(@Nonnull String entityId) {
         return getLookup().byEntityId().get(entityId);
@@ -190,6 +203,11 @@ public class AllowedHexItemsAsset implements JsonAssetWithMap<String, DefaultAss
     public static boolean hasHotbarSlotByEntityId(String entityId) {
         HexItem item = getByEntityId(entityId);
         return item != null && item.hasHotbarSlot;
+    }
+
+    public static boolean jumpsSmallStepsByEntityId(String entityId) {
+        HexItem item = getByEntityId(entityId);
+        return item != null && item.jumpSmallSteps;
     }
 
     public static boolean isHexCreature(@Nonnull String entityId) {

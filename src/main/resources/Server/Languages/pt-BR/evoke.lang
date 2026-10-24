@@ -39,6 +39,8 @@ npcRoles.Hex_Pumpkin_Cute.name=Abóbora Hex Fofa
 npcRoles.Hex_Pumpkin_Green.name=Abóbora Hex Verde
 npcRoles.Hex_Pumpkin_Orange.name=Abóbora Hex Laranja
 npcRoles.Hex_Pumpkin_Yellow.name=Abóbora Hex Amarela
+npcRoles.Wisp_Torch.name=Tocha Fátua
+npcRoles.Creeping_Torch.name=Tocha Rastejante
 
 workbench.benchCategories.evoke=Hexcode Evoke
 

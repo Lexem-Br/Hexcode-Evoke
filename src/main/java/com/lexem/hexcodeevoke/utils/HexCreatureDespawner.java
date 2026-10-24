@@ -56,7 +56,7 @@ public final class HexCreatureDespawner {
             @Nonnull Ref<EntityStore> npcRef,
             @Nonnull ComponentAccessor<EntityStore> commandBuffer
     ) {
-        new HexCreatureDespawner(store, npcRef, commandBuffer, true, false, true).run();
+        new HexCreatureDespawner(store, npcRef, commandBuffer, true, false, false).run();
     }
 
     public static void despawnAsBlock(
@@ -129,7 +129,9 @@ public final class HexCreatureDespawner {
         if (hexCreatureComponent == null || hexCreatureComponent.getEvokerUUID() == null) return;
 
         String blockId = hexCreatureComponent.getBlockName();
-        ItemStack hexDropItem = InventoryHelper.createItem(blockId);
+        if (blockId == null) return;
+
+        ItemStack hexDropItem = InventoryHelper.createItem(AllowedHexItemsAsset.getReturnBlockId(blockId));
         if (hexDropItem == null) return;
 
         Role npcRole = npcComponent.getRole();

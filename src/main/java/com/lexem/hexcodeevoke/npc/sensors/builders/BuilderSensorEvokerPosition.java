@@ -23,6 +23,9 @@ public class BuilderSensorEvokerPosition extends BuilderSensorBase {
    protected final DoubleHolder leadDistance = new DoubleHolder();
    protected final DoubleHolder leadFullSpeed = new DoubleHolder();
    protected final DoubleHolder leadSideOffset = new DoubleHolder();
+   protected final DoubleHolder idleLeadDistance = new DoubleHolder();
+   protected final DoubleHolder idleSideOffset = new DoubleHolder();
+   protected final EnumHolder<IdleDirection> idleDirection = new EnumHolder<>();
    protected final EnumHolder<Formation> formation = new EnumHolder<>();
    protected final DoubleHolder formationDistance = new DoubleHolder();
    protected final EnumHolder<FormationSide> formationSide = new EnumHolder<>();
@@ -62,6 +65,9 @@ public class BuilderSensorEvokerPosition extends BuilderSensorBase {
       this.getDouble(data, "LeadDistance", this.leadDistance, 0.0, DoubleSingleValidator.greaterEqual0(), BuilderDescriptorState.Stable, "How far ahead of the evoker the position moves while they walk", "Maximum distance the position moves ahead of the evoker in their walking direction. 0 disables it");
       this.getDouble(data, "LeadFullSpeed", this.leadFullSpeed, 5.0, DoubleSingleValidator.greater0(), BuilderDescriptorState.Stable, "Evoker speed at which the full lead distance is used", "Evoker horizontal speed (blocks per second) at which the full lead distance is used. Slower movement uses a proportional lead");
       this.getDouble(data, "LeadSideOffset", this.leadSideOffset, 0.0, DoubleSingleValidator.greaterEqual0(), BuilderDescriptorState.Stable, "How far to the side of the walking direction the position moves", "Distance the position moves to the left or right of the evoker's walking direction, towards the side the creature is already on, so it doesn't block a first person view. Scales with speed like LeadDistance");
+      this.getDouble(data, "IdleLeadDistance", this.idleLeadDistance, 0.0, DoubleSingleValidator.greaterEqual0(), BuilderDescriptorState.Stable, "How far ahead of the evoker the position stays while they stand still", "Distance in front of where the evoker is looking while they stand still. Blends into LeadDistance as they speed up. 0 keeps the position on the evoker");
+      this.getDouble(data, "IdleSideOffset", this.idleSideOffset, 0.0, DoubleSingleValidator.greaterEqual0(), BuilderDescriptorState.Stable, "How far to the side the position stays while the evoker stands still", "Distance to the left or right of where the evoker is looking while they stand still, towards the side the creature is already on. Blends into LeadSideOffset as they speed up");
+      this.getEnum(data, "IdleDirection", this.idleDirection, IdleDirection.class, IdleDirection.Look, BuilderDescriptorState.Stable, "Direction used by IdleLeadDistance and IdleSideOffset while the evoker stands still", "Look follows where the evoker is looking, so the creature moves when they turn the camera. LastMove keeps the direction they last walked in, so the creature only moves when they start walking again");
       this.getEnum(data, "Formation", this.formation, Formation.class, Formation.Lead, BuilderDescriptorState.Stable, "Where the position is placed around the evoker", "Lead uses LeadDistance/LeadSideOffset (ahead of the evoker while they walk). Behind and Side use FormationDistance relative to where the evoker is looking, even when standing still. Nearest uses FormationDistance on the side opposite to the evoker's walking direction, or the point closest to the creature while they stand still");
       this.getDouble(data, "FormationDistance", this.formationDistance, 1.5, DoubleSingleValidator.greaterEqual0(), BuilderDescriptorState.Stable, "Distance from the evoker used by the Behind, Side and Nearest formations", null);
       this.getEnum(data, "FormationSide", this.formationSide, FormationSide.class, FormationSide.Nearest, BuilderDescriptorState.Stable, "Side used by the Side formation", "Nearest keeps the side the creature is already on");
@@ -99,6 +105,26 @@ public class BuilderSensorEvokerPosition extends BuilderSensorBase {
       }
    }
 
+   public IdleDirection getIdleDirection(@Nonnull BuilderSupport support) {
+      return this.idleDirection.get(support.getExecutionContext());
+   }
+
+   public enum IdleDirection implements Supplier<String> {
+      Look("Where the evoker is looking"),
+      LastMove("The direction the evoker last walked in");
+
+      private final String description;
+
+      IdleDirection(String description) {
+         this.description = description;
+      }
+
+      @Override
+      public String get() {
+         return this.description;
+      }
+   }
+
    public enum FormationSide implements Supplier<String> {
       Nearest("The side the creature is already on"),
       Left("The evoker's left side"),
@@ -118,6 +144,14 @@ public class BuilderSensorEvokerPosition extends BuilderSensorBase {
 
    public double getLeadSideOffset(@Nonnull BuilderSupport support) {
       return this.leadSideOffset.get(support.getExecutionContext());
+   }
+
+   public double getIdleLeadDistance(@Nonnull BuilderSupport support) {
+      return this.idleLeadDistance.get(support.getExecutionContext());
+   }
+
+   public double getIdleSideOffset(@Nonnull BuilderSupport support) {
+      return this.idleSideOffset.get(support.getExecutionContext());
    }
 
    public double getLeadDistance(@Nonnull BuilderSupport support) {

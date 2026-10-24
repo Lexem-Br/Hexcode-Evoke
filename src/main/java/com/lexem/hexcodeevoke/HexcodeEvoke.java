@@ -32,8 +32,10 @@ import com.lexem.hexcodeevoke.npc.bodymotions.builders.BuilderTeleportHexCreatur
 import com.lexem.hexcodeevoke.npc.filters.builders.*;
 import com.lexem.hexcodeevoke.npc.sensors.builders.*;
 import com.lexem.hexcodeevoke.resources.HexCreatureRegistry;
+import com.lexem.hexcodeevoke.systems.HexCreatureBreathingSystem;
 import com.lexem.hexcodeevoke.systems.HexCreatureClimbStateSystem;
 import com.lexem.hexcodeevoke.systems.HexCreatureComponentsSystem;
+import com.lexem.hexcodeevoke.systems.HexCreatureCrawlSystem;
 import com.lexem.hexcodeevoke.systems.HexCreaturePickupSystem;
 import com.lexem.hexcodeevoke.systems.HexCreatureRevocationSystem;
 import com.lexem.hexcodeevoke.systems.HexCreatureStateRestoreSystem;
@@ -151,6 +153,8 @@ public class HexcodeEvoke extends JavaPlugin {
         npcPlugin.registerCoreComponentType("Evoke:MemorizeChest", BuilderActionMemorizeChest::new);
         npcPlugin.registerCoreComponentType("Evoke:ResetChestExploration", BuilderActionResetChestExploration::new);
         npcPlugin.registerCoreComponentType("Evoke:OpenArcaneCodexSearch", BuilderActionOpenArcaneCodexSearch::new);
+        npcPlugin.registerCoreComponentType("Evoke:CaptureCrawlTarget", BuilderActionCaptureCrawlTarget::new);
+        npcPlugin.registerCoreComponentType("Evoke:Crawl", BuilderActionCrawl::new);
     }
 
     private void registerBodyMotions(NPCPlugin npcPlugin) {
@@ -193,6 +197,8 @@ public class HexcodeEvoke extends JavaPlugin {
         npcPlugin.registerCoreComponentType("Evoke:SearchedChestPosition", BuilderSensorSearchedChestPosition::new);
         npcPlugin.registerCoreComponentType("Evoke:FindChestToExplore", BuilderSensorFindChestToExplore::new);
         npcPlugin.registerCoreComponentType("Evoke:Interactor", BuilderSensorInteractor::new);
+        npcPlugin.registerCoreComponentType("Evoke:CrawlPath", BuilderSensorCrawlPath::new);
+        npcPlugin.registerCoreComponentType("Evoke:IsCrawling", BuilderSensorIsCrawling::new);
     }
 
     private void registerComponents() {
@@ -228,6 +234,8 @@ public class HexcodeEvoke extends JavaPlugin {
         registery.registerSystem(new HexCreatureStateRestoreSystem());
         registery.registerSystem(new HexCreaturePickupSystem());
         registery.registerSystem(new HexCreatureClimbStateSystem());
+        registery.registerSystem(new HexCreatureCrawlSystem());
+        registery.registerSystem(new HexCreatureBreathingSystem());
 
         HexCreatureRegistry.setResourceType(Universe.registerResource(
                 HexCreatureRegistry.class,

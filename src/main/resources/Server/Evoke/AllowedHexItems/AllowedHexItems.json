@@ -98,6 +98,18 @@
       "BlockId": "Recipe_Book_Magic_Air",
       "EntityId": "Arcane_Codex_Air",
       "EssenceCost": 100
+    },
+    {
+      "BlockId": "Wood_Torch_Wall",
+      "EntityId": "Wisp_Torch",
+      "EssenceCost": 10,
+      "ReturnBlockId": "Furniture_Crude_Torch"
+    },
+    {
+      "BlockId": "Furniture_Crude_Torch",
+      "EntityId": "Creeping_Torch",
+      "EssenceCost": 5,
+      "JumpSmallSteps": true
     }
   ]
 }

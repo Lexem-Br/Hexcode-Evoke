@@ -18,6 +18,7 @@ import com.hypixel.hytale.server.core.universe.world.storage.ChunkStore;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.hypixel.hytale.server.core.util.FillerBlockUtil;
 import com.lexem.hexcodeevoke.components.HexCreatureComponent;
+import com.lexem.hexcodeevoke.hexitems.AllowedHexItemsAsset;
 import org.joml.Vector3d;
 import org.joml.Vector3i;
 
@@ -44,7 +45,7 @@ public final class HexCreatureReverter {
             return false;
         }
 
-        String blockId = hexCreature.getBlockName();
+        String blockId = hexCreature.getBlockName() != null ? AllowedHexItemsAsset.getReturnBlockId(hexCreature.getBlockName()) : null;
         BlockType blockType = blockId != null ? BlockType.getAssetMap().getAsset(blockId) : null;
         TransformComponent transform = accessor.getComponent(npcRef, TransformComponent.getComponentType());
         if (blockType == null || transform == null) return false;
