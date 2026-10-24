@@ -1,0 +1,138 @@
+{
+  "Model": "NPC/Torch/Wisp/Torch_Wall.blockymodel",
+  "Texture": "Items/Torch/Torch_Wall_Texture.png",
+  "DefaultAttachments": [
+    {
+      "Model": "NPC/Torch/Wisp/Attachment/Wings.blockymodel",
+      "Texture": "NPC/Torch/Wisp/Attachment/Wings.png"
+    }
+  ],
+  "Particles": [
+    {
+      "SystemId": "Evoke_Wisp_Torch_Fire",
+      "TargetNodeName": "Flame",
+      "Scale": 0.1,
+      "RotationOffset": {
+        "Yaw": 180
+      }
+    }
+  ],
+  "HitBox": {
+    "Max": {
+      "X": 0.25,
+      "Y": 0.9,
+      "Z": 0.25
+    },
+    "Min": {
+      "X": -0.25,
+      "Y": 0,
+      "Z": -0.25
+    }
+  },
+  "EyeHeight": 0.5,
+  "MinScale": 2,
+  "MaxScale": 2,
+  "Light": {
+    "Color": "#ba9",
+    "Radius": 9
+  },
+  "AnimationSets": {
+    "Spawn": {
+      "Animations": [
+        {
+          "Animation": "NPC/Torch/Wisp/Animations/Spawn.blockyanim",
+          "BlendingDuration": 0,
+          "Looping": false
+        }
+      ]
+    },
+    "Idle": {
+      "Animations": [
+        {
+          "Animation": "NPC/Torch/Wisp/Animations/Idle.blockyanim",
+          "Speed": 0.6
+        }
+      ]
+    },
+    "Jump": {
+      "Animations": [
+        {
+          "Animation": "NPC/Torch/Wisp/Animations/Idle.blockyanim",
+          "Speed": 0.6
+        }
+      ]
+    },
+    "FlyIdle": {
+      "Animations": [
+        {
+          "Animation": "NPC/Torch/Wisp/Animations/Idle.blockyanim",
+          "Speed": 0.6
+        }
+      ]
+    },
+    "Fly": {
+      "Animations": [
+        {
+          "Animation": "NPC/Torch/Wisp/Animations/Idle.blockyanim",
+          "Speed": 0.7
+        }
+      ]
+    },
+    "FlyFast": {
+      "Animations": [
+        {
+          "Animation": "NPC/Torch/Wisp/Animations/Idle.blockyanim",
+          "Speed": 1
+        }
+      ]
+    },
+    "FlyBackward": {
+      "Animations": [
+        {
+          "Animation": "NPC/Torch/Wisp/Animations/Idle.blockyanim",
+          "Speed": 0.7
+        }
+      ]
+    },
+    "Walk": {
+      "Animations": [
+        {
+          "Animation": "NPC/Torch/Wisp/Animations/Idle.blockyanim",
+          "Speed": 0.7
+        }
+      ]
+    },
+    "WalkBackward": {
+      "Animations": [
+        {
+          "Animation": "NPC/Torch/Wisp/Animations/Idle.blockyanim",
+          "Speed": 0.8
+        }
+      ]
+    },
+    "Run": {
+      "Animations": [
+        {
+          "Animation": "NPC/Torch/Wisp/Animations/Idle.blockyanim",
+          "Speed": 1
+        }
+      ]
+    },
+    "RunBackward": {
+      "Animations": [
+        {
+          "Animation": "NPC/Torch/Wisp/Animations/Idle.blockyanim",
+          "Speed": 1
+        }
+      ]
+    },
+    "Sprint": {
+      "Animations": [
+        {
+          "Animation": "NPC/Torch/Wisp/Animations/Idle.blockyanim",
+          "Speed": 1
+        }
+      ]
+    }
+  }
+}

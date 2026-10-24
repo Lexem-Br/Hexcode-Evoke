@@ -1,0 +1,183 @@
+{
+  "Model": "NPC/Torch/Creeping/Torch_New.blockymodel",
+  "Texture": "Items/Torch/Torch_New_Texture.png",
+  "DefaultAttachments": [],
+  "Particles": [
+    {
+      "SystemId": "Evoke_Creeping_Torch_Fire",
+      "TargetNodeName": "Flame",
+      "Scale": 0.2
+    }
+  ],
+  "HitBox": {
+    "Max": {
+      "X": 0.25,
+      "Y": 0.75,
+      "Z": 0.25
+    },
+    "Min": {
+      "X": -0.25,
+      "Y": 0,
+      "Z": -0.25
+    }
+  },
+  "EyeHeight": 0.5,
+  "MinScale": 1.2,
+  "MaxScale": 1.2,
+  "Light": {
+    "Color": "#ba9",
+    "Radius": 9
+  },
+  "AnimationSets": {
+    "Spawn": {
+      "Animations": [
+        {
+          "Animation": "NPC/Torch/Creeping/Animations/Spawn.blockyanim",
+          "BlendingDuration": 0,
+          "Looping": false
+        }
+      ]
+    },
+    "Idle": {
+      "Animations": [
+        {
+          "Animation": "NPC/Torch/Creeping/Animations/Idle.blockyanim",
+          "BlendingDuration": 0.25
+        }
+      ]
+    },
+    "Walk": {
+      "Animations": [
+        {
+          "Animation": "NPC/Torch/Creeping/Animations/Walk.blockyanim",
+          "Speed": 1.5,
+          "BlendingDuration": 0.25
+        }
+      ]
+    },
+    "WalkBackward": {
+      "Animations": [
+        {
+          "Animation": "NPC/Torch/Creeping/Animations/Walk.blockyanim",
+          "Speed": 1.5,
+          "BlendingDuration": 0.25
+        }
+      ]
+    },
+    "Run": {
+      "Animations": [
+        {
+          "Animation": "NPC/Torch/Creeping/Animations/Walk.blockyanim",
+          "Speed": 2,
+          "BlendingDuration": 0.25
+        }
+      ]
+    },
+    "RunBackward": {
+      "Animations": [
+        {
+          "Animation": "NPC/Torch/Creeping/Animations/Walk.blockyanim",
+          "Speed": 2,
+          "BlendingDuration": 0.25
+        }
+      ]
+    },
+    "Fall": {
+      "Animations": [
+        {
+          "Animation": "NPC/Torch/Creeping/Animations/Descend.blockyanim",
+          "BlendingDuration": 0.25,
+          "Speed": 1.5
+        }
+      ]
+    },
+    "ClimbIdle": {
+      "Animations": [
+        {
+          "Animation": "NPC/Torch/Creeping/Animations/Climb/Climb_Idle.blockyanim",
+          "BlendingDuration": 0.25
+        }
+      ]
+    },
+    "ClimbUp": {
+      "Animations": [
+        {
+          "Animation": "NPC/Torch/Creeping/Animations/Climb/Climb_Up.blockyanim",
+          "BlendingDuration": 0.25,
+          "Speed": 1.5
+        }
+      ]
+    },
+    "ClimbDown": {
+      "Animations": [
+        {
+          "Animation": "NPC/Torch/Creeping/Animations/Climb/Climb_Up.blockyanim",
+          "BlendingDuration": 0.25,
+          "Speed": 1.5
+        }
+      ]
+    },
+    "ClimbLeft": {
+      "Animations": [
+        {
+          "Animation": "NPC/Torch/Creeping/Animations/Climb/Climb_Up.blockyanim",
+          "BlendingDuration": 0.25,
+          "Speed": 1.5
+        }
+      ]
+    },
+    "ClimbRight": {
+      "Animations": [
+        {
+          "Animation": "NPC/Torch/Creeping/Animations/Climb/Climb_Up.blockyanim",
+          "BlendingDuration": 0.25,
+          "Speed": 1.5
+        }
+      ]
+    },
+    "Fly": {
+      "Animations": [
+        {
+          "Animation": "NPC/Torch/Creeping/Animations/Walk.blockyanim",
+          "Speed": 1.5,
+          "BlendingDuration": 0.25
+        }
+      ]
+    },
+    "FlyFast": {
+      "Animations": [
+        {
+          "Animation": "NPC/Torch/Creeping/Animations/Walk.blockyanim",
+          "Speed": 1.5,
+          "BlendingDuration": 0.25
+        }
+      ]
+    },
+    "FlyBackward": {
+      "Animations": [
+        {
+          "Animation": "NPC/Torch/Creeping/Animations/Walk.blockyanim",
+          "Speed": 1.5,
+          "BlendingDuration": 0.25
+        }
+      ]
+    },
+    "FlyIdle": {
+      "Animations": [
+        {
+          "Animation": "NPC/Torch/Creeping/Animations/Idle.blockyanim",
+          "BlendingDuration": 0.25
+        }
+      ]
+    },
+    "Jump": {
+      "Animations": [
+        {
+          "Animation": "NPC/Torch/Creeping/Animations/Walk.blockyanim",
+          "Speed": 1.5,
+          "BlendingDuration": 0.25
+        }
+      ]
+    }
+  }
+}
