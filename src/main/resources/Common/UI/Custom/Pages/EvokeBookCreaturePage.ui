@@ -1,0 +1,122 @@
+$C = "../Common.ui";
+
+@InfoLabelStyle = LabelStyle(
+    FontSize: 14,
+    TextColor: #222222,
+    VerticalAlignment: Center,
+    Wrap: true
+);
+
+@SectionLabelStyle = LabelStyle(
+    FontSize: 15,
+    TextColor: #1b2a44,
+    RenderBold: true,
+    VerticalAlignment: Center
+);
+
+Group {
+    FlexWeight: 1;
+    LayoutMode: Top;
+
+    Label #CreatureName {
+        Text: "";
+        Anchor: (Height: 30);
+        Style: (FontSize: 20, TextColor: #000000, RenderBold: true, HorizontalAlignment: Center, VerticalAlignment: Center);
+    }
+
+    Group { Anchor: (Height: 10); }
+
+    Group {
+        Anchor: (Height: 72);
+        LayoutMode: Left;
+
+        ItemIcon #OriginIcon {
+            ItemId: "Hex_Mannequin_Block";
+            Anchor: (Width: 64, Height: 64);
+        }
+
+        Group { Anchor: (Width: 12); }
+
+        Group {
+            FlexWeight: 1;
+            LayoutMode: Middle;
+
+            Label #OriginItem {
+                Text: "";
+                Anchor: (Height: 24);
+                Style: @InfoLabelStyle;
+            }
+
+            Group {
+                Anchor: (Height: 24);
+                LayoutMode: Left;
+
+                Label #EssenceCost {
+                    Text: "";
+                    Anchor: (Height: 24);
+                    Style: @InfoLabelStyle;
+                }
+
+                Group { Anchor: (Width: 4); }
+
+                ItemIcon #EssenceIcon {
+                    ItemId: "Ingredient_Life_Essence";
+                    Anchor: (Width: 22, Height: 22);
+                }
+            }
+        }
+    }
+
+    Group #VariantsSection {
+        LayoutMode: Top;
+        Visible: false;
+        Padding: (Top: 6);
+
+        Label #VariantsTitle {
+            Text: "";
+            Anchor: (Height: 22);
+            Style: @SectionLabelStyle;
+        }
+
+        Group #VariantIcons {
+            Anchor: (Height: 36);
+            LayoutMode: Left;
+        }
+    }
+
+    Group #EquipmentSection {
+        LayoutMode: Top;
+        Visible: false;
+        Padding: (Top: 6);
+
+        Label #EquipmentTitle {
+            Text: "";
+            Anchor: (Height: 22);
+            Style: @SectionLabelStyle;
+        }
+
+        Group #EquipmentList {
+            LayoutMode: LeftCenterWrap;
+        }
+    }
+
+    Group { Anchor: (Height: 10); }
+
+    Label #DescriptionTitle {
+        Text: "";
+        Anchor: (Height: 22);
+        Style: @SectionLabelStyle;
+    }
+
+    Group {
+        FlexWeight: 1;
+        LayoutMode: TopScrolling;
+        ScrollbarStyle: $C.@DefaultScrollbarStyle;
+        Padding: (Right: 8);
+
+        Label #Description {
+            Text: "";
+            Style: (FontSize: 14, TextColor: #222222, Wrap: true);
+        }
+    }
+}

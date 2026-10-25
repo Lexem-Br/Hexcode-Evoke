@@ -1,0 +1,8 @@
+Group {
+    Anchor: (Width: 36, Height: 36);
+
+    ItemIcon #VariantIcon {
+        ItemId: "Hex_Fairy_Block";
+        Anchor: (Width: 32, Height: 32);
+    }
+}

@@ -1,0 +1,5 @@
+Label {
+    Text: "";
+    Anchor: (Width: 125, Height: 20);
+    Style: (FontSize: 14, TextColor: #222222, VerticalAlignment: Center);
+}

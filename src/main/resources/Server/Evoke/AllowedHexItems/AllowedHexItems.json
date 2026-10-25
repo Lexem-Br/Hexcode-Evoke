@@ -9,43 +9,53 @@
       "HasArmorChestSlot": true,
       "HasArmorHandsSlot": true,
       "HasArmorLegSlot": true,
-      "HasHotbarSlot": true
+      "HasHotbarSlot": true,
+      "BookDescription": "evoke.book.creatures.Hex_Mannequin.description"
     },
     {
       "BlockId": "Hex_Fairy_Block",
-      "EntityId": "Hex_Fairy"
+      "EntityId": "Hex_Fairy",
+      "BookDescription": "evoke.book.creatures.Hex_Fairy.description"
     },
     {
       "BlockId": "Hex_Fairy_Void_Block",
-      "EntityId": "Hex_Fairy_Void"
+      "EntityId": "Hex_Fairy_Void",
+      "BookVariantOf": "Hex_Fairy"
     },
     {
       "BlockId": "Hex_Fairy_Cyan_Block",
-      "EntityId": "Hex_Fairy_Cyan"
+      "EntityId": "Hex_Fairy_Cyan",
+      "BookVariantOf": "Hex_Fairy"
     },
     {
       "BlockId": "Hex_Fairy_Red_Block",
-      "EntityId": "Hex_Fairy_Red"
+      "EntityId": "Hex_Fairy_Red",
+      "BookVariantOf": "Hex_Fairy"
     },
     {
       "BlockId": "Hex_Fairy_Green_Block",
-      "EntityId": "Hex_Fairy_Green"
+      "EntityId": "Hex_Fairy_Green",
+      "BookVariantOf": "Hex_Fairy"
     },
     {
       "BlockId": "Hex_Fairy_Blue_Block",
-      "EntityId": "Hex_Fairy_Blue"
+      "EntityId": "Hex_Fairy_Blue",
+      "BookVariantOf": "Hex_Fairy"
     },
     {
       "BlockId": "Hex_Fairy_Pink_Block",
-      "EntityId": "Hex_Fairy_Pink"
+      "EntityId": "Hex_Fairy_Pink",
+      "BookVariantOf": "Hex_Fairy"
     },
     {
       "BlockId": "Hex_Fairy_White_Block",
-      "EntityId": "Hex_Fairy_White"
+      "EntityId": "Hex_Fairy_White",
+      "BookVariantOf": "Hex_Fairy"
     },
     {
       "BlockId": "Hex_Fairy_Purple_Block",
-      "EntityId": "Hex_Fairy_Purple"
+      "EntityId": "Hex_Fairy_Purple",
+      "BookVariantOf": "Hex_Fairy"
     },
     {
       "BlockId": "Alive_Homunculus_Jar",
@@ -53,63 +63,77 @@
       "HasLeftHandSlot": true,
       "HasRightHandSlot": true,
       "HasArmorHeadSlot": true,
-      "HasHotbarSlot": true
+      "HasHotbarSlot": true,
+      "BookDescription": "evoke.book.creatures.Homunculus.description"
     },
     {
       "BlockId": "Furniture_Tavern_Chest_Small",
       "EntityId": "Chest_Spider",
-      "EssenceCost": 200
+      "EssenceCost": 200,
+      "BookDescription": "evoke.book.creatures.Chest_Spider.description"
     },
     {
       "BlockId": "Deco_Halloween_Pumpkin_Scary",
       "EntityId": "Hex_Pumpkin_Scary",
-      "EssenceCost": 25
+      "EssenceCost": 25,
+      "BookName": "evoke.book.creatures.Hex_Pumpkin.name",
+      "BookDescription": "evoke.book.creatures.Hex_Pumpkin.description"
     },
     {
       "BlockId": "Deco_Halloween_Pumpkin_Cute",
       "EntityId": "Hex_Pumpkin_Cute",
-      "EssenceCost": 25
+      "EssenceCost": 25,
+      "BookVariantOf": "Hex_Pumpkin_Scary"
     },
     {
       "BlockId": "Deco_Halloween_Pumpkin_Lamp_Green",
       "EntityId": "Hex_Pumpkin_Green",
-      "EssenceCost": 25
+      "EssenceCost": 25,
+      "BookVariantOf": "Hex_Pumpkin_Scary"
     },
     {
       "BlockId": "Deco_Halloween_Pumpkin_Lamp_Orange",
       "EntityId": "Hex_Pumpkin_Orange",
-      "EssenceCost": 25
+      "EssenceCost": 25,
+      "BookVariantOf": "Hex_Pumpkin_Scary"
     },
     {
       "BlockId": "Deco_Halloween_Pumpkin_Lamp_Yellow",
       "EntityId": "Hex_Pumpkin_Yellow",
-      "EssenceCost": 25
+      "EssenceCost": 25,
+      "BookVariantOf": "Hex_Pumpkin_Scary"
     },
     {
       "BlockId": "Hex_Broom_Block",
-      "EntityId": "Hex_Broom"
+      "EntityId": "Hex_Broom",
+      "BookDescription": "evoke.book.creatures.Hex_Broom.description"
     },
     {
       "BlockId": "Recipe_Book_Magic_Void",
       "EntityId": "Arcane_Codex_Void",
-      "EssenceCost": 100
+      "EssenceCost": 100,
+      "BookName": "evoke.book.creatures.Arcane_Codex.name",
+      "BookDescription": "evoke.book.creatures.Arcane_Codex.description"
     },
     {
       "BlockId": "Recipe_Book_Magic_Air",
       "EntityId": "Arcane_Codex_Air",
-      "EssenceCost": 100
+      "EssenceCost": 100,
+      "BookVariantOf": "Arcane_Codex_Void"
     },
     {
       "BlockId": "Wood_Torch_Wall",
       "EntityId": "Wisp_Torch",
       "EssenceCost": 10,
-      "ReturnBlockId": "Furniture_Crude_Torch"
+      "ReturnBlockId": "Furniture_Crude_Torch",
+      "BookDescription": "evoke.book.creatures.Wisp_Torch.description"
     },
     {
       "BlockId": "Furniture_Crude_Torch",
       "EntityId": "Creeping_Torch",
       "EssenceCost": 5,
-      "JumpSmallSteps": true
+      "JumpSmallSteps": true,
+      "BookDescription": "evoke.book.creatures.Creeping_Torch.description"
     }
   ]
 }

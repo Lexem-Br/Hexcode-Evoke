@@ -63,6 +63,12 @@ public class AllowedHexItemsAsset implements JsonAssetWithMap<String, DefaultAss
                                         .add()
                                         .append(new KeyedCodec<>("JumpSmallSteps", Codec.BOOLEAN), (item, s) -> item.jumpSmallSteps = s, item -> item.jumpSmallSteps)
                                         .add()
+                                        .append(new KeyedCodec<>("BookName", Codec.STRING), (item, s) -> item.bookName = s, item -> item.bookName)
+                                        .add()
+                                        .append(new KeyedCodec<>("BookDescription", Codec.STRING), (item, s) -> item.bookDescription = s, item -> item.bookDescription)
+                                        .add()
+                                        .append(new KeyedCodec<>("BookVariantOf", Codec.STRING), (item, s) -> item.bookVariantOf = s, item -> item.bookVariantOf)
+                                        .add()
                                         .build(),
                                 AllowedHexItemsAsset.HexItem[]::new
                         )),
@@ -87,6 +93,9 @@ public class AllowedHexItemsAsset implements JsonAssetWithMap<String, DefaultAss
         public int essenceCost = 0;
         public String returnBlockId = "";
         public boolean jumpSmallSteps = false;
+        public String bookName = "";
+        public String bookDescription = "";
+        public String bookVariantOf = "";
 
         public HexItem() {}
     }
@@ -139,6 +148,11 @@ public class AllowedHexItemsAsset implements JsonAssetWithMap<String, DefaultAss
         current = new Lookup(Collections.unmodifiableList(items), byBlockId, byEntityId);
         lookup = current;
         return current;
+    }
+
+    @Nonnull
+    public static List<HexItem> getAll() {
+        return getLookup().items();
     }
 
     @Nullable

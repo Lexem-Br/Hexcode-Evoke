@@ -9,16 +9,24 @@ import com.hypixel.hytale.logger.HytaleLogger;
 import com.hypixel.hytale.protocol.packets.interface_.CustomPageLifetime;
 import com.hypixel.hytale.protocol.packets.interface_.CustomUIEventBindingType;
 import com.hypixel.hytale.protocol.packets.interface_.Page;
+import com.hypixel.hytale.server.core.Message;
+import com.hypixel.hytale.server.core.asset.type.item.config.Item;
 import com.hypixel.hytale.server.core.entity.entities.Player;
 import com.hypixel.hytale.server.core.entity.entities.player.pages.InteractiveCustomUIPage;
+import com.hypixel.hytale.server.core.ui.Value;
 import com.hypixel.hytale.server.core.ui.builder.EventData;
 import com.hypixel.hytale.server.core.ui.builder.UICommandBuilder;
 import com.hypixel.hytale.server.core.ui.builder.UIEventBuilder;
 import com.hypixel.hytale.server.core.universe.PlayerRef;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
+import com.hypixel.hytale.server.npc.NPCPlugin;
+import com.hypixel.hytale.server.npc.asset.builder.BuilderInfo;
 import com.hypixel.hytale.server.npc.entities.NPCEntity;
 import com.hypixel.hytale.server.npc.role.Role;
 import com.hypixel.hytale.server.npc.role.support.DisplayNameSupport;
+import com.hypixel.hytale.server.npc.util.expression.ExecutionContext;
+import com.hypixel.hytale.server.npc.util.expression.Scope;
+import com.hypixel.hytale.server.spawning.ISpawnableWithModel;
 import com.lexem.hexcodeevoke.components.EvokerComponent;
 import com.lexem.hexcodeevoke.components.HexCreatureComponent;
 import com.lexem.hexcodeevoke.hexitems.AllowedHexItemsAsset;
@@ -31,16 +39,41 @@ import java.util.*;
 
 public class EvokeBookPage extends InteractiveCustomUIPage<EvokeBookPage.EvokeBookEventData> {
     private static final String DEFAULT_ICON = "Hex_Mannequin_Block";
+    private static final String TEXT_PAGE_FILE = "Pages/EvokeBookTextPage.ui";
+    private static final String CREATURE_PAGE_FILE = "Pages/EvokeBookCreaturePage.ui";
+    private static final String VARIANT_ICON_FILE = "Pages/EvokeBookVariantIcon.ui";
+    private static final String EQUIPMENT_ENTRY_FILE = "Pages/EvokeBookEquipmentEntry.ui";
+    private static final String[] GUIDE_PAGES = {"introduction", "evoking", "life_essence", "wands", "behaviour", "managing", "reverting", "tips"};
     private boolean isEditModeEnabled = false;
+    private Category category = Category.LIST;
+    private int guideSpread = 0;
+    private int creaturesSpread = 0;
     private final String pageNameFile;
     private final String cardNameFile;
     private final Map<String, String> nameHCMap = new HashMap<>();
     private static final HytaleLogger LOGGER = HytaleLogger.forEnclosingClass();
 
+    private enum Category {
+        LIST("#ListTab", "evoke.book.tabs.list"),
+        GUIDE("#GuideTab", "evoke.book.tabs.guide"),
+        CREATURES("#CreaturesTab", "evoke.book.tabs.creatures");
+
+        private final String tabSelector;
+        private final String translationKey;
+
+        Category(String tabSelector, String translationKey) {
+            this.tabSelector = tabSelector;
+            this.translationKey = translationKey;
+        }
+    }
+
+    private record CreatureEntry(AllowedHexItemsAsset.HexItem hexItem, List<AllowedHexItemsAsset.HexItem> variants) {}
+
     public static class EvokeBookEventData {
         public String hexCreatureName;
         public String action;
         public String uuid;
+        public String category;
         public static final BuilderCodec<EvokeBookEventData> CODEC = ((BuilderCodec.Builder<EvokeBookEventData>) ((BuilderCodec.Builder<EvokeBookEventData>)
                 BuilderCodec.builder(EvokeBookEventData.class, EvokeBookEventData::new)
                 .append(new KeyedCodec<>("@HexCreatureName", Codec.STRING),
@@ -52,6 +85,8 @@ public class EvokeBookPage extends InteractiveCustomUIPage<EvokeBookPage.EvokeBo
                 .add())
                 .append(new KeyedCodec<>("UUID", Codec.STRING), (EvokeBookEventData o, String v) -> o.uuid = v, (EvokeBookEventData o) -> o.uuid)
                 .add())
+                .append(new KeyedCodec<>("Category", Codec.STRING), (EvokeBookEventData o, String v) -> o.category = v, (EvokeBookEventData o) -> o.category)
+                .add()
                 .build();
     }
 
@@ -70,15 +105,71 @@ public class EvokeBookPage extends InteractiveCustomUIPage<EvokeBookPage.EvokeBo
     ) {
         commandBuilder.append("Pages/" + pageNameFile + ".ui");
 
-        String hexCount = createHexCount(ref, store);
-        commandBuilder.set("#HexCount.Text", hexCount);
-
         eventBuilder.addEventBinding(
             CustomUIEventBindingType.Activating,"#EditButton",
                 new EventData().append("Action", "Edit")
         );
 
-        HexCreatureComponent[] listHexCreatures = new  HexCreatureComponent[0];
+        eventBuilder.addEventBinding(
+                CustomUIEventBindingType.Activating, "#SaveButton",
+                new EventData().append("Action", "Save")
+        );
+
+        for (Category tab : Category.values()) {
+            commandBuilder.set(tab.tabSelector + ".Text", Message.translation(tab.translationKey));
+            eventBuilder.addEventBinding(
+                    CustomUIEventBindingType.Activating, tab.tabSelector,
+                    new EventData().append("Action", "Tab").append("Category", tab.name())
+            );
+        }
+
+        eventBuilder.addEventBinding(
+                CustomUIEventBindingType.Activating, "#PrevPageButton",
+                new EventData().append("Action", "PrevPage")
+        );
+
+        eventBuilder.addEventBinding(
+                CustomUIEventBindingType.Activating, "#NextPageButton",
+                new EventData().append("Action", "NextPage")
+        );
+
+        eventBuilder.addEventBinding(CustomUIEventBindingType.Activating, "#CloseButton");
+
+        buildCategory(ref, store, commandBuilder, eventBuilder);
+    }
+
+    private void buildCategory(
+            @Nonnull Ref<EntityStore> ref,
+            @Nonnull Store<EntityStore> store,
+            @Nonnull UICommandBuilder commandBuilder,
+            @Nonnull UIEventBuilder eventBuilder
+    ) {
+        String pageFile = "Pages/" + pageNameFile + ".ui";
+        for (Category tab : Category.values()) {
+            commandBuilder.set(tab.tabSelector + ".Style", Value.ref(pageFile, tab == category ? "TabSelectedStyle" : "TabStyle"));
+        }
+
+        commandBuilder.set("#ListView.Visible", category == Category.LIST);
+        commandBuilder.set("#PagesView.Visible", category != Category.LIST);
+        commandBuilder.set("#PageNav.Visible", category != Category.LIST);
+
+        if (category == Category.LIST) {
+            buildList(ref, store, commandBuilder, eventBuilder);
+        } else {
+            buildPages(commandBuilder);
+        }
+    }
+
+    private void buildList(
+            @Nonnull Ref<EntityStore> ref,
+            @Nonnull Store<EntityStore> store,
+            @Nonnull UICommandBuilder commandBuilder,
+            @Nonnull UIEventBuilder eventBuilder
+    ) {
+        String hexCount = createHexCount(ref, store);
+        commandBuilder.set("#HexCount.Text", hexCount);
+
+        HexCreatureComponent[] listHexCreatures = new HexCreatureComponent[0];
         EvokerComponent evoker = store.getComponent(ref, EvokerComponent.getComponentType());
         if (evoker != null) {
             listHexCreatures = evoker.getListHexCreatures();
@@ -86,13 +177,163 @@ public class EvokeBookPage extends InteractiveCustomUIPage<EvokeBookPage.EvokeBo
 
         createHCCards(commandBuilder, eventBuilder, listHexCreatures);
         commandBuilder.set("#SaveButton.Visible", isEditModeEnabled);
+    }
 
-        eventBuilder.addEventBinding(
-                CustomUIEventBindingType.Activating, "#SaveButton",
-                new EventData().append("Action", "Save")
-        );
+    private void buildPages(@Nonnull UICommandBuilder commandBuilder) {
+        List<CreatureEntry> creatures = category == Category.CREATURES ? getCreatureEntries() : List.of();
+        int pageCount = category == Category.CREATURES ? creatures.size() : GUIDE_PAGES.length;
+        int lastSpread = Math.max(0, (pageCount - 1) / 2);
+        int spread = Math.min(category == Category.CREATURES ? creaturesSpread : guideSpread, lastSpread);
+        if (category == Category.CREATURES) {
+            creaturesSpread = spread;
+        } else {
+            guideSpread = spread;
+        }
 
-        eventBuilder.addEventBinding(CustomUIEventBindingType.Activating, "#CloseButton");
+        int firstPage = spread * 2;
+        String[] containers = {"#LeftPage", "#RightPage"};
+        for (int i = 0; i < containers.length; i++) {
+            commandBuilder.clear(containers[i]);
+
+            int page = firstPage + i;
+            if (page >= pageCount) continue;
+
+            if (category == Category.CREATURES) {
+                createCreaturePage(commandBuilder, containers[i], creatures.get(page));
+            } else {
+                createGuidePage(commandBuilder, containers[i], GUIDE_PAGES[page]);
+            }
+        }
+
+        commandBuilder.set("#PrevPageButton.Visible", spread > 0);
+        commandBuilder.set("#NextPageButton.Visible", spread < lastSpread);
+        commandBuilder.set("#LeftPageNumber.Text", firstPage < pageCount ? String.valueOf(firstPage + 1) : "");
+        commandBuilder.set("#RightPageNumber.Text", firstPage + 1 < pageCount ? String.valueOf(firstPage + 2) : "");
+    }
+
+    private void createGuidePage(@Nonnull UICommandBuilder commandBuilder, @Nonnull String container, @Nonnull String pageId) {
+        String selector = container + "[0]";
+        commandBuilder.append(container, TEXT_PAGE_FILE);
+        commandBuilder.set(selector + " #PageTitle.Text", Message.translation("evoke.book.guide." + pageId + ".title"));
+        commandBuilder.set(selector + " #PageText.Text", Message.translation("evoke.book.guide." + pageId + ".text"));
+    }
+
+    private void createCreaturePage(@Nonnull UICommandBuilder commandBuilder, @Nonnull String container, @Nonnull CreatureEntry entry) {
+        AllowedHexItemsAsset.HexItem hexItem = entry.hexItem();
+        String selector = container + "[0]";
+        commandBuilder.append(container, CREATURE_PAGE_FILE);
+
+        commandBuilder.set(selector + " #CreatureName.Text", getCreatureName(hexItem));
+        commandBuilder.set(selector + " #OriginIcon.ItemId", getItemIcon(hexItem.blockId));
+        commandBuilder.set(selector + " #OriginItem.TextSpans", Message.translation("evoke.book.creatures.origin").param("item", getItemName(hexItem.blockId)));
+
+        if (hexItem.essenceCost > 0) {
+            commandBuilder.set(selector + " #EssenceCost.Text", Message.translation("evoke.book.creatures.cost").param("cost", hexItem.essenceCost));
+        } else {
+            commandBuilder.set(selector + " #EssenceCost.Text", Message.translation("evoke.book.creatures.no_cost"));
+            commandBuilder.set(selector + " #EssenceIcon.Visible", false);
+        }
+
+        if (!entry.variants().isEmpty()) {
+            commandBuilder.set(selector + " #VariantsSection.Visible", true);
+            commandBuilder.set(selector + " #VariantsTitle.Text", Message.translation("evoke.book.creatures.variants"));
+
+            List<AllowedHexItemsAsset.HexItem> variants = new ArrayList<>();
+            variants.add(hexItem);
+            variants.addAll(entry.variants());
+            for (int i = 0; i < variants.size(); i++) {
+                commandBuilder.append(selector + " #VariantIcons", VARIANT_ICON_FILE);
+                commandBuilder.set(selector + " #VariantIcons[" + i + "] #VariantIcon.ItemId", getItemIcon(variants.get(i).blockId));
+            }
+        }
+
+        List<String> equipmentKeys = getEquipmentKeys(hexItem);
+        if (!equipmentKeys.isEmpty()) {
+            commandBuilder.set(selector + " #EquipmentSection.Visible", true);
+            commandBuilder.set(selector + " #EquipmentTitle.Text", Message.translation("evoke.book.creatures.equipment"));
+            for (int i = 0; i < equipmentKeys.size(); i++) {
+                commandBuilder.append(selector + " #EquipmentList", EQUIPMENT_ENTRY_FILE);
+                commandBuilder.set(selector + " #EquipmentList[" + i + "].Text", Message.translation(equipmentKeys.get(i)));
+            }
+        }
+
+        commandBuilder.set(selector + " #DescriptionTitle.Text", Message.translation("evoke.book.creatures.characteristics"));
+        String descriptionKey = hexItem.bookDescription == null || hexItem.bookDescription.isEmpty()
+                ? "evoke.book.creatures.no_description"
+                : hexItem.bookDescription;
+        commandBuilder.set(selector + " #Description.Text", Message.translation(descriptionKey));
+    }
+
+    @Nonnull
+    private static List<CreatureEntry> getCreatureEntries() {
+        List<AllowedHexItemsAsset.HexItem> hexItems = AllowedHexItemsAsset.getAll();
+        Map<String, CreatureEntry> entries = new LinkedHashMap<>();
+        for (AllowedHexItemsAsset.HexItem hexItem : hexItems) {
+            if (hexItem.bookVariantOf != null && !hexItem.bookVariantOf.isEmpty()) continue;
+            entries.putIfAbsent(hexItem.entityId, new CreatureEntry(hexItem, new ArrayList<>()));
+        }
+
+        for (AllowedHexItemsAsset.HexItem hexItem : hexItems) {
+            if (hexItem.bookVariantOf == null || hexItem.bookVariantOf.isEmpty()) continue;
+
+            CreatureEntry main = entries.get(hexItem.bookVariantOf);
+            if (main != null) {
+                main.variants().add(hexItem);
+            } else {
+                entries.putIfAbsent(hexItem.entityId, new CreatureEntry(hexItem, new ArrayList<>()));
+            }
+        }
+
+        return new ArrayList<>(entries.values());
+    }
+
+    @Nonnull
+    private static Message getCreatureName(@Nonnull AllowedHexItemsAsset.HexItem hexItem) {
+        if (hexItem.bookName != null && !hexItem.bookName.isEmpty()) {
+            return Message.translation(hexItem.bookName);
+        }
+
+        try {
+            int roleIndex = NPCPlugin.get().getIndex(hexItem.entityId);
+            BuilderInfo builderInfo = roleIndex >= 0 ? NPCPlugin.get().getRoleBuilderInfo(roleIndex) : null;
+            if (builderInfo != null && builderInfo.getBuilder() instanceof ISpawnableWithModel spawnable) {
+                ExecutionContext executionContext = new ExecutionContext();
+                executionContext.setScope(spawnable.createExecutionScope());
+                Scope modifierScope = spawnable.createModifierScope(executionContext);
+                String nameKey = spawnable.getNameTranslationKey(executionContext, modifierScope);
+                if (nameKey != null && !nameKey.isEmpty()) {
+                    return Message.translation(nameKey);
+                }
+            }
+        } catch (RuntimeException e) {
+            LOGGER.atWarning().log("Unable to read the name of the role '" + hexItem.entityId + "': " + e.getMessage());
+        }
+
+        return getItemName(hexItem.blockId);
+    }
+
+    @Nonnull
+    private static Message getItemName(@Nonnull String itemId) {
+        Item item = Item.getAssetMap().getAsset(itemId);
+        return item != null ? Message.translation(item.getTranslationKey()) : Message.raw(itemId);
+    }
+
+    @Nonnull
+    private static String getItemIcon(@Nonnull String itemId) {
+        return Item.getAssetMap().getAsset(itemId) != null ? itemId : DEFAULT_ICON;
+    }
+
+    @Nonnull
+    private static List<String> getEquipmentKeys(@Nonnull AllowedHexItemsAsset.HexItem hexItem) {
+        List<String> keys = new ArrayList<>();
+        if (hexItem.hasRightHandSlot) keys.add("evoke.book.creatures.equipment.right_hand");
+        if (hexItem.hasLeftHandSlot) keys.add("evoke.book.creatures.equipment.left_hand");
+        if (hexItem.hasArmorHeadSlot) keys.add("evoke.book.creatures.equipment.head");
+        if (hexItem.hasArmorChestSlot) keys.add("evoke.book.creatures.equipment.chest");
+        if (hexItem.hasArmorHandsSlot) keys.add("evoke.book.creatures.equipment.hands");
+        if (hexItem.hasArmorLegSlot) keys.add("evoke.book.creatures.equipment.legs");
+        if (hexItem.hasHotbarSlot) keys.add("evoke.book.creatures.equipment.hotbar");
+        return keys;
     }
 
     private String createHexCount(
@@ -248,6 +489,26 @@ public class EvokeBookPage extends InteractiveCustomUIPage<EvokeBookPage.EvokeBo
                     this.isEditModeEnabled = !isEditModeEnabled;
                     refreshPage(ref, store);
                     break;
+                case "Tab":
+                    if (data.category != null) {
+                        try {
+                            this.category = Category.valueOf(data.category);
+                        } catch (IllegalArgumentException e) {
+                            break;
+                        }
+                        refreshPage(ref, store);
+                    }
+                    break;
+                case "PrevPage":
+                case "NextPage":
+                    int step = data.action.equals("NextPage") ? 1 : -1;
+                    if (category == Category.GUIDE) {
+                        guideSpread = Math.max(0, guideSpread + step);
+                    } else if (category == Category.CREATURES) {
+                        creaturesSpread = Math.max(0, creaturesSpread + step);
+                    }
+                    refreshPage(ref, store);
+                    break;
                 default:
                     break;
             }
@@ -260,18 +521,7 @@ public class EvokeBookPage extends InteractiveCustomUIPage<EvokeBookPage.EvokeBo
         UICommandBuilder commandBuilder = new UICommandBuilder();
         UIEventBuilder eventBuilder = new UIEventBuilder();
 
-        String hexCount = createHexCount(ref, store);
-        commandBuilder.set("#HexCount.Text", hexCount);
-
-        HexCreatureComponent[] listHexCreatures = new HexCreatureComponent[0];
-        EvokerComponent evoker = store.getComponent(ref, EvokerComponent.getComponentType());
-        if (evoker != null) {
-            listHexCreatures = evoker.getListHexCreatures();
-        }
-
-        createHCCards(commandBuilder, eventBuilder,  listHexCreatures);
-
-        commandBuilder.set("#SaveButton.Visible", isEditModeEnabled);
+        buildCategory(ref, store, commandBuilder, eventBuilder);
 
         sendUpdate(commandBuilder, eventBuilder, false);
     }
