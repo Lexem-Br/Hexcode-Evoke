@@ -118,6 +118,90 @@
       ]
     },
     {
+      "$Comment": "Shows a broken sickle thought when a player comes close while the sickle in hand is broken",
+      "Continue": true,
+      "Sensor": {
+        "Type": "And",
+        "Sensors": [
+          {
+            "Type": "Flag",
+            "Name": "BrokenSickleThought",
+            "Set": false
+          },
+          {
+            "Type": "Self",
+            "Filters": [
+              {
+                "Type": "Evoke:HasBrokenItemInHand",
+                "Items": [ "Tool_Sickle*" ]
+              }
+            ]
+          },
+          {
+            "Type": "Player",
+            "Range": 5
+          }
+        ]
+      },
+      "Actions": [
+        {
+          "Type": "SpawnParticles",
+          "TargetNodeName": "Head",
+          "ParticleSystem": "Evoke_Thought_Broken_Sickle",
+          "Offset": [ 0, 0.7, 0 ]
+        },
+        {
+          "Type": "SetFlag",
+          "Name": "BrokenSickleThought",
+          "SetTo": true
+        }
+      ]
+    },
+    {
+      "$Comment": "Allows the broken sickle thought again once no player is close or the sickle is no longer broken",
+      "Continue": true,
+      "Sensor": {
+        "Type": "And",
+        "Sensors": [
+          {
+            "Type": "Flag",
+            "Name": "BrokenSickleThought"
+          },
+          {
+            "Type": "Or",
+            "Sensors": [
+              {
+                "Type": "Not",
+                "Sensor": {
+                  "Type": "Player",
+                  "Range": 8
+                }
+              },
+              {
+                "Type": "Not",
+                "Sensor": {
+                  "Type": "Self",
+                  "Filters": [
+                    {
+                      "Type": "Evoke:HasBrokenItemInHand",
+                      "Items": [ "Tool_Sickle*" ]
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "Actions": [
+        {
+          "Type": "SetFlag",
+          "Name": "BrokenSickleThought",
+          "SetTo": false
+        }
+      ]
+    },
+    {
       "$Comment": "Go to target position",
       "Sensor": {
         "Type": "State",

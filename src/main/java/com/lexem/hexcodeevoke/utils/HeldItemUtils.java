@@ -21,10 +21,12 @@ public final class HeldItemUtils {
 
     @Nullable
     public static HeldItem findUsableHeldItem(@Nonnull Ref<EntityStore> ref, @Nonnull Store<EntityStore> store, @Nonnull List<String> items) {
-        HeldItem mainHand = getUsableItem(store.getComponent(ref, InventoryComponent.Hotbar.getComponentType()), items);
-        if (mainHand != null) return mainHand;
+        return findHeldItem(ref, store, items, false);
+    }
 
-        return getUsableItem(store.getComponent(ref, InventoryComponent.Utility.getComponentType()), items);
+    @Nullable
+    public static HeldItem findBrokenHeldItem(@Nonnull Ref<EntityStore> ref, @Nonnull Store<EntityStore> store, @Nonnull List<String> items) {
+        return findHeldItem(ref, store, items, true);
     }
 
     public static void decreaseDurability(@Nonnull HeldItem heldItem, double amount) {
@@ -46,11 +48,19 @@ public final class HeldItemUtils {
     }
 
     @Nullable
-    private static HeldItem getUsableItem(@Nullable ActiveSlotInventoryComponent component, @Nonnull List<String> items) {
+    private static HeldItem findHeldItem(@Nonnull Ref<EntityStore> ref, @Nonnull Store<EntityStore> store, @Nonnull List<String> items, boolean broken) {
+        HeldItem mainHand = getHeldItem(store.getComponent(ref, InventoryComponent.Hotbar.getComponentType()), items, broken);
+        if (mainHand != null) return mainHand;
+
+        return getHeldItem(store.getComponent(ref, InventoryComponent.Utility.getComponentType()), items, broken);
+    }
+
+    @Nullable
+    private static HeldItem getHeldItem(@Nullable ActiveSlotInventoryComponent component, @Nonnull List<String> items, boolean broken) {
         if (component == null) return null;
 
         ItemStack itemStack = component.getActiveItem();
-        if (ItemStack.isEmpty(itemStack) || itemStack.isBroken() || !InventoryHelper.matchesItem(items, itemStack)) return null;
+        if (ItemStack.isEmpty(itemStack) || itemStack.isBroken() != broken || !InventoryHelper.matchesItem(items, itemStack)) return null;
 
         return new HeldItem(component, component.getActiveSlot(), itemStack);
     }

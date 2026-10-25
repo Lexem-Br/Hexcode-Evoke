@@ -45,6 +45,8 @@ import com.lexem.hexcodeevoke.systems.MannequinArmorSystems;
 import com.lexem.hexcodeevoke.systems.NPCDeathSystem;
 import com.lexem.hexcodeevoke.systems.OffHandItemStateResetSystem;
 import com.lexem.hexcodeevoke.systems.PlayerJoinSystem;
+import com.lexem.hexcodeevoke.systems.WorldStallWatchdogSystem;
+import com.lexem.hexcodeevoke.utils.WorldStallWatchdog;
 import com.riprod.patchly.PatchManager;
 import org.checkerframework.checker.nullness.compatqual.NonNullDecl;
 
@@ -65,6 +67,7 @@ public class HexcodeEvoke extends JavaPlugin {
     @Override
     protected void setup() {
         LOGGER.atInfo().log("Setting up plugin " + this.getName());
+        WorldStallWatchdog.start();
         patchManager.install();
 
         if (isHexcodePresent()) {
@@ -167,6 +170,7 @@ public class HexcodeEvoke extends JavaPlugin {
         npcPlugin.registerCoreComponentType("Evoke:IsEvoker", BuilderFilterIsEvoker::new);
         npcPlugin.registerCoreComponentType("Evoke:HasHarvestableCrop", BuilderFilterHasHarvestableCrop::new);
         npcPlugin.registerCoreComponentType("Evoke:HasUsableItemInHand", BuilderFilterHasUsableItemInHand::new);
+        npcPlugin.registerCoreComponentType("Evoke:HasBrokenItemInHand", BuilderFilterHasBrokenItemInHand::new);
         npcPlugin.registerCoreComponentType("Evoke:HasWettableSoil", BuilderFilterHasWettableSoil::new);
         npcPlugin.registerCoreComponentType("Evoke:HasWateringCan", BuilderFilterHasWateringCan::new);
         npcPlugin.registerCoreComponentType("Evoke:HasWaterSourceNearby", BuilderFilterHasWaterSourceNearby::new);
@@ -238,6 +242,7 @@ public class HexcodeEvoke extends JavaPlugin {
         registery.registerSystem(new HexCreatureCrawlSystem());
         registery.registerSystem(new HexCreatureBreathingSystem());
         registery.registerSystem(new OffHandItemStateResetSystem());
+        registery.registerSystem(new WorldStallWatchdogSystem());
 
         HexCreatureRegistry.setResourceType(Universe.registerResource(
                 HexCreatureRegistry.class,
@@ -286,6 +291,7 @@ public class HexcodeEvoke extends JavaPlugin {
     @Override
     protected void shutdown() {
         LOGGER.atInfo().log("Shutting down plugin " + this.getName());
+        WorldStallWatchdog.stop();
     }
 
     public static HexcodeEvoke get() {

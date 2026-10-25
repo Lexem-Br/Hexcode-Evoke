@@ -312,6 +312,13 @@
                   "Type": "Evoke:MemorizeChest"
                 },
                 {
+                  "$Comment": "The light rays stop at 7.5 of the 10 seconds above the chest, so they fade out before the book moves again",
+                  "Type": "TimerStart",
+                  "Name": "CodexRays",
+                  "StartValueRange": [ 7.5, 7.5 ],
+                  "RestartValueRange": [ 7.5, 7.5 ]
+                },
+                {
                   "Type": "State",
                   "State": ".Waiting"
                 }
@@ -348,6 +355,59 @@
                 {
                   "Type": "State",
                   "State": "SearchItem.Default"
+                }
+              ]
+            },
+            {
+              "$Comment": "Light rays coming out of the book while the CodexRays timer runs",
+              "Continue": true,
+              "Sensor": {
+                "Type": "Timer",
+                "Name": "CodexRays",
+                "State": "Running"
+              },
+              "Instructions": [
+                {
+                  "Sensor": {
+                    "Type": "Evoke:SearchedChestPosition",
+                    "Range": 3,
+                    "HeightOffset": 1
+                  },
+                  "Actions": [
+                    {
+                      "Type": "Timeout",
+                      "Delay": [ 1, 1 ],
+                      "DelayAfter": true,
+                      "Action": {
+                        "Type": "SpawnParticles",
+                        "PositionSource": "Sensor",
+                        "Offset": [ 0, 0.1, 0 ],
+                        "ParticleSystem": "Evoke_Codex_Item_Found_Rays"
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "$Comment": "White dust falling on the chest, signaling where the searched item is",
+              "Continue": true,
+              "Sensor": {
+                "Type": "Evoke:SearchedChestPosition",
+                "Range": 3,
+                "HeightOffset": 1
+              },
+              "Actions": [
+                {
+                  "Type": "Timeout",
+                  "Delay": [ 1, 1 ],
+                  "DelayAfter": true,
+                  "Action": {
+                    "Type": "SpawnParticles",
+                    "PositionSource": "Sensor",
+                    "Offset": [ 0, 0.1, 0 ],
+                    "ParticleSystem": "Evoke_Codex_Item_Found"
+                  }
                 }
               ]
             },
@@ -447,13 +507,37 @@
             "Range": 0.3,
             "HeightOffset": 1
           },
+          "ActionsBlocking": true,
           "Actions": [
+            {
+              "Type": "PlayAnimation",
+              "Slot": "Action",
+              "Animation": "ReadChest"
+            },
+            {
+              "Type": "Evoke:OpenChestAnimation",
+              "Target": "Explore"
+            },
             {
               "Type": "Timeout",
               "Delay": [ 1.5, 1.5 ],
               "Action": {
-                "Type": "Evoke:MemorizeChest",
-                "Target": "Explore"
+                "Type": "Sequence",
+                "Actions": [
+                  {
+                    "Type": "Evoke:OpenChestAnimation",
+                    "Target": "Explore",
+                    "Reverse": true
+                  },
+                  {
+                    "Type": "Evoke:MemorizeChest",
+                    "Target": "Explore"
+                  },
+                  {
+                    "Type": "PlayAnimation",
+                    "Slot": "Action"
+                  }
+                ]
               }
             }
           ]
