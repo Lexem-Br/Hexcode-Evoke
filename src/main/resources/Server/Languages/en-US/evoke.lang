@@ -56,6 +56,7 @@ hud.inputBinding.open = Open Book
 book.tabs.list=My Creatures
 book.tabs.guide=Evoke Book
 book.tabs.creatures=Hex Creatures
+book.summary.title=Contents
 
 book.guide.introduction.title=Welcome, Evoker
 book.guide.introduction.text=The Evoke Book brings Hex objects to life.\n\nSome blocks are Hex items: when evoked, they turn into Hex Creatures that follow you and help with everyday tasks, such as harvesting crops, storing items in chests or lighting the way.\n\nThis book has three bookmarks:\n- My Creatures: the Hex Creatures you have evoked\n- Evoke Book: tips and an introduction to the mod\n- Hex Creatures: a page for each creature, with its origin item, cost and characteristics

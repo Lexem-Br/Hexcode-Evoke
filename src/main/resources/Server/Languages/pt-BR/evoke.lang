@@ -56,6 +56,7 @@ hud.inputBinding.open = Abrir Livro
 book.tabs.list=Minhas Criaturas
 book.tabs.guide=Evoke Book
 book.tabs.creatures=Hex Creatures
+book.summary.title=Sumário
 
 book.guide.introduction.title=Bem-vindo, Evocador
 book.guide.introduction.text=O Livro de Evocação dá vida a objetos Hex.\n\nAlguns blocos são itens Hex: ao serem evocados, viram criaturas Hex que te seguem e ajudam em tarefas do dia a dia, como colher plantações, guardar itens em baús ou iluminar o caminho.\n\nEste livro tem três marcadores:\n- Minhas Criaturas: as criaturas Hex que você evocou\n- Evoke Book: dicas e introdução ao mod\n- Hex Creatures: uma página para cada criatura, com item de origem, custo e características

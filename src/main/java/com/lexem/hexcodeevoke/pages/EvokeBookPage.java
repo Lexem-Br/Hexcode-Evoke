@@ -43,6 +43,9 @@ public class EvokeBookPage extends InteractiveCustomUIPage<EvokeBookPage.EvokeBo
     private static final String CREATURE_PAGE_FILE = "Pages/EvokeBookCreaturePage.ui";
     private static final String VARIANT_ICON_FILE = "Pages/EvokeBookVariantIcon.ui";
     private static final String EQUIPMENT_ENTRY_FILE = "Pages/EvokeBookEquipmentEntry.ui";
+    private static final String SUMMARY_PAGE_FILE = "Pages/EvokeBookSummaryPage.ui";
+    private static final String SUMMARY_ENTRY_FILE = "Pages/EvokeBookSummaryEntry.ui";
+    private static final int SUMMARY_ENTRIES_PER_PAGE = 14;
     private static final String[] GUIDE_PAGES = {"introduction", "evoking", "life_essence", "wands", "behaviour", "managing", "reverting", "tips"};
     private boolean isEditModeEnabled = false;
     private Category category = Category.LIST;
@@ -74,6 +77,7 @@ public class EvokeBookPage extends InteractiveCustomUIPage<EvokeBookPage.EvokeBo
         public String action;
         public String uuid;
         public String category;
+        public String page;
         public static final BuilderCodec<EvokeBookEventData> CODEC = ((BuilderCodec.Builder<EvokeBookEventData>) ((BuilderCodec.Builder<EvokeBookEventData>)
                 BuilderCodec.builder(EvokeBookEventData.class, EvokeBookEventData::new)
                 .append(new KeyedCodec<>("@HexCreatureName", Codec.STRING),
@@ -86,6 +90,8 @@ public class EvokeBookPage extends InteractiveCustomUIPage<EvokeBookPage.EvokeBo
                 .append(new KeyedCodec<>("UUID", Codec.STRING), (EvokeBookEventData o, String v) -> o.uuid = v, (EvokeBookEventData o) -> o.uuid)
                 .add())
                 .append(new KeyedCodec<>("Category", Codec.STRING), (EvokeBookEventData o, String v) -> o.category = v, (EvokeBookEventData o) -> o.category)
+                .add()
+                .append(new KeyedCodec<>("Page", Codec.STRING), (EvokeBookEventData o, String v) -> o.page = v, (EvokeBookEventData o) -> o.page)
                 .add()
                 .build();
     }
@@ -156,7 +162,7 @@ public class EvokeBookPage extends InteractiveCustomUIPage<EvokeBookPage.EvokeBo
         if (category == Category.LIST) {
             buildList(ref, store, commandBuilder, eventBuilder);
         } else {
-            buildPages(commandBuilder);
+            buildPages(commandBuilder, eventBuilder);
         }
     }
 
@@ -179,9 +185,11 @@ public class EvokeBookPage extends InteractiveCustomUIPage<EvokeBookPage.EvokeBo
         commandBuilder.set("#SaveButton.Visible", isEditModeEnabled);
     }
 
-    private void buildPages(@Nonnull UICommandBuilder commandBuilder) {
+    private void buildPages(@Nonnull UICommandBuilder commandBuilder, @Nonnull UIEventBuilder eventBuilder) {
         List<CreatureEntry> creatures = category == Category.CREATURES ? getCreatureEntries() : List.of();
-        int pageCount = category == Category.CREATURES ? creatures.size() : GUIDE_PAGES.length;
+        int entryCount = category == Category.CREATURES ? creatures.size() : GUIDE_PAGES.length;
+        int summaryPages = Math.max(1, (entryCount + SUMMARY_ENTRIES_PER_PAGE - 1) / SUMMARY_ENTRIES_PER_PAGE);
+        int pageCount = summaryPages + entryCount;
         int lastSpread = Math.max(0, (pageCount - 1) / 2);
         int spread = Math.min(category == Category.CREATURES ? creaturesSpread : guideSpread, lastSpread);
         if (category == Category.CREATURES) {
@@ -198,10 +206,12 @@ public class EvokeBookPage extends InteractiveCustomUIPage<EvokeBookPage.EvokeBo
             int page = firstPage + i;
             if (page >= pageCount) continue;
 
-            if (category == Category.CREATURES) {
-                createCreaturePage(commandBuilder, containers[i], creatures.get(page));
+            if (page < summaryPages) {
+                createSummaryPage(commandBuilder, eventBuilder, containers[i], page, summaryPages, creatures);
+            } else if (category == Category.CREATURES) {
+                createCreaturePage(commandBuilder, containers[i], creatures.get(page - summaryPages));
             } else {
-                createGuidePage(commandBuilder, containers[i], GUIDE_PAGES[page]);
+                createGuidePage(commandBuilder, containers[i], GUIDE_PAGES[page - summaryPages]);
             }
         }
 
@@ -209,6 +219,47 @@ public class EvokeBookPage extends InteractiveCustomUIPage<EvokeBookPage.EvokeBo
         commandBuilder.set("#NextPageButton.Visible", spread < lastSpread);
         commandBuilder.set("#LeftPageNumber.Text", firstPage < pageCount ? String.valueOf(firstPage + 1) : "");
         commandBuilder.set("#RightPageNumber.Text", firstPage + 1 < pageCount ? String.valueOf(firstPage + 2) : "");
+    }
+
+    private void createSummaryPage(
+            @Nonnull UICommandBuilder commandBuilder,
+            @Nonnull UIEventBuilder eventBuilder,
+            @Nonnull String container,
+            int summaryPage,
+            int summaryPages,
+            @Nonnull List<CreatureEntry> creatures
+    ) {
+        String selector = container + "[0]";
+        commandBuilder.append(container, SUMMARY_PAGE_FILE);
+        commandBuilder.set(selector + " #SummaryTitle.Text", Message.translation("evoke.book.summary.title"));
+
+        int entryCount = category == Category.CREATURES ? creatures.size() : GUIDE_PAGES.length;
+        int firstEntry = summaryPage * SUMMARY_ENTRIES_PER_PAGE;
+        int lastEntry = Math.min(entryCount, firstEntry + SUMMARY_ENTRIES_PER_PAGE);
+        for (int entry = firstEntry; entry < lastEntry; entry++) {
+            String rowSelector = selector + " #SummaryList[" + (entry - firstEntry) + "]";
+            commandBuilder.append(selector + " #SummaryList", SUMMARY_ENTRY_FILE);
+
+            if (category == Category.CREATURES) {
+                AllowedHexItemsAsset.HexItem hexItem = creatures.get(entry).hexItem();
+                commandBuilder.set(rowSelector + " #EntryButton.Text", getCreatureName(hexItem));
+                commandBuilder.set(rowSelector + " #EntryIcon.ItemId", getItemIcon(hexItem.blockId));
+                commandBuilder.set(rowSelector + " #EntryIcon.Visible", true);
+                commandBuilder.set(rowSelector + " #EntryIconSpacer.Visible", true);
+            } else {
+                commandBuilder.set(rowSelector + " #EntryButton.Text", Message.translation("evoke.book.guide." + GUIDE_PAGES[entry] + ".title"));
+            }
+
+            int targetPage = summaryPages + entry;
+            commandBuilder.set(rowSelector + " #EntryPage.Text", String.valueOf(targetPage + 1));
+            eventBuilder.addEventBinding(
+                    CustomUIEventBindingType.Activating,
+                    rowSelector + " #EntryButton",
+                    new EventData().append("Action", "GoToPage")
+                            .append("Page", String.valueOf(targetPage)),
+                    false
+            );
+        }
     }
 
     private void createGuidePage(@Nonnull UICommandBuilder commandBuilder, @Nonnull String container, @Nonnull String pageId) {
@@ -496,8 +547,27 @@ public class EvokeBookPage extends InteractiveCustomUIPage<EvokeBookPage.EvokeBo
                         } catch (IllegalArgumentException e) {
                             break;
                         }
+                        if (category == Category.GUIDE) {
+                            guideSpread = 0;
+                        } else if (category == Category.CREATURES) {
+                            creaturesSpread = 0;
+                        }
                         refreshPage(ref, store);
                     }
+                    break;
+                case "GoToPage":
+                    int targetPage;
+                    try {
+                        targetPage = Integer.parseInt(data.page);
+                    } catch (NumberFormatException e) {
+                        break;
+                    }
+                    if (category == Category.GUIDE) {
+                        guideSpread = Math.max(0, targetPage / 2);
+                    } else if (category == Category.CREATURES) {
+                        creaturesSpread = Math.max(0, targetPage / 2);
+                    }
+                    refreshPage(ref, store);
                     break;
                 case "PrevPage":
                 case "NextPage":

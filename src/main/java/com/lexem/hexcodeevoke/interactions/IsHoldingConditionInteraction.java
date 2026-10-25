@@ -14,6 +14,7 @@ import com.hypixel.hytale.server.core.inventory.ItemStack;
 import com.hypixel.hytale.server.core.modules.interaction.interaction.CooldownHandler;
 import com.hypixel.hytale.server.core.modules.interaction.interaction.config.SimpleInteraction;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
+import com.lexem.hexcodeevoke.utils.OffHandItemStateUtils;
 
 import javax.annotation.Nonnull;
 
@@ -50,7 +51,7 @@ public class IsHoldingConditionInteraction extends SimpleInteraction {
                 final ItemStack itemInHand = InventoryComponent.getItemInHand(accessor, context.getEntity());
 
                 for (String item : items) {
-                    if (itemInHand != null && item.equals(itemInHand.getItemId())) {
+                    if (OffHandItemStateUtils.matches(item, itemInHand)) {
                         context.getState().state = InteractionState.Finished;
                         super.tick0(firstRun, time, type, context, cooldownHandler);
                         return;
@@ -60,7 +61,7 @@ public class IsHoldingConditionInteraction extends SimpleInteraction {
                 final var utilityComponent = accessor.getComponent(context.getEntity(), InventoryComponent.Utility.getComponentType());
                 final var itemInOffHand = utilityComponent != null ? utilityComponent.getActiveItem() : null;
                 for (String item : items) {
-                    if (itemInOffHand != null && item.equals(itemInOffHand.getItemId())) {
+                    if (OffHandItemStateUtils.matches(item, itemInOffHand)) {
                         context.getState().state = InteractionState.Finished;
                         super.tick0(firstRun, time, type, context, cooldownHandler);
                         return;

@@ -7,36 +7,36 @@
         {
           "time": 0,
           "delta": {
-            "x": 0,
-            "y": -0.999999,
-            "z": 1.521
+            "x": -7.500015,
+            "y": 23.20961,
+            "z": 16.820971
           },
           "interpolationType": "smooth"
         },
         {
           "time": 10,
           "delta": {
-            "x": 0,
-            "y": 1.000001,
-            "z": 0
+            "x": -8.260517,
+            "y": 21.892384,
+            "z": 14.820969
           },
           "interpolationType": "smooth"
         },
         {
           "time": 20,
           "delta": {
-            "x": 0,
-            "y": -0.999999,
-            "z": -1.479
+            "x": -9.000019,
+            "y": 20.611532,
+            "z": 16.820971
           },
           "interpolationType": "smooth"
         },
         {
           "time": 30,
           "delta": {
-            "x": 0,
-            "y": 1.000001,
-            "z": 0
+            "x": -8.260517,
+            "y": 21.892384,
+            "z": 14.820969
           },
           "interpolationType": "smooth"
         }
@@ -45,10 +45,10 @@
         {
           "time": 0,
           "delta": {
-            "x": 0,
-            "y": 0,
-            "z": 0,
-            "w": 1
+            "x": -0.683013,
+            "y": 0.183013,
+            "z": -0.183013,
+            "w": 0.683013
           },
           "interpolationType": "smooth"
         }
@@ -1585,34 +1585,6 @@
             "y": 0,
             "z": 0,
             "w": 1
-          },
-          "interpolationType": "smooth"
-        }
-      ],
-      "shapeStretch": [],
-      "shapeVisible": [],
-      "shapeUvOffset": []
-    },
-    "Origin": {
-      "position": [
-        {
-          "time": 0,
-          "delta": {
-            "x": 0,
-            "y": 64,
-            "z": 80
-          },
-          "interpolationType": "smooth"
-        }
-      ],
-      "orientation": [
-        {
-          "time": 0,
-          "delta": {
-            "x": -0.683013,
-            "y": 0.183013,
-            "z": -0.183013,
-            "w": 0.683013
           },
           "interpolationType": "smooth"
         }

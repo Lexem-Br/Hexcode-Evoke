@@ -1,0 +1,17 @@
+Group {
+    FlexWeight: 1;
+    LayoutMode: Top;
+
+    Label #SummaryTitle {
+        Text: "";
+        Anchor: (Height: 30);
+        Style: (FontSize: 20, TextColor: #000000, RenderBold: true, HorizontalAlignment: Center, VerticalAlignment: Center);
+    }
+
+    Group { Anchor: (Height: 14); }
+
+    Group #SummaryList {
+        FlexWeight: 1;
+        LayoutMode: Top;
+    }
+}

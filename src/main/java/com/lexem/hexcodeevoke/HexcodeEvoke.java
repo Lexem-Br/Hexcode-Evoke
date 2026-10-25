@@ -43,6 +43,7 @@ import com.lexem.hexcodeevoke.systems.HexCreatureStateSaveSystem;
 import com.lexem.hexcodeevoke.systems.HexCreatureTrackingSystem;
 import com.lexem.hexcodeevoke.systems.MannequinArmorSystems;
 import com.lexem.hexcodeevoke.systems.NPCDeathSystem;
+import com.lexem.hexcodeevoke.systems.OffHandItemStateResetSystem;
 import com.lexem.hexcodeevoke.systems.PlayerJoinSystem;
 import com.riprod.patchly.PatchManager;
 import org.checkerframework.checker.nullness.compatqual.NonNullDecl;
@@ -236,6 +237,7 @@ public class HexcodeEvoke extends JavaPlugin {
         registery.registerSystem(new HexCreatureClimbStateSystem());
         registery.registerSystem(new HexCreatureCrawlSystem());
         registery.registerSystem(new HexCreatureBreathingSystem());
+        registery.registerSystem(new OffHandItemStateResetSystem());
 
         HexCreatureRegistry.setResourceType(Universe.registerResource(
                 HexCreatureRegistry.class,
@@ -274,6 +276,8 @@ public class HexcodeEvoke extends JavaPlugin {
         this.getCodecRegistry(Interaction.CODEC).register("ChangeStatWandParticles", ChangeStatWandParticlesInteraction.class, ChangeStatWandParticlesInteraction.CODEC);
         this.getCodecRegistry(Interaction.CODEC).register("Evoke:Summon", SummonInteraction.class, SummonInteraction.CODEC);
         this.getCodecRegistry(Interaction.CODEC).register("Evoke:IsHoldingCondition", IsHoldingConditionInteraction.class, IsHoldingConditionInteraction.CODEC);
+        this.getCodecRegistry(Interaction.CODEC).register("Evoke:OffHandContextCondition", OffHandContextConditionInteraction.class, OffHandContextConditionInteraction.CODEC);
+        this.getCodecRegistry(Interaction.CODEC).register("Evoke:OffHandItemState", OffHandItemStateInteraction.class, OffHandItemStateInteraction.CODEC);
         this.getCodecRegistry(Interaction.CODEC).register("Evoke:SendMessage", SendMessageInteraction.class, SendMessageInteraction.CODEC);
         this.getCodecRegistry(Interaction.CODEC).register("Evoke:MainHandReplace", MainHandReplaceInteraction.class, MainHandReplaceInteraction.CODEC);
         this.getCodecRegistry(Interaction.CODEC).register("Evoke:MannequinArmor", MannequinArmorInteraction.class, MannequinArmorInteraction.CODEC);

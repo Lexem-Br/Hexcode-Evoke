@@ -43,6 +43,7 @@
       "AscentAnimationType": "Climb",
       "ClimbSpeedConst": 3,
       "MaxDropHeight": 5,
+      "MinDescentAnimationHeight": 1.5,
       "DescendFlatness": 0.1,
       "DescendSpeedCompensation": 0,
       "DescentSteepness": 0.5,
