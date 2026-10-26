@@ -32,10 +32,7 @@ public class ActionOpenHCProfile extends ActionBase {
         Player player = store.getComponent(refESPlayer, Player.getComponentType());
         if (player == null) return false;
 
-        String cardName = "HCProfileSlotEntry";
-        String pageName = "HCProfilePage";
-        HCProfilePage hcProfilePage = new HCProfilePage(playerRef, npcRef, pageName, cardName, store);
-        player.getPageManager().openCustomPage(refESPlayer, store, hcProfilePage);
+        HCProfilePage.open(player, playerRef, refESPlayer, npcRef, "HCProfilePage", store);
 
         return true;
     }
