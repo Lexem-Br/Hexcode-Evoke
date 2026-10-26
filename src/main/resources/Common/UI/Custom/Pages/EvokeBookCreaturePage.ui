@@ -64,6 +64,12 @@ Group {
                     Anchor: (Width: 22, Height: 22);
                 }
             }
+
+            Label #EssenceDrain {
+                Text: "";
+                Anchor: (Height: 24);
+                Style: @InfoLabelStyle;
+            }
         }
     }
 

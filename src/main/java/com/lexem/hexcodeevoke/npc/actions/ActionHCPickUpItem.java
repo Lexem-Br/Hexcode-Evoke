@@ -17,6 +17,7 @@ import com.hypixel.hytale.server.npc.instructions.ExecutionSupport;
 import com.hypixel.hytale.server.npc.sensorinfo.InfoProvider;
 import com.hypixel.hytale.server.npc.util.InventoryHelper;
 import com.lexem.hexcodeevoke.npc.actions.builders.BuilderActionHCPickUpItem;
+import com.lexem.hexcodeevoke.utils.InventoryUtils;
 import org.joml.Vector3d;
 
 import javax.annotation.Nonnull;
@@ -142,33 +143,13 @@ public class ActionHCPickUpItem extends ActionWithDelay {
       ItemContainer hotbarInventory = hotbar != null ? hotbar.getInventory() : null;
       ItemContainer storageInventory = storage != null ? storage.getInventory() : null;
 
-      ItemStack remainder = itemStack;
-      for (boolean mergeOnly : new boolean[]{true, false}) {
-         remainder = addToSlots(hotbarInventory, 1, remainder, mergeOnly);
-         remainder = addToSlots(storageInventory, 0, remainder, mergeOnly);
-      }
+      ItemStack remainder = InventoryUtils.addOutsideHand(hotbarInventory, storageInventory, itemStack);
 
       if (ItemStack.isEmpty(remainder)) {
          store.removeEntity(itemRef, RemoveReason.REMOVE);
       } else if (remainder.getQuantity() != itemStack.getQuantity()) {
          itemComponent.setItemStack(remainder);
       }
-   }
-
-   @Nullable
-   private static ItemStack addToSlots(@Nullable ItemContainer inventory, int firstSlot, @Nullable ItemStack itemStack, boolean mergeOnly) {
-      if (inventory == null || ItemStack.isEmpty(itemStack)) return itemStack;
-
-      ItemStack remainder = itemStack;
-      for (short slot = (short) firstSlot; slot < inventory.getCapacity() && !ItemStack.isEmpty(remainder); slot++) {
-         ItemStack current = inventory.getItemStack(slot);
-         boolean empty = ItemStack.isEmpty(current);
-         if (mergeOnly && (empty || !current.getItemId().equals(remainder.getItemId()))) continue;
-         if (!mergeOnly && !empty) continue;
-
-         remainder = inventory.addItemStackToSlot(slot, remainder).getRemainder();
-      }
-      return remainder;
    }
 
    protected boolean filterItem(@Nonnull Ref<EntityStore> ref, @Nonnull ComponentAccessor<EntityStore> componentAccessor) {

@@ -10,10 +10,6 @@
       {
         "ResourceTypeId": "Wood_Trunk",
         "Quantity": 2
-      },
-      {
-        "ItemId": "Ingredient_Life_Essence",
-        "Quantity": 20
       }
     ],
     "BenchRequirement": [

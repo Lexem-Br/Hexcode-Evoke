@@ -9,6 +9,7 @@ import com.hypixel.hytale.logger.HytaleLogger;
 import com.hypixel.hytale.protocol.packets.interface_.CustomPageLifetime;
 import com.hypixel.hytale.protocol.packets.interface_.CustomUIEventBindingType;
 import com.hypixel.hytale.protocol.packets.interface_.Page;
+import com.hypixel.hytale.server.core.Message;
 import com.hypixel.hytale.server.core.entity.UUIDComponent;
 import com.hypixel.hytale.server.core.entity.entities.Player;
 import com.hypixel.hytale.server.core.entity.entities.player.pages.InteractiveCustomUIPage;
@@ -24,6 +25,7 @@ import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.lexem.hexcodeevoke.components.HexCreatureComponent;
 import com.lexem.hexcodeevoke.hexitems.AllowedHexItemsAsset;
 import com.lexem.hexcodeevoke.utils.HexCreatureDespawner;
+import com.lexem.hexcodeevoke.utils.LifeEssenceUtils;
 
 import javax.annotation.Nonnull;
 import java.util.Objects;
@@ -167,6 +169,7 @@ public class HCProfilePage extends InteractiveCustomUIPage<HCProfilePage.HCProfi
 
     private void npcInventoryBuild() {
         bindNPCInfo();
+        bindNPCLifeEssence();
         bindNPCHands();
         bindNPCArmors();
         bindHotbar();
@@ -187,6 +190,30 @@ public class HCProfilePage extends InteractiveCustomUIPage<HCProfilePage.HCProfi
                     commandBuilder.set("#EvokerName.Text", "Evoker: " + playerRef.getUsername());
                 }
             }
+        }
+    }
+
+    private void bindNPCLifeEssence() {
+        AllowedHexItemsAsset.HexItem hexItem = hexCreatureComponent != null ? LifeEssenceUtils.getHexItem(hexCreatureComponent) : null;
+        float capacity = LifeEssenceUtils.getCapacity(hexItem);
+        if (capacity <= 0) {
+            commandBuilder.set("#EssenceStored.Text", Message.translation("evoke.profile.no_essence"));
+            commandBuilder.set("#EssenceDrain.Text", "");
+            return;
+        }
+
+        float stored = LifeEssenceUtils.getStored(hexCreatureComponent, hexItem);
+        commandBuilder.set("#EssenceStored.Text", Message.translation("evoke.book.list.essence")
+                .param("stored", LifeEssenceUtils.formatAmount(stored))
+                .param("capacity", LifeEssenceUtils.formatAmount(capacity)));
+
+        float drainPerMinute = LifeEssenceUtils.getDrainPerMinute(hexItem);
+        if (drainPerMinute > 0) {
+            commandBuilder.set("#EssenceDrain.Text", Message.translation("evoke.profile.drain")
+                    .param("drain", LifeEssenceUtils.formatRate(drainPerMinute))
+                    .param("time", LifeEssenceUtils.formatDuration(stored / drainPerMinute)));
+        } else {
+            commandBuilder.set("#EssenceDrain.Text", Message.translation("evoke.book.creatures.no_drain"));
         }
     }
 
@@ -399,7 +426,7 @@ public class HCProfilePage extends InteractiveCustomUIPage<HCProfilePage.HCProfi
         if (data.action != null && data.action.equals("Despawn")) {
             if (!isOwner(ref, store)) return;
 
-            HexCreatureDespawner.despawn(store, npcRef, store, true);
+            HexCreatureDespawner.despawnByOwner(store, npcRef, store);
             player.getPageManager().setPage(ref, store, Page.None);
         } else if (data.action != null && data.action.equals("Selector")) {
             if (Objects.equals(data.isPlayerSelector, "true")) {

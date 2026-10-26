@@ -74,7 +74,36 @@ Group {
                         }
                     }
 
-                    Group { Anchor: (Height: 40); }
+                    Group { Anchor: (Height: 8); }
+
+                    Group #EssenceSection {
+                        Anchor: (Height: 24);
+                        LayoutMode: Left;
+                        Padding: (Left: 10);
+
+                        ItemIcon #EssenceIcon {
+                            ItemId: "Ingredient_Life_Essence";
+                            Anchor: (Width: 22, Height: 22);
+                        }
+
+                        Group { Anchor: (Width: 6); }
+
+                        Label #EssenceStored {
+                            Text: "";
+                            Anchor: (Height: 24);
+                            Style: (FontSize: 14, RenderBold: true, VerticalAlignment: Center);
+                        }
+
+                        Group { Anchor: (Width: 16); }
+
+                        Label #EssenceDrain {
+                            Text: "";
+                            Anchor: (Height: 24);
+                            Style: (FontSize: 14, TextColor: #9aa7b2, VerticalAlignment: Center);
+                        }
+                    }
+
+                    Group { Anchor: (Height: 8); }
 
                     Group {
                         LayoutMode: LeftCenterWrap;

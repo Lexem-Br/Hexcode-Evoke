@@ -5,6 +5,7 @@ import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.component.Store;
 import com.hypixel.hytale.logger.HytaleLogger;
 import com.hypixel.hytale.math.random.RandomExtra;
+import com.hypixel.hytale.server.core.asset.type.item.config.Item;
 import com.hypixel.hytale.server.core.entity.ItemUtils;
 import com.hypixel.hytale.server.core.inventory.InventoryComponent;
 import com.hypixel.hytale.server.core.inventory.ItemStack;
@@ -28,35 +29,26 @@ public final class HexCreatureDespawner {
     private final Ref<EntityStore> npcRef;
     private final ComponentAccessor<EntityStore> commandBuffer;
     private final boolean dropHexItem;
+    private final boolean hexItemAtCreature;
     private final boolean revertToBlock;
     private final boolean dropLifeEssence;
 
     private static final HytaleLogger LOGGER = HytaleLogger.forEnclosingClass();
-    private static final String LIFE_ESSENCE_ITEM_ID = "Ingredient_Life_Essence";
 
     public static void despawn(
             @Nonnull Store<EntityStore> store,
             @Nonnull Ref<EntityStore> npcRef,
             @Nonnull ComponentAccessor<EntityStore> commandBuffer
     ) {
-        new HexCreatureDespawner(store, npcRef, commandBuffer, false, false, false).run();
+        new HexCreatureDespawner(store, npcRef, commandBuffer, false, false, false, false).run();
     }
 
-    public static void despawn(
-            @Nonnull Store<EntityStore> store,
-            @Nonnull Ref<EntityStore> npcRef,
-            @Nonnull ComponentAccessor<EntityStore> commandBuffer,
-            boolean dropHexItem
-    ) {
-        new HexCreatureDespawner(store, npcRef, commandBuffer, dropHexItem, false, false).run();
-    }
-
-    public static void despawnFromEvokeBook(
+    public static void despawnByOwner(
             @Nonnull Store<EntityStore> store,
             @Nonnull Ref<EntityStore> npcRef,
             @Nonnull ComponentAccessor<EntityStore> commandBuffer
     ) {
-        new HexCreatureDespawner(store, npcRef, commandBuffer, true, false, false).run();
+        new HexCreatureDespawner(store, npcRef, commandBuffer, true, false, false, true).run();
     }
 
     public static void despawnAsBlock(
@@ -64,7 +56,15 @@ public final class HexCreatureDespawner {
             @Nonnull Ref<EntityStore> npcRef,
             @Nonnull ComponentAccessor<EntityStore> commandBuffer
     ) {
-        new HexCreatureDespawner(store, npcRef, commandBuffer, false, true, true).run();
+        new HexCreatureDespawner(store, npcRef, commandBuffer, false, false, true, true).run();
+    }
+
+    public static void despawnInPlace(
+            @Nonnull Store<EntityStore> store,
+            @Nonnull Ref<EntityStore> npcRef,
+            @Nonnull ComponentAccessor<EntityStore> commandBuffer
+    ) {
+        new HexCreatureDespawner(store, npcRef, commandBuffer, true, true, false, false).run();
     }
 
     private HexCreatureDespawner(
@@ -72,6 +72,7 @@ public final class HexCreatureDespawner {
              @Nonnull Ref<EntityStore> npcRef,
              @Nonnull ComponentAccessor<EntityStore> commandBuffer,
              boolean dropHexItem,
+             boolean hexItemAtCreature,
              boolean revertToBlock,
              boolean dropLifeEssence
     ) {
@@ -79,6 +80,7 @@ public final class HexCreatureDespawner {
         this.npcRef = Objects.requireNonNull(npcRef, "npcRef");
         this.commandBuffer = Objects.requireNonNull(commandBuffer, "commandBuffer");
         this.dropHexItem = dropHexItem;
+        this.hexItemAtCreature = hexItemAtCreature;
         this.revertToBlock = revertToBlock;
         this.dropLifeEssence = dropLifeEssence;
     }
@@ -109,11 +111,16 @@ public final class HexCreatureDespawner {
 
     private void dropLifeEssence() {
         HexCreatureComponent hexCreatureComponent = store.getComponent(npcRef, HexCreatureComponent.getComponentType());
-        String blockId = hexCreatureComponent != null ? hexCreatureComponent.getBlockName() : null;
-        AllowedHexItemsAsset.HexItem hexItem = blockId != null ? AllowedHexItemsAsset.getByBlockId(blockId) : null;
-        if (hexItem == null || hexItem.essenceCost <= 0) return;
+        if (hexCreatureComponent == null) return;
 
-        throwInventoryItem(new ItemStack(LIFE_ESSENCE_ITEM_ID, hexItem.essenceCost));
+        int remaining = LifeEssenceUtils.getDroppableUnits(hexCreatureComponent);
+        Item item = Item.getAssetMap().getAsset(LifeEssenceUtils.LIFE_ESSENCE_ITEM_ID);
+        int maxStack = item != null ? Math.max(1, item.getMaxStack()) : remaining;
+        while (remaining > 0) {
+            int quantity = Math.min(remaining, maxStack);
+            throwInventoryItem(new ItemStack(LifeEssenceUtils.LIFE_ESSENCE_ITEM_ID, quantity));
+            remaining -= quantity;
+        }
     }
 
     private void throwInventoryItem(@Nonnull ItemStack itemStack) {
@@ -138,7 +145,7 @@ public final class HexCreatureDespawner {
 
         if (dropHexItem || npcRole == null || Objects.equals(npcRole.getDropListId(), "Empty")) {
             UUID uuid = UUID.fromString(hexCreatureComponent.getEvokerUUID());
-            Ref<EntityStore> refESPlayer = store.getExternalData().getRefFromUUID(uuid);
+            Ref<EntityStore> refESPlayer = hexItemAtCreature ? null : store.getExternalData().getRefFromUUID(uuid);
 
             if (refESPlayer != null) {
                 Vector3d direction = throwItem(refESPlayer, hexDropItem,  1);

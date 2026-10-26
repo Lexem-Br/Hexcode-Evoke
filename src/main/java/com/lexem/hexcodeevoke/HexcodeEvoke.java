@@ -36,6 +36,7 @@ import com.lexem.hexcodeevoke.systems.HexCreatureBreathingSystem;
 import com.lexem.hexcodeevoke.systems.HexCreatureClimbStateSystem;
 import com.lexem.hexcodeevoke.systems.HexCreatureComponentsSystem;
 import com.lexem.hexcodeevoke.systems.HexCreatureCrawlSystem;
+import com.lexem.hexcodeevoke.systems.HexCreatureLifeEssenceSystem;
 import com.lexem.hexcodeevoke.systems.HexCreaturePickupSystem;
 import com.lexem.hexcodeevoke.systems.HexCreatureRevocationSystem;
 import com.lexem.hexcodeevoke.systems.HexCreatureStateRestoreSystem;
@@ -238,6 +239,7 @@ public class HexcodeEvoke extends JavaPlugin {
         registery.registerSystem(new HexCreatureStateSaveSystem());
         registery.registerSystem(new HexCreatureStateRestoreSystem());
         registery.registerSystem(new HexCreaturePickupSystem());
+        registery.registerSystem(new HexCreatureLifeEssenceSystem());
         registery.registerSystem(new HexCreatureClimbStateSystem());
         registery.registerSystem(new HexCreatureCrawlSystem());
         registery.registerSystem(new HexCreatureBreathingSystem());

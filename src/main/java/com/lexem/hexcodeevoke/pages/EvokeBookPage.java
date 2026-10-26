@@ -31,6 +31,7 @@ import com.lexem.hexcodeevoke.components.EvokerComponent;
 import com.lexem.hexcodeevoke.components.HexCreatureComponent;
 import com.lexem.hexcodeevoke.hexitems.AllowedHexItemsAsset;
 import com.lexem.hexcodeevoke.utils.HexCreatureDespawner;
+import com.lexem.hexcodeevoke.utils.LifeEssenceUtils;
 import com.lexem.hexcodeevoke.utils.UnloadedHexCreatureDespawner;
 import com.lexem.hexcodeevoke.utils.WandIndicatorUtils;
 
@@ -46,7 +47,7 @@ public class EvokeBookPage extends InteractiveCustomUIPage<EvokeBookPage.EvokeBo
     private static final String SUMMARY_PAGE_FILE = "Pages/EvokeBookSummaryPage.ui";
     private static final String SUMMARY_ENTRY_FILE = "Pages/EvokeBookSummaryEntry.ui";
     private static final int SUMMARY_ENTRIES_PER_PAGE = 14;
-    private static final String[] GUIDE_PAGES = {"introduction", "evoking", "life_essence", "wands", "behaviour", "managing", "reverting", "tips"};
+    private static final String[] GUIDE_PAGES = {"introduction", "evoking", "life_essence", "essence_storage", "wands", "behaviour", "managing", "reverting", "tips"};
     private boolean isEditModeEnabled = false;
     private Category category = Category.LIST;
     private int guideSpread = 0;
@@ -181,7 +182,7 @@ public class EvokeBookPage extends InteractiveCustomUIPage<EvokeBookPage.EvokeBo
             listHexCreatures = evoker.getListHexCreatures();
         }
 
-        createHCCards(commandBuilder, eventBuilder, listHexCreatures);
+        createHCCards(commandBuilder, eventBuilder, listHexCreatures, store);
         commandBuilder.set("#SaveButton.Visible", isEditModeEnabled);
     }
 
@@ -283,6 +284,15 @@ public class EvokeBookPage extends InteractiveCustomUIPage<EvokeBookPage.EvokeBo
         } else {
             commandBuilder.set(selector + " #EssenceCost.Text", Message.translation("evoke.book.creatures.no_cost"));
             commandBuilder.set(selector + " #EssenceIcon.Visible", false);
+        }
+
+        float drainPerMinute = LifeEssenceUtils.getDrainPerMinute(hexItem);
+        if (drainPerMinute > 0) {
+            commandBuilder.set(selector + " #EssenceDrain.Text", Message.translation("evoke.book.creatures.drain")
+                    .param("drain", LifeEssenceUtils.formatRate(drainPerMinute))
+                    .param("time", LifeEssenceUtils.formatDuration(LifeEssenceUtils.getCapacity(hexItem) / drainPerMinute)));
+        } else {
+            commandBuilder.set(selector + " #EssenceDrain.Text", Message.translation("evoke.book.creatures.no_drain"));
         }
 
         if (!entry.variants().isEmpty()) {
@@ -403,7 +413,8 @@ public class EvokeBookPage extends InteractiveCustomUIPage<EvokeBookPage.EvokeBo
     private void createHCCards(
             @Nonnull UICommandBuilder commandBuilder,
             @Nonnull UIEventBuilder eventBuilder,
-            HexCreatureComponent[] hexCreatures
+            HexCreatureComponent[] hexCreatures,
+            @Nonnull Store<EntityStore> store
     ) {
         commandBuilder.clear("#ItemList");
 
@@ -418,6 +429,7 @@ public class EvokeBookPage extends InteractiveCustomUIPage<EvokeBookPage.EvokeBo
             commandBuilder.set(selector + " #HCName.Text", hexCreature.getName());
             commandBuilder.set(selector + " #NameInput.Value", hexCreature.getName());
             commandBuilder.set(selector + " #ShowName.Value", hexCreature.getShowName());
+            setCardLifeEssence(commandBuilder, selector, hexCreature, store);
 
             if (isEditModeEnabled) {
                 commandBuilder.set(selector + " #HCName.Visible", false);
@@ -451,6 +463,35 @@ public class EvokeBookPage extends InteractiveCustomUIPage<EvokeBookPage.EvokeBo
             );
             index++;
         }
+    }
+
+    private static void setCardLifeEssence(
+            @Nonnull UICommandBuilder commandBuilder,
+            @Nonnull String selector,
+            @Nonnull HexCreatureComponent hexCreature,
+            @Nonnull Store<EntityStore> store
+    ) {
+        AllowedHexItemsAsset.HexItem hexItem = LifeEssenceUtils.getHexItem(hexCreature);
+        float capacity = LifeEssenceUtils.getCapacity(hexItem);
+        if (capacity <= 0) return;
+
+        float stored = LifeEssenceUtils.getStored(getLoadedHexCreature(hexCreature, store), hexItem);
+        float drainPerMinute = LifeEssenceUtils.getDrainPerMinute(hexItem);
+        Message text = Message.translation(drainPerMinute > 0 ? "evoke.book.list.essence_time" : "evoke.book.list.essence")
+                .param("stored", LifeEssenceUtils.formatAmount(stored))
+                .param("capacity", LifeEssenceUtils.formatAmount(capacity));
+        if (drainPerMinute > 0) text.param("time", LifeEssenceUtils.formatDuration(stored / drainPerMinute));
+
+        commandBuilder.set(selector + " #EssenceRow.Visible", true);
+        commandBuilder.set(selector + " #HCEssence.Text", text);
+    }
+
+    @Nonnull
+    private static HexCreatureComponent getLoadedHexCreature(@Nonnull HexCreatureComponent hexCreature, @Nonnull Store<EntityStore> store) {
+        UUID npcUUID = LifeEssenceUtils.parseUUID(hexCreature.getUUID());
+        Ref<EntityStore> npcRef = npcUUID != null ? store.getExternalData().getRefFromUUID(npcUUID) : null;
+        HexCreatureComponent loaded = npcRef != null && npcRef.isValid() ? store.getComponent(npcRef, HexCreatureComponent.getComponentType()) : null;
+        return loaded != null ? loaded : hexCreature;
     }
 
     @Override
@@ -525,7 +566,7 @@ public class EvokeBookPage extends InteractiveCustomUIPage<EvokeBookPage.EvokeBo
 
                         Ref<EntityStore> npcRef = store.getExternalData().getRefFromUUID(npcUUID);
                         if (npcRef != null && npcRef.isValid()) {
-                            HexCreatureDespawner.despawnFromEvokeBook(store, npcRef, store);
+                            HexCreatureDespawner.despawnByOwner(store, npcRef, store);
                         } else {
                             UnloadedHexCreatureDespawner.despawn(data.uuid);
                         }

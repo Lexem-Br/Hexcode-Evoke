@@ -36,12 +36,17 @@ public class InventoryUtils {
             hotbarSlotZeroIndex = storageComponent.getInventory().getCapacity();
         }
 
+        boolean keepsLifeEssence = LifeEssenceUtils.keepsLifeEssence(store, npcRef);
+
         for (short slot = 0; slot < combinedContainer.getCapacity(); slot++) {
             if (skipHotbarSlotZero && slot == hotbarSlotZeroIndex) {
                 continue;
             }
 
             ItemStack npcItemStack = combinedContainer.getItemStack(slot);
+            if (keepsLifeEssence && LifeEssenceUtils.isLifeEssence(npcItemStack)) {
+                continue;
+            }
 
             if (!ItemStack.isEmpty(npcItemStack)) {
                 for (short chestSlot = 0; chestSlot < chestContainer.getCapacity(); chestSlot++) {
@@ -75,13 +80,15 @@ public class InventoryUtils {
             hotbarSlotZeroIndex = storageComponent.getInventory().getCapacity();
         }
 
+        boolean keepsLifeEssence = LifeEssenceUtils.keepsLifeEssence(store, npcRef);
+
         for (short slot = 0; slot < npcCombinedContainer.getCapacity(); slot++) {
             if (skipHotbarSlotZero && slot == hotbarSlotZeroIndex) {
                 continue;
             }
 
             ItemStack npcItemStack = npcCombinedContainer.getItemStack(slot);
-            if (ItemStack.isEmpty(npcItemStack)) {
+            if (ItemStack.isEmpty(npcItemStack) || (keepsLifeEssence && LifeEssenceUtils.isLifeEssence(npcItemStack))) {
                 continue;
             }
 
@@ -105,6 +112,30 @@ public class InventoryUtils {
         }
 
         return anyItemTransferred;
+    }
+
+    public static ItemStack addOutsideHand(ItemContainer hotbar, ItemContainer storage, ItemStack itemStack) {
+        ItemStack remainder = itemStack;
+        for (boolean mergeOnly : new boolean[]{true, false}) {
+            remainder = addToSlots(hotbar, 1, remainder, mergeOnly);
+            remainder = addToSlots(storage, 0, remainder, mergeOnly);
+        }
+        return remainder;
+    }
+
+    private static ItemStack addToSlots(ItemContainer inventory, int firstSlot, ItemStack itemStack, boolean mergeOnly) {
+        if (inventory == null || ItemStack.isEmpty(itemStack)) return itemStack;
+
+        ItemStack remainder = itemStack;
+        for (short slot = (short) firstSlot; slot < inventory.getCapacity() && !ItemStack.isEmpty(remainder); slot++) {
+            ItemStack current = inventory.getItemStack(slot);
+            boolean empty = ItemStack.isEmpty(current);
+            if (mergeOnly && (empty || !current.getItemId().equals(remainder.getItemId()))) continue;
+            if (!mergeOnly && !empty) continue;
+
+            remainder = inventory.addItemStackToSlot(slot, remainder).getRemainder();
+        }
+        return remainder;
     }
 
     public static String[] getItemIdsFromContainer(ItemContainer container) {

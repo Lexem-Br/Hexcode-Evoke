@@ -18,6 +18,7 @@ import com.lexem.hexcodeevoke.components.HexCreatureComponent;
 import com.lexem.hexcodeevoke.components.HexCreatureMinionComponent;
 import com.lexem.hexcodeevoke.npc.actions.builders.BuilderActionCreateTasks;
 import com.lexem.hexcodeevoke.utils.FinderUtils;
+import com.lexem.hexcodeevoke.utils.LifeEssenceUtils;
 import org.joml.Vector3d;
 
 import javax.annotation.Nonnull;
@@ -118,9 +119,12 @@ public class ActionCreateTasks extends ActionBase {
       List<ItemData> listItemData = new ArrayList<>();
 
       ItemContainer itemContainer = Objects.requireNonNull(store.getComponent(npcRef, InventoryComponent.Storage.getComponentType())).getInventory();
+      boolean keepsLifeEssence = LifeEssenceUtils.keepsLifeEssence(store, npcRef);
 
       for (short slot = 0; slot < itemContainer.getCapacity(); slot++) {
          ItemStack itemStack = itemContainer.getItemStack(slot);
+         if (keepsLifeEssence && LifeEssenceUtils.isLifeEssence(itemStack)) continue;
+
          if (!ItemStack.isEmpty(itemStack)) {
             String itemId = itemStack.getItem().getId();
             int itemQuantity = itemStack.getQuantity();

@@ -61,13 +61,44 @@ public final class HexCreatureReverter {
         accessor.run(store -> {
             if (!npcRef.isValid() || !canPlace(world, blockPos, blockType, rotationIndex)) return;
 
-            placeBlock(world, blockPos, blockId, blockType, rotationIndex);
-            MannequinArmorUtils.storeHexCreatureEquipment(world, blockPos, store, npcRef);
-            BlockContainerUtils.storeHexCreatureItems(world, blockPos, store, npcRef);
-            HexCreatureDespawner.despawnAsBlock(store, npcRef, store);
-            DropItemsUtils.spawnDeathParticleEffectAt(new Vector3d(blockPos.x + 0.5, blockPos.y + 0.5, blockPos.z + 0.5), store);
+            revert(world, blockPos, blockId, blockType, rotationIndex, npcRef, store);
         });
         return true;
+    }
+
+    public static void revertDepleted(@Nonnull Ref<EntityStore> npcRef, @Nonnull Store<EntityStore> store) {
+        HexCreatureComponent hexCreature = store.getComponent(npcRef, HexCreatureComponent.getComponentType());
+        TransformComponent transform = store.getComponent(npcRef, TransformComponent.getComponentType());
+        if (hexCreature == null || transform == null) return;
+
+        String blockId = hexCreature.getBlockName() != null ? AllowedHexItemsAsset.getReturnBlockId(hexCreature.getBlockName()) : null;
+        BlockType blockType = blockId != null ? BlockType.getAssetMap().getAsset(blockId) : null;
+        World world = store.getExternalData().getWorld();
+        int rotationIndex = blockRotationIndex(transform);
+        Vector3i blockPos = findBlockPosition(world, transform.getPosition());
+
+        if (blockType == null || !canPlace(world, blockPos, blockType, rotationIndex)) {
+            HexCreatureDespawner.despawnInPlace(store, npcRef, store);
+            return;
+        }
+
+        revert(world, blockPos, blockId, blockType, rotationIndex, npcRef, store);
+    }
+
+    private static void revert(
+            @Nonnull World world,
+            @Nonnull Vector3i blockPos,
+            @Nonnull String blockId,
+            @Nonnull BlockType blockType,
+            int rotationIndex,
+            @Nonnull Ref<EntityStore> npcRef,
+            @Nonnull Store<EntityStore> store
+    ) {
+        placeBlock(world, blockPos, blockId, blockType, rotationIndex);
+        MannequinArmorUtils.storeHexCreatureEquipment(world, blockPos, store, npcRef);
+        BlockContainerUtils.storeHexCreatureItems(world, blockPos, store, npcRef);
+        HexCreatureDespawner.despawnAsBlock(store, npcRef, store);
+        DropItemsUtils.spawnDeathParticleEffectAt(new Vector3d(blockPos.x + 0.5, blockPos.y + 0.5, blockPos.z + 0.5), store);
     }
 
     private static boolean isOwner(

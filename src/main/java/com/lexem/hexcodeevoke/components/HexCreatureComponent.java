@@ -50,6 +50,11 @@ public class HexCreatureComponent implements Component<EntityStore> {
     private Map<Long, Long> visitedChests = new HashMap<>();
     private SurfaceCrawlState crawlState = new SurfaceCrawlState();
     private Boolean ascentSmallStep;
+    private float lifeEssence = -1;
+    private float lifeEssenceCheckTimer;
+    private float lifeEssenceDrainTimer;
+    private boolean lowLifeEssenceWarned;
+    private boolean lifeEssenceDepleted;
 
     private static ComponentType<EntityStore, HexCreatureComponent> TYPE;
 
@@ -75,6 +80,7 @@ public class HexCreatureComponent implements Component<EntityStore> {
             .append(new KeyedCodec<>("MarkedToDespawn", Codec.BOOLEAN), (component, value) -> component.markedToDespawn = value, component -> component.markedToDespawn).add()
             .append(new KeyedCodec<>("LastState", Codec.STRING), (component, value) -> component.lastState = value, component -> component.lastState).add()
             .append(new KeyedCodec<>("LastSubState", Codec.STRING), (component, value) -> component.lastSubState = value, component -> component.lastSubState).add()
+            .append(new KeyedCodec<>("LifeEssence", Codec.FLOAT), (component, value) -> component.lifeEssence = value > 0 ? value : -1, component -> component.lifeEssence).add()
             .build();
 
     public HexCreatureComponent() {
@@ -537,6 +543,49 @@ public class HexCreatureComponent implements Component<EntityStore> {
         markedToDespawn = true;
     }
 
+    public boolean hasLifeEssence() {
+        return lifeEssence >= 0;
+    }
+
+    public float getLifeEssence() {
+        return Math.max(0, lifeEssence);
+    }
+
+    public void setLifeEssence(float lifeEssence) {
+        this.lifeEssence = Math.max(0, Math.round(lifeEssence * 1000f) / 1000f);
+    }
+
+    public boolean pollLifeEssenceCheck(float dt, float interval) {
+        lifeEssenceCheckTimer += dt;
+        if (lifeEssenceCheckTimer < interval) return false;
+
+        lifeEssenceCheckTimer = 0;
+        return true;
+    }
+
+    public int pollLifeEssenceDrainSteps(float dt, float interval) {
+        lifeEssenceDrainTimer += dt;
+        int steps = (int) (lifeEssenceDrainTimer / interval);
+        lifeEssenceDrainTimer -= steps * interval;
+        return steps;
+    }
+
+    public boolean isLowLifeEssenceWarned() {
+        return lowLifeEssenceWarned;
+    }
+
+    public void setLowLifeEssenceWarned(boolean lowLifeEssenceWarned) {
+        this.lowLifeEssenceWarned = lowLifeEssenceWarned;
+    }
+
+    public boolean isLifeEssenceDepleted() {
+        return lifeEssenceDepleted;
+    }
+
+    public void setLifeEssenceDepleted(boolean lifeEssenceDepleted) {
+        this.lifeEssenceDepleted = lifeEssenceDepleted;
+    }
+
     @Nullable
     @Override
     public Component<EntityStore> clone() {
@@ -563,6 +612,11 @@ public class HexCreatureComponent implements Component<EntityStore> {
         clone.visitedChests = this.visitedChests;
         clone.crawlState = this.crawlState;
         clone.ascentSmallStep = this.ascentSmallStep;
+        clone.lifeEssence = this.lifeEssence;
+        clone.lifeEssenceCheckTimer = this.lifeEssenceCheckTimer;
+        clone.lifeEssenceDrainTimer = this.lifeEssenceDrainTimer;
+        clone.lowLifeEssenceWarned = this.lowLifeEssenceWarned;
+        clone.lifeEssenceDepleted = this.lifeEssenceDepleted;
         return clone;
     }
 
@@ -581,6 +635,7 @@ public class HexCreatureComponent implements Component<EntityStore> {
                 ", markedToDespawn=" + markedToDespawn +
                 ", lastState='" + lastState + '\'' +
                 ", lastSubState='" + lastSubState + '\'' +
+                ", lifeEssence=" + lifeEssence +
                 '}';
     }
 }
