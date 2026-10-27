@@ -470,7 +470,6 @@ public class HCProfilePage extends InteractiveCustomUIPage<HCProfilePage.HCProfi
         for (Section section : Section.ARMOR) {
             hasArmor |= bindings.containsKey(section);
         }
-        commandBuilder.set("#EquipmentSpacer.Visible", hasHand && hasArmor);
         commandBuilder.set("#EquipmentRow.Visible", hasHand || hasArmor);
         commandBuilder.set("#DespawnButtonContainer.Visible", isOwner(viewerRef));
     }

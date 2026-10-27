@@ -1,0 +1,106 @@
+{
+  "$Comment": "Walks to the Essence Tray, consumes as much life essence as it can, walks back to where it was and resumes the previous task. Used inside the Refuel state",
+  "Class": "Instruction",
+  "DefaultState": ".Tray",
+  "ResetOnStateChange": true,
+  "Content": {
+    "Instructions": [
+      {
+        "$Comment": "Going to the tray",
+        "Sensor": {
+          "Type": "State",
+          "State": ".Tray"
+        },
+        "Instructions": [
+          {
+            "$Comment": "Next to the tray, consumes the life essence",
+            "Sensor": {
+              "Type": "Evoke:RefuelPosition",
+              "Target": "Tray",
+              "Range": 2.5
+            },
+            "ActionsBlocking": true,
+            "Actions": [
+              {
+                "Type": "Timeout",
+                "Delay": [1, 1],
+                "Action": {
+                  "Type": "Sequence",
+                  "Actions": [
+                    {
+                      "Type": "Evoke:TakeTrayEssence"
+                    },
+                    {
+                      "Type": "State",
+                      "State": ".Return"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "Sensor": {
+              "Type": "Evoke:RefuelPosition",
+              "Target": "Tray",
+              "Range": 40
+            },
+            "BodyMotion": {
+              "Type": "Seek",
+              "SlowDownDistance": 2,
+              "StopDistance": 1.2,
+              "RelativeSpeed": 0.8
+            }
+          },
+          {
+            "$Comment": "The tray is empty, gone or was not reached in 30 seconds",
+            "Sensor": {
+              "Type": "Any"
+            },
+            "Actions": [
+              {
+                "Type": "State",
+                "State": ".Return"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "$Comment": "Going back to where it was",
+        "Sensor": {
+          "Type": "State",
+          "State": ".Return"
+        },
+        "Instructions": [
+          {
+            "Sensor": {
+              "Type": "Evoke:RefuelPosition",
+              "Target": "Return",
+              "Range": 60,
+              "MinRange": 1
+            },
+            "BodyMotion": {
+              "Type": "Seek",
+              "SlowDownDistance": 2,
+              "StopDistance": 0.5,
+              "RelativeSpeed": 0.8
+            }
+          },
+          {
+            "$Comment": "Back where it was (or it was following the evoker): resumes the previous task",
+            "Sensor": {
+              "Type": "Any"
+            },
+            "Actions": [
+              {
+                "Type": "Evoke:FinishRefuel"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "Type": "Component"
+}

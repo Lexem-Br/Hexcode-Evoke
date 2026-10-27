@@ -111,41 +111,7 @@
   "Instructions": [
     {
       "$Comment": "Adds the entity to the flock of the first player it finds",
-      "Continue": true,
-      "Instructions": [
-        {
-          "$Comment": "Add creature to flock",
-          "Continue": true,
-          "Sensor": {
-            "Type": "Self",
-            "Filters": [
-              {
-                "Type": "Flock",
-                "FlockStatus": "NotMember"
-              }
-            ]
-          },
-          "Instructions": [
-            {
-              "Sensor": {
-                "Type": "Player",
-                "Range": 15,
-                "Filters": [
-                  {
-                    "Type": "Evoke:IsEvoker"
-                  }
-                ]
-              },
-              "Actions": [
-                {
-                  "Type": "JoinFlock",
-                  "ForceJoin": true
-                }
-              ]
-            }
-          ]
-        }
-      ]
+      "Reference": "Component_Evoke_Join_Evoker_Flock"
     },
     {
       "$Comment": "Beacon wand command",
@@ -284,6 +250,25 @@
       ]
     },
     {
+      "$Comment": "Goes to refuel at a nearby Essence Tray when low on life essence",
+      "Reference": "Component_Evoke_Refuel_Trigger",
+      "Modify": {
+        "_ExportStates": ["Refuel"]
+      }
+    },
+    {
+      "$Comment": "Walks to the Essence Tray, consumes as much life essence as it can, walks back to where it was and resumes the previous task",
+      "Sensor": {
+        "Type": "State",
+        "State": "Refuel"
+      },
+      "Instructions": [
+        {
+          "Reference": "Component_Evoke_Refuel_Walking"
+        }
+      ]
+    },
+    {
       "$Comment": "Idle state",
       "Sensor": {
         "Type": "State",
@@ -392,54 +377,10 @@
               }
             },
             {
-              "$Comment": "Keeps the target locked for the teleport below",
-              "Continue": true,
-              "Sensor": {
-                "Type": "Player",
-                "Range": { "Compute": "MaxBeaconDistance" },
-                "LockOnTarget": true,
-                "Filters": [
-                  {
-                    "Type": "Evoke:IsEvoker"
-                  }
-                ]
-              },
-              "Actions": [
-                {
-                  "Type": "Nothing"
-                }
-              ]
-            },
-            {
-              "$Comment": "Teleports to the leader if more than 15 blocks away",
-              "Sensor": {
-                "Type": "Target",
-                "Filters": [
-                  {
-                    "Type": "Evoke:IsEvoker"
-                  }
-                ]
-              },
-              "BodyMotion": {
-                "Type": "Evoke:Teleport",
-                "MinYOffset": 1.0,
-                "OffsetRange": [2, 3],
-                "OffsetSector": 2,
-                "Orientation": "TowardsTarget"
-              },
-              "Actions": [
-                {
-                  "Type": "SpawnParticles",
-                  "Offset": [ 0, 0.5, 0 ],
-                  "ParticleSystem": "Effect_Death",
-                  "Once": true
-                },
-                {
-                  "Type": "Timeout",
-                  "Delay": [ 2, 2 ],
-                  "DelayAfter": true
-                }
-              ]
+              "Reference": "Component_Evoke_Teleport_To_Evoker",
+              "Modify": {
+                "Range": { "Compute": "MaxBeaconDistance" }
+              }
             }
           ]
         }
@@ -447,72 +388,6 @@
     }
   ],
   "InteractionInstruction": {
-    "$Comment": "Despawn the Hex Creature",
-    "Instructions": [
-      {
-        "Sensor": {
-          "Type": "Not",
-          "Sensor": {
-            "Type": "Target",
-            "Filters": [
-              {
-                "Type": "Evoke:IsTargetCrouch"
-              }
-            ]
-          }
-        },
-        "Actions": [
-          {
-            "Type": "SetInteractable",
-            "Interactable": false,
-            "Hint": " "
-          }
-        ]
-      },
-      {
-        "Continue": true,
-        "Sensor": {
-          "Type": "Any"
-        },
-        "Actions": [
-          {
-            "Type": "SetInteractable",
-            "Interactable": true,
-            "Hint": "evoke.interactionHints.despawn"
-          }
-        ]
-      },
-      {
-        "Sensor": {
-          "Type": "And",
-          "Sensors": [
-            {
-              "Type": "HasInteracted"
-            },
-            {
-              "Type": "Target",
-              "Filters": [
-                {
-                  "Type": "Evoke:IsTargetCrouch"
-                },
-                {
-                  "Type": "Evoke:IsEvoker"
-                }
-              ]
-            }
-          ]
-        },
-        "Instructions": [
-          {
-            "Actions": [
-              {
-                "Type": "Evoke:DespawnHC",
-                "DropHexItem": true
-              }
-            ]
-          }
-        ]
-      }
-    ]
+    "Reference": "Component_Evoke_Interaction_Crouch_Profile"
   }
 }

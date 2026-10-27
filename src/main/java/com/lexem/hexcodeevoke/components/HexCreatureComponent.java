@@ -10,6 +10,7 @@ import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.logger.HytaleLogger;
 import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
+import com.lexem.hexcodeevoke.utils.RefuelState;
 import com.lexem.hexcodeevoke.utils.SurfaceCrawlState;
 import org.joml.Vector3d;
 
@@ -49,6 +50,7 @@ public class HexCreatureComponent implements Component<EntityStore> {
     private long lastExploreSearch;
     private Map<Long, Long> visitedChests = new HashMap<>();
     private SurfaceCrawlState crawlState = new SurfaceCrawlState();
+    private RefuelState refuelState = new RefuelState();
     private Boolean ascentSmallStep;
     private float lifeEssence = -1;
     private float lifeEssenceCheckTimer;
@@ -483,6 +485,11 @@ public class HexCreatureComponent implements Component<EntityStore> {
         return crawlState;
     }
 
+    @Nonnull
+    public RefuelState getRefuelState() {
+        return refuelState;
+    }
+
     @Nullable
     public Boolean getAscentSmallStep() {
         return ascentSmallStep;
@@ -611,6 +618,7 @@ public class HexCreatureComponent implements Component<EntityStore> {
         clone.lastExploreSearch = this.lastExploreSearch;
         clone.visitedChests = this.visitedChests;
         clone.crawlState = this.crawlState;
+        clone.refuelState = this.refuelState;
         clone.ascentSmallStep = this.ascentSmallStep;
         clone.lifeEssence = this.lifeEssence;
         clone.lifeEssenceCheckTimer = this.lifeEssenceCheckTimer;

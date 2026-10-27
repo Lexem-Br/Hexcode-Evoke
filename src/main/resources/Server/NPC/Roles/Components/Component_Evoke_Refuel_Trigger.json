@@ -1,0 +1,43 @@
+{
+  "$Comment": "With little life essence and an Essence Tray with life essence nearby, stops the current task to refuel (not while crawling on a wall or ceiling)",
+  "Class": "Instruction",
+  "Parameters": {
+    "_ImportStates": ["Refuel"],
+    "Range": {
+      "Value": 15,
+      "Description": "Max distance to the Essence Tray"
+    },
+    "Threshold": {
+      "Value": 0.5,
+      "Description": "Fraction of the life essence capacity at or below which the Hex Creature goes to the tray"
+    }
+  },
+  "Content": {
+    "Sensor": {
+      "Type": "And",
+      "Sensors": [
+        {
+          "Type": "Not",
+          "Sensor": {
+            "Type": "Evoke:IsCrawling"
+          }
+        },
+        {
+          "Type": "Evoke:NeedsEssenceTray",
+          "Range": { "Compute": "Range" },
+          "Threshold": { "Compute": "Threshold" }
+        }
+      ]
+    },
+    "Actions": [
+      {
+        "Type": "Evoke:StartRefuel"
+      },
+      {
+        "Type": "ParentState",
+        "State": "Refuel"
+      }
+    ]
+  },
+  "Type": "Component"
+}

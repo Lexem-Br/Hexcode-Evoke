@@ -1,0 +1,72 @@
+{
+  "$Comment": "Opens the Hex Creature profile, with its inventory, when the evoker interacts while crouching",
+  "Class": "Instruction",
+  "Content": {
+    "Instructions": [
+      {
+        "Sensor": {
+          "Type": "Not",
+          "Sensor": {
+            "Type": "Target",
+            "Filters": [
+              {
+                "Type": "Evoke:IsTargetCrouch"
+              }
+            ]
+          }
+        },
+        "Actions": [
+          {
+            "Type": "SetInteractable",
+            "Interactable": false,
+            "Hint": " "
+          }
+        ]
+      },
+      {
+        "Continue": true,
+        "Sensor": {
+          "Type": "Any"
+        },
+        "Actions": [
+          {
+            "Type": "SetInteractable",
+            "Interactable": true,
+            "Hint": "evoke.interactionHints.openInventory"
+          }
+        ]
+      },
+      {
+        "Sensor": {
+          "Type": "And",
+          "Sensors": [
+            {
+              "Type": "HasInteracted"
+            },
+            {
+              "Type": "Target",
+              "Filters": [
+                {
+                  "Type": "Evoke:IsTargetCrouch"
+                },
+                {
+                  "Type": "Evoke:IsEvoker"
+                }
+              ]
+            }
+          ]
+        },
+        "Instructions": [
+          {
+            "Actions": [
+              {
+                "Type": "Evoke:OpenHCProfile"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "Type": "Component"
+}

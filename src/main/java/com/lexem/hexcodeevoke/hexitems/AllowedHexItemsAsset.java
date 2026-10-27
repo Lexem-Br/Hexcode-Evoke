@@ -61,6 +61,8 @@ public class AllowedHexItemsAsset implements JsonAssetWithMap<String, DefaultAss
                                         .add()
                                         .append(new KeyedCodec<>("LifeEssencePerMinute", Codec.FLOAT), (item, s) -> item.lifeEssencePerMinute = s, item -> item.lifeEssencePerMinute)
                                         .add()
+                                        .append(new KeyedCodec<>("StoresLifeEssence", Codec.BOOLEAN), (item, s) -> item.storesLifeEssence = s, item -> item.storesLifeEssence)
+                                        .add()
                                         .append(new KeyedCodec<>("ReturnBlockId", Codec.STRING), (item, s) -> item.returnBlockId = s, item -> item.returnBlockId)
                                         .add()
                                         .append(new KeyedCodec<>("JumpSmallSteps", Codec.BOOLEAN), (item, s) -> item.jumpSmallSteps = s, item -> item.jumpSmallSteps)
@@ -94,6 +96,7 @@ public class AllowedHexItemsAsset implements JsonAssetWithMap<String, DefaultAss
         public boolean hasHotbarSlot = false;
         public int essenceCost = 0;
         public float lifeEssencePerMinute = 0;
+        public boolean storesLifeEssence = false;
         public String returnBlockId = "";
         public boolean jumpSmallSteps = false;
         public String bookName = "";

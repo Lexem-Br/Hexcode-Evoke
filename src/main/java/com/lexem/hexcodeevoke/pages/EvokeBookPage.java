@@ -47,7 +47,7 @@ public class EvokeBookPage extends InteractiveCustomUIPage<EvokeBookPage.EvokeBo
     private static final String SUMMARY_PAGE_FILE = "Pages/EvokeBookSummaryPage.ui";
     private static final String SUMMARY_ENTRY_FILE = "Pages/EvokeBookSummaryEntry.ui";
     private static final int SUMMARY_ENTRIES_PER_PAGE = 14;
-    private static final String[] GUIDE_PAGES = {"introduction", "evoking", "life_essence", "essence_storage", "wands", "behaviour", "managing", "reverting", "tips"};
+    private static final String[] GUIDE_PAGES = {"introduction", "evoking", "life_essence", "essence_storage", "essence_tray", "wands", "behaviour", "managing", "reverting", "tips"};
     private boolean isEditModeEnabled = false;
     private Category category = Category.LIST;
     private int guideSpread = 0;

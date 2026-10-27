@@ -48,7 +48,7 @@ $Sounds = "../Sounds.ui";
   AreItemsDraggable: true;
   DisplayItemQuantity: true;
   ShowScrollbar: false;
-  InfoDisplay: Tooltip;
+  InfoDisplay: None;
 };
 
 @EquipmentColumn = Group {
@@ -158,7 +158,9 @@ Group {
                         FlexWeight: 1;
 
                         Group #EquipmentRow {
-                            LayoutMode: LeftCenterWrap;
+                            LayoutMode: Left;
+                            Anchor: (Width: 617, Height: 110);
+                            Padding: (Left: 5);
 
                             @EquipmentColumn #NPCLeftHand {
                                 @EquipmentCaption {
@@ -168,9 +170,7 @@ Group {
                                     }
                                 }
 
-                                @SlotGrid #NPCLeftHandGrid {
-                                    InfoDisplay: None;
-                                }
+                                @SlotGrid #NPCLeftHandGrid {}
                             }
 
                             @EquipmentColumn #NPCRightHand {
@@ -181,12 +181,10 @@ Group {
                                     }
                                 }
 
-                                @SlotGrid #NPCRightHandGrid {
-                                    InfoDisplay: None;
-                                }
+                                @SlotGrid #NPCRightHandGrid {}
                             }
 
-                            Group #EquipmentSpacer { Anchor: (Width: 40); }
+                            Group #EquipmentSpacer { FlexWeight: 1; }
 
                             @EquipmentColumn #NPCArmorHead {
                                 @EquipmentCaption {
@@ -196,9 +194,7 @@ Group {
                                     }
                                 }
 
-                                @SlotGrid #NPCArmorHeadGrid {
-                                    InfoDisplay: None;
-                                }
+                                @SlotGrid #NPCArmorHeadGrid {}
                             }
 
                             @EquipmentColumn #NPCArmorChest {
@@ -209,9 +205,7 @@ Group {
                                     }
                                 }
 
-                                @SlotGrid #NPCArmorChestGrid {
-                                    InfoDisplay: None;
-                                }
+                                @SlotGrid #NPCArmorChestGrid {}
                             }
 
                             @EquipmentColumn #NPCArmorHands {
@@ -222,9 +216,7 @@ Group {
                                     }
                                 }
 
-                                @SlotGrid #NPCArmorHandsGrid {
-                                    InfoDisplay: None;
-                                }
+                                @SlotGrid #NPCArmorHandsGrid {}
                             }
 
                             @EquipmentColumn #NPCArmorLegs {
@@ -235,9 +227,7 @@ Group {
                                     }
                                 }
 
-                                @SlotGrid #NPCArmorLegsGrid {
-                                    InfoDisplay: None;
-                                }
+                                @SlotGrid #NPCArmorLegsGrid {}
                             }
                         }
 
@@ -252,7 +242,6 @@ Group {
                             }
 
                             @SlotGrid #NPCHotbarGrid {
-                                InfoDisplay: None;
                                 SlotsPerRow: 9;
                             }
                         }
@@ -268,7 +257,6 @@ Group {
                             }
 
                             @SlotGrid #NPCStorageGrid {
-                                InfoDisplay: None;
                                 SlotsPerRow: 9;
                             }
                         }

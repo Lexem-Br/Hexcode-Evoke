@@ -74,7 +74,10 @@ public final class LifeEssenceUtils {
 
     public static boolean keepsLifeEssence(@Nonnull ComponentAccessor<EntityStore> accessor, @Nonnull Ref<EntityStore> npcRef) {
         HexCreatureComponent hexCreature = accessor.getComponent(npcRef, HexCreatureComponent.getComponentType());
-        return hexCreature != null && hexCreature.getEvokerUUID() != null && consumesLifeEssence(getHexItem(hexCreature));
+        if (hexCreature == null || hexCreature.getEvokerUUID() == null) return false;
+
+        AllowedHexItemsAsset.HexItem hexItem = getHexItem(hexCreature);
+        return consumesLifeEssence(hexItem) && !hexItem.storesLifeEssence;
     }
 
     public static int rechargeFromInventory(

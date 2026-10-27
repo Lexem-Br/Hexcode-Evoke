@@ -97,78 +97,15 @@
   "Instructions": [
     {
       "$Comment": "Adds the entity to the flock of the first player it finds",
-      "Continue": true,
-      "Instructions": [
-        {
-          "$Comment": "Add creature to flock",
-          "Continue": true,
-          "Sensor": {
-            "Type": "Self",
-            "Filters": [
-              {
-                "Type": "Flock",
-                "FlockStatus": "NotMember"
-              }
-            ]
-          },
-          "Instructions": [
-            {
-              "Sensor": {
-                "Type": "Player",
-                "Range": 15,
-                "Filters": [
-                  {
-                    "Type": "Evoke:IsEvoker"
-                  }
-                ]
-              },
-              "Actions": [
-                {
-                  "Type": "JoinFlock",
-                  "ForceJoin": true
-                }
-              ]
-            }
-          ]
-        }
-      ]
+      "Reference": "Component_Evoke_Join_Evoker_Flock"
     },
     {
       "$Comment": "Beacon wand command",
-      "Continue": true,
-      "Sensor": {
-        "Type": "Any"
-      },
-      "Instructions": [
-        {
-          "$Comment": "Store target position",
-          "Sensor": {
-            "Type": "Beacon",
-            "Message": "EvokeTargetPosition",
-            "Range": { "Compute": "MaxBeaconDistance" }
-          },
-          "Actions": [
-            {
-              "Type": "State",
-              "State": "SeekPosition"
-            }
-          ]
-        },
-        {
-          "$Comment": "Follow the leader",
-          "Sensor": {
-            "Type": "Beacon",
-            "Message": "EvokeFollowLeader",
-            "Range": { "Compute": "MaxBeaconDistance" }
-          },
-          "Actions": [
-            {
-              "Type": "State",
-              "State": "Following"
-            }
-          ]
-        }
-      ]
+      "Reference": "Component_Evoke_Wand_Commands",
+      "Modify": {
+        "_ExportStates": ["SeekPosition", "Following"],
+        "Range": { "Compute": "MaxBeaconDistance" }
+      }
     },
     {
       "$Comment": "Go to target position",
@@ -201,6 +138,25 @@
               "State": "Idle.Default"
             }
           ]
+        }
+      ]
+    },
+    {
+      "$Comment": "Goes to refuel at a nearby Essence Tray when low on life essence",
+      "Reference": "Component_Evoke_Refuel_Trigger",
+      "Modify": {
+        "_ExportStates": ["Refuel"]
+      }
+    },
+    {
+      "$Comment": "Walks to the Essence Tray, consumes as much life essence as it can, walks back to where it was and resumes the previous task",
+      "Sensor": {
+        "Type": "State",
+        "State": "Refuel"
+      },
+      "Instructions": [
+        {
+          "Reference": "Component_Evoke_Refuel_Walking"
         }
       ]
     },
@@ -349,54 +305,10 @@
               }
             },
             {
-              "$Comment": "Prevents the NPC from losing sight of the player",
-              "Continue": true,
-              "Sensor": {
-                "Type": "Player",
-                "Range": { "Compute": "MaxBeaconDistance" },
-                "LockOnTarget": true,
-                "Filters": [
-                  {
-                    "Type": "Evoke:IsEvoker"
-                  }
-                ]
-              },
-              "Actions": [
-                {
-                  "Type": "Nothing"
-                }
-              ]
-            },
-            {
-              "$Comment": "Teleports to the leader if more than 15 blocks away",
-              "Sensor": {
-                "Type": "Target",
-                "Filters": [
-                  {
-                    "Type": "Evoke:IsEvoker"
-                  }
-                ]
-              },
-              "BodyMotion": {
-                "Type": "Evoke:Teleport",
-                "MinYOffset": 1.0,
-                "OffsetRange": [2, 3],
-                "OffsetSector": 2,
-                "Orientation": "TowardsTarget"
-              },
-              "Actions": [
-                {
-                  "Type": "SpawnParticles",
-                  "Offset": [ 0, 0.5, 0 ],
-                  "ParticleSystem": "Effect_Death",
-                  "Once": true
-                },
-                {
-                  "Type": "Timeout",
-                  "Delay": [ 2, 2 ],
-                  "DelayAfter": true
-                }
-              ]
+              "Reference": "Component_Evoke_Teleport_To_Evoker",
+              "Modify": {
+                "Range": { "Compute": "MaxBeaconDistance" }
+              }
             }
           ]
         }
@@ -454,7 +366,7 @@
         ]
       },
       {
-        "$Comment": "Despawn the Hex Creature",
+        "$Comment": "Opens the Hex Creature profile, with its inventory",
         "Continue": true,
         "Sensor": {
           "Type": "State",
@@ -464,7 +376,7 @@
           {
             "Type": "SetInteractable",
             "Interactable": true,
-            "Hint": "evoke.interactionHints.despawn"
+            "Hint": "evoke.interactionHints.openInventory"
           }
         ]
       },
@@ -546,8 +458,7 @@
           {
             "Actions": [
               {
-                "Type": "Evoke:DespawnHC",
-                "DropHexItem": true
+                "Type": "Evoke:OpenHCProfile"
               }
             ]
           }

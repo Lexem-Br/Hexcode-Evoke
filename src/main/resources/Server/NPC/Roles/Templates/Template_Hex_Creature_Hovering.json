@@ -227,6 +227,26 @@
       ]
     },
     {
+      "$Comment": "Flies straight to above the Essence Tray through any block, consumes as much life essence as it can, flies back to where it was and resumes the previous task",
+      "Sensor": {
+        "Type": "State",
+        "State": "Refuel"
+      },
+      "Instructions": [
+        {
+          "$Comment": "Wand commands still work while refueling",
+          "Reference": "Component_Evoke_Wand_Commands",
+          "Modify": {
+            "_ExportStates": ["SeekPosition", "Recall"],
+            "Range": { "Compute": "MaxBeaconDistance" }
+          }
+        },
+        {
+          "Reference": "Component_Evoke_Refuel_Flying"
+        }
+      ]
+    },
+    {
       "$Comment": "Switches back to Walk if the creature touches the ground while flying, so it can take off again",
       "Continue": true,
       "Sensor": {
@@ -277,78 +297,22 @@
     },
     {
       "$Comment": "Adds the entity to the flock of the first player it finds",
-      "Continue": true,
-      "Instructions": [
-        {
-          "$Comment": "Add creature to flock",
-          "Continue": true,
-          "Sensor": {
-            "Type": "Self",
-            "Filters": [
-              {
-                "Type": "Flock",
-                "FlockStatus": "NotMember"
-              }
-            ]
-          },
-          "Instructions": [
-            {
-              "Sensor": {
-                "Type": "Player",
-                "Range": 15,
-                "Filters": [
-                  {
-                    "Type": "Evoke:IsEvoker"
-                  }
-                ]
-              },
-              "Actions": [
-                {
-                  "Type": "JoinFlock",
-                  "ForceJoin": true
-                }
-              ]
-            }
-          ]
-        }
-      ]
+      "Reference": "Component_Evoke_Join_Evoker_Flock"
     },
     {
       "$Comment": "Beacon wand command",
-      "Continue": true,
-      "Sensor": {
-        "Type": "Any"
-      },
-      "Instructions": [
-        {
-          "$Comment": "Store target position",
-          "Sensor": {
-            "Type": "Beacon",
-            "Message": "EvokeTargetPosition",
-            "Range": { "Compute": "MaxBeaconDistance" }
-          },
-          "Actions": [
-            {
-              "Type": "State",
-              "State": "SeekPosition"
-            }
-          ]
-        },
-        {
-          "$Comment": "Follow the leader",
-          "Sensor": {
-            "Type": "Beacon",
-            "Message": "EvokeFollowLeader",
-            "Range": { "Compute": "MaxBeaconDistance" }
-          },
-          "Actions": [
-            {
-              "Type": "State",
-              "State": "Recall"
-            }
-          ]
-        }
-      ]
+      "Reference": "Component_Evoke_Wand_Commands",
+      "Modify": {
+        "_ExportStates": ["SeekPosition", "Recall"],
+        "Range": { "Compute": "MaxBeaconDistance" }
+      }
+    },
+    {
+      "$Comment": "Goes to refuel at a nearby Essence Tray when low on life essence",
+      "Reference": "Component_Evoke_Refuel_Trigger",
+      "Modify": {
+        "_ExportStates": ["Refuel"]
+      }
     },
     {
       "$Comment": "Idle state",
@@ -426,54 +390,10 @@
               }
             },
             {
-              "$Comment": "Keeps the target locked for the teleport below",
-              "Continue": true,
-              "Sensor": {
-                "Type": "Player",
-                "Range": { "Compute": "MaxBeaconDistance" },
-                "LockOnTarget": true,
-                "Filters": [
-                  {
-                    "Type": "Evoke:IsEvoker"
-                  }
-                ]
-              },
-              "Actions": [
-                {
-                  "Type": "Nothing"
-                }
-              ]
-            },
-            {
-              "$Comment": "Teleports to the leader if more than 15 blocks away",
-              "Sensor": {
-                "Type": "Target",
-                "Filters": [
-                  {
-                    "Type": "Evoke:IsEvoker"
-                  }
-                ]
-              },
-              "BodyMotion": {
-                "Type": "Evoke:Teleport",
-                "MinYOffset": 1.0,
-                "OffsetRange": [2, 3],
-                "OffsetSector": 2,
-                "Orientation": "TowardsTarget"
-              },
-              "Actions": [
-                {
-                  "Type": "SpawnParticles",
-                  "Offset": [ 0, 0.5, 0 ],
-                  "ParticleSystem": "Effect_Death",
-                  "Once": true
-                },
-                {
-                  "Type": "Timeout",
-                  "Delay": [ 2, 2 ],
-                  "DelayAfter": true
-                }
-              ]
+              "Reference": "Component_Evoke_Teleport_To_Evoker",
+              "Modify": {
+                "Range": { "Compute": "MaxBeaconDistance" }
+              }
             }
           ]
         }
@@ -481,72 +401,6 @@
     }
   ],
   "InteractionInstruction": {
-    "$Comment": "Despawn the Hex Creature",
-    "Instructions": [
-      {
-        "Sensor": {
-          "Type": "Not",
-          "Sensor": {
-            "Type": "Target",
-            "Filters": [
-              {
-                "Type": "Evoke:IsTargetCrouch"
-              }
-            ]
-          }
-        },
-        "Actions": [
-          {
-            "Type": "SetInteractable",
-            "Interactable": false,
-            "Hint": " "
-          }
-        ]
-      },
-      {
-        "Continue": true,
-        "Sensor": {
-          "Type": "Any"
-        },
-        "Actions": [
-          {
-            "Type": "SetInteractable",
-            "Interactable": true,
-            "Hint": "evoke.interactionHints.despawn"
-          }
-        ]
-      },
-      {
-        "Sensor": {
-          "Type": "And",
-          "Sensors": [
-            {
-              "Type": "HasInteracted"
-            },
-            {
-              "Type": "Target",
-              "Filters": [
-                {
-                  "Type": "Evoke:IsTargetCrouch"
-                },
-                {
-                  "Type": "Evoke:IsEvoker"
-                }
-              ]
-            }
-          ]
-        },
-        "Instructions": [
-          {
-            "Actions": [
-              {
-                "Type": "Evoke:DespawnHC",
-                "DropHexItem": true
-              }
-            ]
-          }
-        ]
-      }
-    ]
+    "Reference": "Component_Evoke_Interaction_Crouch_Profile"
   }
 }

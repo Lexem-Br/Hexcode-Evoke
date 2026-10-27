@@ -19,6 +19,7 @@ import com.lexem.hexcodeevoke.commands.EvokerCommand;
 import com.lexem.hexcodeevoke.components.EvokerComponent;
 import com.lexem.hexcodeevoke.components.HexCreatureComponent;
 import com.lexem.hexcodeevoke.components.HexCreatureMinionComponent;
+import com.lexem.hexcodeevoke.components.EssenceTrayComponent;
 import com.lexem.hexcodeevoke.components.MannequinArmorComponent;
 import com.lexem.hexcodeevoke.events.SaveHexCreatureEvent;
 import com.lexem.hexcodeevoke.events.SaveHexCreatureMinionEvent;
@@ -42,6 +43,7 @@ import com.lexem.hexcodeevoke.systems.HexCreatureRevocationSystem;
 import com.lexem.hexcodeevoke.systems.HexCreatureStateRestoreSystem;
 import com.lexem.hexcodeevoke.systems.HexCreatureStateSaveSystem;
 import com.lexem.hexcodeevoke.systems.HexCreatureTrackingSystem;
+import com.lexem.hexcodeevoke.systems.EssenceTraySystems;
 import com.lexem.hexcodeevoke.systems.MannequinArmorSystems;
 import com.lexem.hexcodeevoke.systems.NPCDeathSystem;
 import com.lexem.hexcodeevoke.systems.OffHandItemStateResetSystem;
@@ -160,6 +162,9 @@ public class HexcodeEvoke extends JavaPlugin {
         npcPlugin.registerCoreComponentType("Evoke:OpenArcaneCodexSearch", BuilderActionOpenArcaneCodexSearch::new);
         npcPlugin.registerCoreComponentType("Evoke:CaptureCrawlTarget", BuilderActionCaptureCrawlTarget::new);
         npcPlugin.registerCoreComponentType("Evoke:Crawl", BuilderActionCrawl::new);
+        npcPlugin.registerCoreComponentType("Evoke:StartRefuel", BuilderActionStartRefuel::new);
+        npcPlugin.registerCoreComponentType("Evoke:TakeTrayEssence", BuilderActionTakeTrayEssence::new);
+        npcPlugin.registerCoreComponentType("Evoke:FinishRefuel", BuilderActionFinishRefuel::new);
     }
 
     private void registerBodyMotions(NPCPlugin npcPlugin) {
@@ -205,6 +210,8 @@ public class HexcodeEvoke extends JavaPlugin {
         npcPlugin.registerCoreComponentType("Evoke:Interactor", BuilderSensorInteractor::new);
         npcPlugin.registerCoreComponentType("Evoke:CrawlPath", BuilderSensorCrawlPath::new);
         npcPlugin.registerCoreComponentType("Evoke:IsCrawling", BuilderSensorIsCrawling::new);
+        npcPlugin.registerCoreComponentType("Evoke:NeedsEssenceTray", BuilderSensorNeedsEssenceTray::new);
+        npcPlugin.registerCoreComponentType("Evoke:RefuelPosition", BuilderSensorRefuelPosition::new);
     }
 
     private void registerComponents() {
@@ -263,6 +270,15 @@ public class HexcodeEvoke extends JavaPlugin {
 
         chunkRegistry.registerSystem(new MannequinArmorSystems.Lifecycle());
         chunkRegistry.registerSystem(new MannequinArmorSystems.Reconcile());
+
+        var essenceTrayType = chunkRegistry.registerComponent(
+                EssenceTrayComponent.class,
+                EssenceTrayComponent.ID,
+                EssenceTrayComponent.CODEC
+        );
+        EssenceTrayComponent.setComponentType(essenceTrayType);
+
+        chunkRegistry.registerSystem(new EssenceTraySystems.Lifecycle());
     }
 
     private void registerEvents() {
