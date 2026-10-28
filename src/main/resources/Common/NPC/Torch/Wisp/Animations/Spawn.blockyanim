@@ -11,8 +11,13 @@
           "interpolationType": "linear"
         },
         {
-          "time": 60,
+          "time": 45,
           "delta": {"x": 0, "y": 0, "z": 0},
+          "interpolationType": "linear"
+        },
+        {
+          "time": 60,
+          "delta": {"x": 0, "y": -3, "z": 2},
           "interpolationType": "linear"
         }
       ],
@@ -65,8 +70,13 @@
           "interpolationType": "linear"
         },
         {
-          "time": 60,
+          "time": 45,
           "delta": {"x": 0, "y": 0, "z": 0},
+          "interpolationType": "linear"
+        },
+        {
+          "time": 60,
+          "delta": {"x": 0, "y": -3, "z": 2},
           "interpolationType": "linear"
         }
       ],
@@ -83,8 +93,13 @@
           "interpolationType": "linear"
         },
         {
-          "time": 60,
+          "time": 45,
           "delta": {"x": 0, "y": 0, "z": 0},
+          "interpolationType": "linear"
+        },
+        {
+          "time": 60,
+          "delta": {"x": 0, "y": -3, "z": 2},
           "interpolationType": "linear"
         }
       ],

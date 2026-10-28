@@ -29,7 +29,7 @@
       "EssenceCost": 100,
       "LifeEssencePerMinute": 0.5,
       "HasHotbarSlot": true,
-      "BookVariantOf": "Hex_Fairy"
+      "VariantOf": "Hex_Fairy"
     },
     {
       "BlockId": "Hex_Fairy_Cyan_Block",
@@ -37,7 +37,7 @@
       "EssenceCost": 100,
       "LifeEssencePerMinute": 0.5,
       "HasHotbarSlot": true,
-      "BookVariantOf": "Hex_Fairy"
+      "VariantOf": "Hex_Fairy"
     },
     {
       "BlockId": "Hex_Fairy_Red_Block",
@@ -45,7 +45,7 @@
       "EssenceCost": 100,
       "LifeEssencePerMinute": 0.5,
       "HasHotbarSlot": true,
-      "BookVariantOf": "Hex_Fairy"
+      "VariantOf": "Hex_Fairy"
     },
     {
       "BlockId": "Hex_Fairy_Green_Block",
@@ -53,7 +53,7 @@
       "EssenceCost": 100,
       "LifeEssencePerMinute": 0.5,
       "HasHotbarSlot": true,
-      "BookVariantOf": "Hex_Fairy"
+      "VariantOf": "Hex_Fairy"
     },
     {
       "BlockId": "Hex_Fairy_Blue_Block",
@@ -61,7 +61,7 @@
       "EssenceCost": 100,
       "LifeEssencePerMinute": 0.5,
       "HasHotbarSlot": true,
-      "BookVariantOf": "Hex_Fairy"
+      "VariantOf": "Hex_Fairy"
     },
     {
       "BlockId": "Hex_Fairy_Pink_Block",
@@ -69,7 +69,7 @@
       "EssenceCost": 100,
       "LifeEssencePerMinute": 0.5,
       "HasHotbarSlot": true,
-      "BookVariantOf": "Hex_Fairy"
+      "VariantOf": "Hex_Fairy"
     },
     {
       "BlockId": "Hex_Fairy_White_Block",
@@ -77,7 +77,7 @@
       "EssenceCost": 100,
       "LifeEssencePerMinute": 0.5,
       "HasHotbarSlot": true,
-      "BookVariantOf": "Hex_Fairy"
+      "VariantOf": "Hex_Fairy"
     },
     {
       "BlockId": "Hex_Fairy_Purple_Block",
@@ -85,7 +85,7 @@
       "EssenceCost": 100,
       "LifeEssencePerMinute": 0.5,
       "HasHotbarSlot": true,
-      "BookVariantOf": "Hex_Fairy"
+      "VariantOf": "Hex_Fairy"
     },
     {
       "BlockId": "Alive_Homunculus_Jar",
@@ -120,7 +120,7 @@
       "EssenceCost": 30,
       "LifeEssencePerMinute": 0.1,
       "HasHotbarSlot": true,
-      "BookVariantOf": "Hex_Pumpkin_Scary"
+      "VariantOf": "Hex_Pumpkin_Scary"
     },
     {
       "BlockId": "Deco_Halloween_Pumpkin_Lamp_Green",
@@ -128,7 +128,7 @@
       "EssenceCost": 30,
       "LifeEssencePerMinute": 0.1,
       "HasHotbarSlot": true,
-      "BookVariantOf": "Hex_Pumpkin_Scary"
+      "VariantOf": "Hex_Pumpkin_Scary"
     },
     {
       "BlockId": "Deco_Halloween_Pumpkin_Lamp_Orange",
@@ -136,7 +136,7 @@
       "EssenceCost": 30,
       "LifeEssencePerMinute": 0.1,
       "HasHotbarSlot": true,
-      "BookVariantOf": "Hex_Pumpkin_Scary"
+      "VariantOf": "Hex_Pumpkin_Scary"
     },
     {
       "BlockId": "Deco_Halloween_Pumpkin_Lamp_Yellow",
@@ -144,7 +144,7 @@
       "EssenceCost": 30,
       "LifeEssencePerMinute": 0.1,
       "HasHotbarSlot": true,
-      "BookVariantOf": "Hex_Pumpkin_Scary"
+      "VariantOf": "Hex_Pumpkin_Scary"
     },
     {
       "BlockId": "Hex_Broom_Block",
@@ -168,7 +168,7 @@
       "EssenceCost": 100,
       "LifeEssencePerMinute": 0.5,
       "HasHotbarSlot": true,
-      "BookVariantOf": "Arcane_Codex_Void"
+      "VariantOf": "Arcane_Codex_Void"
     },
     {
       "BlockId": "Wood_Torch_Wall",

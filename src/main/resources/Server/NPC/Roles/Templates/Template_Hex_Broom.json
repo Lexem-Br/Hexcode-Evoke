@@ -217,7 +217,8 @@
                   {
                     "Type": "Evoke:HasChestNearby",
                     "HorizontalRange": 15,
-                    "VerticalRange": 2
+                    "VerticalRange": 2,
+                    "CheckCanStore": true
                   }
                 ]
               },
@@ -265,7 +266,8 @@
               {
                 "Type": "Evoke:HasChestNearby",
                 "HorizontalRange": 15,
-                "VerticalRange": 2
+                "VerticalRange": 2,
+                "CheckCanStore": true
               }
             ]
           },
@@ -390,8 +392,9 @@
                 "Filters": [
                   {
                     "Type": "Evoke:HasChestNearby",
-                    "HorizontalRange": 30,
-                    "VerticalRange": 2
+                    "HorizontalRange": 15,
+                    "VerticalRange": 2,
+                    "CheckCanStore": true
                   }
                 ]
               },
@@ -426,7 +429,9 @@
             {
               "Reference": "Component_Evoke_Store_Items",
               "Modify": {
-                "_ExportStates": ["Idle"]
+                "_ExportStates": ["Idle"],
+                "HorizontalRange": 15,
+                "VerticalRange": 2
               }
             }
           ]

@@ -13,6 +13,7 @@ import com.lexem.hexcodeevoke.components.EvokerComponent;
 import com.lexem.hexcodeevoke.components.HexCreatureComponent;
 import com.lexem.hexcodeevoke.events.SaveHexCreatureEvent;
 import com.lexem.hexcodeevoke.hexitems.AllowedHexItemsAsset;
+import com.lexem.hexcodeevoke.utils.HexCreatureUnlockUtils;
 import com.lexem.hexcodeevoke.utils.LifeEssenceUtils;
 
 import java.util.Objects;
@@ -59,6 +60,7 @@ public class SaveHexCreatureHandler implements Consumer<SaveHexCreatureEvent> {
             hexCreatureComponent.setLifeEssence(LifeEssenceUtils.getCapacity(AllowedHexItemsAsset.getByEntityId(npcEntity.getNPCTypeId())));
 
             evoker.addHexCreature(hexCreatureComponent);
+            HexCreatureUnlockUtils.onEvoked(store, event.refESPlayer(), evoker, npcEntity.getNPCTypeId(), refESNPC);
         } else {
             LOGGER.atWarning().log("EvokerComponent is null");
         }

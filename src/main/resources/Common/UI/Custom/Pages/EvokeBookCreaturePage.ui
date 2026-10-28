@@ -90,22 +90,6 @@ Group {
         }
     }
 
-    Group #EquipmentSection {
-        LayoutMode: Top;
-        Visible: false;
-        Padding: (Top: 6);
-
-        Label #EquipmentTitle {
-            Text: "";
-            Anchor: (Height: 22);
-            Style: @SectionLabelStyle;
-        }
-
-        Group #EquipmentList {
-            LayoutMode: LeftCenterWrap;
-        }
-    }
-
     Group { Anchor: (Height: 10); }
 
     Label #DescriptionTitle {

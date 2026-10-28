@@ -28,6 +28,7 @@ import com.lexem.hexcodeevoke.handlers.SaveHexCreatureMinionHandler;
 import com.lexem.hexcodeevoke.hexitems.AllowedHexCreatureMinionsAsset;
 import com.lexem.hexcodeevoke.hexitems.AllowedHexItemsAsset;
 import com.lexem.hexcodeevoke.interactions.*;
+import com.lexem.hexcodeevoke.memories.HexCreatureMemoryProvider;
 import com.lexem.hexcodeevoke.npc.actions.builders.*;
 import com.lexem.hexcodeevoke.npc.bodymotions.builders.BuilderTeleportHexCreature;
 import com.lexem.hexcodeevoke.npc.filters.builders.*;
@@ -85,6 +86,7 @@ public class HexcodeEvoke extends JavaPlugin {
         this.registerEvents();
         this.registerCommands();
         this.registerHexItems();
+        HexCreatureMemoryProvider.register();
     }
 
     private void registerAssets() {

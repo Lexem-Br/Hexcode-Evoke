@@ -3,15 +3,15 @@
   "Texture": "Items/Weapons/Spellbook/Grimoire_Purple_Texture.png",
   "DefaultAttachments": [],
   "HitBox": {
-    "Max": {
-      "X": 0.25,
-      "Y": 0.45,
-      "Z": 0.35
-    },
     "Min": {
       "X": -0.25,
       "Y": 0,
       "Z": -0.25
+    },
+    "Max": {
+      "X": 0.25,
+      "Y": 0.45,
+      "Z": 0.35
     }
   },
   "EyeHeight": 0.4,

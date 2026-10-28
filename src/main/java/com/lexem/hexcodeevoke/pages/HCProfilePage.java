@@ -493,7 +493,6 @@ public class HCProfilePage extends InteractiveCustomUIPage<HCProfilePage.HCProfi
         float capacity = LifeEssenceUtils.getCapacity(hexItem);
         if (capacity <= 0) {
             commandBuilder.set("#EssenceStored.Text", Message.translation("evoke.profile.no_essence"));
-            commandBuilder.set("#EssenceDrain.Text", "");
             return;
         }
 
@@ -504,11 +503,11 @@ public class HCProfilePage extends InteractiveCustomUIPage<HCProfilePage.HCProfi
 
         float drainPerMinute = LifeEssenceUtils.getDrainPerMinute(hexItem);
         if (drainPerMinute > 0) {
-            commandBuilder.set("#EssenceDrain.Text", Message.translation("evoke.profile.drain")
+            commandBuilder.set("#EssenceSection.TooltipText", Message.translation("evoke.profile.drain")
                     .param("drain", LifeEssenceUtils.formatRate(drainPerMinute))
                     .param("time", LifeEssenceUtils.formatDuration(stored / drainPerMinute)));
         } else {
-            commandBuilder.set("#EssenceDrain.Text", Message.translation("evoke.book.creatures.no_drain"));
+            commandBuilder.set("#EssenceSection.TooltipText", Message.translation("evoke.book.creatures.no_drain"));
         }
     }
 

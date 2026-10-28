@@ -52,7 +52,7 @@ Group {
         Group { Anchor: (Width: 4); }
 
         TextButton #GuideTab {
-            Text: "Evoke Book";
+            Text: "Guide";
             Anchor: (Width: 150, Height: 34);
             Style: @TabStyle;
         }
@@ -92,7 +92,7 @@ Group {
                 }
 
                  Group {
-                    Padding: (Top: 16, Bottom: 8);
+                    Padding: (Top: 2, Bottom: 6);
                     Group {
                         LayoutMode: Left;
                         Label #HexCount {
@@ -134,7 +134,13 @@ Group {
             Group #RightPanel {
                 FlexWeight: 1;
                 LayoutMode: Top;
-                Padding: (Full: 22);
+                Padding: (Top: 100, Left: 16, Right: 16, Bottom: 16);
+
+                Group #ItemListRight {
+                    FlexWeight: 1;
+                    LayoutMode: Top;
+                    Padding: (Left: 14);
+                }
             }
         }
 

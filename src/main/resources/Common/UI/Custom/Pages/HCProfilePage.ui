@@ -106,6 +106,25 @@ Group {
                                     Style: (FontSize: 14, VerticalAlignment: Center);
                                     Padding: (Left: 12);
                                 }
+                                Group #EssenceSection {
+                                    Anchor: (Width: 250, Height: 25);
+                                    LayoutMode: Left;
+                                    Padding: (Left: 12);
+                                    TextTooltipStyle: $C.@DefaultTextTooltipStyle;
+
+                                    ItemIcon #EssenceIcon {
+                                        ItemId: "Ingredient_Life_Essence";
+                                        Anchor: (Width: 20, Height: 20);
+                                    }
+
+                                    Group { Anchor: (Width: 6); }
+
+                                    Label #EssenceStored {
+                                        Text: "";
+                                        Anchor: (Height: 25);
+                                        Style: (FontSize: 14, RenderBold: true, VerticalAlignment: Center);
+                                    }
+                                }
                             }
                         }
 
@@ -118,35 +137,6 @@ Group {
                                 @Anchor = (Width: 110, Height: 50);
                                 @Text = %evoke.profile.despawn;
                             }
-                        }
-                    }
-
-                    Group { Anchor: (Height: 8); }
-
-                    Group #EssenceSection {
-                        Anchor: (Height: 24);
-                        LayoutMode: Left;
-                        Padding: (Left: 10);
-
-                        ItemIcon #EssenceIcon {
-                            ItemId: "Ingredient_Life_Essence";
-                            Anchor: (Width: 22, Height: 22);
-                        }
-
-                        Group { Anchor: (Width: 6); }
-
-                        Label #EssenceStored {
-                            Text: "";
-                            Anchor: (Height: 24);
-                            Style: (FontSize: 14, RenderBold: true, VerticalAlignment: Center);
-                        }
-
-                        Group { Anchor: (Width: 16); }
-
-                        Label #EssenceDrain {
-                            Text: "";
-                            Anchor: (Height: 24);
-                            Style: (FontSize: 14, TextColor: #9aa7b2, VerticalAlignment: Center);
                         }
                     }
 

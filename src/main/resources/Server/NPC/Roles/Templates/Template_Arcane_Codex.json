@@ -140,6 +140,27 @@
       },
       "Instructions": [
         {
+          "$Comment": "Clears the current animation and the light rays when the Follow command is received",
+          "Continue": true,
+          "Sensor": {
+            "Type": "Any"
+          },
+          "Actions": [
+            {
+              "Type": "PlayAnimation",
+              "Slot": "Action"
+            },
+            {
+              "Type": "PlayAnimation",
+              "Slot": "Status"
+            },
+            {
+              "Type": "TimerStop",
+              "Name": "CodexRays"
+            }
+          ]
+        },
+        {
           "Continue": true,
           "Sensor": {
             "Type": "MotionController",
@@ -295,6 +316,11 @@
                   "Name": "CodexRays",
                   "StartValueRange": [ 7.5, 7.5 ],
                   "RestartValueRange": [ 7.5, 7.5 ]
+                },
+                {
+                  "$Comment": "TimerStart only works on the first use of the timer, so restart it for the next searches",
+                  "Type": "TimerRestart",
+                  "Name": "CodexRays"
                 },
                 {
                   "Type": "State",
