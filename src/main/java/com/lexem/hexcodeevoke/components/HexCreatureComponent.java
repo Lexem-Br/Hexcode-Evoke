@@ -12,6 +12,7 @@ import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.lexem.hexcodeevoke.utils.RefuelState;
 import com.lexem.hexcodeevoke.utils.SurfaceCrawlState;
+import com.lexem.hexcodeevoke.utils.TransportState;
 import org.joml.Vector3d;
 
 import javax.annotation.Nonnull;
@@ -51,6 +52,7 @@ public class HexCreatureComponent implements Component<EntityStore> {
     private Map<Long, Long> visitedChests = new HashMap<>();
     private SurfaceCrawlState crawlState = new SurfaceCrawlState();
     private RefuelState refuelState = new RefuelState();
+    private TransportState transportState = new TransportState();
     private Boolean ascentSmallStep;
     private float lifeEssence = -1;
     private float lifeEssenceCheckTimer;
@@ -83,6 +85,7 @@ public class HexCreatureComponent implements Component<EntityStore> {
             .append(new KeyedCodec<>("LastState", Codec.STRING), (component, value) -> component.lastState = value, component -> component.lastState).add()
             .append(new KeyedCodec<>("LastSubState", Codec.STRING), (component, value) -> component.lastSubState = value, component -> component.lastSubState).add()
             .append(new KeyedCodec<>("LifeEssence", Codec.FLOAT), (component, value) -> component.lifeEssence = value > 0 ? value : -1, component -> component.lifeEssence).add()
+            .append(new KeyedCodec<>("Transport", TransportState.CODEC), (component, value) -> component.transportState = value != null ? value : new TransportState(), component -> component.transportState.isActive() ? component.transportState : null).add()
             .build();
 
     public HexCreatureComponent() {
@@ -490,6 +493,11 @@ public class HexCreatureComponent implements Component<EntityStore> {
         return refuelState;
     }
 
+    @Nonnull
+    public TransportState getTransportState() {
+        return transportState;
+    }
+
     @Nullable
     public Boolean getAscentSmallStep() {
         return ascentSmallStep;
@@ -619,6 +627,7 @@ public class HexCreatureComponent implements Component<EntityStore> {
         clone.visitedChests = this.visitedChests;
         clone.crawlState = this.crawlState;
         clone.refuelState = this.refuelState;
+        clone.transportState = this.transportState;
         clone.ascentSmallStep = this.ascentSmallStep;
         clone.lifeEssence = this.lifeEssence;
         clone.lifeEssenceCheckTimer = this.lifeEssenceCheckTimer;

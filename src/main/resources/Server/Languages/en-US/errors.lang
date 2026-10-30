@@ -13,6 +13,9 @@ max_hex_creatures.description2=Hex creatures under your control
 max_distance.description1=Target distance must be less than
 max_distance.description2=blocks
 
+max_transport_distance.description1=Hex creatures can only carry items up to
+max_transport_distance.description2=blocks away
+
 max_wand_selection_exceeded.description1=The wand can only select up to
 max_wand_selection_exceeded.description2=Hex creatures
 

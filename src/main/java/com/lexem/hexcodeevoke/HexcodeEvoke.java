@@ -167,6 +167,8 @@ public class HexcodeEvoke extends JavaPlugin {
         npcPlugin.registerCoreComponentType("Evoke:StartRefuel", BuilderActionStartRefuel::new);
         npcPlugin.registerCoreComponentType("Evoke:TakeTrayEssence", BuilderActionTakeTrayEssence::new);
         npcPlugin.registerCoreComponentType("Evoke:FinishRefuel", BuilderActionFinishRefuel::new);
+        npcPlugin.registerCoreComponentType("Evoke:SnapToBlockCenter", BuilderActionSnapToBlockCenter::new);
+        npcPlugin.registerCoreComponentType("Evoke:TransportItems", BuilderActionTransportItems::new);
     }
 
     private void registerBodyMotions(NPCPlugin npcPlugin) {
@@ -214,6 +216,7 @@ public class HexcodeEvoke extends JavaPlugin {
         npcPlugin.registerCoreComponentType("Evoke:IsCrawling", BuilderSensorIsCrawling::new);
         npcPlugin.registerCoreComponentType("Evoke:NeedsEssenceTray", BuilderSensorNeedsEssenceTray::new);
         npcPlugin.registerCoreComponentType("Evoke:RefuelPosition", BuilderSensorRefuelPosition::new);
+        npcPlugin.registerCoreComponentType("Evoke:TransportTarget", BuilderSensorTransportTarget::new);
     }
 
     private void registerComponents() {

@@ -92,6 +92,21 @@
       }
     },
     {
+      "$Comment": "Beacon wand command: carry items to the container chosen with the wand, or from one container to another",
+      "Continue": true,
+      "Sensor": {
+        "Type": "Beacon",
+        "Message": "EvokeTransportItems",
+        "Range": 100
+      },
+      "Actions": [
+        {
+          "Type": "State",
+          "State": "Transport"
+        }
+      ]
+    },
+    {
       "$Comment": "Go to target position",
       "Sensor": {
         "Type": "State",
@@ -187,6 +202,18 @@
       "Instructions": [
         {
           "Reference": "Component_Evoke_Follow_Evoker_Walking"
+        }
+      ]
+    },
+    {
+      "$Comment": "Carries items to the container chosen with the wand and waits where it was, or from one container to another in a loop",
+      "Sensor": {
+        "Type": "State",
+        "State": "Transport"
+      },
+      "Instructions": [
+        {
+          "Reference": "Component_Evoke_Transport_Items"
         }
       ]
     },

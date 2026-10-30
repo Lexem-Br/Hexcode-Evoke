@@ -13,6 +13,9 @@ max_hex_creatures.description2=criaturas Hex sobre seu controle
 max_distance.description1=A distância do alvo deve ser menor que
 max_distance.description2=blocos
 
+max_transport_distance.description1=As criaturas Hex só levam itens até
+max_transport_distance.description2=blocos de distância
+
 max_wand_selection_exceeded.description1=A varinha só pode selecionar
 max_wand_selection_exceeded.description2=criaturas Hex
 

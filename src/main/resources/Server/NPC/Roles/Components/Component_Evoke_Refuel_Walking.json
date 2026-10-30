@@ -22,13 +22,26 @@
             "ActionsBlocking": true,
             "Actions": [
               {
+                "Type": "PlayAnimation",
+                "Slot": "Status",
+                "Animation": "Interact"
+              },
+              {
                 "Type": "Timeout",
                 "Delay": [1, 1],
                 "Action": {
                   "Type": "Sequence",
                   "Actions": [
                     {
+                      "Type": "PlaySound",
+                      "SoundEventId": "SFX_Player_Pickup_Item"
+                    },
+                    {
                       "Type": "Evoke:TakeTrayEssence"
+                    },
+                    {
+                      "Type": "PlayAnimation",
+                      "Slot": "Status"
                     },
                     {
                       "Type": "State",

@@ -85,8 +85,7 @@ Group {
         }
 
         Group #VariantIcons {
-            Anchor: (Height: 36);
-            LayoutMode: Left;
+            LayoutMode: LeftWrap;
         }
     }
 

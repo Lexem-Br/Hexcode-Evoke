@@ -398,6 +398,9 @@
           {
             "Actions": [
               {
+                "Type": "Evoke:SnapToBlockCenter"
+              },
+              {
                 "Type": "State",
                 "State": "Idle.JumpScare"
               }
