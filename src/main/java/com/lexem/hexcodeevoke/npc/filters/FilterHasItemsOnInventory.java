@@ -12,6 +12,7 @@ import com.hypixel.hytale.server.npc.corecomponents.EntityFilterBase;
 import com.hypixel.hytale.server.npc.asset.builder.BuilderSupport;
 import com.hypixel.hytale.server.npc.instructions.ExecutionSupport;
 import com.lexem.hexcodeevoke.npc.filters.builders.BuilderFilterHasItemsOnInventory;
+import com.lexem.hexcodeevoke.utils.LifeEssenceUtils;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
@@ -45,7 +46,8 @@ public class FilterHasItemsOnInventory extends EntityFilterBase {
     ) {
         if (inventoryTypes.length == 0) return false;
 
-        if (!skipHotbarSlotZero) {
+        boolean keepsLifeEssence = LifeEssenceUtils.keepsLifeEssence(store, npcRef);
+        if (!skipHotbarSlotZero && !keepsLifeEssence) {
             CombinedItemContainer npcContainer = InventoryComponent.getCombined(store, npcRef, inventoryTypes);
             return !npcContainer.isEmpty();
         }
@@ -57,8 +59,11 @@ public class FilterHasItemsOnInventory extends EntityFilterBase {
 
             boolean isHotbar = type == InventoryComponent.Hotbar.getComponentType();
             for (short slot = 0; slot < inventory.getCapacity(); slot++) {
-                if (isHotbar && slot == 0) continue;
-                if (!ItemStack.isEmpty(inventory.getItemStack(slot))) return true;
+                if (skipHotbarSlotZero && isHotbar && slot == 0) continue;
+
+                ItemStack itemStack = inventory.getItemStack(slot);
+                if (ItemStack.isEmpty(itemStack) || (keepsLifeEssence && LifeEssenceUtils.isLifeEssence(itemStack))) continue;
+                return true;
             }
         }
         return false;

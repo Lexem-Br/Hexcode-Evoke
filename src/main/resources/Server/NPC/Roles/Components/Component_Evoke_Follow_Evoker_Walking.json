@@ -1,0 +1,65 @@
+{
+  "$Comment": "Walks after the evoker within 40 blocks and teleports next to them when farther",
+  "Class": "Instruction",
+  "Content": {
+    "Instructions": [
+      {
+        "$Comment": "Less than 40 blocks away from the leader",
+        "Sensor": {
+          "Type": "Player",
+          "Range": 40,
+          "LockOnTarget": true,
+          "Filters": [
+            {
+              "Type": "Evoke:IsEvoker"
+            }
+          ]
+        },
+        "Instructions": [
+          {
+            "Sensor": {
+              "Type": "Target"
+            },
+            "BodyMotion": {
+              "Type": "Seek",
+              "SlowDownDistance": 5,
+              "StopDistance": 3,
+              "RelativeSpeed": 0.5
+            }
+          }
+        ]
+      },
+      {
+        "$Comment": "Teleports to the leader if more than 40 blocks away",
+        "Sensor": {
+          "Type": "Target",
+          "Filters": [
+            {
+              "Type": "Evoke:IsEvoker"
+            }
+          ]
+        },
+        "BodyMotion": {
+          "Type": "Teleport",
+          "OffsetRange": [2, 3],
+          "OffsetSector": 2,
+          "Orientation": "TowardsTarget"
+        },
+        "Actions": [
+          {
+            "Type": "SpawnParticles",
+            "Offset": [0, 0.5, 0],
+            "ParticleSystem": "Effect_Death",
+            "Once": true
+          },
+          {
+            "Type": "Timeout",
+            "Delay": [2, 2],
+            "DelayAfter": true
+          }
+        ]
+      }
+    ]
+  },
+  "Type": "Component"
+}

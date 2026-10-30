@@ -1,15 +1,15 @@
 items.Evoke_Book.name=Evoke Book
-items.Evoke_Book.description=<b>BringnHex objects to life</b>\nProvides information about Hex Creatures
+items.Evoke_Book.description=<b>Brings Hex objects to life</b>\nProvides information about Hex Creatures
 items.Void_Evoke_Book.name=Void Evoke Book
 items.Void_Evoke_Book.description=<b>Summon a Void Mannequin - Development Item</b>
 items.Summon_Void_Mannequin.name=Summon Void Mannequin Page
 items.Summon_Void_Mannequin.description=.
 items.Weapon.Wand.Evoke_Wand_Crude.name=Crude Evoke Wand
-items.Weapon.Wand.Evoke_Wand_Crude.description=<color is="#8888ff"><b>1</b></color> <color is="#aaaaaa">Selection</color> - <color is="#ffcc00"><b>10</b></color> <color is="#aaaaaa">Distance</color>\n\n<b>Give orders to the Hex Creatures</b>\n\n<b>Primary</b> to select the Hex Creature or to send them to a location and have them stay there\n<b>Charged Primary</b> to select all Hex Creature\n<b>Secondary</b>to deselect the Hex creature or make it follow you\n<b>Charged Secondary</b> to deselect all Hex Creatures\n\nArt by: Gwentor
+items.Weapon.Wand.Evoke_Wand_Crude.description=<color is="#8888ff"><b>1</b></color> <color is="#aaaaaa">Selection</color> - <color is="#ffcc00"><b>10</b></color> <color is="#aaaaaa">Distance</color>\n\n<b>Give orders to the Hex Creatures</b>\n\n<b>Primary</b> to select the Hex Creature or to send them to a location\n<b>Charged Primary</b> to select all Hex Creature\n<b>Secondary</b> to deselect the Hex Creature or make it follow you\n<b>Charged Secondary</b> to deselect all Hex Creatures\n\nArt by: Gwentor
 items.Weapon.Wand.Evoke_Wand_Wooden.name=Wooden Evoke Wand
-items.Weapon.Wand.Evoke_Wand_Wooden.description=<color is="#8888ff"><b>3</b></color> <color is="#aaaaaa">Selection</color> - <color is="#ffcc00"><b>20</b></color> <color is="#aaaaaa">Distance</color>\n\n<b>Give orders to the Hex Creatures</b>\n\n<b>Primary</b> to select the Hex Creature or to send them to a location and have them stay there\n<b>Charged Primary</b> to select all Hex Creature\n<b>Secondary</b>to deselect the Hex creature or make it follow you\n<b>Charged Secondary</b> to deselect all Hex Creatures\n\nArt by: Gwentor
+items.Weapon.Wand.Evoke_Wand_Wooden.description=<color is="#8888ff"><b>3</b></color> <color is="#aaaaaa">Selection</color> - <color is="#ffcc00"><b>20</b></color> <color is="#aaaaaa">Distance</color>\n\n<b>Give orders to the Hex Creatures</b>\n\n<b>Primary</b> to select the Hex Creature or to send them to a location\n<b>Charged Primary</b> to select all Hex Creature\n<b>Secondary</b> to deselect the Hex Creature or make it follow you\n<b>Charged Secondary</b> to deselect all Hex Creatures\n\nArt by: Gwentor
 items.Weapon.Wand.Evoke_Wand_Iron.name=Iron Evoke Wand
-items.Weapon.Wand.Evoke_Wand_Iron.description=<color is="#8888ff"><b>6</b></color> <color is="#aaaaaa">Selection</color> - <color is="#ffcc00"><b>30</b></color> <color is="#aaaaaa">Distance</color>\n\n<b>Give orders to the Hex Creatures</b>\n\n<b>Primary</b> to select the Hex Creature or to send them to a location and have them stay there\n<b>Charged Primary</b> to select all Hex Creature\n<b>Secondary</b>to deselect the Hex creature or make it follow you\n<b>Charged Secondary</b> to deselect all Hex Creatures\n\nArt by: Gwentor
+items.Weapon.Wand.Evoke_Wand_Iron.description=<color is="#8888ff"><b>6</b></color> <color is="#aaaaaa">Selection</color> - <color is="#ffcc00"><b>30</b></color> <color is="#aaaaaa">Distance</color>\n\n<b>Give orders to the Hex Creatures</b>\n\n<b>Primary</b> to select the Hex Creature or to send them to a location\n<b>Charged Primary</b> to select all Hex Creature\n<b>Secondary</b> to deselect the Hex Creature or make it follow you\n<b>Charged Secondary</b> to deselect all Hex Creatures\n\nArt by: Gwentor
 
 items.HexItems.Hex_Mannequin.name=Hex Mannequin
 items.HexItems.Hex_Mannequin.description=Give him one of the following items:\n- <b>Sickle</b>: Harvests crops and stores them in the nearest chest\n- <b>Watering Can</b>: Waters dry soil and refills at nearby water when empty\n- <b>Fertilizer Bag</b>: Fertilizes the soil of growing crops\n- <b>Torch</b>: Lights the way
@@ -22,14 +22,16 @@ items.HexItems.Hex_Fairy_Blue.name=Hex Fairy Blue
 items.HexItems.Hex_Fairy_Pink.name=Hex Fairy Pink
 items.HexItems.Hex_Fairy_White.name=Hex Fairy White
 items.HexItems.Hex_Fairy_Purple.name=Hex Fairy Purple
-items.HexItems.Hex_Homunculus.name=Homunculus
-items.HexItems.Hex_Homunculus.description=Harvests crops planted on <b>Crystallized Dirt</b> and stores them in the nearest chest\n\nArt by: Gwentor
+items.HexItems.Hex_Homunculus.name=Hex Homunculus
+items.HexItems.Hex_Homunculus.description=A laboratory assistant, harvests crops planted on <b>Crystallized Dirt</b> and stores them in the nearest chest\n\nArt by: Gwentor
 items.HexItems.Chest_Spider.name=Chest Spider
 items.HexItems.Chest_Spider.description=<color is="#aaaaaa">Chest memory: </color> <color is="#8888ff"><b>128</b></color>\n<color is="#aaaaaa">View distance: </color> <color is="#8888ff"><b>16</b></color>\n<color is="#aaaaaa">Minions: </color> <color is="#8888ff"><b>3</b></color>\n\nPut items inside its inventory so they get stored in chests automatically.\n\nArt by: Gwentor
 items.HexItems.Baby_Chest_Spider.name=Baby Chest Spider
 items.HexItems.Baby_Chest_Spider.description=.
 items.HexItems.Hex_Broom.name=Hex Broom
 items.HexItems.Hex_Broom.description=Wander randomly around the area, collect items and store them in the nearest chest
+items.HexItems.Arcane_Codex_Void.name=Arcane Codex Void
+items.HexItems.Arcane_Codex_Air.name=Arcane Codex Air
 
 npcRoles.Void_Mannequin.name=Void Mannequin
 npcRoles.Hex_Pumpkin_Scary.name=Hex Pumpkin Scary
@@ -37,13 +39,90 @@ npcRoles.Hex_Pumpkin_Cute.name=Hex Pumpkin Cute
 npcRoles.Hex_Pumpkin_Green.name=Hex Pumpkin Green
 npcRoles.Hex_Pumpkin_Orange.name=Hex Pumpkin Orange
 npcRoles.Hex_Pumpkin_Yellow.name=Hex Pumpkin Yellow
+npcRoles.Wisp_Torch.name=Wisp Torch
+npcRoles.Creeping_Torch.name=Creeping Torch
 
 workbench.benchCategories.evoke=Hexcode Evoke
 
 items.armor.Straw_Hat.name=Straw Hat
 
 interactionHints.despawn= Press [{key}] to despawn
+interactionHints.openInventory= Press [{key}] to open the inventory
 interactionHints.ActiveJumpScare= Press [{key}] to active jump scare mode
 interactionHints.DesactiveJumpScare= Press [{key}] to desactive jump scare mode
+interactionHints.searchItem= Press [{key}] to search for an item
 
 hud.inputBinding.open = Open Book
+
+book.tabs.list=My Creatures
+book.tabs.guide=Guide
+book.tabs.creatures=Hex Creatures
+book.summary.title=Contents
+
+book.guide.introduction.title=Welcome, Evoker
+book.guide.introduction.text=The Evoke Book brings Hex objects to life.\n\nSome blocks are Hex items: when evoked, they turn into Hex Creatures that follow you and help with everyday tasks, such as harvesting crops, storing items in chests or lighting the way.\n\nThis book has three bookmarks:\n- My Creatures: the Hex Creatures you have evoked\n- Guide: tips and an introduction to the mod\n- Hex Creatures: a page for each creature, with its origin item, cost, upkeep and characteristics
+book.guide.evoking.title=Evoking
+book.guide.evoking.text=Place a Hex item and use the primary action of the Evoke Book on it. The nearest Hex item comes to life.\n\nHex Creature limit: at first you can have 1 Hex Creature at a time. Each new Hex Creature you evoke for the first time is registered in the Hex Creatures bookmark and raises your limit by 1.\n\nWhat is stored in the block goes with the creature: the contents of a chest go to the Chest Spider's inventory, and the armor and weapon of a Hex Mannequin are equipped on the creature.
+book.guide.life_essence.title=Essence of Life
+book.guide.life_essence.text=Evoking a Hex Creature costs Essence of Life. The cost is taken from your inventory at the moment of the evocation. The Essence of Life spent is kept inside the creature.\n\nSome creatures spend this Essence over time, but it is only spent while the creature is loaded in the world.\n\nIf the creature has Essence of Life in its inventory, it refills itself. Creatures with upkeep also pick up Essence of Life dropped on the ground nearby and keep it in their inventory.\n\nWhen the storage reaches zero, the creature turns back into its origin block.
+book.guide.essence_tray.title=Essence Tray
+book.guide.essence_tray.text=The Essence Tray is used to store Essence of Life. When a Hex Creature that spends Essence of Life drops to half of its storage and there is a tray with Essence of Life nearby, it stops what it is doing and goes to the tray to take some.\n\nPlace trays near where your creatures work so the essence never runs out.
+book.guide.wands.title=Evoke Wands
+book.guide.wands.text=Wands give orders to your Hex Creatures.\n\n- Primary: select a creature, or send the selected creatures to a location, where they stay\n- Charged Primary: select all creatures\n- Secondary: deselect a creature, or make the selected creatures follow you\n- Charged Secondary: deselect all creatures\n\nEach wand has a limit of selected creatures and a reach.\n\nHex Mannequin and Hex Homunculus carry items: select one and use Primary on a chest, or crouch and use Primary on another of your creatures. It stores what it carries there and waits where it was for more. Choose a second container and it carries items from the first to the second in a loop.
+book.guide.behaviour.title=Behaviour
+book.guide.behaviour.text=By default, Hex Creatures follow you. When sent to a location with a wand, they stay there and start working: the Hex Broom wanders around collecting items, the Arcane Codex explores the chests nearby, and so on.\n\nIf you get too far away, most creatures teleport back to you.\n\nCreatures that work with items always look for the nearest chest, so keep chests close to where they work.
+book.guide.managing.title=My Creatures
+book.guide.managing.text=The My Creatures bookmark shows all your Hex Creatures and how many you have out of your current limit.\n\n- Essence of Life: how much is left in the creature's storage and, for creatures with upkeep, how long it lasts\n- Pencil: edit the names of the creatures; press Save to confirm\n- Checkbox: shows the name above the creature\n- Despawn: removes the creature, dropping its Hex item, its inventory and the Essence of Life left in its storage
+book.guide.reverting.title=Reverting
+book.guide.reverting.text=Look at one of your Hex Creatures and use the primary action of the Evoke Book to turn it back into its block, right where it stands.\n\nThe equipment of a Hex Mannequin goes back to the mannequin, and the inventory of a Chest Spider goes back to the chest. The Essence of Life left in the creature's storage drops on the ground.\n\nThe block needs free space under the creature.
+book.guide.tips.title=Tips
+book.guide.tips.text=All Hex Creatures have an inventory, some need you to crouch before interacting.
+
+book.creatures.origin=Origin item: {item}
+book.creatures.cost=Cost: {cost}
+book.creatures.no_cost=Cost: free
+book.creatures.drain=Upkeep: {drain}/minute
+book.creatures.no_drain=Upkeep: none
+book.creatures.locked_drain=Upkeep: ????
+book.list.essence={stored} / {capacity}
+book.list.essence_time={stored} / {capacity} ({time})
+profile.drain=Upkeep: {drain}/min (runs out in {time})
+profile.no_essence=No Essence of Life storage
+profile.title=Hex Creature Profile
+profile.playerInventory=Player Inventory
+profile.evoker=Evoker: {name}
+profile.despawn=Despawn
+profile.leftHand=Left Hand
+profile.rightHand=Right Hand
+profile.head=Head
+profile.chest=Chest
+profile.hands=Hands
+profile.legs=Legs
+profile.hotbar=Hotbar
+profile.inventory=Inventory
+profile.storage=Storage
+profile.backpack=Backpack
+book.creatures.variants=Variants
+book.creatures.characteristics=Characteristics
+book.creatures.no_description=There is no description of this Hex Creature yet.
+book.creatures.Hex_Pumpkin.name=Hex Pumpkin
+book.creatures.Arcane_Codex.name=Arcane Codex
+book.creatures.Hex_Mannequin.description=A walking helper whose job depends on the item in its right hand:\n- Sickle: harvests crops and stores them in the nearest chest\n- Watering Can: waters dry soil and refills at nearby water\n- Fertilizer Bag: fertilizes the soil of growing crops\n\nIt can wear armor. Equip the Hex Mannequin block with armor and a one-handed weapon before evoking and the creature keeps them.\nWith no task, it stores the extra items it carries in the nearest chest.
+book.creatures.Hex_Fairy.description=A small flying companion that glows and follows you everywhere.
+book.creatures.Homunculus.description=A laboratory assistant, harvests crops planted on Crystallized Dirt and stores them in the nearest chest, very useful for making potions. It does not need a sickle.
+book.creatures.Chest_Spider.description=A living chest. When evoked, the contents of the chest go to its inventory.\n\nPut items in its inventory and they are stored in your chests automatically.\n\n- Chest memory: 128\n- View distance: 16\n- Minions: 3 Baby Chest Spiders, which carry the items, collect items from the ground and climb walls\n\nWhen reverted, its inventory goes back to the chest.
+book.creatures.Hex_Pumpkin.description=A playful pumpkin that follows you and stays where you send it.\n\nJump scare mode: first send it to a location with a wand so it stays still, then crouch and interact with it to turn the mode on or off. In this mode it waits still and jumps with a laugh when a player gets close.
+book.creatures.Hex_Broom.description=Wanders randomly around the area, collects the items on the ground and stores them in the nearest chest.\n\nInteract with it to see the items it is carrying.
+book.creatures.Arcane_Codex.description=A flying book that keeps track of the items in the chests it has seen.\n\nSend it to a location with a wand and it explores the chests nearby, memorizing their contents.\n\nInteract with it to search for an item: it flies to the nearest chest that has it and waits there.
+book.creatures.Wisp_Torch.description=A torch with wings that flies beside you, lighting the way.\n\nWhen reverted or despawned, it becomes a standing torch.
+book.creatures.Creeping_Torch.description=A torch that walks on four legs and lights the way.\n\nIt climbs walls and jumps up single blocks. Send it with a wand to any wall or ceiling and it crawls there over the surfaces.
+
+life_essence.low.title=Low Essence of Life
+life_essence.low.description={name} has {stored} / {capacity} Essence of Life left
+life_essence.depleted.title=Out of Essence of Life
+life_essence.depleted.description={name} ran out of Essence of Life and returned to its original form
+items.Essence_Tray.name=Essence Tray
+items.Essence_Tray.description=A small tray with <b>5 slots</b> that only holds <b>Essence of Life</b>.
+
+unlock.title=New Hex Creature registered
+unlock.description={name} was registered in the Evoke Book

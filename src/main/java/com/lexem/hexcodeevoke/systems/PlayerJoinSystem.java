@@ -8,6 +8,7 @@ import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.lexem.hexcodeevoke.components.EvokerComponent;
 import com.lexem.hexcodeevoke.components.HexCreatureComponent;
 import com.lexem.hexcodeevoke.resources.HexCreatureRegistry;
+import com.lexem.hexcodeevoke.utils.HexCreatureUnlockUtils;
 import com.lexem.hexcodeevoke.utils.WandIndicatorUtils;
 import org.checkerframework.checker.nullness.compatqual.NonNullDecl;
 import org.checkerframework.checker.nullness.compatqual.NullableDecl;
@@ -30,6 +31,7 @@ public class PlayerJoinSystem extends RefSystem<EntityStore> {
         } else {
             migrateMarkedToDespawn(evoker);
             removeCreaturesLostWhileAway(evoker);
+            HexCreatureUnlockUtils.unlockOwned(evoker);
             WandIndicatorUtils.refresh(ref, store);
         }
     }

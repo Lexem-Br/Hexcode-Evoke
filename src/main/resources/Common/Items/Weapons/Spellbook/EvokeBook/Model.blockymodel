@@ -59,7 +59,7 @@
               "children": [
                 {
                   "id": "4",
-                  "name": "Handle",
+                  "name": "Book-Handle",
                   "position": {"x": -2, "y": 0, "z": -11},
                   "orientation": {"x": 0.5, "y": -0.5, "z": 0.5, "w": 0.5},
                   "shape": {

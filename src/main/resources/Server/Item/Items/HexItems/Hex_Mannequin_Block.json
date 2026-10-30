@@ -18,10 +18,6 @@
       {
         "ItemId": "Ingredient_Leather_Light",
         "Quantity": 1
-      },
-      {
-        "ItemId": "Ingredient_Life_Essence",
-        "Quantity": 50
       }
     ],
     "BenchRequirement": [

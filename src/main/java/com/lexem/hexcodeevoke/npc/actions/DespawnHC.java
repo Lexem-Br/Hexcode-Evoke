@@ -26,7 +26,7 @@ public class DespawnHC extends ActionBase {
       super.execute(npcRef, executionSupport, sensorInfo, dt, store);
 
       if (dropHexItem) {
-         HexCreatureDespawner.despawn(store, npcRef, store, true);
+         HexCreatureDespawner.despawnByOwner(store, npcRef, store);
       } else {
          HexCreatureDespawner.despawn(store, npcRef, store);
       }

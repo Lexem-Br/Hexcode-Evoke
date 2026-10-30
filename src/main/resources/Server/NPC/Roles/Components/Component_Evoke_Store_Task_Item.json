@@ -15,6 +15,29 @@
         },
         "Instructions": [
           {
+            "$Comment": "Teleports next to the mother when it can't reach her",
+            "Sensor": {
+              "Type": "Evoke:ChestTaskStuck",
+              "Target": "Owner"
+            },
+            "Actions": [
+              {
+                "Type": "SpawnParticles",
+                "Offset": [0, 0.5, 0],
+                "ParticleSystem": "Effect_Death"
+              },
+              {
+                "Type": "Evoke:AbandonMinionTask",
+                "ForgetChest": false,
+                "TeleportDistance": 2
+              },
+              {
+                "Type": "ParentState",
+                "State": "Main"
+              }
+            ]
+          },
+          {
             "$Comment": "Search for the owner",
             "Continue": true,
             "Sensor": {
@@ -130,12 +153,36 @@
         },
         "Instructions": [
           {
+            "$Comment": "Gives up the task when it can't reach the chest and goes back to the mother",
+            "Sensor": {
+              "Type": "Evoke:ChestTaskStuck"
+            },
+            "Actions": [
+              {
+                "Type": "SpawnParticles",
+                "Offset": [0, 0.5, 0],
+                "ParticleSystem": "Effect_Death"
+              },
+              {
+                "Type": "Evoke:AbandonMinionTask"
+              },
+              {
+                "Type": "PlayAnimation",
+                "Slot": "Status"
+              },
+              {
+                "Type": "ParentState",
+                "State": "Main"
+              }
+            ]
+          },
+          {
             "$Comment": "Search for an chest on the chest task",
             "Continue": true,
             "Sensor":  {
               "Type": "Evoke:SearchChestTaskPosition",
               "HorizontalRange": 30,
-              "VerticalRange": 3
+              "VerticalRange": 6
             },
             "BodyMotion": {
               "Type": "Seek",

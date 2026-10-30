@@ -1,33 +1,5 @@
 $C = "../Common.ui";
 
-@DespawnButtonStyle = TextButtonStyle(
-  Default: (Background: "../Icons/despawnIcon.png"),
-  Hovered: (Background: (TexturePath: "../Icons/despawnIcon.png", Area: (Full: 6)))
-);
-
-@InputFieldStyle = InputFieldDecorationStyle(
-    Default: (OutlineSize: 2, OutlineColor: #000000, Background: #c0955e),
-    Focused: (OutlineSize: 3, OutlineColor: #000000, Background: #c0955e)
-);
-
-@SaveButtonStyle = TextButtonStyle(
-    Default: (Background: #c0955e, LabelStyle: (FontSize: 16, TextColor: #000000, RenderBold: true, HorizontalAlignment: Center, VerticalAlignment: Center, OutlineColor: #000000)),
-    Hovered: (Background: #c0955e, LabelStyle: (FontSize: 18, TextColor: #000000, RenderBold: true, HorizontalAlignment: Center, VerticalAlignment: Center, OutlineColor: #000000)),
-    Pressed: (Background: #c0955e, LabelStyle: (FontSize: 18, TextColor: #000000, RenderBold: true, HorizontalAlignment: Center, VerticalAlignment: Center, OutlineColor: #000000))
-);
-
-@CustomCheckBoxStyle = CheckBoxStyle(
-    Unchecked: (
-        DefaultBackground: (Color: #c0955e),
-        HoveredBackground: (Color: #c0955e),
-        PressedBackground: (Color: #c0955e),
-        DisabledBackground: (Color: #c0955e)
-    ),
-    Checked: (
-       DefaultBackground: (Color: #c0955e, TexturePath: "../Icons/checkIcon.png", Area: (Full: 8))
-    )
-);
-
 Group #OutputSection {
     LayoutMode: CenterMiddle;
 
@@ -53,53 +25,6 @@ Group #OutputSection {
                ShowQualityBackground: true;
                ShowDurabilityBar: false;
             }
-        }
-
-        Group #BrokenOverlay {
-            Anchor: (Full: 3);
-            Background: #8b0000(0.45);
-            Visible: false;
-
-            Group #BrokenIcon {
-                Anchor: (Left: 3, Top: 3, Width: 18, Height: 18);
-                Background: "../Icons/brokenIcon.png";
-            }
-        }
-
-        Group #DurabilityBar {
-            Anchor: (Left: 6, Right: 6, Bottom: 6, Height: 5);
-            Background: #000000(0.7);
-            Padding: 1;
-            Visible: false;
-
-            ProgressBar #DurabilityFillHigh {
-                BarTexturePath: "../Icons/durabilityHigh.png";
-                Value: 1.0;
-                Visible: false;
-            }
-
-            ProgressBar #DurabilityFillMid {
-                BarTexturePath: "../Icons/durabilityMid.png";
-                Value: 1.0;
-                Visible: false;
-            }
-
-            ProgressBar #DurabilityFillLow {
-                BarTexturePath: "../Icons/durabilityLow.png";
-                Value: 1.0;
-                Visible: false;
-            }
-        }
-
-        Label #OutputQuantity {
-            Anchor: (Right: 8, Bottom: 5);
-            Style: (
-                FontSize: 13,
-                TextColor: #ffffff,
-                HorizontalAlignment: End,
-                VerticalAlignment: End,
-                RenderBold: true,
-            );
         }
     }
 }

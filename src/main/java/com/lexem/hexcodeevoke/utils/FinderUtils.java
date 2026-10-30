@@ -14,8 +14,12 @@ import org.joml.Vector3d;
 import org.joml.Vector3i;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class FinderUtils {
+    private static final double LEVEL_TOLERANCE = 0.5;
+
+    private static final Map<Integer, List<int[]>> HORIZONTAL_OFFSETS = new ConcurrentHashMap<>();
 
     @FunctionalInterface
     public interface BlockValidator<T> {
@@ -95,6 +99,55 @@ public class FinderUtils {
         }
 
         return null;
+    }
+
+    public static <T> Vector3i findNearestBlockByLevel(
+            Vector3d startPos,
+            int horizontalRange,
+            int verticalRange,
+            BlockValidator<T> validator,
+            T context
+    ) {
+        if (startPos == null || validator == null || context == null) {
+            return null;
+        }
+
+        int startX = MathUtil.floor(startPos.x());
+        int startY = MathUtil.floor(startPos.y() + LEVEL_TOLERANCE);
+        int startZ = MathUtil.floor(startPos.z());
+        List<int[]> offsets = getHorizontalOffsets(horizontalRange);
+
+        for (int dy : getLevelOrder(verticalRange)) {
+            for (int[] offset : offsets) {
+                Vector3i block = new Vector3i(startX + offset[0], startY + dy, startZ + offset[1]);
+                if (validator.isValid(block, context)) {
+                    return block;
+                }
+            }
+        }
+
+        return null;
+    }
+
+    private static List<int[]> getHorizontalOffsets(int range) {
+        return HORIZONTAL_OFFSETS.computeIfAbsent(range, r -> {
+            List<int[]> offsets = new ArrayList<>();
+            for (int dx = -r; dx <= r; dx++) {
+                for (int dz = -r; dz <= r; dz++) {
+                    if (dx * dx + dz * dz <= r * r) offsets.add(new int[]{dx, dz});
+                }
+            }
+            offsets.sort(Comparator.comparingInt(o -> o[0] * o[0] + o[1] * o[1]));
+            return List.copyOf(offsets);
+        });
+    }
+
+    private static int[] getLevelOrder(int verticalRange) {
+        int[] order = new int[verticalRange * 2 + 1];
+        int i = 0;
+        for (int dy = 0; dy <= verticalRange; dy++) order[i++] = dy;
+        for (int dy = -1; dy >= -verticalRange; dy--) order[i++] = dy;
+        return order;
     }
 
     public static List<Vector3d> findAllChestsInRange(

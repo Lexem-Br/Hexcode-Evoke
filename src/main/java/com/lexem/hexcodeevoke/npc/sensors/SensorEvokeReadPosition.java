@@ -9,6 +9,7 @@ import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.hypixel.hytale.server.npc.asset.builder.BuilderSupport;
 import com.hypixel.hytale.server.npc.corecomponents.SensorBase;
 import com.hypixel.hytale.server.npc.instructions.ExecutionSupport;
+import com.hypixel.hytale.server.npc.movement.controllers.MotionController;
 import com.hypixel.hytale.server.npc.sensorinfo.InfoProvider;
 import com.hypixel.hytale.server.npc.sensorinfo.PositionProvider;
 import com.lexem.hexcodeevoke.components.EvokerComponent;
@@ -28,6 +29,8 @@ public class SensorEvokeReadPosition extends SensorBase {
 
    private static final double BASE_DISTANCE = 2.0;
    private static final double DISTANCE_INCREMENT = 0.5;
+   private static final double FREE_SEARCH_STEP = 0.25;
+   private static final double MIN_FREE_HEIGHT = 0.25;
 
    public SensorEvokeReadPosition(@Nonnull BuilderSensorEvokeReadPosition builder, @Nonnull BuilderSupport support) {
       super(builder);
@@ -53,8 +56,14 @@ public class SensorEvokeReadPosition extends SensorBase {
             TransformComponent transformComponent = store.getComponent(ref, TransformComponent.getComponentType());
             if (transformComponent == null) { return false; }
 
-            // Flying creatures can't reach a point on the ground, so they aim above it
             Vector3d position = new Vector3d(storedPosition).add(0, this.heightOffset, 0);
+            MotionController motionController = executionSupport.getMotionContextSupport().getActiveMotionController();
+            if (motionController != null) {
+               for (double height = this.heightOffset; height >= MIN_FREE_HEIGHT; height -= FREE_SEARCH_STEP) {
+                  position.set(storedPosition.x, storedPosition.y + height, storedPosition.z);
+                  if (motionController.isValidPosition(position, store)) break;
+               }
+            }
 
             int qtdHexCreatures = evoker.getSelectedHexCreatures().length;
             double dist = transformComponent.getPosition().distanceSquared(position);

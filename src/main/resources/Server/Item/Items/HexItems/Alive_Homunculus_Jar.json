@@ -8,10 +8,6 @@
     "TimeSeconds": 1,
     "Input": [
       {
-        "ItemId": "Ingredient_Life_Essence",
-        "Quantity": 50
-      },
-      {
         "ItemId": "Food_Wildmeat_Raw",
         "Quantity": 10
       },

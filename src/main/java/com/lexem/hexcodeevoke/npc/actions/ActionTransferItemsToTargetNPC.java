@@ -45,7 +45,10 @@ public class ActionTransferItemsToTargetNPC extends ActionBase {
                 InventoryComponent.Hotbar.getComponentType()
         );
 
-        String itemToTransferId = minionComponent.getChestTask().getItemId();
-        return InventoryUtils.transferAllItemsOfType(npcContainer, targetContainer, itemToTransferId, -1);
+        boolean itemTransferred = false;
+        for (String itemId : InventoryUtils.getItemIdsFromContainer(npcContainer)) {
+            itemTransferred |= InventoryUtils.transferAllItemsOfType(npcContainer, targetContainer, itemId, -1);
+        }
+        return itemTransferred;
     }
 }

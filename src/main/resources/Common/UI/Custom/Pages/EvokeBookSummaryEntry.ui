@@ -1,0 +1,34 @@
+@EntryButtonStyle = TextButtonStyle(
+    Default: (LabelStyle: (FontSize: 15, TextColor: #222222, HorizontalAlignment: Start, VerticalAlignment: Center)),
+    Hovered: (LabelStyle: (FontSize: 15, TextColor: #3a5075, RenderBold: true, HorizontalAlignment: Start, VerticalAlignment: Center)),
+    Pressed: (LabelStyle: (FontSize: 15, TextColor: #3a5075, RenderBold: true, HorizontalAlignment: Start, VerticalAlignment: Center))
+);
+
+Group {
+    Anchor: (Height: 30);
+    LayoutMode: Left;
+
+    ItemIcon #EntryIcon {
+        ItemId: "Hex_Mannequin_Block";
+        Anchor: (Width: 26, Height: 26);
+        Visible: false;
+    }
+
+    Group #EntryIconSpacer {
+        Anchor: (Width: 6);
+        Visible: false;
+    }
+
+    TextButton #EntryButton {
+        Text: "";
+        FlexWeight: 1;
+        Anchor: (Height: 30);
+        Style: @EntryButtonStyle;
+    }
+
+    Label #EntryPage {
+        Text: "";
+        Anchor: (Width: 36, Height: 30);
+        Style: (FontSize: 14, TextColor: #555555, RenderBold: true, HorizontalAlignment: End, VerticalAlignment: Center);
+    }
+}

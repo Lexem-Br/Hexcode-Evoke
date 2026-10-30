@@ -15,6 +15,7 @@
   "Texture": "Items/Weapons/Spellbook/EvokeBook/Life.png",
   "Icon": "Icons/ItemsGenerated/Evoke_Book.png",
   "PlayerAnimationsId": "Evoke_Spellbook",
+  "UsePlayerAnimations": true,
   "ItemSoundSetId": "ISS_Weapons_Books",
   "DroppedItemAnimation": "Items/Animations/Dropped/Dropped_Diagonal_Left.blockyanim",
   "MaxStack": 1,
@@ -56,12 +57,90 @@
     ]
   },
   "Interactions": {
-    "Primary": "Root_Evoke",
+    "Primary": "Root_Evoke_Book_Primary",
     "Secondary": "Root_Open_Evoke_Book",
     "Ability1": "Root_Evoke",
     "Ability4": "Root_Open_Evoke_Book"
   },
   "Weapon": {},
+  "State": {
+    "Casting": {
+      "Variant": true,
+      "Recipe": null,
+      "TranslationProperties": {
+        "Name": "evoke.items.Evoke_Book.name",
+        "Description": "evoke.items.Evoke_Book.description"
+      },
+      "Quality": "Rare",
+      "ItemLevel": 40,
+      "Utility": {
+        "Usable": true
+      },
+      "Model": "Items/Weapons/Spellbook/EvokeBook/Model.blockymodel",
+      "Texture": "Items/Weapons/Spellbook/EvokeBook/Life.png",
+      "Animation": "Items/Weapons/Spellbook/EvokeBook/Animations/Casting.blockyanim",
+      "Icon": "Icons/ItemsGenerated/Evoke_Book.png",
+      "PlayerAnimationsId": "Evoke_Spellbook",
+      "UsePlayerAnimations": true,
+      "MaxStack": 1,
+      "Interactions": {
+        "Primary": "Root_Evoke_Book_Primary",
+        "Secondary": "Root_Open_Evoke_Book",
+        "Ability1": "Root_Evoke",
+        "Ability4": "Root_Open_Evoke_Book"
+      },
+      "IconProperties": {
+        "Scale": 0.6,
+        "Rotation": [
+          42,
+          104,
+          0
+        ],
+        "Translation": [
+          -10,
+          -12
+        ]
+      }
+    },
+    "Closing": {
+      "Variant": true,
+      "Recipe": null,
+      "TranslationProperties": {
+        "Name": "evoke.items.Evoke_Book.name",
+        "Description": "evoke.items.Evoke_Book.description"
+      },
+      "Quality": "Rare",
+      "ItemLevel": 40,
+      "Utility": {
+        "Usable": true
+      },
+      "Model": "Items/Weapons/Spellbook/EvokeBook/Model.blockymodel",
+      "Texture": "Items/Weapons/Spellbook/EvokeBook/Life.png",
+      "Animation": "Items/Weapons/Spellbook/EvokeBook/Animations/Closing.blockyanim",
+      "Icon": "Icons/ItemsGenerated/Evoke_Book.png",
+      "PlayerAnimationsId": "Evoke_Spellbook",
+      "UsePlayerAnimations": true,
+      "MaxStack": 1,
+      "Interactions": {
+        "Primary": "Root_Evoke_Book_Primary",
+        "Secondary": "Root_Open_Evoke_Book",
+        "Ability1": "Root_Evoke",
+        "Ability4": "Root_Open_Evoke_Book"
+      },
+      "IconProperties": {
+        "Scale": 0.6,
+        "Rotation": [
+          42,
+          104,
+          0
+        ],
+        "Translation": [
+          -10,
+          -12
+        ]
+      }
+    }
+  },
   "IconProperties": {
     "Scale": 0.6,
     "Rotation": [

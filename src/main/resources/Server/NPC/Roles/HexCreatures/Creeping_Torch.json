@@ -1,0 +1,15 @@
+{
+  "Type": "Variant",
+  "Reference": "Template_Hex_Creature_Crawling",
+  "Modify": {
+    "Appearance": "Creeping_Torch",
+    "DropHexItem": "Furniture_Crude_Torch",
+    "NameTranslationKey": { "Compute": "NameTranslationKey" }
+  },
+  "Parameters": {
+    "NameTranslationKey": {
+      "Value": "evoke.npcRoles.Creeping_Torch.name",
+      "Description": "Translation key for NPC name display"
+    }
+  }
+}

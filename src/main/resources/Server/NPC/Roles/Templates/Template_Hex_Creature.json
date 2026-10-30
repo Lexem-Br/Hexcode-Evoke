@@ -37,6 +37,7 @@
   "ApplySeparation": true,
   "SeparationDistance": 1.0,
   "SeparationWeight": 0.6,
+  "SeparationLegacySteeringStrength": 0.2,
   "InventorySize": 0,
   "HotbarSize": 6,
   "OffHandSlots": 1,
@@ -84,35 +85,108 @@
   "Instructions": [
     {
       "$Comment": "Beacon wand command",
+      "Reference": "Component_Evoke_Wand_Commands",
+      "Modify": {
+        "_ExportStates": ["SeekPosition", "Following"],
+        "Range": 100
+      }
+    },
+    {
+      "$Comment": "Beacon wand command: carry items to the container chosen with the wand, or from one container to another",
       "Continue": true,
-      "Instructions": [
+      "Sensor": {
+        "Type": "Beacon",
+        "Message": "EvokeTransportItems",
+        "Range": 100
+      },
+      "Actions": [
         {
-          "$Comment": "Store target position",
-          "Sensor": {
-            "Type": "Beacon",
-            "Message": "EvokeTargetPosition",
-            "Range": 100
+          "Type": "State",
+          "State": "Transport"
+        }
+      ]
+    },
+    {
+      "$Comment": "Shows a broken sickle thought when a player comes close while the sickle in hand is broken",
+      "Continue": true,
+      "Sensor": {
+        "Type": "And",
+        "Sensors": [
+          {
+            "Type": "Flag",
+            "Name": "BrokenSickleThought",
+            "Set": false
           },
-          "Actions": [
-            {
-              "Type": "State",
-              "State": "SeekPosition"
-            }
-          ]
+          {
+            "Type": "Self",
+            "Filters": [
+              {
+                "Type": "Evoke:HasBrokenItemInHand",
+                "Items": [ "Tool_Sickle*" ]
+              }
+            ]
+          },
+          {
+            "Type": "Player",
+            "Range": 5
+          }
+        ]
+      },
+      "Actions": [
+        {
+          "Type": "SpawnParticles",
+          "TargetNodeName": "Head",
+          "ParticleSystem": "Evoke_Thought_Broken_Sickle",
+          "Offset": [ 0, 0.7, 0 ]
         },
         {
-          "$Comment": "Follow the leader",
-          "Sensor": {
-            "Type": "Beacon",
-            "Message": "EvokeFollowLeader",
-            "Range": 100
+          "Type": "SetFlag",
+          "Name": "BrokenSickleThought",
+          "SetTo": true
+        }
+      ]
+    },
+    {
+      "$Comment": "Allows the broken sickle thought again once no player is close or the sickle is no longer broken",
+      "Continue": true,
+      "Sensor": {
+        "Type": "And",
+        "Sensors": [
+          {
+            "Type": "Flag",
+            "Name": "BrokenSickleThought"
           },
-          "Actions": [
-            {
-              "Type": "State",
-              "State": "Following"
-            }
-          ]
+          {
+            "Type": "Or",
+            "Sensors": [
+              {
+                "Type": "Not",
+                "Sensor": {
+                  "Type": "Player",
+                  "Range": 8
+                }
+              },
+              {
+                "Type": "Not",
+                "Sensor": {
+                  "Type": "Self",
+                  "Filters": [
+                    {
+                      "Type": "Evoke:HasBrokenItemInHand",
+                      "Items": [ "Tool_Sickle*" ]
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "Actions": [
+        {
+          "Type": "SetFlag",
+          "Name": "BrokenSickleThought",
+          "SetTo": false
         }
       ]
     },
@@ -149,6 +223,25 @@
               "State": "CheckTasks.Default"
             }
           ]
+        }
+      ]
+    },
+    {
+      "$Comment": "Goes to refuel at a nearby Essence Tray when low on life essence",
+      "Reference": "Component_Evoke_Refuel_Trigger",
+      "Modify": {
+        "_ExportStates": ["Refuel"]
+      }
+    },
+    {
+      "$Comment": "Walks to the Essence Tray, consumes as much life essence as it can, walks back to where it was and resumes the previous task",
+      "Sensor": {
+        "Type": "State",
+        "State": "Refuel"
+      },
+      "Instructions": [
+        {
+          "Reference": "Component_Evoke_Refuel_Walking"
         }
       ]
     },
@@ -192,60 +285,19 @@
       },
       "Instructions": [
         {
-          "$Comment": "Less than 40 blocks away from the leader",
-          "Sensor": {
-            "Type": "Player",
-            "Range": 40,
-            "LockOnTarget": true,
-            "Filters": [
-              {
-                "Type": "Evoke:IsEvoker"
-              }
-            ]
-          },
-          "Instructions": [
-            {
-              "Sensor": {
-                "Type": "Target"
-              },
-              "BodyMotion": {
-                "Type": "Seek",
-                "SlowDownDistance": 5,
-                "StopDistance": 3,
-                "RelativeSpeed": 0.5
-              }
-            }
-          ]
-        },
+          "Reference": "Component_Evoke_Follow_Evoker_Walking"
+        }
+      ]
+    },
+    {
+      "$Comment": "Carries items to the container chosen with the wand and waits where it was, or from one container to another in a loop",
+      "Sensor": {
+        "Type": "State",
+        "State": "Transport"
+      },
+      "Instructions": [
         {
-          "$Comment": "Teleports to the leader if more than 40 blocks away",
-          "Sensor": {
-            "Type": "Target",
-            "Filters": [
-              {
-                "Type": "Evoke:IsEvoker"
-              }
-            ]
-          },
-          "BodyMotion": {
-            "Type": "Teleport",
-            "OffsetRange": [2, 3],
-            "OffsetSector": 2,
-            "Orientation": "TowardsTarget"
-          },
-          "Actions": [
-            {
-              "Type": "SpawnParticles",
-              "Offset": [ 0, 0.5, 0 ],
-              "ParticleSystem": "Effect_Death",
-              "Once": true
-            },
-            {
-              "Type": "Timeout",
-              "Delay": [ 2, 2 ],
-              "DelayAfter": true
-            }
-          ]
+          "Reference": "Component_Evoke_Transport_Items"
         }
       ]
     },
@@ -504,34 +556,6 @@
     }
   ],
   "InteractionInstruction": {
-    "$Comment": "Opens the Hex Creature profile when interacted with",
-    "Instructions": [
-      {
-        "Continue": true,
-        "Sensor": {
-          "Type": "Any"
-        },
-        "Actions": [
-          {
-            "Type": "SetInteractable",
-            "Interactable": true
-          }
-        ]
-      },
-      {
-        "Sensor": {
-          "Type": "HasInteracted"
-        },
-        "Instructions": [
-          {
-            "Actions": [
-              {
-                "Type": "Evoke:OpenHCProfile"
-              }
-            ]
-          }
-        ]
-      }
-    ]
+    "Reference": "Component_Evoke_Interaction_Profile"
   }
 }

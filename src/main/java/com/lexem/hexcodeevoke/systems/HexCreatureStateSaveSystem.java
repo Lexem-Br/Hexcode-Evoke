@@ -10,6 +10,7 @@ import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.hypixel.hytale.server.npc.asset.builder.StateMappingHelper;
 import com.hypixel.hytale.server.npc.role.support.StateSupport;
 import com.lexem.hexcodeevoke.components.HexCreatureComponent;
+import com.lexem.hexcodeevoke.utils.RefuelState;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -34,6 +35,12 @@ public class HexCreatureStateSaveSystem extends EntityTickingSystem<EntityStore>
         int state = stateSupport.getStateIndex();
         String stateName = stateHelper.getStateName(state);
         String subStateName = stateHelper.getSubStateName(state, stateSupport.getSubStateIndex());
+
+        RefuelState refuel = hexCreature.getRefuelState();
+        if (RefuelState.REFUEL_STATE.equals(stateName) && refuel.getReturnState() != null) {
+            stateName = refuel.getReturnState();
+            subStateName = refuel.getReturnSubState();
+        }
 
         if (!hexCreature.setLastState(stateName, subStateName)) return;
 

@@ -1,0 +1,26 @@
+$C = "../Common.ui";
+
+Group {
+    FlexWeight: 1;
+    LayoutMode: Top;
+
+    Label #PageTitle {
+        Text: "";
+        Anchor: (Height: 30);
+        Style: (FontSize: 20, TextColor: #000000, RenderBold: true, HorizontalAlignment: Center, VerticalAlignment: Center);
+    }
+
+    Group { Anchor: (Height: 14); }
+
+    Group {
+        FlexWeight: 1;
+        LayoutMode: TopScrolling;
+        ScrollbarStyle: $C.@DefaultScrollbarStyle;
+        Padding: (Right: 8);
+
+        Label #PageText {
+            Text: "";
+            Style: (FontSize: 15, TextColor: #222222, Wrap: true);
+        }
+    }
+}

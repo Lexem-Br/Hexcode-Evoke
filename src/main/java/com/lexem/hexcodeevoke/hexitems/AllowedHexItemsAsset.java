@@ -13,16 +13,27 @@ import com.hypixel.hytale.codec.builder.BuilderCodec;
 import com.hypixel.hytale.codec.codecs.array.ArrayCodec;
 import com.hypixel.hytale.codec.validation.ValidatorCache;
 import com.hypixel.hytale.codec.validation.Validators;
+import com.hypixel.hytale.logger.HytaleLogger;
 import com.hypixel.hytale.server.core.asset.type.blocktype.config.BlockType;
+import com.lexem.hexcodeevoke.HexcodeEvoke;
+
+import org.bson.BsonArray;
+import org.bson.BsonDocument;
+import org.bson.BsonValue;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 public class AllowedHexItemsAsset implements JsonAssetWithMap<String, DefaultAssetMap<String, AllowedHexItemsAsset>> {
     public static final AssetBuilderCodec<String, AllowedHexItemsAsset> CODEC;
     private static AssetStore<String, AllowedHexItemsAsset, DefaultAssetMap<String, AllowedHexItemsAsset>> ASSET_STORE;
     public static final ValidatorCache<String> VALIDATOR_CACHE;
+    private static final String EVOKE_HEX_ITEMS_RESOURCE = "/Server/Evoke/AllowedHexItems/AllowedHexItems.json";
+    private static final HytaleLogger LOGGER = HytaleLogger.forEnclosingClass();
 
     protected AssetExtraInfo.Data data;
     protected String id;
@@ -59,6 +70,20 @@ public class AllowedHexItemsAsset implements JsonAssetWithMap<String, DefaultAss
                                         .add()
                                         .append(new KeyedCodec<>("EssenceCost", Codec.INTEGER), (item, s) -> item.essenceCost = s, item -> item.essenceCost)
                                         .add()
+                                        .append(new KeyedCodec<>("LifeEssencePerMinute", Codec.FLOAT), (item, s) -> item.lifeEssencePerMinute = s, item -> item.lifeEssencePerMinute)
+                                        .add()
+                                        .append(new KeyedCodec<>("StoresLifeEssence", Codec.BOOLEAN), (item, s) -> item.storesLifeEssence = s, item -> item.storesLifeEssence)
+                                        .add()
+                                        .append(new KeyedCodec<>("ReturnBlockId", Codec.STRING), (item, s) -> item.returnBlockId = s, item -> item.returnBlockId)
+                                        .add()
+                                        .append(new KeyedCodec<>("JumpSmallSteps", Codec.BOOLEAN), (item, s) -> item.jumpSmallSteps = s, item -> item.jumpSmallSteps)
+                                        .add()
+                                        .append(new KeyedCodec<>("BookName", Codec.STRING), (item, s) -> item.bookName = s, item -> item.bookName)
+                                        .add()
+                                        .append(new KeyedCodec<>("BookDescription", Codec.STRING), (item, s) -> item.bookDescription = s, item -> item.bookDescription)
+                                        .add()
+                                        .append(new KeyedCodec<>("VariantOf", Codec.STRING), (item, s) -> item.variantOf = s, item -> item.variantOf)
+                                        .add()
                                         .build(),
                                 AllowedHexItemsAsset.HexItem[]::new
                         )),
@@ -81,6 +106,13 @@ public class AllowedHexItemsAsset implements JsonAssetWithMap<String, DefaultAss
         public boolean hasArmorLegSlot = false;
         public boolean hasHotbarSlot = false;
         public int essenceCost = 0;
+        public float lifeEssencePerMinute = 0;
+        public boolean storesLifeEssence = false;
+        public String returnBlockId = "";
+        public boolean jumpSmallSteps = false;
+        public String bookName = "";
+        public String bookDescription = "";
+        public String variantOf = "";
 
         public HexItem() {}
     }
@@ -104,7 +136,7 @@ public class AllowedHexItemsAsset implements JsonAssetWithMap<String, DefaultAss
         return this.id;
     }
 
-    private record Lookup(List<HexItem> items, Map<String, HexItem> byBlockId, Map<String, HexItem> byEntityId) {}
+    private record Lookup(List<HexItem> items, Map<String, HexItem> byBlockId, Map<String, HexItem> byEntityId, Set<String> evokeEntityIds) {}
 
     private static volatile Lookup lookup;
 
@@ -130,9 +162,36 @@ public class AllowedHexItemsAsset implements JsonAssetWithMap<String, DefaultAss
             }
         }
 
-        current = new Lookup(Collections.unmodifiableList(items), byBlockId, byEntityId);
+        current = new Lookup(Collections.unmodifiableList(items), byBlockId, byEntityId, readEvokeEntityIds());
         lookup = current;
         return current;
+    }
+
+    @Nonnull
+    private static Set<String> readEvokeEntityIds() {
+        Set<String> entityIds = new HashSet<>();
+        try (InputStream stream = HexcodeEvoke.class.getResourceAsStream(EVOKE_HEX_ITEMS_RESOURCE)) {
+            if (stream == null) {
+                LOGGER.atWarning().log("Resource not found: " + EVOKE_HEX_ITEMS_RESOURCE);
+                return entityIds;
+            }
+
+            BsonDocument document = BsonDocument.parse(new String(stream.readAllBytes(), StandardCharsets.UTF_8));
+            for (BsonValue value : document.getArray("AllowedHexItems", new BsonArray())) {
+                if (!value.isDocument()) continue;
+
+                BsonValue entityId = value.asDocument().get("EntityId");
+                if (entityId != null && entityId.isString()) entityIds.add(entityId.asString().getValue());
+            }
+        } catch (IOException | RuntimeException e) {
+            LOGGER.atWarning().log("Unable to read " + EVOKE_HEX_ITEMS_RESOURCE + ": " + e.getMessage());
+        }
+        return entityIds;
+    }
+
+    @Nonnull
+    public static List<HexItem> getAll() {
+        return getLookup().items();
     }
 
     @Nullable
@@ -146,9 +205,38 @@ public class AllowedHexItemsAsset implements JsonAssetWithMap<String, DefaultAss
         return getLookup().byBlockId().get(baseBlockId);
     }
 
+    @Nonnull
+    public static String getReturnBlockId(@Nonnull String blockId) {
+        HexItem item = getByBlockId(blockId);
+        if (item == null || item.returnBlockId == null || item.returnBlockId.isEmpty()) return blockId;
+        return item.returnBlockId;
+    }
+
     @Nullable
     public static HexItem getByEntityId(@Nonnull String entityId) {
         return getLookup().byEntityId().get(entityId);
+    }
+
+    public static boolean isVariant(@Nonnull HexItem item) {
+        return item.variantOf != null && !item.variantOf.isEmpty();
+    }
+
+    @Nonnull
+    public static HexItem getMainItem(@Nonnull HexItem item) {
+        if (!isVariant(item)) return item;
+
+        HexItem main = getByEntityId(item.variantOf);
+        return main != null && !isVariant(main) ? main : item;
+    }
+
+    public static boolean isEvokeHexCreature(@Nonnull String entityId) {
+        return getLookup().evokeEntityIds().contains(entityId);
+    }
+
+    @Nonnull
+    public static String getMainEntityId(@Nonnull String entityId) {
+        HexItem item = getByEntityId(entityId);
+        return item != null ? getMainItem(item).entityId : entityId;
     }
 
     @Nonnull
@@ -190,6 +278,11 @@ public class AllowedHexItemsAsset implements JsonAssetWithMap<String, DefaultAss
     public static boolean hasHotbarSlotByEntityId(String entityId) {
         HexItem item = getByEntityId(entityId);
         return item != null && item.hasHotbarSlot;
+    }
+
+    public static boolean jumpsSmallStepsByEntityId(String entityId) {
+        HexItem item = getByEntityId(entityId);
+        return item != null && item.jumpSmallSteps;
     }
 
     public static boolean isHexCreature(@Nonnull String entityId) {

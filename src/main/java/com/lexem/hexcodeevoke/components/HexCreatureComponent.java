@@ -10,12 +10,18 @@ import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.logger.HytaleLogger;
 import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
+import com.lexem.hexcodeevoke.utils.RefuelState;
+import com.lexem.hexcodeevoke.utils.SurfaceCrawlState;
+import com.lexem.hexcodeevoke.utils.TransportState;
 import org.joml.Vector3d;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Random;
 
@@ -37,6 +43,22 @@ public class HexCreatureComponent implements Component<EntityStore> {
     private boolean markedToDespawn = false;
     private String lastState;
     private String lastSubState;
+    private Map<Long, Long> unreachableChests = new HashMap<>();
+    private Vector3d searchChestPosition;
+    private Vector3d exploreChestPosition;
+    private Vector3d exploreAnchor;
+    private long exploreChestSince;
+    private long lastExploreSearch;
+    private Map<Long, Long> visitedChests = new HashMap<>();
+    private SurfaceCrawlState crawlState = new SurfaceCrawlState();
+    private RefuelState refuelState = new RefuelState();
+    private TransportState transportState = new TransportState();
+    private Boolean ascentSmallStep;
+    private float lifeEssence = -1;
+    private float lifeEssenceCheckTimer;
+    private float lifeEssenceDrainTimer;
+    private boolean lowLifeEssenceWarned;
+    private boolean lifeEssenceDepleted;
 
     private static ComponentType<EntityStore, HexCreatureComponent> TYPE;
 
@@ -62,6 +84,8 @@ public class HexCreatureComponent implements Component<EntityStore> {
             .append(new KeyedCodec<>("MarkedToDespawn", Codec.BOOLEAN), (component, value) -> component.markedToDespawn = value, component -> component.markedToDespawn).add()
             .append(new KeyedCodec<>("LastState", Codec.STRING), (component, value) -> component.lastState = value, component -> component.lastState).add()
             .append(new KeyedCodec<>("LastSubState", Codec.STRING), (component, value) -> component.lastSubState = value, component -> component.lastSubState).add()
+            .append(new KeyedCodec<>("LifeEssence", Codec.FLOAT), (component, value) -> component.lifeEssence = value > 0 ? value : -1, component -> component.lifeEssence).add()
+            .append(new KeyedCodec<>("Transport", TransportState.CODEC), (component, value) -> component.transportState = value != null ? value : new TransportState(), component -> component.transportState.isActive() ? component.transportState : null).add()
             .build();
 
     public HexCreatureComponent() {
@@ -251,6 +275,36 @@ public class HexCreatureComponent implements Component<EntityStore> {
         }
     }
 
+    public void markChestUnreachable(Vector3d chestPosition, long durationMillis) {
+        if (chestPosition == null) return;
+        unreachableChests.put(blockKey(chestPosition), System.currentTimeMillis() + durationMillis);
+    }
+
+    public boolean isChestUnreachable(Vector3d chestPosition) {
+        if (chestPosition == null || unreachableChests.isEmpty()) return false;
+
+        long now = System.currentTimeMillis();
+        unreachableChests.values().removeIf(expiresAt -> expiresAt <= now);
+        return unreachableChests.containsKey(blockKey(chestPosition));
+    }
+
+    public List<Vector3d> withoutUnreachableChests(List<Vector3d> chestPositions) {
+        if (unreachableChests.isEmpty()) return chestPositions;
+
+        List<Vector3d> reachable = new ArrayList<>();
+        for (Vector3d chestPosition : chestPositions) {
+            if (!isChestUnreachable(chestPosition)) reachable.add(chestPosition);
+        }
+        return reachable;
+    }
+
+    private static long blockKey(Vector3d position) {
+        long x = (long) Math.floor(position.x) & 0x3FFFFFFL;
+        long y = (long) Math.floor(position.y) & 0xFFFL;
+        long z = (long) Math.floor(position.z) & 0x3FFFFFFL;
+        return (x << 38) | (y << 26) | z;
+    }
+
     private static boolean isExcluded(Vector3d position, List<Vector3d> excludedPositions) {
         for (Vector3d excluded : excludedPositions) {
             if (isSameBlock(position, excluded)) return true;
@@ -391,8 +445,160 @@ public class HexCreatureComponent implements Component<EntityStore> {
         return nearest;
     }
 
+    public List<String> getRememberedItemIds() {
+        List<String> itemIds = new ArrayList<>();
+        if (listChestMemory == null) return itemIds;
+
+        for (ChestMemoryComponent memory : listChestMemory) {
+            if (memory == null || memory.getListItemsId() == null) continue;
+
+            for (String itemId : memory.getListItemsId()) {
+                if (itemId != null && !itemId.isEmpty() && !itemIds.contains(itemId)) itemIds.add(itemId);
+            }
+        }
+        return itemIds;
+    }
+
+    public List<ChestMemoryComponent> findChestMemoriesWithItem(String itemId, Vector3d position) {
+        List<ChestMemoryComponent> memories = new ArrayList<>();
+        if (listChestMemory == null || itemId == null) return memories;
+
+        for (ChestMemoryComponent memory : listChestMemory) {
+            if (memory == null || memory.getChestPosition() == null || memory.getListItemsId() == null) continue;
+            if (Arrays.asList(memory.getListItemsId()).contains(itemId)) memories.add(memory);
+        }
+
+        if (position != null) {
+            memories.sort((a, b) -> Double.compare(position.distanceSquared(a.getChestPosition()), position.distanceSquared(b.getChestPosition())));
+        }
+        return memories;
+    }
+
+    @Nullable
+    public Vector3d getSearchChestPosition() {
+        return searchChestPosition;
+    }
+
+    public void setSearchChestPosition(@Nullable Vector3d searchChestPosition) {
+        this.searchChestPosition = searchChestPosition;
+    }
+
+    @Nonnull
+    public SurfaceCrawlState getCrawlState() {
+        return crawlState;
+    }
+
+    @Nonnull
+    public RefuelState getRefuelState() {
+        return refuelState;
+    }
+
+    @Nonnull
+    public TransportState getTransportState() {
+        return transportState;
+    }
+
+    @Nullable
+    public Boolean getAscentSmallStep() {
+        return ascentSmallStep;
+    }
+
+    public void setAscentSmallStep(@Nullable Boolean ascentSmallStep) {
+        this.ascentSmallStep = ascentSmallStep;
+    }
+
+    @Nullable
+    public Vector3d getExploreChestPosition() {
+        return exploreChestPosition;
+    }
+
+    public void setExploreChestPosition(@Nullable Vector3d exploreChestPosition) {
+        this.exploreChestPosition = exploreChestPosition;
+        this.exploreChestSince = System.currentTimeMillis();
+    }
+
+    public long getExploreChestSince() {
+        return exploreChestSince;
+    }
+
+    public long getLastExploreSearch() {
+        return lastExploreSearch;
+    }
+
+    public void setLastExploreSearch(long lastExploreSearch) {
+        this.lastExploreSearch = lastExploreSearch;
+    }
+
+    @Nullable
+    public Vector3d getExploreAnchor() {
+        return exploreAnchor;
+    }
+
+    public void setExploreAnchor(@Nullable Vector3d exploreAnchor) {
+        this.exploreAnchor = exploreAnchor;
+    }
+
+    public void markChestVisited(Vector3d chestPosition) {
+        if (chestPosition == null) return;
+        visitedChests.put(blockKey(chestPosition), System.currentTimeMillis());
+    }
+
+    public boolean wasChestVisitedRecently(Vector3d chestPosition, long durationMillis) {
+        if (chestPosition == null) return false;
+
+        Long visitedAt = visitedChests.get(blockKey(chestPosition));
+        return visitedAt != null && System.currentTimeMillis() - visitedAt < durationMillis;
+    }
+
+    public void clearVisitedChests() {
+        visitedChests.clear();
+    }
+
     public void markToDespawn() {
         markedToDespawn = true;
+    }
+
+    public boolean hasLifeEssence() {
+        return lifeEssence >= 0;
+    }
+
+    public float getLifeEssence() {
+        return Math.max(0, lifeEssence);
+    }
+
+    public void setLifeEssence(float lifeEssence) {
+        this.lifeEssence = Math.max(0, Math.round(lifeEssence * 1000f) / 1000f);
+    }
+
+    public boolean pollLifeEssenceCheck(float dt, float interval) {
+        lifeEssenceCheckTimer += dt;
+        if (lifeEssenceCheckTimer < interval) return false;
+
+        lifeEssenceCheckTimer = 0;
+        return true;
+    }
+
+    public int pollLifeEssenceDrainSteps(float dt, float interval) {
+        lifeEssenceDrainTimer += dt;
+        int steps = (int) (lifeEssenceDrainTimer / interval);
+        lifeEssenceDrainTimer -= steps * interval;
+        return steps;
+    }
+
+    public boolean isLowLifeEssenceWarned() {
+        return lowLifeEssenceWarned;
+    }
+
+    public void setLowLifeEssenceWarned(boolean lowLifeEssenceWarned) {
+        this.lowLifeEssenceWarned = lowLifeEssenceWarned;
+    }
+
+    public boolean isLifeEssenceDepleted() {
+        return lifeEssenceDepleted;
+    }
+
+    public void setLifeEssenceDepleted(boolean lifeEssenceDepleted) {
+        this.lifeEssenceDepleted = lifeEssenceDepleted;
     }
 
     @Nullable
@@ -412,6 +618,22 @@ public class HexCreatureComponent implements Component<EntityStore> {
         clone.listChestTask = this.listChestTask;
         clone.lastState = this.lastState;
         clone.lastSubState = this.lastSubState;
+        clone.unreachableChests = this.unreachableChests;
+        clone.searchChestPosition = this.searchChestPosition;
+        clone.exploreChestPosition = this.exploreChestPosition;
+        clone.exploreAnchor = this.exploreAnchor;
+        clone.exploreChestSince = this.exploreChestSince;
+        clone.lastExploreSearch = this.lastExploreSearch;
+        clone.visitedChests = this.visitedChests;
+        clone.crawlState = this.crawlState;
+        clone.refuelState = this.refuelState;
+        clone.transportState = this.transportState;
+        clone.ascentSmallStep = this.ascentSmallStep;
+        clone.lifeEssence = this.lifeEssence;
+        clone.lifeEssenceCheckTimer = this.lifeEssenceCheckTimer;
+        clone.lifeEssenceDrainTimer = this.lifeEssenceDrainTimer;
+        clone.lowLifeEssenceWarned = this.lowLifeEssenceWarned;
+        clone.lifeEssenceDepleted = this.lifeEssenceDepleted;
         return clone;
     }
 
@@ -430,6 +652,7 @@ public class HexCreatureComponent implements Component<EntityStore> {
                 ", markedToDespawn=" + markedToDespawn +
                 ", lastState='" + lastState + '\'' +
                 ", lastSubState='" + lastSubState + '\'' +
+                ", lifeEssence=" + lifeEssence +
                 '}';
     }
 }

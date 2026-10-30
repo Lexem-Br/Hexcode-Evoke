@@ -23,13 +23,15 @@ items.HexItems.Hex_Fairy_Pink.name=Fada Rosa Hex
 items.HexItems.Hex_Fairy_White.name=Fada Branca Hex
 items.HexItems.Hex_Fairy_Purple.name=Fada Roxa Hex
 items.HexItems.Hex_Homunculus.name=Hex Homunculus
-items.HexItems.Hex_Homunculus.description=Colhe plantações cultivadas em <b>Terra Cristalizada</b> e as armazena no baú mais próximo\n\nArte feita por: Gwentor
+items.HexItems.Hex_Homunculus.description=Um ajudante de laboratório, colhe plantações cultivadas em <b>Terra Cristalizada</b> e as armazena no baú mais próximo, muito útil para a criação de poções\n\nArte feita por: Gwentor
 items.HexItems.Chest_Spider.name=Aranha Baú
 items.HexItems.Chest_Spider.description=<color is="#aaaaaa">Memória dos baús: </color> <color is="#8888ff"><b>128</b></color>\n<color is="#aaaaaa">Distância da visão: </color> <color is="#8888ff"><b>16</b></color>\n<color is="#aaaaaa">Filhotes: </color> <color is="#8888ff"><b>3</b></color>\n\nColoque itens no inventário dela para que sejam armazenados automaticamente em baús.\n\nArte feita por: Gwentor
 items.HexItems.Baby_Chest_Spider.name=Aranha Baú Bebê
 items.HexItems.Baby_Chest_Spider.description=.
 items.HexItems.Hex_Broom.name=Vassoura Hex
 items.HexItems.Hex_Broom.description=Vaga aleatóriamente pelo local, coleta itens e os guarda no baú mais próximo
+items.HexItems.Arcane_Codex_Void.name=Códex Arcano do Vazio
+items.HexItems.Arcane_Codex_Air.name=Códex Arcano do Ar
 
 npcRoles.Void_Mannequin.name=Manequim do Vazio
 npcRoles.Hex_Pumpkin_Scary.name=Abóbora Hex Assustadora
@@ -37,13 +39,90 @@ npcRoles.Hex_Pumpkin_Cute.name=Abóbora Hex Fofa
 npcRoles.Hex_Pumpkin_Green.name=Abóbora Hex Verde
 npcRoles.Hex_Pumpkin_Orange.name=Abóbora Hex Laranja
 npcRoles.Hex_Pumpkin_Yellow.name=Abóbora Hex Amarela
+npcRoles.Wisp_Torch.name=Tocha Fátua
+npcRoles.Creeping_Torch.name=Tocha Rastejante
 
 workbench.benchCategories.evoke=Hexcode Evoke
 
 items.armor.Straw_Hat.name=Chapéu de palha
 
 interactionHints.despawn= Pressione [{key}] para recolher
+interactionHints.openInventory= Pressione [{key}] para abrir o inventário
 interactionHints.ActiveJumpScare= Pressione [{key}] para ativar o modo susto
 interactionHints.DesactiveJumpScare= Pressione [{key}] para desativar o modo susto
+interactionHints.searchItem= Pressione [{key}] para procurar um item
 
 hud.inputBinding.open = Abrir Livro
+
+book.tabs.list=Minhas Criaturas
+book.tabs.guide=Guia
+book.tabs.creatures=Hex Creatures
+book.summary.title=Sumário
+
+book.guide.introduction.title=Bem-vindo, Evocador
+book.guide.introduction.text=O Livro de Evocação dá vida a objetos Hex.\n\nAlguns blocos são itens Hex: ao serem evocados, viram criaturas Hex que te seguem e ajudam em tarefas do dia a dia, como colher plantações, guardar itens em baús ou iluminar o caminho.\n\nEste livro tem três marcadores:\n- Minhas Criaturas: as criaturas Hex que você evocou\n- Guia: dicas e introdução ao mod\n- Hex Creatures: uma página para cada criatura, com item de origem, custo, gasto e características
+book.guide.evoking.title=Evocando
+book.guide.evoking.text=Coloque um item Hex e use a ação primária do Livro de Evocação nele. O item Hex mais próximo ganha vida.\n\nLimite de criaturas Hex: no começo você pode ter 1 criatura Hex por vez. Cada criatura Hex nova que você evoca pela primeira vez é registrada no marcador Hex Creatures e aumenta seu limite em 1.\n\nO que está guardado no bloco vai junto com a criatura: o conteúdo de um baú vai para o inventário da Aranha Baú, e a armadura e a arma de um Manequim Hex são equipadas na criatura.
+book.guide.life_essence.title=Essência de Vida
+book.guide.life_essence.text=Evocar uma criatura Hex custa Essência de Vida. O custo é tirado do seu inventário no momento da evocação. A Essência de Vida gasta fica guardada dentro da criatura.\n\nAlgumas criaturas gastam essa Essência com o tempo, mas só é gasta enquanto a criatura está carregada no mundo.\n\nSe a criatura tiver Essência de Vida no inventário, ela se recarrega sozinha. Criaturas com gasto também recolhem a Essência de Vida jogada no chão perto delas e a guardam no inventário.\n\nQuando o armazenamento chega a zero, a criatura volta a ser o bloco de origem.
+book.guide.essence_tray.title=Bandeja de Essência
+book.guide.essence_tray.text=A Bandeja de Essência serve para guarda Essência de Vida. Quando uma criatura Hex que gasta Essência de Vida chega à metade do armazenamento e há uma bandeja com Essência de Vida por perto, ela para o que está fazendo e vai até a bandeja para pegar um pouco.\n\nColoque bandejas perto de onde suas criaturas trabalham para que a essência nunca acabe.
+book.guide.wands.title=Varinhas de Evocação
+book.guide.wands.text=As varinhas dão ordens às suas criaturas Hex.\n\n- Primária: seleciona uma criatura, ou envia as criaturas selecionadas a um local, onde elas ficam\n- Primária carregada: seleciona todas as criaturas\n- Secundária: remove a seleção de uma criatura, ou faz as selecionadas te seguirem\n- Secundária carregada: remove a seleção de todas as criaturas\n\nCada varinha tem um limite de criaturas selecionadas e um alcance.\n\nO Manequim Hex e o Hex Homunculus carregam itens: selecione um e use a Primária num baú, ou agache e use a Primária em outra criatura sua. Ele guarda ali o que carrega e espera onde estava por mais. Escolha um segundo container e ele leva itens do primeiro para o segundo sem parar.
+book.guide.behaviour.title=Comportamento
+book.guide.behaviour.text=Por padrão, as criaturas Hex te seguem. Quando enviadas a um local com uma varinha, elas ficam lá e começam a trabalhar: a Vassoura Hex vaga recolhendo itens, o Códex Arcano explora os baús próximos, e assim por diante.\n\nSe você se afastar demais, a maioria das criaturas se teleporta até você.\n\nAs criaturas que trabalham com itens sempre procuram o baú mais próximo, então mantenha baús perto de onde elas trabalham.
+book.guide.managing.title=Minhas Criaturas
+book.guide.managing.text=O marcador Minhas Criaturas mostra todas as suas criaturas Hex e quantas você tem do seu limite atual.\n\n- Essência de Vida: quanto ainda resta no armazenamento da criatura e, nas criaturas com gasto, por quanto tempo ainda dura\n- Lápis: edita os nomes das criaturas; aperte Save para confirmar\n- Caixa de seleção: mostra o nome acima da criatura\n- Recolher: remove a criatura, derrubando o item Hex, o inventário dela e a Essência de Vida que restou no armazenamento
+book.guide.reverting.title=Revertendo
+book.guide.reverting.text=Olhe para uma das suas criaturas Hex e use a ação primária do Livro de Evocação para transformá-la de volta no bloco, no lugar onde ela está.\n\nO equipamento do Manequim Hex volta para o manequim, e o inventário da Aranha Baú volta para o baú. A Essência de Vida que restou no armazenamento da criatura cai no chão.\n\nO bloco precisa de espaço livre embaixo da criatura.
+book.guide.tips.title=Dicas
+book.guide.tips.text=Todas as criaturas Hex possuem um inventário, algumas precisam que você agache antes de interagir.
+
+book.creatures.origin=Item de origem: {item}
+book.creatures.cost=Custo: {cost}
+book.creatures.no_cost=Custo: gratuito
+book.creatures.drain=Gasto: {drain}/minuto
+book.creatures.no_drain=Gasto: nenhum
+book.creatures.locked_drain=Gasto: ????
+book.list.essence={stored} / {capacity}
+book.list.essence_time={stored} / {capacity} ({time})
+profile.drain=Gasto: {drain}/min (acaba em {time})
+profile.no_essence=Sem armazenamento de Essência de Vida
+profile.title=Perfil da Hex Creature
+profile.playerInventory=Inventário do Jogador
+profile.evoker=Evocador: {name}
+profile.despawn=Recolher
+profile.leftHand=Mão Esquerda
+profile.rightHand=Mão Direita
+profile.head=Cabeça
+profile.chest=Peito
+profile.hands=Mãos
+profile.legs=Pernas
+profile.hotbar=Hotbar
+profile.inventory=Inventário
+profile.storage=Armazenamento
+profile.backpack=Mochila
+book.creatures.variants=Variantes
+book.creatures.characteristics=Características
+book.creatures.no_description=Ainda não há descrição para esta criatura Hex.
+book.creatures.Hex_Pumpkin.name=Abóbora Hex
+book.creatures.Arcane_Codex.name=Códex Arcano
+book.creatures.Hex_Mannequin.description=Um ajudante que anda e cujo trabalho depende do item na mão direita:\n- Foice: colhe plantações e as guarda no baú mais próximo\n- Regador: rega o solo seco e enche em água próxima\n- Saco de Fertilizante: fertiliza o solo das plantações em crescimento\n\nPode usar armadura. Equipe o bloco do Manequim Hex com armadura e uma arma de uma mão antes de evocar e a criatura fica com elas.\nSem tarefa, guarda no baú mais próximo os itens extras que carrega.
+book.creatures.Hex_Fairy.description=Uma pequena companheira voadora que brilha e te segue por toda parte.
+book.creatures.Homunculus.description=Um ajudante de laboratório, colhe plantações cultivadas em Terra Cristalizada e as guarda no baú mais próximo, muito útil para a criação de poções. Não precisa de foice.
+book.creatures.Chest_Spider.description=Um baú vivo. Ao ser evocada, o conteúdo do baú vai para o inventário dela.\n\nColoque itens no inventário dela e eles são guardados nos seus baús automaticamente.\n\n- Memória de baús: 128\n- Distância de visão: 16\n- Filhotes: 3 Aranhas Baú Bebê, que carregam os itens, recolhem itens do chão e escalam paredes\n\nAo ser revertida, o inventário dela volta para o baú.
+book.creatures.Hex_Pumpkin.description=Uma abóbora brincalhona que te segue e fica onde você a envia.\n\nModo susto: primeiro envie-a a um local com uma varinha para que fique parada, depois agache e interaja com ela para ligar ou desligar o modo. Nesse modo ela espera parada e pula com uma risada quando um jogador se aproxima.
+book.creatures.Hex_Broom.description=Vaga aleatoriamente pelo local, recolhe os itens do chão e os guarda no baú mais próximo.\n\nInteraja com ela para ver os itens que está carregando.
+book.creatures.Arcane_Codex.description=Um livro voador que registra os itens nos baús que já viu.\n\nEnvie-o a um local com uma varinha e ele explora os baús próximos, memorizando o conteúdo deles.\n\nInteraja com ele para procurar um item: ele voa até o baú mais próximo que tem o item e espera lá.
+book.creatures.Wisp_Torch.description=Uma tocha com asas que voa ao seu lado, iluminando o caminho.\n\nAo ser revertida ou recolhida, vira uma tocha de chão.
+book.creatures.Creeping_Torch.description=Uma tocha que anda com quatro pernas e ilumina o caminho.\n\nEscala paredes e sobe degraus de um bloco pulando. Envie-a com uma varinha para qualquer parede ou teto e ela rasteja até lá pelas superfícies.
+
+life_essence.low.title=Pouca Essência de Vida
+life_essence.low.description={name} tem {stored} / {capacity} de Essência de Vida
+life_essence.depleted.title=Essência de Vida esgotada
+life_essence.depleted.description={name} ficou sem Essência de Vida e voltou à forma de origem
+items.Essence_Tray.name=Bandeja de Essência
+items.Essence_Tray.description=Uma pequena bandeja com <b>5 espaços</b> que só guarda <b>Essência de Vida</b>.
+
+unlock.title=Nova criatura Hex registrada
+unlock.description={name} foi registrada no Livro de Evocação

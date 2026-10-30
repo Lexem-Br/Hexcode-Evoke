@@ -8,8 +8,8 @@
           "time": 0,
           "delta": {
             "x": 0,
-            "y": -0.999999,
-            "z": 1.521
+            "y": 67.200009,
+            "z": 16.221018
           },
           "interpolationType": "smooth"
         },
@@ -17,8 +17,8 @@
           "time": 10,
           "delta": {
             "x": 0,
-            "y": 1.000001,
-            "z": 0
+            "y": 68.72101,
+            "z": 18.221019
           },
           "interpolationType": "smooth"
         },
@@ -26,8 +26,8 @@
           "time": 20,
           "delta": {
             "x": 0,
-            "y": -0.999999,
-            "z": -1.479
+            "y": 70.200011,
+            "z": 16.221018
           },
           "interpolationType": "smooth"
         },
@@ -35,8 +35,8 @@
           "time": 30,
           "delta": {
             "x": 0,
-            "y": 1.000001,
-            "z": 0
+            "y": 68.72101,
+            "z": 18.221019
           },
           "interpolationType": "smooth"
         }
@@ -45,10 +45,10 @@
         {
           "time": 0,
           "delta": {
-            "x": 0,
+            "x": 0.707107,
             "y": 0,
             "z": 0,
-            "w": 1
+            "w": 0.707107
           },
           "interpolationType": "smooth"
         }
@@ -1585,34 +1585,6 @@
             "y": 0,
             "z": 0,
             "w": 1
-          },
-          "interpolationType": "smooth"
-        }
-      ],
-      "shapeStretch": [],
-      "shapeVisible": [],
-      "shapeUvOffset": []
-    },
-    "Origin": {
-      "position": [
-        {
-          "time": 0,
-          "delta": {
-            "x": 0,
-            "y": 80,
-            "z": -96
-          },
-          "interpolationType": "smooth"
-        }
-      ],
-      "orientation": [
-        {
-          "time": 0,
-          "delta": {
-            "x": 0.707107,
-            "y": 0,
-            "z": 0,
-            "w": 0.707107
           },
           "interpolationType": "smooth"
         }

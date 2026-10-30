@@ -13,6 +13,9 @@ max_hex_creatures.description2=Hex creatures under your control
 max_distance.description1=Target distance must be less than
 max_distance.description2=blocks
 
+max_transport_distance.description1=Hex creatures can only carry items up to
+max_transport_distance.description2=blocks away
+
 max_wand_selection_exceeded.description1=The wand can only select up to
 max_wand_selection_exceeded.description2=Hex creatures
 
@@ -21,3 +24,6 @@ insufficient_life_essence_quantity.description=Life Essences are needed
 
 evoke_book_not_found.title=Evoke Book not found
 evoke_book_not_found.description=The Evoke Book must be equipped in the utility slot
+
+item_not_found_in_chests.title=Item not found
+item_not_found_in_chests.description=The book does not remember a nearby chest with this item

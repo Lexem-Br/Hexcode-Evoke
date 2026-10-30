@@ -8,6 +8,7 @@ import com.hypixel.hytale.component.Component;
 import com.hypixel.hytale.component.ComponentType;
 import com.hypixel.hytale.math.vector.Vector3dUtil;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
+import com.lexem.hexcodeevoke.hexitems.AllowedHexItemsAsset;
 import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 import org.joml.Vector3d;
 
@@ -18,9 +19,10 @@ import java.util.UUID;
 
 public class EvokerComponent implements Component<EntityStore> {
     private Vector3d targetPosition;
-    private int maxHexCreatures = 6;
+    private static final int BASE_MAX_HEX_CREATURES = 1;
     private String[] selectedHexCreatures = new String[0];
     private HexCreatureComponent[] listHexCreatures = new HexCreatureComponent[0];
+    private String[] unlockedHexCreatures = new String[0];
 
     private static ComponentType<EntityStore, EvokerComponent> TYPE;
 
@@ -40,11 +42,6 @@ public class EvokerComponent implements Component<EntityStore> {
                     component -> component.targetPosition
             ).add()
             .append(
-                    new KeyedCodec<>("MaxHexCreatures",  Codec.INTEGER),
-                    (component, value) -> component.maxHexCreatures = value,
-                    component -> component.maxHexCreatures
-            ).add()
-            .append(
                     new KeyedCodec<>("SelectedHexCreatures",  Codec.STRING_ARRAY),
                     (component, value) -> component.selectedHexCreatures = value,
                     component -> component.selectedHexCreatures
@@ -54,17 +51,20 @@ public class EvokerComponent implements Component<EntityStore> {
                     component -> component.listHexCreatures
             )
             .add()
+            .append(
+                    new KeyedCodec<>("UnlockedHexCreatures",  Codec.STRING_ARRAY),
+                    (component, value) -> component.unlockedHexCreatures = value != null ? value : new String[0],
+                    component -> component.unlockedHexCreatures
+            ).add()
             .build();
 
     public EvokerComponent(){}
 
     public EvokerComponent(
             Vector3d targetPosition,
-            int maxHexCreatures,
             String[] selectedHexCreatures
     ) {
         this.targetPosition = targetPosition;
-        this.maxHexCreatures = maxHexCreatures;
         this.selectedHexCreatures = selectedHexCreatures;
     }
 
@@ -76,9 +76,13 @@ public class EvokerComponent implements Component<EntityStore> {
         this.targetPosition = newTargetPosition;
     }
 
-    public int getMaxHexCreatures() { return maxHexCreatures; }
-
-    public void setMaxHexCreatures(int maxHexCreatures) { this.maxHexCreatures = maxHexCreatures; }
+    public int getMaxHexCreatures() {
+        int max = BASE_MAX_HEX_CREATURES;
+        for (String entityId : unlockedHexCreatures) {
+            if (AllowedHexItemsAsset.isEvokeHexCreature(entityId) && AllowedHexItemsAsset.getMainEntityId(entityId).equals(entityId)) max++;
+        }
+        return max;
+    }
 
     public HexCreatureComponent[] getListHexCreatures() {
         return listHexCreatures;
@@ -191,8 +195,27 @@ public class EvokerComponent implements Component<EntityStore> {
         return true;
     }
 
+    public String[] getUnlockedHexCreatures() { return unlockedHexCreatures; }
+
+    public boolean isHexCreatureUnlocked(String entityId) {
+        for (String s : unlockedHexCreatures) {
+            if (s.equals(entityId)) return true;
+        }
+        return false;
+    }
+
+    public boolean unlockHexCreature(String entityId) {
+        if (entityId == null || entityId.isEmpty() || isHexCreatureUnlocked(entityId)) return false;
+
+        String[] newArray = new String[unlockedHexCreatures.length + 1];
+        System.arraycopy(unlockedHexCreatures, 0, newArray, 0, unlockedHexCreatures.length);
+        newArray[unlockedHexCreatures.length] = entityId;
+        unlockedHexCreatures = newArray;
+        return true;
+    }
+
     public boolean canAddHexCreature() {
-        return listHexCreatures.length < maxHexCreatures;
+        return listHexCreatures.length < getMaxHexCreatures();
     }
 
     public boolean canSelectHexCreature(int wandMaxSelection) {
@@ -204,10 +227,10 @@ public class EvokerComponent implements Component<EntityStore> {
     public Component<EntityStore> clone() {
         EvokerComponent clone = new EvokerComponent(
                 this.targetPosition,
-                this.maxHexCreatures,
                 this.selectedHexCreatures.clone()
         );
         clone.listHexCreatures = this.listHexCreatures.clone();
+        clone.unlockedHexCreatures = this.unlockedHexCreatures.clone();
         return clone;
     }
 
@@ -215,7 +238,6 @@ public class EvokerComponent implements Component<EntityStore> {
     public String toString() {
         return "EvokerComponent{" +
                 "targetPosition=" + targetPosition +
-                ", maxHexCreatures=" + maxHexCreatures +
                 ", selectedHexCreatures=" + Arrays.toString(selectedHexCreatures) +
                 '}';
     }

@@ -13,6 +13,9 @@ max_hex_creatures.description2=criaturas Hex sobre seu controle
 max_distance.description1=A distância do alvo deve ser menor que
 max_distance.description2=blocos
 
+max_transport_distance.description1=As criaturas Hex só levam itens até
+max_transport_distance.description2=blocos de distância
+
 max_wand_selection_exceeded.description1=A varinha só pode selecionar
 max_wand_selection_exceeded.description2=criaturas Hex
 
@@ -21,3 +24,6 @@ insufficient_life_essence_quantity.description=Essência de vida são necessári
 
 evoke_book_not_found.title=Evoke Book não encontrado
 evoke_book_not_found.description=O Evoke Book deve estar equipado no espaço de utilitário
+
+item_not_found_in_chests.title=Item não encontrado
+item_not_found_in_chests.description=O livro não se lembra de um baú próximo com esse item

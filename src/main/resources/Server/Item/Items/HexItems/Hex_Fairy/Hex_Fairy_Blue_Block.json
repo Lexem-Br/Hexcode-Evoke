@@ -9,10 +9,6 @@
     "TimeSeconds": 1,
     "Input": [
       {
-        "ItemId": "Ingredient_Life_Essence",
-        "Quantity": 100
-      },
-      {
         "ItemId": "Ingredient_Crystal_Blue",
         "Quantity": 10
       },

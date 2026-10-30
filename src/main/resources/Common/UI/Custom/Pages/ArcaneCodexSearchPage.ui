@@ -1,0 +1,104 @@
+$C = "../Common.ui";
+
+@CaptionStyle = LabelStyle(
+  FontSize: 14,
+  TextColor: #9aa7b2,
+  Wrap: true
+);
+
+$C.@PageOverlay {}
+
+Group {
+    Anchor: (Full: 0);
+    LayoutMode: MiddleCenter;
+
+    Group {
+        Anchor: (Full: 0);
+        LayoutMode: CenterMiddle;
+
+        Group #SearchPanel {
+            LayoutMode: MiddleCenter;
+            Anchor: (Width: 560, Height: 640);
+
+            $C.@DecoratedContainer {
+                Anchor: (Width: 560, Height: 540);
+
+                #Title {
+                    $C.@Title {
+                        @Text = "Arcane Codex";
+                    }
+                }
+
+                #Content {
+                    Group {
+                        LayoutMode: Left;
+
+                        ItemSlot #HCIcon {
+                            ItemId: "Recipe_Book_Magic_Void";
+                            Anchor: (Width: 80, Height: 80);
+                        }
+
+                        Group {
+                            LayoutMode: MiddleCenter;
+
+                            Label #HCName {
+                                Text: "Hex Creature Name";
+                                Anchor: (Width: 380, Height: 25);
+                                Style: (FontSize: 18, RenderBold: true, VerticalAlignment: Center);
+                                Padding: (Left: 12);
+                            }
+
+                            Label #HCDescription {
+                                Text: "Items found in the chests around the book";
+                                Anchor: (Width: 380, Height: 25);
+                                Style: @CaptionStyle;
+                                Padding: (Left: 12);
+                            }
+                        }
+                    }
+
+                    Group { Anchor: (Height: 20); }
+
+                    Label #EmptyLabel {
+                        Text: "No items found yet. Bring the book close to your chests.";
+                        Anchor: (Height: 30, Left: 5);
+                        Style: @CaptionStyle;
+                        Visible: false;
+                    }
+
+                    Group {
+                        LayoutMode: TopScrolling;
+                        ScrollbarStyle: $C.@DefaultScrollbarStyle;
+                        Anchor: (Height: 330);
+
+                        Group #ItemSlots {
+                            LayoutMode: LeftCenterWrap;
+                        }
+                    }
+                }
+            }
+
+            Group {
+                $C.@Panel {
+                    LayoutMode: CenterMiddle;
+                    Anchor: (Width: 560, Height: 100);
+
+                    Label #SelectedItemName {
+                        Text: "Select an item";
+                        Anchor: (Width: 280, Height: 50);
+                        Style: (FontSize: 16, RenderBold: true, VerticalAlignment: Center, TextColor: #c9a050);
+                        Padding: (Left: 12);
+                    }
+
+                    Group { Anchor: (Width: 10); }
+
+                    $C.@TextButton #SearchButton {
+                        @Anchor = (Width: 200, Height: 50);
+                        @Text = "Search";
+                        TooltipText: "The book flies to the chest that has the selected item";
+                    }
+                }
+            }
+        }
+    }
+}

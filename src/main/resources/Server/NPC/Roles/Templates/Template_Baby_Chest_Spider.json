@@ -19,7 +19,8 @@
   "DefaultPlayerAttitude": "Ignore",
   "ApplySeparation": true,
   "SeparationDistance": 1.0,
-  "SeparationWeight": 0.6,
+  "SeparationWeight": 0.7,
+  "SeparationLegacySteeringStrength": 0.2,
   "InventorySize": 0,
   "HotbarSize": 3,
   "OffHandSlots": 1,
@@ -42,6 +43,7 @@
       "AscentAnimationType": "Climb",
       "ClimbSpeedConst": 3,
       "MaxDropHeight": 5,
+      "MinDescentAnimationHeight": 1.5,
       "DescendFlatness": 0.1,
       "DescendSpeedCompensation": 0,
       "DescentSteepness": 0.5,
@@ -200,6 +202,20 @@
               ]
             },
             {
+              "$Comment": "With no task, picks up an item dropped nearby to take it to the mother",
+              "Sensor": {
+                "Type": "DroppedItem",
+                "Range": 6,
+                "LineOfSight": true
+              },
+              "Actions": [
+                {
+                  "Type": "State",
+                  "State": ".PickUpItem"
+                }
+              ]
+            },
+            {
               "$Comment": "Returns to standby mode",
               "Sensor": {
                 "Type": "Any"
@@ -210,6 +226,97 @@
                   "State": ".Standby"
                 }
               ]
+            }
+          ]
+        },
+        {
+          "$Comment": "Go to the dropped item and pick it up",
+          "Sensor": {
+            "Type": "State",
+            "State": ".PickUpItem"
+          },
+          "Instructions": [
+            {
+              "$Comment": "Gives up after a while if the item can't be reached",
+              "Continue": true,
+              "Sensor": {
+                "Type": "Any"
+              },
+              "Actions": [
+                {
+                  "Type": "Timeout",
+                  "Delay": [10, 10],
+                  "Action": {
+                    "Type": "State",
+                    "State": "CheckTasks"
+                  }
+                }
+              ]
+            },
+            {
+              "$Comment": "Item picked up, take it to the mother",
+              "Sensor": {
+                "Type": "Self",
+                "Filters": [
+                  {
+                    "Type": "Evoke:HasItemsOnInventory"
+                  }
+                ]
+              },
+              "Actions": [
+                {
+                  "Type": "State",
+                  "State": ".ReturnPickedItems"
+                }
+              ]
+            },
+            {
+              "Sensor": {
+                "Type": "DroppedItem",
+                "Range": 6,
+                "LineOfSight": true
+              },
+              "BodyMotion": {
+                "Type": "Seek",
+                "SlowDownDistance": 1.5,
+                "StopDistance": 0.5,
+                "RelativeSpeed": 0.5
+              },
+              "Actions": [
+                {
+                  "Type": "Evoke:HCPickUpItem",
+                  "Range": 1,
+                  "SkipHandSlot": true
+                }
+              ]
+            },
+            {
+              "$Comment": "The item is gone (picked up by someone else or despawned)",
+              "Sensor": {
+                "Type": "Any"
+              },
+              "Actions": [
+                {
+                  "Type": "State",
+                  "State": "CheckTasks"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$Comment": "Take the picked up items to the mother, without creating search tasks",
+          "Sensor": {
+            "Type": "State",
+            "State": ".ReturnPickedItems"
+          },
+          "Instructions": [
+            {
+              "Reference": "Component_Evoke_Return_Items",
+              "Modify": {
+                "_ExportStates": ["CheckTasks"],
+                "SearchTaskRange": 0
+              }
             }
           ]
         },

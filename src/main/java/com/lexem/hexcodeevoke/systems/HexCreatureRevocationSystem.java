@@ -37,7 +37,7 @@ public class HexCreatureRevocationSystem extends RefSystem<EntityStore> {
 
         if (!isRevoked(ref, store, hexCreature)) return;
 
-        HexCreatureDespawner.despawnFromEvokeBook(store, ref, commandBuffer);
+        HexCreatureDespawner.despawnByOwner(store, ref, commandBuffer);
         commandBuffer.tryRemoveEntity(ref, RemoveReason.REMOVE);
     }
 

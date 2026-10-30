@@ -1,0 +1,36 @@
+{
+  "Spawners": [
+    {
+      "SpawnerId": "Torch_Smoke_Cartoon",
+      "PositionOffset": {
+        "Y": -0.25
+      }
+    },
+    {
+      "Attractors": [],
+      "SpawnerId": "Torch_Fire_Center",
+      "PositionOffset": {
+        "Y": -0.25
+      }
+    },
+    {
+      "SpawnerId": "Torch_Fire_Up",
+      "PositionOffset": {
+        "Y": -0.25
+      }
+    },
+    {
+      "SpawnerId": "Fire_Center_White",
+      "PositionOffset": {
+        "Y": -0.25
+      }
+    },
+    {
+      "SpawnerId": "Torch_Sparks_Up",
+      "PositionOffset": {
+        "Y": -0.25
+      }
+    }
+  ],
+  "CullDistance": 100
+}

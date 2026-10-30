@@ -8,8 +8,8 @@
           "time": 0,
           "delta": {
             "x": 0,
-            "y": -0.999999,
-            "z": 1.521
+            "y": 21.199991,
+            "z": 16.820982
           },
           "interpolationType": "smooth"
         },
@@ -17,8 +17,8 @@
           "time": 10,
           "delta": {
             "x": 0,
-            "y": 1.000001,
-            "z": 0
+            "y": 19.67899,
+            "z": 14.820981
           },
           "interpolationType": "smooth"
         },
@@ -26,8 +26,8 @@
           "time": 20,
           "delta": {
             "x": 0,
-            "y": -0.999999,
-            "z": -1.479
+            "y": 18.199989,
+            "z": 16.820982
           },
           "interpolationType": "smooth"
         },
@@ -35,8 +35,8 @@
           "time": 30,
           "delta": {
             "x": 0,
-            "y": 1.000001,
-            "z": 0
+            "y": 19.67899,
+            "z": 14.820981
           },
           "interpolationType": "smooth"
         }
@@ -45,10 +45,10 @@
         {
           "time": 0,
           "delta": {
-            "x": 0,
+            "x": -0.707107,
             "y": 0,
             "z": 0,
-            "w": 1
+            "w": 0.707107
           },
           "interpolationType": "smooth"
         }
@@ -1585,34 +1585,6 @@
             "y": 0,
             "z": -0.173648,
             "w": 0.984808
-          },
-          "interpolationType": "smooth"
-        }
-      ],
-      "shapeStretch": [],
-      "shapeVisible": [],
-      "shapeUvOffset": []
-    },
-    "Origin": {
-      "position": [
-        {
-          "time": 0,
-          "delta": {
-            "x": 0,
-            "y": 64,
-            "z": 80
-          },
-          "interpolationType": "smooth"
-        }
-      ],
-      "orientation": [
-        {
-          "time": 0,
-          "delta": {
-            "x": -0.707107,
-            "y": 0,
-            "z": 0,
-            "w": 0.707107
           },
           "interpolationType": "smooth"
         }
