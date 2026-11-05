@@ -1,0 +1,328 @@
+{
+  "version": 8,
+  "blockIdVersion": 11,
+  "anchorX": 0,
+  "anchorY": 0,
+  "anchorZ": 0,
+  "blocks": [
+    {
+      "x": -1,
+      "y": 1,
+      "z": -1,
+      "name": "Evoke_Void_Arena_Portal",
+      "filler": 1023
+    },
+    {
+      "x": -1,
+      "y": 1,
+      "z": 0,
+      "name": "Evoke_Void_Arena_Portal",
+      "filler": 31
+    },
+    {
+      "x": -1,
+      "y": 1,
+      "z": 1,
+      "name": "Evoke_Void_Arena_Portal",
+      "filler": 63
+    },
+    {
+      "x": 0,
+      "y": 1,
+      "z": -1,
+      "name": "Evoke_Void_Arena_Portal",
+      "filler": 992
+    },
+    {
+      "x": 0,
+      "y": 1,
+      "z": 0,
+      "name": "Evoke_Void_Arena_Portal"
+    },
+    {
+      "x": 0,
+      "y": 1,
+      "z": 1,
+      "name": "Evoke_Void_Arena_Portal",
+      "filler": 32
+    },
+    {
+      "x": 1,
+      "y": 1,
+      "z": -1,
+      "name": "Evoke_Void_Arena_Portal",
+      "filler": 993
+    },
+    {
+      "x": 1,
+      "y": 1,
+      "z": 0,
+      "name": "Evoke_Void_Arena_Portal",
+      "filler": 1
+    },
+    {
+      "x": 1,
+      "y": 1,
+      "z": 1,
+      "name": "Evoke_Void_Arena_Portal",
+      "filler": 33
+    },
+    {
+      "x": -1,
+      "y": 2,
+      "z": -1,
+      "name": "Evoke_Void_Arena_Portal",
+      "filler": 2047
+    },
+    {
+      "x": -1,
+      "y": 2,
+      "z": 0,
+      "name": "Evoke_Void_Arena_Portal",
+      "filler": 1055
+    },
+    {
+      "x": -1,
+      "y": 2,
+      "z": 1,
+      "name": "Evoke_Void_Arena_Portal",
+      "filler": 1087
+    },
+    {
+      "x": 0,
+      "y": 2,
+      "z": -1,
+      "name": "Evoke_Void_Arena_Portal",
+      "filler": 2016
+    },
+    {
+      "x": 0,
+      "y": 2,
+      "z": 0,
+      "name": "Evoke_Void_Arena_Portal",
+      "filler": 1024
+    },
+    {
+      "x": 0,
+      "y": 2,
+      "z": 1,
+      "name": "Evoke_Void_Arena_Portal",
+      "filler": 1056
+    },
+    {
+      "x": 1,
+      "y": 2,
+      "z": -1,
+      "name": "Evoke_Void_Arena_Portal",
+      "filler": 2017
+    },
+    {
+      "x": 1,
+      "y": 2,
+      "z": 0,
+      "name": "Evoke_Void_Arena_Portal",
+      "filler": 1025
+    },
+    {
+      "x": 1,
+      "y": 2,
+      "z": 1,
+      "name": "Evoke_Void_Arena_Portal",
+      "filler": 1057
+    },
+    {
+      "x": -1,
+      "y": 3,
+      "z": -1,
+      "name": "Evoke_Void_Arena_Portal",
+      "filler": 3071
+    },
+    {
+      "x": -1,
+      "y": 3,
+      "z": 0,
+      "name": "Evoke_Void_Arena_Portal",
+      "filler": 2079
+    },
+    {
+      "x": -1,
+      "y": 3,
+      "z": 1,
+      "name": "Evoke_Void_Arena_Portal",
+      "filler": 2111
+    },
+    {
+      "x": 0,
+      "y": 3,
+      "z": -1,
+      "name": "Evoke_Void_Arena_Portal",
+      "filler": 3040
+    },
+    {
+      "x": 0,
+      "y": 3,
+      "z": 0,
+      "name": "Evoke_Void_Arena_Portal",
+      "filler": 2048
+    },
+    {
+      "x": 0,
+      "y": 3,
+      "z": 1,
+      "name": "Evoke_Void_Arena_Portal",
+      "filler": 2080
+    },
+    {
+      "x": 1,
+      "y": 3,
+      "z": -1,
+      "name": "Evoke_Void_Arena_Portal",
+      "filler": 3041
+    },
+    {
+      "x": 1,
+      "y": 3,
+      "z": 0,
+      "name": "Evoke_Void_Arena_Portal",
+      "filler": 2049
+    },
+    {
+      "x": 1,
+      "y": 3,
+      "z": 1,
+      "name": "Evoke_Void_Arena_Portal",
+      "filler": 2081
+    },
+    {
+      "x": -1,
+      "y": 4,
+      "z": -1,
+      "name": "Evoke_Void_Arena_Portal",
+      "filler": 4095
+    },
+    {
+      "x": -1,
+      "y": 4,
+      "z": 0,
+      "name": "Evoke_Void_Arena_Portal",
+      "filler": 3103
+    },
+    {
+      "x": -1,
+      "y": 4,
+      "z": 1,
+      "name": "Evoke_Void_Arena_Portal",
+      "filler": 3135
+    },
+    {
+      "x": 0,
+      "y": 4,
+      "z": -1,
+      "name": "Evoke_Void_Arena_Portal",
+      "filler": 4064
+    },
+    {
+      "x": 0,
+      "y": 4,
+      "z": 0,
+      "name": "Evoke_Void_Arena_Portal",
+      "filler": 3072
+    },
+    {
+      "x": 0,
+      "y": 4,
+      "z": 1,
+      "name": "Evoke_Void_Arena_Portal",
+      "filler": 3104
+    },
+    {
+      "x": 1,
+      "y": 4,
+      "z": -1,
+      "name": "Evoke_Void_Arena_Portal",
+      "filler": 4065
+    },
+    {
+      "x": 1,
+      "y": 4,
+      "z": 0,
+      "name": "Evoke_Void_Arena_Portal",
+      "filler": 3073
+    },
+    {
+      "x": 1,
+      "y": 4,
+      "z": 1,
+      "name": "Evoke_Void_Arena_Portal",
+      "filler": 3105
+    }
+  ],
+  "entities": [
+    {
+      "Components": {
+        "Transform": {
+          "Position": {
+            "X": 3.5,
+            "Y": 1.0,
+            "Z": 0.5
+          },
+          "Rotation": {
+            "Pitch": 0.0,
+            "Yaw": 90.0,
+            "Roll": 0.0
+          }
+        },
+        "SpawnMarkerComponent": {
+          "SpawnMarker": "Evoke_Void_Arena_Void_Mannequin",
+          "RespawnTime": 0.0,
+          "SpawnCount": 0,
+          "NPCReferences": []
+        },
+        "Model": {
+          "Model": {
+            "Id": "NPC_Spawn_Marker",
+            "Scale": 1.0,
+            "Static": false
+          }
+        },
+        "HiddenFromAdventurePlayer": {},
+        "Nameplate": {
+          "Text": "Evoke_Void_Arena_Void_Mannequin"
+        }
+      }
+    },
+    {
+      "Components": {
+        "Transform": {
+          "Position": {
+            "X": -2.5,
+            "Y": 1.0,
+            "Z": 0.5
+          },
+          "Rotation": {
+            "Pitch": 0.0,
+            "Yaw": -90.0,
+            "Roll": 0.0
+          }
+        },
+        "SpawnMarkerComponent": {
+          "SpawnMarker": "Evoke_Void_Arena_Void_Mannequin",
+          "RespawnTime": 0.0,
+          "SpawnCount": 0,
+          "NPCReferences": []
+        },
+        "Model": {
+          "Model": {
+            "Id": "NPC_Spawn_Marker",
+            "Scale": 1.0,
+            "Static": false
+          }
+        },
+        "HiddenFromAdventurePlayer": {},
+        "Nameplate": {
+          "Text": "Evoke_Void_Arena_Void_Mannequin"
+        }
+      }
+    }
+  ]
+}

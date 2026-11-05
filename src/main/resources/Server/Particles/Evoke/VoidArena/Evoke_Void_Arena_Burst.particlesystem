@@ -1,0 +1,41 @@
+{
+  "Spawners": [
+    {
+      "SpawnerId": "Evoke_VoidBreach_Implosion"
+    },
+    {
+      "SpawnerId": "Evoke_VoidBreach_Lightning3",
+      "RotationOffset": {
+        "Yaw": 45
+      },
+      "StartDelay": 0.2
+    },
+    {
+      "SpawnerId": "Evoke_VoidBreach_Lightning3",
+      "RotationOffset": {
+        "Yaw": 135
+      },
+      "StartDelay": 0.3
+    },
+    {
+      "SpawnerId": "Evoke_VoidBreach_Lightning2",
+      "RotationOffset": {
+        "Yaw": 25
+      },
+      "StartDelay": 0.4
+    },
+    {
+      "SpawnerId": "Evoke_VoidBreach_Glow",
+      "StartDelay": 0.5
+    },
+    {
+      "SpawnerId": "Evoke_VoidBreach_Portal_Shockwave",
+      "StartDelay": 1.2
+    },
+    {
+      "SpawnerId": "Evoke_VoidBreach_Portal_Shockwave2",
+      "StartDelay": 1.2
+    }
+  ],
+  "CullDistance": 120
+}

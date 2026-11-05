@@ -1,0 +1,51 @@
+{
+  "$Comment": "Placeholder loot for the Void Arena reward chest. Rolled once per player inside the arena (up to 4 rolls) when the Void chest unlocks after the fifth wave.",
+  "Container": {
+    "Type": "Multiple",
+    "Containers": [
+      {
+        "Type": "Single",
+        "Item": {
+          "ItemId": "Ingredient_Void_Essence",
+          "QuantityMin": 8,
+          "QuantityMax": 14
+        }
+      },
+      {
+        "Type": "Single",
+        "Item": {
+          "ItemId": "Ingredient_Crystal_Void",
+          "QuantityMin": 3,
+          "QuantityMax": 6
+        }
+      },
+      {
+        "Type": "Single",
+        "Item": {
+          "ItemId": "Ingredient_Voidheart",
+          "QuantityMin": 1,
+          "QuantityMax": 2
+        }
+      },
+      {
+        "Type": "Choice",
+        "Weight": 100,
+        "Containers": [
+          {
+            "Type": "Empty",
+            "Weight": 70
+          },
+          {
+            "Type": "Single",
+            "Weight": 30,
+            "Item": {
+              "ItemId": "Void_Arena_Key",
+              "QuantityMin": 1,
+              "QuantityMax": 1
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

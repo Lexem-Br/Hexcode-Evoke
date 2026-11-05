@@ -1,0 +1,113 @@
+{
+  "RenderMode": "Erosion",
+  "ParticleRotationInfluence": "None",
+  "LinearFiltering": false,
+  "LightInfluence": 0,
+  "MaxConcurrentParticles": 1,
+  "ParticleLifeSpan": {
+    "Min": 5,
+    "Max": 5
+  },
+  "ParticleRotateWithSpawner": true,
+  "SpawnRate": {
+    "Min": 1.5,
+    "Max": 1.0
+  },
+  "Particle": {
+    "Texture": "Particles/Textures/Rnd/Crack_Split.png",
+    "ScaleRatioConstraint": "OneToOne",
+    "Animation": {
+      "0": {
+        "FrameIndex": {
+          "Min": 0,
+          "Max": 0
+        },
+        "Opacity": 0,
+        "Scale": {
+          "X": {
+            "Min": 1,
+            "Max": 1
+          }
+        },
+        "Color": "#000000",
+        "Rotation": {
+          "X": {
+            "Min": 0.0,
+            "Max": 0.0
+          },
+          "Y": {
+            "Min": 0.0,
+            "Max": 0.0
+          },
+          "Z": {
+            "Max": 0.0,
+            "Min": 0.0
+          }
+        }
+      },
+      "5": {
+        "Opacity": 0.268
+      },
+      "15": {
+        "Opacity": 0.268
+      },
+      "20": {
+        "Opacity": 0.268,
+        "Rotation": {
+          "Z": {
+            "Min": 0.0,
+            "Max": 0.0
+          }
+        },
+        "Color": "#000000"
+      },
+      "30": {
+        "Opacity": 0.864,
+        "Color": "#000000"
+      },
+      "40": {
+        "Opacity": 0.944
+      },
+      "70": {
+        "Opacity": 0.98,
+        "Color": "#aa00ff"
+      },
+      "100": {
+        "Opacity": 1
+      }
+    },
+    "InitialAnimationFrame": {
+      "Scale": {
+        "X": {
+          "Min": 1,
+          "Max": 1
+        }
+      },
+      "Opacity": 1,
+      "FrameIndex": {
+        "Min": 0,
+        "Max": 0
+      },
+      "Rotation": {
+        "X": {
+          "Min": 90,
+          "Max": 90
+        },
+        "Z": {
+          "Min": 90,
+          "Max": 90
+        }
+      }
+    },
+    "UVOption": "None"
+  },
+  "EmitOffset": {
+    "Z": {
+      "Max": 0.1
+    }
+  },
+  "TotalParticles": {
+    "Min": 1,
+    "Max": 1
+  }
+}

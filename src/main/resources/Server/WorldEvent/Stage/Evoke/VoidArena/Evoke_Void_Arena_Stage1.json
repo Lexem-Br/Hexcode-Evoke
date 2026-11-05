@@ -1,0 +1,18 @@
+{
+  "Forks": [
+    {
+      "$Comment": "Only wait here, the site search happens in Evoke_Void_Arena_Stage1_Place after the wait.",
+      "Conditions": [
+        {
+          "Type": "IntervalCondition",
+          "IntervalKey": "EvokeVoidArenaInterval",
+          "MinSeconds": 2400,
+          "MaxSeconds": 2400,
+          "ShowOnMap": true,
+          "MapIntervalKey": "server.map.worldEvents.nextIn"
+        }
+      ],
+      "Next": "Evoke_Void_Arena_Stage1_Place"
+    }
+  ]
+}

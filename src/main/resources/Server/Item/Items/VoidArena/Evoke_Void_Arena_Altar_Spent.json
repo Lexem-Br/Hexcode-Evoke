@@ -1,0 +1,96 @@
+{
+  "$Comment": "The chest after the victory. VoidArenaManager fills it with Drop_Evoke_Void_Arena_Reward when the last wave is cleared.",
+  "TranslationProperties": {
+    "Name": "evoke.items.Evoke_Void_Arena_Altar_Spent.name",
+    "Description": "evoke.items.Evoke_Void_Arena_Altar_Spent.description"
+  },
+  "PlayerAnimationsId": "Block",
+  "Categories": [
+    "Furniture.Containers"
+  ],
+  "Icon": "Icons/ItemsGenerated/Furniture_Dungeon_Chest_Epic.png",
+  "Quality": "Developer",
+  "BlockType": {
+    "BlockParticleSetId": "Wood",
+    "BlockSoundSetId": "Wood",
+    "PhysicalMaterialId": "Wood",
+    "CustomModel": "Blocks/Dungeons/Chest_Epic_Small.blockymodel",
+    "CustomModelTexture": [
+      {
+        "Texture": "Blocks/Dungeons/Chest_Epic_Small_Texture.png",
+        "Weight": 1
+      }
+    ],
+    "DrawType": "Model",
+    "Flags": {},
+    "Gathering": {
+      "Breaking": {
+        "GatherType": "Unbreakable"
+      }
+    },
+    "HitboxType": "Full",
+    "Material": "Solid",
+    "Opacity": "Transparent",
+    "ParticleColor": "#7a3d27",
+    "State": {
+      "Definitions": {
+        "CloseWindow": {
+          "InteractionSoundEventId": "SFX_Chest_Wooden_Close",
+          "CustomModelAnimation": "Blocks/Animations/Chest/Chest_Close.blockyanim"
+        },
+        "OpenWindow": {
+          "InteractionSoundEventId": "SFX_Chest_Wooden_Open",
+          "CustomModelAnimation": "Blocks/Animations/Chest/Chest_Open.blockyanim"
+        }
+      }
+    },
+    "BlockEntity": {
+      "Components": {
+        "ItemContainerBlock": {
+          "Capacity": 18
+        }
+      }
+    },
+    "Particles": [
+      {
+        "SystemId": "Evoke_Void_Arena_Altar_Idle",
+        "Scale": 0.4,
+        "PositionOffset": {
+          "Y": 0.6
+        }
+      }
+    ],
+    "Light": {
+      "Color": "#a4f",
+      "Radius": 5
+    },
+    "VariantRotation": "NESW",
+    "InteractionHint": "server.interactionHints.openDoor",
+    "Interactions": {
+      "Use": "Open_Container"
+    },
+    "TextureComputedColor": "#694120"
+  },
+  "Tags": {
+    "Type": [
+      "Furniture"
+    ],
+    "Family": [
+      "Dungeon"
+    ]
+  },
+  "IconProperties": {
+    "Scale": 0.55,
+    "Translation": [
+      0,
+      -15
+    ],
+    "Rotation": [
+      22.5,
+      45,
+      22.5
+    ]
+  },
+  "ItemSoundSetId": "ISS_Blocks_Wood",
+  "MaxStack": 1
+}

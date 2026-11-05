@@ -1,0 +1,38 @@
+{
+  "Spawners": [
+    {
+      "SpawnerId": "Evoke_VoidBreach_Lightning4"
+    },
+    {
+      "SpawnerId": "Evoke_VoidBreach_Lightning5"
+    },
+    {
+      "SpawnerId": "Evoke_VoidBreach_Glow_Passive"
+    },
+    {
+      "SpawnerId": "Evoke_VoidBreach_ElectricSparks",
+      "PositionOffset": {
+        "Y": 1
+      }
+    },
+    {
+      "SpawnerId": "Evoke_VoidBreach_Glow_Passive",
+      "RotationOffset": {
+        "Yaw": 90
+      }
+    },
+    {
+      "SpawnerId": "Evoke_VoidBreach_Lightning6",
+      "RotationOffset": {
+        "Pitch": 180
+      }
+    },
+    {
+      "SpawnerId": "Evoke_VoidBreach_Lightning_Circle",
+      "PositionOffset": {
+        "Y": 30
+      }
+    }
+  ],
+  "CullDistance": 300
+}

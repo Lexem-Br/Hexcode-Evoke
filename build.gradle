@@ -33,6 +33,7 @@ hytaleTools {
     includesPack = project.includes_pack.toString().toBoolean()
     patchline = project.patchline.toString()
 
+    manifestDependencies='Hytale:AssetModule=*,Hytale:EntityModule=*,Hytale:NPC=*,Hytale:Instances=*,Hytale:WorldEvents=*,Hytale:EncounterManager=*,Hytale:TriggerVolumes=*'
     manifestOptionalDependencies='Riprod:Hexcode=^0.11.0,Riprod:Patchly=*'
 
     debugEnabled = true

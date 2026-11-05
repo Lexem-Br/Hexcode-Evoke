@@ -1,0 +1,83 @@
+{
+  "Version": 4,
+  "UUID": {
+    "$binary": "Xjr/i4cyTZOHnUGpx+EwBA==",
+    "$type": "04"
+  },
+  "DisplayName": "Evoke Void Arena",
+  "Seed": 1793474884517,
+  "WorldGen": {
+    "Type": "HytaleGenerator",
+    "WorldStructure": "Default_Void"
+  },
+  "SpawnProvider": {
+    "Id": "Global",
+    "SpawnPoint": {
+      "X": 0.5,
+      "Y": 80,
+      "Z": 0.5,
+      "Pitch": 0,
+      "Yaw": 180,
+      "Roll": 0.0
+    }
+  },
+  "GameMode": "Adventure",
+  "WorldMap": {
+    "Type": "WorldGen"
+  },
+  "ChunkStorage": {
+    "Type": "Hytale"
+  },
+  "ChunkConfig": {},
+  "IsTicking": true,
+  "IsBlockTicking": true,
+  "IsPvpEnabled": false,
+  "IsFallDamageEnabled": true,
+  "IsGameTimePaused": true,
+  "GameTime": "0001-01-01T00:00:00Z",
+  "ClientEffects": {
+    "SunHeightPercent": 100.0,
+    "SunAngleDegrees": 0.0,
+    "BloomIntensity": 0.30000001192092896,
+    "BloomPower": 8.0,
+    "SunIntensity": 0.25,
+    "SunshaftIntensity": 0.30000001192092896,
+    "SunshaftScaleFactor": 4.0
+  },
+  "RequiredPlugins": {},
+  "IsSpawningNPC": false,
+  "IsBlockSpawnersEnabled": false,
+  "IsSpawnMarkersEnabled": false,
+  "IsAllNPCFrozen": false,
+  "GameplayConfig": "Evoke_Void_Arena",
+  "IsCompassUpdating": true,
+  "IsSavingPlayers": true,
+  "IsSavingChunks": true,
+  "SaveNewChunks": true,
+  "IsUnloadingChunks": true,
+  "IsObjectiveMarkersEnabled": false,
+  "DeleteOnUniverseStart": false,
+  "DeleteOnRemove": true,
+  "DisabledFluidTickers": [],
+  "ResourceStorage": {
+    "Type": "Hytale"
+  },
+  "Plugin": {
+    "Instance": {
+      "Discovery": {
+        "TitleKey": "evoke.voidArena.discovery.title",
+        "SubtitleKey": "evoke.voidArena.discovery.subtitle",
+        "Display": true,
+        "AlwaysDisplay": true,
+        "Style": "Major"
+      },
+      "RemovalConditions": [
+        {
+          "Type": "WorldEmpty",
+          "TimeoutSeconds": 120
+        }
+      ]
+    }
+  },
+  "ForcedWeather": "Evoke_Void_Arena_Night"
+}

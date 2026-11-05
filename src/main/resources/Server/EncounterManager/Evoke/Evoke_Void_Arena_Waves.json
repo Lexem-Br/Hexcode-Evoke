@@ -1,0 +1,912 @@
+{
+  "Class": "EncounterManager",
+  "Type": "Generic",
+  "StartState": "Start",
+  "CleanupOnRemove": true,
+  "Instructions": [
+    {
+      "$Comment": "Players near the altar become encounter members, so they hear the music and see the weather.",
+      "Sensor": {
+        "Type": "Player",
+        "Range": 64,
+        "Collector": {
+          "Type": "EncounterMembers"
+        }
+      },
+      "Actions": [
+        {
+          "Type": "Nothing"
+        }
+      ],
+      "Continue": true
+    },
+    {
+      "Instructions": [
+        {
+          "Sensor": {
+            "Type": "State",
+            "State": "Start"
+          },
+          "Instructions": [
+            {
+              "Sensor": {
+                "Type": "Any",
+                "Once": true
+              },
+              "Actions": [
+                {
+                  "Type": "TimerStart",
+                  "Name": "SpawnGrace",
+                  "StartValueRange": [
+                    8,
+                    8
+                  ],
+                  "RestartValueRange": [
+                    8,
+                    8
+                  ]
+                },
+                {
+                  "Type": "TimerStart",
+                  "Name": "Intermission",
+                  "StartValueRange": [
+                    6,
+                    6
+                  ],
+                  "RestartValueRange": [
+                    6,
+                    6
+                  ]
+                },
+                {
+                  "Type": "StartEncounterMusic",
+                  "MusicContainer": "Track_Void_Escalation"
+                },
+                {
+                  "Type": "SetEncounterWeather",
+                  "Weather": "Portals_Void_Event_Light",
+                  "TransitionSeconds": 3
+                },
+                {
+                  "Type": "Log",
+                  "Message": "[Evoke Void Arena] Spawning wave 1"
+                },
+                {
+                  "Type": "Evoke:VoidArenaWave",
+                  "Wave": 1,
+                  "TotalWaves": 5
+                },
+                {
+                  "Type": "Evoke:VoidArenaSpawn",
+                  "Kind": "Evoke_Void_Arena_Void_Mannequin",
+                  "SpawnAngle": 360,
+                  "DistanceRange": [
+                    5,
+                    12
+                  ],
+                  "CountRange": [
+                    2,
+                    2
+                  ],
+                  "DelayRange": [
+                    0.2,
+                    0.6
+                  ]
+                },
+                {
+                  "Type": "Evoke:VoidArenaSpawn",
+                  "Kind": "Evoke_Void_Arena_Skeleton_Archer",
+                  "SpawnAngle": 360,
+                  "DistanceRange": [
+                    5,
+                    12
+                  ],
+                  "CountRange": [
+                    1,
+                    1
+                  ],
+                  "DelayRange": [
+                    0.2,
+                    0.6
+                  ]
+                },
+                {
+                  "Type": "TimerRestart",
+                  "Name": "SpawnGrace"
+                },
+                {
+                  "Type": "State",
+                  "State": "Wave_1"
+                }
+              ]
+            }
+          ],
+          "$Comment": "Started by the altar of an Evoke_Void_Arena instance. Each wave waits for its spawns to appear, then for the arena to be empty of Evoke_Void_Arena_Enemies."
+        },
+        {
+          "Sensor": {
+            "Type": "State",
+            "State": "Wave_1"
+          },
+          "Instructions": [
+            {
+              "Sensor": {
+                "Type": "Count",
+                "Count": [
+                  1,
+                  999
+                ],
+                "Range": [
+                  0,
+                  60
+                ],
+                "IncludeGroups": [
+                  "Evoke_Void_Arena_Enemies"
+                ],
+                "ExcludeGroups": [
+                  "Player"
+                ]
+              },
+              "Actions": [
+                {
+                  "Type": "State",
+                  "State": "Wave_1_Fight"
+                }
+              ]
+            },
+            {
+              "$Comment": "Spawns that found no room leave the wave empty. Move on so the fight cannot stall.",
+              "Sensor": {
+                "Type": "Timer",
+                "Name": "SpawnGrace",
+                "State": "Stopped"
+              },
+              "Actions": [
+                {
+                  "Type": "State",
+                  "State": "Wave_1_Fight"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "Sensor": {
+            "Type": "State",
+            "State": "Wave_1_Fight"
+          },
+          "Instructions": [
+            {
+              "Sensor": {
+                "Type": "Count",
+                "Count": [
+                  0,
+                  0
+                ],
+                "Range": [
+                  0,
+                  60
+                ],
+                "IncludeGroups": [
+                  "Evoke_Void_Arena_Enemies"
+                ],
+                "ExcludeGroups": [
+                  "Player"
+                ]
+              },
+              "Actions": [
+                {
+                  "Type": "Log",
+                  "Message": "[Evoke Void Arena] Wave 1 cleared"
+                },
+                {
+                  "Type": "Evoke:VoidArenaWaveCleared",
+                  "Wave": 1,
+                  "TotalWaves": 5
+                },
+                {
+                  "Type": "TimerRestart",
+                  "Name": "Intermission"
+                },
+                {
+                  "Type": "State",
+                  "State": "Rest_1"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "Sensor": {
+            "Type": "State",
+            "State": "Rest_1"
+          },
+          "Instructions": [
+            {
+              "Sensor": {
+                "Type": "Timer",
+                "Name": "Intermission",
+                "State": "Stopped"
+              },
+              "Actions": [
+                {
+                  "Type": "Log",
+                  "Message": "[Evoke Void Arena] Spawning wave 2"
+                },
+                {
+                  "Type": "Evoke:VoidArenaWave",
+                  "Wave": 2,
+                  "TotalWaves": 5
+                },
+                {
+                  "Type": "Evoke:VoidArenaSpawn",
+                  "Kind": "Evoke_Void_Arena_Void_Mannequin",
+                  "SpawnAngle": 360,
+                  "DistanceRange": [
+                    5,
+                    12
+                  ],
+                  "CountRange": [
+                    3,
+                    3
+                  ],
+                  "DelayRange": [
+                    0.2,
+                    0.6
+                  ]
+                },
+                {
+                  "Type": "Evoke:VoidArenaSpawn",
+                  "Kind": "Evoke_Void_Arena_Skeleton_Archer",
+                  "SpawnAngle": 360,
+                  "DistanceRange": [
+                    5,
+                    12
+                  ],
+                  "CountRange": [
+                    2,
+                    2
+                  ],
+                  "DelayRange": [
+                    0.2,
+                    0.6
+                  ]
+                },
+                {
+                  "Type": "TimerRestart",
+                  "Name": "SpawnGrace"
+                },
+                {
+                  "Type": "State",
+                  "State": "Wave_2"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "Sensor": {
+            "Type": "State",
+            "State": "Wave_2"
+          },
+          "Instructions": [
+            {
+              "Sensor": {
+                "Type": "Count",
+                "Count": [
+                  1,
+                  999
+                ],
+                "Range": [
+                  0,
+                  60
+                ],
+                "IncludeGroups": [
+                  "Evoke_Void_Arena_Enemies"
+                ],
+                "ExcludeGroups": [
+                  "Player"
+                ]
+              },
+              "Actions": [
+                {
+                  "Type": "State",
+                  "State": "Wave_2_Fight"
+                }
+              ]
+            },
+            {
+              "$Comment": "Spawns that found no room leave the wave empty. Move on so the fight cannot stall.",
+              "Sensor": {
+                "Type": "Timer",
+                "Name": "SpawnGrace",
+                "State": "Stopped"
+              },
+              "Actions": [
+                {
+                  "Type": "State",
+                  "State": "Wave_2_Fight"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "Sensor": {
+            "Type": "State",
+            "State": "Wave_2_Fight"
+          },
+          "Instructions": [
+            {
+              "Sensor": {
+                "Type": "Count",
+                "Count": [
+                  0,
+                  0
+                ],
+                "Range": [
+                  0,
+                  60
+                ],
+                "IncludeGroups": [
+                  "Evoke_Void_Arena_Enemies"
+                ],
+                "ExcludeGroups": [
+                  "Player"
+                ]
+              },
+              "Actions": [
+                {
+                  "Type": "Log",
+                  "Message": "[Evoke Void Arena] Wave 2 cleared"
+                },
+                {
+                  "Type": "Evoke:VoidArenaWaveCleared",
+                  "Wave": 2,
+                  "TotalWaves": 5
+                },
+                {
+                  "Type": "TimerRestart",
+                  "Name": "Intermission"
+                },
+                {
+                  "Type": "State",
+                  "State": "Rest_2"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "Sensor": {
+            "Type": "State",
+            "State": "Rest_2"
+          },
+          "Instructions": [
+            {
+              "Sensor": {
+                "Type": "Timer",
+                "Name": "Intermission",
+                "State": "Stopped"
+              },
+              "Actions": [
+                {
+                  "Type": "Log",
+                  "Message": "[Evoke Void Arena] Spawning wave 3"
+                },
+                {
+                  "Type": "Evoke:VoidArenaWave",
+                  "Wave": 3,
+                  "TotalWaves": 5
+                },
+                {
+                  "Type": "Evoke:VoidArenaSpawn",
+                  "Kind": "Evoke_Void_Arena_Void_Mannequin",
+                  "SpawnAngle": 360,
+                  "DistanceRange": [
+                    5,
+                    12
+                  ],
+                  "CountRange": [
+                    3,
+                    3
+                  ],
+                  "DelayRange": [
+                    0.2,
+                    0.6
+                  ]
+                },
+                {
+                  "Type": "Evoke:VoidArenaSpawn",
+                  "Kind": "Evoke_Void_Arena_Skeleton_Archer",
+                  "SpawnAngle": 360,
+                  "DistanceRange": [
+                    5,
+                    12
+                  ],
+                  "CountRange": [
+                    3,
+                    3
+                  ],
+                  "DelayRange": [
+                    0.2,
+                    0.6
+                  ]
+                },
+                {
+                  "Type": "TimerRestart",
+                  "Name": "SpawnGrace"
+                },
+                {
+                  "Type": "State",
+                  "State": "Wave_3"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "Sensor": {
+            "Type": "State",
+            "State": "Wave_3"
+          },
+          "Instructions": [
+            {
+              "Sensor": {
+                "Type": "Count",
+                "Count": [
+                  1,
+                  999
+                ],
+                "Range": [
+                  0,
+                  60
+                ],
+                "IncludeGroups": [
+                  "Evoke_Void_Arena_Enemies"
+                ],
+                "ExcludeGroups": [
+                  "Player"
+                ]
+              },
+              "Actions": [
+                {
+                  "Type": "State",
+                  "State": "Wave_3_Fight"
+                }
+              ]
+            },
+            {
+              "$Comment": "Spawns that found no room leave the wave empty. Move on so the fight cannot stall.",
+              "Sensor": {
+                "Type": "Timer",
+                "Name": "SpawnGrace",
+                "State": "Stopped"
+              },
+              "Actions": [
+                {
+                  "Type": "State",
+                  "State": "Wave_3_Fight"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "Sensor": {
+            "Type": "State",
+            "State": "Wave_3_Fight"
+          },
+          "Instructions": [
+            {
+              "Sensor": {
+                "Type": "Count",
+                "Count": [
+                  0,
+                  0
+                ],
+                "Range": [
+                  0,
+                  60
+                ],
+                "IncludeGroups": [
+                  "Evoke_Void_Arena_Enemies"
+                ],
+                "ExcludeGroups": [
+                  "Player"
+                ]
+              },
+              "Actions": [
+                {
+                  "Type": "Log",
+                  "Message": "[Evoke Void Arena] Wave 3 cleared"
+                },
+                {
+                  "Type": "Evoke:VoidArenaWaveCleared",
+                  "Wave": 3,
+                  "TotalWaves": 5
+                },
+                {
+                  "Type": "TimerRestart",
+                  "Name": "Intermission"
+                },
+                {
+                  "Type": "State",
+                  "State": "Rest_3"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "Sensor": {
+            "Type": "State",
+            "State": "Rest_3"
+          },
+          "Instructions": [
+            {
+              "Sensor": {
+                "Type": "Timer",
+                "Name": "Intermission",
+                "State": "Stopped"
+              },
+              "Actions": [
+                {
+                  "Type": "Log",
+                  "Message": "[Evoke Void Arena] Spawning wave 4"
+                },
+                {
+                  "Type": "Evoke:VoidArenaWave",
+                  "Wave": 4,
+                  "TotalWaves": 5
+                },
+                {
+                  "Type": "Evoke:VoidArenaSpawn",
+                  "Kind": "Evoke_Void_Arena_Void_Mannequin",
+                  "SpawnAngle": 360,
+                  "DistanceRange": [
+                    5,
+                    12
+                  ],
+                  "CountRange": [
+                    4,
+                    4
+                  ],
+                  "DelayRange": [
+                    0.2,
+                    0.6
+                  ]
+                },
+                {
+                  "Type": "Evoke:VoidArenaSpawn",
+                  "Kind": "Evoke_Void_Arena_Skeleton_Archer",
+                  "SpawnAngle": 360,
+                  "DistanceRange": [
+                    5,
+                    12
+                  ],
+                  "CountRange": [
+                    3,
+                    3
+                  ],
+                  "DelayRange": [
+                    0.2,
+                    0.6
+                  ]
+                },
+                {
+                  "Type": "TimerRestart",
+                  "Name": "SpawnGrace"
+                },
+                {
+                  "Type": "State",
+                  "State": "Wave_4"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "Sensor": {
+            "Type": "State",
+            "State": "Wave_4"
+          },
+          "Instructions": [
+            {
+              "Sensor": {
+                "Type": "Count",
+                "Count": [
+                  1,
+                  999
+                ],
+                "Range": [
+                  0,
+                  60
+                ],
+                "IncludeGroups": [
+                  "Evoke_Void_Arena_Enemies"
+                ],
+                "ExcludeGroups": [
+                  "Player"
+                ]
+              },
+              "Actions": [
+                {
+                  "Type": "State",
+                  "State": "Wave_4_Fight"
+                }
+              ]
+            },
+            {
+              "$Comment": "Spawns that found no room leave the wave empty. Move on so the fight cannot stall.",
+              "Sensor": {
+                "Type": "Timer",
+                "Name": "SpawnGrace",
+                "State": "Stopped"
+              },
+              "Actions": [
+                {
+                  "Type": "State",
+                  "State": "Wave_4_Fight"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "Sensor": {
+            "Type": "State",
+            "State": "Wave_4_Fight"
+          },
+          "Instructions": [
+            {
+              "Sensor": {
+                "Type": "Count",
+                "Count": [
+                  0,
+                  0
+                ],
+                "Range": [
+                  0,
+                  60
+                ],
+                "IncludeGroups": [
+                  "Evoke_Void_Arena_Enemies"
+                ],
+                "ExcludeGroups": [
+                  "Player"
+                ]
+              },
+              "Actions": [
+                {
+                  "Type": "Log",
+                  "Message": "[Evoke Void Arena] Wave 4 cleared"
+                },
+                {
+                  "Type": "Evoke:VoidArenaWaveCleared",
+                  "Wave": 4,
+                  "TotalWaves": 5
+                },
+                {
+                  "Type": "TimerRestart",
+                  "Name": "Intermission"
+                },
+                {
+                  "Type": "State",
+                  "State": "Rest_4"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "Sensor": {
+            "Type": "State",
+            "State": "Rest_4"
+          },
+          "Instructions": [
+            {
+              "Sensor": {
+                "Type": "Timer",
+                "Name": "Intermission",
+                "State": "Stopped"
+              },
+              "Actions": [
+                {
+                  "Type": "Log",
+                  "Message": "[Evoke Void Arena] Spawning wave 5"
+                },
+                {
+                  "Type": "Evoke:VoidArenaWave",
+                  "Wave": 5,
+                  "TotalWaves": 5
+                },
+                {
+                  "Type": "Evoke:VoidArenaSpawn",
+                  "Kind": "Evoke_Void_Arena_Void_Mannequin",
+                  "SpawnAngle": 360,
+                  "DistanceRange": [
+                    5,
+                    12
+                  ],
+                  "CountRange": [
+                    5,
+                    5
+                  ],
+                  "DelayRange": [
+                    0.2,
+                    0.6
+                  ]
+                },
+                {
+                  "Type": "Evoke:VoidArenaSpawn",
+                  "Kind": "Evoke_Void_Arena_Skeleton_Archer",
+                  "SpawnAngle": 360,
+                  "DistanceRange": [
+                    5,
+                    12
+                  ],
+                  "CountRange": [
+                    4,
+                    4
+                  ],
+                  "DelayRange": [
+                    0.2,
+                    0.6
+                  ]
+                },
+                {
+                  "Type": "TimerRestart",
+                  "Name": "SpawnGrace"
+                },
+                {
+                  "Type": "State",
+                  "State": "Wave_5"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "Sensor": {
+            "Type": "State",
+            "State": "Wave_5"
+          },
+          "Instructions": [
+            {
+              "Sensor": {
+                "Type": "Count",
+                "Count": [
+                  1,
+                  999
+                ],
+                "Range": [
+                  0,
+                  60
+                ],
+                "IncludeGroups": [
+                  "Evoke_Void_Arena_Enemies"
+                ],
+                "ExcludeGroups": [
+                  "Player"
+                ]
+              },
+              "Actions": [
+                {
+                  "Type": "State",
+                  "State": "Wave_5_Fight"
+                }
+              ]
+            },
+            {
+              "$Comment": "Spawns that found no room leave the wave empty. Move on so the fight cannot stall.",
+              "Sensor": {
+                "Type": "Timer",
+                "Name": "SpawnGrace",
+                "State": "Stopped"
+              },
+              "Actions": [
+                {
+                  "Type": "State",
+                  "State": "Wave_5_Fight"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "Sensor": {
+            "Type": "State",
+            "State": "Wave_5_Fight"
+          },
+          "Instructions": [
+            {
+              "Sensor": {
+                "Type": "Count",
+                "Count": [
+                  0,
+                  0
+                ],
+                "Range": [
+                  0,
+                  60
+                ],
+                "IncludeGroups": [
+                  "Evoke_Void_Arena_Enemies"
+                ],
+                "ExcludeGroups": [
+                  "Player"
+                ]
+              },
+              "Actions": [
+                {
+                  "Type": "Log",
+                  "Message": "[Evoke Void Arena] Final wave cleared"
+                },
+                {
+                  "Type": "Evoke:VoidArenaVictory"
+                },
+                {
+                  "Type": "StopEncounterMusic"
+                },
+                {
+                  "Type": "ClearEncounterWeather"
+                },
+                {
+                  "Type": "State",
+                  "State": "Done"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "Sensor": {
+            "Type": "State",
+            "State": "Done"
+          },
+          "Instructions": [
+            {
+              "Sensor": {
+                "Type": "Any",
+                "Once": true
+              },
+              "Actions": [
+                {
+                  "Type": "TimerStart",
+                  "Name": "CompleteGrace",
+                  "StartValueRange": [
+                    2,
+                    2
+                  ],
+                  "RestartValueRange": [
+                    2,
+                    2
+                  ]
+                },
+                {
+                  "Type": "TimerRestart",
+                  "Name": "CompleteGrace"
+                }
+              ]
+            },
+            {
+              "Sensor": {
+                "Type": "Timer",
+                "Name": "CompleteGrace",
+                "State": "Stopped"
+              },
+              "Actions": [
+                {
+                  "Type": "Remove",
+                  "UseTarget": false
+                }
+              ]
+            }
+          ],
+          "$Comment": "The manager state is not saved, so remove it once the victory has been handled."
+        }
+      ]
+    }
+  ]
+}

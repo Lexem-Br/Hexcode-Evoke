@@ -1,0 +1,96 @@
+{
+  "RenderMode": "Erosion",
+  "ParticleRotationInfluence": "None",
+  "LinearFiltering": false,
+  "LightInfluence": 0,
+  "MaxConcurrentParticles": 10,
+  "ParticleLifeSpan": {
+    "Min": 0.05,
+    "Max": 0.05
+  },
+  "ParticleRotateWithSpawner": true,
+  "SpawnRate": {
+    "Min": 40,
+    "Max": 40
+  },
+  "Particle": {
+    "Texture": "Particles/Textures/Basic/Flash_Spritesheet3.png",
+    "ScaleRatioConstraint": "OneToOne",
+    "Animation": {
+      "0": {
+        "Opacity": 1,
+        "Scale": {
+          "X": {
+            "Min": 1,
+            "Max": 1
+          }
+        },
+        "Rotation": {
+          "X": {
+            "Min": 0.0,
+            "Max": 0.0
+          },
+          "Y": {
+            "Min": 0.0,
+            "Max": 0.0
+          },
+          "Z": {
+            "Max": 0.0,
+            "Min": 0.0
+          }
+        },
+        "Color": "#c145ff"
+      },
+      "10": {
+        "Rotation": {
+          "Z": {
+            "Min": 0.0,
+            "Max": 0.0
+          }
+        }
+      },
+      "20": {},
+      "30": {},
+      "60": {
+        "Opacity": 0.96
+      },
+      "100": {
+        "Opacity": 1,
+        "Color": "#b528fb"
+      }
+    },
+    "InitialAnimationFrame": {
+      "Scale": {
+        "X": {
+          "Min": 0.3,
+          "Max": 0.3
+        }
+      },
+      "Opacity": 0.95,
+      "FrameIndex": {
+        "Min": 0,
+        "Max": 3
+      },
+      "Rotation": {
+        "Z": {
+          "Min": 70,
+          "Max": 70
+        }
+      }
+    },
+    "UVOption": "RandomFlipU",
+    "FrameSize": {
+      "Width": 64,
+      "Height": 64
+    }
+  },
+  "EmitOffset": {
+    "Z": {
+      "Max": 0.1
+    },
+    "X": {
+      "Max": 0.2
+    }
+  },
+  "CameraOffset": -0.16
+}

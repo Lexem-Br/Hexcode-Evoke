@@ -1,0 +1,50 @@
+{
+  "Quality": "Developer",
+  "Icon": "Icons/ItemsGenerated/Ingredient_Crystal_Fragments_Yellow.png",
+  "MaxStack": 1,
+  "Categories": [
+    "Tool.PrefabEditing"
+  ],
+  "SubCategory": "PrefabBlocks",
+  "PlayerAnimationsId": "Block",
+  "BlockType": {
+    "Material": "Empty",
+    "DrawType": "Model",
+    "Opacity": "Transparent",
+    "Particles": [
+      {
+        "SystemId": "Evoke_VoidBreach_Passive",
+        "PositionOffset": {
+          "Z": 0.25
+        }
+      }
+    ],
+    "AmbientSoundEventId": "SFX_Goblin_World_Breach_Passive",
+    "CustomModel": "Blocks/Miscellaneous/Map.blockymodel",
+    "CustomModelTexture": [
+      {
+        "Texture": "Items/Projectiles/Tornado_Texture.png",
+        "Weight": 1
+      }
+    ],
+    "Support": {
+      "Down": [
+        {
+          "Support": "Ignored"
+        }
+      ]
+    },
+    "BlockEntity": {
+      "Components": {
+        "BlockMapMarker": {
+          "Name": "evoke.items.Evoke_Void_Arena_Portal.name",
+          "Icon": "Evoke_Void_Rift.png",
+          "CompassIcon": "Evoke_Void_Rift.png"
+        }
+      }
+    }
+  },
+  "TranslationProperties": {
+    "Name": "evoke.items.Evoke_Void_Arena_Beacon.name"
+  }
+}

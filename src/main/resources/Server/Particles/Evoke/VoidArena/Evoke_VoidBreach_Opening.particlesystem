@@ -1,0 +1,445 @@
+{
+  "Spawners": [
+    {
+      "SpawnerId": "Evoke_VoidBreach_Cracks"
+    },
+    {
+      "SpawnerId": "Battleaxe_Bash_Distortion",
+      "StartDelay": 0.8
+    },
+    {
+      "SpawnerId": "Evoke_VoidBreach_Example_Sparks_Directional",
+      "InitialVelocity": {
+        "Yaw": {
+          "Min": -45,
+          "Max": -45
+        },
+        "Speed": {
+          "Min": 6,
+          "Max": 6
+        },
+        "Pitch": {
+          "Min": 1,
+          "Max": 1
+        }
+      },
+      "StartDelay": 1.7,
+      "LifeSpan": {
+        "Min": 1,
+        "Max": 1
+      },
+      "RotationOffset": {
+        "Yaw": 130
+      },
+      "Attractors": [
+        {
+          "DampingMultiplier": {
+            "X": 0.9,
+            "Y": 0.9,
+            "Z": 0.9
+          }
+        }
+      ]
+    },
+    {
+      "SpawnerId": "Evoke_VoidBreach_Debris2",
+      "InitialVelocity": {
+        "Yaw": {
+          "Min": -45,
+          "Max": -45
+        },
+        "Speed": {
+          "Min": 6,
+          "Max": 6
+        },
+        "Pitch": {
+          "Min": 1,
+          "Max": 1
+        }
+      },
+      "StartDelay": 1.7,
+      "LifeSpan": {
+        "Min": 1,
+        "Max": 1
+      },
+      "RotationOffset": {
+        "Yaw": 130
+      },
+      "Attractors": [
+        {
+          "DampingMultiplier": {
+            "X": 0.9,
+            "Y": 0.9,
+            "Z": 0.9
+          }
+        }
+      ]
+    },
+    {
+      "SpawnerId": "Evoke_VoidBreach_Example_Sparks_Directional",
+      "InitialVelocity": {
+        "Yaw": {
+          "Min": 145,
+          "Max": 145
+        },
+        "Speed": {
+          "Min": 10,
+          "Max": 6
+        },
+        "Pitch": {
+          "Min": 1,
+          "Max": 1
+        }
+      },
+      "StartDelay": 1.6,
+      "LifeSpan": {
+        "Min": 1,
+        "Max": 1
+      },
+      "RotationOffset": {
+        "Yaw": -30
+      },
+      "Attractors": [
+        {
+          "DampingMultiplier": {
+            "X": 0.8,
+            "Y": 0.8,
+            "Z": 0.8
+          }
+        }
+      ]
+    },
+    {
+      "SpawnerId": "Evoke_VoidBreach_Debris2",
+      "InitialVelocity": {
+        "Yaw": {
+          "Min": 145,
+          "Max": 145
+        },
+        "Speed": {
+          "Min": 10,
+          "Max": 6
+        },
+        "Pitch": {
+          "Min": 1,
+          "Max": 1
+        }
+      },
+      "StartDelay": 1.6,
+      "LifeSpan": {
+        "Min": 1,
+        "Max": 1
+      },
+      "RotationOffset": {
+        "Yaw": -30
+      },
+      "Attractors": [
+        {
+          "DampingMultiplier": {
+            "X": 0.8,
+            "Y": 0.8,
+            "Z": 0.8
+          }
+        }
+      ]
+    },
+    {
+      "SpawnerId": "Evoke_VoidBreach_CrackSpark",
+      "InitialVelocity": {
+        "Yaw": {
+          "Min": 145,
+          "Max": 145
+        },
+        "Speed": {
+          "Min": 7,
+          "Max": 7
+        },
+        "Pitch": {
+          "Min": 1,
+          "Max": 1
+        }
+      },
+      "StartDelay": 1.65,
+      "LifeSpan": {
+        "Min": 1,
+        "Max": 1
+      },
+      "RotationOffset": {
+        "Yaw": -125
+      },
+      "PositionOffset": {
+        "Y": 0.1
+      },
+      "Attractors": [
+        {
+          "DampingMultiplier": {
+            "X": 0.85,
+            "Y": 0.85,
+            "Z": 0.85
+          }
+        }
+      ]
+    },
+    {
+      "SpawnerId": "Evoke_VoidBreach_CrackSpark",
+      "InitialVelocity": {
+        "Yaw": {
+          "Min": -45,
+          "Max": -45
+        },
+        "Speed": {
+          "Min": 10,
+          "Max": 10
+        },
+        "Pitch": {
+          "Min": 1,
+          "Max": 1
+        }
+      },
+      "StartDelay": 1.75,
+      "LifeSpan": {
+        "Min": 1,
+        "Max": 1
+      },
+      "RotationOffset": {
+        "Yaw": 45
+      },
+      "PositionOffset": {
+        "Y": 0.1
+      },
+      "Attractors": [
+        {
+          "DampingMultiplier": {
+            "X": 0.8,
+            "Y": 0.8,
+            "Z": 0.8
+          }
+        }
+      ]
+    },
+    {
+      "SpawnerId": "Evoke_VoidBreach_CrackSpark",
+      "InitialVelocity": {
+        "Yaw": {
+          "Min": 100,
+          "Max": 100
+        },
+        "Speed": {
+          "Min": 8,
+          "Max": 8
+        },
+        "Pitch": {
+          "Min": 1,
+          "Max": 1
+        }
+      },
+      "StartDelay": 1.8,
+      "LifeSpan": {
+        "Min": 0.5,
+        "Max": 0.5
+      },
+      "RotationOffset": {
+        "Yaw": -190
+      },
+      "PositionOffset": {
+        "Y": 0.1,
+        "Z": 0.3,
+        "X": -0.2
+      },
+      "Attractors": [
+        {
+          "DampingMultiplier": {
+            "X": 0.88,
+            "Y": 0.88,
+            "Z": 0.88
+          }
+        }
+      ]
+    },
+    {
+      "SpawnerId": "Evoke_VoidBreach_Debris2",
+      "InitialVelocity": {
+        "Yaw": {
+          "Min": 100,
+          "Max": 100
+        },
+        "Speed": {
+          "Min": 8,
+          "Max": 8
+        },
+        "Pitch": {
+          "Min": 1,
+          "Max": 1
+        }
+      },
+      "StartDelay": 1.85,
+      "LifeSpan": {
+        "Min": 0.5,
+        "Max": 0.5
+      },
+      "RotationOffset": {
+        "Yaw": -190
+      },
+      "PositionOffset": {
+        "Y": 0.1,
+        "Z": 0.3,
+        "X": -0.2
+      },
+      "Attractors": [
+        {
+          "DampingMultiplier": {
+            "X": 0.88,
+            "Y": 0.88,
+            "Z": 0.88
+          }
+        }
+      ]
+    },
+    {
+      "SpawnerId": "Evoke_VoidBreach_Collapse",
+      "StartDelay": 5
+    },
+    {
+      "SpawnerId": "Evoke_VoidBreach_Debris",
+      "StartDelay": 5.9
+    },
+    {
+      "SpawnerId": "Evoke_VoidBreach_Implosion",
+      "StartDelay": 2
+    },
+    {
+      "SpawnerId": "Evoke_VoidBreach_Lightning2",
+      "RotationOffset": {
+        "Yaw": 45
+      },
+      "StartDelay": 4
+    },
+    {
+      "SpawnerId": "Evoke_VoidBreach_Lightning2",
+      "RotationOffset": {
+        "Yaw": 45
+      },
+      "StartDelay": 4.1,
+      "PositionOffset": {
+        "X": -2,
+        "Z": 2,
+        "Y": -1.5
+      }
+    },
+    {
+      "SpawnerId": "Evoke_VoidBreach_Lightning2",
+      "RotationOffset": {
+        "Yaw": 25
+      },
+      "StartDelay": 3.8,
+      "PositionOffset": {
+        "X": -1,
+        "Z": -1,
+        "Y": -1
+      }
+    },
+    {
+      "SpawnerId": "Evoke_VoidBreach_Lightning3",
+      "RotationOffset": {
+        "Yaw": 45
+      },
+      "StartDelay": 3,
+      "PositionOffset": {
+        "X": -2,
+        "Z": 2
+      }
+    },
+    {
+      "SpawnerId": "Evoke_VoidBreach_Lightning3",
+      "RotationOffset": {
+        "Yaw": 45
+      },
+      "StartDelay": 3.3,
+      "PositionOffset": {
+        "X": -1,
+        "Z": 1
+      }
+    },
+    {
+      "SpawnerId": "Evoke_VoidBreach_Lightning3",
+      "RotationOffset": {
+        "Yaw": 25
+      },
+      "StartDelay": 3.5,
+      "PositionOffset": {
+        "X": -1,
+        "Z": -1
+      }
+    },
+    {
+      "SpawnerId": "Evoke_VoidBreach_Lightning3",
+      "RotationOffset": {
+        "Yaw": 45
+      },
+      "StartDelay": 3.6,
+      "PositionOffset": {
+        "X": 0,
+        "Z": 0
+      }
+    },
+    {
+      "SpawnerId": "Evoke_VoidBreach_Lightning3",
+      "RotationOffset": {
+        "Yaw": 45
+      },
+      "StartDelay": 3.7,
+      "PositionOffset": {
+        "X": 2,
+        "Z": -2
+      }
+    },
+    {
+      "SpawnerId": "Evoke_VoidBreach_Lightning3",
+      "RotationOffset": {
+        "Yaw": 45
+      },
+      "StartDelay": 3.75,
+      "PositionOffset": {
+        "X": 0.5,
+        "Z": -0.5
+      }
+    },
+    {
+      "SpawnerId": "Evoke_VoidBreach_Death_Debris",
+      "StartDelay": 0.8
+    },
+    {
+      "SpawnerId": "Evoke_VoidBreach_Glow",
+      "RotationOffset": {
+        "Yaw": 55
+      },
+      "StartDelay": 3
+    },
+    {
+      "SpawnerId": "GoblinBreach_Collapse_Distortion",
+      "StartDelay": 6
+    },
+    {
+      "SpawnerId": "Evoke_VoidBreach_Portal_Shockwave",
+      "StartDelay": 6
+    },
+    {
+      "SpawnerId": "Evoke_VoidBreach_Portal_Shockwave2",
+      "StartDelay": 6
+    },
+    {
+      "SpawnerId": "Evoke_VoidBreach_Beam",
+      "RotationOffset": {
+        "Roll": -90
+      },
+      "LifeSpan": {
+        "Min": 0.5,
+        "Max": 0.5
+      },
+      "PositionOffset": {
+        "Y": 2
+      },
+      "StartDelay": 6
+    }
+  ]
+}

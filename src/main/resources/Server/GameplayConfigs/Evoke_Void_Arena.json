@@ -1,0 +1,25 @@
+{
+  "Parent": "Default_Instance",
+  "World": {
+    "AllowBlockBreaking": false,
+    "AllowBlockGathering": false,
+    "AllowBlockPlacement": false,
+    "BlockedRootInteractionTags": [
+      "Type=Bed"
+    ]
+  },
+  "Death": {
+    "ItemsLossMode": "None",
+    "ItemsAmountLossPercentage": 0.0,
+    "ItemsDurabilityLossPercentage": 0.0,
+    "RespawnController": {
+      "Type": "ExitInstance"
+    }
+  },
+  "WorldMap": {
+    "DisplaySpawn": false
+  },
+  "Plugin": {
+    "WorldEvents": {}
+  }
+}

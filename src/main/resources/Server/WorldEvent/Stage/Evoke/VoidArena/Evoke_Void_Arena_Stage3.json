@@ -1,0 +1,119 @@
+{
+  "Forks": [
+    {
+      "Conditions": [
+        {
+          "Type": "IntervalCondition",
+          "IntervalKey": "EvokeVoidArenaOpenDelay",
+          "MinSeconds": 5.5,
+          "MaxSeconds": 5.5,
+          "ShowOnMap": true,
+          "MapIntervalKey": "server.map.worldEvents.opensIn"
+        }
+      ],
+      "Actions": [
+        {
+          "Type": "EffectsAction",
+          "LocationKey": "VoidRiftLocation",
+          "Radius": 100,
+          "Shape": {
+            "Type": "Ring",
+            "Radius": 6,
+            "Count": 6
+          },
+          "VisualFX": {
+            "Effect": "Evoke_Void_Arena_Burst",
+            "ScaleMin": 2,
+            "ScaleMax": 2,
+            "DurationMin": 3,
+            "DurationMax": 3
+          }
+        },
+        {
+          "Type": "TriggerVolumeCreateAction",
+          "LocationKey": "VoidRiftLocation",
+          "VolumeKey": "VoidRiftLaunchTV",
+          "Offset": {
+            "X": 0.5,
+            "Y": 0.0,
+            "Z": 0.5
+          },
+          "Volume": {
+            "Shape": {
+              "Type": "Cylinder",
+              "Center": {
+                "X": 0.0,
+                "Y": 0.0,
+                "Z": 0.0
+              },
+              "Radius": 5.5,
+              "Height": 4.0
+            },
+            "Effects": [
+              {
+                "Type": "SetVelocity",
+                "Event": "ENTER",
+                "Interval": 0.0,
+                "Delay": 0.0,
+                "Velocity": {
+                  "X": 0.0,
+                  "Y": 10.0,
+                  "Z": -16.0
+                },
+                "Additive": false,
+                "RelativeMode": "VolumeOrigin"
+              },
+              {
+                "Type": "DeleteVolume",
+                "Event": "VOLUME_CREATE",
+                "Interval": 0.0,
+                "Delay": 1.0,
+                "MatchKey": "",
+                "MatchValue": "",
+                "Radius": 50.0,
+                "Center": "Volume"
+              }
+            ],
+            "Enabled": true,
+            "TargetTypes": [
+              "Player"
+            ],
+            "KeepLoaded": false,
+            "Name": "Evoke_Void_Arena_Rift_Explosion"
+          }
+        },
+        {
+          "Type": "PrefabPasteAction",
+          "PrefabKey": "VoidRiftPortal",
+          "Permanent": false
+        },
+        {
+          "Type": "TriggerVolumeCreateAction",
+          "LocationKey": "VoidRiftLocation",
+          "VolumeKey": "VoidRiftProtectionTV",
+          "Volume": {
+            "Shape": {
+              "Type": "Cylinder",
+              "Radius": 5.5,
+              "Height": 8
+            },
+            "Rules": [
+              {
+                "Type": "NoDestroy",
+                "Enabled": true
+              },
+              {
+                "Type": "NoBuild"
+              }
+            ]
+          },
+          "Offset": {
+            "Z": 0.5,
+            "X": 0.5
+          }
+        }
+      ],
+      "Next": "Evoke_Void_Arena_Stage4"
+    }
+  ]
+}

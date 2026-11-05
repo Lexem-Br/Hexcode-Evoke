@@ -1,0 +1,86 @@
+{
+  "Forks": [
+    {
+      "Conditions": [
+        {
+          "Type": "LocationCondition",
+          "LocationKey": "VoidRiftLocation",
+          "LocationType": {
+            "Type": "WildernessLocation",
+            "MinHorizontalDistance": 64,
+            "MaxHorizontalDistance": 200,
+            "MinVerticalDistance": 0,
+            "MaxVerticalDistance": 64
+          },
+          "SearchRadius": 16,
+          "Content": [
+            {
+              "Type": "PrefabSpawner",
+              "PrefabKey": "VoidRiftPortal",
+              "Rotations": [
+                "Rotation0"
+              ],
+              "Mask": {
+                "Type": "BlocksOnly",
+                "Blocks": [
+                  "Soils",
+                  "Rock",
+                  "PlantScatter"
+                ]
+              },
+              "Prefab": {
+                "Prefabs": [
+                  {
+                    "RootDirectory": "Asset",
+                    "Path": "Evoke/VoidArena/Evoke_Void_Arena_Portal_Site"
+                  }
+                ]
+              }
+            },
+            {
+              "Type": "PrefabSpawner",
+              "PrefabKey": "VoidRiftBeacon",
+              "Prefab": {
+                "Prefabs": [
+                  {
+                    "RootDirectory": "Asset",
+                    "Path": "Evoke/VoidArena/Evoke_Void_Arena_Beacon"
+                  }
+                ]
+              },
+              "Mask": {
+                "Type": "BlocksOnly",
+                "Blocks": [
+                  "Soils",
+                  "Rock",
+                  "PlantScatter"
+                ]
+              }
+            }
+          ],
+          "Clearance": 8
+        }
+      ],
+      "Actions": [
+        {
+          "Type": "PrefabPasteAction",
+          "PrefabKey": "VoidRiftBeacon",
+          "Permanent": false
+        }
+      ],
+      "Next": "Evoke_Void_Arena_Stage2"
+    },
+    {
+      "Conditions": [
+        {
+          "Type": "IntervalCondition",
+          "IntervalKey": "EvokeVoidArenaPlaceTimeout",
+          "MinSeconds": 32767,
+          "MaxSeconds": 32767,
+          "MapIntervalKey": "server.map.worldEvents.lookAround",
+          "ShowOnMap": true
+        }
+      ]
+    }
+  ]
+}

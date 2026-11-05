@@ -1,0 +1,170 @@
+{
+  "RenderMode": "Erosion",
+  "EmitOffset": {
+    "X": {
+      "Min": 0,
+      "Max": 3
+    },
+    "Y": {
+      "Min": 0
+    },
+    "Z": {
+      "Min": 0,
+      "Max": 3
+    }
+  },
+  "ParticleRotationInfluence": "None",
+  "LinearFiltering": false,
+  "LightInfluence": 0,
+  "ParticleLifeSpan": {
+    "Min": 2,
+    "Max": 2
+  },
+  "ParticleRotateWithSpawner": true,
+  "MaxConcurrentParticles": 5,
+  "SpawnRate": {
+    "Min": 0.1,
+    "Max": 0.4
+  },
+  "InitialVelocity": {
+    "Pitch": {
+      "Min": 90,
+      "Max": 90
+    },
+    "Speed": {
+      "Min": -44,
+      "Max": -44
+    }
+  },
+  "Attractors": [
+    {
+      "RadialImpulse": 0,
+      "DampingMultiplier": {
+        "X": 0.5314410000000002,
+        "Y": 0.5314410000000002,
+        "Z": 0.5314410000000002
+      }
+    }
+  ],
+  "Particle": {
+    "Texture": "Particles/Textures/Rnd/LightningArch.png",
+    "UVOption": "RandomFlipU",
+    "Animation": {
+      "0": {
+        "Opacity": 1,
+        "FrameIndex": {
+          "Min": 0,
+          "Max": 2
+        },
+        "Scale": {
+          "X": {
+            "Min": 0.5,
+            "Max": 0.5
+          },
+          "Y": {
+            "Min": 0.1,
+            "Max": 0.1
+          }
+        }
+      },
+      "10": {
+        "Opacity": 0.68,
+        "FrameIndex": {
+          "Max": 2
+        },
+        "Scale": {
+          "X": {
+            "Min": 1,
+            "Max": 1
+          },
+          "Y": {
+            "Min": 1,
+            "Max": 1
+          }
+        }
+      },
+      "20": {
+        "Opacity": 0.2,
+        "FrameIndex": {
+          "Max": 2
+        },
+        "Scale": {
+          "X": {
+            "Min": 1.2,
+            "Max": 1.2
+          },
+          "Y": {
+            "Min": 1.2,
+            "Max": 1.2
+          }
+        }
+      },
+      "40": {
+        "Opacity": 0,
+        "FrameIndex": {
+          "Max": 2
+        },
+        "Scale": {
+          "X": {
+            "Min": 1.3,
+            "Max": 1.3
+          },
+          "Y": {
+            "Min": 1.3,
+            "Max": 1.3
+          }
+        }
+      },
+      "60": {
+        "Scale": {
+          "X": {
+            "Min": 1.35,
+            "Max": 1.35
+          }
+        }
+      },
+      "86": {
+        "Opacity": 0
+      },
+      "100": {
+        "Opacity": 0
+      }
+    },
+    "InitialAnimationFrame": {
+      "Opacity": 1,
+      "Color": "#c859ff",
+      "Scale": {
+        "X": {
+          "Min": 1,
+          "Max": 2
+        },
+        "Y": {
+          "Min": 3,
+          "Max": 6
+        }
+      },
+      "Rotation": {
+        "Y": {
+          "Max": 360
+        }
+      }
+    },
+    "FrameSize": {
+      "Width": 128,
+      "Height": 128
+    },
+    "ScaleRatioConstraint": "None"
+  },
+  "UVMotion": {
+    "Texture": "Particles/Textures/UVMotion/FlowMap.png",
+    "StrengthCurveType": "IncreaseLinear",
+    "Scale": 0.92,
+    "SpeedX": 0.32,
+    "SpeedY": 0.32,
+    "Strength": 0
+  },
+  "TotalParticles": {
+    "Min": -1,
+    "Max": -1
+  }
+}

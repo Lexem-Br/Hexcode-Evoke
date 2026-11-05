@@ -1,0 +1,74 @@
+{
+  "Forks": [
+    {
+      "Conditions": [
+        {
+          "Type": "ProximityCondition",
+          "LocationKey": "VoidRiftLocation",
+          "Radius": 20
+        }
+      ],
+      "Actions": [
+        {
+          "Type": "PrefabRemoveAction",
+          "PrefabKey": "VoidRiftBeacon"
+        },
+        {
+          "Type": "ShowEventTitleAction",
+          "LocationKey": "VoidRiftLocation",
+          "Radius": 200,
+          "PrimaryTitle": "evoke.voidArena.event.title.primary",
+          "SecondaryTitle": "evoke.voidArena.event.title.secondary",
+          "SoundFX": {
+            "Effect": "SFX_Event_Goblin_Title"
+          },
+          "FadeInDuration": 0.5,
+          "Style": "VoidEviction"
+        },
+        {
+          "Type": "EffectsAction",
+          "LocationKey": "VoidRiftLocation",
+          "VisualFX": {
+            "ScaleMin": 1.8,
+            "ScaleMax": 1.8,
+            "Effect": "Evoke_VoidBreach_Opening",
+            "Offset": {
+              "Y": 1.05,
+              "X": 0.5,
+              "Z": 0.5
+            },
+            "DurationMin": 26.4,
+            "DurationMax": 26.4
+          },
+          "Shape": {
+            "Type": "Point",
+            "Count": 1
+          },
+          "Radius": 100,
+          "SoundFX": {
+            "Effect": "SFX_Goblin_World_Breach_Open"
+          }
+        }
+      ],
+      "Next": "Evoke_Void_Arena_Stage3"
+    },
+    {
+      "Conditions": [
+        {
+          "Type": "IntervalCondition",
+          "IntervalKey": "EvokeVoidArenaEngageTimeout",
+          "MinSeconds": 300,
+          "MaxSeconds": 300,
+          "ShowOnMap": true,
+          "MapIntervalKey": "server.map.worldEvents.engageWithin"
+        }
+      ],
+      "Actions": [
+        {
+          "Type": "PrefabRemoveAction",
+          "PrefabKey": "VoidRiftBeacon"
+        }
+      ]
+    }
+  ]
+}

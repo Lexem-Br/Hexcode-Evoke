@@ -1,0 +1,8 @@
+{
+  "$Comment": "Started by the /voidarena event command. Same rift as Evoke_Void_Arena_Event without the 40 minute wait.",
+  "Root": "Evoke_Void_Arena_Stage1_Place",
+  "Persistent": true,
+  "Name": "evoke.voidArena.event.name",
+  "Icon": "UI/WorldMap/MapMarkers/Evoke_Void_Rift.png",
+  "InstanceCountMax": 1
+}
