@@ -72,6 +72,28 @@ public final class LifeEssenceUtils {
         return !ItemStack.isEmpty(itemStack) && LIFE_ESSENCE_ITEM_ID.equals(itemStack.getItemId());
     }
 
+    public static boolean canPayEvokeCost(
+            @Nonnull ComponentAccessor<EntityStore> accessor,
+            @Nonnull Ref<EntityStore> playerRef,
+            @Nonnull AllowedHexItemsAsset.HexItem hexItem
+    ) {
+        if (hexItem.essenceCost <= 0) return true;
+
+        CombinedItemContainer inventory = InventoryComponent.getCombined(accessor, playerRef, InventoryComponent.HOTBAR_STORAGE_BACKPACK);
+        return inventory.canRemoveItemStack(new ItemStack(LIFE_ESSENCE_ITEM_ID, hexItem.essenceCost), true, true);
+    }
+
+    public static void payEvokeCost(
+            @Nonnull ComponentAccessor<EntityStore> accessor,
+            @Nonnull Ref<EntityStore> playerRef,
+            @Nonnull AllowedHexItemsAsset.HexItem hexItem
+    ) {
+        if (hexItem.essenceCost <= 0) return;
+
+        CombinedItemContainer inventory = InventoryComponent.getCombined(accessor, playerRef, InventoryComponent.HOTBAR_STORAGE_BACKPACK);
+        inventory.removeItemStack(new ItemStack(LIFE_ESSENCE_ITEM_ID, hexItem.essenceCost), true, true);
+    }
+
     public static boolean keepsLifeEssence(@Nonnull ComponentAccessor<EntityStore> accessor, @Nonnull Ref<EntityStore> npcRef) {
         HexCreatureComponent hexCreature = accessor.getComponent(npcRef, HexCreatureComponent.getComponentType());
         if (hexCreature == null || hexCreature.getEvokerUUID() == null) return false;
