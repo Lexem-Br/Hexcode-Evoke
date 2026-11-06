@@ -38,6 +38,7 @@ import com.lexem.hexcodeevoke.systems.HexCreatureBreathingSystem;
 import com.lexem.hexcodeevoke.systems.HexCreatureClimbStateSystem;
 import com.lexem.hexcodeevoke.systems.HexCreatureComponentsSystem;
 import com.lexem.hexcodeevoke.systems.HexCreatureCrawlSystem;
+import com.lexem.hexcodeevoke.systems.HexCreatureFlightSystem;
 import com.lexem.hexcodeevoke.systems.HexCreatureLifeEssenceSystem;
 import com.lexem.hexcodeevoke.systems.HexCreaturePickupSystem;
 import com.lexem.hexcodeevoke.systems.HexCreatureRevocationSystem;
@@ -158,6 +159,7 @@ public class HexcodeEvoke extends JavaPlugin {
         npcPlugin.registerCoreComponentType("Evoke:MinionCreateSearchTasks", BuilderActionMinionCreateSearchTasks::new);
         npcPlugin.registerCoreComponentType("Evoke:DespawnHC", BuilderDespawnHC::new);
         npcPlugin.registerCoreComponentType("Evoke:Unstuck", BuilderActionUnstuck::new);
+        npcPlugin.registerCoreComponentType("Evoke:FairyFlight", BuilderActionFairyFlight::new);
         npcPlugin.registerCoreComponentType("Evoke:AbandonMinionTask", BuilderActionAbandonMinionTask::new);
         npcPlugin.registerCoreComponentType("Evoke:MemorizeChest", BuilderActionMemorizeChest::new);
         npcPlugin.registerCoreComponentType("Evoke:ResetChestExploration", BuilderActionResetChestExploration::new);
@@ -254,6 +256,7 @@ public class HexcodeEvoke extends JavaPlugin {
         registery.registerSystem(new HexCreatureLifeEssenceSystem());
         registery.registerSystem(new HexCreatureClimbStateSystem());
         registery.registerSystem(new HexCreatureCrawlSystem());
+        registery.registerSystem(new HexCreatureFlightSystem());
         registery.registerSystem(new HexCreatureBreathingSystem());
         registery.registerSystem(new OffHandItemStateResetSystem());
         registery.registerSystem(new WorldStallWatchdogSystem());

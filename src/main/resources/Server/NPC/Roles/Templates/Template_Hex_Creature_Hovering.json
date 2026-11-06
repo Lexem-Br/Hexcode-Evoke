@@ -165,7 +165,7 @@
       ]
     },
     {
-      "$Comment": "After the wand command flies straight to 1.5 blocks above the target point through any block, then waits there",
+      "$Comment": "After the wand command flies straight to 1.5 blocks above the target point through any block, then waits there. Pointed at a wall, it stops 1 block before touching it",
       "Sensor": {
         "Type": "State",
         "State": "SeekPosition"
@@ -202,14 +202,16 @@
             "Type": "Evoke:ReadPosition",
             "Range": { "Compute": "MaxBeaconDistance" },
             "MinRange": 0.3,
-            "HeightOffset": 1.5
+            "HeightOffset": 1.5,
+            "WallClearance": 1
           },
           "Actions": [
             {
               "Type": "Evoke:Unstuck",
               "Speed": 8,
               "TurnRate": 10,
-              "StartSpread": 90
+              "StartSpread": 90,
+              "UseSensorPosition": true
             }
           ]
         },

@@ -18,6 +18,7 @@ public class BuilderSensorEvokeReadPosition extends BuilderSensorBase {
    protected final DoubleHolder range = new DoubleHolder();
    protected final DoubleHolder minRange = new DoubleHolder();
    protected final DoubleHolder heightOffset = new DoubleHolder();
+   protected final DoubleHolder wallClearance = new DoubleHolder();
 
    public BuilderSensorEvokeReadPosition() {
    }
@@ -53,12 +54,17 @@ public class BuilderSensorEvokeReadPosition extends BuilderSensorBase {
       );
       this.requireDouble(data, "Range", this.range, DoubleSingleValidator.greater0(), BuilderDescriptorState.Stable, "Maximum range from stored position", null);
       this.getDouble(data, "HeightOffset", this.heightOffset, 0.0, DoubleRangeValidator.between(-10.0, 10.0), BuilderDescriptorState.Stable, "Height added to the stored position", "Height added to the stored position, used by flying creatures that can't reach a point on the ground");
+      this.getDouble(data, "WallClearance", this.wallClearance, 0.0, DoubleSingleValidator.greaterEqual0(), BuilderDescriptorState.Stable, "Free space kept between the body and nearby blocks", "Moves the position out of the block hit by the wand and away from nearby walls, ceilings and floors. Above 0, the HeightOffset is only used when the wand hits the top of a block");
       this.provideFeature(Feature.Position);
       return this;
    }
 
    public double getHeightOffset(@Nonnull BuilderSupport support) {
       return this.heightOffset.get(support.getExecutionContext());
+   }
+
+   public double getWallClearance(@Nonnull BuilderSupport support) {
+      return this.wallClearance.get(support.getExecutionContext());
    }
 
    public double getMinRange(@Nonnull BuilderSupport support) {

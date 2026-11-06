@@ -225,14 +225,16 @@
             "Type": "Evoke:ReadPosition",
             "Range": { "Compute": "MaxBeaconDistance" },
             "MinRange": 0.3,
-            "HeightOffset": 1.5
+            "HeightOffset": 1.5,
+            "WallClearance": 1
           },
           "Actions": [
             {
               "Type": "Evoke:Unstuck",
               "Speed": 8,
               "TurnRate": 10,
-              "StartSpread": 90
+              "StartSpread": 90,
+              "UseSensorPosition": true
             }
           ]
         },

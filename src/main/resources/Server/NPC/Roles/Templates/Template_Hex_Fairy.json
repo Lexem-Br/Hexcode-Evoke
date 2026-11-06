@@ -1,0 +1,336 @@
+{
+  "StartState": "Following",
+  "Type": "Generic",
+  "Parameters": {
+    "Appearance": {
+      "Value": "Hex_Fairy",
+      "Description": "Model to be used."
+    },
+    "FlockArray": {
+      "Value": [],
+      "TypeHint": "String",
+      "Description": "Array containing NPCs for this flock type."
+    },
+    "DropHexItem": {
+      "Value": "Hex_Fairy_Block",
+      "Description": "Drop from Hex Creature"
+    },
+    "holdableItems": {
+      "Value": [ "" ],
+      "Description": "Items that can be held in the hand"
+    },
+    "DropList": {
+      "Value": "Empty",
+      "Description": "Drop Items"
+    },
+    "MaxBeaconDistance": {
+      "Value": 100,
+      "Description": "The maximum distance the wand reaches"
+    },
+    "NameTranslationKey": {
+      "Value": "server.npcRoles.Template.name",
+      "Description": "Translation key for NPC name display"
+    }
+  },
+  "DropList": { "Compute": "DropList" },
+  "Appearance": {"Compute": "Appearance"},
+  "FlockSpawnTypes": {"Compute": "FlockArray"},
+  "FlockAllowedNPC": {"Compute": "FlockArray"},
+  "DisableDamageFlock": true,
+  "InventorySize": 0,
+  "HotbarSize": 3,
+  "OffHandSlots": 0,
+  "NameTranslationKey": {"Compute": "NameTranslationKey"},
+  "InitialMotionController": "Walk",
+  "MotionControllerList": [
+    {
+      "$Comment": "Only used for the first tick after spawning, the first instruction switches to Fly",
+      "Type": "Walk",
+      "MaxWalkSpeed": 15,
+      "Gravity": 10,
+      "RunThreshold": 0.5,
+      "MaxFallSpeed": 30,
+      "MaxRotationSpeed": 360,
+      "Acceleration": 20,
+      "MinHover": 1,
+      "MaxHover": 1,
+      "HoverFreq": 10,
+      "MaxClimbHeight": 3,
+      "MaxDropHeight": 3
+    },
+    {
+      "$Comment": "Evoke:FairyFlight moves the creature by itself, this controller only keeps it in the air and handles knockback",
+      "Type": "Fly",
+      "MaxHorizontalSpeed": 15,
+      "MaxClimbSpeed": 10,
+      "MaxSinkSpeed": 8,
+      "MinAirSpeed": 0,
+      "Acceleration": 20,
+      "Deceleration": 10,
+      "MaxClimbAngle": 90,
+      "MaxSinkAngle": 90,
+      "MaxTurnSpeed": 180,
+      "MaxRollAngle": 20,
+      "MinHeightOverGround": 1,
+      "MaxHeightOverGround": 3,
+      "DesiredAltitudeWeight": 0.5
+    }
+  ],
+  "MaxHealth": 100,
+  "StateTransitions": [
+    {
+      "$Comment": "Clear",
+      "States": [
+        {
+          "From": [ ],
+          "To": [ ]
+        }
+      ],
+      "Actions": [
+        {
+          "Type": "ReleaseTarget"
+        },
+        {
+          "Type": "ResetInstructions"
+        }
+      ]
+    }
+  ],
+  "Instructions": [
+    {
+      "$Comment": "Always flies, also right after spawning",
+      "Continue": true,
+      "Sensor": {
+        "Type": "MotionController",
+        "MotionController": "Walk"
+      },
+      "Actions": [
+        {
+          "Type": "Evoke:SetMotionController",
+          "MotionController": "Fly"
+        }
+      ]
+    },
+    {
+      "$Comment": "After the Follow command, dashes straight to the evoker through any block and resumes following when nearby",
+      "Sensor": {
+        "Type": "State",
+        "State": "Recall"
+      },
+      "Instructions": [
+        {
+          "Sensor": {
+            "Type": "Beacon",
+            "Message": "EvokeTargetPosition",
+            "Range": { "Compute": "MaxBeaconDistance" }
+          },
+          "Actions": [
+            {
+              "Type": "State",
+              "State": "SeekPosition"
+            }
+          ]
+        },
+        {
+          "Sensor": {
+            "Type": "Evoke:EvokerPosition",
+            "Range": 2.5
+          },
+          "Actions": [
+            {
+              "Type": "State",
+              "State": "Following"
+            }
+          ]
+        },
+        {
+          "Sensor": {
+            "Type": "Evoke:EvokerPosition",
+            "Range": 100000
+          },
+          "Actions": [
+            {
+              "Type": "Evoke:FairyFlight",
+              "IgnoreBlocks": true,
+              "TrailParticle": "Evoke_Fairy_Trail"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "$Comment": "After the wand command, dashes straight to 1.5 blocks above the target point through any block, then hovers there. Pointed at a wall, it stops 1 block before touching it",
+      "Sensor": {
+        "Type": "State",
+        "State": "SeekPosition"
+      },
+      "Instructions": [
+        {
+          "Sensor": {
+            "Type": "Beacon",
+            "Message": "EvokeFollowLeader",
+            "Range": { "Compute": "MaxBeaconDistance" }
+          },
+          "Actions": [
+            {
+              "Type": "State",
+              "State": "Recall"
+            }
+          ]
+        },
+        {
+          "Sensor": {
+            "Type": "Evoke:ReadPosition",
+            "Range": { "Compute": "MaxBeaconDistance" },
+            "MinRange": 0.3,
+            "HeightOffset": 1.5,
+            "WallClearance": 1
+          },
+          "Actions": [
+            {
+              "Type": "Evoke:FairyFlight",
+              "IgnoreBlocks": true,
+              "TrailParticle": "Evoke_Fairy_Trail"
+            }
+          ]
+        },
+        {
+          "Sensor": {
+            "Type": "Any"
+          },
+          "Actions": [
+            {
+              "Type": "State",
+              "State": "Idle"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "$Comment": "Dashes to above the Essence Tray through any block, consumes as much life essence as it can, flies back to where it was and resumes the previous task",
+      "Sensor": {
+        "Type": "State",
+        "State": "Refuel"
+      },
+      "Instructions": [
+        {
+          "$Comment": "Wand commands still work while refueling",
+          "Reference": "Component_Evoke_Wand_Commands",
+          "Modify": {
+            "_ExportStates": ["SeekPosition", "Recall"],
+            "Range": { "Compute": "MaxBeaconDistance" }
+          }
+        },
+        {
+          "Reference": "Component_Evoke_Refuel_Fairy"
+        }
+      ]
+    },
+    {
+      "$Comment": "Adds the entity to the flock of the first player it finds",
+      "Reference": "Component_Evoke_Join_Evoker_Flock"
+    },
+    {
+      "$Comment": "Beacon wand command",
+      "Reference": "Component_Evoke_Wand_Commands",
+      "Modify": {
+        "_ExportStates": ["SeekPosition", "Recall"],
+        "Range": { "Compute": "MaxBeaconDistance" }
+      }
+    },
+    {
+      "$Comment": "Goes to refuel at a nearby Essence Tray when low on life essence",
+      "Reference": "Component_Evoke_Refuel_Trigger",
+      "Modify": {
+        "_ExportStates": ["Refuel"]
+      }
+    },
+    {
+      "$Comment": "After a wand command: hovers around the point where it arrived",
+      "Sensor": {
+        "Type": "State",
+        "State": "Idle"
+      },
+      "Actions": [
+        {
+          "Type": "Evoke:FairyFlight",
+          "Hover": true,
+          "WobbleRadius": 0.15,
+          "BobHeight": 0.06
+        }
+      ]
+    },
+    {
+      "$Comment": "Entity movement",
+      "Sensor": {
+        "Type": "State",
+        "State": "Following"
+      },
+      "Instructions": [
+        {
+          "$Comment": "Prevents the NPC from losing sight of the player",
+          "Continue": true,
+          "Sensor": {
+            "Type": "Player",
+            "Range": { "Compute": "MaxBeaconDistance" },
+            "LockOnTarget": true,
+            "Filters": [
+              {
+                "Type": "Evoke:IsEvoker"
+              }
+            ]
+          },
+          "Actions": [
+            {
+              "Type": "Nothing"
+            }
+          ]
+        },
+        {
+          "$Comment": "Stays in front of and beside the evoker at head height. The spot only changes when they walk or look far enough away, then the fairy goes straight to it",
+          "Sensor": {
+            "Type": "Evoke:EvokerPosition",
+            "Range": 32,
+            "HeightOffset": 1.5,
+            "LeadDistance": 3,
+            "LeadFullSpeed": 5,
+            "LeadSideOffset": 1.2,
+            "IdleLeadDistance": 1.4,
+            "IdleSideOffset": 1,
+            "IdleDirection": "LookHold",
+            "IdleLookAngle": 60
+          },
+          "Actions": [
+            {
+              "Type": "Evoke:FairyFlight",
+              "Gain": 7,
+              "MaxSpeed": 15,
+              "Acceleration": 60,
+              "DashDistance": 3.5,
+              "DashStopDistance": 1.2,
+              "DashGain": 9,
+              "DashSpeed": 22,
+              "DashAcceleration": 90,
+              "WobbleRadius": 0.15,
+              "BobHeight": 0.06,
+              "PersonalRadius": 0.35,
+              "AvoidRadius": 0.9,
+              "MatchEvokerLook": true,
+              "TrailParticle": "Evoke_Fairy_Trail"
+            }
+          ]
+        },
+        {
+          "Reference": "Component_Evoke_Teleport_To_Evoker",
+          "Modify": {
+            "Range": { "Compute": "MaxBeaconDistance" }
+          }
+        }
+      ]
+    }
+  ],
+  "InteractionInstruction": {
+    "Reference": "Component_Evoke_Interaction_Crouch_Profile"
+  }
+}
