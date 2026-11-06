@@ -30,6 +30,7 @@ public class SensorEvokerPosition extends SensorBase {
     private final double idleLeadDistance;
     private final double idleSideOffset;
     private final BuilderSensorEvokerPosition.IdleDirection idleDirection;
+    private final double idleLookCosine;
     private final BuilderSensorEvokerPosition.Formation formation;
     private final double formationDistance;
     private final BuilderSensorEvokerPosition.FormationSide formationSide;
@@ -64,6 +65,7 @@ public class SensorEvokerPosition extends SensorBase {
         this.idleLeadDistance = builder.getIdleLeadDistance(support);
         this.idleSideOffset = builder.getIdleSideOffset(support);
         this.idleDirection = builder.getIdleDirection(support);
+        this.idleLookCosine = Math.cos(Math.toRadians(builder.getIdleLookAngle(support)));
         this.formation = builder.getFormation(support);
         this.formationDistance = builder.getFormationDistance(support);
         this.formationSide = builder.getFormationSide(support);
@@ -181,7 +183,12 @@ public class SensorEvokerPosition extends SensorBase {
                 float yaw = headRotation != null ? headRotation.getRotation().yaw() : evokerTransform.getRotation().yaw();
                 dirX = PhysicsMath.headingX(yaw);
                 dirZ = PhysicsMath.headingZ(yaw);
-                setLastMoveDirection(dirX, dirZ);
+                if (idleDirection == BuilderSensorEvokerPosition.IdleDirection.LookHold && hasLastMoveDirection && dirX * lastMoveDirX + dirZ * lastMoveDirZ >= idleLookCosine) {
+                    dirX = lastMoveDirX;
+                    dirZ = lastMoveDirZ;
+                } else {
+                    setLastMoveDirection(dirX, dirZ);
+                }
             }
         }
         double sideX = -dirZ;

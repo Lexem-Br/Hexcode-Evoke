@@ -1,0 +1,9 @@
+{
+  "Spawners": [
+    {
+      "SpawnerId": "Evoke_Fairy_Trail"
+    }
+  ],
+  "$Comment": "White sparkles left behind while a Hex Fairy flies fast",
+  "CullDistance": 50
+}

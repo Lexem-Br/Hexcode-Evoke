@@ -21,8 +21,8 @@
     }
   },
   "EyeHeight": 0.4,
-  "MinScale": 1,
-  "MaxScale": 1,
+  "MinScale": 0.7,
+  "MaxScale": 0.7,
   "Light": {
     "Color": "#997",
     "Radius": 9
@@ -45,7 +45,8 @@
     "FlyIdle": {
       "Animations": [
         {
-          "Animation": "NPC/Hex_Fairy/Animations/Idle.blockyanim"
+          "Animation": "NPC/Hex_Fairy/Animations/Idle.blockyanim",
+          "Speed": 1.6
         }
       ]
     },
@@ -53,7 +54,7 @@
       "Animations": [
         {
           "Animation": "NPC/Hex_Fairy/Animations/Fly.blockyanim",
-          "Speed": 0.7
+          "Speed": 1.2
         }
       ]
     },
@@ -61,7 +62,7 @@
       "Animations": [
         {
           "Animation": "NPC/Hex_Fairy/Animations/Fly.blockyanim",
-          "Speed": 1.0
+          "Speed": 1.8
         }
       ]
     },
@@ -69,7 +70,7 @@
       "Animations": [
         {
           "Animation": "NPC/Hex_Fairy/Animations/Fly.blockyanim",
-          "Speed": 0.7
+          "Speed": 1.2
         }
       ]
     },

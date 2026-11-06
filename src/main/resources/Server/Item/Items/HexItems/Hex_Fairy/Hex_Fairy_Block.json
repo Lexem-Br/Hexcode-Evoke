@@ -49,7 +49,7 @@
     "ParticleColor": "#65482d",
     "TextureComputedColor": "#67412B",
     "RequiresAlphaBlending": false,
-    "CustomModelScale": 0.5
+    "CustomModelScale": 0.35
   },
   "PlayerAnimationsId": "Item",
   "ItemSoundSetId": "ISS_Blocks_Stone",

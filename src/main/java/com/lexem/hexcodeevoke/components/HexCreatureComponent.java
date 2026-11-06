@@ -10,6 +10,7 @@ import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.logger.HytaleLogger;
 import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
+import com.lexem.hexcodeevoke.utils.FairyFlightState;
 import com.lexem.hexcodeevoke.utils.RefuelState;
 import com.lexem.hexcodeevoke.utils.SurfaceCrawlState;
 import com.lexem.hexcodeevoke.utils.TransportState;
@@ -51,6 +52,7 @@ public class HexCreatureComponent implements Component<EntityStore> {
     private long lastExploreSearch;
     private Map<Long, Long> visitedChests = new HashMap<>();
     private SurfaceCrawlState crawlState = new SurfaceCrawlState();
+    private FairyFlightState flightState = new FairyFlightState();
     private RefuelState refuelState = new RefuelState();
     private TransportState transportState = new TransportState();
     private Boolean ascentSmallStep;
@@ -489,6 +491,11 @@ public class HexCreatureComponent implements Component<EntityStore> {
     }
 
     @Nonnull
+    public FairyFlightState getFlightState() {
+        return flightState;
+    }
+
+    @Nonnull
     public RefuelState getRefuelState() {
         return refuelState;
     }
@@ -626,6 +633,7 @@ public class HexCreatureComponent implements Component<EntityStore> {
         clone.lastExploreSearch = this.lastExploreSearch;
         clone.visitedChests = this.visitedChests;
         clone.crawlState = this.crawlState;
+        clone.flightState = this.flightState;
         clone.refuelState = this.refuelState;
         clone.transportState = this.transportState;
         clone.ascentSmallStep = this.ascentSmallStep;

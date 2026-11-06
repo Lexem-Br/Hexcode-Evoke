@@ -6,6 +6,7 @@ import com.hypixel.hytale.logger.HytaleLogger;
 import com.hypixel.hytale.math.vector.Vector3dUtil;
 import com.hypixel.hytale.server.core.modules.entity.component.TransformComponent;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
+import com.hypixel.hytale.server.core.util.TargetUtil;
 import com.hypixel.hytale.server.npc.asset.builder.BuilderSupport;
 import com.hypixel.hytale.server.npc.corecomponents.SensorBase;
 import com.hypixel.hytale.server.npc.instructions.ExecutionSupport;
@@ -15,6 +16,7 @@ import com.hypixel.hytale.server.npc.sensorinfo.PositionProvider;
 import com.lexem.hexcodeevoke.components.EvokerComponent;
 import com.lexem.hexcodeevoke.components.HexCreatureComponent;
 import com.lexem.hexcodeevoke.npc.sensors.builders.BuilderSensorEvokeReadPosition;
+import com.lexem.hexcodeevoke.utils.HoverPointFinder;
 import org.joml.Vector3d;
 
 import javax.annotation.Nonnull;
@@ -24,7 +26,11 @@ public class SensorEvokeReadPosition extends SensorBase {
    protected final double minRange;
    protected final double range;
    protected final double heightOffset;
+   protected final double wallClearance;
    protected final PositionProvider positionProvider = new PositionProvider();
+   private final Vector3d clearPositionKey = new Vector3d();
+   private final Vector3d clearPosition = new Vector3d();
+   private boolean hasClearPosition;
    private static final HytaleLogger LOGGER = HytaleLogger.forEnclosingClass();
 
    private static final double BASE_DISTANCE = 2.0;
@@ -37,6 +43,7 @@ public class SensorEvokeReadPosition extends SensorBase {
       this.minRange = builder.getMinRange(support);
       this.range = builder.getRange(support);
       this.heightOffset = builder.getHeightOffset(support);
+      this.wallClearance = builder.getWallClearance(support);
    }
 
    @Override
@@ -58,7 +65,9 @@ public class SensorEvokeReadPosition extends SensorBase {
 
             Vector3d position = new Vector3d(storedPosition).add(0, this.heightOffset, 0);
             MotionController motionController = executionSupport.getMotionContextSupport().getActiveMotionController();
-            if (motionController != null) {
+            if (motionController != null && this.wallClearance > 0) {
+               position.set(this.getClearPosition(ref, storedPosition, motionController, store));
+            } else if (motionController != null) {
                for (double height = this.heightOffset; height >= MIN_FREE_HEIGHT; height -= FREE_SEARCH_STEP) {
                   position.set(storedPosition.x, storedPosition.y + height, storedPosition.z);
                   if (motionController.isValidPosition(position, store)) break;
@@ -68,7 +77,8 @@ public class SensorEvokeReadPosition extends SensorBase {
             int qtdHexCreatures = evoker.getSelectedHexCreatures().length;
             double dist = transformComponent.getPosition().distanceSquared(position);
 
-            if (isWithinAllowedDistance(qtdHexCreatures, dist)) {
+            boolean insideBlock = this.wallClearance > 0 && motionController != null && !motionController.isValidPosition(transformComponent.getPosition(), store);
+            if (!insideBlock && isWithinAllowedDistance(qtdHexCreatures, dist)) {
                this.positionProvider.clear();
                return false;
             } else if (!(dist > this.range * this.range) && !(dist < this.minRange * this.minRange)) {
@@ -82,6 +92,18 @@ public class SensorEvokeReadPosition extends SensorBase {
       }
    }
 
+
+   @Nonnull
+   private Vector3d getClearPosition(@Nonnull Ref<EntityStore> ref, @Nonnull Vector3d storedPosition, @Nonnull MotionController motionController, @Nonnull Store<EntityStore> store) {
+      if (this.hasClearPosition && this.clearPositionKey.equals(storedPosition)) return this.clearPosition;
+
+      Ref<EntityStore> playerRef = this.getEvokerRef(ref, store);
+      Vector3d lookOrigin = playerRef != null ? TargetUtil.getLook(playerRef, store).getPosition() : storedPosition;
+      this.clearPosition.set(HoverPointFinder.find(storedPosition, this.heightOffset, this.wallClearance, lookOrigin, position -> motionController.isValidPosition(position, store)));
+      this.clearPositionKey.set(storedPosition);
+      this.hasClearPosition = true;
+      return this.clearPosition;
+   }
 
    private boolean isWithinAllowedDistance(int qtdHexCreatures, double dist) {
       if (qtdHexCreatures == 1) {
@@ -97,14 +119,18 @@ public class SensorEvokeReadPosition extends SensorBase {
    }
 
    private EvokerComponent getEvoker(Ref<EntityStore> ref, Store<EntityStore> store) {
+      Ref<EntityStore> playerRef = this.getEvokerRef(ref, store);
+      if (playerRef == null) {return null;}
+
+      return store.getComponent(playerRef, EvokerComponent.getComponentType());
+   }
+
+   private Ref<EntityStore> getEvokerRef(Ref<EntityStore> ref, Store<EntityStore> store) {
       HexCreatureComponent hexCreatureComponent = store.getComponent(ref, HexCreatureComponent.getComponentType());
       if (hexCreatureComponent == null) {return null;}
 
       UUID playerUUID = UUID.fromString(hexCreatureComponent.getEvokerUUID());
-      Ref<EntityStore> playerRef = store.getExternalData().getRefFromUUID(playerUUID);
-      if (playerRef == null) {return null;}
-
-      return store.getComponent(playerRef, EvokerComponent.getComponentType());
+      return store.getExternalData().getRefFromUUID(playerUUID);
    }
 
    private Vector3d getPostion(EvokerComponent evoker) {

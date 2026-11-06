@@ -1,6 +1,6 @@
 {
   "Type": "Variant",
-  "Reference": "Template_Hex_Creature_Hovering",
+  "Reference": "Template_Hex_Fairy",
   "Modify": {
     "Appearance": "Hex_Fairy_Cyan",
     "DropHexItem": "Hex_Fairy_Cyan_Block",

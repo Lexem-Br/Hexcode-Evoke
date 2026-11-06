@@ -27,7 +27,7 @@ public class HexCreatureBreathingSystem extends EntityEventSystem<EntityStore, B
             @Nonnull BreathingCheckEvent event
     ) {
         HexCreatureComponent hexCreature = archetypeChunk.getComponent(index, HexCreatureComponent.getComponentType());
-        if (hexCreature != null && hexCreature.getCrawlState().isActive()) {
+        if (hexCreature != null && (hexCreature.getCrawlState().isActive() || hexCreature.getFlightState().isActive())) {
             event.setCanBreathe(true);
         }
     }
