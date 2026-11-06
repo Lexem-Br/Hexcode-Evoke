@@ -1,6 +1,7 @@
 package com.lexem.hexcodeevoke.utils;
 
 import com.hypixel.hytale.component.CommandBuffer;
+import com.hypixel.hytale.component.ComponentAccessor;
 import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.component.Store;
 import com.hypixel.hytale.logger.HytaleLogger;
@@ -74,6 +75,11 @@ public class HexCreatureUtils {
             }
         }
 
+        if (!LifeEssenceUtils.canPayEvokeCost(accessor, refESPlayer, hexItem)) {
+            sendInsufficientLifeEssence(accessor, refESPlayer, hexItem);
+            return false;
+        }
+
         accessor.run(_store -> {
             if (!evoker.canAddHexCreature()) {
                 PlayerRef playerRef = store.getComponent(refESPlayer, PlayerRef.getComponentType());
@@ -87,9 +93,16 @@ public class HexCreatureUtils {
                 return;
             }
             if (roleIndex >= 0) {
+                if (!LifeEssenceUtils.canPayEvokeCost(_store, refESPlayer, hexItem)) {
+                    sendInsufficientLifeEssence(_store, refESPlayer, hexItem);
+                    return;
+                }
+
                 Vector3d blockVector = new Vector3d(blockPos.x + 0.5, blockPos.y, blockPos.z + 0.5);
                 Pair<Ref<EntityStore>, NPCEntity> npcPair = NPCPlugin.get().spawnEntity(_store, roleIndex, blockVector, blockRotation, null, null);
                 if (npcPair == null) { return; }
+
+                LifeEssenceUtils.payEvokeCost(_store, refESPlayer, hexItem);
 
                 MannequinArmorUtils.transferToHexCreature(world, blockPos, _store, npcPair.first(), blockVector);
                 BlockContainerUtils.transferToHexCreature(world, blockPos, _store, npcPair.first(), blockVector);
@@ -105,5 +118,15 @@ public class HexCreatureUtils {
         });
 
         return true;
+    }
+
+    private static void sendInsufficientLifeEssence(ComponentAccessor<EntityStore> accessor, Ref<EntityStore> refESPlayer, AllowedHexItemsAsset.HexItem hexItem) {
+        PlayerRef playerRef = accessor.getComponent(refESPlayer, PlayerRef.getComponentType());
+        ErrorMessageUtils.sendMessageErrorJoinInt(
+                playerRef,
+                "errors.insufficient_life_essence_quantity.title",
+                hexItem.essenceCost,
+                "errors.insufficient_life_essence_quantity.description"
+        );
     }
 }

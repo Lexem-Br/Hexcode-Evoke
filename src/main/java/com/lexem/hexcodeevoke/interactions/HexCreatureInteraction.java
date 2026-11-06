@@ -8,8 +8,6 @@ import com.hypixel.hytale.protocol.BlockPosition;
 import com.hypixel.hytale.protocol.InteractionState;
 import com.hypixel.hytale.protocol.InteractionType;
 import com.hypixel.hytale.server.core.entity.InteractionContext;
-import com.hypixel.hytale.server.core.inventory.InventoryComponent;
-import com.hypixel.hytale.server.core.inventory.ItemStack;
 import com.hypixel.hytale.server.core.modules.entity.component.TransformComponent;
 import com.hypixel.hytale.server.core.modules.interaction.interaction.CooldownHandler;
 import com.hypixel.hytale.server.core.modules.interaction.interaction.config.SimpleInteraction;
@@ -95,27 +93,11 @@ public class HexCreatureInteraction extends SimpleInteraction {
                 return;
             }
 
-            if (hexItem.essenceCost > 0) {
-                ItemStack itemStack = new ItemStack("Ingredient_Life_Essence", hexItem.essenceCost);
-                final var combinedHotbarFirst = InventoryComponent.getCombined(accessor, refESPlayer, InventoryComponent.HOTBAR_STORAGE_BACKPACK);
-                var removeItemStack = combinedHotbarFirst.removeItemStack(itemStack, true, true);
-                if (!removeItemStack.succeeded()) {
-                    PlayerRef playerRef = accessor.getComponent(refESPlayer, PlayerRef.getComponentType());
-                    ErrorMessageUtils.sendMessageErrorJoinInt(
-                            playerRef,
-                            "errors.insufficient_life_essence_quantity.title",
-                            hexItem.essenceCost,
-                            "errors.insufficient_life_essence_quantity.description"
-                    );
-                    context.getState().state = InteractionState.Failed;
-                    return;
-                }
-            }
-
             boolean spawned = HexCreatureUtils.trySpawnHexCreature(hexItemPosition, refESPlayer, accessor);
             if (!spawned) {
                 context.getState().state = InteractionState.Failed;
                 super.tick0(firstRun, time, type, context, cooldownHandler);
+                return;
             }
 
             context.getState().state = InteractionState.Finished;
