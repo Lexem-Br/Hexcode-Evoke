@@ -1,0 +1,183 @@
+package com.lexem.hexcodeevoke.npc.sensors.builders;
+
+import com.google.gson.JsonElement;
+import com.hypixel.hytale.server.npc.asset.builder.Builder;
+import com.hypixel.hytale.server.npc.asset.builder.BuilderDescriptorState;
+import com.hypixel.hytale.server.npc.asset.builder.BuilderSupport;
+import com.hypixel.hytale.server.npc.asset.builder.Feature;
+import com.hypixel.hytale.server.npc.asset.builder.holder.DoubleHolder;
+import com.hypixel.hytale.server.npc.asset.builder.holder.EnumHolder;
+import com.hypixel.hytale.server.npc.asset.builder.validators.DoubleRangeValidator;
+import com.hypixel.hytale.server.npc.asset.builder.validators.DoubleSingleValidator;
+import com.hypixel.hytale.server.npc.corecomponents.builders.BuilderSensorBase;
+import com.hypixel.hytale.server.npc.instructions.Sensor;
+import com.lexem.hexcodeevoke.npc.sensors.SensorEvokerPosition;
+
+import javax.annotation.Nonnull;
+import java.util.function.Supplier;
+
+public class BuilderSensorEvokerPosition extends BuilderSensorBase {
+   protected final DoubleHolder range = new DoubleHolder();
+   protected final DoubleHolder minRange = new DoubleHolder();
+   protected final DoubleHolder heightOffset = new DoubleHolder();
+   protected final DoubleHolder leadDistance = new DoubleHolder();
+   protected final DoubleHolder leadFullSpeed = new DoubleHolder();
+   protected final DoubleHolder leadSideOffset = new DoubleHolder();
+   protected final DoubleHolder idleLeadDistance = new DoubleHolder();
+   protected final DoubleHolder idleSideOffset = new DoubleHolder();
+   protected final EnumHolder<IdleDirection> idleDirection = new EnumHolder<>();
+   protected final DoubleHolder idleLookAngle = new DoubleHolder();
+   protected final EnumHolder<Formation> formation = new EnumHolder<>();
+   protected final DoubleHolder formationDistance = new DoubleHolder();
+   protected final EnumHolder<FormationSide> formationSide = new EnumHolder<>();
+
+   public BuilderSensorEvokerPosition() {
+   }
+
+   @Nonnull
+   @Override
+   public String getShortDescription() {
+      return "Provides the evoker's position raised by a height offset";
+   }
+
+   @Nonnull
+   @Override
+   public String getLongDescription() {
+      return "Matches when the evoker is within range and provides their position raised by HeightOffset, used by flying creatures to follow the player in 3D";
+   }
+
+   @Nonnull
+   public Sensor build(@Nonnull BuilderSupport builderSupport) {
+      return new SensorEvokerPosition(this, builderSupport);
+   }
+
+   @Nonnull
+   @Override
+   public BuilderDescriptorState getBuilderDescriptorState() {
+      return BuilderDescriptorState.Stable;
+   }
+
+   @Nonnull
+   @Override
+   public Builder<Sensor> readConfig(@Nonnull JsonElement data) {
+      this.getDouble(data, "MinRange", this.minRange, 0.0, DoubleSingleValidator.greaterEqual0(), BuilderDescriptorState.Stable, "Minimum range to the target position", null);
+      this.requireDouble(data, "Range", this.range, DoubleSingleValidator.greater0(), BuilderDescriptorState.Stable, "Maximum range to the target position", null);
+      this.getDouble(data, "HeightOffset", this.heightOffset, 1.5, DoubleRangeValidator.between(-10.0, 10.0), BuilderDescriptorState.Stable, "Height added to the evoker's position", null);
+      this.getDouble(data, "LeadDistance", this.leadDistance, 0.0, DoubleSingleValidator.greaterEqual0(), BuilderDescriptorState.Stable, "How far ahead of the evoker the position moves while they walk", "Maximum distance the position moves ahead of the evoker in their walking direction. 0 disables it");
+      this.getDouble(data, "LeadFullSpeed", this.leadFullSpeed, 5.0, DoubleSingleValidator.greater0(), BuilderDescriptorState.Stable, "Evoker speed at which the full lead distance is used", "Evoker horizontal speed (blocks per second) at which the full lead distance is used. Slower movement uses a proportional lead");
+      this.getDouble(data, "LeadSideOffset", this.leadSideOffset, 0.0, DoubleSingleValidator.greaterEqual0(), BuilderDescriptorState.Stable, "How far to the side of the walking direction the position moves", "Distance the position moves to the left or right of the evoker's walking direction, towards the side the creature is already on, so it doesn't block a first person view. Scales with speed like LeadDistance");
+      this.getDouble(data, "IdleLeadDistance", this.idleLeadDistance, 0.0, DoubleSingleValidator.greaterEqual0(), BuilderDescriptorState.Stable, "How far ahead of the evoker the position stays while they stand still", "Distance in front of where the evoker is looking while they stand still. Blends into LeadDistance as they speed up. 0 keeps the position on the evoker");
+      this.getDouble(data, "IdleSideOffset", this.idleSideOffset, 0.0, DoubleSingleValidator.greaterEqual0(), BuilderDescriptorState.Stable, "How far to the side the position stays while the evoker stands still", "Distance to the left or right of where the evoker is looking while they stand still, towards the side the creature is already on. Blends into LeadSideOffset as they speed up");
+      this.getEnum(data, "IdleDirection", this.idleDirection, IdleDirection.class, IdleDirection.Look, BuilderDescriptorState.Stable, "Direction used by IdleLeadDistance and IdleSideOffset while the evoker stands still", "Look follows where the evoker is looking, so the creature moves when they turn the camera. LastMove keeps the direction they last walked in, so the creature only moves when they start walking again. LookHold keeps the direction until the evoker looks more than IdleLookAngle degrees away from it");
+      this.getDouble(data, "IdleLookAngle", this.idleLookAngle, 60.0, DoubleRangeValidator.between(0.0, 180.0), BuilderDescriptorState.Stable, "Degrees the evoker has to turn to move the position, used by IdleDirection LookHold", null);
+      this.getEnum(data, "Formation", this.formation, Formation.class, Formation.Lead, BuilderDescriptorState.Stable, "Where the position is placed around the evoker", "Lead uses LeadDistance/LeadSideOffset (ahead of the evoker while they walk). Behind and Side use FormationDistance relative to where the evoker is looking, even when standing still. Nearest uses FormationDistance on the side opposite to the evoker's walking direction, or the point closest to the creature while they stand still");
+      this.getDouble(data, "FormationDistance", this.formationDistance, 1.5, DoubleSingleValidator.greaterEqual0(), BuilderDescriptorState.Stable, "Distance from the evoker used by the Behind, Side and Nearest formations", null);
+      this.getEnum(data, "FormationSide", this.formationSide, FormationSide.class, FormationSide.Nearest, BuilderDescriptorState.Stable, "Side used by the Side formation", "Nearest keeps the side the creature is already on");
+      this.provideFeature(Feature.Position);
+      return this;
+   }
+
+   public Formation getFormation(@Nonnull BuilderSupport support) {
+      return this.formation.get(support.getExecutionContext());
+   }
+
+   public double getFormationDistance(@Nonnull BuilderSupport support) {
+      return this.formationDistance.get(support.getExecutionContext());
+   }
+
+   public FormationSide getFormationSide(@Nonnull BuilderSupport support) {
+      return this.formationSide.get(support.getExecutionContext());
+   }
+
+   public enum Formation implements Supplier<String> {
+      Lead("Ahead of the evoker while they walk, like the Hex Fairy"),
+      Behind("Behind the evoker"),
+      Side("Beside the evoker"),
+      Nearest("On the side opposite to where the evoker walks: behind when walking forward, in front when walking backwards, and so on. Standing still, the point closest to the creature");
+
+      private final String description;
+
+      Formation(String description) {
+         this.description = description;
+      }
+
+      @Override
+      public String get() {
+         return this.description;
+      }
+   }
+
+   public double getIdleLookAngle(@Nonnull BuilderSupport support) {
+      return this.idleLookAngle.get(support.getExecutionContext());
+   }
+
+   public IdleDirection getIdleDirection(@Nonnull BuilderSupport support) {
+      return this.idleDirection.get(support.getExecutionContext());
+   }
+
+   public enum IdleDirection implements Supplier<String> {
+      Look("Where the evoker is looking"),
+      LastMove("The direction the evoker last walked in"),
+      LookHold("Where the evoker is looking, only updated when they look far enough away from it");
+
+      private final String description;
+
+      IdleDirection(String description) {
+         this.description = description;
+      }
+
+      @Override
+      public String get() {
+         return this.description;
+      }
+   }
+
+   public enum FormationSide implements Supplier<String> {
+      Nearest("The side the creature is already on"),
+      Left("The evoker's left side"),
+      Right("The evoker's right side");
+
+      private final String description;
+
+      FormationSide(String description) {
+         this.description = description;
+      }
+
+      @Override
+      public String get() {
+         return this.description;
+      }
+   }
+
+   public double getLeadSideOffset(@Nonnull BuilderSupport support) {
+      return this.leadSideOffset.get(support.getExecutionContext());
+   }
+
+   public double getIdleLeadDistance(@Nonnull BuilderSupport support) {
+      return this.idleLeadDistance.get(support.getExecutionContext());
+   }
+
+   public double getIdleSideOffset(@Nonnull BuilderSupport support) {
+      return this.idleSideOffset.get(support.getExecutionContext());
+   }
+
+   public double getLeadDistance(@Nonnull BuilderSupport support) {
+      return this.leadDistance.get(support.getExecutionContext());
+   }
+
+   public double getLeadFullSpeed(@Nonnull BuilderSupport support) {
+      return this.leadFullSpeed.get(support.getExecutionContext());
+   }
+
+   public double getMinRange(@Nonnull BuilderSupport support) {
+      return this.minRange.get(support.getExecutionContext());
+   }
+
+   public double getRange(@Nonnull BuilderSupport support) {
+      return this.range.get(support.getExecutionContext());
+   }
+
+   public double getHeightOffset(@Nonnull BuilderSupport support) {
+      return this.heightOffset.get(support.getExecutionContext());
+   }
+}

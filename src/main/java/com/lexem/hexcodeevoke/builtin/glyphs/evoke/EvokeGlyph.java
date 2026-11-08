@@ -1,14 +1,10 @@
 package com.lexem.hexcodeevoke.builtin.glyphs.evoke;
 
-import com.hypixel.hytale.component.*;
-import com.hypixel.hytale.server.core.asset.type.blocktype.config.BlockType;
-import com.hypixel.hytale.server.core.universe.world.World;
-import com.hypixel.hytale.server.core.universe.world.chunk.section.BlockSection;
+import com.hypixel.hytale.component.CommandBuffer;
+import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.lexem.hexcodeevoke.builtin.glyphs.evoke.style.EvokeStyle;
-import com.lexem.hexcodeevoke.utils.BlockUtils;
 import com.lexem.hexcodeevoke.utils.HexCreatureUtils;
-import com.lexem.hexcodeevoke.hexitems.AllowedHexItemsAsset;
 import com.riprod.hexcode.api.event.GlyphFizzleEvent;
 import com.riprod.hexcode.api.execution.HexExecuter;
 import com.riprod.hexcode.core.common.execution.context.HexContext;
@@ -18,7 +14,8 @@ import com.riprod.hexcode.core.common.glyphs.variables.BlockVar;
 import com.riprod.hexcode.core.common.glyphs.variables.EntityVar;
 import com.riprod.hexcode.core.common.glyphs.variables.HexVar;
 import com.riprod.hexcode.utils.HexVarUtil;
-import org.joml.*;
+import org.joml.Vector3d;
+import org.joml.Vector3i;
 
 public class EvokeGlyph implements GlyphHandler {
     public static final String ID = "Evoke";
@@ -37,13 +34,10 @@ public class EvokeGlyph implements GlyphHandler {
             return;
         }
 
-        CommandBuffer<EntityStore> accessor = hexContext.getAccessor();
-        World world = accessor.getExternalData().getWorld();
-
         EntityVar entityVar = HexVarUtil.resolveEntityVar(target, hexContext);
         BlockVar blockVar = entityVar == null ? HexVarUtil.resolveBlockVar(target, hexContext) : null;
         if (blockVar != null) {
-            handleBlockTarget(glyph, hexContext, blockVar, accessor, world);
+            handleBlockTarget(glyph, hexContext, blockVar);
         } else {
             HexExecuter.fail(glyph, hexContext, GlyphFizzleEvent.Reason.HANDLER_FAILED,"Target must be a Block");
             return;
@@ -55,31 +49,18 @@ public class EvokeGlyph implements GlyphHandler {
     private void handleBlockTarget(
             Glyph glyph,
             HexContext hexContext,
-            BlockVar blockVar,
-            CommandBuffer<EntityStore> accessor,
-            World world) {
-
+            BlockVar blockVar
+    ) {
+        CommandBuffer<EntityStore> accessor = hexContext.getAccessor();
         Vector3i blockPos = blockVar.getValue();
-        String blockId = BlockUtils.getBlockIdByPosition(blockPos, world);
-        if (blockId == null) {
-            LOGGER.atWarning().log("Evoke: block must be a Hex item");
-            return;
-        }
-
-        AllowedHexItemsAsset.HexItem hexItem = AllowedHexItemsAsset.getByBlockId(blockId);
-
-        if (hexItem == null) {
-            LOGGER.atWarning().log("Evoke: block must be a Hex item");
-            return;
-        }
 
         Ref<EntityStore> refESPlayer = hexContext.getCasterRef(accessor);
-        if (refESPlayer == null) { return; }
+        if (refESPlayer == null) return;
 
         Vector3d blockVector = new Vector3d(blockPos.x + 0.5, blockPos.y, blockPos.z + 0.5);
 
         boolean spawned = HexCreatureUtils.trySpawnHexCreature(blockPos, refESPlayer, accessor);
-        if (!spawned) { return; }
+        if (!spawned) return;
 
         EvokeStyle.renderImpact(accessor, blockVector, hexContext);
 

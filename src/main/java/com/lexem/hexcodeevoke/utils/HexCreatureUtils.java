@@ -1,9 +1,11 @@
 package com.lexem.hexcodeevoke.utils;
 
-import com.hypixel.hytale.component.*;
+import com.hypixel.hytale.component.CommandBuffer;
+import com.hypixel.hytale.component.ComponentAccessor;
+import com.hypixel.hytale.component.Ref;
+import com.hypixel.hytale.component.Store;
 import com.hypixel.hytale.logger.HytaleLogger;
 import com.hypixel.hytale.math.vector.Rotation3f;
-import com.hypixel.hytale.server.core.Message;
 import com.hypixel.hytale.server.core.asset.type.blocktype.config.BlockType;
 import com.hypixel.hytale.server.core.asset.type.blocktype.config.RotationTuple;
 import com.hypixel.hytale.server.core.universe.PlayerRef;
@@ -44,23 +46,39 @@ public class HexCreatureUtils {
 
         BlockType blockType = BlockUtils.getBlockTypeByPosition(blockPos, world);
         if (blockType == null) {
-            LOGGER.atWarning().log("Evoke: invalid block");
+            PlayerRef playerRef = accessor.getComponent(refESPlayer, PlayerRef.getComponentType());
+            ErrorMessageUtils.sendMessageError(playerRef, "errors.invalid_target", "errors.block_must_be_hex_item");
             return false;
         }
 
         AllowedHexItemsAsset.HexItem hexItem = AllowedHexItemsAsset.getByBlockId(blockType.getId());
 
         if (hexItem == null) {
-            LOGGER.atWarning().log("Evoke: block must be a Hex item");
+            PlayerRef playerRef = accessor.getComponent(refESPlayer, PlayerRef.getComponentType());
+            ErrorMessageUtils.sendMessageError(playerRef, "errors.invalid_target", "errors.block_must_be_hex_item");
             return false;
         }
 
         Store<EntityStore> store = refESPlayer.getStore();
         EvokerComponent evoker = store.getComponent(refESPlayer, EvokerComponent.getComponentType());
         if (evoker == null) { return false; }
-//        evoker.deleteUnusedHexCreatureUUID(store);
 
         int roleIndex = NPCPlugin.get().getIndex(hexItem.entityId);
+        if (roleIndex >= 0) {
+            try {
+                NPCPlugin.get().prepareRoleBuilderInfo(roleIndex);
+            } catch (RuntimeException e) {
+                LOGGER.atWarning().log("Invalid role '" + hexItem.entityId + "': " + e.getMessage());
+                PlayerRef playerRef = accessor.getComponent(refESPlayer, PlayerRef.getComponentType());
+                ErrorMessageUtils.sendMessageError(playerRef, "errors.invalid_target", "errors.block_must_be_hex_item");
+                return false;
+            }
+        }
+
+        if (!LifeEssenceUtils.canPayEvokeCost(accessor, refESPlayer, hexItem)) {
+            sendInsufficientLifeEssence(accessor, refESPlayer, hexItem);
+            return false;
+        }
 
         accessor.run(_store -> {
             if (!evoker.canAddHexCreature()) {
@@ -75,9 +93,19 @@ public class HexCreatureUtils {
                 return;
             }
             if (roleIndex >= 0) {
+                if (!LifeEssenceUtils.canPayEvokeCost(_store, refESPlayer, hexItem)) {
+                    sendInsufficientLifeEssence(_store, refESPlayer, hexItem);
+                    return;
+                }
+
                 Vector3d blockVector = new Vector3d(blockPos.x + 0.5, blockPos.y, blockPos.z + 0.5);
                 Pair<Ref<EntityStore>, NPCEntity> npcPair = NPCPlugin.get().spawnEntity(_store, roleIndex, blockVector, blockRotation, null, null);
                 if (npcPair == null) { return; }
+
+                LifeEssenceUtils.payEvokeCost(_store, refESPlayer, hexItem);
+
+                MannequinArmorUtils.transferToHexCreature(world, blockPos, _store, npcPair.first(), blockVector);
+                BlockContainerUtils.transferToHexCreature(world, blockPos, _store, npcPair.first(), blockVector);
 
                 final var chunkStore = world.getChunkStore().getStore();
                 BlockOperations.setBlock(chunkStore.getExternalData(), section, blockPos.x, blockPos.y, blockPos.z, BlockType.EMPTY_ID, BlockType.EMPTY, RotationTuple.NONE_INDEX, FillerBlockUtil.NO_FILLER, SetBlockSettings.NONE);
@@ -90,5 +118,15 @@ public class HexCreatureUtils {
         });
 
         return true;
+    }
+
+    private static void sendInsufficientLifeEssence(ComponentAccessor<EntityStore> accessor, Ref<EntityStore> refESPlayer, AllowedHexItemsAsset.HexItem hexItem) {
+        PlayerRef playerRef = accessor.getComponent(refESPlayer, PlayerRef.getComponentType());
+        ErrorMessageUtils.sendMessageErrorJoinInt(
+                playerRef,
+                "errors.insufficient_life_essence_quantity.title",
+                hexItem.essenceCost,
+                "errors.insufficient_life_essence_quantity.description"
+        );
     }
 }

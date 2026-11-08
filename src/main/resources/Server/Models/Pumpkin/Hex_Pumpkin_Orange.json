@@ -1,0 +1,62 @@
+{
+  "Model": "NPC/Pumpkin_Lamp/Pumpkin_Lamp_Small.blockymodel",
+  "Texture": "NPC/Pumpkin_Lamp/Pumpkin_Lamp_Small_02.png",
+  "DefaultAttachments": [],
+  "HitBox": {
+    "Min": {
+      "X": -0.2,
+      "Y": 0,
+      "Z": -0.2
+    },
+    "Max": {
+      "X": 0.2,
+      "Y": 0.4,
+      "Z": 0.2
+    }
+  },
+  "EyeHeight": 0.25,
+  "MinScale": 2,
+  "MaxScale": 2,
+  "Light": {
+    "Radius": 5,
+    "Color": "#754"
+  },
+  "AnimationSets": {
+    "Walk": {
+      "Animations": [
+        {
+          "Animation": "NPC/Pumpkin_Lamp/Animations/Walk.blockyanim",
+          "Speed": 0.80,
+          "Looping": true
+        }
+      ]
+    },
+    "Run": {
+      "Animations": [
+        {
+          "Animation": "NPC/Pumpkin_Lamp/Animations/Walk.blockyanim",
+          "Speed": 2.0,
+          "Looping": true
+        }
+      ]
+    },
+    "Jump": {
+      "Animations": [
+        {
+          "Animation": "NPC/Pumpkin_Lamp/Animations/Jump.blockyanim",
+          "Speed": 0.80,
+          "Looping": false
+        }
+      ]
+    },
+    "Sprint": {
+      "Animations": [
+        {
+          "Animation": "NPC/Pumpkin_Lamp/Animations/Walk.blockyanim",
+          "Speed": 2.0,
+          "Looping": true
+        }
+      ]
+    }
+  }
+}

@@ -2,6 +2,12 @@
   "Model": "NPC/Hex_Fairy/Models/Model.blockymodel",
   "Texture": "NPC/Hex_Fairy/Models/Textures/Default.png",
   "DefaultAttachments": [],
+  "Particles": [
+    {
+      "SystemId": "Evoke_Fairy_Dust",
+      "TargetNodeName": "Pelvis"
+    }
+  ],
   "HitBox": {
     "Max": {
       "X": 0.2,
@@ -15,10 +21,11 @@
     }
   },
   "EyeHeight": 0.4,
-  "MinScale": 1,
-  "MaxScale": 1,
+  "MinScale": 0.7,
+  "MaxScale": 0.7,
   "Light": {
-    "Color": "#997"
+    "Color": "#997",
+    "Radius": 9
   },
   "AnimationSets": {
     "Idle": {
@@ -32,6 +39,78 @@
       "Animations": [
         {
           "Animation": "NPC/Hex_Fairy/Animations/Idle.blockyanim"
+        }
+      ]
+    },
+    "FlyIdle": {
+      "Animations": [
+        {
+          "Animation": "NPC/Hex_Fairy/Animations/Idle.blockyanim",
+          "Speed": 1.6
+        }
+      ]
+    },
+    "Fly": {
+      "Animations": [
+        {
+          "Animation": "NPC/Hex_Fairy/Animations/Fly.blockyanim",
+          "Speed": 1.2
+        }
+      ]
+    },
+    "FlyFast": {
+      "Animations": [
+        {
+          "Animation": "NPC/Hex_Fairy/Animations/Fly.blockyanim",
+          "Speed": 1.8
+        }
+      ]
+    },
+    "FlyBackward": {
+      "Animations": [
+        {
+          "Animation": "NPC/Hex_Fairy/Animations/Fly.blockyanim",
+          "Speed": 1.2
+        }
+      ]
+    },
+    "Walk": {
+      "Animations": [
+        {
+          "Animation": "NPC/Hex_Fairy/Animations/Fly.blockyanim",
+          "Speed": 0.7
+        }
+      ]
+    },
+    "WalkBackward": {
+      "Animations": [
+        {
+          "Animation": "NPC/Hex_Fairy/Animations/Fly.blockyanim",
+          "Speed": 0.7
+        }
+      ]
+    },
+    "Run": {
+      "Animations": [
+        {
+          "Animation": "NPC/Hex_Fairy/Animations/Fly.blockyanim",
+          "Speed": 1.0
+        }
+      ]
+    },
+    "RunBackward": {
+      "Animations": [
+        {
+          "Animation": "NPC/Hex_Fairy/Animations/Fly.blockyanim",
+          "Speed": 1.0
+        }
+      ]
+    },
+    "Sprint": {
+      "Animations": [
+        {
+          "Animation": "NPC/Hex_Fairy/Animations/Fly.blockyanim",
+          "Speed": 1.0
         }
       ]
     }

@@ -1,0 +1,90 @@
+{
+  "$Comment": "Emits for 1 second, the Arcane Codex respawns it every second while waiting above the chest",
+  "RenderMode": "Erosion",
+  "Shape": "Cube",
+  "EmitOffset": {
+    "X": {
+      "Min": 0,
+      "Max": 0.35
+    },
+    "Y": {
+      "Min": 0,
+      "Max": 0
+    },
+    "Z": {
+      "Min": 0,
+      "Max": 0.35
+    }
+  },
+  "ParticleRotationInfluence": "Billboard",
+  "LinearFiltering": true,
+  "LightInfluence": 0,
+  "MaxConcurrentParticles": 20,
+  "LifeSpan": 1.0,
+  "ParticleLifeSpan": {
+    "Min": 1.2,
+    "Max": 1.5
+  },
+  "ParticleRotateWithSpawner": false,
+  "TrailSpawnerPositionMultiplier": 0,
+  "TrailSpawnerRotationMultiplier": 0,
+  "SpawnRate": {
+    "Min": 8,
+    "Max": 12
+  },
+  "Attractors": [
+    {
+      "LinearAcceleration": {
+        "X": 0,
+        "Y": -1.2,
+        "Z": 0
+      }
+    }
+  ],
+  "Particle": {
+    "Texture": "Particles/Textures/Basic/Ball3.png",
+    "ScaleRatioConstraint": "OneToOne",
+    "Animation": {
+      "0": {
+        "FrameIndex": {
+          "Min": 0,
+          "Max": 0
+        },
+        "Opacity": 0,
+        "Scale": {
+          "X": {
+            "Min": 1,
+            "Max": 1
+          },
+          "Y": {
+            "Min": 1,
+            "Max": 1
+          }
+        }
+      },
+      "15": {
+        "Opacity": 1
+      },
+      "75": {
+        "Opacity": 0.8
+      },
+      "100": {
+        "Opacity": 0
+      }
+    },
+    "InitialAnimationFrame": {
+      "Scale": {
+        "X": {
+          "Min": 0.04,
+          "Max": 0.09
+        }
+      },
+      "Opacity": 1.0,
+      "FrameIndex": {
+        "Min": 0,
+        "Max": 0
+      },
+      "Color": "#ffffff"
+    }
+  }
+}

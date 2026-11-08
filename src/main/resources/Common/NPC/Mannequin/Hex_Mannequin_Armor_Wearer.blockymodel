@@ -1,0 +1,1095 @@
+{
+  "nodes": [
+    {
+      "id": "144",
+      "name": "Origin",
+      "children": [
+        {
+          "id": "4",
+          "name": "Pelvis",
+          "position": {
+            "x": 0,
+            "y": 51,
+            "z": 0
+          },
+          "orientation": {
+            "w": 1,
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "shape": {
+            "offset": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "stretch": {
+              "x": 0.98,
+              "y": 1,
+              "z": 0.98
+            },
+            "textureLayout": {},
+            "type": "none",
+            "settings": {
+              "isPiece": false
+            },
+            "unwrapMode": "custom",
+            "visible": true,
+            "doubleSided": false,
+            "shadingMode": "flat"
+          },
+          "children": [
+            {
+              "id": "56",
+              "name": "Belly",
+              "position": {
+                "x": 0,
+                "y": 4,
+                "z": 0
+              },
+              "orientation": {
+                "w": 1,
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "shape": {
+                "offset": {
+                  "x": 0,
+                  "y": 8,
+                  "z": 0
+                },
+                "stretch": {
+                  "x": 1,
+                  "y": 1,
+                  "z": 1
+                },
+                "textureLayout": {},
+                "type": "none",
+                "settings": {
+                  "isPiece": false
+                },
+                "unwrapMode": "custom",
+                "visible": true,
+                "doubleSided": false,
+                "shadingMode": "flat"
+              },
+              "children": [
+                {
+                  "id": "2",
+                  "name": "Chest",
+                  "position": {
+                    "x": 0,
+                    "y": 5,
+                    "z": -3
+                  },
+                  "orientation": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0,
+                    "w": 1
+                  },
+                  "shape": {
+                    "offset": {
+                      "x": 0,
+                      "y": 11,
+                      "z": 3
+                    },
+                    "stretch": {
+                      "x": 0.98,
+                      "y": 0.98,
+                      "z": 0.95
+                    },
+                    "textureLayout": {},
+                    "type": "none",
+                    "settings": {
+                      "isPiece": false
+                    },
+                    "unwrapMode": "custom",
+                    "visible": true,
+                    "doubleSided": false,
+                    "shadingMode": "flat"
+                  },
+                  "children": [
+                    {
+                      "id": "1",
+                      "name": "Head",
+                      "position": {
+                        "x": 0,
+                        "y": 7.5,
+                        "z": -1
+                      },
+                      "orientation": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0,
+                        "w": 1
+                      },
+                      "shape": {
+                        "offset": {
+                          "x": 0,
+                          "y": 20,
+                          "z": 2
+                        },
+                        "stretch": {
+                          "x": 1,
+                          "y": 1,
+                          "z": 1
+                        },
+                        "textureLayout": {},
+                        "type": "none",
+                        "settings": {
+                          "isPiece": false
+                        },
+                        "unwrapMode": "custom",
+                        "visible": true,
+                        "doubleSided": false,
+                        "shadingMode": "flat"
+                      },
+                      "children": [
+                        {
+                          "id": "5",
+                          "name": "Neck",
+                          "position": {
+                            "x": 0,
+                            "y": -15.800003,
+                            "z": -1
+                          },
+                          "orientation": {
+                            "w": 1,
+                            "x": 0,
+                            "y": 0,
+                            "z": 0
+                          },
+                          "shape": {
+                            "offset": {
+                              "x": 0,
+                              "y": 3,
+                              "z": 0
+                            },
+                            "stretch": {
+                              "x": 1,
+                              "y": 1.377879,
+                              "z": 1
+                            },
+                            "textureLayout": {},
+                            "type": "none",
+                            "settings": {
+                              "isPiece": false
+                            },
+                            "unwrapMode": "custom",
+                            "visible": true,
+                            "doubleSided": false,
+                            "shadingMode": "flat"
+                          },
+                          "children": []
+                        },
+                        {
+                          "id": "127",
+                          "name": "L-Eyebrow-Attachment",
+                          "children": [],
+                          "position": {
+                            "x": 8,
+                            "y": 6,
+                            "z": 14
+                          },
+                          "orientation": {
+                            "x": 0,
+                            "y": 0,
+                            "z": 0,
+                            "w": 1
+                          },
+                          "shape": {
+                            "type": "none",
+                            "offset": {
+                              "x": 0,
+                              "y": 0,
+                              "z": 0
+                            },
+                            "stretch": {
+                              "x": 1,
+                              "y": 1,
+                              "z": 1
+                            },
+                            "settings": {
+                              "isPiece": false
+                            },
+                            "visible": true,
+                            "unwrapMode": "custom",
+                            "textureLayout": {},
+                            "doubleSided": false,
+                            "shadingMode": "flat"
+                          }
+                        },
+                        {
+                          "id": "128",
+                          "name": "R-Eyebrow-Attachment",
+                          "children": [],
+                          "position": {
+                            "x": -8,
+                            "y": 6,
+                            "z": 14
+                          },
+                          "orientation": {
+                            "x": 0,
+                            "y": 0,
+                            "z": 0,
+                            "w": 1
+                          },
+                          "shape": {
+                            "type": "none",
+                            "offset": {
+                              "x": 0,
+                              "y": 0,
+                              "z": 0
+                            },
+                            "stretch": {
+                              "x": -1,
+                              "y": 1,
+                              "z": 1
+                            },
+                            "settings": {
+                              "isPiece": false
+                            },
+                            "visible": true,
+                            "unwrapMode": "custom",
+                            "textureLayout": {},
+                            "doubleSided": false,
+                            "shadingMode": "flat"
+                          }
+                        },
+                        {
+                          "id": "129",
+                          "name": "R-Eye-Attachment",
+                          "children": [],
+                          "position": {
+                            "x": -7.2,
+                            "y": -1.7,
+                            "z": 13.5
+                          },
+                          "orientation": {
+                            "x": 0,
+                            "y": 0,
+                            "z": 0,
+                            "w": 1
+                          },
+                          "shape": {
+                            "type": "none",
+                            "offset": {
+                              "x": 0,
+                              "y": 0,
+                              "z": 0
+                            },
+                            "stretch": {
+                              "x": 1,
+                              "y": 1,
+                              "z": 1
+                            },
+                            "settings": {
+                              "isPiece": false
+                            },
+                            "visible": true,
+                            "unwrapMode": "custom",
+                            "textureLayout": {},
+                            "doubleSided": false,
+                            "shadingMode": "flat"
+                          }
+                        },
+                        {
+                          "id": "130",
+                          "name": "L-Eye-Attachment",
+                          "children": [],
+                          "position": {
+                            "x": 7.2,
+                            "y": -1.7,
+                            "z": 13.5
+                          },
+                          "orientation": {
+                            "x": 0,
+                            "y": 0,
+                            "z": 0,
+                            "w": 1
+                          },
+                          "shape": {
+                            "type": "none",
+                            "offset": {
+                              "x": 0,
+                              "y": 0,
+                              "z": 0
+                            },
+                            "stretch": {
+                              "x": -1,
+                              "y": 1,
+                              "z": 1
+                            },
+                            "settings": {
+                              "isPiece": false
+                            },
+                            "visible": true,
+                            "unwrapMode": "custom",
+                            "textureLayout": {},
+                            "doubleSided": false,
+                            "shadingMode": "flat"
+                          }
+                        },
+                        {
+                          "id": "131",
+                          "name": "Mouth-Attachment",
+                          "children": [],
+                          "position": {
+                            "x": 0,
+                            "y": -9,
+                            "z": 14.112329
+                          },
+                          "orientation": {
+                            "x": 0,
+                            "y": 0,
+                            "z": 0,
+                            "w": 1
+                          },
+                          "shape": {
+                            "type": "none",
+                            "offset": {
+                              "x": 0,
+                              "y": 0,
+                              "z": 0
+                            },
+                            "stretch": {
+                              "x": 1,
+                              "y": 1,
+                              "z": 1
+                            },
+                            "settings": {
+                              "isPiece": false
+                            },
+                            "visible": true,
+                            "doubleSided": false,
+                            "unwrapMode": "custom",
+                            "textureLayout": {},
+                            "shadingMode": "flat"
+                          }
+                        },
+                        {
+                          "id": "132",
+                          "name": "R-Ear-Attachment",
+                          "children": [],
+                          "position": {
+                            "x": -15,
+                            "y": -5,
+                            "z": -1
+                          },
+                          "orientation": {
+                            "x": 0,
+                            "y": 0,
+                            "z": 0,
+                            "w": 1
+                          },
+                          "shape": {
+                            "type": "none",
+                            "offset": {
+                              "x": 0,
+                              "y": 0,
+                              "z": 0
+                            },
+                            "stretch": {
+                              "x": 1,
+                              "y": 1,
+                              "z": 1
+                            },
+                            "settings": {
+                              "isPiece": false
+                            },
+                            "visible": true,
+                            "doubleSided": false,
+                            "unwrapMode": "custom",
+                            "textureLayout": {},
+                            "shadingMode": "flat"
+                          }
+                        },
+                        {
+                          "id": "133",
+                          "name": "L-Ear-Attachment",
+                          "children": [],
+                          "position": {
+                            "x": 15,
+                            "y": -5,
+                            "z": -1
+                          },
+                          "orientation": {
+                            "x": 0,
+                            "y": 0,
+                            "z": 0,
+                            "w": 1
+                          },
+                          "shape": {
+                            "type": "none",
+                            "offset": {
+                              "x": 0,
+                              "y": 0,
+                              "z": 0
+                            },
+                            "stretch": {
+                              "x": -1,
+                              "y": 1,
+                              "z": 1
+                            },
+                            "settings": {
+                              "isPiece": false
+                            },
+                            "visible": true,
+                            "doubleSided": false,
+                            "unwrapMode": "custom",
+                            "textureLayout": {},
+                            "shadingMode": "flat"
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "id": "142",
+                      "name": "R-Shoulder",
+                      "children": [
+                        {
+                          "id": "35",
+                          "name": "R-Arm",
+                          "position": {
+                            "x": 0,
+                            "y": 0,
+                            "z": 0
+                          },
+                          "orientation": {
+                            "x": 0.002663,
+                            "y": -0.06099,
+                            "z": -0.043538,
+                            "w": 0.997185
+                          },
+                          "shape": {
+                            "offset": {
+                              "x": -1,
+                              "y": -7.999998,
+                              "z": 0
+                            },
+                            "stretch": {
+                              "x": 0.98,
+                              "y": 1,
+                              "z": 1
+                            },
+                            "textureLayout": {},
+                            "type": "none",
+                            "settings": {
+                              "isPiece": false
+                            },
+                            "unwrapMode": "custom",
+                            "visible": true,
+                            "doubleSided": false,
+                            "shadingMode": "flat"
+                          },
+                          "children": [
+                            {
+                              "id": "36",
+                              "name": "R-Forearm",
+                              "position": {
+                                "x": 0,
+                                "y": -10,
+                                "z": -1
+                              },
+                              "orientation": {
+                                "x": 0,
+                                "y": 0,
+                                "z": 0,
+                                "w": 1
+                              },
+                              "shape": {
+                                "offset": {
+                                  "x": 5.7e-05,
+                                  "y": -8.000247,
+                                  "z": 1.000007
+                                },
+                                "stretch": {
+                                  "x": 1,
+                                  "y": 1,
+                                  "z": 1
+                                },
+                                "textureLayout": {},
+                                "type": "none",
+                                "settings": {
+                                  "isPiece": false
+                                },
+                                "unwrapMode": "custom",
+                                "visible": true,
+                                "doubleSided": false,
+                                "shadingMode": "flat"
+                              },
+                              "children": [
+                                {
+                                  "id": "37",
+                                  "name": "R-Hand",
+                                  "position": {
+                                    "x": 1e-06,
+                                    "y": -8.000005,
+                                    "z": 0
+                                  },
+                                  "orientation": {
+                                    "w": 1,
+                                    "x": 0,
+                                    "y": 0,
+                                    "z": 0
+                                  },
+                                  "shape": {
+                                    "offset": {
+                                      "x": 0,
+                                      "y": -5,
+                                      "z": 0
+                                    },
+                                    "stretch": {
+                                      "x": 1,
+                                      "y": 1,
+                                      "z": 1
+                                    },
+                                    "textureLayout": {},
+                                    "type": "none",
+                                    "settings": {
+                                      "isPiece": false
+                                    },
+                                    "unwrapMode": "custom",
+                                    "visible": true,
+                                    "doubleSided": false,
+                                    "shadingMode": "flat"
+                                  },
+                                  "children": [
+                                    {
+                                      "id": "43",
+                                      "name": "R-Attachment",
+                                      "position": {
+                                        "x": 0,
+                                        "y": -1,
+                                        "z": 0
+                                      },
+                                      "orientation": {
+                                        "x": 0.707107,
+                                        "y": 0,
+                                        "z": 0,
+                                        "w": 0.707107
+                                      },
+                                      "shape": {
+                                        "offset": {
+                                          "x": 0,
+                                          "y": 0,
+                                          "z": 0
+                                        },
+                                        "stretch": {
+                                          "x": 1,
+                                          "y": 1,
+                                          "z": 1
+                                        },
+                                        "textureLayout": {},
+                                        "type": "none",
+                                        "settings": {
+                                          "isPiece": false
+                                        },
+                                        "unwrapMode": "custom",
+                                        "visible": true,
+                                        "doubleSided": false,
+                                        "shadingMode": "flat"
+                                      },
+                                      "children": []
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ],
+                      "position": {
+                        "x": -14.501727,
+                        "y": 7.593971,
+                        "z": -0.93882
+                      },
+                      "orientation": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0,
+                        "w": 1
+                      },
+                      "shape": {
+                        "offset": {
+                          "x": 0,
+                          "y": 0,
+                          "z": 0
+                        },
+                        "stretch": {
+                          "x": 1,
+                          "y": 1,
+                          "z": 1
+                        },
+                        "textureLayout": {},
+                        "type": "none",
+                        "settings": {
+                          "isPiece": false
+                        },
+                        "unwrapMode": "custom",
+                        "visible": true,
+                        "doubleSided": false,
+                        "shadingMode": "flat"
+                      }
+                    },
+                    {
+                      "id": "143",
+                      "name": "L-Shoulder",
+                      "children": [
+                        {
+                          "id": "137",
+                          "name": "L-Arm",
+                          "children": [
+                            {
+                              "id": "138",
+                              "name": "L-Forearm",
+                              "children": [
+                                {
+                                  "id": "139",
+                                  "name": "L-Hand",
+                                  "children": [
+                                    {
+                                      "id": "140",
+                                      "name": "L-Attachment",
+                                      "children": [],
+                                      "position": {
+                                        "x": 0,
+                                        "y": -1,
+                                        "z": 0
+                                      },
+                                      "orientation": {
+                                        "x": 0.707107,
+                                        "y": 0,
+                                        "z": 0,
+                                        "w": 0.707107
+                                      },
+                                      "shape": {
+                                        "offset": {
+                                          "x": 0,
+                                          "y": 0,
+                                          "z": 0
+                                        },
+                                        "stretch": {
+                                          "x": -1,
+                                          "y": 1,
+                                          "z": 1
+                                        },
+                                        "textureLayout": {},
+                                        "type": "none",
+                                        "settings": {
+                                          "isPiece": false
+                                        },
+                                        "unwrapMode": "custom",
+                                        "visible": true,
+                                        "doubleSided": false,
+                                        "shadingMode": "flat"
+                                      }
+                                    }
+                                  ],
+                                  "position": {
+                                    "x": -1e-06,
+                                    "y": -8.000005,
+                                    "z": 0
+                                  },
+                                  "orientation": {
+                                    "w": 1,
+                                    "x": 0,
+                                    "y": 0,
+                                    "z": 0
+                                  },
+                                  "shape": {
+                                    "offset": {
+                                      "x": 0,
+                                      "y": -5,
+                                      "z": 0
+                                    },
+                                    "stretch": {
+                                      "x": -1,
+                                      "y": 1,
+                                      "z": 1
+                                    },
+                                    "textureLayout": {},
+                                    "type": "none",
+                                    "settings": {
+                                      "isPiece": false
+                                    },
+                                    "unwrapMode": "custom",
+                                    "visible": true,
+                                    "doubleSided": false,
+                                    "shadingMode": "flat"
+                                  }
+                                }
+                              ],
+                              "position": {
+                                "x": 0,
+                                "y": -10,
+                                "z": -1
+                              },
+                              "orientation": {
+                                "x": 0,
+                                "y": 0,
+                                "z": 0,
+                                "w": 1
+                              },
+                              "shape": {
+                                "offset": {
+                                  "x": -5.7e-05,
+                                  "y": -8.000247,
+                                  "z": 1.000007
+                                },
+                                "stretch": {
+                                  "x": -1,
+                                  "y": 1,
+                                  "z": 1
+                                },
+                                "textureLayout": {},
+                                "type": "none",
+                                "settings": {
+                                  "isPiece": false
+                                },
+                                "unwrapMode": "custom",
+                                "visible": true,
+                                "doubleSided": false,
+                                "shadingMode": "flat"
+                              }
+                            }
+                          ],
+                          "position": {
+                            "x": 0,
+                            "y": 0,
+                            "z": 0
+                          },
+                          "orientation": {
+                            "x": 0.002663,
+                            "y": 0.06099,
+                            "z": 0.043538,
+                            "w": 0.997185
+                          },
+                          "shape": {
+                            "offset": {
+                              "x": 1,
+                              "y": -7.999998,
+                              "z": 0
+                            },
+                            "stretch": {
+                              "x": -0.98,
+                              "y": 1,
+                              "z": 1
+                            },
+                            "textureLayout": {},
+                            "type": "none",
+                            "settings": {
+                              "isPiece": false
+                            },
+                            "unwrapMode": "custom",
+                            "visible": true,
+                            "doubleSided": false,
+                            "shadingMode": "flat"
+                          }
+                        }
+                      ],
+                      "position": {
+                        "x": 14.501727,
+                        "y": 7.593971,
+                        "z": -0.93882
+                      },
+                      "orientation": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0,
+                        "w": 1
+                      },
+                      "shape": {
+                        "offset": {
+                          "x": 0,
+                          "y": 0,
+                          "z": 0
+                        },
+                        "stretch": {
+                          "x": -1,
+                          "y": 1,
+                          "z": 1
+                        },
+                        "textureLayout": {},
+                        "type": "none",
+                        "settings": {
+                          "isPiece": false
+                        },
+                        "unwrapMode": "custom",
+                        "visible": true,
+                        "doubleSided": false,
+                        "shadingMode": "flat"
+                      }
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "8",
+              "name": "R-Thigh",
+              "position": {
+                "x": -7.5,
+                "y": -1,
+                "z": 1
+              },
+              "orientation": {
+                "x": 0,
+                "y": -0.019197,
+                "z": 0,
+                "w": 0.999816
+              },
+              "shape": {
+                "offset": {
+                  "x": -1.4e-05,
+                  "y": -11,
+                  "z": 0
+                },
+                "stretch": {
+                  "x": 0.98,
+                  "y": 1,
+                  "z": 1
+                },
+                "textureLayout": {},
+                "type": "none",
+                "settings": {
+                  "isPiece": false
+                },
+                "unwrapMode": "custom",
+                "visible": true,
+                "doubleSided": false,
+                "shadingMode": "flat"
+              },
+              "children": [
+                {
+                  "id": "9",
+                  "name": "R-Calf",
+                  "position": {
+                    "x": 0,
+                    "y": -10,
+                    "z": 2
+                  },
+                  "orientation": {
+                    "w": 1,
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "shape": {
+                    "offset": {
+                      "x": 0,
+                      "y": -12,
+                      "z": -2
+                    },
+                    "stretch": {
+                      "x": 1,
+                      "y": 1,
+                      "z": 1
+                    },
+                    "textureLayout": {},
+                    "type": "none",
+                    "settings": {
+                      "isPiece": false
+                    },
+                    "unwrapMode": "custom",
+                    "visible": true,
+                    "doubleSided": false,
+                    "shadingMode": "flat"
+                  },
+                  "children": [
+                    {
+                      "id": "10",
+                      "name": "R-Foot",
+                      "position": {
+                        "x": 0,
+                        "y": -10,
+                        "z": -4
+                      },
+                      "orientation": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0,
+                        "w": 1
+                      },
+                      "shape": {
+                        "offset": {
+                          "x": 0,
+                          "y": -3,
+                          "z": 6
+                        },
+                        "stretch": {
+                          "x": 0.95,
+                          "y": 0.95,
+                          "z": 0.95
+                        },
+                        "textureLayout": {},
+                        "type": "none",
+                        "settings": {
+                          "isPiece": false
+                        },
+                        "unwrapMode": "custom",
+                        "visible": true,
+                        "doubleSided": false,
+                        "shadingMode": "flat"
+                      },
+                      "children": []
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "25",
+              "name": "L-Thigh",
+              "position": {
+                "x": 7.5,
+                "y": -1,
+                "z": 1
+              },
+              "orientation": {
+                "x": 0,
+                "y": 0.019197,
+                "z": 0,
+                "w": 0.999816
+              },
+              "shape": {
+                "offset": {
+                  "x": 0,
+                  "y": -11,
+                  "z": 0
+                },
+                "stretch": {
+                  "x": -0.98,
+                  "y": 1,
+                  "z": 1
+                },
+                "textureLayout": {},
+                "type": "none",
+                "settings": {
+                  "isPiece": false
+                },
+                "unwrapMode": "custom",
+                "visible": true,
+                "doubleSided": false,
+                "shadingMode": "flat"
+              },
+              "children": [
+                {
+                  "id": "26",
+                  "name": "L-Calf",
+                  "position": {
+                    "x": 0,
+                    "y": -10,
+                    "z": 2
+                  },
+                  "orientation": {
+                    "w": 1,
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "shape": {
+                    "offset": {
+                      "x": 0,
+                      "y": -12,
+                      "z": -2
+                    },
+                    "stretch": {
+                      "x": -1,
+                      "y": 1,
+                      "z": 1
+                    },
+                    "textureLayout": {},
+                    "type": "none",
+                    "settings": {
+                      "isPiece": false
+                    },
+                    "unwrapMode": "custom",
+                    "visible": true,
+                    "doubleSided": false,
+                    "shadingMode": "flat"
+                  },
+                  "children": [
+                    {
+                      "id": "27",
+                      "name": "L-Foot",
+                      "position": {
+                        "x": 0,
+                        "y": -10,
+                        "z": -4
+                      },
+                      "orientation": {
+                        "w": 1,
+                        "x": 0,
+                        "y": 0,
+                        "z": 0
+                      },
+                      "shape": {
+                        "offset": {
+                          "x": 0,
+                          "y": -3,
+                          "z": 6
+                        },
+                        "stretch": {
+                          "x": -0.95,
+                          "y": 0.95,
+                          "z": 0.95
+                        },
+                        "textureLayout": {},
+                        "type": "none",
+                        "settings": {
+                          "isPiece": false
+                        },
+                        "unwrapMode": "custom",
+                        "visible": true,
+                        "doubleSided": false,
+                        "shadingMode": "flat"
+                      },
+                      "children": []
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "orientation": {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 1
+      },
+      "shape": {
+        "type": "none",
+        "offset": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "stretch": {
+          "x": 1,
+          "y": 1,
+          "z": 1
+        },
+        "settings": {
+          "isPiece": false
+        },
+        "visible": true,
+        "doubleSided": false,
+        "shadingMode": "flat",
+        "unwrapMode": "custom",
+        "textureLayout": {}
+      }
+    }
+  ],
+  "lod": "auto"
+}

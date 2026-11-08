@@ -11,6 +11,7 @@
   "Model": "Items/Weapons/Spellbook/EvokeBook/Model.blockymodel",
   "Texture": "Items/Weapons/Spellbook/EvokeBook/Void.png",
   "PlayerAnimationsId": "Evoke_Spellbook",
+  "UsePlayerAnimations": true,
   "Icon": "Icons/ItemsGenerated/Void_Evoke_Book.png",
   "DroppedItemAnimation": "Items/Animations/Dropped/Dropped_Diagonal_Left.blockyanim",
   "MaxStack": 1,

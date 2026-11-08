@@ -14,7 +14,10 @@ import com.hypixel.hytale.server.npc.corecomponents.ActionBase;
 import com.hypixel.hytale.server.npc.instructions.ExecutionSupport;
 import com.hypixel.hytale.server.npc.sensorinfo.IPositionProvider;
 import com.hypixel.hytale.server.npc.sensorinfo.InfoProvider;
+import com.lexem.hexcodeevoke.components.HexCreatureComponent;
 import com.lexem.hexcodeevoke.npc.actions.builders.BuilderActionOpenChestAnimation;
+import com.lexem.hexcodeevoke.npc.sensors.builders.BuilderSensorSearchedChestPosition;
+import org.joml.Vector3d;
 import org.joml.Vector3i;
 
 import javax.annotation.Nonnull;
@@ -22,28 +25,23 @@ import javax.annotation.Nullable;
 
 public class ActionOpenChestAnimation extends ActionBase {
     protected boolean reverse;
+    @Nullable
+    protected BuilderSensorSearchedChestPosition.ChestTarget target;
 
     public ActionOpenChestAnimation(@Nonnull BuilderActionOpenChestAnimation builder) {
         super(builder);
         this.reverse = builder.getReverse();
+        this.target = builder.getTarget();
    }
 
     @Override
     public boolean execute(@Nonnull Ref<EntityStore> npcRef, @Nonnull ExecutionSupport executionSupport, @Nullable InfoProvider sensorInfo, double dt, @Nonnull Store<EntityStore> store) {
         super.execute(npcRef, executionSupport, sensorInfo, dt, store);
-        if (sensorInfo == null) return false;
-
-        IPositionProvider positionProvider = sensorInfo.getPositionProvider();
-        if (positionProvider == null || !positionProvider.hasPosition()) return false;
+        Vector3i chestPos = getChestPosition(npcRef, sensorInfo, store);
+        if (chestPos == null) return false;
 
         World world = store.getExternalData().getWorld();
-        Vector3i chestPos= new Vector3i(
-                (int) Math.floor(positionProvider.getX()),
-                (int) Math.floor(positionProvider.getY()),
-                (int) Math.floor(positionProvider.getZ())
-        );
-
-        long chunkIndex = ChunkUtil.indexChunkFromBlock(positionProvider.getX(), positionProvider.getZ());
+        long chunkIndex = ChunkUtil.indexChunkFromBlock(chestPos.x, chestPos.z);
         Ref<ChunkStore> chunkRef = world.getChunkStore().getChunkReference(chunkIndex);
         if (chunkRef == null) return false;
 
@@ -68,5 +66,27 @@ public class ActionOpenChestAnimation extends ActionBase {
         }
 
         return true;
+    }
+
+    @Nullable
+    private Vector3i getChestPosition(@Nonnull Ref<EntityStore> npcRef, @Nullable InfoProvider sensorInfo, @Nonnull Store<EntityStore> store) {
+        if (target != null) {
+            HexCreatureComponent hexCreature = store.getComponent(npcRef, HexCreatureComponent.getComponentType());
+            Vector3d chest = hexCreature != null ? target.getPosition(hexCreature) : null;
+            if (chest == null) return null;
+
+            return new Vector3i((int) Math.floor(chest.x), (int) Math.floor(chest.y), (int) Math.floor(chest.z));
+        }
+
+        if (sensorInfo == null) return null;
+
+        IPositionProvider positionProvider = sensorInfo.getPositionProvider();
+        if (positionProvider == null || !positionProvider.hasPosition()) return null;
+
+        return new Vector3i(
+                (int) Math.floor(positionProvider.getX()),
+                (int) Math.floor(positionProvider.getY()),
+                (int) Math.floor(positionProvider.getZ())
+        );
     }
 }

@@ -10,11 +10,11 @@ import com.hypixel.hytale.server.core.command.system.basecommands.AbstractPlayer
 import com.hypixel.hytale.server.core.universe.PlayerRef;
 import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
+import com.lexem.hexcodeevoke.components.EvokerComponent;
 import com.lexem.hexcodeevoke.components.HexCreatureComponent;
 import com.lexem.hexcodeevoke.utils.ErrorMessageUtils;
 
 import javax.annotation.Nonnull;
-import java.util.UUID;
 
 public class HexCreatureCommand extends AbstractPlayerCommand {
     private final RequiredArg<String> npcUUIDArg;
@@ -32,15 +32,10 @@ public class HexCreatureCommand extends AbstractPlayerCommand {
             @Nonnull PlayerRef playerRef,
             @Nonnull World world
     ) {
-        UUID npcUUID = UUID.fromString(npcUUIDArg.get(context));
+        EvokerComponent evoker = store.getComponent(ref, EvokerComponent.getComponentType());
+        if (evoker == null) return;
 
-        Ref<EntityStore> npcRef = world.getEntityStore().getRefFromUUID(npcUUID);
-        if (npcRef == null) {
-            ErrorMessageUtils.sendMessageError(playerRef, "errors.invalid_target", "errors.no_hex_creture_found");
-            return;
-        }
-
-        HexCreatureComponent hexCreature = store.getComponent(npcRef, HexCreatureComponent.getComponentType());
+        HexCreatureComponent hexCreature = evoker.getHexCreatureByUUID(npcUUIDArg.get(context));
         if (hexCreature == null) {
             ErrorMessageUtils.sendMessageError(playerRef, "errors.invalid_target", "errors.no_hex_creture_found");
             return;

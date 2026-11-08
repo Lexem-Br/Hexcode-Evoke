@@ -1,0 +1,65 @@
+{
+  "$Comment": "Teleports next to the evoker when no closer follow instruction matched (keep it last in the Following state)",
+  "Class": "Instruction",
+  "Parameters": {
+    "Range": {
+      "Value": 100,
+      "Description": "Max distance to the evoker"
+    }
+  },
+  "Content": {
+    "Instructions": [
+      {
+        "$Comment": "Keeps the target locked for the teleport below",
+        "Continue": true,
+        "Sensor": {
+          "Type": "Player",
+          "Range": { "Compute": "Range" },
+          "LockOnTarget": true,
+          "Filters": [
+            {
+              "Type": "Evoke:IsEvoker"
+            }
+          ]
+        },
+        "Actions": [
+          {
+            "Type": "Nothing"
+          }
+        ]
+      },
+      {
+        "$Comment": "Teleports to the leader",
+        "Sensor": {
+          "Type": "Target",
+          "Filters": [
+            {
+              "Type": "Evoke:IsEvoker"
+            }
+          ]
+        },
+        "BodyMotion": {
+          "Type": "Evoke:Teleport",
+          "MinYOffset": 1.0,
+          "OffsetRange": [2, 3],
+          "OffsetSector": 2,
+          "Orientation": "TowardsTarget"
+        },
+        "Actions": [
+          {
+            "Type": "SpawnParticles",
+            "Offset": [0, 0.5, 0],
+            "ParticleSystem": "Effect_Death",
+            "Once": true
+          },
+          {
+            "Type": "Timeout",
+            "Delay": [2, 2],
+            "DelayAfter": true
+          }
+        ]
+      }
+    ]
+  },
+  "Type": "Component"
+}

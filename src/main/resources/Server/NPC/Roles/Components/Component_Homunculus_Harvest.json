@@ -1,0 +1,123 @@
+{
+  "$Comment": "Harvest crops planted on crystal soil, without requiring a sickle",
+  "Class": "Instruction",
+  "Parameters": {
+    "_ImportStates": ["Main"]
+  },
+  "Content":  {
+    "Instructions": [
+      {
+        "$Comment": "Checks if the inventory is full",
+        "Continue": true,
+        "Sensor": {
+          "Type": "Self",
+          "Filters": [
+            {
+              "Type": "Evoke:IsInventoryFull",
+              "Inventories": ["Hotbar", "Storage"]
+            }
+          ]
+        },
+        "Actions": [
+          {
+            "Type": "ParentState",
+            "State": "Main"
+          }
+        ]
+      },
+      {
+        "$Comment": "Search for a plantation that is ready to harvest",
+        "Continue": true,
+        "Sensor":  {
+          "Type": "Evoke:HarvestableCropFinder",
+          "HorizontalRange": 10,
+          "VerticalRange": 3,
+          "SoilBlocks": [ "Soil_Dirt_Crystal" ]
+        },
+        "BodyMotion": {
+          "Type": "Seek",
+          "SlowDownDistance": 2.0,
+          "StopDistance": 0.9,
+          "RelativeSpeed": 0.5
+        }
+      },
+      {
+        "$Comment": "Harvest the crop",
+        "Continue": true,
+        "Sensor": {
+          "Type": "Evoke:HarvestableCropFinder",
+          "HorizontalRange": 2,
+          "VerticalRange": 3,
+          "SoilBlocks": [ "Soil_Dirt_Crystal" ]
+        },
+        "ActionsBlocking": true,
+        "Actions": [
+          {
+            "Type": "PlayAnimation",
+            "Slot": "Status",
+            "Animation": "Interact"
+          },
+          {
+            "Type": "Timeout",
+            "Delay": [0.6, 0.8],
+            "Action": {
+              "Type": "Sequence",
+              "Actions": [
+                {
+                  "Type": "Evoke:HarvestCrop"
+                },
+                {
+                  "Type": "PlaySound",
+                  "SoundEventId": "SFX_Default_Harvest"
+                },
+                {
+                  "Type": "PlaySound",
+                  "SoundEventId": "SFX_Player_Pickup_Item"
+                },
+                {
+                  "Type": "PlayAnimation",
+                  "Slot": "Status"
+                }
+              ]
+            }
+          },
+          {
+            "Type": "Timeout",
+            "Delay": [1.2, 1.5]
+          }
+        ]
+      },
+      {
+        "$Comment": "If no crop is found, return to the initial position",
+        "Sensor": {
+          "Type": "And",
+          "Sensors": [
+            {
+              "Type": "Not",
+              "Sensor": {
+                "Type": "Evoke:HarvestableCropFinder",
+                "HorizontalRange": 10,
+                "VerticalRange": 3,
+                "SoilBlocks": [ "Soil_Dirt_Crystal" ]
+              }
+            },
+            {
+              "Type": "Not",
+              "Sensor": {
+                "Type": "Evoke:ReadPosition",
+                "Range": 1
+              }
+            }
+          ]
+        },
+        "Actions": [
+          {
+            "Type": "ParentState",
+            "State": "Main"
+          }
+        ]
+      }
+    ]
+  },
+  "Type": "Component"
+}

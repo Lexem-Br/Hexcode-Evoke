@@ -1,0 +1,250 @@
+{
+  "nodes": [
+    {
+      "id": "1",
+      "name": "R-Attachment",
+      "position": {"x": 0, "y": -4, "z": 0},
+      "orientation": {"x": 0, "y": 0, "z": 0, "w": 1},
+      "shape": {
+        "type": "none",
+        "offset": {"x": 0, "y": 0, "z": 0},
+        "stretch": {"x": 1, "y": 1, "z": 1},
+        "settings": {
+          "isPiece": true
+        },
+        "textureLayout": {},
+        "unwrapMode": "custom",
+        "visible": true,
+        "doubleSided": false,
+        "shadingMode": "flat"
+      },
+      "children": [
+        {
+          "id": "2",
+          "name": "Plate",
+          "position": {"x": 0, "y": 8.009, "z": 0},
+          "orientation": {"x": 0, "y": 0.70711, "z": 0, "w": 0.70711},
+          "shape": {
+            "type": "box",
+            "offset": {"x": 0, "y": 0, "z": 0},
+            "stretch": {"x": 0.789, "y": 0.759, "z": 1.003},
+            "settings": {
+              "isPiece": false,
+              "size": {"x": 25, "y": 11, "z": 25}
+            },
+            "textureLayout": {
+              "back": {
+                "offset": {"x": 0, "y": 25},
+                "mirror": {"x": false, "y": false},
+                "angle": 0
+              },
+              "right": {
+                "offset": {"x": 0, "y": 25},
+                "mirror": {"x": false, "y": false},
+                "angle": 0
+              },
+              "front": {
+                "offset": {"x": 0, "y": 25},
+                "mirror": {"x": false, "y": false},
+                "angle": 0
+              },
+              "left": {
+                "offset": {"x": 0, "y": 25},
+                "mirror": {"x": false, "y": false},
+                "angle": 0
+              },
+              "top": {
+                "offset": {"x": 25, "y": 0},
+                "mirror": {"x": true, "y": true},
+                "angle": 270
+              },
+              "bottom": {
+                "offset": {"x": 0, "y": 38},
+                "mirror": {"x": false, "y": false},
+                "angle": 0
+              }
+            },
+            "unwrapMode": "custom",
+            "visible": true,
+            "doubleSided": true,
+            "shadingMode": "flat"
+          },
+          "children": [
+            {
+              "id": "3",
+              "name": "Plate2--C1",
+              "position": {"x": 0, "y": 2.7, "z": 0},
+              "orientation": {"x": 0, "y": 0, "z": 0, "w": 1},
+              "shape": {
+                "type": "box",
+                "offset": {"x": 0, "y": 0, "z": 0},
+                "stretch": {"x": 0.789, "y": 0.759, "z": 1.003},
+                "settings": {
+                  "isPiece": false,
+                  "size": {"x": 23, "y": 4, "z": 23},
+                  "isStaticBox": true
+                },
+                "textureLayout": {
+                  "back": {
+                    "offset": {"x": 1, "y": 25},
+                    "mirror": {"x": false, "y": false},
+                    "angle": 0
+                  },
+                  "right": {
+                    "offset": {"x": 1, "y": 25},
+                    "mirror": {"x": false, "y": false},
+                    "angle": 0
+                  },
+                  "front": {
+                    "offset": {"x": 1, "y": 25},
+                    "mirror": {"x": false, "y": false},
+                    "angle": 0
+                  },
+                  "left": {
+                    "offset": {"x": 1, "y": 25},
+                    "mirror": {"x": false, "y": false},
+                    "angle": 0
+                  },
+                  "bottom": {
+                    "offset": {"x": 1, "y": 39},
+                    "mirror": {"x": false, "y": false},
+                    "angle": 0
+                  }
+                },
+                "unwrapMode": "custom",
+                "visible": true,
+                "doubleSided": true,
+                "shadingMode": "flat"
+              }
+            }
+          ]
+        },
+        {
+          "id": "4",
+          "name": "Essence",
+          "position": {"x": 0, "y": 15.5, "z": 0},
+          "orientation": {"x": 0, "y": 0, "z": 0, "w": 1},
+          "shape": {
+            "type": "none",
+            "offset": {"x": 0, "y": 0, "z": 0},
+            "stretch": {"x": 1, "y": 1, "z": 1},
+            "settings": {
+              "isPiece": false
+            },
+            "textureLayout": {},
+            "unwrapMode": "custom",
+            "visible": true,
+            "doubleSided": false,
+            "shadingMode": "flat"
+          },
+          "children": [
+            {
+              "id": "5",
+              "name": "Essence-Shard1",
+              "position": {"x": 0, "y": 0, "z": 0},
+              "orientation": {"x": -0.68409, "y": 0.05368, "z": -0.55844, "w": 0.46613},
+              "shape": {
+                "type": "box",
+                "offset": {"x": 0, "y": 0, "z": 0},
+                "stretch": {"x": 0.4, "y": 0.4, "z": 0.4},
+                "settings": {
+                  "isPiece": false,
+                  "size": {"x": 16, "y": 16, "z": 16}
+                },
+                "textureLayout": {
+                  "back": {
+                    "offset": {"x": 41, "y": 16},
+                    "mirror": {"x": false, "y": false},
+                    "angle": 180
+                  },
+                  "right": {
+                    "offset": {"x": 41, "y": 0},
+                    "mirror": {"x": true, "y": true},
+                    "angle": 270
+                  },
+                  "front": {
+                    "offset": {"x": 25, "y": 16},
+                    "mirror": {"x": true, "y": true},
+                    "angle": 90
+                  },
+                  "left": {
+                    "offset": {"x": 25, "y": 0},
+                    "mirror": {"x": false, "y": false},
+                    "angle": 0
+                  },
+                  "top": {
+                    "offset": {"x": 41, "y": 0},
+                    "mirror": {"x": true, "y": true},
+                    "angle": 270
+                  },
+                  "bottom": {
+                    "offset": {"x": 41, "y": 16},
+                    "mirror": {"x": false, "y": false},
+                    "angle": 180
+                  }
+                },
+                "unwrapMode": "custom",
+                "visible": true,
+                "doubleSided": false,
+                "shadingMode": "fullbright"
+              }
+            },
+            {
+              "id": "6",
+              "name": "Essence-Shard2",
+              "position": {"x": 0, "y": 0, "z": 0},
+              "orientation": {"x": -0.32781, "y": -0.16624, "z": -0.82651, "w": 0.42636},
+              "shape": {
+                "type": "box",
+                "offset": {"x": 0, "y": 0, "z": 0},
+                "stretch": {"x": 0.4, "y": 0.4, "z": 0.4},
+                "settings": {
+                  "isPiece": false,
+                  "size": {"x": 16, "y": 16, "z": 16}
+                },
+                "textureLayout": {
+                  "back": {
+                    "offset": {"x": 41, "y": 16},
+                    "mirror": {"x": false, "y": false},
+                    "angle": 180
+                  },
+                  "right": {
+                    "offset": {"x": 41, "y": 0},
+                    "mirror": {"x": true, "y": true},
+                    "angle": 270
+                  },
+                  "front": {
+                    "offset": {"x": 25, "y": 16},
+                    "mirror": {"x": true, "y": true},
+                    "angle": 90
+                  },
+                  "left": {
+                    "offset": {"x": 25, "y": 0},
+                    "mirror": {"x": false, "y": false},
+                    "angle": 0
+                  },
+                  "top": {
+                    "offset": {"x": 41, "y": 0},
+                    "mirror": {"x": true, "y": true},
+                    "angle": 270
+                  },
+                  "bottom": {
+                    "offset": {"x": 41, "y": 16},
+                    "mirror": {"x": false, "y": false},
+                    "angle": 180
+                  }
+                },
+                "unwrapMode": "custom",
+                "visible": true,
+                "doubleSided": false,
+                "shadingMode": "fullbright"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "format": "character",
+  "lod": "auto"
+}

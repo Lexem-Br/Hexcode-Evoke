@@ -10,12 +10,20 @@ import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.logger.HytaleLogger;
 import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
+import com.lexem.hexcodeevoke.utils.FairyFlightState;
+import com.lexem.hexcodeevoke.utils.RefuelState;
+import com.lexem.hexcodeevoke.utils.SurfaceCrawlState;
+import com.lexem.hexcodeevoke.utils.TransportState;
 import org.joml.Vector3d;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 import java.util.Random;
 
 public class HexCreatureComponent implements Component<EntityStore> {
@@ -26,7 +34,6 @@ public class HexCreatureComponent implements Component<EntityStore> {
 
     private String UUID;
     private String evokerUUID;
-    private String evokerName;
     private String name;
     private String typeId;
     private String blockName;
@@ -34,6 +41,26 @@ public class HexCreatureComponent implements Component<EntityStore> {
     private String[] minionUUIDs = new String[0];
     private ChestMemoryComponent[] listChestMemory = new ChestMemoryComponent[0];
     private ChestTaskComponent[] listChestTask = new ChestTaskComponent[0];
+    private boolean markedToDespawn = false;
+    private String lastState;
+    private String lastSubState;
+    private Map<Long, Long> unreachableChests = new HashMap<>();
+    private Vector3d searchChestPosition;
+    private Vector3d exploreChestPosition;
+    private Vector3d exploreAnchor;
+    private long exploreChestSince;
+    private long lastExploreSearch;
+    private Map<Long, Long> visitedChests = new HashMap<>();
+    private SurfaceCrawlState crawlState = new SurfaceCrawlState();
+    private FairyFlightState flightState = new FairyFlightState();
+    private RefuelState refuelState = new RefuelState();
+    private TransportState transportState = new TransportState();
+    private Boolean ascentSmallStep;
+    private float lifeEssence = -1;
+    private float lifeEssenceCheckTimer;
+    private float lifeEssenceDrainTimer;
+    private boolean lowLifeEssenceWarned;
+    private boolean lifeEssenceDepleted;
 
     private static ComponentType<EntityStore, HexCreatureComponent> TYPE;
 
@@ -47,56 +74,20 @@ public class HexCreatureComponent implements Component<EntityStore> {
 
     public static final BuilderCodec<HexCreatureComponent> CODEC = BuilderCodec
             .builder(HexCreatureComponent.class, HexCreatureComponent::new)
-            .append(
-                    new KeyedCodec<>("UUID", Codec.STRING),
-                    (component, value) -> component.UUID = value,
-                    component -> component.UUID
-            ).add()
-            .append(
-                    new KeyedCodec<>("EvokerUUID", Codec.STRING),
-                    (component, value) -> component.evokerUUID = value,
-                    component -> component.evokerUUID
-            ).add()
-            .append(
-                    new KeyedCodec<>("EvokerName", Codec.STRING),
-                    (component, value) -> component.evokerName = value,
-                    component -> component.evokerName
-            ).add()
-            .append(
-                    new KeyedCodec<>("Name", Codec.STRING),
-                    (component, value) -> component.name = value,
-                    component -> component.name
-            ).add()
-            .append(
-                    new KeyedCodec<>("TypeId", Codec.STRING),
-                    (component, value) -> component.typeId = value,
-                    component -> component.typeId
-            ).add()
-            .append(
-                    new KeyedCodec<>("BlockName", Codec.STRING),
-                    (component, value) -> component.blockName = value,
-                    component -> component.blockName
-            ).add()
-            .append(
-                    new KeyedCodec<>("ShowName", Codec.BOOLEAN),
-                    (component, value) -> component.showName = value,
-                    component -> component.showName
-            ).add()
-            .append(
-                    new KeyedCodec<>("MinionUUIDs", Codec.STRING_ARRAY),
-                    (component, value) -> component.minionUUIDs = value,
-                    component -> component.minionUUIDs
-            ).add()
-            .append(new KeyedCodec<>("ListChestMemory", new ArrayCodec<>(ChestMemoryComponent.CODEC, ChestMemoryComponent[]::new)),
-                    (component, objects) -> component.listChestMemory = objects,
-                    component -> component.listChestMemory
-            )
-            .add()
-            .append(new KeyedCodec<>("ListChestTask", new ArrayCodec<>(ChestTaskComponent.CODEC, ChestTaskComponent[]::new)),
-                    (component, objects) -> component.listChestTask = objects,
-                    component -> component.listChestTask
-            )
-            .add()
+            .append(new KeyedCodec<>("UUID", Codec.STRING), (component, value) -> component.UUID = value, component -> component.UUID).add()
+            .append(new KeyedCodec<>("EvokerUUID", Codec.STRING), (component, value) -> component.evokerUUID = value, component -> component.evokerUUID).add()
+            .append(new KeyedCodec<>("Name", Codec.STRING), (component, value) -> component.name = value, component -> component.name).add()
+            .append(new KeyedCodec<>("TypeId", Codec.STRING), (component, value) -> component.typeId = value, component -> component.typeId).add()
+            .append(new KeyedCodec<>("BlockName", Codec.STRING), (component, value) -> component.blockName = value, component -> component.blockName).add()
+            .append(new KeyedCodec<>("ShowName", Codec.BOOLEAN), (component, value) -> component.showName = value, component -> component.showName).add()
+            .append(new KeyedCodec<>("MinionUUIDs", Codec.STRING_ARRAY), (component, value) -> component.minionUUIDs = value, component -> component.minionUUIDs).add()
+            .append(new KeyedCodec<>("ListChestMemories", new ArrayCodec<>(ChestMemoryComponent.CODEC, ChestMemoryComponent[]::new)), (component, objects) -> component.listChestMemory = objects, component -> component.listChestMemory).add()
+            .append(new KeyedCodec<>("ListChestTasks", new ArrayCodec<>(ChestTaskComponent.CODEC, ChestTaskComponent[]::new)), (component, objects) -> component.listChestTask = objects, component -> component.listChestTask).add()
+            .append(new KeyedCodec<>("MarkedToDespawn", Codec.BOOLEAN), (component, value) -> component.markedToDespawn = value, component -> component.markedToDespawn).add()
+            .append(new KeyedCodec<>("LastState", Codec.STRING), (component, value) -> component.lastState = value, component -> component.lastState).add()
+            .append(new KeyedCodec<>("LastSubState", Codec.STRING), (component, value) -> component.lastSubState = value, component -> component.lastSubState).add()
+            .append(new KeyedCodec<>("LifeEssence", Codec.FLOAT), (component, value) -> component.lifeEssence = value > 0 ? value : -1, component -> component.lifeEssence).add()
+            .append(new KeyedCodec<>("Transport", TransportState.CODEC), (component, value) -> component.transportState = value != null ? value : new TransportState(), component -> component.transportState.isActive() ? component.transportState : null).add()
             .build();
 
     public HexCreatureComponent() {
@@ -105,21 +96,21 @@ public class HexCreatureComponent implements Component<EntityStore> {
     public HexCreatureComponent(
             String UUID,
             String evokerUUID,
-            String evokerName,
             String name,
             String typeId,
             String blockName,
             boolean showName,
-            String[] minionUUIDs
+            String[] minionUUIDs,
+            boolean markedToDespawn
     ) {
         this.UUID = UUID;
         this.evokerUUID = evokerUUID;
-        this.evokerName = evokerName;
         this.name = name;
         this.typeId = typeId;
         this.blockName = blockName;
         this.showName = showName;
         this.minionUUIDs = minionUUIDs;
+        this.markedToDespawn = markedToDespawn;
     }
 
     public String getUUID() {
@@ -136,14 +127,6 @@ public class HexCreatureComponent implements Component<EntityStore> {
 
     public void setEvokerUUID(String evokerUUID) {
         this.evokerUUID = evokerUUID;
-    }
-
-    public String getEvokerName() {
-        return (this.evokerName == null) ? "" : this.evokerName;
-    }
-
-    public void setEvokerName(String evokerName) {
-        this.evokerName = evokerName;
     }
 
     public String getName() {
@@ -186,16 +169,32 @@ public class HexCreatureComponent implements Component<EntityStore> {
         return listChestMemory;
     }
 
-    public void setListChestMemory(ChestMemoryComponent[] listChestMemory) {
-        this.listChestMemory = listChestMemory;
-    }
-
     public ChestTaskComponent[] getListChestTask() {
         return listChestTask;
     }
 
     public boolean isListChestTaskEmpty() {
         return listChestTask == null || listChestTask.length == 0;
+    }
+
+    public boolean isMarkedToDespawn() {
+        return markedToDespawn;
+    }
+
+    public String getLastState() {
+        return lastState;
+    }
+
+    public String getLastSubState() {
+        return lastSubState;
+    }
+
+    public boolean setLastState(String state, String subState) {
+        if (Objects.equals(lastState, state) && Objects.equals(lastSubState, subState)) return false;
+
+        lastState = state;
+        lastSubState = subState;
+        return true;
     }
 
     public void addMinionUUID(String uuid) {
@@ -252,6 +251,75 @@ public class HexCreatureComponent implements Component<EntityStore> {
             }
         }
         listChestTask = newArray;
+    }
+
+    public void forgetChest(Vector3d chestPosition) {
+        if (chestPosition == null) return;
+
+        if (listChestMemory != null) {
+            List<ChestMemoryComponent> remainingMemories = new ArrayList<>();
+            for (ChestMemoryComponent memory : listChestMemory) {
+                if (memory != null && !isSameBlock(memory.getChestPosition(), chestPosition)) {
+                    remainingMemories.add(memory);
+                }
+            }
+            listChestMemory = remainingMemories.toArray(new ChestMemoryComponent[0]);
+        }
+
+        if (listChestTask != null) {
+            List<ChestTaskComponent> remainingTasks = new ArrayList<>();
+            for (ChestTaskComponent task : listChestTask) {
+                if (task != null && !isSameBlock(task.getChestPosition(), chestPosition)) {
+                    remainingTasks.add(task);
+                }
+            }
+            listChestTask = remainingTasks.toArray(new ChestTaskComponent[0]);
+        }
+    }
+
+    public void markChestUnreachable(Vector3d chestPosition, long durationMillis) {
+        if (chestPosition == null) return;
+        unreachableChests.put(blockKey(chestPosition), System.currentTimeMillis() + durationMillis);
+    }
+
+    public boolean isChestUnreachable(Vector3d chestPosition) {
+        if (chestPosition == null || unreachableChests.isEmpty()) return false;
+
+        long now = System.currentTimeMillis();
+        unreachableChests.values().removeIf(expiresAt -> expiresAt <= now);
+        return unreachableChests.containsKey(blockKey(chestPosition));
+    }
+
+    public List<Vector3d> withoutUnreachableChests(List<Vector3d> chestPositions) {
+        if (unreachableChests.isEmpty()) return chestPositions;
+
+        List<Vector3d> reachable = new ArrayList<>();
+        for (Vector3d chestPosition : chestPositions) {
+            if (!isChestUnreachable(chestPosition)) reachable.add(chestPosition);
+        }
+        return reachable;
+    }
+
+    private static long blockKey(Vector3d position) {
+        long x = (long) Math.floor(position.x) & 0x3FFFFFFL;
+        long y = (long) Math.floor(position.y) & 0xFFFL;
+        long z = (long) Math.floor(position.z) & 0x3FFFFFFL;
+        return (x << 38) | (y << 26) | z;
+    }
+
+    private static boolean isExcluded(Vector3d position, List<Vector3d> excludedPositions) {
+        for (Vector3d excluded : excludedPositions) {
+            if (isSameBlock(position, excluded)) return true;
+        }
+        return false;
+    }
+
+    private static boolean isSameBlock(Vector3d a, Vector3d b) {
+        if (a == null || b == null) return false;
+
+        return Math.floor(a.x) == Math.floor(b.x)
+                && Math.floor(a.y) == Math.floor(b.y)
+                && Math.floor(a.z) == Math.floor(b.z);
     }
 
     public void removeChestTasksByItemId(String itemId) {
@@ -313,6 +381,10 @@ public class HexCreatureComponent implements Component<EntityStore> {
     }
 
     public ChestMemoryComponent findEmptyChestMemory() {
+        return findEmptyChestMemory(List.of());
+    }
+
+    public ChestMemoryComponent findEmptyChestMemory(List<Vector3d> excludedPositions) {
         if (listChestMemory == null || listChestMemory.length == 0) {
             return null;
         }
@@ -322,7 +394,8 @@ public class HexCreatureComponent implements Component<EntityStore> {
         for (ChestMemoryComponent memory : listChestMemory) {
             if (memory != null
                     && memory.getListItemsId() != null
-                    && memory.getListItemsId().length == 0) {
+                    && memory.getListItemsId().length == 0
+                    && !isExcluded(memory.getChestPosition(), excludedPositions)) {
                 validMemories.add(memory);
             }
         }
@@ -347,6 +420,10 @@ public class HexCreatureComponent implements Component<EntityStore> {
     }
 
     public ChestMemoryComponent findNearestChestMemory(Vector3d position) {
+        return findNearestChestMemory(position, List.of());
+    }
+
+    public ChestMemoryComponent findNearestChestMemory(Vector3d position, List<Vector3d> excludedPositions) {
         if (listChestMemory == null || listChestMemory.length == 0 || position == null) {
             return null;
         }
@@ -358,7 +435,7 @@ public class HexCreatureComponent implements Component<EntityStore> {
             if (memory == null) continue;
 
             Vector3d chestPos = memory.getChestPosition();
-            if (chestPos == null) continue;
+            if (chestPos == null || isExcluded(chestPos, excludedPositions)) continue;
 
             double distance = position.distance(chestPos);
             if (distance < nearestDistance) {
@@ -370,19 +447,202 @@ public class HexCreatureComponent implements Component<EntityStore> {
         return nearest;
     }
 
+    public List<String> getRememberedItemIds() {
+        List<String> itemIds = new ArrayList<>();
+        if (listChestMemory == null) return itemIds;
+
+        for (ChestMemoryComponent memory : listChestMemory) {
+            if (memory == null || memory.getListItemsId() == null) continue;
+
+            for (String itemId : memory.getListItemsId()) {
+                if (itemId != null && !itemId.isEmpty() && !itemIds.contains(itemId)) itemIds.add(itemId);
+            }
+        }
+        return itemIds;
+    }
+
+    public List<ChestMemoryComponent> findChestMemoriesWithItem(String itemId, Vector3d position) {
+        List<ChestMemoryComponent> memories = new ArrayList<>();
+        if (listChestMemory == null || itemId == null) return memories;
+
+        for (ChestMemoryComponent memory : listChestMemory) {
+            if (memory == null || memory.getChestPosition() == null || memory.getListItemsId() == null) continue;
+            if (Arrays.asList(memory.getListItemsId()).contains(itemId)) memories.add(memory);
+        }
+
+        if (position != null) {
+            memories.sort((a, b) -> Double.compare(position.distanceSquared(a.getChestPosition()), position.distanceSquared(b.getChestPosition())));
+        }
+        return memories;
+    }
+
+    @Nullable
+    public Vector3d getSearchChestPosition() {
+        return searchChestPosition;
+    }
+
+    public void setSearchChestPosition(@Nullable Vector3d searchChestPosition) {
+        this.searchChestPosition = searchChestPosition;
+    }
+
+    @Nonnull
+    public SurfaceCrawlState getCrawlState() {
+        return crawlState;
+    }
+
+    @Nonnull
+    public FairyFlightState getFlightState() {
+        return flightState;
+    }
+
+    @Nonnull
+    public RefuelState getRefuelState() {
+        return refuelState;
+    }
+
+    @Nonnull
+    public TransportState getTransportState() {
+        return transportState;
+    }
+
+    @Nullable
+    public Boolean getAscentSmallStep() {
+        return ascentSmallStep;
+    }
+
+    public void setAscentSmallStep(@Nullable Boolean ascentSmallStep) {
+        this.ascentSmallStep = ascentSmallStep;
+    }
+
+    @Nullable
+    public Vector3d getExploreChestPosition() {
+        return exploreChestPosition;
+    }
+
+    public void setExploreChestPosition(@Nullable Vector3d exploreChestPosition) {
+        this.exploreChestPosition = exploreChestPosition;
+        this.exploreChestSince = System.currentTimeMillis();
+    }
+
+    public long getExploreChestSince() {
+        return exploreChestSince;
+    }
+
+    public long getLastExploreSearch() {
+        return lastExploreSearch;
+    }
+
+    public void setLastExploreSearch(long lastExploreSearch) {
+        this.lastExploreSearch = lastExploreSearch;
+    }
+
+    @Nullable
+    public Vector3d getExploreAnchor() {
+        return exploreAnchor;
+    }
+
+    public void setExploreAnchor(@Nullable Vector3d exploreAnchor) {
+        this.exploreAnchor = exploreAnchor;
+    }
+
+    public void markChestVisited(Vector3d chestPosition) {
+        if (chestPosition == null) return;
+        visitedChests.put(blockKey(chestPosition), System.currentTimeMillis());
+    }
+
+    public boolean wasChestVisitedRecently(Vector3d chestPosition, long durationMillis) {
+        if (chestPosition == null) return false;
+
+        Long visitedAt = visitedChests.get(blockKey(chestPosition));
+        return visitedAt != null && System.currentTimeMillis() - visitedAt < durationMillis;
+    }
+
+    public void clearVisitedChests() {
+        visitedChests.clear();
+    }
+
+    public void markToDespawn() {
+        markedToDespawn = true;
+    }
+
+    public boolean hasLifeEssence() {
+        return lifeEssence >= 0;
+    }
+
+    public float getLifeEssence() {
+        return Math.max(0, lifeEssence);
+    }
+
+    public void setLifeEssence(float lifeEssence) {
+        this.lifeEssence = Math.max(0, Math.round(lifeEssence * 1000f) / 1000f);
+    }
+
+    public boolean pollLifeEssenceCheck(float dt, float interval) {
+        lifeEssenceCheckTimer += dt;
+        if (lifeEssenceCheckTimer < interval) return false;
+
+        lifeEssenceCheckTimer = 0;
+        return true;
+    }
+
+    public int pollLifeEssenceDrainSteps(float dt, float interval) {
+        lifeEssenceDrainTimer += dt;
+        int steps = (int) (lifeEssenceDrainTimer / interval);
+        lifeEssenceDrainTimer -= steps * interval;
+        return steps;
+    }
+
+    public boolean isLowLifeEssenceWarned() {
+        return lowLifeEssenceWarned;
+    }
+
+    public void setLowLifeEssenceWarned(boolean lowLifeEssenceWarned) {
+        this.lowLifeEssenceWarned = lowLifeEssenceWarned;
+    }
+
+    public boolean isLifeEssenceDepleted() {
+        return lifeEssenceDepleted;
+    }
+
+    public void setLifeEssenceDepleted(boolean lifeEssenceDepleted) {
+        this.lifeEssenceDepleted = lifeEssenceDepleted;
+    }
+
     @Nullable
     @Override
     public Component<EntityStore> clone() {
-        return new HexCreatureComponent(
+        HexCreatureComponent clone = new HexCreatureComponent(
                 this.UUID,
                 this.evokerUUID,
-                this.evokerName,
                 this.name,
                 this.typeId,
                 this.blockName,
                 this.showName,
-                this.minionUUIDs
+                this.minionUUIDs,
+                this.markedToDespawn
         );
+        clone.listChestMemory = this.listChestMemory;
+        clone.listChestTask = this.listChestTask;
+        clone.lastState = this.lastState;
+        clone.lastSubState = this.lastSubState;
+        clone.unreachableChests = this.unreachableChests;
+        clone.searchChestPosition = this.searchChestPosition;
+        clone.exploreChestPosition = this.exploreChestPosition;
+        clone.exploreAnchor = this.exploreAnchor;
+        clone.exploreChestSince = this.exploreChestSince;
+        clone.lastExploreSearch = this.lastExploreSearch;
+        clone.visitedChests = this.visitedChests;
+        clone.crawlState = this.crawlState;
+        clone.flightState = this.flightState;
+        clone.refuelState = this.refuelState;
+        clone.transportState = this.transportState;
+        clone.ascentSmallStep = this.ascentSmallStep;
+        clone.lifeEssence = this.lifeEssence;
+        clone.lifeEssenceCheckTimer = this.lifeEssenceCheckTimer;
+        clone.lifeEssenceDrainTimer = this.lifeEssenceDrainTimer;
+        clone.lowLifeEssenceWarned = this.lowLifeEssenceWarned;
+        clone.lifeEssenceDepleted = this.lifeEssenceDepleted;
+        return clone;
     }
 
     @Override
@@ -390,12 +650,17 @@ public class HexCreatureComponent implements Component<EntityStore> {
         return "HexCreatureComponent{" +
                 "UUID='" + UUID + '\'' +
                 ", evokerUUID='" + evokerUUID + '\'' +
-                ", evokerName='" + evokerName + '\'' +
                 ", name='" + name + '\'' +
                 ", typeId='" + typeId + '\'' +
                 ", blockName='" + blockName + '\'' +
                 ", showName=" + showName +
                 ", minionUUIDs=" + Arrays.toString(minionUUIDs) +
+                ", listChestMemory=" + Arrays.toString(listChestMemory) +
+                ", listChestTask=" + Arrays.toString(listChestTask) +
+                ", markedToDespawn=" + markedToDespawn +
+                ", lastState='" + lastState + '\'' +
+                ", lastSubState='" + lastSubState + '\'' +
+                ", lifeEssence=" + lifeEssence +
                 '}';
     }
 }

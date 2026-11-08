@@ -44,6 +44,7 @@
   "ApplySeparation": true,
   "SeparationDistance": 1.2,
   "SeparationWeight": 0.6,
+  "SeparationLegacySteeringStrength": 0.2,
   "InventorySize": 5,
   "HotbarSize": 3,
   "OffHandSlots": 0,
@@ -51,7 +52,7 @@
   "MotionControllerList": [
     {
       "Type": "Walk",
-      "MaxWalkSpeed": 5,
+      "MaxWalkSpeed": 3,
       "Gravity": 10,
       "RunThreshold": 0.3,
       "MaxFallSpeed": 15,
@@ -119,34 +120,12 @@
       ]
     },
     {
-      "$Comment": "Beacon wand command - Store target position",
-      "Continue": true,
-      "Sensor": {
-        "Type": "Beacon",
-        "Message": "EvokeTargetPosition",
+      "$Comment": "Beacon wand command, placed before the states so it works in all of them",
+      "Reference": "Component_Evoke_Wand_Commands",
+      "Modify": {
+        "_ExportStates": ["SeekPosition", "Following"],
         "Range": { "Compute": "MaxBeaconDistance" }
-      },
-      "Actions": [
-        {
-          "Type": "State",
-          "State": "SeekPosition"
-        }
-      ]
-    },
-    {
-      "$Comment": "Beacon wand command - Follow the leader",
-      "Continue": true,
-      "Sensor": {
-        "Type": "Beacon",
-        "Message": "EvokeFollowLeader",
-        "Range": { "Compute": "MaxBeaconDistance" }
-      },
-      "Actions": [
-        {
-          "Type": "State",
-          "State": "Following"
-        }
-      ]
+      }
     },
     {
       "$Comment": "Go to target position",
@@ -183,6 +162,25 @@
       ]
     },
     {
+      "$Comment": "Goes to refuel at a nearby Essence Tray when low on life essence",
+      "Reference": "Component_Evoke_Refuel_Trigger",
+      "Modify": {
+        "_ExportStates": ["Refuel"]
+      }
+    },
+    {
+      "$Comment": "Walks to the Essence Tray, consumes as much life essence as it can, walks back to where it was and resumes the previous task",
+      "Sensor": {
+        "Type": "State",
+        "State": "Refuel"
+      },
+      "Instructions": [
+        {
+          "Reference": "Component_Evoke_Refuel_Walking"
+        }
+      ]
+    },
+    {
       "$Comment": "Less than 1 block away from the player",
       "Sensor": {
         "Type": "Player",
@@ -204,7 +202,59 @@
       },
       "Instructions": [
         {
-          "$Comment": "If there are any items in the inventory, store them in a chest",
+          "$Comment": "Store the items in a chest once there is nothing left to pick up nearby or the inventory is full",
+          "Continue": true,
+          "Sensor": {
+            "Type": "And",
+            "Sensors": [
+              {
+                "Type": "Self",
+                "Filters": [
+                  {
+                    "Type": "Inventory",
+                    "Items": [ "*" ]
+                  },
+                  {
+                    "Type": "Evoke:HasChestNearby",
+                    "HorizontalRange": 15,
+                    "VerticalRange": 2,
+                    "CheckCanStore": true
+                  }
+                ]
+              },
+              {
+                "Type": "Or",
+                "Sensors": [
+                  {
+                    "Type": "Not",
+                    "Sensor": {
+                      "Type": "DroppedItem",
+                      "Range": 15,
+                      "Items": [ "*" ]
+                    }
+                  },
+                  {
+                    "Type": "Self",
+                    "Filters": [
+                      {
+                        "Type": "Evoke:IsInventoryFull",
+                        "Inventories": [ "Hotbar", "Storage" ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          "Actions": [
+            {
+              "Type": "State",
+              "State": "FindChest"
+            }
+          ]
+        },
+        {
+          "$Comment": "Stops collecting after a while and stores what was collected, in case an item cannot be reached",
           "Continue": true,
           "Sensor": {
             "Type": "Self",
@@ -216,14 +266,19 @@
               {
                 "Type": "Evoke:HasChestNearby",
                 "HorizontalRange": 15,
-                "VerticalRange": 2
+                "VerticalRange": 2,
+                "CheckCanStore": true
               }
             ]
           },
           "Actions": [
             {
-              "Type": "State",
-              "State": "FindChest"
+              "Type": "Timeout",
+              "Delay": [10, 10],
+              "Action": {
+                "Type": "State",
+                "State": "FindChest"
+              }
             }
           ]
         },
@@ -247,7 +302,8 @@
               {
                 "Type": "Seek",
                 "SlowDownDistance": 0.5,
-                "StopDistance": 0.5
+                "StopDistance": 0.5,
+                "RecomputeDistance": 1
               }
             ]
           },
@@ -337,7 +393,8 @@
                   {
                     "Type": "Evoke:HasChestNearby",
                     "HorizontalRange": 15,
-                    "VerticalRange": 2
+                    "VerticalRange": 2,
+                    "CheckCanStore": true
                   }
                 ]
               },
@@ -372,7 +429,9 @@
             {
               "Reference": "Component_Evoke_Store_Items",
               "Modify": {
-                "_ExportStates": ["Idle"]
+                "_ExportStates": ["Idle"],
+                "HorizontalRange": 15,
+                "VerticalRange": 2
               }
             }
           ]
@@ -431,87 +490,15 @@
           }
         },
         {
-          "$Comment": "Prevents the NPC from losing sight of the player",
-          "Continue": true,
-          "Sensor": {
-            "Type": "Player",
-            "Range": { "Compute": "MaxBeaconDistance" },
-            "LockOnTarget": true,
-            "Filters": [
-              {
-                "Type": "Evoke:IsEvoker"
-              }
-            ]
-          },
-          "Actions": [
-            {
-              "Type": "Nothing"
-            }
-          ]
-        },
-        {
-          "$Comment": "Teleports to the leader if more than 15 blocks away",
-          "Sensor": {
-            "Type": "Target",
-            "Filters": [
-              {
-                "Type": "Evoke:IsEvoker"
-              }
-            ]
-          },
-          "BodyMotion": {
-            "Type": "Evoke:Teleport",
-            "MinYOffset": 1.0,
-            "OffsetRange": [2, 3],
-            "OffsetSector": 2,
-            "Orientation": "TowardsTarget"
-          },
-          "Actions": [
-            {
-              "Type": "SpawnParticles",
-              "Offset": [ 0, 0.5, 0 ],
-              "ParticleSystem": "Effect_Death",
-              "Once": true
-            },
-            {
-              "Type": "Timeout",
-              "Delay": [ 2, 2 ],
-              "DelayAfter": true
-            }
-          ]
+          "Reference": "Component_Evoke_Teleport_To_Evoker",
+          "Modify": {
+            "Range": { "Compute": "MaxBeaconDistance" }
+          }
         }
       ]
     }
   ],
   "InteractionInstruction": {
-    "$Comment": "Opens the Hex Creature profile when interacted with",
-    "Instructions": [
-      {
-        "Continue": true,
-        "Sensor": {
-          "Type": "Any"
-        },
-        "Actions": [
-          {
-            "Type": "SetInteractable",
-            "Interactable": true
-          }
-        ]
-      },
-      {
-        "Sensor": {
-          "Type": "HasInteracted"
-        },
-        "Instructions": [
-          {
-            "Actions": [
-              {
-                "Type": "Evoke:OpenHCProfile"
-              }
-            ]
-          }
-        ]
-      }
-    ]
+    "Reference": "Component_Evoke_Interaction_Profile"
   }
 }

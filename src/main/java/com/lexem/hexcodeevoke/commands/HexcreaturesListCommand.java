@@ -10,6 +10,7 @@ import com.hypixel.hytale.server.core.universe.PlayerRef;
 import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.lexem.hexcodeevoke.components.EvokerComponent;
+import com.lexem.hexcodeevoke.components.HexCreatureComponent;
 
 import javax.annotation.Nonnull;
 import java.util.Arrays;

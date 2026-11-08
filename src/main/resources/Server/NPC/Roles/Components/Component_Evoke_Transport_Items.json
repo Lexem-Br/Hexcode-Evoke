@@ -1,0 +1,239 @@
+{
+  "$Comment": "Carries the items to the container chosen with the wand and waits where it was for more, or takes items from the first container and carries them to the second in a loop. Waits in front of the container while the source is empty or the destination is full, and next to where it should be while it is missing. Used inside the Transport state",
+  "Class": "Instruction",
+  "Parameters": {
+    "ViewRange": {
+      "Value": 15,
+      "Description": "Distance at which a Hex Creature used as a container is noticed"
+    },
+    "InteractRange": {
+      "Value": 2.5,
+      "Description": "Distance to the container at which items are moved"
+    }
+  },
+  "Content": {
+    "Instructions": [
+      {
+        "$Comment": "Next to a chest with room for the carried items: stores them",
+        "Sensor": {
+          "Type": "Evoke:TransportTarget",
+          "Target": "Deliver",
+          "Container": "Block",
+          "Ready": true,
+          "Range": { "Compute": "InteractRange" },
+          "ViewRange": { "Compute": "ViewRange" }
+        },
+        "ActionsBlocking": true,
+        "Actions": [
+          {
+            "Type": "PlayAnimation",
+            "Slot": "Status",
+            "Animation": "Interact"
+          },
+          {
+            "Type": "PlaySound",
+            "SoundEventId": "SFX_Chest_Wooden_Open"
+          },
+          {
+            "Type": "Evoke:OpenChestAnimation"
+          },
+          {
+            "Type": "Timeout",
+            "Delay": [1, 1],
+            "Action": {
+              "Type": "Sequence",
+              "Actions": [
+                {
+                  "Type": "PlaySound",
+                  "SoundEventId": "SFX_Chest_Wooden_Close"
+                },
+                {
+                  "Type": "Evoke:OpenChestAnimation",
+                  "Reverse": true
+                },
+                {
+                  "Type": "Evoke:TransportItems",
+                  "Target": "Deliver"
+                },
+                {
+                  "Type": "PlayAnimation",
+                  "Slot": "Status"
+                }
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "$Comment": "Next to a Hex Creature with room for the carried items: gives them",
+        "Sensor": {
+          "Type": "Evoke:TransportTarget",
+          "Target": "Deliver",
+          "Container": "Creature",
+          "Ready": true,
+          "Range": { "Compute": "InteractRange" },
+          "ViewRange": { "Compute": "ViewRange" }
+        },
+        "ActionsBlocking": true,
+        "Actions": [
+          {
+            "Type": "PlayAnimation",
+            "Slot": "Status",
+            "Animation": "Interact"
+          },
+          {
+            "Type": "Timeout",
+            "Delay": [1, 1],
+            "Action": {
+              "Type": "Sequence",
+              "Actions": [
+                {
+                  "Type": "Evoke:TransportItems",
+                  "Target": "Deliver"
+                },
+                {
+                  "Type": "PlayAnimation",
+                  "Slot": "Status"
+                }
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "$Comment": "Next to a chest with items the destination accepts: takes them",
+        "Sensor": {
+          "Type": "Evoke:TransportTarget",
+          "Target": "Collect",
+          "Container": "Block",
+          "Ready": true,
+          "Range": { "Compute": "InteractRange" },
+          "ViewRange": { "Compute": "ViewRange" }
+        },
+        "ActionsBlocking": true,
+        "Actions": [
+          {
+            "Type": "PlayAnimation",
+            "Slot": "Status",
+            "Animation": "Interact"
+          },
+          {
+            "Type": "PlaySound",
+            "SoundEventId": "SFX_Chest_Wooden_Open"
+          },
+          {
+            "Type": "Evoke:OpenChestAnimation"
+          },
+          {
+            "Type": "Timeout",
+            "Delay": [1, 1],
+            "Action": {
+              "Type": "Sequence",
+              "Actions": [
+                {
+                  "Type": "PlaySound",
+                  "SoundEventId": "SFX_Chest_Wooden_Close"
+                },
+                {
+                  "Type": "Evoke:OpenChestAnimation",
+                  "Reverse": true
+                },
+                {
+                  "Type": "Evoke:TransportItems",
+                  "Target": "Collect"
+                },
+                {
+                  "Type": "PlayAnimation",
+                  "Slot": "Status"
+                }
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "$Comment": "Next to a Hex Creature with items the destination accepts: takes them",
+        "Sensor": {
+          "Type": "Evoke:TransportTarget",
+          "Target": "Collect",
+          "Container": "Creature",
+          "Ready": true,
+          "Range": { "Compute": "InteractRange" },
+          "ViewRange": { "Compute": "ViewRange" }
+        },
+        "ActionsBlocking": true,
+        "Actions": [
+          {
+            "Type": "PlayAnimation",
+            "Slot": "Status",
+            "Animation": "Interact"
+          },
+          {
+            "Type": "Timeout",
+            "Delay": [1, 1],
+            "Action": {
+              "Type": "Sequence",
+              "Actions": [
+                {
+                  "Type": "Evoke:TransportItems",
+                  "Target": "Collect"
+                },
+                {
+                  "Type": "PlayAnimation",
+                  "Slot": "Status"
+                }
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "$Comment": "Walks to the destination, or to where it was last seen, and waits there while it is full or missing",
+        "Sensor": {
+          "Type": "Evoke:TransportTarget",
+          "Target": "Deliver",
+          "Range": 1000,
+          "ViewRange": { "Compute": "ViewRange" }
+        },
+        "BodyMotion": {
+          "Type": "Seek",
+          "SlowDownDistance": 2,
+          "StopDistance": 1.3,
+          "RelativeSpeed": 0.8
+        }
+      },
+      {
+        "$Comment": "Walks to the source, or to where it was last seen, and waits there while it is empty or missing",
+        "Sensor": {
+          "Type": "Evoke:TransportTarget",
+          "Target": "Collect",
+          "Range": 1000,
+          "ViewRange": { "Compute": "ViewRange" }
+        },
+        "BodyMotion": {
+          "Type": "Seek",
+          "SlowDownDistance": 2,
+          "StopDistance": 1.3,
+          "RelativeSpeed": 0.8
+        }
+      },
+      {
+        "$Comment": "Nothing to carry with a single container: goes back to where it was when the command was given and waits for more items",
+        "Sensor": {
+          "Type": "Evoke:TransportTarget",
+          "Target": "Wait",
+          "Range": 1000,
+          "MinRange": 1,
+          "ViewRange": { "Compute": "ViewRange" }
+        },
+        "BodyMotion": {
+          "Type": "Seek",
+          "SlowDownDistance": 2,
+          "StopDistance": 0.3,
+          "RelativeSpeed": 0.8
+        }
+      }
+    ]
+  },
+  "Type": "Component"
+}

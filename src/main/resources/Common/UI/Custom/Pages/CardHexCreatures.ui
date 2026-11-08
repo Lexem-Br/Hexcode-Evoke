@@ -41,21 +41,46 @@ Group {
 
             Group { Anchor: (Width: 8); }
 
-            Label #HCName {
-              Text: "Hex Creature Name";
-              Anchor: (Width: 250, Height: 30);
-              Visible: true;
-              Style: (FontSize: 18, TextColor: #000000, RenderBold: true, VerticalAlignment: Center);
-              Padding: (Left: 12);
-            }
+            Group {
+                Anchor: (Width: 250);
+                LayoutMode: Middle;
 
-            $C.@TextField #NameInput {
-               Anchor: (Width: 200, Height: 30);
-               PlaceholderText: "Name";
-               MaxLength: 20;
-               Visible: false;
-               Decoration: @InputFieldStyle;
-               Style: InputFieldStyle(TextColor: #000000);
+                Label #HCName {
+                  Text: "Hex Creature Name";
+                  Anchor: (Width: 250, Height: 30);
+                  Visible: true;
+                  Style: (FontSize: 18, TextColor: #000000, RenderBold: true, VerticalAlignment: Center);
+                  Padding: (Left: 12);
+                }
+
+                $C.@TextField #NameInput {
+                   Anchor: (Width: 200, Height: 30);
+                   PlaceholderText: "Name";
+                   MaxLength: 20;
+                   Visible: false;
+                   Decoration: @InputFieldStyle;
+                   Style: InputFieldStyle(TextColor: #000000);
+                }
+
+                Group #EssenceRow {
+                    Anchor: (Height: 22);
+                    LayoutMode: Left;
+                    Padding: (Left: 12);
+                    Visible: false;
+
+                    ItemIcon #EssenceIcon {
+                        ItemId: "Ingredient_Life_Essence";
+                        Anchor: (Width: 18, Height: 18);
+                    }
+
+                    Group { Anchor: (Width: 4); }
+
+                    Label #HCEssence {
+                        Text: "";
+                        Anchor: (Height: 22);
+                        Style: (FontSize: 14, TextColor: #333333, VerticalAlignment: Center);
+                    }
+                }
             }
         }
 

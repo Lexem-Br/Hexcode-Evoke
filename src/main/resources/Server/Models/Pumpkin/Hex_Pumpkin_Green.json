@@ -1,0 +1,13 @@
+{
+  "Parent": "Hex_Pumpkin_Orange",
+  "Model": "NPC/Pumpkin_Lamp/Pumpkin_Lamp_Small.blockymodel",
+  "Texture": "NPC/Pumpkin_Lamp/Pumpkin_Lamp_Small_01.png",
+  "DefaultAttachments": [],
+  "EyeHeight": 0.25,
+  "MinScale": 2,
+  "MaxScale": 2,
+  "Light": {
+    "Radius": 5,
+    "Color": "#464"
+  }
+}

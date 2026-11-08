@@ -1,0 +1,9 @@
+{
+  "Spawners": [
+    {
+      "SpawnerId": "Evoke_Codex_Item_Found"
+    }
+  ],
+  "$Comment": "White dust falling on the chest that has the searched item",
+  "CullDistance": 50
+}

@@ -1,0 +1,42 @@
+{
+  "$Comment": "Adds the entity to the flock of the first player it finds",
+  "Class": "Instruction",
+  "Content": {
+    "Continue": true,
+    "Instructions": [
+      {
+        "$Comment": "Add creature to flock",
+        "Continue": true,
+        "Sensor": {
+          "Type": "Self",
+          "Filters": [
+            {
+              "Type": "Flock",
+              "FlockStatus": "NotMember"
+            }
+          ]
+        },
+        "Instructions": [
+          {
+            "Sensor": {
+              "Type": "Player",
+              "Range": 15,
+              "Filters": [
+                {
+                  "Type": "Evoke:IsEvoker"
+                }
+              ]
+            },
+            "Actions": [
+              {
+                "Type": "JoinFlock",
+                "ForceJoin": true
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "Type": "Component"
+}

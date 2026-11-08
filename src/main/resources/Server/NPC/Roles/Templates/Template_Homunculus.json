@@ -1,0 +1,369 @@
+{
+  "StartState": "Following",
+  "Type": "Abstract",
+  "Invulnerable": false,
+  "Parameters": {
+    "Appearance": {
+      "Value": "Hex_Mannequin",
+      "Description": "Model to be used."
+    },
+    "DropHexItem": {
+      "Value": "Hex_Mannequin_Block",
+      "Description": "Drop from Hex Creature"
+    },
+    "OffHand": {
+      "Value": "",
+      "Description": "OffHand items"
+    },
+    "holdableItems": {
+      "Value": [ "Furniture_Crude_Torch" ],
+      "Description": "Items that can be held"
+    },
+    "DropList": {
+      "Value": "Empty",
+      "Description": "Drop Items"
+    },
+    "NameTranslationKey": {
+      "Value": "Hex Creature",
+      "Description": "Translation key for NPC name display"
+    }
+  },
+  "IsMemory": false,
+  "BreathesInWater": true,
+  "DropList": { "Compute": "DropList" },
+  "Appearance": {"Compute": "Appearance"},
+  "DefaultNPCAttitude": "Ignore",
+  "DefaultPlayerAttitude": "Ignore",
+  "ApplySeparation": true,
+  "SeparationDistance": 1.0,
+  "SeparationWeight": 0.6,
+  "SeparationLegacySteeringStrength": 0.2,
+  "InventorySize": 0,
+  "HotbarSize": 4,
+  "OffHandSlots": 1,
+  "DefaultOffHandSlot": 0,
+  "PickupDropOnDeath": true,
+  "MaxHealth": 200,
+  "KnockbackScale": 0.5,
+  "NameTranslationKey": {"Compute": "NameTranslationKey"},
+  "MotionControllerList": [
+    {
+      "Type": "Walk",
+      "MaxWalkSpeed": 8,
+      "Gravity": 10,
+      "RunThreshold": 0.3,
+      "MaxFallSpeed": 15,
+      "MaxRotationSpeed": 360,
+      "Acceleration": 8,
+      "MaxClimbHeight": 3,
+      "MaxDropHeight": 5
+    }
+  ],
+  "StateTransitions": [
+    {
+      "$Comment": "Clear",
+      "States": [
+        {
+          "From": [ ],
+          "To": [ ]
+        }
+      ],
+      "Actions": [
+        {
+          "Type": "ReleaseTarget"
+        },
+        {
+          "Type": "ResetInstructions"
+        },
+        {
+          "Type": "PlayAnimation",
+          "Slot": "Status"
+        }
+      ]
+    }
+  ],
+  "Instructions": [
+    {
+      "$Comment": "Beacon wand command",
+      "Reference": "Component_Evoke_Wand_Commands",
+      "Modify": {
+        "_ExportStates": ["SeekPosition", "Following"],
+        "Range": 100
+      }
+    },
+    {
+      "$Comment": "Beacon wand command: carry items to the container chosen with the wand, or from one container to another",
+      "Continue": true,
+      "Sensor": {
+        "Type": "Beacon",
+        "Message": "EvokeTransportItems",
+        "Range": 100
+      },
+      "Actions": [
+        {
+          "Type": "State",
+          "State": "Transport"
+        }
+      ]
+    },
+    {
+      "$Comment": "Go to target position",
+      "Sensor": {
+        "Type": "State",
+        "State": "SeekPosition"
+      },
+      "Instructions": [
+        {
+          "Continue": true,
+          "Sensor": {
+            "Type": "Evoke:ReadPosition",
+            "Range": 30,
+            "MinRange": 1
+          },
+          "BodyMotion": {
+            "Type": "Seek",
+            "SlowDownDistance": 3,
+            "StopDistance": 0.1,
+            "RelativeSpeed": 0.8
+          }
+        },
+        {
+          "Sensor": {
+            "Type": "Evoke:ReadPosition",
+            "Range": 2,
+            "MinRange": 1
+          },
+          "Actions": [
+            {
+              "Type": "State",
+              "State": "CheckTasks.Default"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "$Comment": "Goes to refuel at a nearby Essence Tray when low on life essence",
+      "Reference": "Component_Evoke_Refuel_Trigger",
+      "Modify": {
+        "_ExportStates": ["Refuel"]
+      }
+    },
+    {
+      "$Comment": "Walks to the Essence Tray, consumes as much life essence as it can, walks back to where it was and resumes the previous task",
+      "Sensor": {
+        "Type": "State",
+        "State": "Refuel"
+      },
+      "Instructions": [
+        {
+          "Reference": "Component_Evoke_Refuel_Walking"
+        }
+      ]
+    },
+    {
+      "$Comment": "Less than 1 block away from the player",
+      "Sensor": {
+        "Type": "Player",
+        "Range": 1
+      },
+      "BodyMotion": {
+        "Type": "MaintainDistance",
+        "DesiredDistanceRange": [1.5, 1.5],
+        "MoveThreshold": 0.2,
+        "RelativeForwardsSpeed": 0.6,
+        "RelativeBackwardsSpeed": 0.3
+      }
+    },
+    {
+      "$Comment": "Head motion",
+      "Continue": true,
+      "Sensor": {
+        "Type": "Player",
+        "Range": 2,
+        "Filters": [
+          {
+            "Type": "ViewSector",
+            "ViewSector": 120
+          }
+        ]
+      },
+      "HeadMotion": {
+        "Type": "Watch",
+        "RelativeTurnSpeed": 0.5
+      }
+    },
+    {
+      "$Comment": "Entity movement",
+      "Sensor": {
+        "Type": "State",
+        "State": "Following"
+      },
+      "Instructions": [
+        {
+          "Reference": "Component_Evoke_Follow_Evoker_Walking"
+        }
+      ]
+    },
+    {
+      "$Comment": "Carries items to the container chosen with the wand and waits where it was, or from one container to another in a loop",
+      "Sensor": {
+        "Type": "State",
+        "State": "Transport"
+      },
+      "Instructions": [
+        {
+          "Reference": "Component_Evoke_Transport_Items"
+        }
+      ]
+    },
+    {
+      "$Comment": "Check tasks to do",
+      "Continue": true,
+      "Sensor": {
+        "Type": "State",
+        "State": "CheckTasks"
+      },
+      "Instructions": [
+        {
+          "$Comment": "Verify item being held",
+          "Sensor": {
+            "Type": "State",
+            "State": ".Default"
+          },
+          "Instructions": [
+            {
+              "$Comment": "Checks if the inventory is full and if there is a chest nearby",
+              "Sensor": {
+                "Type": "Self",
+                "Filters": [
+                  {
+                    "Type": "Evoke:IsInventoryFull",
+                    "Inventories": ["Hotbar", "Storage"]
+                  },
+                  {
+                    "Type": "Evoke:HasChestNearby",
+                    "HorizontalRange": 10,
+                    "VerticalRange": 3
+                  }
+                ]
+              },
+              "Actions": [
+                {
+                  "Type": "State",
+                  "State": ".StoreItems"
+                }
+              ]
+            },
+            {
+              "$Comment": "Checks if has a harvestable crop planted on crystal soil",
+              "Sensor": {
+                "Type": "Self",
+                "Filters": [
+                  {
+                    "Type": "Evoke:HasHarvestableCrop",
+                    "HorizontalRange": 10,
+                    "VerticalRange": 3,
+                    "SoilBlocks": [ "Soil_Dirt_Crystal" ]
+                  }
+                ]
+              },
+              "Actions": [
+                {
+                  "Type": "State",
+                  "State": ".Harvest"
+                }
+              ]
+            },
+            {
+              "$Comment": "Stores the harvested items when there is nothing left to harvest",
+              "Sensor": {
+                "Type": "Self",
+                "Filters": [
+                  {
+                    "Type": "Evoke:HasItemsOnInventory",
+                    "Inventories": ["Hotbar", "Storage"],
+                    "SkipHotbarSlotZero": true
+                  },
+                  {
+                    "Type": "Evoke:HasChestNearby",
+                    "HorizontalRange": 10,
+                    "VerticalRange": 3
+                  }
+                ]
+              },
+              "Actions": [
+                {
+                  "Type": "State",
+                  "State": ".StoreItems"
+                }
+              ]
+            },
+            {
+              "$Comment": "Returns to standby mode",
+              "Sensor": {
+                "Type": "Any"
+              },
+              "Actions": [
+                {
+                  "Type": "State",
+                  "State": ".Standby"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$Comment": "Search for a chest that has available slots",
+          "Sensor": {
+            "Type": "State",
+            "State": ".StoreItems"
+          },
+          "Instructions": [
+            {
+              "Reference": "Component_Evoke_Store_Items",
+              "Modify": {
+                "_ExportStates": ["SeekPosition"]
+              }
+            }
+          ]
+        },
+        {
+          "$Comment": "Search for a plantation that is ready to harvest",
+          "Sensor": {
+            "Type": "State",
+            "State": ".Harvest"
+          },
+          "Instructions": [
+            {
+              "Reference": "Component_Homunculus_Harvest",
+              "Modify": {
+                "_ExportStates": ["SeekPosition"]
+              }
+            }
+          ]
+        },
+        {
+          "$Comment": "Standby state",
+          "Sensor": {
+            "Type": "State",
+            "State": ".Standby"
+          },
+          "Actions": [
+            {
+              "Type": "Timeout",
+              "Delay": [3, 3],
+              "Action": {
+                "Type": "State",
+                "State": "CheckTasks"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "InteractionInstruction": {
+    "Reference": "Component_Evoke_Interaction_Profile"
+  }
+}

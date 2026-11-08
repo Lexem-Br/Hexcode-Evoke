@@ -1,0 +1,13 @@
+{
+  "Interactions": [
+    {
+      "Type": "Evoke:MannequinArmor",
+      "Next": {
+        "Type": "Simple",
+        "Effects": {
+          "WorldSoundEventId": "SFX_Player_Pickup_Item"
+        }
+      }
+    }
+  ]
+}

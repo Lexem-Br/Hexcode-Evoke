@@ -34,6 +34,7 @@ public class ActionMinionCreateSearchTasks extends ActionBase {
    @Override
    public boolean execute(@Nonnull Ref<EntityStore> npcRef, @Nonnull ExecutionSupport executionSupport, @Nullable InfoProvider sensorInfo, double dt, @Nonnull Store<EntityStore> store) {
       super.execute(npcRef, executionSupport, sensorInfo, dt, store);
+      if (horizontalRange <= 0) return true;
 
       World world = store.getExternalData().getWorld();
 
@@ -50,12 +51,12 @@ public class ActionMinionCreateSearchTasks extends ActionBase {
       TransformComponent transformComponent = store.getComponent(hcRef, TransformComponent.getComponentType());
       if (transformComponent == null) return false;
 
-      List<Vector3d> listChestsPosition = FinderUtils.findAllChestsInRange(
+      List<Vector3d> listChestsPosition = hexCreatureComponent.withoutUnreachableChests(FinderUtils.findAllChestsInRange(
               transformComponent.getPosition(),
               (int) Math.ceil(horizontalRange),
               (int) Math.ceil(verticalRange),
               world
-      );
+      ));
       if (listChestsPosition.isEmpty()) return false;
 
       for (Vector3d chestPosition : listChestsPosition) {

@@ -9,7 +9,6 @@ import com.hypixel.hytale.server.npc.corecomponents.ActionBase;
 import com.hypixel.hytale.server.npc.instructions.ExecutionSupport;
 import com.hypixel.hytale.server.npc.sensorinfo.InfoProvider;
 import com.lexem.hexcodeevoke.components.HexCreatureMinionComponent;
-import com.lexem.hexcodeevoke.npc.actions.builders.BuilderActionTakeItemFromChestTask;
 import com.lexem.hexcodeevoke.npc.actions.builders.BuilderActionTransferItemsToTargetNPC;
 import com.lexem.hexcodeevoke.utils.InventoryUtils;
 
@@ -46,7 +45,10 @@ public class ActionTransferItemsToTargetNPC extends ActionBase {
                 InventoryComponent.Hotbar.getComponentType()
         );
 
-        String itemToTransferId = minionComponent.getChestTask().getItemId();
-        return InventoryUtils.transferAllItemsOfType(npcContainer, targetContainer, itemToTransferId, -1);
+        boolean itemTransferred = false;
+        for (String itemId : InventoryUtils.getItemIdsFromContainer(npcContainer)) {
+            itemTransferred |= InventoryUtils.transferAllItemsOfType(npcContainer, targetContainer, itemId, -1);
+        }
+        return itemTransferred;
     }
 }

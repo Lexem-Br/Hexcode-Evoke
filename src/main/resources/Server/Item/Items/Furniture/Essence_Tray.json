@@ -1,0 +1,114 @@
+{
+  "TranslationProperties": {
+    "Name": "evoke.items.Essence_Tray.name",
+    "Description": "evoke.items.Essence_Tray.description"
+  },
+  "Categories": [
+    "Furniture.Containers"
+  ],
+  "PlayerAnimationsId": "Block",
+  "Recipe": {
+    "TimeSeconds": 1,
+    "Input": [
+      {
+        "ResourceTypeId": "Wood_Trunk",
+        "Quantity": 2
+      },
+      {
+        "ItemId": "Ingredient_Fabric_Scrap_Linen",
+        "Quantity": 2
+      }
+    ],
+    "BenchRequirement": [
+      {
+        "Id": "Arcanebench",
+        "Type": "Crafting",
+        "Categories": [
+          "Arcane_Hexcode_Evoke"
+        ]
+      }
+    ]
+  },
+  "MaxStack": 25,
+  "BlockType": {
+    "BlockParticleSetId": "Wood",
+    "BlockSoundSetId": "Wood",
+    "PhysicalMaterialId": "Wood",
+    "CustomModel": "Items/Decorations/Tray/Tray.blockymodel",
+    "CustomModelTexture": [
+      {
+        "Texture": "Items/Consumables/Food/Salad_Caesar_Texture.png",
+        "Weight": 1
+      }
+    ],
+    "DrawType": "Model",
+    "Flags": {},
+    "Gathering": {
+      "Soft": {
+        "IsWeaponBreakable": false
+      }
+    },
+    "HitboxType": "Evoke_Tray",
+    "VariantRotation": "NESW",
+    "Material": "Empty",
+    "Opacity": "Transparent",
+    "Support": {
+      "Down": [
+        {
+          "FaceType": "Full"
+        }
+      ]
+    },
+    "State": {
+      "Definitions": {
+        "Filled": {
+          "CustomModel": "Items/Decorations/Tray/Tray_Essence.blockymodel",
+          "CustomModelTexture": [
+            {
+              "Texture": "Items/Decorations/Tray/Tray_Essence_Texture.png",
+              "Weight": 1
+            }
+          ],
+          "CustomModelAnimation": "Items/Decorations/Tray/Animations/Essence_Float.blockyanim",
+          "Looping": true,
+          "Light": {
+            "Color": "#130"
+          }
+        }
+      }
+    },
+    "BlockEntity": {
+      "Components": {
+        "ItemContainerBlock": {
+          "Capacity": 5
+        },
+        "Evoke_EssenceTray": {}
+      }
+    },
+    "InteractionHint": "server.interactionHints.openDoor",
+    "Interactions": {
+      "Use": "Open_Container"
+    },
+    "ParticleColor": "#5a3a24",
+    "TextureComputedColor": "#E8E4DA"
+  },
+  "Tags": {
+    "Type": [
+      "Furniture"
+    ]
+  },
+  "IconProperties": {
+    "Scale": 0.9,
+    "Rotation": [
+      22.5,
+      45,
+      22.5
+    ],
+    "Translation": [
+      0,
+      -4
+    ]
+  },
+  "Icon": "Icons/ItemsGenerated/Essence_Tray.png",
+  "ItemSoundSetId": "ISS_Blocks_Wood"
+}

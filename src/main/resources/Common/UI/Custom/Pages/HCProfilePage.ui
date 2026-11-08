@@ -1,4 +1,5 @@
 $C = "../Common.ui";
+$Sounds = "../Sounds.ui";
 
 @CaptionStyle = LabelStyle(
   FontSize: 14,
@@ -6,9 +7,59 @@ $C = "../Common.ui";
   Wrap: true
 );
 
-@InfoIconStyle = TextButtonStyle(
-  Default: (Background: "../Icons/circleIcon.png", LabelStyle: (TextColor: #ffffff, RenderBold: true))
+@SlotGridStyle = ItemGridStyle(
+  SlotSpacing: 4,
+  SlotSize: 64,
+  SlotIconSize: 54,
+  SlotBackground: "../Icons/slotBackground.png",
+  QuantityPopupSlotOverlay: "../Icons/slotHighlight.png",
+  BrokenSlotBackgroundOverlay: "../Icons/brokenBackground.png",
+  BrokenSlotIconOverlay: "../Icons/brokenWrench.png",
+  CooldownOverlay: "../Icons/cooldownOverlay.png",
+  DefaultItemIcon: "../Icons/circleIcon.png",
+  DurabilityBar: "../Icons/durabilityBar.png",
+  DurabilityBarBackground: "../Icons/durabilityBarBackground.png",
+  DurabilityBarAnchor: (
+    Bottom: 8,
+    Left: 8,
+    Width: 48,
+    Height: 3
+  ),
+  DurabilityBarColorStart: #a63232,
+  DurabilityBarColorEnd: #63b649,
+  EphemeralIconPatch: "../Icons/circleIcon.png",
+  EphemeralIconAnchor: (
+    Bottom: 40,
+    Left: 40,
+    Width: 18,
+    Height: 18
+  ),
+  ItemStackHoveredSound: (
+    SoundPath: $Sounds.@ButtonsLightHover,
+    Volume: 6
+  )
 );
+
+@SlotGrid = ItemGrid {
+  HitTestVisible: true;
+  Style: @SlotGridStyle;
+  SlotsPerRow: 1;
+  RenderItemQualityBackground: true;
+  AreItemsDraggable: true;
+  DisplayItemQuantity: true;
+  ShowScrollbar: false;
+  InfoDisplay: None;
+};
+
+@EquipmentColumn = Group {
+  LayoutMode: Top;
+  Anchor: (Width: 70, Height: 110);
+};
+
+@EquipmentCaption = Group {
+  LayoutMode: Middle;
+  Anchor: (Height: 40, Width: 64);
+};
 
 $C.@PageOverlay {}
 
@@ -21,15 +72,14 @@ Group {
          LayoutMode: CenterMiddle;
 
          Group #LeftPanel {
-            LayoutMode: MiddleCenter;
-            Anchor: (Width: 530, Height: 600);
+            Anchor: (Width: 700, Height: 600);
 
             $C.@DecoratedContainer {
-                Anchor: (Width: 530, Height: 500);
+                Anchor: (Full: 0);
 
                 #Title {
                     $C.@Title {
-                        @Text = "Hex Creature Profile";
+                        @Text = %evoke.profile.title;
                     }
                 }
 
@@ -45,18 +95,35 @@ Group {
                             Group {
                                 LayoutMode: MiddleCenter;
                                 Label #HCName {
-                                    Text: "Hex Creature Name";
+                                    Text: "";
                                     Anchor: (Width: 250, Height: 25);
-                                    Visible: true;
                                     Style: (FontSize: 18, RenderBold: true, VerticalAlignment: Center);
                                     Padding: (Left: 12);
                                 }
                                 Label #EvokerName {
-                                    Text: "Evoker: Name";
+                                    Text: "";
                                     Anchor: (Width: 250, Height: 25);
-                                    Visible: true;
                                     Style: (FontSize: 14, VerticalAlignment: Center);
                                     Padding: (Left: 12);
+                                }
+                                Group #EssenceSection {
+                                    Anchor: (Width: 250, Height: 25);
+                                    LayoutMode: Left;
+                                    Padding: (Left: 12);
+                                    TextTooltipStyle: $C.@DefaultTextTooltipStyle;
+
+                                    ItemIcon #EssenceIcon {
+                                        ItemId: "Ingredient_Life_Essence";
+                                        Anchor: (Width: 20, Height: 20);
+                                    }
+
+                                    Group { Anchor: (Width: 6); }
+
+                                    Label #EssenceStored {
+                                        Text: "";
+                                        Anchor: (Height: 25);
+                                        Style: (FontSize: 14, RenderBold: true, VerticalAlignment: Center);
+                                    }
                                 }
                             }
                         }
@@ -67,186 +134,122 @@ Group {
                             Visible: false;
 
                             $C.@SmallSecondaryTextButton #DespawnButton {
-                                @Anchor = (Width: 100, Height: 50);
-                                @Text = "Despawn";
-                                TooltipText: "Despawn";
+                                @Anchor = (Width: 110, Height: 50);
+                                @Text = %evoke.profile.despawn;
                             }
                         }
                     }
 
-                    Group { Anchor: (Height: 40); }
+                    Group { Anchor: (Height: 8); }
 
                     Group {
-                        LayoutMode: LeftCenterWrap;
+                        LayoutMode: TopScrolling;
+                        ScrollbarStyle: $C.@DefaultScrollbarStyle;
+                        FlexWeight: 1;
 
-                         Group #NPCLeftHand {
-                             LayoutMode: Top;
-                             Anchor: (Width: 70, Height: 110);
-
-                             Group {
-                                 LayoutMode: Middle;
-                                 Anchor: (Height: 40, Width: 40);
-                                 Label #NPCLeftHandTitle {
-                                     Style: @CaptionStyle;
-                                     Text: "Left Hand";
-                                 }
-                             }
-
-                            Group #NPCLeftHandSlot {
-                                LayoutMode: LeftCenterWrap;
-                            }
-                        }
-
-                        Group #NPCRightHand {
-                            LayoutMode: Top;
-                            Anchor: (Width: 70, Height: 110);
-
-                            Group {
-                                LayoutMode: Middle;
-                                Anchor: (Height: 40, Width: 40);
-                                Label #NPCRightHandTitle {
-                                    Style: @CaptionStyle;
-                                    Text: "Right Hand";
-                                }
-                            }
-
-                            Group #NPCRightHandSlot {
-                                LayoutMode: LeftCenterWrap;
-                            }
-                        }
-
-                        Group {Anchor: (Width: 70);}
-
-                        Group #NPCArmorHead {
-                            LayoutMode: Top;
-                            Anchor: (Width: 70, Height: 110);
-
-                            Group {
-                                LayoutMode: Middle;
-                                Anchor: (Height: 40, Width: 40);
-                                Label #NPCArmorHeadTitle {
-                                    Style: @CaptionStyle;
-                                    Text: "Head";
-                                }
-                            }
-
-                            Group #NPCArmorHeadSlot {
-                                LayoutMode: LeftCenterWrap;
-                            }
-                        }
-
-                        Group #NPCArmorChest {
-                            LayoutMode: Top;
-                            Anchor: (Width: 70, Height: 110);
-
-                            Group {
-                                LayoutMode: Middle;
-                                Anchor: (Height: 40, Width: 40);
-                                Label #NPCArmorChestTitle {
-                                    Style: @CaptionStyle;
-                                    Text: "Chest";
-                                }
-                            }
-
-                            Group #NPCArmorChestSlot {
-                                LayoutMode: LeftCenterWrap;
-                            }
-                        }
-
-                        Group #NPCArmorHands {
-                            LayoutMode: Top;
-                            Anchor: (Width: 70, Height: 110);
-
-                            Group {
-                                LayoutMode: Middle;
-                                Anchor: (Height: 40, Width: 45);
-                                Label #NPCArmorHandsTitle {
-                                    Style: @CaptionStyle;
-                                    Text: "Hands";
-                                }
-                            }
-
-                            Group #NPCArmorHandsSlot {
-                                LayoutMode: LeftCenterWrap;
-                            }
-                        }
-
-                        Group #NPCArmorLegs {
-                            LayoutMode: Top;
-                            Anchor: (Width: 70, Height: 110);
-
-                            Group {
-                                LayoutMode: Middle;
-                                Anchor: (Height: 40, Width: 40);
-                                Label #NPCArmorLegsTitle {
-                                    Style: @CaptionStyle;
-                                    Text: "Legs";
-                                }
-                            }
-
-                            Group #NPCArmorLegsSlot {
-                                LayoutMode: LeftCenterWrap;
-                            }
-                        }
-                    }
-
-                    Group #Anchor1 { Anchor: (Height: 20); }
-
-                    Group #NPCHotbarSection {
-                        LayoutMode: Top;
-                        Anchor: (Left: 5);
-
-                        Label #NPCHotbarTitle {
-                            Anchor: (Height: 30, Left: 5);
-                            Style: @CaptionStyle;
-                            Text: "Hotbar";
-                        }
-
-                        Group #NPCHotbarSlots {
+                        Group #EquipmentRow {
                             LayoutMode: Left;
+                            Anchor: (Width: 617, Height: 110);
+                            Padding: (Left: 5);
+
+                            @EquipmentColumn #NPCLeftHand {
+                                @EquipmentCaption {
+                                    Label {
+                                        Style: @CaptionStyle;
+                                        Text: %evoke.profile.leftHand;
+                                    }
+                                }
+
+                                @SlotGrid #NPCLeftHandGrid {}
+                            }
+
+                            @EquipmentColumn #NPCRightHand {
+                                @EquipmentCaption {
+                                    Label {
+                                        Style: @CaptionStyle;
+                                        Text: %evoke.profile.rightHand;
+                                    }
+                                }
+
+                                @SlotGrid #NPCRightHandGrid {}
+                            }
+
+                            Group #EquipmentSpacer { FlexWeight: 1; }
+
+                            @EquipmentColumn #NPCArmorHead {
+                                @EquipmentCaption {
+                                    Label {
+                                        Style: @CaptionStyle;
+                                        Text: %evoke.profile.head;
+                                    }
+                                }
+
+                                @SlotGrid #NPCArmorHeadGrid {}
+                            }
+
+                            @EquipmentColumn #NPCArmorChest {
+                                @EquipmentCaption {
+                                    Label {
+                                        Style: @CaptionStyle;
+                                        Text: %evoke.profile.chest;
+                                    }
+                                }
+
+                                @SlotGrid #NPCArmorChestGrid {}
+                            }
+
+                            @EquipmentColumn #NPCArmorHands {
+                                @EquipmentCaption {
+                                    Label {
+                                        Style: @CaptionStyle;
+                                        Text: %evoke.profile.hands;
+                                    }
+                                }
+
+                                @SlotGrid #NPCArmorHandsGrid {}
+                            }
+
+                            @EquipmentColumn #NPCArmorLegs {
+                                @EquipmentCaption {
+                                    Label {
+                                        Style: @CaptionStyle;
+                                        Text: %evoke.profile.legs;
+                                    }
+                                }
+
+                                @SlotGrid #NPCArmorLegsGrid {}
+                            }
                         }
-                    }
 
-                    Group #Anchor2 { Anchor: (Height: 20); }
+                        Group #NPCHotbarSection {
+                            LayoutMode: Top;
+                            Padding: (Left: 5, Top: 12);
 
-                    Group #NPCInventorySection {
-                        LayoutMode: Top;
-                        Anchor: (Top: 24);
+                            Label {
+                                Anchor: (Height: 30, Left: 5);
+                                Style: @CaptionStyle;
+                                Text: %evoke.profile.hotbar;
+                            }
 
-                        Label #NPCInventoryTitle {
-                            Anchor: (Height: 30, Left: 5);
-                            Style: @CaptionStyle;
-                            Text: "Inventory";
+                            @SlotGrid #NPCHotbarGrid {
+                                SlotsPerRow: 9;
+                            }
                         }
 
-                        Group #NPCInventorySlots {
-                            LayoutMode: LeftCenterWrap;
+                        Group #NPCStorageSection {
+                            LayoutMode: Top;
+                            Padding: (Left: 5, Top: 12);
+
+                            Label {
+                                Anchor: (Height: 30, Left: 5);
+                                Style: @CaptionStyle;
+                                Text: %evoke.profile.inventory;
+                            }
+
+                            @SlotGrid #NPCStorageGrid {
+                                SlotsPerRow: 9;
+                            }
                         }
-                    }
-                }
-            }
-
-            Group {
-                 $C.@Panel {
-                    LayoutMode: CenterMiddle;
-                    Anchor: (Width: 530, Height: 100);
-                    Group {
-                        LayoutMode: MiddleCenter;
-
-                        $C.@TextButton #TransferButton{
-                            @Anchor = (Width: 200, Height: 50);
-                            @Text = "Transfer item";
-                            TooltipText: "Transfer an item from one slot to another";
-                        }
-                    }
-
-                     Group { Anchor: (Width: 10); }
-
-                    TextButton #InfoIcon {
-                        Text: "  i";
-                        Anchor: (Width: 22, Height: 22);
-                        Style: @InfoIconStyle;
-                        TooltipText: "Right-click to quickly transfer the item";
                     }
                 }
             }
@@ -262,7 +265,7 @@ Group {
 
                 #Title {
                     $C.@Title {
-                      @Text = "Player Inventory";
+                      @Text = %evoke.profile.playerInventory;
                     }
                 }
 
@@ -271,47 +274,48 @@ Group {
                         LayoutMode: TopScrolling;
                         ScrollbarStyle: $C.@DefaultScrollbarStyle;
 
-                        Group #HotbarSection {
+                        Group #PlayerHotbarSection {
                            LayoutMode: Top;
+                           Padding: (Left: 20);
 
-                           Label #HotbarTitle {
-                             Anchor: (Height: 30, Left: 20);
+                           Label {
+                             Anchor: (Height: 30);
                              Style: @CaptionStyle;
-                             Text: "Hotbar";
+                             Text: %evoke.profile.hotbar;
                            }
 
-                           Group #HotbarSlots {
-                               LayoutMode: LeftCenterWrap;
+                           @SlotGrid #PlayerHotbarGrid {
+                               SlotsPerRow: 9;
                            }
                         }
 
-                         Group #StorageSection {
+                        Group #PlayerStorageSection {
                             LayoutMode: Top;
-                            Anchor: (Top: 24);
+                            Padding: (Left: 20, Top: 24);
 
-                            Label #StorageTitle {
-                                Anchor: (Height: 30, Left: 20);
+                            Label {
+                                Anchor: (Height: 30);
                                 Style: @CaptionStyle;
-                                Text: "Storage";
+                                Text: %evoke.profile.storage;
                             }
 
-                            Group #StorageSlots {
-                                LayoutMode: LeftCenterWrap;
+                            @SlotGrid #PlayerStorageGrid {
+                                SlotsPerRow: 9;
                             }
                         }
 
-                        Group #BackpackSection {
+                        Group #PlayerBackpackSection {
                             LayoutMode: Top;
-                            Anchor: (Top: 24);
+                            Padding: (Left: 20, Top: 24);
 
-                            Label #BackpackTitle {
-                                Anchor: (Height: 30, Left: 20);
+                            Label {
+                                Anchor: (Height: 30);
                                 Style: @CaptionStyle;
-                                Text: "Backpack";
+                                Text: %evoke.profile.backpack;
                             }
 
-                            Group #BackpackSlots {
-                                LayoutMode: LeftCenterWrap;
+                            @SlotGrid #PlayerBackpackGrid {
+                                SlotsPerRow: 9;
                             }
                         }
                     }

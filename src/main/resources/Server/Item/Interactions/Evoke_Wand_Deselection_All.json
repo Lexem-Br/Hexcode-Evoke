@@ -1,0 +1,15 @@
+{
+  "Type": "Replace",
+  "Var": "Evoke_Wand_Deselection_All_Var",
+  "DefaultValue": {
+    "Interactions": [
+      {
+        "Type": "EvokeHCSelection",
+        "All": true,
+        "Reverse": true,
+        "Next": "Evoke_Wand_Selection_Generic",
+        "Failed": "Evoke_Interact_Fail"
+      }
+    ]
+  }
+}

@@ -1,0 +1,393 @@
+{
+  "StartState": "Following",
+  "Type": "Generic",
+  "Parameters": {
+    "Appearance": {
+      "Value": "Creeping_Torch",
+      "Description": "Model to be used."
+    },
+    "FlockArray": {
+      "Value": [],
+      "TypeHint": "String",
+      "Description": "Array containing NPCs for this flock type."
+    },
+    "DropHexItem": {
+      "Value": "Furniture_Crude_Torch",
+      "Description": "Drop from Hex Creature"
+    },
+    "holdableItems": {
+      "Value": [ "" ],
+      "Description": "Items that can be held in the hand"
+    },
+    "DropList": {
+      "Value": "Empty",
+      "Description": "Drop Items"
+    },
+    "MaxBeaconDistance": {
+      "Value": 100,
+      "Description": "The maximum distance the wand reaches"
+    },
+    "NameTranslationKey": {
+      "Value": "server.npcRoles.Template.name",
+      "Description": "Translation key for NPC name display"
+    }
+  },
+  "DropList": { "Compute": "DropList" },
+  "Appearance": {"Compute": "Appearance"},
+  "FlockSpawnTypes": {"Compute": "FlockArray"},
+  "FlockAllowedNPC": {"Compute": "FlockArray"},
+  "DisableDamageFlock": true,
+  "ApplySeparation": true,
+  "SeparationDistance": 1.0,
+  "SeparationWeight": 0.6,
+  "SeparationLegacySteeringStrength": 0.2,
+  "InventorySize": 0,
+  "HotbarSize": 3,
+  "OffHandSlots": 0,
+  "SpawnLockTime": 1,
+  "NameTranslationKey": {"Compute": "NameTranslationKey"},
+  "InitialMotionController": "Walk",
+  "MotionControllerList": [
+    {
+      "$Comment": "Same as the Baby Chest Spider: climbs walls with an accessible top (no jump) and descends slowly along the wall",
+      "Type": "Walk",
+      "MaxWalkSpeed": 8,
+      "Gravity": 10,
+      "RunThreshold": 0.3,
+      "MaxFallSpeed": 3,
+      "MaxRotationSpeed": 360,
+      "Acceleration": 9,
+      "MaxClimbHeight": 5,
+      "JumpHeight": 0,
+      "AscentAnimationType": "Climb",
+      "ClimbSpeedConst": 3,
+      "MaxDropHeight": 5,
+      "MinDescentAnimationHeight": 1.5,
+      "DescendFlatness": 0.1,
+      "DescendSpeedCompensation": 0,
+      "DescentSteepness": 0.5,
+      "DescentBlending": 1
+    },
+    {
+      "$Comment": "Only used while crawling over block surfaces with Evoke:Crawl, which moves the creature (there is no steering); Fly applies gravity without steering, so it is almost zero",
+      "Type": "Fly",
+      "MaxHorizontalSpeed": 8,
+      "MaxClimbSpeed": 3,
+      "MaxSinkSpeed": 3,
+      "MaxFallSpeed": 0.001,
+      "Gravity": 0.001,
+      "MinAirSpeed": 0,
+      "Acceleration": 10,
+      "Deceleration": 10,
+      "MaxClimbAngle": 90,
+      "MaxSinkAngle": 90,
+      "MaxTurnSpeed": 180,
+      "MaxRollAngle": 1,
+      "MinHeightOverGround": 0,
+      "MaxHeightOverGround": 64,
+      "DesiredAltitudeWeight": 0
+    }
+  ],
+  "MaxHealth": 100,
+  "StateTransitions": [
+    {
+      "$Comment": "Clear",
+      "States": [
+        {
+          "From": [ ],
+          "To": [ ]
+        }
+      ],
+      "Actions": [
+        {
+          "Type": "ReleaseTarget"
+        },
+        {
+          "Type": "ResetInstructions"
+        }
+      ]
+    }
+  ],
+  "Instructions": [
+    {
+      "$Comment": "Adds the entity to the flock of the first player it finds",
+      "Reference": "Component_Evoke_Join_Evoker_Flock"
+    },
+    {
+      "$Comment": "Beacon wand command",
+      "Continue": true,
+      "Sensor": {
+        "Type": "Any"
+      },
+      "Instructions": [
+        {
+          "$Comment": "Store target position",
+          "Sensor": {
+            "Type": "Beacon",
+            "Message": "EvokeTargetPosition",
+            "Range": { "Compute": "MaxBeaconDistance" }
+          },
+          "Actions": [
+            {
+              "Type": "Evoke:CaptureCrawlTarget"
+            },
+            {
+              "Type": "State",
+              "State": "SeekPosition"
+            }
+          ]
+        },
+        {
+          "$Comment": "Follow the leader",
+          "Sensor": {
+            "Type": "Beacon",
+            "Message": "EvokeFollowLeader",
+            "Range": { "Compute": "MaxBeaconDistance" }
+          },
+          "Actions": [
+            {
+              "Type": "Evoke:CaptureCrawlTarget",
+              "Target": "Evoker"
+            },
+            {
+              "Type": "State",
+              "State": "Following"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "$Comment": "Walks again (with gravity) as soon as it stops crawling over block surfaces, so it lets go of walls and ceilings and falls",
+      "Continue": true,
+      "Sensor": {
+        "Type": "And",
+        "Sensors": [
+          {
+            "Type": "MotionController",
+            "MotionController": "Fly"
+          },
+          {
+            "Type": "Not",
+            "Sensor": {
+              "Type": "Evoke:IsCrawling"
+            }
+          }
+        ]
+      },
+      "Actions": [
+        {
+          "Type": "Evoke:SetMotionController",
+          "MotionController": "Walk"
+        }
+      ]
+    },
+    {
+      "$Comment": "After the wand command crawls the shortest way over floors, walls and ceilings to the targeted block face; on a floor it walks normally again, on a wall or ceiling it stays there",
+      "Sensor": {
+        "Type": "State",
+        "State": "SeekPosition"
+      },
+      "Instructions": [
+        {
+          "Sensor": {
+            "Type": "Evoke:CrawlPath"
+          },
+          "Instructions": [
+            {
+              "Continue": true,
+              "Sensor": {
+                "Type": "MotionController",
+                "MotionController": "Walk"
+              },
+              "Actions": [
+                {
+                  "Type": "Evoke:SetMotionController",
+                  "MotionController": "Fly"
+                }
+              ]
+            },
+            {
+              "Sensor": {
+                "Type": "Any"
+              },
+              "Actions": [
+                {
+                  "Type": "Evoke:Crawl",
+                  "Speed": 3,
+                  "FloorArrivalState": "Idle"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$Comment": "No path over the block surfaces: walks to the target position",
+          "Sensor": {
+            "Type": "Evoke:ReadPosition",
+            "Range": { "Compute": "MaxBeaconDistance" },
+            "MinRange": 1
+          },
+          "BodyMotion": {
+            "Type": "Seek",
+            "SlowDownDistance": 3,
+            "StopDistance": 1,
+            "RelativeSpeed": 0.8,
+            "RecomputeDistance": 0
+          }
+        },
+        {
+          "Sensor": {
+            "Type": "Any"
+          },
+          "Actions": [
+            {
+              "Type": "State",
+              "State": "Idle"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "$Comment": "Goes to refuel at a nearby Essence Tray when low on life essence",
+      "Reference": "Component_Evoke_Refuel_Trigger",
+      "Modify": {
+        "_ExportStates": ["Refuel"]
+      }
+    },
+    {
+      "$Comment": "Walks to the Essence Tray, consumes as much life essence as it can, walks back to where it was and resumes the previous task",
+      "Sensor": {
+        "Type": "State",
+        "State": "Refuel"
+      },
+      "Instructions": [
+        {
+          "Reference": "Component_Evoke_Refuel_Walking"
+        }
+      ]
+    },
+    {
+      "$Comment": "Idle state",
+      "Sensor": {
+        "Type": "State",
+        "State": "Idle"
+      }
+    },
+    {
+      "$Comment": "Entity movement",
+      "Instructions": [
+        {
+          "Sensor": {
+            "Type": "State",
+            "State": "Following"
+          },
+          "Instructions": [
+            {
+              "$Comment": "Prevents the NPC from losing sight of the player",
+              "Continue": true,
+              "Sensor": {
+                "Type": "Player",
+                "Range": { "Compute": "MaxBeaconDistance" },
+                "LockOnTarget": true,
+                "Filters": [
+                  {
+                    "Type": "Evoke:IsEvoker"
+                  }
+                ]
+              },
+              "Actions": [
+                {
+                  "Type": "Nothing"
+                }
+              ]
+            },
+            {
+              "$Comment": "Follow command while on a wall or ceiling: crawls back towards the leader and walks normally as soon as it reaches a floor (without a path it lets go and falls)",
+              "Sensor": {
+                "Type": "Evoke:CrawlPath"
+              },
+              "Instructions": [
+                {
+                  "Continue": true,
+                  "Sensor": {
+                    "Type": "MotionController",
+                    "MotionController": "Walk"
+                  },
+                  "Actions": [
+                    {
+                      "Type": "Evoke:SetMotionController",
+                      "MotionController": "Fly"
+                    }
+                  ]
+                },
+                {
+                  "Sensor": {
+                    "Type": "Any"
+                  },
+                  "Actions": [
+                    {
+                      "Type": "Evoke:Crawl",
+                      "Speed": 3,
+                      "StopOnFloor": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "$Comment": "Less than 5 block away from the leader, stays slightly ahead of where they walk, on the nearest side, and keeps that point while they stand still",
+              "Sensor": {
+                "Type": "Evoke:EvokerPosition",
+                "Range": 5,
+                "HeightOffset": 0,
+                "LeadDistance": 3,
+                "LeadFullSpeed": 5,
+                "LeadSideOffset": 1.2,
+                "IdleLeadDistance": 1.5,
+                "IdleSideOffset": 1,
+                "IdleDirection": "LastMove"
+              },
+              "BodyMotion": {
+                "Type": "Seek",
+                "SlowDownDistance": 1.5,
+                "StopDistance": 0.4,
+                "RelativeSpeed": 0.8
+              }
+            },
+            {
+              "$Comment": "Less than 15 blocks away from the leader, runs to the same point ahead of them",
+              "Sensor": {
+                "Type": "Evoke:EvokerPosition",
+                "Range": 15,
+                "HeightOffset": 0,
+                "LeadDistance": 3,
+                "LeadFullSpeed": 5,
+                "LeadSideOffset": 1.2,
+                "IdleLeadDistance": 1.5,
+                "IdleSideOffset": 1,
+                "IdleDirection": "LastMove"
+              },
+              "BodyMotion": {
+                "Type": "Seek",
+                "SlowDownDistance": 1.5,
+                "StopDistance": 0.4,
+                "RelativeSpeed": 1
+              }
+            },
+            {
+              "Reference": "Component_Evoke_Teleport_To_Evoker",
+              "Modify": {
+                "Range": { "Compute": "MaxBeaconDistance" }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "InteractionInstruction": {
+    "Reference": "Component_Evoke_Interaction_Crouch_Profile"
+  }
+}

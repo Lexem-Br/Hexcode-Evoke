@@ -18,11 +18,15 @@ import com.lexem.hexcodeevoke.components.HexCreatureComponent;
 import com.lexem.hexcodeevoke.components.HexCreatureMinionComponent;
 import com.lexem.hexcodeevoke.npc.actions.builders.BuilderActionCreateTasks;
 import com.lexem.hexcodeevoke.utils.FinderUtils;
+import com.lexem.hexcodeevoke.utils.LifeEssenceUtils;
 import org.joml.Vector3d;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import java.util.UUID;
 
 public class ActionCreateTasks extends ActionBase {
    private final double horizontalRange;
@@ -55,7 +59,7 @@ public class ActionCreateTasks extends ActionBase {
       for (ItemData npcChestItem : listNPCChestItems) {
          ChestMemoryComponent memoryWithItem = findChestMemoryByItemId(hexCreatureComponent, npcChestItem.itemId);
 
-         if (memoryWithItem != null) {
+         if (memoryWithItem != null && !hexCreatureComponent.isChestUnreachable(memoryWithItem.getChestPosition())) {
             ChestTaskComponent storeTask = new ChestTaskComponent(
                     ChestTaskComponent.TaskType.Store,
                     memoryWithItem.getChestPosition(),
@@ -65,12 +69,12 @@ public class ActionCreateTasks extends ActionBase {
             );
             hexCreatureComponent.addChestTask(storeTask);
          } else {
-            List<Vector3d> listChestsPosition = FinderUtils.findAllChestsInRange(
+            List<Vector3d> listChestsPosition = hexCreatureComponent.withoutUnreachableChests(FinderUtils.findAllChestsInRange(
                     transformComponent.getPosition(),
                     (int) Math.ceil(horizontalRange),
                     (int) Math.ceil(verticalRange),
                     world
-            );
+            ));
 
             if (listChestsPosition.isEmpty()) continue;
 
@@ -115,9 +119,12 @@ public class ActionCreateTasks extends ActionBase {
       List<ItemData> listItemData = new ArrayList<>();
 
       ItemContainer itemContainer = Objects.requireNonNull(store.getComponent(npcRef, InventoryComponent.Storage.getComponentType())).getInventory();
+      boolean keepsLifeEssence = LifeEssenceUtils.keepsLifeEssence(store, npcRef);
 
       for (short slot = 0; slot < itemContainer.getCapacity(); slot++) {
          ItemStack itemStack = itemContainer.getItemStack(slot);
+         if (keepsLifeEssence && LifeEssenceUtils.isLifeEssence(itemStack)) continue;
+
          if (!ItemStack.isEmpty(itemStack)) {
             String itemId = itemStack.getItem().getId();
             int itemQuantity = itemStack.getQuantity();

@@ -12,15 +12,20 @@ import com.hypixel.hytale.protocol.InteractionState;
 import com.hypixel.hytale.protocol.InteractionType;
 import com.hypixel.hytale.server.core.entity.InteractionContext;
 import com.hypixel.hytale.server.core.entity.UUIDComponent;
+import com.hypixel.hytale.server.core.entity.movement.MovementStatesComponent;
+import com.hypixel.hytale.server.core.modules.entity.component.TransformComponent;
 import com.hypixel.hytale.server.core.modules.interaction.interaction.CooldownHandler;
 import com.hypixel.hytale.server.core.modules.interaction.interaction.config.SimpleInteraction;
 import com.hypixel.hytale.server.core.universe.PlayerRef;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.hypixel.hytale.server.core.util.TargetUtil;
+import com.hypixel.hytale.server.npc.components.messaging.BeaconSupport;
 import com.hypixel.hytale.server.npc.entities.NPCEntity;
 import com.lexem.hexcodeevoke.components.EvokerComponent;
 import com.lexem.hexcodeevoke.hexitems.AllowedHexItemsAsset;
 import com.lexem.hexcodeevoke.utils.ErrorMessageUtils;
+import com.lexem.hexcodeevoke.utils.TransportState;
+import com.lexem.hexcodeevoke.utils.TransportUtils;
 import org.joml.Vector3d;
 
 import javax.annotation.Nonnull;
@@ -32,6 +37,7 @@ public class HCSelectionInteraction extends SimpleInteraction {
     private int maxSelection = 1;
     private boolean reverse = false;
     private boolean all = false;
+    private double maxTransportDistance = 100;
 
     public static final BuilderCodec<HCSelectionInteraction> CODEC =
             BuilderCodec.builder(HCSelectionInteraction.class, HCSelectionInteraction::new,
@@ -55,6 +61,11 @@ public class HCSelectionInteraction extends SimpleInteraction {
                             (config, value) -> config.all = value,
                             (config) -> config.all)
                     .documentation("Instead of selecting just one, select all of them.")
+                    .add()
+                    .append(new KeyedCodec<>("MaxTransportDistance", Codec.DOUBLE),
+                            (config, value) -> config.maxTransportDistance = value,
+                            (config) -> config.maxTransportDistance)
+                    .documentation("Max distance from the Hex Creature to the first container, and between the two containers.")
                     .add()
                     .build();
 
@@ -171,6 +182,15 @@ public class HCSelectionInteraction extends SimpleInteraction {
                     return;
                 }
 
+                TransportUtils.AssignResult transportResult = !reverse && isCrouching(playerRef, store)
+                        ? assignContainer(playerRef, evoker, targetEntity, uuidtargetEntity.getUuid().toString(), store, accessor)
+                        : TransportUtils.AssignResult.Unsupported;
+                if (transportResult != TransportUtils.AssignResult.Unsupported) {
+                    context.getState().state = transportResult == TransportUtils.AssignResult.Assigned ? InteractionState.Finished : InteractionState.Failed;
+                    super.tick0(firstRun, time, type, context, cooldownHandler);
+                    return;
+                }
+
                 if (reverse) {
                     evoker.removeSelectedHexCreature(uuidtargetEntity.getUuid().toString());
                 } else {
@@ -198,6 +218,46 @@ public class HCSelectionInteraction extends SimpleInteraction {
             LOGGER.atSevere().log("[hexcode evoke] EvokeTargetPosition failed: %s", e.getMessage());
             context.getState().state = InteractionState.Failed;
         }
+    }
+
+    private static boolean isCrouching(Ref<EntityStore> playerRef, Store<EntityStore> store) {
+        MovementStatesComponent movementStates = store.getComponent(playerRef, MovementStatesComponent.getComponentType());
+        return movementStates != null && movementStates.getMovementStates().crouching;
+    }
+
+    private TransportUtils.AssignResult assignContainer(Ref<EntityStore> playerRef, EvokerComponent evoker, Ref<EntityStore> targetEntity, String targetUUID, Store<EntityStore> store, CommandBuffer<EntityStore> accessor) {
+        TransformComponent targetTransform = store.getComponent(targetEntity, TransformComponent.getComponentType());
+        if (targetTransform == null) return TransportUtils.AssignResult.Unsupported;
+
+        TransportState.Container container = TransportState.Container.ofCreature(targetUUID, targetTransform.getPosition());
+        TransportUtils.AssignResult combined = TransportUtils.AssignResult.Unsupported;
+        boolean tooFar = false;
+        for (String npcUUID : evoker.getSelectedHexCreatures()) {
+            if (npcUUID.equals(targetUUID)) continue;
+
+            Ref<EntityStore> npcRef = store.getExternalData().getRefFromUUID(UUID.fromString(npcUUID));
+            if (npcRef == null) continue;
+
+            BeaconSupport beaconSupportComponent = accessor.getComponent(npcRef, BeaconSupport.getComponentType());
+            if (beaconSupportComponent == null) continue;
+
+            TransportUtils.AssignResult result = TransportUtils.assign(npcRef, container, maxTransportDistance, accessor);
+            if (result == TransportUtils.AssignResult.Assigned) beaconSupportComponent.postMessage(TransportState.TRANSPORT_MESSAGE, npcRef, 1);
+            if (result == TransportUtils.AssignResult.TooFar) tooFar = true;
+            combined = combined.combine(result);
+        }
+
+        if (tooFar) {
+            PlayerRef playerRef2 = store.getComponent(playerRef, PlayerRef.getComponentType());
+            ErrorMessageUtils.sendMessageErrorJoinInt2(
+                    playerRef2,
+                    "errors.invalid_target",
+                    "errors.max_transport_distance.description1",
+                    (int) maxTransportDistance,
+                    "errors.max_transport_distance.description2"
+            );
+        }
+        return combined;
     }
 
     private static void reorderUuidList(String[] hexCreatureUUIDs, List<String> uuidList) {

@@ -1,5 +1,9 @@
 {
   "Interactions": [
-    "Evoke"
+    {
+      "Type": "Evoke:OffHandContextCondition",
+      "Next": "Evoke_OffHand",
+      "Failed": "Evoke"
+    }
   ]
 }

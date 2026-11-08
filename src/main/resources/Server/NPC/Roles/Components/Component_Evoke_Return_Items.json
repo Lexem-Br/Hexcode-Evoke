@@ -2,7 +2,11 @@
   "$Comment": "Search for an item on the task list",
   "Class": "Instruction",
   "Parameters": {
-    "_ImportStates": ["Main"]
+    "_ImportStates": ["Main"],
+    "SearchTaskRange": {
+      "Value": 16,
+      "Description": "Range around the mother to create search tasks after returning the items, 0 creates none"
+    }
   },
   "DefaultState": ".ReturnTheItems",
   "Content":  {
@@ -14,6 +18,25 @@
           "State": ".ReturnTheItems"
         },
         "Instructions": [
+          {
+            "$Comment": "Teleports next to the mother when it can't reach her",
+            "Sensor": {
+              "Type": "Evoke:ChestTaskStuck",
+              "Target": "Owner"
+            },
+            "Actions": [
+              {
+                "Type": "SpawnParticles",
+                "Offset": [0, 0.5, 0],
+                "ParticleSystem": "Effect_Death"
+              },
+              {
+                "Type": "Evoke:AbandonMinionTask",
+                "ForgetChest": false,
+                "TeleportDistance": 2
+              }
+            ]
+          },
           {
             "$Comment": "Search for the owner",
             "Continue": true,
@@ -80,7 +103,7 @@
                     },
                     {
                       "Type": "Evoke:MinionCreateSearchTasks",
-                      "HorizontalRange": 16,
+                      "HorizontalRange": { "Compute": "SearchTaskRange" },
                       "VerticalRange": 4
                     },
                     {

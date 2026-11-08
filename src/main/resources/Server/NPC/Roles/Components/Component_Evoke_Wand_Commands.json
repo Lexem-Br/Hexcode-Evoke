@@ -1,0 +1,45 @@
+{
+  "$Comment": "Wand commands: go to the target position or follow the evoker",
+  "Class": "Instruction",
+  "Parameters": {
+    "_ImportStates": ["TargetPosition", "Follow"],
+    "Range": {
+      "Value": 100,
+      "Description": "Max distance to the evoker that sent the command"
+    }
+  },
+  "Content": {
+    "Continue": true,
+    "Instructions": [
+      {
+        "$Comment": "Store target position",
+        "Sensor": {
+          "Type": "Beacon",
+          "Message": "EvokeTargetPosition",
+          "Range": { "Compute": "Range" }
+        },
+        "Actions": [
+          {
+            "Type": "ParentState",
+            "State": "TargetPosition"
+          }
+        ]
+      },
+      {
+        "$Comment": "Follow the leader",
+        "Sensor": {
+          "Type": "Beacon",
+          "Message": "EvokeFollowLeader",
+          "Range": { "Compute": "Range" }
+        },
+        "Actions": [
+          {
+            "Type": "ParentState",
+            "State": "Follow"
+          }
+        ]
+      }
+    ]
+  },
+  "Type": "Component"
+}

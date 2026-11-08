@@ -49,7 +49,8 @@ public class SensorSearchChestTaskPosition extends SensorBase {
         }
 
         Vector3d npcPosition = transformComponent.getPosition();
-        Vector3d chestPosition = hexCreatureMinionComponent.getChestTask().getChestPosition();
+        Vector3d chestBlock = hexCreatureMinionComponent.getChestTask().getChestPosition();
+        Vector3d chestPosition = new Vector3d(Math.floor(chestBlock.x()) + 0.5, chestBlock.y(), Math.floor(chestBlock.z()) + 0.5);
 
         double dx = Math.abs(npcPosition.x() - chestPosition.x());
         double dz = Math.abs(npcPosition.z() - chestPosition.z());

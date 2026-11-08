@@ -46,9 +46,9 @@ public class BuilderActionMinionCreateSearchTasks extends BuilderActionBase {
       this.requireDouble(data,
               "HorizontalRange",
               this.horizontalRange,
-              DoubleRangeValidator.fromExclToIncl(0.0F, Double.MAX_VALUE),
+              DoubleRangeValidator.between(0.0, Double.MAX_VALUE),
               BuilderDescriptorState.Stable,
-              "The horizontal range to search",
+              "The horizontal range to search, 0 skips creating the tasks",
               null);
       this.getDouble(data,
               "VerticalRange",

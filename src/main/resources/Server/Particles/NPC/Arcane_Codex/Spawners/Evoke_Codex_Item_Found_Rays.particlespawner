@@ -1,0 +1,118 @@
+{
+  "$Comment": "Light rays coming out of the book, emits for 1 second, the Arcane Codex respawns it every second while waiting above the chest",
+  "RenderMode": "BlendAdd",
+  "ParticleRotationInfluence": "BillboardVelocity",
+  "LinearFiltering": true,
+  "LightInfluence": 0,
+  "ParticleRotateWithSpawner": false,
+  "TrailSpawnerPositionMultiplier": 0,
+  "TrailSpawnerRotationMultiplier": 0,
+  "MaxConcurrentParticles": 12,
+  "LifeSpan": 1.0,
+  "ParticleLifeSpan": {
+    "Min": 0.9,
+    "Max": 1.2
+  },
+  "SpawnRate": {
+    "Min": 6,
+    "Max": 8
+  },
+  "EmitOffset": {
+    "X": {
+      "Max": 0.05
+    },
+    "Y": {
+      "Max": 0.05
+    },
+    "Z": {
+      "Max": 0.05
+    }
+  },
+  "UseEmitDirection": false,
+  "InitialVelocity": {
+    "Speed": {
+      "Min": 0.4,
+      "Max": 0.7
+    },
+    "Yaw": {
+      "Min": 0,
+      "Max": 360
+    },
+    "Pitch": {
+      "Min": 15,
+      "Max": 85
+    }
+  },
+  "Attractors": [
+    {
+      "DampingMultiplier": {
+        "X": 0.6,
+        "Y": 0.6,
+        "Z": 0.6
+      }
+    }
+  ],
+  "Particle": {
+    "Texture": "Particles/Textures/Basic/Ray.png",
+    "FrameSize": {
+      "Width": 32,
+      "Height": 96
+    },
+    "ScaleRatioConstraint": "None",
+    "UVOption": "None",
+    "Animation": {
+      "0": {
+        "Opacity": 0,
+        "Color": "#ffffff",
+        "Scale": {
+          "X": {
+            "Min": 1,
+            "Max": 1
+          },
+          "Y": {
+            "Min": 0.6,
+            "Max": 0.6
+          }
+        }
+      },
+      "30": {
+        "Opacity": 1
+      },
+      "70": {
+        "Opacity": 0.8
+      },
+      "100": {
+        "Opacity": 0,
+        "Color": "#fffef9",
+        "Scale": {
+          "X": {
+            "Min": 0.6,
+            "Max": 0.6
+          },
+          "Y": {
+            "Min": 1.2,
+            "Max": 1.2
+          }
+        }
+      }
+    },
+    "InitialAnimationFrame": {
+      "Opacity": 1,
+      "Color": "#ffffff",
+      "FrameIndex": {
+        "Min": 0,
+        "Max": 0
+      },
+      "Scale": {
+        "X": {
+          "Min": 0.12,
+          "Max": 0.18
+        },
+        "Y": {
+          "Min": 0.5,
+          "Max": 0.8
+        }
+      }
+    }
+  }
+}

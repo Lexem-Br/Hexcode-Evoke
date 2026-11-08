@@ -1,0 +1,12 @@
+{
+  "Spawners": [
+    {
+      "SpawnerId": "Evoke_Codex_Item_Found_Rays",
+      "PositionOffset": {
+        "Y": 0.35
+      }
+    }
+  ],
+  "$Comment": "Light rays coming out of the Arcane Codex above the chest that has the searched item",
+  "CullDistance": 50
+}

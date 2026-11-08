@@ -1,0 +1,56 @@
+{
+  "Type": "Evoke:OffHandItemState",
+  "Items": [
+    "Evoke_Book"
+  ],
+  "State": "Casting",
+  "OnItemChangeBehavior": "Ignore",
+  "Next": {
+    "Type": "Charging",
+    "Effects": {
+      "ItemAnimationId": "CastPushCharging",
+      "WorldSoundEventId": "SFX_Skeleton_Mage_Spellbook_Charge"
+    },
+    "AllowIndefiniteHold": true,
+    "HorizontalSpeedMultiplier": 0.8,
+    "OnItemChangeBehavior": "Ignore",
+    "RunTime": 0,
+    "Next": {
+      "0": {
+        "Type": "Simple",
+        "OnItemChangeBehavior": "Ignore",
+        "Effects": {
+          "ItemAnimationId": "Interact"
+        }
+      },
+      "0.8": {
+        "Type": "EvokeHexCreature",
+        "RunTime": 0.167,
+        "OnItemChangeBehavior": "Ignore",
+        "Next": {
+          "Type": "Evoke:OffHandItemState",
+          "Items": [
+            "Evoke_Book"
+          ],
+          "State": "Closing",
+          "OnItemChangeBehavior": "Ignore",
+          "Next": {
+            "Type": "Simple",
+            "RunTime": 0.35,
+            "OnItemChangeBehavior": "Ignore",
+            "Effects": {
+              "ItemAnimationId": "CastPushCharged"
+            }
+          }
+        },
+        "Failed": {
+          "Type": "Simple",
+          "OnItemChangeBehavior": "Ignore",
+          "Effects": {
+            "ItemAnimationId": "Interact"
+          }
+        }
+      }
+    }
+  }
+}

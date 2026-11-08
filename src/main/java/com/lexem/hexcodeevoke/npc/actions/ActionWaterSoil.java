@@ -17,6 +17,8 @@ import com.hypixel.hytale.server.npc.sensorinfo.IPositionProvider;
 import com.hypixel.hytale.server.npc.sensorinfo.InfoProvider;
 import com.lexem.hexcodeevoke.npc.actions.builders.BuilderActionWaterSoil;
 import com.lexem.hexcodeevoke.utils.BlockUtils;
+import com.lexem.hexcodeevoke.utils.HeldItemUtils;
+import com.lexem.hexcodeevoke.utils.WateringCanUtils;
 import org.joml.Vector3i;
 
 import javax.annotation.Nonnull;
@@ -34,6 +36,8 @@ public class ActionWaterSoil extends ActionBase {
     public boolean execute(@Nonnull Ref<EntityStore> npcRef, @Nonnull ExecutionSupport executionSupport, @Nullable InfoProvider sensorInfo, double dt, @Nonnull Store<EntityStore> store) {
         super.execute(npcRef, executionSupport, sensorInfo, dt, store);
 
+        HeldItemUtils.HeldItem filledCan = WateringCanUtils.findFilledCan(npcRef, store);
+        if (filledCan == null) return false;
         if (sensorInfo == null || !sensorInfo.hasPosition()) return false;
 
         IPositionProvider positionProvider = sensorInfo.getPositionProvider();
@@ -77,6 +81,7 @@ public class ActionWaterSoil extends ActionBase {
         blockSection.setTicking(blockPosition.x, blockPosition.y, blockPosition.z, true);
         blockSection.scheduleTick(soilIndex, wateredUntil);
 
+        WateringCanUtils.consumeWater(filledCan);
         return true;
     }
 }

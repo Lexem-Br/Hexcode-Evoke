@@ -1,18 +1,41 @@
 package com.lexem.hexcodeevoke.npc.filters;
 
+import com.hypixel.hytale.component.ComponentType;
 import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.component.Store;
 import com.hypixel.hytale.server.core.inventory.InventoryComponent;
+import com.hypixel.hytale.server.core.inventory.ItemStack;
 import com.hypixel.hytale.server.core.inventory.container.CombinedItemContainer;
+import com.hypixel.hytale.server.core.inventory.container.ItemContainer;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.hypixel.hytale.server.npc.corecomponents.EntityFilterBase;
+import com.hypixel.hytale.server.npc.asset.builder.BuilderSupport;
 import com.hypixel.hytale.server.npc.instructions.ExecutionSupport;
+import com.lexem.hexcodeevoke.npc.filters.builders.BuilderFilterHasItemsOnInventory;
+import com.lexem.hexcodeevoke.utils.LifeEssenceUtils;
 
 import javax.annotation.Nonnull;
+import java.util.ArrayList;
+import java.util.List;
 
 public class FilterHasItemsOnInventory extends EntityFilterBase {
 
-   public FilterHasItemsOnInventory() {}
+    protected final ComponentType<EntityStore, ? extends InventoryComponent>[] inventoryTypes;
+    protected final boolean skipHotbarSlotZero;
+
+    @SuppressWarnings("unchecked")
+    public FilterHasItemsOnInventory(@Nonnull BuilderFilterHasItemsOnInventory builder, @Nonnull BuilderSupport support) {
+        List<ComponentType<EntityStore, ? extends InventoryComponent>> types = new ArrayList<>();
+        String[] inventoryArray = builder.getInventoryTypes(support);
+        if (inventoryArray != null) {
+            for (String type : inventoryArray) {
+                ComponentType<EntityStore, ? extends InventoryComponent> componentType = toComponentType(type);
+                if (componentType != null && !types.contains(componentType)) types.add(componentType);
+            }
+        }
+        this.inventoryTypes = types.toArray(new ComponentType[0]);
+        this.skipHotbarSlotZero = builder.getSkipHotbarSlotZero();
+    }
 
     @Override
     public boolean matchesEntity(
@@ -21,14 +44,41 @@ public class FilterHasItemsOnInventory extends EntityFilterBase {
             @Nonnull ExecutionSupport executionSupport,
             @Nonnull Store<EntityStore> store
     ) {
-        CombinedItemContainer npcContainer = InventoryComponent.getCombined(
-                store,
-                npcRef,
-                InventoryComponent.Hotbar.getComponentType(),
-                InventoryComponent.Storage.getComponentType()
-        );
+        if (inventoryTypes.length == 0) return false;
 
-        return !npcContainer.isEmpty();
+        boolean keepsLifeEssence = LifeEssenceUtils.keepsLifeEssence(store, npcRef);
+        if (!skipHotbarSlotZero && !keepsLifeEssence) {
+            CombinedItemContainer npcContainer = InventoryComponent.getCombined(store, npcRef, inventoryTypes);
+            return !npcContainer.isEmpty();
+        }
+
+        for (ComponentType<EntityStore, ? extends InventoryComponent> type : inventoryTypes) {
+            InventoryComponent inventoryComponent = store.getComponent(npcRef, type);
+            ItemContainer inventory = inventoryComponent != null ? inventoryComponent.getInventory() : null;
+            if (inventory == null) continue;
+
+            boolean isHotbar = type == InventoryComponent.Hotbar.getComponentType();
+            for (short slot = 0; slot < inventory.getCapacity(); slot++) {
+                if (skipHotbarSlotZero && isHotbar && slot == 0) continue;
+
+                ItemStack itemStack = inventory.getItemStack(slot);
+                if (ItemStack.isEmpty(itemStack) || (keepsLifeEssence && LifeEssenceUtils.isLifeEssence(itemStack))) continue;
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private static ComponentType<EntityStore, ? extends InventoryComponent> toComponentType(String type) {
+        return switch (type) {
+            case "Armor" -> InventoryComponent.Armor.getComponentType();
+            case "Hotbar" -> InventoryComponent.Hotbar.getComponentType();
+            case "Storage" -> InventoryComponent.Storage.getComponentType();
+            case "Utility" -> InventoryComponent.Utility.getComponentType();
+            case "Tool" -> InventoryComponent.Tool.getComponentType();
+            case "Backpack" -> InventoryComponent.Backpack.getComponentType();
+            default -> null;
+        };
     }
 
    @Override

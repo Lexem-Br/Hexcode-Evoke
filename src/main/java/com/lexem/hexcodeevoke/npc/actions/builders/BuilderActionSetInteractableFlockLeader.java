@@ -6,8 +6,6 @@ import com.hypixel.hytale.server.npc.asset.builder.BuilderSupport;
 import com.hypixel.hytale.server.npc.asset.builder.InstructionType;
 import com.hypixel.hytale.server.npc.asset.builder.holder.BooleanHolder;
 import com.hypixel.hytale.server.npc.corecomponents.builders.BuilderActionBase;
-import com.hypixel.hytale.server.npc.corecomponents.interaction.ActionSetInteractable;
-import com.hypixel.hytale.server.npc.corecomponents.interaction.builders.BuilderActionSetInteractable;
 import com.hypixel.hytale.server.npc.instructions.Action;
 import com.lexem.hexcodeevoke.npc.actions.ActionSetInteractableFlockLeader;
 

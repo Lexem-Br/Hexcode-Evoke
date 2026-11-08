@@ -1,6 +1,7 @@
 package com.lexem.hexcodeevoke.npc.actions.builders;
 
 import com.google.gson.JsonElement;
+import com.hypixel.hytale.protocol.AnimationSlot;
 import com.hypixel.hytale.server.npc.asset.builder.BuilderDescriptorState;
 import com.hypixel.hytale.server.npc.asset.builder.BuilderSupport;
 import com.hypixel.hytale.server.npc.asset.builder.holder.StringHolder;
@@ -8,7 +9,6 @@ import com.hypixel.hytale.server.npc.corecomponents.builders.BuilderActionBase;
 import com.hypixel.hytale.server.npc.util.expression.ExecutionContext;
 import com.hypixel.hytale.server.npc.validators.NPCLoadTimeValidationHelper;
 import com.lexem.hexcodeevoke.npc.actions.ActionTargetPlayAnimation;
-import com.hypixel.hytale.protocol.AnimationSlot;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;

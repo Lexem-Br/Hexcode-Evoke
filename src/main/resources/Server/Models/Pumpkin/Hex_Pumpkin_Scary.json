@@ -1,6 +1,6 @@
 {
-  "Model": "Items/Halloween_Props/Pumpkin_Carve_01.blockymodel",
-  "Texture": "Items/Halloween_Props/Pumpkin_Carve_Texture_02.png",
+  "Model": "NPC/Pumpkin/Pumpkin_Carve_01.blockymodel",
+  "Texture": "NPC/Pumpkin/Pumpkin_Carve_Texture_02.png",
   "DefaultAttachments": [],
   "HitBox": {
     "Min": {

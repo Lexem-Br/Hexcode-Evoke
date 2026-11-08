@@ -55,7 +55,7 @@ public class SensorChestFinder extends SensorBase {
             return false;
         }
 
-        Vector3i chest = FinderUtils.findNearestBlockBFS(
+        Vector3i chest = FinderUtils.findNearestBlockByLevel(
                 transformComponent.getPosition(),
                 (int) Math.ceil(horizontalRange),
                 (int) Math.ceil(verticalRange),
