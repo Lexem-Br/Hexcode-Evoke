@@ -26,7 +26,7 @@
         "Hytale:TriggerVolumes": "*"
     },
     "OptionalDependencies": {
-        "Riprod:Hexcode": "^0.11.0",
+        "Riprod:Hexcode": "^0.12.0",
         "Riprod:Patchly": "*"
     },
     "DisabledByDefault": false,
