@@ -78,7 +78,7 @@
                 },
                 {
                   "Type": "Evoke:VoidArenaSpawn",
-                  "Kind": "Evoke_Void_Arena_Void_Mannequin",
+                  "Kind": "Evoke_Void_Mannequin",
                   "SpawnAngle": 360,
                   "DistanceRange": [
                     5,
@@ -95,7 +95,7 @@
                 },
                 {
                   "Type": "Evoke:VoidArenaSpawn",
-                  "Kind": "Evoke_Void_Arena_Skeleton_Archer",
+                  "Kind": "Evoke_Void_Mannequin_Archer",
                   "SpawnAngle": 360,
                   "DistanceRange": [
                     5,
@@ -240,32 +240,15 @@
                 },
                 {
                   "Type": "Evoke:VoidArenaSpawn",
-                  "Kind": "Evoke_Void_Arena_Void_Mannequin",
+                  "Kind": "Evoke_Void_Mannequin_Mage",
                   "SpawnAngle": 360,
                   "DistanceRange": [
                     5,
                     12
                   ],
                   "CountRange": [
-                    3,
-                    3
-                  ],
-                  "DelayRange": [
-                    0.2,
-                    0.6
-                  ]
-                },
-                {
-                  "Type": "Evoke:VoidArenaSpawn",
-                  "Kind": "Evoke_Void_Arena_Skeleton_Archer",
-                  "SpawnAngle": 360,
-                  "DistanceRange": [
-                    5,
-                    12
-                  ],
-                  "CountRange": [
-                    2,
-                    2
+                    1,
+                    1
                   ],
                   "DelayRange": [
                     0.2,
@@ -401,32 +384,15 @@
                 },
                 {
                   "Type": "Evoke:VoidArenaSpawn",
-                  "Kind": "Evoke_Void_Arena_Void_Mannequin",
+                  "Kind": "Evoke_Void_Mannequin_Mage",
                   "SpawnAngle": 360,
                   "DistanceRange": [
                     5,
                     12
                   ],
                   "CountRange": [
-                    3,
-                    3
-                  ],
-                  "DelayRange": [
-                    0.2,
-                    0.6
-                  ]
-                },
-                {
-                  "Type": "Evoke:VoidArenaSpawn",
-                  "Kind": "Evoke_Void_Arena_Skeleton_Archer",
-                  "SpawnAngle": 360,
-                  "DistanceRange": [
-                    5,
-                    12
-                  ],
-                  "CountRange": [
-                    3,
-                    3
+                    1,
+                    1
                   ],
                   "DelayRange": [
                     0.2,
@@ -562,32 +528,15 @@
                 },
                 {
                   "Type": "Evoke:VoidArenaSpawn",
-                  "Kind": "Evoke_Void_Arena_Void_Mannequin",
+                  "Kind": "Evoke_Void_Mannequin_Mage",
                   "SpawnAngle": 360,
                   "DistanceRange": [
                     5,
                     12
                   ],
                   "CountRange": [
-                    4,
-                    4
-                  ],
-                  "DelayRange": [
-                    0.2,
-                    0.6
-                  ]
-                },
-                {
-                  "Type": "Evoke:VoidArenaSpawn",
-                  "Kind": "Evoke_Void_Arena_Skeleton_Archer",
-                  "SpawnAngle": 360,
-                  "DistanceRange": [
-                    5,
-                    12
-                  ],
-                  "CountRange": [
-                    3,
-                    3
+                    1,
+                    1
                   ],
                   "DelayRange": [
                     0.2,
@@ -723,32 +672,15 @@
                 },
                 {
                   "Type": "Evoke:VoidArenaSpawn",
-                  "Kind": "Evoke_Void_Arena_Void_Mannequin",
+                  "Kind": "Evoke_Void_Mannequin_Mage",
                   "SpawnAngle": 360,
                   "DistanceRange": [
                     5,
                     12
                   ],
                   "CountRange": [
-                    5,
-                    5
-                  ],
-                  "DelayRange": [
-                    0.2,
-                    0.6
-                  ]
-                },
-                {
-                  "Type": "Evoke:VoidArenaSpawn",
-                  "Kind": "Evoke_Void_Arena_Skeleton_Archer",
-                  "SpawnAngle": 360,
-                  "DistanceRange": [
-                    5,
-                    12
-                  ],
-                  "CountRange": [
-                    4,
-                    4
+                    1,
+                    1
                   ],
                   "DelayRange": [
                     0.2,

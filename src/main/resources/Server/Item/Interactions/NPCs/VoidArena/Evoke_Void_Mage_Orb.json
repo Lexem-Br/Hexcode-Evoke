@@ -1,0 +1,35 @@
+{
+  "Type": "Simple",
+  "Effects": {
+    "ItemPlayerAnimationsId": "Evoke_Spellbook",
+    "ItemAnimationId": "CastPushCharging",
+    "WorldSoundEventId": "SFX_Skeleton_Mage_Spellbook_Charge"
+  },
+  "$Comment": "Prepare Delay",
+  "RunTime": 1,
+  "Next": {
+    "Type": "LaunchProjectile",
+    "RunTime": 0.2,
+    "Effects": {
+      "ItemAnimationId": "CastPushCharged",
+      "ClearAnimationOnFinish": true,
+      "WorldSoundEventId": "SFX_Skeleton_Mage_Spellbook_Impact",
+      "Particles": [
+        {
+          "SystemId": "Evoke_Void_Orb_Trail",
+          "TargetEntityPart": "Entity",
+          "TargetNodeName": "R-Hand"
+        },
+        {
+          "SystemId": "Evoke_Void_Orb_Trail",
+          "TargetEntityPart": "PrimaryItem",
+          "TargetNodeName": "Origin_Projectile"
+        }
+      ]
+    },
+    "ProjectileId": "Evoke_Void_Mage_Orb",
+    "Tags": {
+      "AimingReference": []
+    }
+  }
+}

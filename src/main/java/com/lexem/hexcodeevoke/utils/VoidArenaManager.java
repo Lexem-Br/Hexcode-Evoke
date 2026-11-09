@@ -34,6 +34,7 @@ import com.hypixel.hytale.server.core.inventory.ItemStack;
 import com.hypixel.hytale.server.core.inventory.container.ItemContainer;
 import com.hypixel.hytale.server.core.modules.block.BlockModule;
 import com.hypixel.hytale.server.core.modules.block.components.ItemContainerBlock;
+import com.hypixel.hytale.server.core.modules.entity.component.HeadRotation;
 import com.hypixel.hytale.server.core.modules.entity.component.HiddenFromAdventurePlayers;
 import com.hypixel.hytale.server.core.modules.entity.component.ModelComponent;
 import com.hypixel.hytale.server.core.modules.entity.component.PersistentModel;
@@ -88,13 +89,11 @@ public final class VoidArenaManager {
     private static final String VICTORY_SOUND = "SFX_Event_Chapter_1_Complete_Sting";
     private static final String PORTAL_SOUND = "SFX_Portal_Neutral_Open";
 
-    // Same portal as Void_Evoke_Book: it opens behind the enemy, which walks out of it facing +Z.
     private static final String EMERGE_PARTICLES = "Evoke_MagicPortal_VoidKeyArt";
     private static final float EMERGE_PARTICLE_SCALE = 0.6F;
     private static final float EMERGE_PARTICLE_DURATION = 4.0F;
     private static final double EMERGE_PORTAL_OFFSET_Z = -0.8;
     private static final float EMERGE_YAW = (float) Math.PI;
-    // Slightly longer than the 1 second Spawn animation of Hex_Void_Mannequin (Portal.blockyanim).
     private static final long EMERGE_MILLIS = 1100L;
 
     private static final int MAX_REWARD_ROLLS = 4;
@@ -227,13 +226,12 @@ public final class VoidArenaManager {
         }
     }
 
-    // The role keeps its weapons in the inventory, only the active slots change. Frozen stops the
-    // role from ticking, so it can neither re-equip them nor move until the animation is over.
     public static void beginEmerge(@Nonnull Ref<EntityStore> ref, @Nonnull Store<EntityStore> store) {
+        faceEmergeDirection(ref, store);
+        spawnEmergePortal(ref, store);
+
         Arena arena = ARENAS.get(store.getExternalData().getWorld().getWorldConfig().getUuid());
         if (arena == null) return;
-
-        spawnEmergePortal(ref, store);
 
         byte hotbarSlot = InventoryUtils.getActiveSlot(ref, InventoryComponent.HOTBAR_SECTION_ID, store);
         byte offHandSlot = InventoryUtils.getActiveSlot(ref, InventoryComponent.UTILITY_SECTION_ID, store);
@@ -242,6 +240,14 @@ public final class VoidArenaManager {
         store.ensureComponent(ref, Frozen.getComponentType());
 
         arena.emerging.add(new Emerging(ref, hotbarSlot, offHandSlot, System.currentTimeMillis() + EMERGE_MILLIS));
+    }
+
+    private static void faceEmergeDirection(@Nonnull Ref<EntityStore> ref, @Nonnull Store<EntityStore> store) {
+        TransformComponent transform = store.getComponent(ref, TransformComponent.getComponentType());
+        if (transform != null) transform.getRotation().setYaw(EMERGE_YAW);
+
+        HeadRotation headRotation = store.getComponent(ref, HeadRotation.getComponentType());
+        if (headRotation != null) headRotation.getRotation().setYaw(EMERGE_YAW);
     }
 
     private static void spawnEmergePortal(@Nonnull Ref<EntityStore> ref, @Nonnull Store<EntityStore> store) {

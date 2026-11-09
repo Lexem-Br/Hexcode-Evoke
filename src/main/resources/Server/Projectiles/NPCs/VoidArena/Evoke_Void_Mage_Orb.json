@@ -1,0 +1,11 @@
+{
+  "Parent": "Skeleton_Mage_Corruption_Orb",
+  "Damage": 30,
+  "Appearance": "Evoke_Void_Mage_Orb",
+  "HitParticles": {
+    "SystemId": "VoidImpact"
+  },
+  "DeathParticles": {
+    "SystemId": "VoidImpact"
+  }
+}

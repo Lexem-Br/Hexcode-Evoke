@@ -1,0 +1,93 @@
+{
+  "Type": "Variant",
+  "Reference": "Template_Void_Mannequin_Mage",
+  "Parameters": {
+    "WanderRadius": {
+      "Value": 3,
+      "Description": "General wander radius for idle wander and wander on the break."
+    },
+    "FollowPatrolPath": {
+      "Value": false,
+      "Description": "Whether this NPC will follow patrol paths at all."
+    },
+    "Patrol": {
+      "Value": false,
+      "Description": "Whether or not this NPC will patrol during its waking hours, either alone or as part of a group."
+    },
+    "FlockArray": {
+      "Value": [],
+      "TypeHint": "String",
+      "Description": "Array containing NPCs for this flock type."
+    },
+    "ApplySeparation": {
+      "Value": false,
+      "Description": "When set to false, NPCs wont try to avoid each other or player, it can lead to them stacking together, but can help to avoid jerky-like movemenet in enclosed space."
+    },
+    "NameTranslationKey": {
+      "Value": "evoke.npcRoles.Evoke_Void_Mannequin_Mage.name",
+      "Description": "Translation key for NPC name display"
+    }
+  },
+  "Modify": {
+    "DisableDamageGroups": [
+      "Self",
+      "Skeleton",
+      "Evoke_Void_Arena_Enemies"
+    ],
+    "DeathParticles": "Effect_Death_Bones",
+    "MaxHealth": 200,
+    "HearingRange": 30,
+    "ViewSector": 360,
+    "WakingPeriod": [
+      0,
+      24
+    ],
+    "DropList": "Empty",
+    "Appearance": "Evoke_Void_Mannequin_Mage",
+    "Weapons": [
+      "Void_Evoke_Book"
+    ],
+    "OffHand": [],
+    "FlockArray": {
+      "Compute": "FlockArray"
+    },
+    "FollowPatrolPath": {
+      "Compute": "FollowPatrolPath"
+    },
+    "Patrol": {
+      "Compute": "Patrol"
+    },
+    "WanderRadius": {
+      "Compute": "WanderRadius"
+    },
+    "Attack": "Evoke_Void_Mage_Orb",
+    "AttackPauseRange": [ 2.5, 3 ],
+    "CombatBackOffAfterAttack": false,
+    "AttackDistance": 15,
+    "CombatStrafeWeight": 3,
+    "CombatFleeIfTooCloseDistance": 1.5,
+    "CombatBackOffDistanceRange": [
+      3,
+      5
+    ],
+    "DesiredAttackDistanceRange": [
+      5,
+      15
+    ],
+    "CombatBehaviorDistance": 15,
+    "TargetRange": 15,
+    "LeashMinPlayerDistance": 18,
+    "ApplySeparation": {
+      "Compute": "ApplySeparation"
+    },
+    "BreathesInWater": true,
+    "NameTranslationKey": {
+      "Compute": "NameTranslationKey"
+    },
+    "ViewRange": 40,
+    "AbsoluteDetectionRange": 30,
+    "AlertedRange": 60,
+    "LeashDistance": 60,
+    "HardLeashDistance": 80
+  }
+}

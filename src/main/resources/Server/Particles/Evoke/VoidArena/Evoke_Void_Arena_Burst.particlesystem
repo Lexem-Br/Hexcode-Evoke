@@ -25,10 +25,6 @@
       "StartDelay": 0.4
     },
     {
-      "SpawnerId": "Evoke_VoidBreach_Glow",
-      "StartDelay": 0.5
-    },
-    {
       "SpawnerId": "Evoke_VoidBreach_Portal_Shockwave",
       "StartDelay": 1.2
     },

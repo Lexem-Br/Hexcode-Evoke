@@ -1,0 +1,31 @@
+{
+  "Parent": "Hex_Void_Mannequin",
+  "MinScale": 1.1,
+  "MaxScale": 1.1,
+  "Light": {
+    "Color": "#70b",
+    "Radius": 3
+  },
+  "DefaultAttachments": [
+    {
+      "Model": "NPC/Mannequin/Attachments/Root.blockymodel",
+      "Texture": "NPC/Mannequin/Attachments/Root.png"
+    },
+    {
+      "Model": "NPC/Undead/Skeleton/Models/Attachments/Frost_Archmage/Hands.blockymodel",
+      "Texture": "NPC/Undead/Skeleton/Models/Attachments/Frost_Archmage/Hands_Texture.png"
+    },
+    {
+      "Model": "NPC/Undead/Skeleton/Models/Attachments/Cosmetics/Chest/Tunic_Torn_Long.blockymodel",
+      "Texture": "NPC/Undead/Skeleton/Models/Attachments/Cosmetics/Chest/Tunic_Torn_Long_Textures/Tunic_Torn_Long_Violet.png"
+    },
+    {
+      "Model": "NPC/Mannequin/Attachments/Beard_Dry_Undead.blockymodel",
+      "Texture": "NPC/Undead/Skeleton/Models/Attachments/Cosmetics/Head/Beards/Dry_Undead_White.png"
+    },
+    {
+      "Model": "NPC/Mannequin/Attachments/Eyes_Void.blockymodel",
+      "Texture": "NPC/Mannequin/Attachments/Eyes_Void.png"
+    }
+  ]
+}
