@@ -1,0 +1,79 @@
+{
+  "RenderMode": "Erosion",
+  "ParticleRotationInfluence": "None",
+  "LinearFiltering": false,
+  "LightInfluence": 0,
+  "MaxConcurrentParticles": 1,
+  "ParticleLifeSpan": {
+    "Min": 3,
+    "Max": 3
+  },
+  "ParticleRotateWithSpawner": true,
+  "SpawnRate": {
+    "Min": 1.5,
+    "Max": 1.0
+  },
+  "Particle": {
+    "Texture": "Particles/Textures/Rnd/Crack_Split3.png",
+    "ScaleRatioConstraint": "OneToOne",
+    "Animation": {
+      "0": {
+        "FrameIndex": {
+          "Min": 0,
+          "Max": 0
+        },
+        "Opacity": 0.808,
+        "Scale": {
+          "X": {
+            "Min": 1,
+            "Max": 1
+          }
+        },
+        "Color": "#aa00ff"
+      },
+      "5": {
+        "Opacity": 1
+      },
+      "90": {
+        "Opacity": 1
+      },
+      "100": {
+        "Opacity": 0,
+        "Color": "#000000"
+      }
+    },
+    "InitialAnimationFrame": {
+      "Scale": {
+        "X": {
+          "Min": 1,
+          "Max": 1
+        }
+      },
+      "Opacity": 1,
+      "FrameIndex": {
+        "Min": 0,
+        "Max": 0
+      },
+      "Rotation": {
+        "X": {
+          "Min": 90,
+          "Max": 90
+        },
+        "Z": {
+          "Min": 90,
+          "Max": 90
+        }
+      }
+    },
+    "UVOption": "None"
+  },
+  "EmitOffset": {
+    "Z": {
+      "Max": 0.1
+    }
+  },
+  "TotalParticles": {
+    "Min": 1,
+    "Max": 1
+  }
+}

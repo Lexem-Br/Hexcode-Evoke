@@ -1,0 +1,17 @@
+{
+  "$Comment": "Walk-through volume around the Void Arena portal particles. The portal block has no visible base, like Goblin_Breach_Portal.",
+  "Boxes": [
+    {
+      "Min": {
+        "X": -1,
+        "Y": 0,
+        "Z": -1
+      },
+      "Max": {
+        "X": 2,
+        "Y": 4,
+        "Z": 2
+      }
+    }
+  ]
+}

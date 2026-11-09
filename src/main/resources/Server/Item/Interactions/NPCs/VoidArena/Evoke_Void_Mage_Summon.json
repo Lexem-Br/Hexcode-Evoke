@@ -1,0 +1,32 @@
+{
+  "Type": "Simple",
+  "Effects": {
+    "ItemPlayerAnimationsId": "Evoke_Spellbook",
+    "ItemAnimationId": "CastPushCharging",
+    "WorldSoundEventId": "SFX_Skeleton_Mage_Spellbook_Charge",
+    "Particles": [
+      {
+        "SystemId": "Void_Spectre_Hands",
+        "TargetEntityPart": "Entity",
+        "TargetNodeName": "R-Hand",
+        "Scale": 2
+      },
+      {
+        "SystemId": "Evoke_Void_Orb_Trail",
+        "TargetEntityPart": "PrimaryItem",
+        "TargetNodeName": "Origin_Projectile"
+      }
+    ]
+  },
+  "$Comment": "Telegraphs the ritual. Evoke_Void_Mage_Summon runs while the role waits for SummonCastTime.",
+  "RunTime": 0.8,
+  "Next": {
+    "Type": "Simple",
+    "RunTime": 0.5,
+    "Effects": {
+      "ItemAnimationId": "CastPushCharged",
+      "ClearAnimationOnFinish": true,
+      "WorldSoundEventId": "SFX_Portal_Neutral_Open"
+    }
+  }
+}

@@ -17,7 +17,6 @@ import org.joml.Vector3d;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.UUID;
 
 public class ActionAbandonMinionTask extends ActionBase {
     private static final int TELEPORT_ANGLES = 8;
@@ -45,7 +44,7 @@ public class ActionAbandonMinionTask extends ActionBase {
         ChestTaskComponent chestTask = minionComponent.getChestTask();
         if (chestTask != null) chestTask.setFinished(true);
 
-        Ref<EntityStore> motherRef = store.getExternalData().getRefFromUUID(UUID.fromString(minionComponent.getOwnerUUID()));
+        Ref<EntityStore> motherRef = minionComponent.getOwnerRef(store);
         if (motherRef == null || !motherRef.isValid()) return true;
 
         HexCreatureComponent mother = store.getComponent(motherRef, HexCreatureComponent.getComponentType());

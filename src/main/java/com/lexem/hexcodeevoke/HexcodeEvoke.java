@@ -13,9 +13,11 @@ import com.hypixel.hytale.server.core.plugin.JavaPluginInit;
 import com.hypixel.hytale.server.core.plugin.PluginBase;
 import com.hypixel.hytale.server.core.plugin.PluginManager;
 import com.hypixel.hytale.server.core.universe.Universe;
+import com.hypixel.hytale.server.core.universe.world.events.RemoveWorldEvent;
 import com.hypixel.hytale.server.npc.NPCPlugin;
 import com.lexem.hexcodeevoke.builtin.HexcodeBuiltin;
 import com.lexem.hexcodeevoke.commands.EvokerCommand;
+import com.lexem.hexcodeevoke.commands.VoidArenaCommand;
 import com.lexem.hexcodeevoke.components.EvokerComponent;
 import com.lexem.hexcodeevoke.components.HexCreatureComponent;
 import com.lexem.hexcodeevoke.components.HexCreatureMinionComponent;
@@ -34,6 +36,7 @@ import com.lexem.hexcodeevoke.npc.bodymotions.builders.BuilderTeleportHexCreatur
 import com.lexem.hexcodeevoke.npc.filters.builders.*;
 import com.lexem.hexcodeevoke.npc.sensors.builders.*;
 import com.lexem.hexcodeevoke.resources.HexCreatureRegistry;
+import com.lexem.hexcodeevoke.resources.VoidArenaRegistry;
 import com.lexem.hexcodeevoke.systems.HexCreatureBreathingSystem;
 import com.lexem.hexcodeevoke.systems.HexCreatureClimbStateSystem;
 import com.lexem.hexcodeevoke.systems.HexCreatureComponentsSystem;
@@ -50,7 +53,9 @@ import com.lexem.hexcodeevoke.systems.MannequinArmorSystems;
 import com.lexem.hexcodeevoke.systems.NPCDeathSystem;
 import com.lexem.hexcodeevoke.systems.OffHandItemStateResetSystem;
 import com.lexem.hexcodeevoke.systems.PlayerJoinSystem;
+import com.lexem.hexcodeevoke.systems.VoidArenaSystem;
 import com.lexem.hexcodeevoke.systems.WorldStallWatchdogSystem;
+import com.lexem.hexcodeevoke.utils.VoidArenaManager;
 import com.lexem.hexcodeevoke.utils.WorldStallWatchdog;
 import com.riprod.patchly.PatchManager;
 import org.checkerframework.checker.nullness.compatqual.NonNullDecl;
@@ -171,6 +176,11 @@ public class HexcodeEvoke extends JavaPlugin {
         npcPlugin.registerCoreComponentType("Evoke:FinishRefuel", BuilderActionFinishRefuel::new);
         npcPlugin.registerCoreComponentType("Evoke:SnapToBlockCenter", BuilderActionSnapToBlockCenter::new);
         npcPlugin.registerCoreComponentType("Evoke:TransportItems", BuilderActionTransportItems::new);
+        npcPlugin.registerCoreComponentType("Evoke:VoidArenaWave", () -> new BuilderActionVoidArenaWave(false));
+        npcPlugin.registerCoreComponentType("Evoke:VoidArenaWaveCleared", () -> new BuilderActionVoidArenaWave(true));
+        npcPlugin.registerCoreComponentType("Evoke:VoidArenaVictory", BuilderActionVoidArenaVictory::new);
+        npcPlugin.registerCoreComponentType("Evoke:VoidArenaSpawn", BuilderActionVoidArenaSpawn::new);
+        npcPlugin.registerCoreComponentType("Evoke:VoidArenaBlink", BuilderActionVoidArenaBlink::new);
     }
 
     private void registerBodyMotions(NPCPlugin npcPlugin) {
@@ -260,11 +270,18 @@ public class HexcodeEvoke extends JavaPlugin {
         registery.registerSystem(new HexCreatureBreathingSystem());
         registery.registerSystem(new OffHandItemStateResetSystem());
         registery.registerSystem(new WorldStallWatchdogSystem());
+        registery.registerSystem(new VoidArenaSystem());
 
         HexCreatureRegistry.setResourceType(Universe.registerResource(
                 HexCreatureRegistry.class,
                 HexCreatureRegistry.ID,
                 HexCreatureRegistry.CODEC
+        ));
+
+        VoidArenaRegistry.setResourceType(Universe.registerResource(
+                VoidArenaRegistry.class,
+                VoidArenaRegistry.ID,
+                VoidArenaRegistry.CODEC
         ));
 
         var chunkRegistry = getChunkStoreRegistry();
@@ -292,10 +309,12 @@ public class HexcodeEvoke extends JavaPlugin {
     private void registerEvents() {
         getEventRegistry().register(SaveHexCreatureEvent.class, new SaveHexCreatureHandler());
         getEventRegistry().register(SaveHexCreatureMinionEvent.class, new SaveHexCreatureMinionHandler());
+        getEventRegistry().registerGlobal(RemoveWorldEvent.class, VoidArenaManager::onWorldRemoved);
     }
 
     private void registerCommands() {
         getCommandRegistry().registerCommand(new EvokerCommand());
+        getCommandRegistry().registerCommand(new VoidArenaCommand());
     }
 
     private void registerHexItems() {
@@ -312,6 +331,9 @@ public class HexcodeEvoke extends JavaPlugin {
         this.getCodecRegistry(Interaction.CODEC).register("Evoke:SendMessage", SendMessageInteraction.class, SendMessageInteraction.CODEC);
         this.getCodecRegistry(Interaction.CODEC).register("Evoke:MainHandReplace", MainHandReplaceInteraction.class, MainHandReplaceInteraction.CODEC);
         this.getCodecRegistry(Interaction.CODEC).register("Evoke:MannequinArmor", MannequinArmorInteraction.class, MannequinArmorInteraction.CODEC);
+        this.getCodecRegistry(Interaction.CODEC).register("Evoke:VoidArenaPortal", VoidArenaPortalInteraction.class, VoidArenaPortalInteraction.CODEC);
+        this.getCodecRegistry(Interaction.CODEC).register("Evoke:VoidArenaActivate", VoidArenaActivateInteraction.class, VoidArenaActivateInteraction.CODEC);
+        this.getCodecRegistry(Interaction.CODEC).register("Evoke:OpenVoidArenaPortal", OpenVoidArenaPortalInteraction.class, OpenVoidArenaPortalInteraction.CODEC);
     }
 
     @Override

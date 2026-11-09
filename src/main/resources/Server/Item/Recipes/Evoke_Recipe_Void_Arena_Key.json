@@ -1,0 +1,34 @@
+{
+  "Input": [
+    {
+      "ItemId": "Ingredient_Void_Essence",
+      "Quantity": 10
+    },
+    {
+      "ItemId": "Ingredient_Bar_Iron",
+      "Quantity": 3
+    },
+    {
+      "ItemId": "Rock_Gem_Voidstone",
+      "Quantity": 1
+    }
+  ],
+  "PrimaryOutput": {
+    "ItemId": "Void_Arena_Key",
+    "Quantity": 1
+  },
+  "Output": [
+    {
+      "ItemId": "Void_Arena_Key",
+      "Quantity": 1
+    }
+  ],
+  "BenchRequirement": [
+    {
+      "Type": "Crafting",
+      "Id": "Arcanebench",
+      "Categories": ["Arcane_Hexcode_Evoke"]
+    }
+  ],
+  "TimeSeconds": 3
+}

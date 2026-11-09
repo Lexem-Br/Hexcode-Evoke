@@ -1,0 +1,86 @@
+{
+  "Type": "Variant",
+  "Reference": "Template_Intelligent",
+  "Parameters": {
+    "WanderRadius": {
+      "Value": 3,
+      "Description": "General wander radius for idle wander and wander on the break."
+    },
+    "FollowPatrolPath": {
+      "Value": false,
+      "Description": "Whether this NPC will follow patrol paths at all."
+    },
+    "Patrol": {
+      "Value": false,
+      "Description": "Whether or not this NPC will patrol during its waking hours, either alone or as part of a group."
+    },
+    "FlockArray": {
+      "Value": [],
+      "TypeHint": "String",
+      "Description": "Array containing NPCs for this flock type."
+    },
+    "ApplySeparation": {
+      "Value": false,
+      "Description": "When set to false, NPCs wont try to avoid each other or player, it can lead to them stacking together, but can help to avoid jerky-like movemenet in enclosed space."
+    },
+    "NameTranslationKey": {
+      "Value": "server.npcRoles.Skeleton_Archer.name",
+      "Description": "Translation key for NPC name display"
+    }
+  },
+  "Modify": {
+    "DisableDamageGroups": [
+      "Skeleton"
+    ],
+    "DeathParticles": "Effect_Death_Bones",
+    "MaxHealth": 60,
+    "HitInterruptEnabled": true,
+    "KnockbackScale": 0.3,
+    "HearingRange": 30,
+    "ViewSector": 360,
+    "WakingPeriod": [
+      0,
+      24
+    ],
+    "DropList": "Empty",
+    "Appearance": "Hex_Void_Mannequin",
+    "Weapons": [
+      "Weapon_Shortbow_Iron_Void_Rusty"
+    ],
+    "FlockArray": {
+      "Compute": "FlockArray"
+    },
+    "FollowPatrolPath": {
+      "Compute": "FollowPatrolPath"
+    },
+    "Patrol": {
+      "Compute": "Patrol"
+    },
+    "WanderRadius": {
+      "Compute": "WanderRadius"
+    },
+    "Attack": "Skeleton_Archer_Bow_Shoot",
+    "CombatBackOffAfterAttack": false,
+    "AttackDistance": 15,
+    "CombatFleeIfTooCloseDistance": 4,
+    "DesiredAttackDistanceRange": [
+      5,
+      14.5
+    ],
+    "CombatBehaviorDistance": 15,
+    "TargetRange": 15,
+    "LeashMinPlayerDistance": 18,
+    "ApplySeparation": {
+      "Compute": "ApplySeparation"
+    },
+    "BreathesInWater": true,
+    "NameTranslationKey": {
+      "Compute": "NameTranslationKey"
+    },
+    "ViewRange": 40,
+    "AbsoluteDetectionRange": 30,
+    "AlertedRange": 60,
+    "LeashDistance": 60,
+    "HardLeashDistance": 80
+  }
+}

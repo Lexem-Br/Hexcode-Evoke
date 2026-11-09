@@ -11,7 +11,6 @@ import com.lexem.hexcodeevoke.components.HexCreatureMinionComponent;
 import com.lexem.hexcodeevoke.npc.filters.builders.BuilderFilterHasChestTask;
 
 import javax.annotation.Nonnull;
-import java.util.UUID;
 
 public class FilterHasChestTask extends EntityFilterBase {
     protected ChestTaskComponent.TaskType taskType;
@@ -32,8 +31,7 @@ public class FilterHasChestTask extends EntityFilterBase {
         HexCreatureMinionComponent minionComponent = store.getComponent(npcRef, HexCreatureMinionComponent.getComponentType());
         if (minionComponent == null) return false;
 
-        UUID uuid = UUID.fromString(minionComponent.getOwnerUUID());
-        Ref<EntityStore> hcRef = store.getExternalData().getRefFromUUID(uuid);
+        Ref<EntityStore> hcRef = minionComponent.getOwnerRef(store);
         if (hcRef == null) return false;
 
         HexCreatureComponent hexCreatureComponent = store.getComponent(hcRef, HexCreatureComponent.getComponentType());

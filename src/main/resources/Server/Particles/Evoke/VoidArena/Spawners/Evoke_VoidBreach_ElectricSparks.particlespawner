@@ -1,0 +1,115 @@
+{
+  "RenderMode": "Erosion",
+  "ParticleRotationInfluence": "BillboardVelocity",
+  "LinearFiltering": true,
+  "LightInfluence": 0,
+  "ParticleRotateWithSpawner": true,
+  "TrailSpawnerPositionMultiplier": 1,
+  "TrailSpawnerRotationMultiplier": 1,
+  "MaxConcurrentParticles": 50,
+  "ParticleLifeSpan": {
+    "Min": 0.8,
+    "Max": 1.4
+  },
+  "SpawnRate": {
+    "Min": 15.0,
+    "Max": 30.0
+  },
+  "Attractors": [
+    {
+      "RadialAcceleration": 1,
+      "DampingMultiplier": {
+        "X": 0.5,
+        "Y": 0.5,
+        "Z": 0.5
+      },
+      "RadialTangentImpulse": 1,
+      "RadialAxis": {
+        "Y": 1
+      }
+    }
+  ],
+  "$Comment": "Smol sparks for the circle portal",
+  "EmitOffset": {
+    "X": {
+      "Min": 1,
+      "Max": 5
+    },
+    "Y": {
+      "Min": 0.0,
+      "Max": 1
+    },
+    "Z": {
+      "Min": 1,
+      "Max": 5
+    }
+  },
+  "Particle": {
+    "Texture": "Particles/Textures/Basic/Glow.png",
+    "FrameSize": {
+      "Width": 32,
+      "Height": 32
+    },
+    "ScaleRatioConstraint": "OneToOne",
+    "UVOption": "RandomFlipU",
+    "Animation": {
+      "0": {
+        "FrameIndex": {
+          "Min": 0,
+          "Max": 0
+        },
+        "Opacity": 1.0,
+        "Color": "#a900fd",
+        "Scale": {
+          "X": {
+            "Min": 1,
+            "Max": 1
+          }
+        }
+      },
+      "20": {
+        "Color": "#a700fa"
+      },
+      "80": {},
+      "100": {
+        "Scale": {
+          "X": {
+            "Min": 0.5,
+            "Max": 0.25
+          }
+        },
+        "Opacity": 0,
+        "Color": "#a700fa"
+      }
+    },
+    "InitialAnimationFrame": {
+      "Rotation": {
+        "X": {
+          "Min": 0,
+          "Max": 0
+        },
+        "Y": {
+          "Min": 0,
+          "Max": 0
+        },
+        "Z": {
+          "Min": 0,
+          "Max": 0
+        }
+      },
+      "Scale": {
+        "X": {
+          "Min": 0.1,
+          "Max": 0.2
+        }
+      },
+      "Opacity": 1,
+      "Color": "#a900fd",
+      "FrameIndex": {
+        "Min": 0,
+        "Max": 0
+      }
+    }
+  },
+  "VelocityStretchMultiplier": 100.0
+}

@@ -14,7 +14,6 @@ import com.lexem.hexcodeevoke.utils.InventoryUtils;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.UUID;
 
 public class ActionTakeItemFromChestTask extends ActionBase {
 
@@ -28,8 +27,7 @@ public class ActionTakeItemFromChestTask extends ActionBase {
         HexCreatureMinionComponent minionComponent = store.getComponent(npcRef, HexCreatureMinionComponent.getComponentType());
         if (minionComponent == null) return false;
 
-        UUID uuid = UUID.fromString(minionComponent.getOwnerUUID());
-        Ref<EntityStore> hcRef = store.getExternalData().getRefFromUUID(uuid);
+        Ref<EntityStore> hcRef = minionComponent.getOwnerRef(store);
         if (hcRef == null) return false;
 
         CombinedItemContainer hcCombinedContainer = InventoryComponent.getCombined(

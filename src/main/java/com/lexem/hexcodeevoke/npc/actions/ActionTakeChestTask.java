@@ -16,7 +16,6 @@ import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.UUID;
 
 public class ActionTakeChestTask extends ActionBase {
     protected ChestTaskComponent.TaskType taskType;
@@ -33,8 +32,7 @@ public class ActionTakeChestTask extends ActionBase {
         HexCreatureMinionComponent minionComponent = store.getComponent(npcRef, HexCreatureMinionComponent.getComponentType());
         if (minionComponent == null) return false;
 
-        UUID uuid = UUID.fromString(minionComponent.getOwnerUUID());
-        Ref<EntityStore> hcRef = store.getExternalData().getRefFromUUID(uuid);
+        Ref<EntityStore> hcRef = minionComponent.getOwnerRef(store);
         if (hcRef == null) return false;
 
         HexCreatureComponent hexCreatureComponent = store.getComponent(hcRef, HexCreatureComponent.getComponentType());

@@ -1,0 +1,83 @@
+{
+  "$Comment": "Sealed Void chest placed in the arena. Trying to open it starts the fight, VoidArenaManager swaps it to the Active and then the Spent chest.",
+  "TranslationProperties": {
+    "Name": "evoke.items.Evoke_Void_Arena_Altar.name",
+    "Description": "evoke.items.Evoke_Void_Arena_Altar.description"
+  },
+  "PlayerAnimationsId": "Block",
+  "Categories": [
+    "Furniture.Containers"
+  ],
+  "Icon": "Icons/ItemsGenerated/Furniture_Dungeon_Chest_Epic.png",
+  "Quality": "Technical",
+  "BlockType": {
+    "BlockParticleSetId": "Wood",
+    "BlockSoundSetId": "Wood",
+    "PhysicalMaterialId": "Wood",
+    "CustomModel": "Blocks/Dungeons/Chest_Epic_Small.blockymodel",
+    "CustomModelTexture": [
+      {
+        "Texture": "Blocks/Dungeons/Chest_Epic_Small_Texture.png",
+        "Weight": 1
+      }
+    ],
+    "DrawType": "Model",
+    "Flags": {},
+    "Gathering": {
+      "Breaking": {
+        "GatherType": "Unbreakable"
+      }
+    },
+    "HitboxType": "Full",
+    "Material": "Solid",
+    "Opacity": "Transparent",
+    "ParticleColor": "#7a3d27",
+    "Particles": [
+      {
+        "SystemId": "Evoke_Void_Arena_Altar_Idle",
+        "Scale": 0.6,
+        "PositionOffset": {
+          "Y": 0.6
+        }
+      }
+    ],
+    "Light": {
+      "Color": "#a4f",
+      "Radius": 8
+    },
+    "VariantRotation": "NESW",
+    "InteractionHint": "server.interactionHints.open",
+    "Interactions": {
+      "Use": {
+        "Interactions": [
+          {
+            "Type": "Evoke:VoidArenaActivate"
+          }
+        ]
+      }
+    },
+    "TextureComputedColor": "#694120"
+  },
+  "Tags": {
+    "Type": [
+      "Furniture"
+    ],
+    "Family": [
+      "Dungeon"
+    ]
+  },
+  "IconProperties": {
+    "Scale": 0.55,
+    "Translation": [
+      0,
+      -15
+    ],
+    "Rotation": [
+      22.5,
+      45,
+      22.5
+    ]
+  },
+  "ItemSoundSetId": "ISS_Blocks_Wood",
+  "MaxStack": 1
+}

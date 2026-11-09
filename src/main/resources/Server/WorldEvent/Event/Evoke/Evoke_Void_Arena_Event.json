@@ -1,0 +1,8 @@
+{
+  "$Comment": "Started by HexcodeEvoke in the default world (VoidArenaManager). Opens a Void rift that leads to the Evoke_Void_Arena instance.",
+  "Root": "Evoke_Void_Arena_Stage1",
+  "Persistent": true,
+  "Name": "evoke.voidArena.event.name",
+  "Icon": "UI/WorldMap/MapMarkers/Evoke_Void_Rift.png",
+  "InstanceCountMax": 1
+}

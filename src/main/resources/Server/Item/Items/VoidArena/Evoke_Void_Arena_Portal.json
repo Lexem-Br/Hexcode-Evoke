@@ -1,0 +1,98 @@
+{
+  "TranslationProperties": {
+    "Name": "evoke.items.Evoke_Void_Arena_Portal.name",
+    "Description": "evoke.items.Evoke_Void_Arena_Portal.description"
+  },
+  "Icon": "Icons/ItemsGenerated/Portal_Return.png",
+  "Categories": [
+    "Blocks.Portals"
+  ],
+  "BlockType": {
+    "AmbientSoundEventId": "SFX_Portal_Neutral",
+    "DrawType": "Model",
+    "Material": "Empty",
+    "Opacity": "Transparent",
+    "CustomModel": "Blocks/Miscellaneous/Map.blockymodel",
+    "CustomModelTexture": [
+      {
+        "Texture": "Items/Projectiles/Tornado_Texture.png",
+        "Weight": 1
+      }
+    ],
+    "HitboxType": "Evoke_Void_Arena_Portal",
+    "BlockParticleSetId": "Stone",
+    "BlockSoundSetId": "Stone",
+    "PhysicalMaterialId": "Stone",
+    "VariantRotation": "NESW",
+    "Gathering": {
+      "Breaking": {
+        "GatherType": "Unbreakable"
+      }
+    },
+    "Particles": [
+      {
+        "SystemId": "Evoke_MagicPortal_VoidKeyArt_Loop",
+        "PositionOffset": {
+          "Y": 2.5
+        }
+      }
+    ],
+    "Light": {
+      "Color": "#a4f",
+      "Radius": 8
+    },
+    "BlockEntity": {
+      "Components": {
+        "BlockMapMarker": {
+          "Name": "evoke.items.Evoke_Void_Arena_Portal.name",
+          "Icon": "Evoke_Void_Rift.png",
+          "CompassIcon": "Evoke_Void_Rift.png"
+        }
+      }
+    },
+    "Interactions": {
+      "CollisionEnter": {
+        "Interactions": [
+          {
+            "Type": "Evoke:VoidArenaPortal",
+            "InstanceName": "Evoke_Void_Arena",
+            "PersonalReturnPoint": true,
+            "CloseOnBlockRemove": false,
+            "OriginSource": "Block",
+            "PositionOffset": {
+              "Z": 3
+            },
+            "Next": {
+              "Type": "Simple",
+              "Effects": {
+                "LocalSoundEventId": "SFX_Portal_Neutral_Teleport_Local"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "TextureComputedColor": "#5a2a8a",
+    "Support": {}
+  },
+  "PlayerAnimationsId": "Block",
+  "Tags": {
+    "Type": [
+      "Portal"
+    ]
+  },
+  "Quality": "Developer",
+  "IconProperties": {
+    "Scale": 0.35,
+    "Rotation": [
+      22.5,
+      45.0,
+      22.5
+    ],
+    "Translation": [
+      0.0,
+      -13.5
+    ]
+  },
+  "ItemSoundSetId": "ISS_Blocks_Stone"
+}

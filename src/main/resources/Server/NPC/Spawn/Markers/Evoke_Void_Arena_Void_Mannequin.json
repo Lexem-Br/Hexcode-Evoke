@@ -1,0 +1,15 @@
+{
+  "$Comment": "Two of these are placed in the Void Rift portal prefab. They guard the rift once, without respawning.",
+  "Model": "NPC_Spawn_Marker",
+  "NPCs": [
+    {
+      "Name": "Evoke_Void_Mannequin",
+      "Weight": 100,
+      "RealtimeRespawnTime": 1000000
+    }
+  ],
+  "RealtimeRespawn": true,
+  "ExclusionRadius": 0,
+  "MaxDropHeight": 6,
+  "DeactivationDistance": 150
+}

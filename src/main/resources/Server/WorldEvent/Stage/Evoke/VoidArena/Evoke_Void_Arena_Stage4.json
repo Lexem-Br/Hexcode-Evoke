@@ -1,0 +1,17 @@
+{
+  "$Comment": "The rift stays open for 10 minutes. Ending the event rolls the pasted portal back. Players already inside the arena keep their instance and leave through its exit portal.",
+  "Forks": [
+    {
+      "Conditions": [
+        {
+          "Type": "IntervalCondition",
+          "IntervalKey": "EvokeVoidArenaOpenFor",
+          "MinSeconds": 600,
+          "MaxSeconds": 600,
+          "ShowOnMap": true,
+          "MapIntervalKey": "server.map.worldEvents.runsFor"
+        }
+      ]
+    }
+  ]
+}

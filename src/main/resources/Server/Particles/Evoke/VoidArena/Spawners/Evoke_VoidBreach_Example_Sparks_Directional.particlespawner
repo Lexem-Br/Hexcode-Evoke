@@ -1,0 +1,132 @@
+{
+  "RenderMode": "Erosion",
+  "ParticleRotationInfluence": "BillboardVelocity",
+  "LinearFiltering": true,
+  "LightInfluence": 0,
+  "ParticleRotateWithSpawner": true,
+  "TrailSpawnerPositionMultiplier": 1,
+  "TrailSpawnerRotationMultiplier": 1,
+  "MaxConcurrentParticles": 50,
+  "ParticleLifeSpan": {
+    "Min": 0.25,
+    "Max": 0.5
+  },
+  "InitialVelocity": {
+    "Speed": {
+      "Min": 3,
+      "Max": 10
+    },
+    "Yaw": {
+      "Min": -20,
+      "Max": 20
+    },
+    "Pitch": {
+      "Min": 10,
+      "Max": 30
+    }
+  },
+  "Attractors": [
+    {
+      "Position": {
+        "X": 0,
+        "Y": 0,
+        "Z": 0
+      },
+      "Radius": 0,
+      "RadialAcceleration": 3,
+      "RadialTangentAcceleration": 0,
+      "LinearAcceleration": {
+        "X": 0,
+        "Y": -20,
+        "Z": 0
+      }
+    }
+  ],
+  "Particle": {
+    "Texture": "Particles/Textures/Basic/Glow.png",
+    "ScaleRatioConstraint": "None",
+    "UVOption": "None",
+    "Animation": {
+      "0": {
+        "FrameIndex": {
+          "Min": 0,
+          "Max": 0
+        },
+        "Opacity": 1,
+        "Color": "#ffffff",
+        "Scale": {
+          "X": {
+            "Min": 1,
+            "Max": 1
+          },
+          "Y": {
+            "Min": 1,
+            "Max": 1
+          }
+        }
+      },
+      "20": {
+        "Scale": {
+          "X": {
+            "Min": 0.2,
+            "Max": 0.2
+          },
+          "Y": {
+            "Min": 1.5,
+            "Max": 1.5
+          }
+        },
+        "Color": "#f0d2ff"
+      },
+      "40": {
+        "Color": "#f0d3ff"
+      },
+      "60": {
+        "Opacity": 0.6,
+        "Color": "#c654ff"
+      },
+      "100": {
+        "Opacity": 0,
+        "Scale": {
+          "X": {
+            "Min": 1,
+            "Max": 1
+          },
+          "Y": {
+            "Min": 1,
+            "Max": 1
+          }
+        },
+        "Color": "#b641f0"
+      }
+    },
+    "InitialAnimationFrame": {
+      "Opacity": 1,
+      "FrameIndex": {
+        "Min": 0,
+        "Max": 0
+      },
+      "Scale": {
+        "X": {
+          "Min": 0.1,
+          "Max": 0.1
+        },
+        "Y": {
+          "Min": 0.2,
+          "Max": 0.2
+        }
+      }
+    },
+    "SoftParticles": "Disable"
+  },
+  "SpawnRate": {
+    "Min": 100,
+    "Max": 100
+  },
+  "EmitOffset": {
+    "Z": {
+      "Min": 0,
+      "Max": 0.1
+    }
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "Spawners": [
+    {
+      "SpawnerId": "Evoke_VoidBreach_Glow_Passive"
+    },
+    {
+      "SpawnerId": "Evoke_VoidBreach_Glow_Passive",
+      "RotationOffset": {
+        "Yaw": 90
+      }
+    },
+    {
+      "SpawnerId": "Evoke_VoidBreach_ElectricSparks",
+      "PositionOffset": {
+        "Y": 0.5
+      }
+    }
+  ],
+  "CullDistance": 80
+}

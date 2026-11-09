@@ -1,0 +1,63 @@
+{
+  "Spawners": [
+    {
+      "SpawnerId": "MagicPortal_VoidSpawn"
+    },
+    {
+      "SpawnerId": "MagicPortal_VoidFlash"
+    },
+    {
+      "SpawnerId": "MagicPortal_VoidCenterCircle"
+    },
+    {
+      "SpawnerId": "MagicPortal_VoidSmokeAlpha",
+      "StartDelay": 0,
+      "PositionOffset": {
+        "Y": 0.2
+      }
+    },
+    {
+      "SpawnerId": "MagicPortal_VoidSparks"
+    },
+    {
+      "SpawnerId": "MagicPortal_VoidSparksDark"
+    },
+    {
+      "SpawnerId": "MagicPortal_Center",
+      "StartDelay": 0.5
+    },
+    {
+      "SpawnerId": "MagicPortal_VoidCenterGlow",
+      "StartDelay": 0.5
+    },
+    {
+      "SpawnerId": "MagicPortal_VoidSmokeMiddle",
+      "RotationOffset": {
+        "Pitch": 90.0
+      }
+    },
+    {
+      "SpawnerId": "MagicPortal_VoidGlowSmoke",
+      "RotationOffset": {
+        "Pitch": 90.0
+      }
+    },
+    {
+      "SpawnerId": "MagicPortal_VoidGlowCenterIntense"
+    },
+    {
+      "SpawnerId": "MagicPortal_VoidOuterCircle",
+      "RotationOffset": {
+        "Pitch": 90.0
+      }
+    },
+    {
+      "SpawnerId": "MagicPortal_VoidTentacles",
+      "PositionOffset": {
+        "Z": 0.4
+      }
+    }
+  ],
+  "CullDistance": 50.0,
+  "IsImportant": true
+}

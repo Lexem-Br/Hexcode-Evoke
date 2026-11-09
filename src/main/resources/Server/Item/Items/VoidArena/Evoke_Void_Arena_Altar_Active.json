@@ -1,0 +1,83 @@
+{
+  "$Comment": "The sealed chest while the waves are running. Using it only shows the current wave.",
+  "TranslationProperties": {
+    "Name": "evoke.items.Evoke_Void_Arena_Altar_Active.name",
+    "Description": "evoke.items.Evoke_Void_Arena_Altar_Active.description"
+  },
+  "PlayerAnimationsId": "Block",
+  "Categories": [
+    "Furniture.Containers"
+  ],
+  "Icon": "Icons/ItemsGenerated/Furniture_Dungeon_Chest_Epic.png",
+  "Quality": "Developer",
+  "BlockType": {
+    "BlockParticleSetId": "Wood",
+    "BlockSoundSetId": "Wood",
+    "PhysicalMaterialId": "Wood",
+    "CustomModel": "Blocks/Dungeons/Chest_Epic_Small.blockymodel",
+    "CustomModelTexture": [
+      {
+        "Texture": "Blocks/Dungeons/Chest_Epic_Small_Texture.png",
+        "Weight": 1
+      }
+    ],
+    "DrawType": "Model",
+    "Flags": {},
+    "Gathering": {
+      "Breaking": {
+        "GatherType": "Unbreakable"
+      }
+    },
+    "HitboxType": "Full",
+    "Material": "Solid",
+    "Opacity": "Transparent",
+    "ParticleColor": "#7a3d27",
+    "Particles": [
+      {
+        "SystemId": "Evoke_Void_Arena_Altar_Active",
+        "Scale": 0.8,
+        "PositionOffset": {
+          "Y": 0.6
+        }
+      }
+    ],
+    "Light": {
+      "Color": "#d6f",
+      "Radius": 12
+    },
+    "VariantRotation": "NESW",
+    "InteractionHint": "server.interactionHints.examine",
+    "Interactions": {
+      "Use": {
+        "Interactions": [
+          {
+            "Type": "Evoke:VoidArenaActivate"
+          }
+        ]
+      }
+    },
+    "TextureComputedColor": "#694120"
+  },
+  "Tags": {
+    "Type": [
+      "Furniture"
+    ],
+    "Family": [
+      "Dungeon"
+    ]
+  },
+  "IconProperties": {
+    "Scale": 0.55,
+    "Translation": [
+      0,
+      -15
+    ],
+    "Rotation": [
+      22.5,
+      45,
+      22.5
+    ]
+  },
+  "ItemSoundSetId": "ISS_Blocks_Wood",
+  "MaxStack": 1
+}

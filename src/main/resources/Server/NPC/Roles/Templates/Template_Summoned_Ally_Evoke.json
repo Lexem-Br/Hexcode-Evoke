@@ -67,6 +67,10 @@
       "Value": "Furniture_Crude_Torch",
       "Description": "Off-hand items."
     },
+    "SpawnEquipDelay": {
+      "Value": 0,
+      "Description": "Seconds the NPC stays still and unarmed after spawning, so its items do not float while the Spawn animation plays."
+    },
     "DefaultOffHandSlot": {
       "Value": -1,
       "Description": "Default off-hand item slot. -1 for nothing."
@@ -296,6 +300,29 @@
           "Slot": { "Compute": "DefaultHotbarSlot" }
         }
       ]
+    },
+    {
+      "$Comment": "Equip when leaving Spawn, so the NPC is armed even if the summoner's fight pulls it into Combat before SpawnEquipDelay ends.",
+      "States": [
+        {
+          "To": [ "Idle", "Combat" ],
+          "From": [ "Spawn" ]
+        }
+      ],
+      "Actions": [
+        {
+          "Type": "Inventory",
+          "UseTarget": false,
+          "Operation": "Equip",
+          "Item": { "Compute": "SpawnWeapons" }
+        },
+        {
+          "Type": "Inventory",
+          "UseTarget": false,
+          "Operation": "SetOffHand",
+          "Item": { "Compute": "SpawnOffHand" }
+        }
+      ]
     }
   ],
   "MaxHealth": { "Compute": "MaxHealth" },
@@ -448,18 +475,11 @@
             "Type": "State",
             "State": "Spawn"
           },
+          "ActionsBlocking": true,
           "Actions": [
             {
-              "Type": "Inventory",
-              "UseTarget": false,
-              "Operation": "Equip",
-              "Item": { "Compute": "SpawnWeapons" }
-            },
-            {
-              "Type": "Inventory",
-              "UseTarget": false,
-              "Operation": "SetOffHand",
-              "Item": { "Compute": "SpawnOffHand" }
+              "Type": "Timeout",
+              "Delay": { "Compute": "makeRange(SpawnEquipDelay)" }
             },
             {
               "Type": "State",

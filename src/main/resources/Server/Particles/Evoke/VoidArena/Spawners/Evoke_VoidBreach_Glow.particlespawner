@@ -1,0 +1,153 @@
+{
+  "RenderMode": "BlendLinear",
+  "EmitOffset": {
+    "X": {
+      "Min": 0,
+      "Max": 0
+    },
+    "Y": {
+      "Min": 0,
+      "Max": 0
+    },
+    "Z": {
+      "Min": 0,
+      "Max": 0
+    }
+  },
+  "ParticleRotationInfluence": "None",
+  "LinearFiltering": true,
+  "LightInfluence": 0,
+  "ParticleRotateWithSpawner": true,
+  "TrailSpawnerPositionMultiplier": 1,
+  "TrailSpawnerRotationMultiplier": 1,
+  "MaxConcurrentParticles": 1,
+  "ParticleLifeSpan": {
+    "Min": 3,
+    "Max": 3
+  },
+  "TotalParticles": {
+    "Min": 1,
+    "Max": 1
+  },
+  "InitialVelocity": {
+    "Speed": {
+      "Min": 0,
+      "Max": 0
+    },
+    "Yaw": {
+      "Min": 0,
+      "Max": 0
+    },
+    "Pitch": {
+      "Min": 0,
+      "Max": 0
+    }
+  },
+  "Attractors": [
+    {
+      "Position": {
+        "X": 0,
+        "Y": 0,
+        "Z": 0
+      },
+      "RadialAxis": {
+        "X": 0,
+        "Y": 0,
+        "Z": 0
+      },
+      "Radius": 0,
+      "RadialAcceleration": 0,
+      "RadialTangentAcceleration": 0,
+      "LinearAcceleration": {
+        "X": 0,
+        "Y": 0,
+        "Z": 0
+      }
+    }
+  ],
+  "Particle": {
+    "Texture": "Particles/Textures/Basic/Gradient_Reflected.png",
+    "ScaleRatioConstraint": "None",
+    "UVOption": "None",
+    "Animation": {
+      "0": {
+        "FrameIndex": {
+          "Min": 0,
+          "Max": 0
+        },
+        "Opacity": 0,
+        "Scale": {
+          "X": {
+            "Min": 1,
+            "Max": 1
+          },
+          "Y": {
+            "Min": 1,
+            "Max": 1
+          }
+        }
+      },
+      "30": {
+        "Opacity": 0.604
+      },
+      "40": {
+        "Scale": {
+          "X": {
+            "Min": 1.0,
+            "Max": 1.0
+          },
+          "Y": {
+            "Min": 1.4,
+            "Max": 1.4
+          }
+        }
+      },
+      "75": {
+        "Opacity": 1
+      },
+      "100": {
+        "Opacity": 1,
+        "Scale": {
+          "X": {
+            "Min": 1,
+            "Max": 1
+          },
+          "Y": {
+            "Min": 1.8,
+            "Max": 1.8
+          }
+        }
+      }
+    },
+    "InitialAnimationFrame": {
+      "Opacity": 0.5,
+      "FrameIndex": {
+        "Min": 0,
+        "Max": 0
+      },
+      "Rotation": {
+        "Z": {
+          "Min": 90,
+          "Max": 90
+        }
+      },
+      "Scale": {
+        "X": {
+          "Min": 5,
+          "Max": 5
+        },
+        "Y": {
+          "Max": 5,
+          "Min": 5
+        }
+      },
+      "Color": "#d279ff"
+    },
+    "SoftParticles": "Enable"
+  },
+  "SpawnBurst": true,
+  "SpawnRate": {
+    "Min": 1.0,
+    "Max": 1.0
+  }
+}

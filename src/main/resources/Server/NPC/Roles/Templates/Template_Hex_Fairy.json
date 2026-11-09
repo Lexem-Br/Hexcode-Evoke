@@ -41,23 +41,8 @@
   "HotbarSize": 3,
   "OffHandSlots": 0,
   "NameTranslationKey": {"Compute": "NameTranslationKey"},
-  "InitialMotionController": "Walk",
+  "InitialMotionController": "Fly",
   "MotionControllerList": [
-    {
-      "$Comment": "Only used for the first tick after spawning, the first instruction switches to Fly",
-      "Type": "Walk",
-      "MaxWalkSpeed": 15,
-      "Gravity": 10,
-      "RunThreshold": 0.5,
-      "MaxFallSpeed": 30,
-      "MaxRotationSpeed": 360,
-      "Acceleration": 20,
-      "MinHover": 1,
-      "MaxHover": 1,
-      "HoverFreq": 10,
-      "MaxClimbHeight": 3,
-      "MaxDropHeight": 3
-    },
     {
       "$Comment": "Evoke:FairyFlight moves the creature by itself, this controller only keeps it in the air and handles knockback",
       "Type": "Fly",
@@ -97,20 +82,6 @@
     }
   ],
   "Instructions": [
-    {
-      "$Comment": "Always flies, also right after spawning",
-      "Continue": true,
-      "Sensor": {
-        "Type": "MotionController",
-        "MotionController": "Walk"
-      },
-      "Actions": [
-        {
-          "Type": "Evoke:SetMotionController",
-          "MotionController": "Fly"
-        }
-      ]
-    },
     {
       "$Comment": "After the Follow command, dashes straight to the evoker through any block and resumes following when nearby",
       "Sensor": {

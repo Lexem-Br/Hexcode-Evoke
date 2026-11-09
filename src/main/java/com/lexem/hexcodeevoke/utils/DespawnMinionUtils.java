@@ -10,7 +10,6 @@ import com.lexem.hexcodeevoke.components.HexCreatureMinionComponent;
 
 import javax.annotation.Nonnull;
 import java.util.Objects;
-import java.util.UUID;
 
 public class DespawnMinionUtils {
 
@@ -31,8 +30,7 @@ public class DespawnMinionUtils {
     public static void deleteMinionUUIDFromHexCreatur(Ref<EntityStore> ref, Store<EntityStore> store) {
         HexCreatureMinionComponent hexMinion = store.getComponent(ref, HexCreatureMinionComponent.getComponentType());
         if (hexMinion != null) {
-            UUID hcUUID = UUID.fromString(hexMinion.getOwnerUUID());
-            Ref<EntityStore> hcRef = store.getExternalData().getRefFromUUID(hcUUID);
+            Ref<EntityStore> hcRef = hexMinion.getOwnerRef(store);
             if (hcRef != null) {
                 HexCreatureComponent hexCreatureComponent = store.getComponent(hcRef, HexCreatureComponent.getComponentType());
                 if (hexCreatureComponent != null) {

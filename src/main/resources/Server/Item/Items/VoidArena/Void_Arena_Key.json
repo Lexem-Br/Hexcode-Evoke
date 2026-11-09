@@ -1,0 +1,69 @@
+{
+  "TranslationProperties": {
+    "Name": "evoke.items.Void_Arena_Key.name",
+    "Description": "evoke.items.Void_Arena_Key.description"
+  },
+  "Categories": [
+    "Items.Tools"
+  ],
+  "ItemLevel": 40,
+  "Quality": "Epic",
+  "Model": "Items/Events/Coffer_Key.blockymodel",
+  "Texture": "Items/Events/Coffer_Key_Texture.png",
+  "Icon": "Icons/ItemsGenerated/Coffer_Key.png",
+  "Animation": "Items/Events/Coffer_Key_Floating.blockyanim",
+  "PlayerAnimationsId": "Item",
+  "MaxStack": 10,
+  "Light": {
+    "Color": "#a4f"
+  },
+  "Tags": {
+    "Type": [
+      "Portal"
+    ]
+  },
+  "ItemSoundSetId": "ISS_Items_Gems",
+  "Interactions": {
+    "Secondary": {
+      "Interactions": [
+        {
+          "Type": "Charging",
+          "Effects": {
+            "WorldSoundEventId": "SFX_Skeleton_Mage_Spellbook_Charge",
+            "ItemAnimationId": "Interact"
+          },
+          "AllowIndefiniteHold": true,
+          "HorizontalSpeedMultiplier": 0.6,
+          "RunTime": 0,
+          "Next": {
+            "0": {
+              "Type": "Simple"
+            },
+            "1.2": {
+              "Type": "Evoke:OpenVoidArenaPortal",
+              "PortalBlock": "Evoke_Void_Arena_Portal",
+              "DurationSeconds": 300,
+              "Distance": 3,
+              "Next": {
+                "Type": "ModifyInventory",
+                "AdjustHeldItemQuantity": -1
+              }
+            }
+          }
+        }
+      ]
+    }
+  },
+  "IconProperties": {
+    "Scale": 0.5,
+    "Rotation": [
+      22.5,
+      45,
+      22.5
+    ],
+    "Translation": [
+      0,
+      -15
+    ]
+  }
+}
