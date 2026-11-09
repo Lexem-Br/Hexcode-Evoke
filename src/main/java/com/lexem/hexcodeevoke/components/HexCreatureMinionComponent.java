@@ -5,9 +5,12 @@ import com.hypixel.hytale.codec.KeyedCodec;
 import com.hypixel.hytale.codec.builder.BuilderCodec;
 import com.hypixel.hytale.codec.codecs.EnumCodec;
 import com.hypixel.hytale.component.Component;
+import com.hypixel.hytale.component.ComponentAccessor;
 import com.hypixel.hytale.component.ComponentType;
+import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.function.Supplier;
 
@@ -88,6 +91,11 @@ public class HexCreatureMinionComponent implements Component<EntityStore> {
 
     public void setOwnerUUID(String ownerUUID) {
         this.ownerUUID = ownerUUID;
+    }
+
+    @Nullable
+    public Ref<EntityStore> getOwnerRef(@Nonnull ComponentAccessor<EntityStore> accessor) {
+        return this.ownerUUID != null ? accessor.getExternalData().getRefFromUUID(java.util.UUID.fromString(this.ownerUUID)) : null;
     }
 
     public String getTypeId() {

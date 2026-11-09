@@ -15,7 +15,6 @@ import org.joml.Vector3d;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.UUID;
 
 public class SensorChestTaskStuck extends SensorBase {
     private static final long RESET_GAP_NANOS = 1_000_000_000L;
@@ -88,7 +87,7 @@ public class SensorChestTaskStuck extends SensorBase {
 
     @Nullable
     private static Vector3d getOwnerPosition(@Nonnull HexCreatureMinionComponent minionComponent, @Nonnull Store<EntityStore> store) {
-        Ref<EntityStore> ownerRef = store.getExternalData().getRefFromUUID(UUID.fromString(minionComponent.getOwnerUUID()));
+        Ref<EntityStore> ownerRef = minionComponent.getOwnerRef(store);
         if (ownerRef == null || !ownerRef.isValid()) return null;
 
         TransformComponent ownerTransform = store.getComponent(ownerRef, TransformComponent.getComponentType());
