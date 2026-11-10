@@ -1,0 +1,22 @@
+{
+  "Type": "Explode",
+  "Effects": {
+    "WorldSoundEventId": "SFX_Goblin_Lobber_Bomb_Death",
+    "Particles": [
+      {
+        "SystemId": "Evoke_Void_Torch_Explosion",
+        "TargetEntityPart": "Entity"
+      }
+    ]
+  },
+  "Config": {
+    "DamageEntities": true,
+    "DamageBlocks": false,
+    "EntityDamage": 30.0,
+    "EntityDamageRadius": 3
+  },
+  "Next": {
+    "Type": "RemoveEntity",
+    "Entity": "User"
+  }
+}

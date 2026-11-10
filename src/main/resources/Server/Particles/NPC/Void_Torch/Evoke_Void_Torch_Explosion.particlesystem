@@ -1,0 +1,100 @@
+{
+  "Spawners": [
+    {
+      "SpawnerId": "Evoke_Void_Torch_Explosion_Medium_Flash",
+      "PositionOffset": {
+        "Y": 0.5
+      },
+      "FixedRotation": false,
+      "LifeSpan": {
+        "Min": 0.0,
+        "Max": 0.0
+      }
+    },
+    {
+      "SpawnerId": "Evoke_Void_Torch_Explosion_Medium_Flash_Glow",
+      "PositionOffset": {
+        "Y": 0.5
+      }
+    },
+    {
+      "SpawnerId": "Evoke_Void_Torch_Explosion_Medium_Shockwave",
+      "PositionOffset": {
+        "Y": 0.5,
+        "X": 0.0
+      },
+      "FixedRotation": false
+    },
+    {
+      "SpawnerId": "Evoke_Void_Torch_Explosion_Medium_Sparks_Out",
+      "PositionOffset": {
+        "Y": 0.5,
+        "X": 0.0
+      },
+      "FixedRotation": false
+    },
+    {
+      "SpawnerId": "Evoke_Void_Torch_Explosion_Medium_Sparks_Linger",
+      "PositionOffset": {
+        "Y": 0.5,
+        "X": 0.0,
+        "Z": 0.0
+      },
+      "FixedRotation": false
+    },
+    {
+      "SpawnerId": "Evoke_Void_Torch_Explosion_Medium_Smoke_Main",
+      "PositionOffset": {
+        "Y": 0.5,
+        "X": 0.0
+      },
+      "StartDelay": 0.0
+    },
+    {
+      "SpawnerId": "Evoke_Void_Torch_Explosion_Medium_Fires",
+      "PositionOffset": {
+        "Y": 0.5,
+        "X": 0.0
+      }
+    },
+    {
+      "SpawnerId": "Evoke_Void_Torch_Explosion_Medium_Flash_Dark",
+      "PositionOffset": {
+        "Y": 0.5,
+        "X": 0.0
+      }
+    },
+    {
+      "SpawnerId": "Evoke_Void_Torch_Explosion_Medium_Glow",
+      "PositionOffset": {
+        "Y": 0.5
+      }
+    },
+    {
+      "SpawnerId": "Evoke_Void_Torch_Explosion_Medium_Smoke_Side",
+      "PositionOffset": {
+        "Y": 0.5,
+        "Z": -0.2
+      },
+      "StartDelay": 0.0,
+      "LifeSpan": {
+        "Min": 0.0,
+        "Max": 0.0
+      }
+    },
+    {
+      "PositionOffset": {
+        "Y": 0.5,
+        "Z": 0.2
+      },
+      "RotationOffset": {
+        "Yaw": 180.0
+      },
+      "StartDelay": 0.0,
+      "SpawnerId": "Evoke_Void_Torch_Explosion_Medium_Smoke_Side"
+    }
+  ],
+  "BoundingRadius": 100.0,
+  "CullDistance": 100.0,
+  "IsImportant": false
+}

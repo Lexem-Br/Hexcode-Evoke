@@ -1,5 +1,6 @@
 {
   "IncludeRoles": [
-    "Evoke_Void_Mannequin*"
+    "Evoke_Void_Mannequin*",
+    "Evoke_Void_Creeping_Torch"
   ]
 }

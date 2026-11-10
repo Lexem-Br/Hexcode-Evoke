@@ -1,0 +1,172 @@
+{
+  "RenderMode": "BlendLinear",
+  "EmitOffset": {
+    "X": {
+      "Min": 0,
+      "Max": 0
+    },
+    "Y": {
+      "Min": 0,
+      "Max": 0
+    }
+  },
+  "ParticleRotationInfluence": "Billboard",
+  "LinearFiltering": false,
+  "LightInfluence": 1,
+  "ParticleRotateWithSpawner": false,
+  "TrailSpawnerPositionMultiplier": 0.1,
+  "TrailSpawnerRotationMultiplier": 0.1,
+  "MaxConcurrentParticles": 3,
+  "ParticleLifeSpan": {
+    "Min": 2.3333333333333335,
+    "Max": 3
+  },
+  "SpawnRate": {
+    "Min": 0.6,
+    "Max": 1.2
+  },
+  "TotalParticles": {
+    "Min": -1,
+    "Max": -1
+  },
+  "InitialVelocity": {
+    "Yaw": {
+      "Min": 0,
+      "Max": 0
+    },
+    "Pitch": {
+      "Min": 80,
+      "Max": 100
+    },
+    "Speed": {
+      "Min": 0.3,
+      "Max": 0.48
+    }
+  },
+  "UVMotion": {
+    "Texture": "Particles/Textures/UVMotion/FlowMap.png",
+    "Strength": 1.7,
+    "SpeedX": 0.56,
+    "SpeedY": -0.74,
+    "Scale": 1.2
+  },
+  "Attractors": [
+    {
+      "DampingMultiplier": {
+        "X": 1,
+        "Y": 0.9940149800149941,
+        "Z": 1
+      }
+    }
+  ],
+  "Particle": {
+    "Texture": "Particles/Textures/Smoke/Smoke_Cartoon.png",
+    "FrameSize": {
+      "Width": 64,
+      "Height": 64
+    },
+    "ScaleRatioConstraint": "None",
+    "UVOption": "RandomFlipU",
+    "Animation": {
+      "0": {
+        "FrameIndex": {
+          "Min": 0,
+          "Max": 3
+        },
+        "Opacity": 0,
+        "Color": "#cd95b8",
+        "Scale": {
+          "X": {
+            "Min": 1,
+            "Max": 1
+          },
+          "Y": {
+            "Min": 1,
+            "Max": 1
+          }
+        },
+        "Rotation": {
+          "X": {
+            "Min": 0,
+            "Max": 0
+          },
+          "Y": {
+            "Min": 0,
+            "Max": 0
+          },
+          "Z": {
+            "Min": 0,
+            "Max": 0
+          }
+        }
+      },
+      "20": {
+        "Opacity": 0.8
+      },
+      "50": {
+        "Opacity": 0.7,
+        "Color": "#694c5e"
+      },
+      "100": {
+        "Opacity": 0,
+        "Color": "#32242d",
+        "Scale": {
+          "X": {
+            "Min": 1.33,
+            "Max": 1.25
+          },
+          "Y": {
+            "Min": 3,
+            "Max": 5
+          }
+        },
+        "Rotation": {
+          "X": {
+            "Min": 0,
+            "Max": 0
+          },
+          "Y": {
+            "Min": 0,
+            "Max": 0
+          },
+          "Z": {
+            "Min": -20,
+            "Max": 20
+          }
+        }
+      }
+    },
+    "InitialAnimationFrame": {
+      "Rotation": {
+        "X": {
+          "Min": 0,
+          "Max": 0
+        },
+        "Y": {
+          "Min": 0,
+          "Max": 0
+        },
+        "Z": {
+          "Min": 0,
+          "Max": 0
+        }
+      },
+      "Scale": {
+        "X": {
+          "Min": 0.3,
+          "Max": 0.4
+        },
+        "Y": {
+          "Min": 0.2,
+          "Max": 0.2
+        }
+      },
+      "Opacity": 1,
+      "Color": "#cd95b8",
+      "FrameIndex": {
+        "Min": 0,
+        "Max": 3
+      }
+    }
+  }
+}

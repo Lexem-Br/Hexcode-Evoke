@@ -104,14 +104,6 @@
   },
   "Particles": [
     {
-      "SystemId": "Evoke_Corrupeted_Void",
-      "TargetNodeName": "Chest",
-      "Scale": 0.5,
-      "PositionOffset": {
-        "Y": 0
-      }
-    },
-    {
       "SystemId": "Evoke_Spectre_Void_Body",
       "TargetNodeName": "Chest",
       "Scale": 2
@@ -119,21 +111,10 @@
     {
       "SystemId": "Void_Spectre_Hands",
       "TargetNodeName": "Chest",
-      "Scale": 2
-    },
-    {
+      "Scale": 2,
       "PositionOffset": {
-        "Y": 0
-      },
-      "SystemId": "Void_Spectre_Hands",
-      "TargetNodeName": "R-Hand"
-    },
-    {
-      "PositionOffset": {
-        "Y": 0
-      },
-      "SystemId": "Void_Spectre_Hands",
-      "TargetNodeName": "L-Hand"
+        "Z": 0.1
+      }
     }
   ]
 }

@@ -1,0 +1,141 @@
+{
+  "RenderMode": "Erosion",
+  "ParticleRotationInfluence": "Billboard",
+  "LinearFiltering": false,
+  "LightInfluence": 0,
+  "ParticleRotateWithSpawner": false,
+  "TrailSpawnerPositionMultiplier": 0,
+  "TrailSpawnerRotationMultiplier": 0,
+  "MaxConcurrentParticles": 3,
+  "ParticleLifeSpan": {
+    "Min": 0.5,
+    "Max": 0.5833333333333334
+  },
+  "SpawnRate": {
+    "Min": 4.8,
+    "Max": 4.8
+  },
+  "TotalParticles": {
+    "Min": -1,
+    "Max": -1
+  },
+  "InitialVelocity": {
+    "Yaw": {
+      "Min": -15,
+      "Max": 15
+    },
+    "Pitch": {
+      "Min": 80,
+      "Max": 100
+    },
+    "Speed": {
+      "Min": 0.12,
+      "Max": 0.18
+    }
+  },
+  "EmitOffset": {
+    "X": {
+      "Min": 0,
+      "Max": 0.05
+    }
+  },
+  "Particle": {
+    "Texture": "Particles/Textures/NPC/Void_Torch/Evoke_Void_Torch_Fire_Center_Erosion32.png",
+    "FrameSize": {
+      "Width": 32,
+      "Height": 32
+    },
+    "ScaleRatioConstraint": "None",
+    "UVOption": "RandomFlipU",
+    "Animation": {
+      "0": {
+        "FrameIndex": {
+          "Min": 0,
+          "Max": 3
+        },
+        "Opacity": 1,
+        "Color": "#ffe0f4",
+        "Scale": {
+          "X": {
+            "Min": 1,
+            "Max": 1
+          },
+          "Y": {
+            "Min": 1,
+            "Max": 1
+          }
+        },
+        "Rotation": {
+          "X": {
+            "Min": 0,
+            "Max": 0
+          },
+          "Y": {
+            "Min": 0,
+            "Max": 0
+          },
+          "Z": {
+            "Min": 0,
+            "Max": 0
+          }
+        }
+      },
+      "15": {
+        "Opacity": 1
+      },
+      "20": {},
+      "45": {
+        "Color": "#ffe0f4"
+      },
+      "70": {
+        "Color": "#ff26af"
+      },
+      "100": {
+        "Scale": {
+          "X": {
+            "Min": 1.67,
+            "Max": 1.57
+          },
+          "Y": {
+            "Min": 2.67,
+            "Max": 1.8
+          }
+        },
+        "Color": "#ff26af",
+        "Opacity": 0
+      }
+    },
+    "InitialAnimationFrame": {
+      "Rotation": {
+        "X": {
+          "Min": 0,
+          "Max": 0
+        },
+        "Y": {
+          "Min": 0,
+          "Max": 0
+        },
+        "Z": {
+          "Min": 0,
+          "Max": 0
+        }
+      },
+      "Scale": {
+        "X": {
+          "Min": 0.6,
+          "Max": 0.7
+        },
+        "Y": {
+          "Min": 0.3,
+          "Max": 0.5
+        }
+      },
+      "Opacity": 1,
+      "Color": "#ffe0f4",
+      "FrameIndex": {
+        "Min": 0,
+        "Max": 3
+      }
+    }
+  }
+}

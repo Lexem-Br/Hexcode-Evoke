@@ -1,0 +1,143 @@
+{
+  "RenderMode": "Erosion",
+  "ParticleRotationInfluence": "BillboardY",
+  "LinearFiltering": false,
+  "LightInfluence": 1.0,
+  "ParticleRotateWithSpawner": false,
+  "TrailSpawnerPositionMultiplier": 1,
+  "TrailSpawnerRotationMultiplier": 1,
+  "MaxConcurrentParticles": 1,
+  "ParticleLifeSpan": {
+    "Min": 0.5,
+    "Max": 0.7
+  },
+  "SpawnRate": {
+    "Min": 1.0,
+    "Max": 1.0
+  },
+  "Particle": {
+    "Texture": "Particles/Textures/Smoke/SmokeRound2.png",
+    "ScaleRatioConstraint": "None",
+    "SoftParticles": "Require",
+    "UVOption": "None",
+    "Animation": {
+      "0": {
+        "FrameIndex": {
+          "Min": 0,
+          "Max": 0
+        },
+        "Scale": {
+          "X": {
+            "Min": 0.5,
+            "Max": 0.5
+          },
+          "Y": {
+            "Min": 0.5,
+            "Max": 0.5
+          }
+        },
+        "Opacity": 1,
+        "Color": "#c26dff",
+        "Rotation": {
+          "Z": {
+            "Min": 0.0,
+            "Max": 0.0
+          }
+        }
+      },
+      "25": {
+        "Scale": {
+          "X": {
+            "Min": 1.2,
+            "Max": 1.2
+          },
+          "Y": {
+            "Min": 1.2,
+            "Max": 1.2
+          }
+        },
+        "Color": "#6f5d7c"
+      },
+      "70": {
+        "Rotation": {
+          "Z": {
+            "Min": 0.0,
+            "Max": 0.0
+          }
+        },
+        "Scale": {
+          "X": {
+            "Min": 1.8,
+            "Max": 1.8
+          },
+          "Y": {
+            "Min": 1.8,
+            "Max": 1.8
+          }
+        }
+      },
+      "100": {
+        "Opacity": 0,
+        "Scale": {
+          "X": {
+            "Min": 1.8,
+            "Max": 1.8
+          },
+          "Y": {
+            "Min": 2.0,
+            "Max": 2.0
+          }
+        },
+        "Color": "#aa8ebe",
+        "Rotation": {
+          "Z": {
+            "Min": -10.0,
+            "Max": -5.0
+          }
+        }
+      }
+    },
+    "InitialAnimationFrame": {
+      "Opacity": 1,
+      "Color": "#f2e0ff",
+      "FrameIndex": {
+        "Min": 0,
+        "Max": 0
+      },
+      "Scale": {
+        "X": {
+          "Min": 0.8,
+          "Max": 1.0
+        },
+        "Y": {
+          "Min": 0.8,
+          "Max": 1.0
+        }
+      },
+      "Rotation": {
+        "Z": {
+          "Min": -180.0,
+          "Max": 180.0
+        }
+      }
+    }
+  },
+  "SpawnBurst": true,
+  "TotalParticles": {
+    "Min": 1,
+    "Max": 1
+  },
+  "EmitOffset": {
+    "Z": {
+      "Min": 0.1,
+      "Max": 0.1
+    }
+  },
+  "Attractors": [
+    {
+      "DampingMultiplier": {
+        "Y": 0.9
+      }
+    }
+  ]
+}

@@ -1,0 +1,478 @@
+{
+  "Type": "Abstract",
+  "Appearance": {
+    "Compute": "Appearance"
+  },
+  "AttitudeGroup": {
+    "Compute": "AttitudeGroup"
+  },
+  "DefaultPlayerAttitude": {
+    "Compute": "DefaultPlayerAttitude"
+  },
+  "DefaultNPCAttitude": "Ignore",
+  "DisableDamageGroups": {
+    "Compute": "DisableDamageGroups"
+  },
+  "MaxHealth": {
+    "Compute": "MaxHealth"
+  },
+  "NameTranslationKey": {
+    "Compute": "NameTranslationKey"
+  },
+  "DropList": "Empty",
+  "BreathesInWater": true,
+  "DeathAnimationTime": 0.5,
+  "ApplySeparation": true,
+  "SeparationDistance": 1.5,
+  "SeparationWeight": 0.6,
+  "InventorySize": 0,
+  "HotbarSize": 3,
+  "OffHandSlots": 0,
+  "StartState": "Idle",
+  "InitialMotionController": "Walk",
+  "MotionControllerList": [
+    {
+      "Type": "Walk",
+      "MaxWalkSpeed": {
+        "Compute": "MaxSpeed"
+      },
+      "Gravity": 10,
+      "RunThreshold": 0.3,
+      "MaxFallSpeed": 15,
+      "MaxRotationSpeed": 360,
+      "Acceleration": 10,
+      "MaxClimbHeight": 2,
+      "JumpHeight": 0,
+      "AscentAnimationType": "Climb",
+      "ClimbSpeedConst": 3,
+      "MaxDropHeight": 5
+    }
+  ],
+  "Parameters": {
+    "Appearance": {
+      "Value": "Evoke_Void_Creeping_Torch",
+      "Description": "Model to be used."
+    },
+    "NameTranslationKey": {
+      "Value": "evoke.npcRoles.Evoke_Void_Creeping_Torch.name",
+      "Description": "Translation key for NPC name display"
+    },
+    "MaxHealth": {
+      "Value": 30,
+      "Description": "Max health"
+    },
+    "MaxSpeed": {
+      "Value": 7,
+      "Description": "Maximum walking speed"
+    },
+    "PackRange": {
+      "Value": 80,
+      "Description": "Range in which the torch notices the player and the other torches."
+    },
+    "CircleDistanceRange": {
+      "Value": [
+        2.8,
+        3.2
+      ],
+      "Description": "Distance kept from the player while waiting for the turn."
+    },
+    "CircleRelativeSpeed": {
+      "Value": 0.8,
+      "Description": "Relative speed while circling."
+    },
+    "TurnDelayRange": {
+      "Value": [
+        1.5,
+        4
+      ],
+      "Description": "Seconds a torch waits, after nobody is charging, before it takes its turn. The randomness keeps two torches from charging together."
+    },
+    "ChargeRelativeSpeed": {
+      "Value": 1,
+      "Description": "Relative speed while charging."
+    },
+    "ChargeTimeLimit": {
+      "Value": [
+        10,
+        10
+      ],
+      "Description": "Seconds a charge can last before the torch gives up and goes back to circling."
+    },
+    "DetonateDistance": {
+      "Value": 1,
+      "Description": "Distance from the player that starts the detonation."
+    },
+    "DetonateDelay": {
+      "Value": [0.5, 0.5],
+      "Description": "Seconds spent crouching before the explosion."
+    },
+    "ExplodeAttack": {
+      "Value": "Evoke_Void_Torch_Explode",
+      "Description": "Root interaction played on detonation."
+    },
+    "DisableDamageGroups": {
+      "Value": [
+        "Self",
+        "Skeleton",
+        "Evoke_Void_Arena_Enemies"
+      ],
+      "Description": "Groups not to take damage from."
+    },
+    "AttitudeGroup": {
+      "Value": "Empty",
+      "Description": "This NPC attitude group."
+    },
+    "DefaultPlayerAttitude": {
+      "Value": "Hostile",
+      "Description": "Default attitude towards players."
+    }
+  },
+  "Instructions": [
+    {
+      "$Comment": "Idle: waits for a player, then joins the pack.",
+      "Sensor": {
+        "Type": "State",
+        "State": "Idle"
+      },
+      "Instructions": [
+        {
+          "Sensor": {
+            "Type": "Player",
+            "Range": {
+              "Compute": "PackRange"
+            },
+            "LockOnTarget": true
+          },
+          "Actions": [
+            {
+              "Type": "TimerStart",
+              "Name": "Torch_Turn",
+              "StartValueRange": {
+                "Compute": "TurnDelayRange"
+              },
+              "RestartValueRange": {
+                "Compute": "TurnDelayRange"
+              }
+            },
+            {
+              "Type": "TimerStart",
+              "Name": "Torch_Pulse",
+              "StartValueRange": [
+                0.4,
+                0.4
+              ],
+              "RestartValueRange": [
+                0.4,
+                0.4
+              ]
+            },
+            {
+              "Type": "TimerStart",
+              "Name": "Torch_Charge_Limit",
+              "StartValueRange": {
+                "Compute": "ChargeTimeLimit"
+              },
+              "RestartValueRange": {
+                "Compute": "ChargeTimeLimit"
+              }
+            },
+            {
+              "Type": "State",
+              "State": "Circle"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "$Comment": "Circle: keeps CircleDistance from the player. Only starts a charge when no other torch is charging.",
+      "Sensor": {
+        "Type": "State",
+        "State": "Circle"
+      },
+      "Instructions": [
+        {
+          "Sensor": {
+            "Type": "Not",
+            "Sensor": {
+              "Type": "Target",
+              "Range": {
+                "Compute": "PackRange"
+              }
+            }
+          },
+          "Actions": [
+            {
+              "Type": "ReleaseTarget"
+            },
+            {
+              "Type": "State",
+              "State": "Idle"
+            }
+          ]
+        },
+        {
+          "$Comment": "Another torch is charging: stay back and push the own turn further away.",
+          "Sensor": {
+            "Type": "Beacon",
+            "Message": "Evoke_Void_Torch_Charging",
+            "Range": {
+              "Compute": "PackRange"
+            },
+            "ConsumeMessage": false
+          },
+          "Actions": [
+            {
+              "Type": "TimerRestart",
+              "Name": "Torch_Turn"
+            }
+          ],
+          "HeadMotion": {
+            "Type": "Watch"
+          },
+          "BodyMotion": {
+            "Type": "MaintainDistance",
+            "DesiredDistanceRange": {
+              "Compute": "CircleDistanceRange"
+            },
+            "MoveThreshold": 0.5,
+            "StrafingDurationRange": [
+              1.5,
+              3.5
+            ],
+            "StrafingFrequencyRange": [
+              0.2,
+              0.8
+            ],
+            "RelativeForwardsSpeed": {
+              "Compute": "CircleRelativeSpeed"
+            },
+            "RelativeBackwardsSpeed": {
+              "Compute": "CircleRelativeSpeed"
+            }
+          }
+        },
+        {
+          "Sensor": {
+            "Type": "Timer",
+            "Name": "Torch_Turn",
+            "State": "Stopped"
+          },
+          "Actions": [
+            {
+              "Type": "Beacon",
+              "Message": "Evoke_Void_Torch_Charging",
+              "Range": {
+                "Compute": "PackRange"
+              },
+              "TargetGroups": [
+                "Evoke_Void_Torches"
+              ],
+              "ExpirationTime": 1.2
+            },
+            {
+              "Type": "TimerRestart",
+              "Name": "Torch_Charge_Limit"
+            },
+            {
+              "Type": "TimerRestart",
+              "Name": "Torch_Pulse"
+            },
+            {
+              "Type": "State",
+              "State": "Charge"
+            }
+          ]
+        },
+        {
+          "Sensor": {
+            "Type": "Target",
+            "Range": {
+              "Compute": "PackRange"
+            }
+          },
+          "HeadMotion": {
+            "Type": "Watch"
+          },
+          "BodyMotion": {
+            "Type": "MaintainDistance",
+            "DesiredDistanceRange": {
+              "Compute": "CircleDistanceRange"
+            },
+            "MoveThreshold": 0.5,
+            "StrafingDurationRange": [
+              1.5,
+              3.5
+            ],
+            "StrafingFrequencyRange": [
+              0.2,
+              0.8
+            ],
+            "RelativeForwardsSpeed": {
+              "Compute": "CircleRelativeSpeed"
+            },
+            "RelativeBackwardsSpeed": {
+              "Compute": "CircleRelativeSpeed"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "$Comment": "Charge: walks to the player and detonates under 1 block. Keeps announcing itself so the others hold back.",
+      "Sensor": {
+        "Type": "State",
+        "State": "Charge"
+      },
+      "Instructions": [
+        {
+          "Sensor": {
+            "Type": "Not",
+            "Sensor": {
+              "Type": "Target",
+              "Range": {
+                "Compute": "PackRange"
+              }
+            }
+          },
+          "Actions": [
+            {
+              "Type": "ReleaseTarget"
+            },
+            {
+              "Type": "State",
+              "State": "Idle"
+            }
+          ]
+        },
+        {
+          "Sensor": {
+            "Type": "Timer",
+            "Name": "Torch_Charge_Limit",
+            "State": "Stopped"
+          },
+          "Actions": [
+            {
+              "Type": "TimerRestart",
+              "Name": "Torch_Turn"
+            },
+            {
+              "Type": "State",
+              "State": "Circle"
+            }
+          ]
+        },
+        {
+          "Sensor": {
+            "Type": "Target",
+            "Range": {
+              "Compute": "DetonateDistance"
+            }
+          },
+          "Actions": [
+            {
+              "Type": "State",
+              "State": "Detonate"
+            }
+          ]
+        },
+        {
+          "Continue": true,
+          "Sensor": {
+            "Type": "Timer",
+            "Name": "Torch_Pulse",
+            "State": "Stopped"
+          },
+          "Actions": [
+            {
+              "Type": "Beacon",
+              "Message": "Evoke_Void_Torch_Charging",
+              "Range": {
+                "Compute": "PackRange"
+              },
+              "TargetGroups": [
+                "Evoke_Void_Torches"
+              ],
+              "ExpirationTime": 1.2
+            },
+            {
+              "Type": "TimerRestart",
+              "Name": "Torch_Pulse"
+            }
+          ]
+        },
+        {
+          "Sensor": {
+            "Type": "Target",
+            "Range": {
+              "Compute": "PackRange"
+            }
+          },
+          "HeadMotion": {
+            "Type": "Watch"
+          },
+          "BodyMotion": {
+            "Type": "Seek",
+            "RelativeSpeed": {
+              "Compute": "ChargeRelativeSpeed"
+            },
+            "SlowDownDistance": 1.2,
+            "StopDistance": 0.4,
+            "UsePathfinder": true
+          }
+        }
+      ]
+    },
+    {
+      "$Comment": "Detonate: stands still, crouches for DetonateDelay, explodes and dies.",
+      "Sensor": {
+        "Type": "State",
+        "State": "Detonate"
+      },
+      "ActionsBlocking": true,
+      "Actions": [
+        {
+          "Type": "Beacon",
+          "Message": "Evoke_Void_Torch_Charging",
+          "Range": {
+            "Compute": "PackRange"
+          },
+          "TargetGroups": [
+            "Evoke_Void_Torches"
+          ],
+          "ExpirationTime": 2.5
+        },
+        {
+          "Type": "PlayAnimation",
+          "Slot": "Status",
+          "Animation": "Crouch"
+        },
+        {
+          "Type": "Timeout",
+          "Delay": {
+            "Compute": "DetonateDelay"
+          }
+        },
+        {
+          "Type": "Attack",
+          "Attack": {
+            "Compute": "ExplodeAttack"
+          },
+          "SkipAiming": true,
+          "AvoidFriendlyFire": false
+        },
+        {
+          "Type": "Timeout",
+          "Delay": [
+            0.2,
+            0.2
+          ]
+        },
+        {
+          "Type": "Remove",
+          "UseTarget": false
+        }
+      ]
+    }
+  ]
+}

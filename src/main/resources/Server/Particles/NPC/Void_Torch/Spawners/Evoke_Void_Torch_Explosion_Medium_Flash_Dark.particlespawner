@@ -1,0 +1,131 @@
+{
+  "RenderMode": "Erosion",
+  "EmitOffset": {
+    "X": {
+      "Min": 0,
+      "Max": 0
+    },
+    "Y": {
+      "Min": 0,
+      "Max": 0
+    },
+    "Z": {
+      "Min": 0,
+      "Max": 0
+    }
+  },
+  "ParticleRotationInfluence": "BillboardVelocity",
+  "LinearFiltering": false,
+  "LightInfluence": 0.0,
+  "ParticleRotateWithSpawner": false,
+  "TrailSpawnerPositionMultiplier": 1,
+  "TrailSpawnerRotationMultiplier": 1,
+  "MaxConcurrentParticles": 10,
+  "ParticleLifeSpan": {
+    "Min": 1.0,
+    "Max": 1.0
+  },
+  "TotalParticles": {
+    "Min": 7,
+    "Max": 10
+  },
+  "InitialVelocity": {
+    "Speed": {
+      "Min": 5.0,
+      "Max": 8.0
+    },
+    "Yaw": {
+      "Min": -180.0,
+      "Max": 180.0
+    },
+    "Pitch": {
+      "Min": -180.0,
+      "Max": 180.0
+    }
+  },
+  "Particle": {
+    "Texture": "Particles/Textures/Basic/Flash_Spritesheet2.png",
+    "ScaleRatioConstraint": "None",
+    "UVOption": "RandomFlipU",
+    "Animation": {
+      "0": {
+        "Scale": {
+          "X": {
+            "Min": 0.0,
+            "Max": 0.0
+          },
+          "Y": {
+            "Min": 0.0,
+            "Max": 0.0
+          }
+        },
+        "Opacity": 1.0,
+        "Color": "#c677ff"
+      },
+      "5": {
+        "Opacity": 1.0
+      },
+      "13": {
+        "Scale": {
+          "X": {
+            "Min": 1.5,
+            "Max": 1.5
+          },
+          "Y": {
+            "Min": 1.0,
+            "Max": 1.0
+          }
+        }
+      },
+      "20": {},
+      "50": {
+        "Color": "#a11dff"
+      },
+      "100": {
+        "Color": "#8d0de9",
+        "Opacity": 0.0
+      }
+    },
+    "InitialAnimationFrame": {
+      "FrameIndex": {
+        "Min": 0,
+        "Max": 3
+      },
+      "Scale": {
+        "X": {
+          "Min": 0.15,
+          "Max": 0.25
+        },
+        "Y": {
+          "Min": 0.3,
+          "Max": 0.35
+        }
+      },
+      "Rotation": {
+        "Z": {
+          "Min": 180.0,
+          "Max": 180.0
+        }
+      }
+    },
+    "SoftParticles": "Enable",
+    "FrameSize": {
+      "Width": 128,
+      "Height": 128
+    }
+  },
+  "SpawnBurst": true,
+  "SpawnRate": {
+    "Min": 10.0,
+    "Max": 10.0
+  },
+  "Attractors": [
+    {
+      "DampingMultiplier": {
+        "X": 0.7,
+        "Y": 0.7,
+        "Z": 0.7
+      }
+    }
+  ]
+}

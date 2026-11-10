@@ -1,0 +1,36 @@
+{
+  "Spawners": [
+    {
+      "SpawnerId": "Evoke_Void_Torch_Smoke_Cartoon",
+      "PositionOffset": {
+        "Y": -0.2
+      }
+    },
+    {
+      "Attractors": [],
+      "SpawnerId": "Evoke_Void_Torch_Fire_Center",
+      "PositionOffset": {
+        "Y": -0.2
+      }
+    },
+    {
+      "SpawnerId": "Evoke_Void_Torch_Fire_Up",
+      "PositionOffset": {
+        "Y": -0.2
+      }
+    },
+    {
+      "SpawnerId": "Evoke_Void_Torch_Fire_Center_White",
+      "PositionOffset": {
+        "Y": -0.2
+      }
+    },
+    {
+      "SpawnerId": "Evoke_Void_Torch_Sparks_Up",
+      "PositionOffset": {
+        "Y": -0.2
+      }
+    }
+  ],
+  "CullDistance": 100
+}

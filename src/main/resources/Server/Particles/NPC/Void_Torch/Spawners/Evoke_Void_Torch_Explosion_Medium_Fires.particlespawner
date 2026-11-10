@@ -1,0 +1,123 @@
+{
+  "RenderMode": "Erosion",
+  "EmitOffset": {
+    "X": {
+      "Min": 0,
+      "Max": 0.1
+    },
+    "Y": {
+      "Min": 0,
+      "Max": 0.1
+    },
+    "Z": {
+      "Min": 0,
+      "Max": 0.1
+    }
+  },
+  "ParticleRotationInfluence": "Billboard",
+  "LinearFiltering": false,
+  "LightInfluence": 0,
+  "ParticleRotateWithSpawner": true,
+  "TrailSpawnerPositionMultiplier": 1,
+  "TrailSpawnerRotationMultiplier": 1,
+  "MaxConcurrentParticles": 15,
+  "ParticleLifeSpan": {
+    "Min": 0.25,
+    "Max": 0.25
+  },
+  "SpawnRate": {
+    "Min": 3.0,
+    "Max": 3.0
+  },
+  "TotalParticles": {
+    "Min": 3,
+    "Max": 3
+  },
+  "Particle": {
+    "Texture": "Particles/Textures/Fire/Fire_Ball.png",
+    "FrameSize": {
+      "Width": 64,
+      "Height": 64
+    },
+    "ScaleRatioConstraint": "None",
+    "Animation": {
+      "0": {
+        "Scale": {
+          "X": {
+            "Min": 1,
+            "Max": 1
+          },
+          "Y": {
+            "Min": 1,
+            "Max": 1
+          }
+        },
+        "Rotation": {
+          "Z": {
+            "Min": 0,
+            "Max": 0
+          }
+        },
+        "Color": "#f2e0ff",
+        "Opacity": 1.0
+      },
+      "8": {
+        "Color": "#f2e0ff",
+        "Opacity": 1,
+        "Rotation": {
+          "Z": {
+            "Min": -360,
+            "Max": 360
+          }
+        }
+      },
+      "30": {
+        "Color": "#c97ffe",
+        "Opacity": 1
+      },
+      "50": {},
+      "70": {},
+      "100": {
+        "Scale": {
+          "X": {
+            "Min": 0.83,
+            "Max": 0.63
+          },
+          "Y": {
+            "Min": 0.5,
+            "Max": 0.38
+          }
+        },
+        "Opacity": 0.3,
+        "Color": "#ac38ff"
+      }
+    },
+    "InitialAnimationFrame": {
+      "Rotation": {
+        "Z": {
+          "Min": 0.0,
+          "Max": 360.0
+        }
+      },
+      "Scale": {
+        "X": {
+          "Min": 1.5,
+          "Max": 1.5
+        },
+        "Y": {
+          "Min": 1.5,
+          "Max": 1.5
+        }
+      },
+      "Opacity": 1,
+      "Color": "#f2e0ff",
+      "FrameIndex": {
+        "Min": 0,
+        "Max": 0
+      }
+    },
+    "UVOption": "None"
+  },
+  "SpawnBurst": true,
+  "Shape": "Sphere"
+}
