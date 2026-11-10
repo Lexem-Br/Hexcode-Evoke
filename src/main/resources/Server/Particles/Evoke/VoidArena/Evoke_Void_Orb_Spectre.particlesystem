@@ -1,0 +1,12 @@
+{
+  "Spawners": [
+    {
+      "SpawnerId": "Evoke_Void_Orb_Spectre_Sparks",
+      "RotationOffset": {
+        "Yaw": 90,
+        "Pitch": 90,
+        "Roll": 90
+      }
+    }
+  ]
+}

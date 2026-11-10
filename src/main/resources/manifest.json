@@ -17,16 +17,10 @@
     "Website": "",
     "ServerVersion": ">=0.7.0 <0.8.0",
     "Dependencies": {
-        "Hytale:AssetModule": "*",
-        "Hytale:EntityModule": "*",
-        "Hytale:NPC": "*",
-        "Hytale:Instances": "*",
-        "Hytale:WorldEvents": "*",
-        "Hytale:EncounterManager": "*",
-        "Hytale:TriggerVolumes": "*"
+        "Hytale:AssetModule": "*"
     },
     "OptionalDependencies": {
-        "Riprod:Hexcode": "^0.12.0",
+        "Riprod:Hexcode": "^0.11.0",
         "Riprod:Patchly": "*"
     },
     "DisabledByDefault": false,

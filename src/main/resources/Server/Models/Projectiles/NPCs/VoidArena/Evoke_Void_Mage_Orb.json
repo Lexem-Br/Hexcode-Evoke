@@ -31,10 +31,19 @@
       "TargetNodeName": "Fireball"
     },
     {
+      "Scale": 1.5,
+      "SystemId": "Void_Spectre_Hands",
+      "TargetNodeName": "Fireball"
+    },
+    {
       "Scale": 5,
-      "SystemId": "Void_Spectre_Head"
+      "SystemId": "Evoke_Void_Orb_Spectre"
     }
   ],
+  "Light": {
+    "Color": "#a4f",
+    "Radius": 3
+  },
   "Trails": [
     {
       "TrailId": "Void",

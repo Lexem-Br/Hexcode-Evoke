@@ -8,7 +8,7 @@
   "$Comment": "Prepare Delay",
   "RunTime": 1,
   "Next": {
-    "Type": "LaunchProjectile",
+    "Type": "LaunchAbilityProjectile",
     "RunTime": 0.2,
     "Effects": {
       "ItemAnimationId": "CastPushCharged",
@@ -27,9 +27,9 @@
         }
       ]
     },
-    "ProjectileId": "Evoke_Void_Mage_Orb",
-    "Tags": {
-      "AimingReference": []
-    }
+    "Projectile": "Projectile_Config_Evoke_Void_Mage_Orb",
+    "Pierce": true,
+    "Distance": 48,
+    "Lifetime": 3.1
   }
 }

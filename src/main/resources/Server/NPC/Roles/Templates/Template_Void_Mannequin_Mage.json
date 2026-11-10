@@ -304,7 +304,7 @@
           "Type": "Evoke:VoidArenaSpawn",
           "Kind": { "Compute": "SummonKind" },
           "SpawnAngle": 360,
-          "DistanceRange": [ 2, 5 ],
+          "DistanceRange": [ 2, 4 ],
           "CountRange": { "Compute": "SummonCountRange" },
           "DelayRange": [ 0, 0 ]
         },
@@ -1968,11 +1968,6 @@
                   "Continue": true,
                   "ActionsBlocking": true,
                   "Actions": [
-                    {
-                      "Type": "SpawnParticles",
-                      "Offset": [ 0, 2.1, 0 ],
-                      "ParticleSystem": "Question"
-                    },
                     {
                       "Type": "Timeout",
                       "Delay": { "Compute": "ConfusedTimeRange" }

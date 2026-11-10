@@ -2,7 +2,7 @@ plugins {
     id 'java'
     id 'org.jetbrains.gradle.plugin.idea-ext' version '1.3'
     id 'com.gradleup.shadow' version '9.4.2'
-    id 'com.azuredoom.hytale-tools' version '1.+'
+    id 'com.azuredoom.hytale-tools' version '1.0.50'
 }
 
 repositories {
@@ -15,8 +15,8 @@ configurations {
 }
 
 dependencies {
-    vineImplementation files('lib/Hexcode-0.12.0.jar')
-//    vineImplementation('curse.maven:hexcode-1448311:8758841')
+//    vineImplementation files('lib/Hexcode-0.11.0.jar')
+    vineImplementation('curse.maven:hexcode-1448311:9252588')
     shadowBundle('com.riprod:patchly:3.+')
 }
 
@@ -33,8 +33,7 @@ hytaleTools {
     includesPack = project.includes_pack.toString().toBoolean()
     patchline = project.patchline.toString()
 
-    manifestDependencies='Hytale:AssetModule=*,Hytale:EntityModule=*,Hytale:NPC=*,Hytale:Instances=*,Hytale:WorldEvents=*,Hytale:EncounterManager=*,Hytale:TriggerVolumes=*'
-    manifestOptionalDependencies='Riprod:Hexcode=^0.12.0,Riprod:Patchly=*'
+    manifestOptionalDependencies='Riprod:Hexcode=^0.11.0,Riprod:Patchly=*'
 
     debugEnabled = true
     debugSuspend = false

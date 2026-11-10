@@ -26,6 +26,10 @@
     {
       "Model": "NPC/Mannequin/Attachments/Root.blockymodel",
       "Texture": "NPC/Mannequin/Attachments/Root.png"
+    },
+    {
+      "Model": "NPC/Mannequin/Attachments/Eyes_Mannequin.blockymodel",
+      "Texture": "NPC/Mannequin/Attachments/Eyes_Mannequin.png"
     }
   ],
   "AnimationSets": {
