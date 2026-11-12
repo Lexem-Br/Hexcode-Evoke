@@ -10,5 +10,8 @@ public class EvokerCommand extends AbstractCommandCollection {
         addSubCommand(new HexcreaturesListCommand());
         addSubCommand(new HexCreatureCommand());
         addSubCommand(new LifeEssenceCommand());
+        addSubCommand(new ParticleTestCommand());
+        addSubCommand(new ParticleLoopCommand());
+        addSubCommand(new ParticleStopCommand());
     }
 }

@@ -29,13 +29,28 @@ import com.lexem.hexcodeevoke.events.SaveHexCreatureMinionEvent;
 import com.lexem.hexcodeevoke.handlers.SaveHexCreatureHandler;
 import com.lexem.hexcodeevoke.handlers.SaveHexCreatureMinionHandler;
 import com.lexem.hexcodeevoke.hexitems.AllowedHexCreatureMinionsAsset;
+import com.lexem.hexcodeevoke.assets.VoidArenaRewardsAsset;
 import com.lexem.hexcodeevoke.hexitems.AllowedHexItemsAsset;
 import com.lexem.hexcodeevoke.interactions.*;
 import com.lexem.hexcodeevoke.memories.HexCreatureMemoryProvider;
-import com.lexem.hexcodeevoke.npc.actions.builders.*;
+import com.lexem.hexcodeevoke.npc.actions.chest.builders.*;
+import com.lexem.hexcodeevoke.npc.actions.farming.builders.*;
+import com.lexem.hexcodeevoke.npc.actions.hexcreature.builders.*;
+import com.lexem.hexcodeevoke.npc.actions.minion.builders.*;
+import com.lexem.hexcodeevoke.npc.actions.movement.builders.*;
+import com.lexem.hexcodeevoke.npc.actions.refuel.builders.*;
+import com.lexem.hexcodeevoke.npc.actions.voidarena.builders.*;
 import com.lexem.hexcodeevoke.npc.bodymotions.builders.BuilderTeleportHexCreature;
-import com.lexem.hexcodeevoke.npc.filters.builders.*;
-import com.lexem.hexcodeevoke.npc.sensors.builders.*;
+import com.lexem.hexcodeevoke.npc.filters.chest.builders.*;
+import com.lexem.hexcodeevoke.npc.filters.farming.builders.*;
+import com.lexem.hexcodeevoke.npc.filters.inventory.builders.*;
+import com.lexem.hexcodeevoke.npc.filters.minion.builders.*;
+import com.lexem.hexcodeevoke.npc.filters.owner.builders.*;
+import com.lexem.hexcodeevoke.npc.sensors.chest.builders.*;
+import com.lexem.hexcodeevoke.npc.sensors.farming.builders.*;
+import com.lexem.hexcodeevoke.npc.sensors.movement.builders.*;
+import com.lexem.hexcodeevoke.npc.sensors.owner.builders.*;
+import com.lexem.hexcodeevoke.npc.sensors.refuel.builders.*;
 import com.lexem.hexcodeevoke.resources.HexCreatureRegistry;
 import com.lexem.hexcodeevoke.resources.VoidArenaRegistry;
 import com.lexem.hexcodeevoke.systems.HexCreatureBreathingSystem;
@@ -57,6 +72,7 @@ import com.lexem.hexcodeevoke.systems.PlayerJoinSystem;
 import com.lexem.hexcodeevoke.systems.ProjectileDeflectSystem;
 import com.lexem.hexcodeevoke.systems.VoidArenaSystem;
 import com.lexem.hexcodeevoke.systems.WorldStallWatchdogSystem;
+import com.lexem.hexcodeevoke.utils.ParticleLoops;
 import com.lexem.hexcodeevoke.utils.VoidArenaManager;
 import com.lexem.hexcodeevoke.utils.WorldStallWatchdog;
 import com.riprod.patchly.PatchManager;
@@ -112,6 +128,14 @@ public class HexcodeEvoke extends JavaPlugin {
                         .setPath("Evoke/AllowedHexCreatureMinions")
                         .setCodec(AllowedHexCreatureMinionsAsset.CODEC)
                         .setKeyFunction(AllowedHexCreatureMinionsAsset::getId)
+                        .build());
+
+        AssetRegistry.register(
+                HytaleAssetStore
+                        .builder(VoidArenaRewardsAsset.class, new DefaultAssetMap<String, VoidArenaRewardsAsset>())
+                        .setPath("Evoke/VoidArenaRewards")
+                        .setCodec(VoidArenaRewardsAsset.CODEC)
+                        .setKeyFunction(VoidArenaRewardsAsset::getId)
                         .build());
 
         getEventRegistry().register(LoadedAssetsEvent.class, AllowedHexItemsAsset.class, this::onHexItemsLoaded);
@@ -351,6 +375,7 @@ public class HexcodeEvoke extends JavaPlugin {
     protected void shutdown() {
         LOGGER.atInfo().log("Shutting down plugin " + this.getName());
         WorldStallWatchdog.stop();
+        ParticleLoops.stopAll();
     }
 
     public static HexcodeEvoke get() {

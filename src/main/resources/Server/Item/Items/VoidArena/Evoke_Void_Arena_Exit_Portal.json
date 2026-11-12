@@ -41,9 +41,8 @@
       "Color": "#a4f",
       "Radius": 8
     },
-    "InteractionHint": "server.interactionHints.activate",
     "Interactions": {
-      "Use": {
+      "CollisionEnter": {
         "Interactions": [
           {
             "Type": "ExitInstance",

@@ -1,5 +1,5 @@
 {
-  "$Comment": "The chest after the victory. VoidArenaManager fills it with Drop_Evoke_Void_Arena_Reward when the last wave is cleared.",
+  "$Comment": "The chest after the victory. VoidArenaManager fills it with the Drop_Evoke_Void_Arena_Reward_* list matching the clear time when the last wave is cleared.",
   "TranslationProperties": {
     "Name": "evoke.items.Evoke_Void_Arena_Altar_Spent.name",
     "Description": "evoke.items.Evoke_Void_Arena_Altar_Spent.description"

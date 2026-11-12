@@ -1,0 +1,43 @@
+{
+  "Spawners": [
+    {
+      "SpawnerId": "Evoke_Void_Torch_Explosion_Medium_Sparks_Out",
+      "PositionOffset": {
+        "Y": 0.5,
+        "X": 0.0
+      },
+      "FixedRotation": false
+    },
+
+    {
+      "SpawnerId": "Evoke_Void_Torch_Explosion_Medium_Smoke_Main",
+      "PositionOffset": {
+        "Y": 0.5,
+        "X": 0.0
+      },
+      "StartDelay": 0
+    },
+    {
+      "SpawnerId": "Evoke_Void_Teleport_Lightning",
+      "RotationOffset": {
+        "Yaw": 45
+      },
+      "StartDelay": 0
+    },
+    {
+      "SpawnerId": "Evoke_Void_Teleport_Lightning",
+      "RotationOffset": {
+        "Yaw": 135
+      },
+      "StartDelay": 0
+    },
+    {
+      "SpawnerId": "Evoke_Void_Teleport_Lightning",
+      "RotationOffset": {
+        "Yaw": 90
+      },
+      "StartDelay": 0
+    }
+  ],
+  "CullDistance": 120
+}

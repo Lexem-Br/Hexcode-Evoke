@@ -40,6 +40,7 @@ import com.hypixel.hytale.server.core.modules.entity.component.ModelComponent;
 import com.hypixel.hytale.server.core.modules.entity.component.PersistentModel;
 import com.hypixel.hytale.server.core.modules.entity.component.TransformComponent;
 import com.hypixel.hytale.server.core.modules.item.ItemModule;
+import com.hypixel.hytale.server.core.universe.PlayerRef;
 import com.hypixel.hytale.server.core.universe.Universe;
 import com.hypixel.hytale.server.core.universe.world.ParticleUtil;
 import com.hypixel.hytale.server.core.universe.world.SetBlockSettings;
@@ -54,6 +55,7 @@ import com.hypixel.hytale.server.core.util.EventTitleUtil;
 import com.hypixel.hytale.server.core.util.FillerBlockUtil;
 import com.hypixel.hytale.server.npc.NPCPlugin;
 import com.hypixel.hytale.server.npc.util.InventoryHelper;
+import com.lexem.hexcodeevoke.assets.VoidArenaRewardsAsset;
 import com.lexem.hexcodeevoke.resources.VoidArenaRegistry;
 import org.joml.Vector3d;
 import org.joml.Vector3i;
@@ -63,6 +65,7 @@ import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;
+import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -80,7 +83,6 @@ public final class VoidArenaManager {
     private static final String ALTAR_IDLE = "Evoke_Void_Arena_Altar";
     private static final String ALTAR_ACTIVE = "Evoke_Void_Arena_Altar_Active";
     private static final String ALTAR_SPENT = "Evoke_Void_Arena_Altar_Spent";
-    private static final String REWARD_DROP_LIST = "Drop_Evoke_Void_Arena_Reward";
     private static final String ENCOUNTER = "Evoke_Void_Arena_Waves";
 
     private static final String BURST_PARTICLES = "Evoke_Void_Arena_Burst";
@@ -96,6 +98,7 @@ public final class VoidArenaManager {
     private static final float EMERGE_YAW = (float) Math.PI;
     private static final long EMERGE_MILLIS = 1100L;
 
+    public static final int MAX_PLAYERS = 4;
     private static final int MAX_REWARD_ROLLS = 4;
     private static final int[] PORTAL_HEIGHTS = {0, 1, -1, 2, -2, -3};
     private static final long PORTAL_CHECK_MILLIS = 1000L;
@@ -103,6 +106,7 @@ public final class VoidArenaManager {
 
     private static final Map<UUID, Arena> ARENAS = new ConcurrentHashMap<>();
     private static final Map<String, Long> NEXT_PORTAL_CHECK = new ConcurrentHashMap<>();
+    private static final Set<PortalSite> PORTAL_SITES = ConcurrentHashMap.newKeySet();
     private static volatile long nextEventCheck;
 
     public enum Phase { IDLE, FIGHTING, COMPLETED }
@@ -115,7 +119,11 @@ public final class VoidArenaManager {
         private volatile UUID encounterUUID;
         private volatile int wave;
         private volatile int totalWaves;
+        private volatile long startedAt;
         private final Queue<Emerging> emerging = new ConcurrentLinkedQueue<>();
+    }
+
+    private record PortalSite(@Nonnull String worldName, int x, int y, int z) {
     }
 
     private record Emerging(@Nonnull Ref<EntityStore> ref, byte hotbarSlot, byte offHandSlot, long releaseAt) {
@@ -152,6 +160,7 @@ public final class VoidArenaManager {
             arena.altar = new Vector3i(altar);
             arena.wave = 0;
             arena.totalWaves = 0;
+            arena.startedAt = 0L;
         }
 
         world.execute(() -> startFight(world, arena));
@@ -183,10 +192,14 @@ public final class VoidArenaManager {
         Arena arena = ARENAS.get(world.getWorldConfig().getUuid());
         if (arena == null || arena.phase != Phase.FIGHTING) return;
 
+        long startedAt = arena.startedAt;
+        Message subtitle = startedAt > 0L
+                ? Message.translation("evoke.voidArena.wave.next.timed").param("time", formatTime(System.currentTimeMillis() - startedAt))
+                : Message.translation("evoke.voidArena.wave.next");
         world.execute(() -> showTitle(
                 world,
                 Message.translation("evoke.voidArena.wave.cleared").param("wave", wave).param("total", totalWaves),
-                Message.translation("evoke.voidArena.wave.next"),
+                subtitle,
                 EventTitleStyle.Default
         ));
     }
@@ -201,7 +214,9 @@ public final class VoidArenaManager {
             arena.encounterUUID = null;
         }
 
-        world.execute(() -> completeArena(world, arena));
+        long startedAt = arena.startedAt;
+        long elapsedMillis = startedAt > 0L ? System.currentTimeMillis() - startedAt : -1L;
+        world.execute(() -> completeArena(world, arena, elapsedMillis));
     }
 
     public static void tick(@Nonnull World world) {
@@ -302,6 +317,11 @@ public final class VoidArenaManager {
 
         VoidArenaRegistry.get().seal(worldUUID);
         VoidArenaRegistry.flush();
+        closePortalsTo(worldUUID);
+    }
+
+    public static void trackPortal(@Nonnull World world, int x, int y, int z) {
+        PORTAL_SITES.add(new PortalSite(world.getName(), x, y, z));
     }
 
     @Nullable
@@ -313,8 +333,16 @@ public final class VoidArenaManager {
         UUID instanceUUID = instanceBlock != null ? instanceBlock.getWorldUUID() : null;
         if (instanceUUID == null) return null;
 
-        if (Universe.get().getWorld(instanceUUID) == null) {
-            return VoidArenaRegistry.get().isSealed(instanceUUID) ? Message.translation("evoke.voidArena.portal.collapsed") : null;
+        World instanceWorld = Universe.get().getWorld(instanceUUID);
+        if (instanceWorld == null) {
+            if (!VoidArenaRegistry.get().isSealed(instanceUUID)) return null;
+
+            Vector3i pos = new Vector3i(x, y, z);
+            world.execute(() -> removePortalBlock(world, pos));
+            return Message.translation("evoke.voidArena.portal.collapsed");
+        }
+        if (instanceWorld.getPlayerCount() >= MAX_PLAYERS) {
+            return Message.translation("evoke.voidArena.portal.full").param("max", MAX_PLAYERS);
         }
         return getPhase(instanceUUID) == Phase.FIGHTING ? Message.translation("evoke.voidArena.portal.fighting") : null;
     }
@@ -406,21 +434,40 @@ public final class VoidArenaManager {
         }
 
         arena.encounterUUID = uuid.getUuid();
+        arena.startedAt = System.currentTimeMillis();
         swapBlock(world, altar, ALTAR_ACTIVE);
         ParticleUtil.spawnParticleEffect(BURST_PARTICLES, center, store);
     }
 
-    private static void completeArena(@Nonnull World world, @Nonnull Arena arena) {
+    private static void completeArena(@Nonnull World world, @Nonnull Arena arena, long elapsedMillis) {
         Store<EntityStore> store = world.getEntityStore().getStore();
+        VoidArenaRewardsAsset.Result result = VoidArenaRewardsAsset.evaluate(elapsedMillis >= 0L ? elapsedMillis : Long.MAX_VALUE);
         Vector3i altar = arena.altar;
         if (altar != null) {
             swapBlock(world, altar, ALTAR_SPENT);
-            fillRewardChest(world, altar);
+            fillRewardChest(world, altar, result.dropList());
             ParticleUtil.spawnParticleEffect(BURST_PARTICLES, new Vector3d(altar.x + 0.5, altar.y + 0.5, altar.z + 0.5), store);
         }
 
         SoundUtil.playSoundEvent2dToWorld(world, VICTORY_SOUND, SoundCategory.SFX);
-        showTitle(world, Message.translation("evoke.voidArena.victory.title"), Message.translation("evoke.voidArena.victory.subtitle"), EventTitleStyle.Major);
+        if (elapsedMillis < 0L) {
+            showTitle(world, Message.translation("evoke.voidArena.victory.title"), Message.translation("evoke.voidArena.victory.subtitle"), EventTitleStyle.Major);
+        } else {
+            Message time = Message.raw(formatTime(elapsedMillis));
+            Message rank = Message.translation(result.rank().getTranslationKey()).color(rankColor(result.rank())).bold(true);
+            showTitle(
+                    world,
+                    Message.translation("evoke.voidArena.victory.title"),
+                    Message.translation("evoke.voidArena.victory.result").param("time", time).param("rank", rank),
+                    EventTitleStyle.Major
+            );
+            Message summary = Message.translation("evoke.voidArena.victory.time").param("time", time).param("rank", rank);
+            Message chest = Message.translation("evoke.voidArena.victory.subtitle");
+            for (PlayerRef playerRef : world.getPlayerRefs()) {
+                playerRef.sendMessage(summary);
+                playerRef.sendMessage(chest);
+            }
+        }
 
         // Outside an arena instance the altar is a test tool, so the world can host another fight.
         if (!isArenaWorld(world)) arena.phase = Phase.IDLE;
@@ -434,6 +481,7 @@ public final class VoidArenaManager {
             encounterUUID = arena.encounterUUID;
             arena.encounterUUID = null;
             arena.wave = 0;
+            arena.startedAt = 0L;
         }
 
         world.execute(() -> {
@@ -453,27 +501,61 @@ public final class VoidArenaManager {
         if (expired.isEmpty()) return;
 
         world.execute(() -> {
-            VoidArenaRegistry registry = VoidArenaRegistry.get();
-            Store<EntityStore> store = world.getEntityStore().getStore();
-            boolean changed = false;
             for (VoidArenaRegistry.TemporaryPortal portal : expired) {
-                Vector3i pos = new Vector3i(portal.getX(), portal.getY(), portal.getZ());
-                Ref<ChunkStore> section = world.getChunkStore().getChunkSectionReferenceAtBlock(pos.x, pos.y, pos.z);
-                if (section == null || !section.isValid()) continue;
-
-                BlockType current = BlockUtils.getBlockTypeByPosition(pos, world);
-                if (current != null && PORTAL_BLOCK.equals(current.getId())) {
-                    BlockOperations.setBlock(world.getChunkStore(), section, pos.x, pos.y, pos.z,
-                            BlockType.EMPTY_ID, BlockType.EMPTY, RotationTuple.NONE_INDEX, FillerBlockUtil.NO_FILLER, SetBlockSettings.PERFORM_BLOCK_UPDATE);
-                    Vector3d center = new Vector3d(pos.x + 0.5, pos.y + 1.0, pos.z + 0.5);
-                    ParticleUtil.spawnParticleEffect(BURST_PARTICLES, center, store);
-                    playSound(PORTAL_SOUND, center, store);
-                }
-                registry.removeTemporaryPortal(portal);
-                changed = true;
+                removePortalBlock(world, new Vector3i(portal.getX(), portal.getY(), portal.getZ()));
             }
-            if (changed) VoidArenaRegistry.flush();
         });
+    }
+
+    private static void closePortalsTo(@Nonnull UUID instanceUUID) {
+        for (PortalSite site : PORTAL_SITES) {
+            World origin = Universe.get().getWorld(site.worldName());
+            if (origin == null) {
+                PORTAL_SITES.remove(site);
+                continue;
+            }
+            origin.execute(() -> closePortalIfLinked(origin, site, instanceUUID));
+        }
+    }
+
+    private static void closePortalIfLinked(@Nonnull World origin, @Nonnull PortalSite site, @Nonnull UUID instanceUUID) {
+        Ref<ChunkStore> section = origin.getChunkStore().getChunkSectionReferenceAtBlock(site.x(), site.y(), site.z());
+        if (section == null || !section.isValid()) return;
+
+        Vector3i pos = new Vector3i(site.x(), site.y(), site.z());
+        BlockType current = BlockUtils.getBlockTypeByPosition(pos, origin);
+        if (current == null || !PORTAL_BLOCK.equals(current.getId())) {
+            PORTAL_SITES.remove(site);
+            return;
+        }
+
+        Ref<ChunkStore> blockRef = BlockModule.getBlockEntity(origin, site.x(), site.y(), site.z());
+        if (blockRef == null || !blockRef.isValid()) return;
+
+        InstanceBlock instanceBlock = origin.getChunkStore().getStore().getComponent(blockRef, InstanceBlock.getComponentType());
+        if (instanceBlock == null || !instanceUUID.equals(instanceBlock.getWorldUUID())) return;
+
+        removePortalBlock(origin, pos);
+    }
+
+    private static void removePortalBlock(@Nonnull World world, @Nonnull Vector3i pos) {
+        Ref<ChunkStore> section = world.getChunkStore().getChunkSectionReferenceAtBlock(pos.x, pos.y, pos.z);
+        if (section == null || !section.isValid()) return;
+
+        BlockType current = BlockUtils.getBlockTypeByPosition(pos, world);
+        if (current != null && PORTAL_BLOCK.equals(current.getId())) {
+            Store<EntityStore> store = world.getEntityStore().getStore();
+            BlockOperations.setBlock(world.getChunkStore(), section, pos.x, pos.y, pos.z,
+                    BlockType.EMPTY_ID, BlockType.EMPTY, RotationTuple.NONE_INDEX, FillerBlockUtil.NO_FILLER, SetBlockSettings.PERFORM_BLOCK_UPDATE);
+            Vector3d center = new Vector3d(pos.x + 0.5, pos.y + 1.0, pos.z + 0.5);
+            ParticleUtil.spawnParticleEffect(BURST_PARTICLES, center, store);
+            playSound(PORTAL_SOUND, center, store);
+        }
+
+        PORTAL_SITES.remove(new PortalSite(world.getName(), pos.x, pos.y, pos.z));
+        VoidArenaRegistry registry = VoidArenaRegistry.get();
+        registry.removeTemporaryPortal(new VoidArenaRegistry.TemporaryPortal(world.getName(), pos.x, pos.y, pos.z, 0L));
+        VoidArenaRegistry.flush();
     }
 
     private static void ensureWorldEvent(@Nonnull World world) {
@@ -487,7 +569,22 @@ public final class VoidArenaManager {
         EventStartAction.startEvent(store, new WorldEventRecord(EVENT_UUID, EVENT, true));
     }
 
-    private static void fillRewardChest(@Nonnull World world, @Nonnull Vector3i pos) {
+    @Nonnull
+    private static String formatTime(long millis) {
+        long totalSeconds = Math.max(0L, millis) / 1000L;
+        return String.format("%d:%02d", totalSeconds / 60L, totalSeconds % 60L);
+    }
+
+    @Nonnull
+    private static String rankColor(@Nonnull VoidArenaRewardsAsset.Rank rank) {
+        return switch (rank) {
+            case EXCELLENT -> "#FFC233";
+            case GOOD -> "#5BD65B";
+            case NORMAL -> "#C8C8C8";
+        };
+    }
+
+    private static void fillRewardChest(@Nonnull World world, @Nonnull Vector3i pos, @Nonnull String dropList) {
         Ref<ChunkStore> blockRef = BlockUtils.getBlockEntityRef(world, pos, ItemContainerBlock.getComponentType());
         if (blockRef == null) return;
 
@@ -498,7 +595,7 @@ public final class VoidArenaManager {
 
         int rolls = Math.max(1, Math.min(MAX_REWARD_ROLLS, world.getPlayerCount()));
         for (int i = 0; i < rolls; i++) {
-            for (ItemStack stack : ItemModule.get().getRandomItemDrops(REWARD_DROP_LIST)) {
+            for (ItemStack stack : ItemModule.get().getRandomItemDrops(dropList)) {
                 if (!ItemStack.isEmpty(stack)) chest.addItemStack(stack);
             }
         }

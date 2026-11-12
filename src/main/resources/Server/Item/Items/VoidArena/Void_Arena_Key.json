@@ -29,7 +29,6 @@
         {
           "Type": "Charging",
           "Effects": {
-            "WorldSoundEventId": "SFX_Skeleton_Mage_Spellbook_Charge",
             "ItemAnimationId": "Interact"
           },
           "AllowIndefiniteHold": true,

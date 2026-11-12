@@ -40,6 +40,7 @@ public class VoidArenaPortalInteraction extends TeleportInstanceInteraction {
                 context.getState().state = InteractionState.Failed;
                 return;
             }
+            VoidArenaManager.trackPortal(commandBuffer.getExternalData().getWorld(), targetBlock.x, targetBlock.y, targetBlock.z);
         }
 
         super.firstRun(type, context, cooldownHandler);

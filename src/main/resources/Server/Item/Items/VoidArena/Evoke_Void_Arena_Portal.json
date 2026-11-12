@@ -41,15 +41,6 @@
       "Color": "#a4f",
       "Radius": 8
     },
-    "BlockEntity": {
-      "Components": {
-        "BlockMapMarker": {
-          "Name": "evoke.items.Evoke_Void_Arena_Portal.name",
-          "Icon": "Evoke_Void_Rift.png",
-          "CompassIcon": "Evoke_Void_Rift.png"
-        }
-      }
-    },
     "Interactions": {
       "CollisionEnter": {
         "Interactions": [

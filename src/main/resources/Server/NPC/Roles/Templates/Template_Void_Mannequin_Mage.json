@@ -2146,7 +2146,7 @@
       "Description": "Time between the start of the cast and the minions appearing."
     },
     "BlinkDistanceRange": {
-      "Value": [ 8, 16 ],
+      "Value": [ 8, 14 ],
       "Description": "How far from its current position the mage can land when it teleports away from the player."
     },
     "Appearance": {
