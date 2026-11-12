@@ -9,7 +9,7 @@
     "Bounciness": 0.0,
     "SticksVertically": true
   },
-  "LaunchForce": 30,
+  "LaunchForce": 35,
   "Interactions": {
     "ProjectileHit": {
       "Cooldown": {

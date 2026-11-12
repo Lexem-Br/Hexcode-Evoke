@@ -1,0 +1,294 @@
+{
+  "Type": "Abstract",
+  "Appearance": {
+    "Compute": "Appearance"
+  },
+  "AttitudeGroup": {
+    "Compute": "AttitudeGroup"
+  },
+  "DefaultPlayerAttitude": {
+    "Compute": "DefaultPlayerAttitude"
+  },
+  "DefaultNPCAttitude": "Ignore",
+  "DisableDamageGroups": {
+    "Compute": "DisableDamageGroups"
+  },
+  "MaxHealth": {
+    "Compute": "MaxHealth"
+  },
+  "NameTranslationKey": {
+    "Compute": "NameTranslationKey"
+  },
+  "DropList": "Empty",
+  "BreathesInWater": true,
+  "DeathAnimationTime": 0.5,
+  "ApplySeparation": true,
+  "SeparationDistance": 2,
+  "SeparationWeight": 0.6,
+  "InventorySize": 0,
+  "HotbarSize": 3,
+  "OffHandSlots": 0,
+  "StartState": "Idle",
+  "InitialMotionController": "Walk",
+  "MotionControllerList": [
+    {
+      "$Comment": "Walk with hover instead of Fly: MaintainDistance only works on Walk, and the hover keeps the torch low enough to be hit.",
+      "Type": "Walk",
+      "MaxWalkSpeed": {
+        "Compute": "MaxSpeed"
+      },
+      "Gravity": 10,
+      "RunThreshold": 0.5,
+      "MaxFallSpeed": 15,
+      "MaxRotationSpeed": 360,
+      "Acceleration": 8,
+      "MinHover": {
+        "Compute": "MinHoverHeight"
+      },
+      "MaxHover": {
+        "Compute": "MaxHoverHeight"
+      },
+      "HoverFreq": 0.5,
+      "MaxClimbHeight": 2,
+      "MaxDropHeight": 5
+    }
+  ],
+  "Parameters": {
+    "Appearance": {
+      "Value": "Evoke_Void_Wisp_Torch",
+      "Description": "Model to be used."
+    },
+    "NameTranslationKey": {
+      "Value": "evoke.npcRoles.Evoke_Void_Wisp_Torch.name",
+      "Description": "Translation key for NPC name display"
+    },
+    "MaxHealth": {
+      "Value": 40,
+      "Description": "Max health"
+    },
+    "MaxSpeed": {
+      "Value": 4.5,
+      "Description": "Maximum speed. Kept under the player running speed so the torch can be caught."
+    },
+    "MinHoverHeight": {
+      "Value": 1.2,
+      "Description": "Lowest height over the ground while bobbing."
+    },
+    "MaxHoverHeight": {
+      "Value": 1.5,
+      "Description": "Highest height over the ground while bobbing."
+    },
+    "WanderRadius": {
+      "Value": 3,
+      "Description": "Radius of the idle wander, used while no player is in range."
+    },
+    "DetectionRange": {
+      "Value": 80,
+      "Description": "Range in which the torch notices and keeps a player as target."
+    },
+    "KeepDistanceRange": {
+      "Value": [
+        6,
+        14
+      ],
+      "Description": "Distance kept from the player. Under the minimum the torch backs away; over the maximum it closes in. The maximum stays under RangedAttackDistance so it holds still while it can shoot."
+    },
+    "ApproachRelativeSpeed": {
+      "Value": 1,
+      "Description": "Relative speed while closing in on a player that is too far."
+    },
+    "RetreatRelativeSpeed": {
+      "Value": 0.65,
+      "Description": "Relative speed while backing away from a player that is too close."
+    },
+    "RangedAttack": {
+      "Value": "Evoke_Void_Wisp_Fireball",
+      "Description": "Root interaction of the fireball."
+    },
+    "RangedAttackDistance": {
+      "Value": 16,
+      "Description": "Distance within which the torch shoots."
+    },
+    "RangedAttackAimingRange": {
+      "Value": [
+        0.75,
+        1.25
+      ],
+      "Description": "Seconds spent aiming before each shot."
+    },
+    "RangedAttackPauseRange": {
+      "Value": [
+        1.5,
+        3
+      ],
+      "Description": "Seconds between shots."
+    },
+    "DisableDamageGroups": {
+      "Value": [
+        "Self",
+        "Skeleton",
+        "Evoke_Void_Arena_Enemies"
+      ],
+      "Description": "Groups not to take damage from."
+    },
+    "AttitudeGroup": {
+      "Value": "Empty",
+      "Description": "This NPC attitude group."
+    },
+    "DefaultPlayerAttitude": {
+      "Value": "Hostile",
+      "Description": "Default attitude towards players."
+    }
+  },
+  "Instructions": [
+    {
+      "$Comment": "Idle: waits for a player.",
+      "Sensor": {
+        "Type": "State",
+        "State": "Idle"
+      },
+      "Instructions": [
+        {
+          "Sensor": {
+            "Type": "Player",
+            "Range": {
+              "Compute": "DetectionRange"
+            },
+            "LockOnTarget": true
+          },
+          "Actions": [
+            {
+              "Type": "State",
+              "State": "Combat"
+            }
+          ]
+        },
+        {
+          "$Comment": "No player in range: wanders around like the Void Mannequin Mage (short walk in a small circle, then a pause).",
+          "BodyMotion": {
+            "Type": "Sequence",
+            "Looped": true,
+            "Motions": [
+              {
+                "Type": "Timer",
+                "Time": [ 2, 4 ],
+                "Motion": {
+                  "Type": "WanderInCircle",
+                  "Radius": {
+                    "Compute": "WanderRadius"
+                  },
+                  "MaxHeadingChange": 60,
+                  "RelativeSpeed": 0.3,
+                  "MinWalkTime": 1,
+                  "RelaxedMoveConstraints": false
+                }
+              },
+              {
+                "Type": "Timer",
+                "Time": [ 3, 5 ],
+                "Motion": {
+                  "Type": "Nothing"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "$Comment": "Combat: keeps KeepDistanceRange from the player and shoots fireballs when there is a clear line.",
+      "Sensor": {
+        "Type": "State",
+        "State": "Combat"
+      },
+      "Instructions": [
+        {
+          "Sensor": {
+            "Type": "Not",
+            "Sensor": {
+              "Type": "Target",
+              "Range": {
+                "Compute": "DetectionRange"
+              }
+            }
+          },
+          "Actions": [
+            {
+              "Type": "ReleaseTarget"
+            },
+            {
+              "Type": "State",
+              "State": "Idle"
+            }
+          ]
+        },
+        {
+          "Continue": true,
+          "Sensor": {
+            "Type": "Target",
+            "Range": {
+              "Compute": "RangedAttackDistance"
+            },
+            "Filters": [
+              {
+                "Type": "LineOfSight"
+              }
+            ]
+          },
+          "HeadMotion": {
+            "Type": "Aim",
+            "HitProbability": 1,
+            "Spread": 0,
+            "Deflection": false
+          },
+          "Actions": [
+            {
+              "Type": "Attack",
+              "Attack": {
+                "Compute": "RangedAttack"
+              },
+              "AimingTimeRange": {
+                "Compute": "RangedAttackAimingRange"
+              },
+              "AttackPauseRange": {
+                "Compute": "RangedAttackPauseRange"
+              }
+            }
+          ]
+        },
+        {
+          "Sensor": {
+            "Type": "Target",
+            "Range": {
+              "Compute": "DetectionRange"
+            }
+          },
+          "HeadMotion": {
+            "Type": "Aim"
+          },
+          "BodyMotion": {
+            "Type": "MaintainDistance",
+            "DesiredDistanceRange": {
+              "Compute": "KeepDistanceRange"
+            },
+            "MoveThreshold": 0.5,
+            "StrafingDurationRange": [
+              0,
+              0
+            ],
+            "StrafingFrequencyRange": [
+              0.2,
+              0.8
+            ],
+            "RelativeForwardsSpeed": {
+              "Compute": "ApproachRelativeSpeed"
+            },
+            "RelativeBackwardsSpeed": {
+              "Compute": "RetreatRelativeSpeed"
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

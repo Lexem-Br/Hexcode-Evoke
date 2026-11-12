@@ -63,11 +63,6 @@
                   "MusicContainer": "Track_Void_Escalation"
                 },
                 {
-                  "Type": "SetEncounterWeather",
-                  "Weather": "Portals_Void_Event_Light",
-                  "TransitionSeconds": 3
-                },
-                {
                   "Type": "Log",
                   "Message": "[Evoke Void Arena] Spawning wave 1"
                 },
@@ -247,12 +242,29 @@
                     11
                   ],
                   "CountRange": [
-                    5,
-                    5
+                    6,
+                    6
                   ],
                   "DelayRange": [
                     0.2,
                     0.8
+                  ]
+                },
+                {
+                  "Type": "Evoke:VoidArenaSpawn",
+                  "Kind": "Evoke_Void_Wisp_Torch",
+                  "SpawnAngle": 360,
+                  "DistanceRange": [
+                    8,
+                    12
+                  ],
+                  "CountRange": [
+                    3,
+                    3
+                  ],
+                  "DelayRange": [
+                    0.4,
+                    1
                   ]
                 },
                 {

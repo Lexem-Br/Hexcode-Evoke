@@ -18,6 +18,7 @@ import com.hypixel.hytale.server.npc.NPCPlugin;
 import com.lexem.hexcodeevoke.builtin.HexcodeBuiltin;
 import com.lexem.hexcodeevoke.commands.EvokerCommand;
 import com.lexem.hexcodeevoke.commands.VoidArenaCommand;
+import com.lexem.hexcodeevoke.components.DeflectableProjectileComponent;
 import com.lexem.hexcodeevoke.components.EvokerComponent;
 import com.lexem.hexcodeevoke.components.HexCreatureComponent;
 import com.lexem.hexcodeevoke.components.HexCreatureMinionComponent;
@@ -53,6 +54,7 @@ import com.lexem.hexcodeevoke.systems.MannequinArmorSystems;
 import com.lexem.hexcodeevoke.systems.NPCDeathSystem;
 import com.lexem.hexcodeevoke.systems.OffHandItemStateResetSystem;
 import com.lexem.hexcodeevoke.systems.PlayerJoinSystem;
+import com.lexem.hexcodeevoke.systems.ProjectileDeflectSystem;
 import com.lexem.hexcodeevoke.systems.VoidArenaSystem;
 import com.lexem.hexcodeevoke.systems.WorldStallWatchdogSystem;
 import com.lexem.hexcodeevoke.utils.VoidArenaManager;
@@ -272,6 +274,14 @@ public class HexcodeEvoke extends JavaPlugin {
         registery.registerSystem(new WorldStallWatchdogSystem());
         registery.registerSystem(new VoidArenaSystem());
 
+        DeflectableProjectileComponent.setComponentType(registery.registerComponent(
+                DeflectableProjectileComponent.class,
+                () -> {
+                    throw new UnsupportedOperationException();
+                }
+        ));
+        registery.registerSystem(new ProjectileDeflectSystem());
+
         HexCreatureRegistry.setResourceType(Universe.registerResource(
                 HexCreatureRegistry.class,
                 HexCreatureRegistry.ID,
@@ -334,6 +344,7 @@ public class HexcodeEvoke extends JavaPlugin {
         this.getCodecRegistry(Interaction.CODEC).register("Evoke:VoidArenaPortal", VoidArenaPortalInteraction.class, VoidArenaPortalInteraction.CODEC);
         this.getCodecRegistry(Interaction.CODEC).register("Evoke:VoidArenaActivate", VoidArenaActivateInteraction.class, VoidArenaActivateInteraction.CODEC);
         this.getCodecRegistry(Interaction.CODEC).register("Evoke:OpenVoidArenaPortal", OpenVoidArenaPortalInteraction.class, OpenVoidArenaPortalInteraction.CODEC);
+        this.getCodecRegistry(Interaction.CODEC).register("Evoke:DeflectableProjectile", DeflectableProjectileInteraction.class, DeflectableProjectileInteraction.CODEC);
     }
 
     @Override

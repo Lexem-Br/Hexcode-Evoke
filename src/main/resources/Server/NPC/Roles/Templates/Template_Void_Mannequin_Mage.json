@@ -2130,7 +2130,7 @@
       "Description": "How many NPCs each repeating ritual summons."
     },
     "SummonInterval": {
-      "Value": 10,
+      "Value": 15,
       "Description": "Seconds between two repeating rituals. A cycle that finds too many minions alive is skipped."
     },
     "SummonAllowedMinionCount": {

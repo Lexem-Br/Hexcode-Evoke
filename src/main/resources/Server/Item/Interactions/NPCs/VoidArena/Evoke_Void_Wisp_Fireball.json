@@ -1,0 +1,19 @@
+{
+  "Type": "Simple",
+  "$Comment": "Prepare Delay",
+  "RunTime": 0.4,
+  "Next": {
+    "Type": "Evoke:DeflectableProjectile",
+    "RunTime": 0.3,
+    "Effects": {
+      "WorldSoundEventId": "SFX_Skeleton_Mage_Spellbook_Impact"
+    },
+    "Config": "Projectile_Config_Evoke_Void_Wisp_Fireball",
+    "Lifetime": 5,
+    "DeflectedConfig": "Projectile_Config_Evoke_Void_Wisp_Fireball_Deflected",
+    "DeflectRange": 3,
+    "DeflectedLifetime": 4,
+    "DeflectParticles": "VoidImpact",
+    "DeflectSoundEventId": "SFX_Skeleton_Mage_Spellbook_Impact"
+  }
+}

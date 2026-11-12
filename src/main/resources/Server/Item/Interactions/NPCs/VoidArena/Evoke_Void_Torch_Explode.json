@@ -5,15 +5,16 @@
     "Particles": [
       {
         "SystemId": "Evoke_Void_Torch_Explosion",
-        "TargetEntityPart": "Entity"
+        "TargetEntityPart": "Entity",
+        "Scale": 1.4
       }
     ]
   },
   "Config": {
     "DamageEntities": true,
     "DamageBlocks": false,
-    "EntityDamage": 30.0,
-    "EntityDamageRadius": 3
+    "EntityDamage": 40.0,
+    "EntityDamageRadius": 3.4
   },
   "Next": {
     "Type": "RemoveEntity",

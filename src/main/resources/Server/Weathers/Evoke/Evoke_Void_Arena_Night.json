@@ -205,13 +205,13 @@
   "MoonColors": [
     {
       "Hour": 0,
-      "Color": "#c9b8ffff"
+      "Color": "#d4c7ffff"
     }
   ],
   "MoonGlowColors": [
     {
       "Hour": 0,
-      "Color": "#5a4a8cff"
+      "Color": "#6b5aa2ff"
     }
   ],
   "SunScales": [
@@ -443,7 +443,7 @@
   "SunlightColors": [
     {
       "Hour": 0,
-      "Color": "#8a80b8"
+      "Color": "#b9b0e6"
     }
   ]
 }

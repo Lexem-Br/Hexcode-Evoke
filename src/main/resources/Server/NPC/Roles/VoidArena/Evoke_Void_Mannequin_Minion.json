@@ -34,7 +34,7 @@
       "Evoke_Void_Arena_Enemies"
     ],
     "DeathParticles": "Effect_Death_Bones",
-    "MaxHealth": 75,
+    "MaxHealth": 70,
     "HearingRange": 30,
     "ViewSector": 360,
     "WakingPeriod": [

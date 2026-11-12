@@ -20,7 +20,7 @@
     "Compute": "NameTranslationKey"
   },
   "DropList": "Empty",
-  "BreathesInWater": true,
+  "BreathesInWater": false,
   "DeathAnimationTime": 0.5,
   "ApplySeparation": true,
   "SeparationDistance": 1.5,
@@ -28,6 +28,7 @@
   "InventorySize": 0,
   "HotbarSize": 3,
   "OffHandSlots": 0,
+  "KnockbackScale": 0.5,
   "StartState": "Idle",
   "InitialMotionController": "Walk",
   "MotionControllerList": [
@@ -58,32 +59,33 @@
       "Description": "Translation key for NPC name display"
     },
     "MaxHealth": {
-      "Value": 30,
+      "Value": 50,
       "Description": "Max health"
     },
     "MaxSpeed": {
-      "Value": 7,
+      "Value": 8,
       "Description": "Maximum walking speed"
     },
+    "WanderRadius": {
+      "Value": 3,
+      "Description": "Radius of the idle wander, used while no player is in range."
+    },
     "PackRange": {
-      "Value": 80,
+      "Value": 70,
       "Description": "Range in which the torch notices the player and the other torches."
     },
     "CircleDistanceRange": {
-      "Value": [
-        2.8,
-        3.2
-      ],
+      "Value": [3, 5],
       "Description": "Distance kept from the player while waiting for the turn."
     },
     "CircleRelativeSpeed": {
-      "Value": 0.8,
+      "Value": 1.2,
       "Description": "Relative speed while circling."
     },
     "TurnDelayRange": {
       "Value": [
-        1.5,
-        4
+        1,
+        2.5
       ],
       "Description": "Seconds a torch waits, after nobody is charging, before it takes its turn. The randomness keeps two torches from charging together."
     },
@@ -181,6 +183,36 @@
               "State": "Circle"
             }
           ]
+        },
+        {
+          "$Comment": "No player in range: wanders around like the Void Mannequin Mage (short walk in a small circle, then a pause).",
+          "BodyMotion": {
+            "Type": "Sequence",
+            "Looped": true,
+            "Motions": [
+              {
+                "Type": "Timer",
+                "Time": [ 2, 4 ],
+                "Motion": {
+                  "Type": "WanderInCircle",
+                  "Radius": {
+                    "Compute": "WanderRadius"
+                  },
+                  "MaxHeadingChange": 60,
+                  "RelativeSpeed": 0.3,
+                  "MinWalkTime": 1,
+                  "RelaxedMoveConstraints": false
+                }
+              },
+              {
+                "Type": "Timer",
+                "Time": [ 3, 5 ],
+                "Motion": {
+                  "Type": "Nothing"
+                }
+              }
+            ]
+          }
         }
       ]
     },

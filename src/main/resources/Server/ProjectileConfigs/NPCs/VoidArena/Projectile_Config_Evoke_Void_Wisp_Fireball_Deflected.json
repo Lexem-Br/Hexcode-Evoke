@@ -1,0 +1,72 @@
+{
+  "Model": "Evoke_Void_Wisp_Fireball",
+  "Physics": {
+    "Type": "Standard",
+    "Gravity": 0,
+    "TerminalVelocityAir": 50,
+    "TerminalVelocityWater": 15,
+    "RotationMode": "Velocity",
+    "Bounciness": 0.0,
+    "SticksVertically": true
+  },
+  "LaunchForce": 30,
+  "Interactions": {
+    "ProjectileHit": {
+      "Cooldown": {
+        "Cooldown": 0
+      },
+      "Interactions": [
+        {
+          "Type": "DamageEntity",
+          "DamageCalculator": {
+            "Type": "Absolute",
+            "BaseDamage": {
+              "Projectile": 10
+            }
+          },
+          "DamageEffects": {
+            "WorldSoundEventId": "SFX_Skeleton_Mage_Spellbook_Impact"
+          },
+          "Next": {
+            "Type": "RemoveEntity",
+            "Entity": "User"
+          },
+          "Blocked": {
+            "Type": "Serial",
+            "Interactions": [
+              {
+                "Type": "Simple",
+                "RunTime": 0,
+                "Effects": {
+                  "WorldSoundEventId": "SFX_Skeleton_Mage_Spellbook_Impact"
+                }
+              },
+              {
+                "Type": "RemoveEntity",
+                "Entity": "User"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "ProjectileMiss": {
+      "Cooldown": {
+        "Cooldown": 0
+      },
+      "Interactions": [
+        {
+          "Type": "Simple",
+          "RunTime": 0,
+          "Effects": {
+            "WorldSoundEventId": "SFX_Skeleton_Mage_Spellbook_Impact"
+          }
+        },
+        {
+          "Type": "RemoveEntity",
+          "Entity": "User"
+        }
+      ]
+    }
+  }
+}
