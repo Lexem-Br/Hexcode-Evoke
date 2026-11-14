@@ -1,0 +1,18 @@
+{
+  "Type": "Simple",
+  "$Comment": "Prepare Delay",
+  "RunTime": 0.4,
+  "Effects": {
+    "ItemPlayerAnimationsId": "Evoke_Void_Spider",
+    "ItemAnimationId": "Web"
+  },
+  "Next": {
+    "Type": "Projectile",
+    "RunTime": 0.4,
+    "Effects": {
+      "WorldSoundEventId": "SFX_Scarak_Spitball_Fire"
+    },
+    "Config": "Projectile_Config_Evoke_Spider_Web",
+    "Lifetime": 3
+  }
+}

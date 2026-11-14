@@ -1,0 +1,762 @@
+{
+  "Type": "Abstract",
+  "Appearance": {
+    "Compute": "Appearance"
+  },
+  "AttitudeGroup": {
+    "Compute": "AttitudeGroup"
+  },
+  "DefaultPlayerAttitude": {
+    "Compute": "DefaultPlayerAttitude"
+  },
+  "DefaultNPCAttitude": "Ignore",
+  "DisableDamageGroups": {
+    "Compute": "DisableDamageGroups"
+  },
+  "MaxHealth": {
+    "Compute": "MaxHealth"
+  },
+  "NameTranslationKey": {
+    "Compute": "NameTranslationKey"
+  },
+  "DropList": "Empty",
+  "BreathesInWater": true,
+  "DeathAnimationTime": 1,
+  "ApplySeparation": true,
+  "SeparationDistance": 2,
+  "SeparationWeight": 0.6,
+  "InventorySize": 0,
+  "HotbarSize": 3,
+  "OffHandSlots": 0,
+  "KnockbackScale": 0.3,
+  "StartState": "Idle",
+  "InitialMotionController": "Walk",
+  "MotionControllerList": [
+    {
+      "Type": "Walk",
+      "MaxWalkSpeed": {
+        "Compute": "MaxSpeed"
+      },
+      "Gravity": 10,
+      "RunThreshold": 0.3,
+      "MaxFallSpeed": 15,
+      "MaxRotationSpeed": 360,
+      "Acceleration": 10,
+      "MaxClimbHeight": 2,
+      "MaxDropHeight": 5
+    }
+  ],
+  "Parameters": {
+    "Appearance": {
+      "Value": "Evoke_Void_Chest_Spider",
+      "Description": "Model to be used."
+    },
+    "NameTranslationKey": {
+      "Value": "evoke.npcRoles.Evoke_Void_Chest_Spider.name",
+      "Description": "Translation key for NPC name display"
+    },
+    "MaxHealth": {
+      "Value": 250,
+      "Description": "Max health"
+    },
+    "MaxSpeed": {
+      "Value": 4,
+      "Description": "Maximum speed."
+    },
+    "WanderRadius": {
+      "Value": 3,
+      "Description": "Radius of the idle wander, used while no player is in range."
+    },
+    "DetectionRange": {
+      "Value": 80,
+      "Description": "Range in which the spider notices and keeps a player as target."
+    },
+    "KeepDistanceRange": {
+      "Value": [
+        0,
+        9
+      ],
+      "Description": "Distance band kept from the player. The minimum is 0 on purpose: the spider never backs away on foot; it only closes in over the maximum. Its only retreat is the health-triggered jump."
+    },
+    "ScuttleDurationRange": {
+      "Value": [
+        1,
+        1.5
+      ],
+      "Description": "Seconds of each sideways run around the player. Each run picks a random side."
+    },
+    "ScuttlePauseRange": {
+      "Value": [
+        3,
+        3
+      ],
+      "Description": "Seconds the spider holds still between two sideways runs."
+    },
+    "ScuttleRelativeSpeed": {
+      "Value": 0.8,
+      "Description": "Relative speed of the sideways runs and of closing in."
+    },
+    "RetreatJumpWaitTime": {
+      "Value": 1.8,
+      "Description": "Seconds the spider waits after starting a retreat jump, enough to land before it opens the chest and releases its extra spiderling."
+    },
+    "LidOpenTime": {
+      "Value": 0.8,
+      "Description": "Seconds the chest stays open after releasing spiderlings before the close animation plays. The animation slot keeps the last animation played, so alternating open and close is what lets every release show the opening again. TimerStart only initialises a timer once, so every use is followed by a TimerRestart."
+    },
+    "WebAttack": {
+      "Value": "Evoke_Spider_Web",
+      "Description": "Root interaction of the web shot."
+    },
+    "WebAttackDistance": {
+      "Value": 24,
+      "Description": "Distance within which the spider shoots webs."
+    },
+    "WebAimingRange": {
+      "Value": [
+        0.2,
+        0.2
+      ],
+      "Description": "Seconds spent aiming before each web."
+    },
+    "WebPauseRange": {
+      "Value": [
+        2,
+        3
+      ],
+      "Description": "Seconds from one web shot to the next, counted by a Timeout after the shot instead of an attack pause, so it never delays the retreat jump."
+    },
+    "SummonKind": {
+      "Value": "Evoke_Void_Baby_Chest_Spider",
+      "Description": "The NPC released by the spider."
+    },
+    "SummonInitialCountRange": {
+      "Value": [
+        3,
+        3
+      ],
+      "Description": "How many spiderlings come out right after the spider emerges."
+    },
+    "SummonCountRange": {
+      "Value": [
+        1,
+        1
+      ],
+      "Description": "How many spiderlings come out every SummonInterval seconds."
+    },
+    "SummonInterval": {
+      "Value": 10,
+      "Description": "Seconds between two releases. The timer starts with the first brood and restarts every cycle."
+    },
+    "SummonAllowedCount": {
+      "Value": [
+        0,
+        4
+      ],
+      "Description": "A release only happens while the number of spiderlings nearby is inside this range, so at most 5 are alive at once."
+    },
+    "DisableDamageGroups": {
+      "Value": [
+        "Self",
+        "Evoke_Void_Arena_Enemies"
+      ],
+      "Description": "Groups not to take damage from."
+    },
+    "AttitudeGroup": {
+      "Value": "Empty",
+      "Description": "This NPC attitude group."
+    },
+    "DefaultPlayerAttitude": {
+      "Value": "Hostile",
+      "Description": "Default attitude towards players."
+    }
+  },
+  "Instructions": [
+    {
+      "$Comment": "First brood, right after emerging. Starts the release timer; it runs with or without a player around.",
+      "Continue": true,
+      "Sensor": {
+        "Type": "Flag",
+        "Name": "Void_Spider_Brood_Released",
+        "Set": false
+      },
+      "Actions": [
+        {
+          "Type": "PlayAnimation",
+          "Slot": "Status",
+          "Animation": "ChestOpen"
+        },
+        {
+          "Type": "TimerStart",
+          "Name": "Void_Spider_Lid",
+          "StartValueRange": {
+            "Compute": "makeRange(LidOpenTime)"
+          },
+          "RestartValueRange": {
+            "Compute": "makeRange(LidOpenTime)"
+          }
+        },
+        {
+          "Type": "TimerRestart",
+          "Name": "Void_Spider_Lid"
+        },
+        {
+          "Type": "PlaySound",
+          "SoundEventId": "SFX_Chest_Wooden_Open"
+        },
+        {
+          "Type": "Spawn",
+          "Kind": {
+            "Compute": "SummonKind"
+          },
+          "SpawnAngle": 360,
+          "DistanceRange": [
+            0.1,
+            0.4
+          ],
+          "CountRange": {
+            "Compute": "SummonInitialCountRange"
+          },
+          "DelayRange": [
+            0,
+            0
+          ]
+        },
+        {
+          "Type": "TimerStart",
+          "Name": "Void_Spider_Summon",
+          "StartValueRange": {
+            "Compute": "makeRange(SummonInterval)"
+          },
+          "RestartValueRange": {
+            "Compute": "makeRange(SummonInterval)"
+          }
+        },
+        {
+          "Type": "SetFlag",
+          "Name": "Void_Spider_Brood_Released",
+          "SetTo": true
+        }
+      ]
+    },
+    {
+      "$Comment": "Every SummonInterval seconds, releases one more spiderling if there is room for it. The timer restarts either way.",
+      "Continue": true,
+      "Sensor": {
+        "Type": "Timer",
+        "Name": "Void_Spider_Summon",
+        "State": "Stopped"
+      },
+      "Instructions": [
+        {
+          "Continue": true,
+          "Sensor": {
+            "Type": "Count",
+            "Count": {
+              "Compute": "SummonAllowedCount"
+            },
+            "Range": [
+              0,
+              40
+            ],
+            "IncludeGroups": [
+              "Evoke_Void_Baby_Chest_Spiders"
+            ]
+          },
+          "Actions": [
+            {
+              "Type": "PlayAnimation",
+              "Slot": "Status",
+              "Animation": "ChestOpen"
+            },
+            {
+              "Type": "TimerStart",
+              "Name": "Void_Spider_Lid",
+              "StartValueRange": {
+                "Compute": "makeRange(LidOpenTime)"
+              },
+              "RestartValueRange": {
+                "Compute": "makeRange(LidOpenTime)"
+              }
+            },
+            {
+              "Type": "TimerRestart",
+              "Name": "Void_Spider_Lid"
+            },
+            {
+              "Type": "PlaySound",
+              "SoundEventId": "SFX_Chest_Wooden_Open"
+            },
+            {
+              "Type": "Spawn",
+              "Kind": {
+                "Compute": "SummonKind"
+              },
+              "SpawnAngle": 360,
+              "DistanceRange": [
+                0.1,
+                0.4
+              ],
+              "CountRange": {
+                "Compute": "SummonCountRange"
+              },
+              "DelayRange": [
+                0,
+                0
+              ]
+            }
+          ]
+        },
+        {
+          "Actions": [
+            {
+              "Type": "TimerRestart",
+              "Name": "Void_Spider_Summon"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "$Comment": "Closes the chest after a release. Restarting the timer only repeats a close that is already showing, which the animation slot ignores. It has to stay below the three releases so it never runs before the timer is started in the same tick.",
+      "Continue": true,
+      "Sensor": {
+        "Type": "Timer",
+        "Name": "Void_Spider_Lid",
+        "State": "Stopped"
+      },
+      "Actions": [
+        {
+          "Type": "PlayAnimation",
+          "Slot": "Status",
+          "Animation": "ChestClose"
+        },
+        {
+          "Type": "TimerRestart",
+          "Name": "Void_Spider_Lid"
+        }
+      ]
+    },
+    {
+      "$Comment": "Lowest threshold first and each one also spends the ones above it, so a single big hit only jumps once. Like the Void Mannequin Mage blink, the checks run before everything else and only ask for the jump.",
+      "Continue": true,
+      "Sensor": {
+        "Type": "And",
+        "Sensors": [
+          {
+            "Type": "Target",
+            "Range": {
+              "Compute": "DetectionRange"
+            }
+          },
+          {
+            "Type": "Flag",
+            "Name": "Void_Spider_Retreat_25",
+            "Set": false
+          },
+          {
+            "Type": "Self",
+            "Filters": [
+              {
+                "Type": "Stat",
+                "Stat": "Health",
+                "StatTarget": "Value",
+                "RelativeTo": "Health",
+                "RelativeToTarget": "Max",
+                "ValueRange": [
+                  0,
+                  0.25
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "Actions": [
+        {
+          "Type": "SetFlag",
+          "Name": "Void_Spider_Retreat_25",
+          "SetTo": true
+        },
+        {
+          "Type": "SetFlag",
+          "Name": "Void_Spider_Retreat_50",
+          "SetTo": true
+        },
+        {
+          "Type": "SetFlag",
+          "Name": "Void_Spider_Retreat_75",
+          "SetTo": true
+        },
+        {
+          "Type": "SetFlag",
+          "Name": "Void_Spider_Leaping",
+          "SetTo": true
+        }
+      ]
+    },
+    {
+      "$Comment": "Second health threshold.",
+      "Continue": true,
+      "Sensor": {
+        "Type": "And",
+        "Sensors": [
+          {
+            "Type": "Target",
+            "Range": {
+              "Compute": "DetectionRange"
+            }
+          },
+          {
+            "Type": "Flag",
+            "Name": "Void_Spider_Retreat_50",
+            "Set": false
+          },
+          {
+            "Type": "Self",
+            "Filters": [
+              {
+                "Type": "Stat",
+                "Stat": "Health",
+                "StatTarget": "Value",
+                "RelativeTo": "Health",
+                "RelativeToTarget": "Max",
+                "ValueRange": [
+                  0,
+                  0.5
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "Actions": [
+        {
+          "Type": "SetFlag",
+          "Name": "Void_Spider_Retreat_50",
+          "SetTo": true
+        },
+        {
+          "Type": "SetFlag",
+          "Name": "Void_Spider_Retreat_75",
+          "SetTo": true
+        },
+        {
+          "Type": "SetFlag",
+          "Name": "Void_Spider_Leaping",
+          "SetTo": true
+        }
+      ]
+    },
+    {
+      "$Comment": "First health threshold.",
+      "Continue": true,
+      "Sensor": {
+        "Type": "And",
+        "Sensors": [
+          {
+            "Type": "Target",
+            "Range": {
+              "Compute": "DetectionRange"
+            }
+          },
+          {
+            "Type": "Flag",
+            "Name": "Void_Spider_Retreat_75",
+            "Set": false
+          },
+          {
+            "Type": "Self",
+            "Filters": [
+              {
+                "Type": "Stat",
+                "Stat": "Health",
+                "StatTarget": "Value",
+                "RelativeTo": "Health",
+                "RelativeToTarget": "Max",
+                "ValueRange": [
+                  0,
+                  0.75
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "Actions": [
+        {
+          "Type": "SetFlag",
+          "Name": "Void_Spider_Retreat_75",
+          "SetTo": true
+        },
+        {
+          "Type": "SetFlag",
+          "Name": "Void_Spider_Leaping",
+          "SetTo": true
+        }
+      ]
+    },
+    {
+      "$Comment": "The retreat jump, then one more spiderling released from the opened chest. Runs as one blocking sequence, so nothing else moves the spider (it stands still and keeps watching the player) until it has landed and released the spiderling. The jump starts as soon as the web interaction in progress ends: the webs are paced by a Timeout instead of an attack pause, which would hold the jump back for seconds.",
+      "Sensor": {
+        "Type": "And",
+        "Sensors": [
+          {
+            "Type": "Target",
+            "Range": {
+              "Compute": "DetectionRange"
+            }
+          },
+          {
+            "Type": "Flag",
+            "Name": "Void_Spider_Leaping",
+            "Set": true
+          }
+        ]
+      },
+      "HeadMotion": {
+        "Type": "Watch"
+      },
+      "BodyMotion": {
+        "Type": "Nothing"
+      },
+      "ActionsBlocking": true,
+      "Actions": [
+        {
+          "Type": "Attack",
+          "Attack": "Evoke_Void_Spider_Retreat",
+          "SkipAiming": true,
+          "AvoidFriendlyFire": false,
+          "AttackPauseRange": [
+            0,
+            0
+          ]
+        },
+        {
+          "Type": "Timeout",
+          "Delay": {
+            "Compute": "makeRange(RetreatJumpWaitTime)"
+          }
+        },
+        {
+          "Type": "PlayAnimation",
+          "Slot": "Status",
+          "Animation": "ChestOpen"
+        },
+        {
+          "Type": "TimerStart",
+          "Name": "Void_Spider_Lid",
+          "StartValueRange": {
+            "Compute": "makeRange(LidOpenTime)"
+          },
+          "RestartValueRange": {
+            "Compute": "makeRange(LidOpenTime)"
+          }
+        },
+        {
+          "Type": "TimerRestart",
+          "Name": "Void_Spider_Lid"
+        },
+        {
+          "Type": "PlaySound",
+          "SoundEventId": "SFX_Chest_Wooden_Open"
+        },
+        {
+          "Type": "Spawn",
+          "Kind": {
+            "Compute": "SummonKind"
+          },
+          "SpawnAngle": 360,
+          "DistanceRange": [
+            0.1,
+            0.4
+          ],
+          "CountRange": [
+            1,
+            1
+          ],
+          "DelayRange": [
+            0,
+            0
+          ]
+        },
+        {
+          "Type": "SetFlag",
+          "Name": "Void_Spider_Leaping",
+          "SetTo": false
+        }
+      ]
+    },
+    {
+      "$Comment": "Idle: waits for a player.",
+      "Sensor": {
+        "Type": "State",
+        "State": "Idle"
+      },
+      "Instructions": [
+        {
+          "Sensor": {
+            "Type": "Player",
+            "Range": {
+              "Compute": "DetectionRange"
+            },
+            "LockOnTarget": true
+          },
+          "Actions": [
+            {
+              "Type": "State",
+              "State": "Combat"
+            }
+          ]
+        },
+        {
+          "BodyMotion": {
+            "Type": "Sequence",
+            "Looped": true,
+            "Motions": [
+              {
+                "Type": "Timer",
+                "Time": [
+                  2,
+                  4
+                ],
+                "Motion": {
+                  "Type": "WanderInCircle",
+                  "Radius": {
+                    "Compute": "WanderRadius"
+                  },
+                  "MaxHeadingChange": 60,
+                  "RelativeSpeed": 0.3,
+                  "MinWalkTime": 1,
+                  "RelaxedMoveConstraints": false
+                }
+              },
+              {
+                "Type": "Timer",
+                "Time": [
+                  3,
+                  5
+                ],
+                "Motion": {
+                  "Type": "Nothing"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "$Comment": "Combat: keeps KeepDistanceRange from the player with short sideways runs to a random side and long pauses, shooting webs whenever there is a clear line.",
+      "Sensor": {
+        "Type": "State",
+        "State": "Combat"
+      },
+      "Instructions": [
+        {
+          "Sensor": {
+            "Type": "Not",
+            "Sensor": {
+              "Type": "Target",
+              "Range": {
+                "Compute": "DetectionRange"
+              }
+            }
+          },
+          "Actions": [
+            {
+              "Type": "ReleaseTarget"
+            },
+            {
+              "Type": "State",
+              "State": "Idle"
+            }
+          ]
+        },
+        {
+          "$Comment": "No new web while a retreat jump is pending. The web is a blocking Attack + Timeout (the pause between webs) instead of the Attack pause, because that pause is global and would hold the retreat jump back for seconds. Timers are not used here: TimerStart only initialises once.",
+          "Continue": true,
+          "Sensor": {
+            "Type": "Not",
+            "Sensor": {
+              "Type": "Flag",
+              "Name": "Void_Spider_Leaping",
+              "Set": true
+            }
+          },
+          "Instructions": [
+            {
+              "Continue": true,
+              "Sensor": {
+                "Type": "Target",
+                "Range": {
+                  "Compute": "WebAttackDistance"
+                },
+                "Filters": [
+                  {
+                    "Type": "LineOfSight"
+                  }
+                ]
+              },
+              "HeadMotion": {
+                "Type": "Aim",
+                "HitProbability": 1,
+                "Spread": 0,
+                "Deflection": false
+              },
+              "Actions": [
+                {
+                  "Type": "Attack",
+                  "Attack": {
+                    "Compute": "WebAttack"
+                  },
+                  "AimingTimeRange": {
+                    "Compute": "WebAimingRange"
+                  },
+                  "AttackPauseRange": [
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "Type": "Timeout",
+                  "Delay": {
+                    "Compute": "WebPauseRange"
+                  }
+                }
+              ],
+              "ActionsBlocking": true
+            }
+          ]
+        },
+        {
+          "Sensor": {
+            "Type": "Target",
+            "Range": {
+              "Compute": "DetectionRange"
+            }
+          },
+          "HeadMotion": {
+            "Type": "Aim"
+          },
+          "BodyMotion": {
+            "Type": "MaintainDistance",
+            "DesiredDistanceRange": {
+              "Compute": "KeepDistanceRange"
+            },
+            "MoveThreshold": 0.5,
+            "StrafingDurationRange": {
+              "Compute": "ScuttleDurationRange"
+            },
+            "StrafingFrequencyRange": {
+              "Compute": "ScuttlePauseRange"
+            },
+            "RelativeForwardsSpeed": {
+              "Compute": "ScuttleRelativeSpeed"
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

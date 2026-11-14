@@ -1,0 +1,31 @@
+{
+  "Type": "Serial",
+  "Interactions": [
+    {
+      "Type": "Simple",
+      "$Comment": "Short crouch before the jump.",
+      "RunTime": 0.2,
+      "Effects": {
+        "WorldSoundEventId": "SFX_Spider_Run"
+      }
+    },
+    {
+      "Type": "ApplyForce",
+      "$Comment": "Jump straight backwards (the head keeps watching the player, so +Z is away from it). Force 54 is estimated for about 9.5 blocks with KnockbackScale 0.3: from the 48/52 forces tuned in the test kit for about 6.5/8.5 blocks, each force unit is about 0.5 block, plus 2 blocks.",
+      "Effects": {
+        "ItemPlayerAnimationsId": "Spider_Default",
+        "ItemAnimationId": "Bite"
+      },
+      "RunTime": 2,
+      "WaitForGround": true,
+      "GroundCheckDelay": 0.3,
+      "ChangeVelocityType": "Set",
+      "Direction": {
+        "X": 0,
+        "Y": 1,
+        "Z": 1
+      },
+      "Force": 54
+    }
+  ]
+}

@@ -1,0 +1,470 @@
+{
+  "Type": "Abstract",
+  "Appearance": {
+    "Compute": "Appearance"
+  },
+  "AttitudeGroup": {
+    "Compute": "AttitudeGroup"
+  },
+  "DefaultPlayerAttitude": {
+    "Compute": "DefaultPlayerAttitude"
+  },
+  "DefaultNPCAttitude": "Ignore",
+  "DisableDamageGroups": {
+    "Compute": "DisableDamageGroups"
+  },
+  "MaxHealth": {
+    "Compute": "MaxHealth"
+  },
+  "NameTranslationKey": {
+    "Compute": "NameTranslationKey"
+  },
+  "DropList": "Empty",
+  "BreathesInWater": true,
+  "DeathAnimationTime": 0.6,
+  "ApplySeparation": true,
+  "SeparationDistance": 1.2,
+  "SeparationWeight": 0.7,
+  "InventorySize": 0,
+  "HotbarSize": 3,
+  "OffHandSlots": 0,
+  "KnockbackScale": 0.5,
+  "StartState": "Idle",
+  "InitialMotionController": "Walk",
+  "MotionControllerList": [
+    {
+      "Type": "Walk",
+      "MaxWalkSpeed": {
+        "Compute": "MaxSpeed"
+      },
+      "Gravity": 10,
+      "RunThreshold": 0.3,
+      "MaxFallSpeed": 15,
+      "MaxRotationSpeed": 720,
+      "Acceleration": 12,
+      "MaxClimbHeight": 2,
+      "JumpHeight": 0,
+      "MaxDropHeight": 5
+    }
+  ],
+  "Parameters": {
+    "Appearance": {
+      "Value": "Evoke_Void_Baby_Chest_Spider",
+      "Description": "Model to be used."
+    },
+    "NameTranslationKey": {
+      "Value": "evoke.npcRoles.Evoke_Void_Baby_Chest_Spider.name",
+      "Description": "Translation key for NPC name display"
+    },
+    "MaxHealth": {
+      "Value": 30,
+      "Description": "Max health"
+    },
+    "MaxSpeed": {
+      "Value": 7,
+      "Description": "Maximum speed."
+    },
+    "WanderRadius": {
+      "Value": 3,
+      "Description": "Radius of the idle wander, used while no player is in range."
+    },
+    "DetectionRange": {
+      "Value": 80,
+      "Description": "Range in which the spiderling notices and keeps a player as target."
+    },
+    "CircleDistanceRange": {
+      "Value": [
+        2.5,
+        3.5
+      ],
+      "Description": "Distance kept from the player while circling it."
+    },
+    "CircleRelativeSpeed": {
+      "Value": 0.7,
+      "Description": "Relative speed while circling."
+    },
+    "PounceIntervalRange": {
+      "Value": [
+        2,
+        3
+      ],
+      "Description": "Seconds from the start of a leap to the moment the spiderling goes for the next one."
+    },
+    "PounceDistance": {
+      "Value": 3,
+      "Description": "Distance to the player the spiderling takes before leaping."
+    },
+    "PounceDistanceTolerance": {
+      "Value": 0.15,
+      "Description": "How far from PounceDistance the spiderling may be when it leaps."
+    },
+    "PounceApproachRelativeSpeed": {
+      "Value": 0.6,
+      "Description": "Relative speed while taking the leap distance."
+    },
+    "PounceSetupTimeLimit": {
+      "Value": [
+        2.5,
+        2.5
+      ],
+      "Description": "Seconds the spiderling tries to take the leap distance before it gives up and goes back to circling."
+    },
+    "PounceAttack": {
+      "Value": "Evoke_Void_Baby_Spider_Pounce",
+      "Description": "Root interaction of the leap. Its ApplyForce is scaled by KnockbackScale."
+    },
+    "PounceDuration": {
+      "Value": [
+        0.9,
+        0.9
+      ],
+      "Description": "Seconds the spiderling stays still while the leap plays, before it goes back to circling."
+    },
+    "DisableDamageGroups": {
+      "Value": [
+        "Self",
+        "Evoke_Void_Arena_Enemies"
+      ],
+      "Description": "Groups not to take damage from."
+    },
+    "AttitudeGroup": {
+      "Value": "Empty",
+      "Description": "This NPC attitude group."
+    },
+    "DefaultPlayerAttitude": {
+      "Value": "Hostile",
+      "Description": "Default attitude towards players."
+    }
+  },
+  "Instructions": [
+    {
+      "$Comment": "Idle: waits for a player.",
+      "Sensor": {
+        "Type": "State",
+        "State": "Idle"
+      },
+      "Instructions": [
+        {
+          "Sensor": {
+            "Type": "Player",
+            "Range": {
+              "Compute": "DetectionRange"
+            },
+            "LockOnTarget": true
+          },
+          "Actions": [
+            {
+              "Type": "TimerStart",
+              "Name": "Void_Baby_Pounce",
+              "StartValueRange": {
+                "Compute": "PounceIntervalRange"
+              },
+              "RestartValueRange": {
+                "Compute": "PounceIntervalRange"
+              }
+            },
+            {
+              "Type": "TimerStart",
+              "Name": "Void_Baby_Pounce_Setup",
+              "StartValueRange": {
+                "Compute": "PounceSetupTimeLimit"
+              },
+              "RestartValueRange": {
+                "Compute": "PounceSetupTimeLimit"
+              }
+            },
+            {
+              "Type": "State",
+              "State": "Circle"
+            }
+          ]
+        },
+        {
+          "BodyMotion": {
+            "Type": "Sequence",
+            "Looped": true,
+            "Motions": [
+              {
+                "Type": "Timer",
+                "Time": [ 2, 4 ],
+                "Motion": {
+                  "Type": "WanderInCircle",
+                  "Radius": {
+                    "Compute": "WanderRadius"
+                  },
+                  "MaxHeadingChange": 60,
+                  "RelativeSpeed": 0.3,
+                  "MinWalkTime": 1,
+                  "RelaxedMoveConstraints": false
+                }
+              },
+              {
+                "Type": "Timer",
+                "Time": [ 3, 5 ],
+                "Motion": {
+                  "Type": "Nothing"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "$Comment": "Circle: strafes around the player inside CircleDistanceRange until the pounce timer runs out. Every spiderling keeps its own timer, so the brood circles together but leaps at different times.",
+      "Sensor": {
+        "Type": "State",
+        "State": "Circle"
+      },
+      "Instructions": [
+        {
+          "Sensor": {
+            "Type": "Not",
+            "Sensor": {
+              "Type": "Target",
+              "Range": {
+                "Compute": "DetectionRange"
+              }
+            }
+          },
+          "Actions": [
+            {
+              "Type": "ReleaseTarget"
+            },
+            {
+              "Type": "State",
+              "State": "Idle"
+            }
+          ]
+        },
+        {
+          "Sensor": {
+            "Type": "Timer",
+            "Name": "Void_Baby_Pounce",
+            "State": "Stopped"
+          },
+          "Actions": [
+            {
+              "Type": "TimerRestart",
+              "Name": "Void_Baby_Pounce_Setup"
+            },
+            {
+              "Type": "State",
+              "State": "Pounce"
+            }
+          ]
+        },
+        {
+          "Sensor": {
+            "Type": "Target",
+            "Range": {
+              "Compute": "DetectionRange"
+            }
+          },
+          "HeadMotion": {
+            "Type": "Watch"
+          },
+          "BodyMotion": {
+            "Type": "MaintainDistance",
+            "DesiredDistanceRange": {
+              "Compute": "CircleDistanceRange"
+            },
+            "MoveThreshold": 0.3,
+            "StrafingDurationRange": [
+              1.5,
+              3.5
+            ],
+            "StrafingFrequencyRange": [
+              0.2,
+              0.6
+            ],
+            "RelativeForwardsSpeed": {
+              "Compute": "CircleRelativeSpeed"
+            },
+            "RelativeBackwardsSpeed": {
+              "Compute": "CircleRelativeSpeed"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "$Comment": "Pounce: stops strafing and takes exactly PounceDistance from the player, then leaps.",
+      "Sensor": {
+        "Type": "State",
+        "State": "Pounce"
+      },
+      "Instructions": [
+        {
+          "Sensor": {
+            "Type": "Not",
+            "Sensor": {
+              "Type": "Target",
+              "Range": {
+                "Compute": "DetectionRange"
+              }
+            }
+          },
+          "Actions": [
+            {
+              "Type": "ReleaseTarget"
+            },
+            {
+              "Type": "State",
+              "State": "Idle"
+            }
+          ]
+        },
+        {
+          "Sensor": {
+            "Type": "Timer",
+            "Name": "Void_Baby_Pounce_Setup",
+            "State": "Stopped"
+          },
+          "Actions": [
+            {
+              "Type": "TimerRestart",
+              "Name": "Void_Baby_Pounce"
+            },
+            {
+              "Type": "State",
+              "State": "Circle"
+            }
+          ]
+        },
+        {
+          "Sensor": {
+            "Type": "And",
+            "Sensors": [
+              {
+                "Type": "Target",
+                "Range": {
+                  "Compute": "PounceDistance + PounceDistanceTolerance"
+                },
+                "Filters": [
+                  {
+                    "Type": "LineOfSight"
+                  }
+                ]
+              },
+              {
+                "Type": "Not",
+                "Sensor": {
+                  "Type": "Target",
+                  "Range": {
+                    "Compute": "PounceDistance - PounceDistanceTolerance"
+                  }
+                }
+              }
+            ]
+          },
+          "HeadMotion": {
+            "Type": "Watch"
+          },
+          "Actions": [
+            {
+              "Type": "State",
+              "State": "Leap"
+            }
+          ]
+        },
+        {
+          "Sensor": {
+            "Type": "Target",
+            "Range": {
+              "Compute": "DetectionRange"
+            }
+          },
+          "HeadMotion": {
+            "Type": "Watch"
+          },
+          "BodyMotion": {
+            "Type": "MaintainDistance",
+            "DesiredDistanceRange": {
+              "Compute": "makeRange(PounceDistance)"
+            },
+            "MoveThreshold": 0.1,
+            "StrafingDurationRange": [
+              0,
+              0
+            ],
+            "RelativeForwardsSpeed": {
+              "Compute": "PounceApproachRelativeSpeed"
+            },
+            "RelativeBackwardsSpeed": {
+              "Compute": "PounceApproachRelativeSpeed"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "$Comment": "Leap: the pounce interaction jumps towards where the head points, so the head keeps watching the player. The body stays still so the walk steering does not fight the jump.",
+      "Sensor": {
+        "Type": "State",
+        "State": "Leap"
+      },
+      "Instructions": [
+        {
+          "Sensor": {
+            "Type": "Not",
+            "Sensor": {
+              "Type": "Target",
+              "Range": {
+                "Compute": "DetectionRange"
+              }
+            }
+          },
+          "Actions": [
+            {
+              "Type": "ReleaseTarget"
+            },
+            {
+              "Type": "State",
+              "State": "Idle"
+            }
+          ]
+        },
+        {
+          "Sensor": {
+            "Type": "Target",
+            "Range": {
+              "Compute": "DetectionRange"
+            }
+          },
+          "HeadMotion": {
+            "Type": "Watch"
+          },
+          "ActionsBlocking": true,
+          "BodyMotion": {
+            "Type": "Nothing"
+          },
+          "Actions": [
+            {
+              "Type": "TimerRestart",
+              "Name": "Void_Baby_Pounce"
+            },
+            {
+              "Type": "Attack",
+              "Attack": {
+                "Compute": "PounceAttack"
+              },
+              "SkipAiming": true,
+              "AvoidFriendlyFire": false
+            },
+            {
+              "Type": "Timeout",
+              "Delay": {
+                "Compute": "PounceDuration"
+              }
+            },
+            {
+              "Type": "State",
+              "State": "Circle"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,94 @@
+{
+  "Model": "Evoke_Spider_Web",
+  "Physics": {
+    "Type": "Standard",
+    "Gravity": 0,
+    "TerminalVelocityAir": 50,
+    "TerminalVelocityWater": 15,
+    "RotationMode": "Velocity",
+    "Bounciness": 0.0,
+    "SticksVertically": true
+  },
+  "LaunchForce": 26,
+  "Interactions": {
+    "ProjectileHit": {
+      "Cooldown": {
+        "Cooldown": 0
+      },
+      "Interactions": [
+        {
+          "Type": "DamageEntity",
+          "DamageCalculator": {
+            "Type": "Absolute",
+            "BaseDamage": {
+              "Physical": 30
+            }
+          },
+          "DamageEffects": {
+            "WorldSoundEventId": "SFX_Web_MoveIn"
+          },
+          "Next": {
+            "Type": "ApplyEffect",
+            "EffectId": "Evoke_Void_Web_Slow",
+            "Entity": "Target",
+            "Next": {
+              "Type": "RemoveEntity",
+              "Entity": "User"
+            }
+          },
+          "Blocked": {
+            "Type": "Serial",
+            "Interactions": [
+              {
+                "Type": "Simple",
+                "RunTime": 0,
+                "Effects": {
+                  "WorldSoundEventId": "SFX_Web_MoveIn"
+                }
+              },
+              {
+                "Type": "RemoveEntity",
+                "Entity": "User"
+              }
+            ]
+          },
+          "Failed": {
+            "$Comment": "Hit something that takes no damage from the web, such as a spiderling: the web must still disappear instead of hanging in the air.",
+            "Type": "Serial",
+            "Interactions": [
+              {
+                "Type": "Simple",
+                "RunTime": 0,
+                "Effects": {
+                  "WorldSoundEventId": "SFX_Web_MoveIn"
+                }
+              },
+              {
+                "Type": "RemoveEntity",
+                "Entity": "User"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "ProjectileMiss": {
+      "Cooldown": {
+        "Cooldown": 0
+      },
+      "Interactions": [
+        {
+          "Type": "Simple",
+          "RunTime": 0,
+          "Effects": {
+            "WorldSoundEventId": "SFX_Web_MoveIn"
+          }
+        },
+        {
+          "Type": "RemoveEntity",
+          "Entity": "User"
+        }
+      ]
+    }
+  }
+}

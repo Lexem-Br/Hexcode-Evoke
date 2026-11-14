@@ -540,11 +540,11 @@
                 },
                 {
                   "Type": "Evoke:VoidArenaSpawn",
-                  "Kind": "Evoke_Void_Mannequin_Mage",
+                  "Kind": "Evoke_Void_Chest_Spider",
                   "SpawnAngle": 360,
                   "DistanceRange": [
-                    5,
-                    12
+                    6,
+                    10
                   ],
                   "CountRange": [
                     1,

@@ -1,0 +1,10 @@
+{
+  "Parent": "Spider_Default",
+  "Animations": {
+    "Web": {
+      "ThirdPerson": "NPC/Chest_Spider/Animations/WebShot.blockyanim",
+      "Speed": 1,
+      "BlendingDuration": 0.1
+    }
+  }
+}

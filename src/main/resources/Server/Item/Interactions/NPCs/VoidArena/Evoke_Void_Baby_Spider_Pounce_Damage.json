@@ -1,0 +1,22 @@
+{
+  "Type": "DamageEntity",
+  "DamageCalculator": {
+    "Type": "Absolute",
+    "BaseDamage": {
+      "Physical": 15
+    }
+  },
+  "DamageEffects": {
+    "WorldSoundEventId": "SFX_Unarmed_Impact",
+    "WorldParticles": [
+      {
+        "SystemId": "Impact_Sword_Basic"
+      }
+    ]
+  },
+  "Next": {
+    "Type": "ApplyEffect",
+    "EffectId": "Evoke_Void_Mana_Drain",
+    "Entity": "Target"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "$Comment": "Hit by the Void Chest Spider web: half the walking speed for 3 seconds. A new hit restarts the time.",
+  "ApplicationEffects": {
+    "EntityTopTint": "#e6dcff",
+    "EntityBottomTint": "#6a48b0",
+    "HorizontalSpeedMultiplier": 0.5
+  },
+  "Duration": 3,
+  "OverlapBehavior": "Overwrite",
+  "Debuff": true,
+  "StatusEffectIcon": "UI/StatusEffects/Evoke_Web_Status.png"
+}

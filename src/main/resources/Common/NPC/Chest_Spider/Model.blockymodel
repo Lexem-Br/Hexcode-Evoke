@@ -88,8 +88,8 @@
                       },
                       "left": {
                         "offset": {"x": 41, "y": 125},
-                        "mirror": {"x": true, "y": true},
-                        "angle": 90
+                        "mirror": {"x": false, "y": false},
+                        "angle": 270
                       },
                       "top": {
                         "offset": {"x": 63, "y": 125},
@@ -400,8 +400,8 @@
                           },
                           "left": {
                             "offset": {"x": 9, "y": 51},
-                            "mirror": {"x": true, "y": true},
-                            "angle": 90
+                            "mirror": {"x": false, "y": false},
+                            "angle": 270
                           },
                           "top": {
                             "offset": {"x": 24, "y": 51},
@@ -1908,7 +1908,7 @@
                   "right": {
                     "offset": {"x": 57, "y": 44},
                     "mirror": {"x": false, "y": false},
-                    "angle": 90
+                    "angle": 270
                   },
                   "front": {
                     "offset": {"x": 57, "y": 44},
@@ -1918,7 +1918,7 @@
                   "left": {
                     "offset": {"x": 58, "y": 44},
                     "mirror": {"x": false, "y": false},
-                    "angle": 90
+                    "angle": 270
                   },
                   "top": {
                     "offset": {"x": 57, "y": 44},

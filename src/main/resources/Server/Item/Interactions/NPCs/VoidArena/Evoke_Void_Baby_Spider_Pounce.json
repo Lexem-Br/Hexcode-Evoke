@@ -1,0 +1,65 @@
+{
+  "Type": "Parallel",
+  "$Comment": "The leap and the bite run side by side: the bite checks the area around the spiderling for the whole flight, so it lands on whoever it passes through.",
+  "Interactions": [
+    {
+      "Interactions": [
+        {
+          "Type": "Simple",
+          "$Comment": "Short crouch before the leap.",
+          "RunTime": 0.2,
+          "Effects": {
+            "WorldSoundEventId": "SFX_Spider_Run"
+          }
+        },
+        {
+          "Type": "ApplyForce",
+          "$Comment": "Leaps where the head points, which the spiderling keeps on the player. Force tuned in the test kit with KnockbackScale 0.5: from 3 blocks it lands about 0.3 blocks from the target. Ends on landing, or after RunTime if the ground is never found.",
+          "Effects": {
+            "ItemPlayerAnimationsId": "Spider_Default",
+            "ItemAnimationId": "Bite"
+          },
+          "RunTime": 1,
+          "WaitForGround": true,
+          "GroundCheckDelay": 0.2,
+          "ChangeVelocityType": "Set",
+          "Direction": {
+            "X": 0,
+            "Y": 1,
+            "Z": -1
+          },
+          "Force": 18
+        }
+      ]
+    },
+    {
+      "Interactions": [
+        {
+          "Type": "Simple",
+          "RunTime": 0.2
+        },
+        {
+          "Type": "Selector",
+          "RunTime": 0.6,
+          "Effects": {
+            "WorldSoundEventId": "SFX_NPC_Unarmed_Swing"
+          },
+          "Selector": {
+            "Id": "AOECircle",
+            "Range": 1.1,
+            "Offset": {
+              "X": 0,
+              "Y": 0,
+              "Z": -0.3
+            }
+          },
+          "HitEntity": {
+            "Interactions": [
+              "Evoke_Void_Baby_Spider_Pounce_Damage"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}
