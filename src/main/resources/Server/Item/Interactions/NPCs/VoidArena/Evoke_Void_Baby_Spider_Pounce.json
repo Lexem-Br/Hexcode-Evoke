@@ -14,7 +14,7 @@
         },
         {
           "Type": "ApplyForce",
-          "$Comment": "Leaps where the head points, which the spiderling keeps on the player. Force tuned in the test kit with KnockbackScale 0.5: from 3 blocks it lands about 0.3 blocks from the target. Ends on landing, or after RunTime if the ground is never found.",
+          "$Comment": "Leaps where the head points, which the spiderling keeps on the player. Force tuned in the test kit as 18 at KnockbackScale 0.5 (effective 9); with KnockbackScale 0.7 the force is 12.9 to keep the same landing: from 3 blocks it lands about 0.3 blocks from the target. Ends on landing, or after RunTime if the ground is never found.",
           "Effects": {
             "ItemPlayerAnimationsId": "Spider_Default",
             "ItemAnimationId": "Bite"
@@ -28,7 +28,7 @@
             "Y": 1,
             "Z": -1
           },
-          "Force": 18
+          "Force": 12.9
         }
       ]
     },

@@ -1,9 +1,9 @@
 {
   "IncludeRoles": [
-    "Evoke_Void_Mannequin*",
-    "Evoke_Void_Creeping_Torch",
-    "Evoke_Void_Wisp_Torch",
-    "Evoke_Void_Chest_Spider",
-    "Evoke_Void_Baby_Chest_Spider"
+    "Void_Mannequin*",
+    "Void_Creeping_Torch",
+    "Void_Wisp_Torch",
+    "Void_Chest_Spider",
+    "Void_Baby_Chest_Spider"
   ]
 }

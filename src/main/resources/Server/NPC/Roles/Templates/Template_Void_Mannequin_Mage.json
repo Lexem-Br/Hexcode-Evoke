@@ -2118,7 +2118,7 @@
   ],
   "Parameters": {
     "SummonKind": {
-      "Value": "Evoke_Void_Mannequin_Minion",
+      "Value": "Void_Mannequin_Minion",
       "Description": "The NPC summoned by the ritual."
     },
     "SummonInitialCountRange": {

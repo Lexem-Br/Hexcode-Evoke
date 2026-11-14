@@ -55,11 +55,11 @@
   ],
   "Parameters": {
     "Appearance": {
-      "Value": "Evoke_Void_Wisp_Torch",
+      "Value": "Void_Wisp_Torch",
       "Description": "Model to be used."
     },
     "NameTranslationKey": {
-      "Value": "evoke.npcRoles.Evoke_Void_Wisp_Torch.name",
+      "Value": "evoke.npcRoles.Void_Wisp_Torch.name",
       "Description": "Translation key for NPC name display"
     },
     "MaxHealth": {
@@ -67,7 +67,7 @@
       "Description": "Max health"
     },
     "MaxSpeed": {
-      "Value": 4.5,
+      "Value": 4,
       "Description": "Maximum speed. Kept under the player running speed so the torch can be caught."
     },
     "MinHoverHeight": {

@@ -3,7 +3,7 @@
   "DamageCalculator": {
     "Type": "Absolute",
     "BaseDamage": {
-      "Physical": 15
+      "Physical": 10
     }
   },
   "DamageEffects": {

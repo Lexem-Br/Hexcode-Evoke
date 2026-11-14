@@ -1,6 +1,6 @@
 {
-  "Model": "NPC/Chest_Spider_Block/Model.blockymodel",
-  "Texture": "NPC/Chest_Spider_Block/Texture.png",
+  "Model": "NPC/Chest_Spider/Block/Model.blockymodel",
+  "Texture": "NPC/Chest_Spider/Block/Texture.png",
   "EyeHeight": 1,
   "CrouchOffset": -0.3,
   "HitBox": {
@@ -64,21 +64,21 @@
     "Walk": {
       "Animations": [
         {
-          "Animation": "NPC/Chest_Spider_Block/Animations/Walk.blockyanim"
+          "Animation": "NPC/Chest_Spider/Block/Animations/Walk.blockyanim"
         }
       ]
     },
     "WalkBackward": {
       "Animations": [
         {
-          "Animation": "NPC/Chest_Spider_Block/Animations/Walk.blockyanim"
+          "Animation": "NPC/Chest_Spider/Block/Animations/Walk.blockyanim"
         }
       ]
     },
     "Run": {
       "Animations": [
         {
-          "Animation": "NPC/Chest_Spider_Block/Animations/Walk.blockyanim"
+          "Animation": "NPC/Chest_Spider/Block/Animations/Walk.blockyanim"
         }
       ]
     },
@@ -93,7 +93,7 @@
     "CrouchWalk": {
       "Animations": [
         {
-          "Animation": "NPC/Chest_Spider_Block/Animations/Walk.blockyanim",
+          "Animation": "NPC/Chest_Spider/Block/Animations/Walk.blockyanim",
           "BlendingDuration": 0.1
         }
       ]
@@ -119,7 +119,7 @@
     "JumpWalk": {
       "Animations": [
         {
-          "Animation": "NPC/Chest_Spider_Block/Animations/Walk.blockyanim",
+          "Animation": "NPC/Chest_Spider/Block/Animations/Walk.blockyanim",
           "BlendingDuration": 0.1,
           "Looping": false,
           "Speed": 0.8

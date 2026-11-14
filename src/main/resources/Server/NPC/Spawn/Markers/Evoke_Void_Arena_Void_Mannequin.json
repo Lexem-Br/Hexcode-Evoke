@@ -3,7 +3,7 @@
   "Model": "NPC_Spawn_Marker",
   "NPCs": [
     {
-      "Name": "Evoke_Void_Mannequin",
+      "Name": "Void_Mannequin",
       "Weight": 100,
       "RealtimeRespawnTime": 1000000
     }

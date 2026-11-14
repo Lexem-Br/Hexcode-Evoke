@@ -13,6 +13,9 @@
       "WorldSoundEventId": "SFX_Scarak_Spitball_Fire"
     },
     "Config": "Projectile_Config_Evoke_Spider_Web",
-    "Lifetime": 3
+    "Lifetime": 3,
+    "Tags": {
+      "AimingReference": []
+    }
   }
 }

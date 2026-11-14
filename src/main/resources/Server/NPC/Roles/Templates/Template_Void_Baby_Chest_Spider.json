@@ -23,12 +23,12 @@
   "BreathesInWater": true,
   "DeathAnimationTime": 0.6,
   "ApplySeparation": true,
-  "SeparationDistance": 1.2,
-  "SeparationWeight": 0.7,
+  "SeparationDistance": 1,
+  "SeparationWeight": 0.4,
   "InventorySize": 0,
   "HotbarSize": 3,
   "OffHandSlots": 0,
-  "KnockbackScale": 0.5,
+  "KnockbackScale": 0.7,
   "StartState": "Idle",
   "InitialMotionController": "Walk",
   "MotionControllerList": [
@@ -49,11 +49,11 @@
   ],
   "Parameters": {
     "Appearance": {
-      "Value": "Evoke_Void_Baby_Chest_Spider",
+      "Value": "Void_Baby_Chest_Spider",
       "Description": "Model to be used."
     },
     "NameTranslationKey": {
-      "Value": "evoke.npcRoles.Evoke_Void_Baby_Chest_Spider.name",
+      "Value": "evoke.npcRoles.Void_Baby_Chest_Spider.name",
       "Description": "Translation key for NPC name display"
     },
     "MaxHealth": {
@@ -61,7 +61,7 @@
       "Description": "Max health"
     },
     "MaxSpeed": {
-      "Value": 7,
+      "Value": 8,
       "Description": "Maximum speed."
     },
     "WanderRadius": {
@@ -80,7 +80,7 @@
       "Description": "Distance kept from the player while circling it."
     },
     "CircleRelativeSpeed": {
-      "Value": 0.7,
+      "Value": 1.2,
       "Description": "Relative speed while circling."
     },
     "PounceIntervalRange": {

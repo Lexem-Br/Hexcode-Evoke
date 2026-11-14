@@ -7,11 +7,11 @@
       "orientation": {"x": 0.70711, "y": 0, "z": 0, "w": 0.70711},
       "shape": {
         "type": "quad",
-        "offset": {"x": -0.5, "y": 0, "z": -4},
+        "offset": {"x": 1.5, "y": 0, "z": -4},
         "stretch": {"x": 1.5, "y": 1.5, "z": 1.5},
         "settings": {
           "isPiece": false,
-          "size": {"x": 24, "y": 32},
+          "size": {"x": 28, "y": 32},
           "normal": "+Z"
         },
         "textureLayout": {
@@ -30,15 +30,42 @@
         {
           "id": "2",
           "name": "Acid2",
-          "position": {"x": 0.5, "y": 0, "z": 4},
-          "orientation": {"x": 0, "y": 0.70711, "z": 0, "w": 0.70711},
+          "position": {"x": 2.5, "y": 0, "z": 4},
+          "orientation": {"x": 0, "y": 0.86603, "z": 0, "w": 0.5},
           "shape": {
             "type": "quad",
-            "offset": {"x": 3.5, "y": 0, "z": 0},
+            "offset": {"x": 5.5, "y": 0, "z": 0},
             "stretch": {"x": 1.5, "y": 1.5, "z": 1.5},
             "settings": {
               "isPiece": false,
-              "size": {"x": 24, "y": 32},
+              "size": {"x": 28, "y": 32},
+              "normal": "+Z"
+            },
+            "textureLayout": {
+              "front": {
+                "offset": {"x": 0, "y": 0},
+                "mirror": {"x": false, "y": false},
+                "angle": 0
+              }
+            },
+            "unwrapMode": "custom",
+            "visible": true,
+            "doubleSided": true,
+            "shadingMode": "fullbright"
+          }
+        },
+        {
+          "id": "3",
+          "name": "Acid3",
+          "position": {"x": -1.5, "y": 0, "z": 4},
+          "orientation": {"x": 0, "y": 0.5, "z": 0, "w": 0.86603},
+          "shape": {
+            "type": "quad",
+            "offset": {"x": 5.5, "y": 0, "z": 0},
+            "stretch": {"x": 1.5, "y": 1.5, "z": 1.5},
+            "settings": {
+              "isPiece": false,
+              "size": {"x": 28, "y": 32},
               "normal": "+Z"
             },
             "textureLayout": {

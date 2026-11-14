@@ -1,7 +1,7 @@
 {
   "$Comment": "Void Arena clear time ranks. Time counts from when the altar is activated until the last wave is cleared. Under ExcellentUnderSeconds is Excellent, up to GoodUpToSeconds is Good, anything slower is Normal. Each rank rolls its own drop list.",
   "ExcellentUnderSeconds": 120,
-  "GoodUpToSeconds": 360,
+  "GoodUpToSeconds": 240,
   "ExcellentDropList": "Drop_Evoke_Void_Arena_Reward_Excellent",
   "GoodDropList": "Drop_Evoke_Void_Arena_Reward_Good",
   "NormalDropList": "Drop_Evoke_Void_Arena_Reward_Normal"

@@ -2,14 +2,14 @@
   "Model": "Evoke_Spider_Web",
   "Physics": {
     "Type": "Standard",
-    "Gravity": 0,
+    "Gravity": 30,
     "TerminalVelocityAir": 50,
     "TerminalVelocityWater": 15,
     "RotationMode": "Velocity",
     "Bounciness": 0.0,
     "SticksVertically": true
   },
-  "LaunchForce": 26,
+  "LaunchForce": 30,
   "Interactions": {
     "ProjectileHit": {
       "Cooldown": {
@@ -21,7 +21,7 @@
           "DamageCalculator": {
             "Type": "Absolute",
             "BaseDamage": {
-              "Physical": 30
+              "Physical": 20
             }
           },
           "DamageEffects": {

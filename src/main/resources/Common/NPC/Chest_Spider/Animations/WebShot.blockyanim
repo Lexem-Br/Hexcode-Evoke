@@ -235,17 +235,12 @@
         },
         {
           "time": 20,
-          "delta": {"x": -0.76604, "y": 0, "z": 0, "w": 0.64279},
-          "interpolationType": "smooth"
-        },
-        {
-          "time": 25,
-          "delta": {"x": -0.67559, "y": 0, "z": 0, "w": 0.73728},
+          "delta": {"x": -0.42262, "y": 0, "z": 0, "w": 0.90631},
           "interpolationType": "smooth"
         },
         {
           "time": 30,
-          "delta": {"x": -0.70711, "y": 0, "z": 0, "w": 0.70711},
+          "delta": {"x": -0.42262, "y": 0, "z": 0, "w": 0.90631},
           "interpolationType": "smooth"
         },
         {

@@ -24,7 +24,7 @@
       "Description": "When set to false, NPCs wont try to avoid each other or player, it can lead to them stacking together, but can help to avoid jerky-like movemenet in enclosed space."
     },
     "NameTranslationKey": {
-      "Value": "evoke.npcRoles.Evoke_Void_Mannequin_Mage.name",
+      "Value": "evoke.npcRoles.Void_Mannequin_Mage.name",
       "Description": "Translation key for NPC name display"
     }
   },
@@ -43,7 +43,7 @@
       24
     ],
     "DropList": "Empty",
-    "Appearance": "Evoke_Void_Mannequin_Mage",
+    "Appearance": "Void_Mannequin_Mage",
     "Weapons": [
       "Void_Evoke_Book"
     ],

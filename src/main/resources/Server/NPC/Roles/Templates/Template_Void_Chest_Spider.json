@@ -48,15 +48,15 @@
   ],
   "Parameters": {
     "Appearance": {
-      "Value": "Evoke_Void_Chest_Spider",
+      "Value": "Void_Chest_Spider",
       "Description": "Model to be used."
     },
     "NameTranslationKey": {
-      "Value": "evoke.npcRoles.Evoke_Void_Chest_Spider.name",
+      "Value": "evoke.npcRoles.Void_Chest_Spider.name",
       "Description": "Translation key for NPC name display"
     },
     "MaxHealth": {
-      "Value": 250,
+      "Value": 200,
       "Description": "Max health"
     },
     "MaxSpeed": {
@@ -127,7 +127,7 @@
       "Description": "Seconds from one web shot to the next, counted by a Timeout after the shot instead of an attack pause, so it never delays the retreat jump."
     },
     "SummonKind": {
-      "Value": "Evoke_Void_Baby_Chest_Spider",
+      "Value": "Void_Baby_Chest_Spider",
       "Description": "The NPC released by the spider."
     },
     "SummonInitialCountRange": {

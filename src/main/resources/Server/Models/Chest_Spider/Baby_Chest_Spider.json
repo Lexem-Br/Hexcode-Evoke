@@ -1,5 +1,5 @@
 {
-  "Model": "NPC/Chest_Spider_Baby/Model.blockymodel",
+  "Model": "NPC/Chest_Spider/Baby/Model.blockymodel",
   "Texture": "NPC/Chest_Spider/Texture.png",
   "EyeHeight": 0.3,
   "CrouchOffset": -0.1,
@@ -153,7 +153,7 @@
     "Fall": {
       "Animations": [
         {
-          "Animation": "NPC/Chest_Spider_Baby/Animations/Descend.blockyanim",
+          "Animation": "NPC/Chest_Spider/Baby/Animations/Descend.blockyanim",
           "BlendingDuration": 0.25,
           "Speed": 3.0
         }
@@ -170,7 +170,7 @@
     "ClimbIdle": {
       "Animations": [
         {
-          "Animation": "NPC/Chest_Spider_Baby/Animations/Climb/Climb_Idle.blockyanim",
+          "Animation": "NPC/Chest_Spider/Baby/Animations/Climb/Climb_Idle.blockyanim",
           "BlendingDuration": 0.25,
           "Speed": 3.0
         }
@@ -179,7 +179,7 @@
     "ClimbUp": {
       "Animations": [
         {
-          "Animation": "NPC/Chest_Spider_Baby/Animations/Climb/Climb_Up.blockyanim",
+          "Animation": "NPC/Chest_Spider/Baby/Animations/Climb/Climb_Up.blockyanim",
           "BlendingDuration": 0.25,
           "Speed": 3.0
         }
@@ -188,7 +188,7 @@
     "ClimbDown": {
       "Animations": [
         {
-          "Animation": "NPC/Chest_Spider_Baby/Animations/Climb/Climb_Down.blockyanim",
+          "Animation": "NPC/Chest_Spider/Baby/Animations/Climb/Climb_Down.blockyanim",
           "BlendingDuration": 0.25,
           "Speed": 3.0
         }
@@ -197,7 +197,7 @@
     "ClimbLeft": {
       "Animations": [
         {
-          "Animation": "NPC/Chest_Spider_Baby/Animations/Climb/Climb_Left.blockyanim",
+          "Animation": "NPC/Chest_Spider/Baby/Animations/Climb/Climb_Left.blockyanim",
           "BlendingDuration": 0.25,
           "Speed": 3.0
         }
@@ -206,7 +206,7 @@
     "ClimbRight": {
       "Animations": [
         {
-          "Animation": "NPC/Chest_Spider_Baby/Animations/Climb/Climb_Right.blockyanim",
+          "Animation": "NPC/Chest_Spider/Baby/Animations/Climb/Climb_Right.blockyanim",
           "BlendingDuration": 0.25,
           "Speed": 3.0
         }

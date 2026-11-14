@@ -1,7 +1,7 @@
 {
-  "$Comment": "Bite of the Void Baby Chest Spider: removes 25 mana once. StatModifiers without DamageCalculatorCooldown apply a single time, and the short duration lets the next bite apply again instead of only refreshing an active effect.",
+  "$Comment": "Bite of the Void Baby Chest Spider: removes mana once. StatModifiers without DamageCalculatorCooldown apply a single time, and the short duration lets the next bite apply again instead of only refreshing an active effect.",
   "StatModifiers": {
-    "Mana": -25
+    "Mana": -30
   },
   "ValueType": "Absolute",
   "Duration": 0.3,

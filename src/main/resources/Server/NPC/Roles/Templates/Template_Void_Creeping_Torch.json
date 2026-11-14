@@ -51,11 +51,11 @@
   ],
   "Parameters": {
     "Appearance": {
-      "Value": "Evoke_Void_Creeping_Torch",
+      "Value": "Void_Creeping_Torch",
       "Description": "Model to be used."
     },
     "NameTranslationKey": {
-      "Value": "evoke.npcRoles.Evoke_Void_Creeping_Torch.name",
+      "Value": "evoke.npcRoles.Void_Creeping_Torch.name",
       "Description": "Translation key for NPC name display"
     },
     "MaxHealth": {

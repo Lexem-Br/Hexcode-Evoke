@@ -1,25 +1,42 @@
 {
-  "Model": "NPC/Chest_Spider_Baby/Model.blockymodel",
+  "Model": "NPC/Chest_Spider/Model.blockymodel",
   "Texture": "NPC/Chest_Spider/Void.png",
-  "EyeHeight": 0.3,
-  "CrouchOffset": -0.1,
+  "EyeHeight": 1,
+  "CrouchOffset": -0.3,
   "HitBox": {
     "Max": {
       "X": 0.5,
-      "Y": 1.1,
+      "Y": 1.5,
       "Z": 0.5
     },
     "Min": {
       "X": -0.5,
       "Y": 0,
-      "Z": -0.5
+      "Z": -1
     }
   },
-  "MinScale": 0.35,
-  "MaxScale": 0.35,
+  "MinScale": 1,
+  "MaxScale": 1,
   "Phobia": "Arachnophobia",
-  "PhobiaModelAssetId": "Baby_Chest_Spider_Block",
+  "PhobiaModelAssetId": "Chest_Spider_Block",
+  "DefaultAttachments": [],
+  "Particles": [
+    {
+      "SystemId": "Evoke_Spectre_Void_Body_Spider",
+      "TargetNodeName": "Pelvis",
+      "Scale": 4
+    }
+  ],
   "AnimationSets": {
+    "Spawn": {
+      "Animations": [
+        {
+          "Animation": "NPC/Chest_Spider/Animations/Spawn.blockyanim",
+          "Looping": false,
+          "Speed": 0.8
+        }
+      ]
+    },
     "Laydown": {
       "Animations": [
         {
@@ -67,32 +84,28 @@
     "Idle": {
       "Animations": [
         {
-          "Animation": "NPC/Beast/Spider/Animations/Default/Idle.blockyanim",
-          "BlendingDuration": 0.25
+          "Animation": "NPC/Beast/Spider/Animations/Default/Idle.blockyanim"
         }
       ]
     },
     "Walk": {
       "Animations": [
         {
-          "Animation": "NPC/Chest_Spider/Animations/Walk.blockyanim",
-          "BlendingDuration": 0.25
+          "Animation": "NPC/Chest_Spider/Animations/Walk.blockyanim"
         }
       ]
     },
     "WalkBackward": {
       "Animations": [
         {
-          "Animation": "NPC/Beast/Spider/Animations/Default/Walk_Backward.blockyanim",
-          "BlendingDuration": 0.25
+          "Animation": "NPC/Beast/Spider/Animations/Default/Walk_Backward.blockyanim"
         }
       ]
     },
     "Run": {
       "Animations": [
         {
-          "Animation": "NPC/Chest_Spider/Animations/Run.blockyanim",
-          "BlendingDuration": 0.25
+          "Animation": "NPC/Chest_Spider/Animations/Run.blockyanim"
         }
       ]
     },
@@ -153,9 +166,8 @@
     "Fall": {
       "Animations": [
         {
-          "Animation": "NPC/Chest_Spider_Baby/Animations/Descend.blockyanim",
-          "BlendingDuration": 0.25,
-          "Speed": 3.0
+          "Animation": "NPC/Beast/Spider/Animations/Default/Fall.blockyanim",
+          "BlendingDuration": 0.4
         }
       ]
     },
@@ -170,45 +182,40 @@
     "ClimbIdle": {
       "Animations": [
         {
-          "Animation": "NPC/Chest_Spider_Baby/Animations/Climb/Climb_Idle.blockyanim",
-          "BlendingDuration": 0.25,
-          "Speed": 3.0
+          "Animation": "NPC/Beast/Spider/Animations/Climb/Climb_Idle.blockyanim",
+          "BlendingDuration": 0.4
         }
       ]
     },
     "ClimbUp": {
       "Animations": [
         {
-          "Animation": "NPC/Chest_Spider_Baby/Animations/Climb/Climb_Up.blockyanim",
-          "BlendingDuration": 0.25,
-          "Speed": 3.0
+          "Animation": "NPC/Beast/Spider/Animations/Climb/Climb_Up.blockyanim",
+          "BlendingDuration": 0.4
         }
       ]
     },
     "ClimbDown": {
       "Animations": [
         {
-          "Animation": "NPC/Chest_Spider_Baby/Animations/Climb/Climb_Down.blockyanim",
-          "BlendingDuration": 0.25,
-          "Speed": 3.0
+          "Animation": "NPC/Beast/Spider/Animations/Climb/Climb_Down.blockyanim",
+          "BlendingDuration": 0.4
         }
       ]
     },
     "ClimbLeft": {
       "Animations": [
         {
-          "Animation": "NPC/Chest_Spider_Baby/Animations/Climb/Climb_Left.blockyanim",
-          "BlendingDuration": 0.25,
-          "Speed": 3.0
+          "Animation": "NPC/Beast/Spider/Animations/Climb/Climb_Left.blockyanim",
+          "BlendingDuration": 0.4
         }
       ]
     },
     "ClimbRight": {
       "Animations": [
         {
-          "Animation": "NPC/Chest_Spider_Baby/Animations/Climb/Climb_Right.blockyanim",
-          "BlendingDuration": 0.25,
-          "Speed": 3.0
+          "Animation": "NPC/Beast/Spider/Animations/Climb/Climb_Right.blockyanim",
+          "BlendingDuration": 0.4
         }
       ]
     },
