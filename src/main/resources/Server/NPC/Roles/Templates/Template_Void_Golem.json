@@ -1,0 +1,1405 @@
+{
+  "Type": "Abstract",
+  "Appearance": {
+    "Compute": "Appearance"
+  },
+  "AttitudeGroup": {
+    "Compute": "AttitudeGroup"
+  },
+  "DefaultPlayerAttitude": {
+    "Compute": "DefaultPlayerAttitude"
+  },
+  "DefaultNPCAttitude": "Ignore",
+  "DisableDamageGroups": {
+    "Compute": "DisableDamageGroups"
+  },
+  "MaxHealth": {
+    "Compute": "MaxHealth"
+  },
+  "NameTranslationKey": {
+    "Compute": "NameTranslationKey"
+  },
+  "DropList": "Empty",
+  "BreathesInWater": true,
+  "DeathAnimationTime": 1.5,
+  "ApplySeparation": true,
+  "SeparationDistance": 2,
+  "SeparationWeight": 0.6,
+  "InventorySize": 0,
+  "HotbarSize": 3,
+  "OffHandSlots": 0,
+  "KnockbackScale": 0.2,
+  "StartState": "Idle",
+  "InitialMotionController": "Walk",
+  "MotionControllerList": [
+    {
+      "Type": "Walk",
+      "MaxWalkSpeed": {
+        "Compute": "MaxSpeed"
+      },
+      "Gravity": 10,
+      "RunThreshold": 0.3,
+      "MaxFallSpeed": 15,
+      "MaxRotationSpeed": 360,
+      "Acceleration": 10
+    }
+  ],
+  "InteractionVars": {
+    "Swing_Left_Damage": {
+      "Interactions": [
+        {
+          "Parent": "Golem_Crystal_Swing_Left_Damage",
+          "DamageCalculator": {
+            "Type": "Absolute",
+            "BaseDamage": {
+              "Physical": 20
+            },
+            "RandomPercentageModifier": 0.1
+          },
+          "DamageEffects": {
+            "Knockback": {
+              "Force": -10
+            }
+          },
+          "Next": {
+            "Type": "ApplyEffect",
+            "EffectId": "Evoke_Void_Mana_Drain",
+            "Entity": "Target"
+          }
+        }
+      ]
+    },
+    "Swing_Right_Damage": {
+      "Interactions": [
+        {
+          "Parent": "Golem_Crystal_Swing_Right_Damage",
+          "DamageCalculator": {
+            "Type": "Absolute",
+            "BaseDamage": {
+              "Physical": 20
+            },
+            "RandomPercentageModifier": 0.1
+          },
+          "DamageEffects": {
+            "Knockback": {
+              "Force": -10
+            }
+          },
+          "Next": {
+            "Type": "ApplyEffect",
+            "EffectId": "Evoke_Void_Mana_Drain",
+            "Entity": "Target"
+          }
+        }
+      ]
+    },
+    "Spin_Damage": {
+      "Interactions": [
+        {
+          "Parent": "Golem_Crystal_Spin_Damage",
+          "DamageCalculator": {
+            "Type": "Absolute",
+            "BaseDamage": {
+              "Physical": 20
+            },
+            "RandomPercentageModifier": 0.1
+          },
+          "DamageEffects": {
+            "Knockback": {
+              "Force": -10
+            }
+          },
+          "Next": {
+            "Type": "ApplyEffect",
+            "EffectId": "Evoke_Void_Mana_Drain",
+            "Entity": "Target"
+          }
+        }
+      ]
+    },
+    "Ground_Slam_Damage": {
+      "Interactions": [
+        {
+          "Parent": "Golem_Crystal_Ground_Slam_Damage",
+          "DamageCalculator": {
+            "Type": "Absolute",
+            "BaseDamage": {
+              "Physical": 20
+            },
+            "RandomPercentageModifier": 0.1
+          },
+          "DamageEffects": {
+            "Knockback": {
+              "Force": -10
+            }
+          },
+          "Next": {
+            "Type": "ApplyEffect",
+            "EffectId": "Evoke_Void_Mana_Drain",
+            "Entity": "Target"
+          }
+        }
+      ]
+    },
+    "Stomp_Damage": {
+      "Interactions": [
+        {
+          "Parent": "Golem_Crystal_Stomp_Damage",
+          "DamageCalculator": {
+            "Type": "Absolute",
+            "BaseDamage": {
+              "Physical": 20
+            },
+            "RandomPercentageModifier": 0.1
+          },
+          "DamageEffects": {
+            "Knockback": {
+              "Force": -10
+            }
+          },
+          "Next": {
+            "Type": "ApplyEffect",
+            "EffectId": "Evoke_Void_Mana_Drain",
+            "Entity": "Target"
+          }
+        }
+      ]
+    },
+    "Spin_Heavy_Damage": {
+      "Interactions": [
+        {
+          "Parent": "Golem_Crystal_Spin_Heavy_Damage",
+          "DamageCalculator": {
+            "Type": "Absolute",
+            "BaseDamage": {
+              "Physical": 20
+            },
+            "RandomPercentageModifier": 0.1
+          },
+          "DamageEffects": {
+            "Knockback": {
+              "Force": -10
+            }
+          },
+          "Next": {
+            "Type": "ApplyEffect",
+            "EffectId": "Evoke_Void_Mana_Drain",
+            "Entity": "Target"
+          }
+        }
+      ]
+    },
+    "Clap_Damage": {
+      "Interactions": [
+        {
+          "Parent": "Golem_Crystal_Clap_Damage",
+          "DamageCalculator": {
+            "Type": "Absolute",
+            "BaseDamage": {
+              "Physical": 20
+            },
+            "RandomPercentageModifier": 0.1
+          },
+          "DamageEffects": {
+            "Knockback": {
+              "Force": -10
+            }
+          },
+          "Next": {
+            "Type": "ApplyEffect",
+            "EffectId": "Evoke_Void_Mana_Drain",
+            "Entity": "Target"
+          }
+        }
+      ]
+    }
+  },
+  "Parameters": {
+    "Appearance": {
+      "Value": "Void_Golem",
+      "Description": "Model to be used."
+    },
+    "NameTranslationKey": {
+      "Value": "evoke.npcRoles.Void_Golem.name",
+      "Description": "Translation key for NPC name display"
+    },
+    "MaxHealth": {
+      "Value": 400,
+      "Description": "Max health"
+    },
+    "MaxSpeed": {
+      "Value": 5,
+      "Description": "Maximum walking speed, the same as the Earth Golem."
+    },
+    "DetectionRange": {
+      "Value": 80,
+      "Description": "Range in which the golem notices and keeps a player as target."
+    },
+    "ChaseRelativeSpeed": {
+      "Value": 0.67,
+      "Description": "Relative speed while walking to the player."
+    },
+    "ChaseDistance": {
+      "Value": 5,
+      "Description": "Beyond this distance the golem walks to the player with the pathfinder; closer, it keeps MeleeDistanceRange."
+    },
+    "MeleeDistanceRange": {
+      "Value": [ 2, 2.6 ],
+      "Description": "Distance kept from the player while fighting up close, the same as the Earth Golem."
+    },
+    "MeleeAttack": {
+      "Value": "Root_Evoke_Void_Golem_Attack",
+      "Description": "Root interaction of the melee attacks: the Earth Golem chain of swings, spins, slam, stomp and clap, with spins that also throw Creeping Torches: one on each short spin, two on the heavy spin. The damage comes from the InteractionVars of this template."
+    },
+    "MeleeAttackDistance": {
+      "Value": 3,
+      "Description": "Distance within which the golem starts a melee attack."
+    },
+    "MeleeTurnSpeed": {
+      "Value": 0.25,
+      "Description": "Relative turn speed while facing the player, slow like the Earth Golem so the player can step around it."
+    },
+    "MeleePreDelay": {
+      "Value": [ 0.2, 0.2 ],
+      "Description": "Seconds the golem waits before each melee attack."
+    },
+    "MeleePostDelay": {
+      "Value": [ 1, 1.2 ],
+      "Description": "Seconds the golem waits after each melee attack."
+    },
+    "MeleePauseRange": {
+      "Value": [ 1.5, 2 ],
+      "Description": "Attack pause of the melee chain, the vanilla default."
+    },
+    "ThrowKind": {
+      "Value": "Void_Creeping_Torch",
+      "Description": "The NPC thrown at the player."
+    },
+    "ThrowMinDistance": {
+      "Value": 6,
+      "Description": "The golem only throws while the player is farther than this."
+    },
+    "ThrowMaxDistance": {
+      "Value": 30,
+      "Description": "The golem only throws while the player is closer than this and in sight."
+    },
+    "ThrowInterval": {
+      "Value": 8,
+      "Description": "Seconds between two throws. The cooldown always applies, so stepping in and out of ThrowMinDistance does not bring the next throw sooner."
+    },
+    "ThrowAllowedCount": {
+      "Value": [ 0, 2 ],
+      "Description": "A throw only happens while the number of Creeping Torches nearby is inside this range, so at most 3 are alive at once."
+    },
+    "ThrowReleaseTime": {
+      "Value": [ 0.85, 0.85 ],
+      "Description": "Seconds from the start of the Throw animation to the release, when the right hand passes in front of the shoulder."
+    },
+    "ThrowRecoverTime": {
+      "Value": [ 0.8, 0.8 ],
+      "Description": "Seconds the golem stays still after the release, the rest of the Throw animation."
+    },
+    "ThrowSpawnOffset": {
+      "Value": [ 0.5, 2.4, 1 ],
+      "Description": "Right, up and forward distance from the golem where the torch leaves the hand."
+    },
+    "ThrowSpread": {
+      "Value": 1,
+      "Description": "Radius around the player where the torch can land."
+    },
+    "SpinThrowOffset": {
+      "Value": [ 0, 2.4, 0 ],
+      "Description": "Right, up and forward distance from the golem where the torches thrown by the spins start."
+    },
+    "SpinThrowDistanceRange": {
+      "Value": [ 4, 7 ],
+      "Description": "Distance from the golem where the torches thrown by the spins land. The two torches of the heavy spin land on opposite sides."
+    },
+    "SpinThrowHeight": {
+      "Value": 3,
+      "Description": "Height of the arc of the torches thrown by the spins, above the point where they start."
+    },
+    "HalfRoarHealth": {
+      "Value": [ 0, 0.5 ],
+      "Description": "Health fraction at which the golem roars once and throws the nearby players away."
+    },
+    "HalfRoarAttack": {
+      "Value": "Root_Evoke_Void_Golem_Roar_Push",
+      "Description": "Root interaction of the half health roar: throws every player within 8 blocks away from the golem."
+    },
+    "SummonKind": {
+      "Value": "Void_Wisp_Torch",
+      "Description": "The NPC that comes out of the shoulder flames."
+    },
+    "SummonInitialCountRange": {
+      "Value": [ 2, 2 ],
+      "Description": "How many Wisp Torches come out right after the golem emerges, one from each shoulder."
+    },
+    "SummonCountRange": {
+      "Value": [ 1, 1 ],
+      "Description": "How many Wisp Torches come out every SummonInterval seconds."
+    },
+    "SummonInterval": {
+      "Value": 20,
+      "Description": "Seconds between two summons. The timer starts with the first pair and restarts every cycle, so a killed Wisp Torch only comes back on the next cycle."
+    },
+    "SummonAllowedCount": {
+      "Value": [ 0, 1 ],
+      "Description": "A summon only happens while the number of Wisp Torches nearby is inside this range, so at most 2 are alive at once."
+    },
+    "SummonOffsets": {
+      "Value": [ 1.25, 2.7, 0.21, -1.25, 2.7, 0.21 ],
+      "Description": "Right, up and forward triples of the two shoulder flames (R-Shoulder-Flame and L-Shoulder-Flame in the model). Each summon takes the next shoulder."
+    },
+    "SummonRightOffset": {
+      "Value": [ 1.25, 2.7, 0.21 ],
+      "Description": "Right, up and forward distance of the right shoulder flame, used when only that flame is left."
+    },
+    "SummonLeftOffset": {
+      "Value": [ -1.25, 2.7, 0.21 ],
+      "Description": "Right, up and forward distance of the left shoulder flame, used when only that flame is left."
+    },
+    "SummonParticles": {
+      "Value": "VoidImpact",
+      "Description": "Particles where each Wisp Torch comes out of a shoulder flame."
+    },
+    "ShoulderBreakParticles": {
+      "Value": "Evoke_Void_Torch_Explosion",
+      "Description": "Particles of the explosion when a deflected Wisp Torch fireball destroys a shoulder flame."
+    },
+    "ShoulderBreakSound": {
+      "Value": "SFX_Goblin_Lobber_Bomb_Death",
+      "Description": "Sound of the explosion when a shoulder flame is destroyed."
+    },
+    "RoarCastTime": {
+      "Value": [ 0.6, 0.6 ],
+      "Description": "Seconds from the start of the first roar to the first pair of Wisp Torches."
+    },
+    "RoarRecoverTime": {
+      "Value": [ 0.4, 0.4 ],
+      "Description": "Seconds the golem stays still after the first pair comes out, the rest of the Alerted animation."
+    },
+    "DisableDamageGroups": {
+      "Value": [ "Self", "Evoke_Void_Arena_Enemies" ],
+      "Description": "Groups not to take damage from."
+    },
+    "AttitudeGroup": {
+      "Value": "Empty",
+      "Description": "This NPC attitude group."
+    },
+    "DefaultPlayerAttitude": {
+      "Value": "Hostile",
+      "Description": "Default attitude towards players."
+    }
+  },
+  "Instructions": [
+    {
+      "$Comment": "Heavy spin: the Evoke_Void_Golem_Spin_Heavy interaction gives the golem the spin throw effect when the spin starts. The golem throws up two Creeping Torches that land around it, only as many as fit under 3 alive. The flag keeps it to one throw per spin.",
+      "Continue": true,
+      "Sensor": {
+        "Type": "And",
+        "Sensors": [
+          {
+            "Type": "Self",
+            "Filters": [
+              {
+                "Type": "EntityEffect",
+                "EffectId": "Evoke_Void_Golem_Spin_Throw"
+              }
+            ]
+          },
+          {
+            "Type": "Flag",
+            "Name": "Void_Golem_Spin_Throw_Done",
+            "Set": false
+          }
+        ]
+      },
+      "Instructions": [
+        {
+          "Sensor": {
+            "Type": "Count",
+            "Count": [ 0, 1 ],
+            "Range": [ 0, 60 ],
+            "IncludeGroups": [ "Evoke_Void_Torches" ]
+          },
+          "Actions": [
+            {
+              "Type": "Evoke:VoidArenaSpawn",
+              "Kind": {
+                "Compute": "ThrowKind"
+              },
+              "Emerge": false,
+              "SpawnOffsets": {
+                "Compute": "SpinThrowOffset"
+              },
+              "ScatterDistanceRange": {
+                "Compute": "SpinThrowDistanceRange"
+              },
+              "ScatterHeight": {
+                "Compute": "SpinThrowHeight"
+              },
+              "DistanceRange": [ 0.1, 0.4 ],
+              "CountRange": [ 2, 2 ],
+              "DelayRange": [ 0, 0 ]
+            },
+            {
+              "Type": "SetFlag",
+              "Name": "Void_Golem_Spin_Throw_Done",
+              "SetTo": true
+            }
+          ]
+        },
+        {
+          "Sensor": {
+            "Type": "Count",
+            "Count": [ 2, 2 ],
+            "Range": [ 0, 60 ],
+            "IncludeGroups": [ "Evoke_Void_Torches" ]
+          },
+          "Actions": [
+            {
+              "Type": "Evoke:VoidArenaSpawn",
+              "Kind": {
+                "Compute": "ThrowKind"
+              },
+              "Emerge": false,
+              "SpawnOffsets": {
+                "Compute": "SpinThrowOffset"
+              },
+              "ScatterDistanceRange": {
+                "Compute": "SpinThrowDistanceRange"
+              },
+              "ScatterHeight": {
+                "Compute": "SpinThrowHeight"
+              },
+              "DistanceRange": [ 0.1, 0.4 ],
+              "CountRange": [ 1, 1 ],
+              "DelayRange": [ 0, 0 ]
+            },
+            {
+              "Type": "SetFlag",
+              "Name": "Void_Golem_Spin_Throw_Done",
+              "SetTo": true
+            }
+          ]
+        },
+        {
+          "Sensor": {
+            "Type": "Any"
+          },
+          "Actions": [
+            {
+              "Type": "SetFlag",
+              "Name": "Void_Golem_Spin_Throw_Done",
+              "SetTo": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "$Comment": "Short spin: the Evoke_Void_Golem_Spin interaction gives the golem the single spin throw effect when the spin starts. The golem throws up one Creeping Torch that lands around it, only while fewer than 3 are alive. The flag keeps it to one throw per spin.",
+      "Continue": true,
+      "Sensor": {
+        "Type": "And",
+        "Sensors": [
+          {
+            "Type": "Self",
+            "Filters": [
+              {
+                "Type": "EntityEffect",
+                "EffectId": "Evoke_Void_Golem_Spin_Throw_Single"
+              }
+            ]
+          },
+          {
+            "Type": "Flag",
+            "Name": "Void_Golem_Spin_Throw_Done",
+            "Set": false
+          }
+        ]
+      },
+      "Instructions": [
+        {
+          "Sensor": {
+            "Type": "Count",
+            "Count": [ 0, 2 ],
+            "Range": [ 0, 60 ],
+            "IncludeGroups": [ "Evoke_Void_Torches" ]
+          },
+          "Actions": [
+            {
+              "Type": "Evoke:VoidArenaSpawn",
+              "Kind": {
+                "Compute": "ThrowKind"
+              },
+              "Emerge": false,
+              "SpawnOffsets": {
+                "Compute": "SpinThrowOffset"
+              },
+              "ScatterDistanceRange": {
+                "Compute": "SpinThrowDistanceRange"
+              },
+              "ScatterHeight": {
+                "Compute": "SpinThrowHeight"
+              },
+              "DistanceRange": [ 0.1, 0.4 ],
+              "CountRange": [ 1, 1 ],
+              "DelayRange": [ 0, 0 ]
+            },
+            {
+              "Type": "SetFlag",
+              "Name": "Void_Golem_Spin_Throw_Done",
+              "SetTo": true
+            }
+          ]
+        },
+        {
+          "Sensor": {
+            "Type": "Any"
+          },
+          "Actions": [
+            {
+              "Type": "SetFlag",
+              "Name": "Void_Golem_Spin_Throw_Done",
+              "SetTo": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "$Comment": "Both spin throw effects are over: the next spin can throw again.",
+      "Continue": true,
+      "Sensor": {
+        "Type": "And",
+        "Sensors": [
+          {
+            "Type": "Not",
+            "Sensor": {
+              "Type": "Self",
+              "Filters": [
+                {
+                  "Type": "EntityEffect",
+                  "EffectId": "Evoke_Void_Golem_Spin_Throw"
+                }
+              ]
+            }
+          },
+          {
+            "Type": "Not",
+            "Sensor": {
+              "Type": "Self",
+              "Filters": [
+                {
+                  "Type": "EntityEffect",
+                  "EffectId": "Evoke_Void_Golem_Spin_Throw_Single"
+                }
+              ]
+            }
+          },
+          {
+            "Type": "Flag",
+            "Name": "Void_Golem_Spin_Throw_Done",
+            "Set": true
+          }
+        ]
+      },
+      "Actions": [
+        {
+          "Type": "SetFlag",
+          "Name": "Void_Golem_Spin_Throw_Done",
+          "SetTo": false
+        }
+      ]
+    },
+    {
+      "$Comment": "Weak point: a deflected Wisp Torch fireball that hits the Right_Shoulder detail box of the model gives the golem the right shoulder effect. The flame explodes once and the flag keeps the shoulder broken for the summon instructions.",
+      "Continue": true,
+      "Sensor": {
+        "Type": "And",
+        "Sensors": [
+          {
+            "Type": "Self",
+            "Filters": [
+              {
+                "Type": "EntityEffect",
+                "EffectId": "Evoke_Void_Golem_Right_Shoulder_Broken"
+              }
+            ]
+          },
+          {
+            "Type": "Flag",
+            "Name": "Void_Golem_Right_Shoulder_Broken",
+            "Set": false
+          }
+        ]
+      },
+      "Actions": [
+        {
+          "Type": "SpawnParticles",
+          "ParticleSystem": {
+            "Compute": "ShoulderBreakParticles"
+          },
+          "TargetNodeName": "R-Shoulder-Flame",
+          "IsDetachedFromModel": true,
+          "Scale": 0.8
+        },
+        {
+          "Type": "PlaySound",
+          "SoundEventId": {
+            "Compute": "ShoulderBreakSound"
+          }
+        },
+        {
+          "Type": "SetFlag",
+          "Name": "Void_Golem_Right_Shoulder_Broken",
+          "SetTo": true
+        }
+      ]
+    },
+    {
+      "$Comment": "Weak point, left shoulder: the same as the right one.",
+      "Continue": true,
+      "Sensor": {
+        "Type": "And",
+        "Sensors": [
+          {
+            "Type": "Self",
+            "Filters": [
+              {
+                "Type": "EntityEffect",
+                "EffectId": "Evoke_Void_Golem_Left_Shoulder_Broken"
+              }
+            ]
+          },
+          {
+            "Type": "Flag",
+            "Name": "Void_Golem_Left_Shoulder_Broken",
+            "Set": false
+          }
+        ]
+      },
+      "Actions": [
+        {
+          "Type": "SpawnParticles",
+          "ParticleSystem": {
+            "Compute": "ShoulderBreakParticles"
+          },
+          "TargetNodeName": "L-Shoulder-Flame",
+          "IsDetachedFromModel": true,
+          "Scale": 0.8
+        },
+        {
+          "Type": "PlaySound",
+          "SoundEventId": {
+            "Compute": "ShoulderBreakSound"
+          }
+        },
+        {
+          "Type": "SetFlag",
+          "Name": "Void_Golem_Left_Shoulder_Broken",
+          "SetTo": true
+        }
+      ]
+    },
+    {
+      "$Comment": "Only the flames of the shoulders still standing stay lit. The model is only swapped when it changes.",
+      "Continue": true,
+      "Sensor": {
+        "Type": "Or",
+        "Sensors": [
+          {
+            "Type": "Flag",
+            "Name": "Void_Golem_Right_Shoulder_Broken",
+            "Set": true
+          },
+          {
+            "Type": "Flag",
+            "Name": "Void_Golem_Left_Shoulder_Broken",
+            "Set": true
+          }
+        ]
+      },
+      "Instructions": [
+        {
+          "Sensor": {
+            "Type": "And",
+            "Sensors": [
+              {
+                "Type": "Flag",
+                "Name": "Void_Golem_Right_Shoulder_Broken",
+                "Set": true
+              },
+              {
+                "Type": "Flag",
+                "Name": "Void_Golem_Left_Shoulder_Broken",
+                "Set": true
+              }
+            ]
+          },
+          "Actions": [
+            {
+              "Type": "Appearance",
+              "Appearance": "Void_Golem_No_Flames"
+            }
+          ]
+        },
+        {
+          "Sensor": {
+            "Type": "Flag",
+            "Name": "Void_Golem_Right_Shoulder_Broken",
+            "Set": true
+          },
+          "Actions": [
+            {
+              "Type": "Appearance",
+              "Appearance": "Void_Golem_Left_Flame"
+            }
+          ]
+        },
+        {
+          "Actions": [
+            {
+              "Type": "Appearance",
+              "Appearance": "Void_Golem_Right_Flame"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "$Comment": "First roar, right after emerging, like the Void Mannequin Mage ritual: it stops every other behavior while one Wisp Torch comes out of each shoulder, and starts the summon timer. It runs with or without a player around.",
+      "Sensor": {
+        "Type": "Flag",
+        "Name": "Void_Golem_Initial_Summon_Done",
+        "Set": false
+      },
+      "BodyMotion": {
+        "Type": "Nothing"
+      },
+      "ActionsBlocking": true,
+      "Actions": [
+        {
+          "Type": "PlayAnimation",
+          "Slot": "Status",
+          "Animation": "Alerted"
+        },
+        {
+          "Type": "Timeout",
+          "Delay": {
+            "Compute": "RoarCastTime"
+          }
+        },
+        {
+          "Type": "Evoke:VoidArenaSpawn",
+          "Kind": {
+            "Compute": "SummonKind"
+          },
+          "Emerge": false,
+          "SpawnOffsets": {
+            "Compute": "SummonOffsets"
+          },
+          "SpawnParticles": {
+            "Compute": "SummonParticles"
+          },
+          "DistanceRange": [ 0.1, 0.4 ],
+          "CountRange": {
+            "Compute": "SummonInitialCountRange"
+          },
+          "DelayRange": [ 0, 0 ]
+        },
+        {
+          "Type": "TimerStart",
+          "Name": "Void_Golem_Summon",
+          "StartValueRange": {
+            "Compute": "makeRange(SummonInterval)"
+          },
+          "RestartValueRange": {
+            "Compute": "makeRange(SummonInterval)"
+          }
+        },
+        {
+          "Type": "TimerRestart",
+          "Name": "Void_Golem_Summon"
+        },
+        {
+          "Type": "Timeout",
+          "Delay": {
+            "Compute": "RoarRecoverTime"
+          }
+        },
+        {
+          "Type": "PlayAnimation",
+          "Slot": "Status"
+        },
+        {
+          "Type": "SetFlag",
+          "Name": "Void_Golem_Initial_Summon_Done",
+          "SetTo": true
+        }
+      ]
+    },
+    {
+      "$Comment": "Half health roar, once: the flag is only set at the end, since the sensor is checked again on every action. The golem stops, roars with the Alerted animation and, at the same moment as the first roar summons, throws every player around it away.",
+      "Sensor": {
+        "Type": "And",
+        "Sensors": [
+          {
+            "Type": "Flag",
+            "Name": "Void_Golem_Half_Roar_Done",
+            "Set": false
+          },
+          {
+            "Type": "Self",
+            "Filters": [
+              {
+                "Type": "Stat",
+                "Stat": "Health",
+                "StatTarget": "Value",
+                "RelativeTo": "Health",
+                "RelativeToTarget": "Max",
+                "ValueRange": {
+                  "Compute": "HalfRoarHealth"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "BodyMotion": {
+        "Type": "Nothing"
+      },
+      "ActionsBlocking": true,
+      "Actions": [
+        {
+          "Type": "PlayAnimation",
+          "Slot": "Status",
+          "Animation": "Alerted"
+        },
+        {
+          "Type": "Timeout",
+          "Delay": {
+            "Compute": "RoarCastTime"
+          }
+        },
+        {
+          "Type": "Attack",
+          "Attack": {
+            "Compute": "HalfRoarAttack"
+          }
+        },
+        {
+          "Type": "Timeout",
+          "Delay": {
+            "Compute": "RoarRecoverTime"
+          }
+        },
+        {
+          "Type": "PlayAnimation",
+          "Slot": "Status"
+        },
+        {
+          "Type": "SetFlag",
+          "Name": "Void_Golem_Half_Roar_Done",
+          "SetTo": true
+        }
+      ]
+    },
+    {
+      "$Comment": "Every SummonInterval seconds, one more Wisp Torch comes out of the next shoulder if there is room for it. The timer restarts either way. A broken shoulder no longer summons; with one flame left the interval doubles from the next cycle on, and with none the golem stops summoning.",
+      "Continue": true,
+      "Sensor": {
+        "Type": "Timer",
+        "Name": "Void_Golem_Summon",
+        "State": "Stopped"
+      },
+      "Instructions": [
+        {
+          "Sensor": {
+            "Type": "And",
+            "Sensors": [
+              {
+                "Type": "Flag",
+                "Name": "Void_Golem_Right_Shoulder_Broken",
+                "Set": false
+              },
+              {
+                "Type": "Flag",
+                "Name": "Void_Golem_Left_Shoulder_Broken",
+                "Set": false
+              }
+            ]
+          },
+          "Instructions": [
+            {
+              "Continue": true,
+              "Sensor": {
+                "Type": "Count",
+                "Count": {
+                  "Compute": "SummonAllowedCount"
+                },
+                "Range": [ 0, 40 ],
+                "IncludeGroups": [ "Evoke_Void_Wisp_Torches" ]
+              },
+              "Actions": [
+                {
+                  "Type": "Evoke:VoidArenaSpawn",
+                  "Kind": {
+                    "Compute": "SummonKind"
+                  },
+                  "Emerge": false,
+                  "SpawnOffsets": {
+                    "Compute": "SummonOffsets"
+                  },
+                  "SpawnParticles": {
+                    "Compute": "SummonParticles"
+                  },
+                  "DistanceRange": [ 0.1, 0.4 ],
+                  "CountRange": {
+                    "Compute": "SummonCountRange"
+                  },
+                  "DelayRange": [ 0, 0 ]
+                }
+              ]
+            },
+            {
+              "Actions": [
+                {
+                  "Type": "TimerRestart",
+                  "Name": "Void_Golem_Summon"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "Sensor": {
+            "Type": "Flag",
+            "Name": "Void_Golem_Right_Shoulder_Broken",
+            "Set": false
+          },
+          "Instructions": [
+            {
+              "Continue": true,
+              "Sensor": {
+                "Type": "Count",
+                "Count": {
+                  "Compute": "SummonAllowedCount"
+                },
+                "Range": [ 0, 40 ],
+                "IncludeGroups": [ "Evoke_Void_Wisp_Torches" ]
+              },
+              "Actions": [
+                {
+                  "Type": "Evoke:VoidArenaSpawn",
+                  "Kind": {
+                    "Compute": "SummonKind"
+                  },
+                  "Emerge": false,
+                  "SpawnOffsets": {
+                    "Compute": "SummonRightOffset"
+                  },
+                  "SpawnParticles": {
+                    "Compute": "SummonParticles"
+                  },
+                  "DistanceRange": [ 0.1, 0.4 ],
+                  "CountRange": {
+                    "Compute": "SummonCountRange"
+                  },
+                  "DelayRange": [ 0, 0 ]
+                }
+              ]
+            },
+            {
+              "Actions": [
+                {
+                  "Type": "TimerRestart",
+                  "Name": "Void_Golem_Summon"
+                },
+                {
+                  "Type": "TimerModify",
+                  "Name": "Void_Golem_Summon",
+                  "MaxValue": {
+                    "Compute": "makeRange(SummonInterval * 2)"
+                  },
+                  "SetValue": {
+                    "Compute": "SummonInterval * 2"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "Sensor": {
+            "Type": "Flag",
+            "Name": "Void_Golem_Left_Shoulder_Broken",
+            "Set": false
+          },
+          "Instructions": [
+            {
+              "Continue": true,
+              "Sensor": {
+                "Type": "Count",
+                "Count": {
+                  "Compute": "SummonAllowedCount"
+                },
+                "Range": [ 0, 40 ],
+                "IncludeGroups": [ "Evoke_Void_Wisp_Torches" ]
+              },
+              "Actions": [
+                {
+                  "Type": "Evoke:VoidArenaSpawn",
+                  "Kind": {
+                    "Compute": "SummonKind"
+                  },
+                  "Emerge": false,
+                  "SpawnOffsets": {
+                    "Compute": "SummonLeftOffset"
+                  },
+                  "SpawnParticles": {
+                    "Compute": "SummonParticles"
+                  },
+                  "DistanceRange": [ 0.1, 0.4 ],
+                  "CountRange": {
+                    "Compute": "SummonCountRange"
+                  },
+                  "DelayRange": [ 0, 0 ]
+                }
+              ]
+            },
+            {
+              "Actions": [
+                {
+                  "Type": "TimerRestart",
+                  "Name": "Void_Golem_Summon"
+                },
+                {
+                  "Type": "TimerModify",
+                  "Name": "Void_Golem_Summon",
+                  "MaxValue": {
+                    "Compute": "makeRange(SummonInterval * 2)"
+                  },
+                  "SetValue": {
+                    "Compute": "SummonInterval * 2"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "$Comment": "The throw, asked for by the Combat state. One blocking sequence, so the golem stands still facing the player until the animation ends. The Target sensor comes first in the And because the launch aims at the position of the first sensor that has one. The torch spawns in the right hand at the release and flies to the player; it then joins the pack turns of the other Creeping Torches.",
+      "Sensor": {
+        "Type": "And",
+        "Sensors": [
+          {
+            "Type": "Target",
+            "Range": {
+              "Compute": "DetectionRange"
+            }
+          },
+          {
+            "Type": "Flag",
+            "Name": "Void_Golem_Throwing",
+            "Set": true
+          }
+        ]
+      },
+      "HeadMotion": {
+        "Type": "Watch"
+      },
+      "BodyMotion": {
+        "Type": "Nothing"
+      },
+      "ActionsBlocking": true,
+      "Actions": [
+        {
+          "Type": "TimerStart",
+          "Name": "Void_Golem_Throw",
+          "StartValueRange": {
+            "Compute": "makeRange(ThrowInterval)"
+          },
+          "RestartValueRange": {
+            "Compute": "makeRange(ThrowInterval)"
+          }
+        },
+        {
+          "Type": "TimerRestart",
+          "Name": "Void_Golem_Throw"
+        },
+        {
+          "Type": "PlayAnimation",
+          "Slot": "Status",
+          "Animation": "Throw"
+        },
+        {
+          "Type": "SpawnParticles",
+          "ParticleSystem": "Evoke_Void_Golem_Hand_Fire",
+          "TargetNodeName": "R-Hand",
+          "Scale": 0.6
+        },
+        {
+          "Type": "Timeout",
+          "Delay": {
+            "Compute": "ThrowReleaseTime"
+          }
+        },
+        {
+          "Type": "Evoke:VoidArenaSpawn",
+          "Kind": {
+            "Compute": "ThrowKind"
+          },
+          "Emerge": false,
+          "SpawnOffsets": {
+            "Compute": "ThrowSpawnOffset"
+          },
+          "LaunchAtTarget": true,
+          "PitchHigh": false,
+          "LaunchSpread": {
+            "Compute": "ThrowSpread"
+          },
+          "DistanceRange": [ 0.1, 0.4 ],
+          "CountRange": [ 1, 1 ],
+          "DelayRange": [ 0, 0 ]
+        },
+        {
+          "Type": "Timeout",
+          "Delay": {
+            "Compute": "ThrowRecoverTime"
+          }
+        },
+        {
+          "Type": "PlayAnimation",
+          "Slot": "Status"
+        },
+        {
+          "Type": "SetFlag",
+          "Name": "Void_Golem_Throwing",
+          "SetTo": false
+        }
+      ]
+    },
+    {
+      "$Comment": "Idle: stands still until a player comes in range, like the Earth Golem.",
+      "Sensor": {
+        "Type": "State",
+        "State": "Idle"
+      },
+      "Instructions": [
+        {
+          "Sensor": {
+            "Type": "Player",
+            "Range": {
+              "Compute": "DetectionRange"
+            },
+            "LockOnTarget": true
+          },
+          "Actions": [
+            {
+              "Type": "State",
+              "State": "Combat"
+            }
+          ]
+        },
+        {
+          "BodyMotion": {
+            "Type": "Nothing"
+          }
+        }
+      ]
+    },
+    {
+      "$Comment": "Combat: walks to the player and fights up close with the Earth Golem attacks. A player that stays away gets a Creeping Torch thrown at them every ThrowInterval seconds.",
+      "Sensor": {
+        "Type": "State",
+        "State": "Combat"
+      },
+      "Instructions": [
+        {
+          "Sensor": {
+            "Type": "Not",
+            "Sensor": {
+              "Type": "Target",
+              "Range": {
+                "Compute": "DetectionRange"
+              }
+            }
+          },
+          "Actions": [
+            {
+              "Type": "ReleaseTarget"
+            },
+            {
+              "Type": "State",
+              "State": "Idle"
+            }
+          ]
+        },
+        {
+          "$Comment": "Asks for a throw. Only sets the flag, so the throw runs as one uninterrupted sequence even if the player comes closer during the wind-up. A never-started timer reads as Stopped, so the first throw happens as soon as the player is far enough.",
+          "Continue": true,
+          "Sensor": {
+            "Type": "And",
+            "Sensors": [
+              {
+                "Type": "Target",
+                "Range": {
+                  "Compute": "ThrowMaxDistance"
+                },
+                "Filters": [
+                  {
+                    "Type": "LineOfSight"
+                  }
+                ]
+              },
+              {
+                "Type": "Not",
+                "Sensor": {
+                  "Type": "Target",
+                  "Range": {
+                    "Compute": "ThrowMinDistance"
+                  }
+                }
+              },
+              {
+                "Type": "Timer",
+                "Name": "Void_Golem_Throw",
+                "State": "Stopped"
+              },
+              {
+                "Type": "Count",
+                "Count": {
+                  "Compute": "ThrowAllowedCount"
+                },
+                "Range": [ 0, 60 ],
+                "IncludeGroups": [ "Evoke_Void_Torches" ]
+              }
+            ]
+          },
+          "Actions": [
+            {
+              "Type": "SetFlag",
+              "Name": "Void_Golem_Throwing",
+              "SetTo": true
+            }
+          ]
+        },
+        {
+          "$Comment": "Always faces the player, slowly like the Earth Golem.",
+          "Continue": true,
+          "Sensor": {
+            "Type": "Target",
+            "Range": {
+              "Compute": "DetectionRange"
+            },
+            "Filters": [
+              {
+                "Type": "LineOfSight"
+              }
+            ]
+          },
+          "HeadMotion": {
+            "Type": "Aim",
+            "RelativeTurnSpeed": {
+              "Compute": "MeleeTurnSpeed"
+            },
+            "HitProbability": 1
+          }
+        },
+        {
+          "Continue": true,
+          "Sensor": {
+            "Type": "Target",
+            "Range": {
+              "Compute": "MeleeAttackDistance"
+            },
+            "Filters": [
+              {
+                "Type": "LineOfSight"
+              }
+            ]
+          },
+          "ActionsBlocking": true,
+          "Actions": [
+            {
+              "Type": "Timeout",
+              "Delay": {
+                "Compute": "MeleePreDelay"
+              }
+            },
+            {
+              "Type": "Attack",
+              "Attack": {
+                "Compute": "MeleeAttack"
+              },
+              "AttackPauseRange": {
+                "Compute": "MeleePauseRange"
+              }
+            },
+            {
+              "Type": "Timeout",
+              "Delay": {
+                "Compute": "MeleePostDelay"
+              }
+            }
+          ]
+        },
+        {
+          "Sensor": {
+            "Type": "And",
+            "Sensors": [
+              {
+                "Type": "Target",
+                "Range": {
+                  "Compute": "DetectionRange"
+                }
+              },
+              {
+                "Type": "Not",
+                "Sensor": {
+                  "Type": "Target",
+                  "Range": {
+                    "Compute": "ChaseDistance"
+                  }
+                }
+              }
+            ]
+          },
+          "BodyMotion": {
+            "Type": "Seek",
+            "RelativeSpeed": {
+              "Compute": "ChaseRelativeSpeed"
+            },
+            "SlowDownDistance": 3,
+            "StopDistance": 2.3,
+            "UsePathfinder": true
+          }
+        },
+        {
+          "Sensor": {
+            "Type": "Target",
+            "Range": {
+              "Compute": "DetectionRange"
+            }
+          },
+          "BodyMotion": {
+            "Type": "MaintainDistance",
+            "DesiredDistanceRange": {
+              "Compute": "MeleeDistanceRange"
+            },
+            "MoveThreshold": 0.2,
+            "RelativeForwardsSpeed": {
+              "Compute": "ChaseRelativeSpeed"
+            },
+            "RelativeBackwardsSpeed": 0.3
+          }
+        }
+      ]
+    }
+  ]
+}

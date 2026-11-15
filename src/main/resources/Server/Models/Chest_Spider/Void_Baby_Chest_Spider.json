@@ -17,6 +17,10 @@
   },
   "MinScale": 0.35,
   "MaxScale": 0.35,
+  "Light": {
+    "Color": "#70b",
+    "Radius": 3
+  },
   "Phobia": "Arachnophobia",
   "PhobiaModelAssetId": "Baby_Chest_Spider_Block",
   "Particles": [

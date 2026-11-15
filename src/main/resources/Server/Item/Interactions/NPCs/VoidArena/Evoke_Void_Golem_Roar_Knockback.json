@@ -1,0 +1,26 @@
+{
+  "Type": "DamageEntity",
+  "$Comment": "Knockback of the Void Golem half health roar, away from the golem. The server only applies knockback with some damage, so the roar deals 1, like the vanilla Gobliterator knock up.",
+  "DamageCalculator": {
+    "Type": "Absolute",
+    "BaseDamage": {
+      "Physical": 1
+    }
+  },
+  "DamageEffects": {
+    "Knockback": {
+      "Type": "Point",
+      "Force": 15,
+      "VelocityY": 8,
+      "VelocityType": "Set",
+      "VelocityConfig": {
+        "AirResistance": 0.97,
+        "AirResistanceMax": 0.96,
+        "GroundResistance": 0.94,
+        "GroundResistanceMax": 0.3,
+        "Threshold": 3.0
+      }
+    },
+    "CameraEffect": "Impact_Strong"
+  }
+}

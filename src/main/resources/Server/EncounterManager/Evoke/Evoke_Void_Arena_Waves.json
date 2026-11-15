@@ -684,7 +684,7 @@
                 },
                 {
                   "Type": "Evoke:VoidArenaSpawn",
-                  "Kind": "Void_Chest_Spider",
+                  "Kind": "Void_Golem",
                   "SpawnAngle": 360,
                   "DistanceRange": [
                     6,

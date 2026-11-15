@@ -1,0 +1,5 @@
+{
+  "$Comment": "Applied to the Void Golem when a short spin starts. The role reads it to throw one Creeping Torch around itself.",
+  "Duration": 0.5,
+  "OverlapBehavior": "Overwrite"
+}

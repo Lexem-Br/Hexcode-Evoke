@@ -39,6 +39,7 @@ npcRoles.Void_Creeping_Torch.name=Tocha Rastejante do Vazio
 npcRoles.Void_Wisp_Torch.name=Tocha Fátua do Vazio
 npcRoles.Void_Chest_Spider.name=Aranha Baú do Vazio
 npcRoles.Void_Baby_Chest_Spider.name=Aranha Baú Bebê do Vazio
+npcRoles.Void_Golem.name=Golem do Vazio
 npcRoles.Hex_Pumpkin_Scary.name=Abóbora Hex Assustadora
 npcRoles.Hex_Pumpkin_Cute.name=Abóbora Hex Fofa
 npcRoles.Hex_Pumpkin_Green.name=Abóbora Hex Verde
@@ -134,6 +135,8 @@ unlock.description={name} foi registrada no Livro de Evocação
 
 items.Void_Arena_Key.name=Chave da Arena do Vazio
 items.Void_Arena_Key.description=<b>Abre uma fenda para a Arena do Vazio</b>\nSegure <b>Secundário</b> para rasgar um portal à sua frente.\nA fenda fica aberta por <b>5 minutos</b> e qualquer jogador pode entrar até a batalha começar.
+items.Void_Torch.name=Tocha do Vazio
+items.Void_Torch.description=Uma tocha rústica que queima com a <b>chama roxa do Vazio</b>.
 items.Evoke_Void_Arena_Portal.name=Fenda do Vazio
 items.Evoke_Void_Arena_Portal.description=Um rasgo na realidade que leva à Arena do Vazio.
 items.Evoke_Void_Arena_Exit_Portal.name=Saída da Arena do Vazio

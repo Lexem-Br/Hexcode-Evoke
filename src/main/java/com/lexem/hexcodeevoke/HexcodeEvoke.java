@@ -369,6 +369,7 @@ public class HexcodeEvoke extends JavaPlugin {
         this.getCodecRegistry(Interaction.CODEC).register("Evoke:VoidArenaActivate", VoidArenaActivateInteraction.class, VoidArenaActivateInteraction.CODEC);
         this.getCodecRegistry(Interaction.CODEC).register("Evoke:OpenVoidArenaPortal", OpenVoidArenaPortalInteraction.class, OpenVoidArenaPortalInteraction.CODEC);
         this.getCodecRegistry(Interaction.CODEC).register("Evoke:DeflectableProjectile", DeflectableProjectileInteraction.class, DeflectableProjectileInteraction.CODEC);
+        this.getCodecRegistry(Interaction.CODEC).register("Evoke:HitDetailEffect", HitDetailEffectInteraction.class, HitDetailEffectInteraction.CODEC);
     }
 
     @Override

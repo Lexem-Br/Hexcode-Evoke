@@ -1,0 +1,8 @@
+{
+  "Parent": "Void_Golem",
+  "Particles": [],
+  "Light": {
+    "Color": "#f4c",
+    "Radius": 3
+  }
+}

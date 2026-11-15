@@ -28,8 +28,31 @@
             "WorldSoundEventId": "SFX_Skeleton_Mage_Spellbook_Impact"
           },
           "Next": {
-            "Type": "RemoveEntity",
-            "Entity": "User"
+            "Type": "Evoke:HitDetailEffect",
+            "Effects": {
+              "Right_Shoulder": "Evoke_Void_Golem_Right_Shoulder_Broken",
+              "Left_Shoulder": "Evoke_Void_Golem_Left_Shoulder_Broken"
+            },
+            "Next": {
+              "Type": "RemoveEntity",
+              "Entity": "User"
+            }
+          },
+          "Failed": {
+            "Type": "Serial",
+            "Interactions": [
+              {
+                "Type": "Simple",
+                "RunTime": 0,
+                "Effects": {
+                  "WorldSoundEventId": "SFX_Skeleton_Mage_Spellbook_Impact"
+                }
+              },
+              {
+                "Type": "RemoveEntity",
+                "Entity": "User"
+              }
+            ]
           },
           "Blocked": {
             "Type": "Serial",

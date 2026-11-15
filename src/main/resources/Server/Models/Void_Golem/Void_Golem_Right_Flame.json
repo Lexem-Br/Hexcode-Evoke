@@ -1,0 +1,14 @@
+{
+  "Parent": "Void_Golem",
+  "Particles": [
+    {
+      "SystemId": "Evoke_Void_Golem_Shoulder_Fire",
+      "TargetNodeName": "R-Shoulder-Flame",
+      "Scale": 0.75
+    }
+  ],
+  "Light": {
+    "Color": "#f4c",
+    "Radius": 6
+  }
+}

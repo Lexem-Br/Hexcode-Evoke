@@ -1,0 +1,7 @@
+{
+  "Parent": "Hex_Void_Mannequin",
+  "Light": {
+    "Color": "#70b",
+    "Radius": 3
+  }
+}

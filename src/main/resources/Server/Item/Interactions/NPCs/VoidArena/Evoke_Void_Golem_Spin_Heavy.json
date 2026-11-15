@@ -1,0 +1,24 @@
+{
+  "Type": "Parallel",
+  "$Comment": "Vanilla heavy spin plus a marker effect when the spin starts, used by the Void Golem role to throw Creeping Torches.",
+  "Interactions": [
+    {
+      "Interactions": [
+        "Golem_Crystal_Spin_Heavy"
+      ]
+    },
+    {
+      "Interactions": [
+        {
+          "Type": "Simple",
+          "RunTime": 1,
+          "Next": {
+            "Type": "ApplyEffect",
+            "EffectId": "Evoke_Void_Golem_Spin_Throw",
+            "Entity": "User"
+          }
+        }
+      ]
+    }
+  ]
+}

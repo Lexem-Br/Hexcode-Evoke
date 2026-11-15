@@ -1,0 +1,193 @@
+{
+  "TranslationProperties": {
+    "Name": "evoke.items.Void_Torch.name",
+    "Description": "evoke.items.Void_Torch.description"
+  },
+  "InteractionConfig": {
+    "Priorities": {
+      "Secondary": {
+        "MainHand": 1,
+        "OffHand": -1
+      }
+    }
+  },
+  "Interactions": {
+    "Primary": "Root_Unarmed_Attack_Swing_Left",
+    "Secondary": "Block_Secondary"
+  },
+  "Recipe": {
+    "TimeSeconds": 1,
+    "Input": [
+      {
+        "ItemId": "Ingredient_Fibre",
+        "Quantity": 1
+      },
+      {
+        "ItemId": "Ingredient_Tree_Sap",
+        "Quantity": 1
+      },
+      {
+        "ItemId": "Ingredient_Stick",
+        "Quantity": 1
+      },
+      {
+        "ItemId": "Ingredient_Void_Essence",
+        "Quantity": 1
+      }
+    ],
+    "OutputQuantity": 4,
+    "BenchRequirement": [
+      {
+        "Id": "Arcanebench",
+        "Type": "Crafting",
+        "Categories": [
+          "Arcane_Hexcode_Evoke"
+        ]
+      }
+    ]
+  },
+  "InteractionVars": {
+    "Torch_Swing_Left_Effect": "Torch_Swing_Left_Effect",
+    "Torch_Swing_Right_Effect": "Torch_Swing_Right_Effect",
+    "Torch_Swing_Left_Damage": "Torch_Swing_Left_Damage",
+    "Torch_Swing_Right_Damage": "Torch_Swing_Right_Damage"
+  },
+  "Categories": [
+    "Furniture.Lighting"
+  ],
+  "Utility": {
+    "Usable": true
+  },
+  "BlockType": {
+    "DrawType": "Model",
+    "BlockSoundSetId": "Torch",
+    "InteractionSoundEventId": "SFX_Torch_Ignite",
+    "Opacity": "Transparent",
+    "CustomModel": "Items/Torch/Torch_New.blockymodel",
+    "CustomModelTexture": [
+      {
+        "Texture": "NPC/Torch/Creeping/Void_Torch.png",
+        "Weight": 1
+      }
+    ],
+    "CustomModelScale": 0.6,
+    "Light": {
+      "Radius": 0,
+      "Color": "#f4c"
+    },
+    "Flags": {},
+    "RandomRotation": "YawStep1",
+    "Gathering": {
+      "Soft": {
+        "IsWeaponBreakable": false
+      }
+    },
+    "PlacementSettings": {
+      "AllowRotationKey": false,
+      "PlaceInEmptyBlocks": true
+    },
+    "Support": {
+      "Down": [
+        {
+          "FaceType": "Full"
+        },
+        {
+          "FaceType": "Branch"
+        },
+        {
+          "FaceType": "Rock_Beam"
+        },
+        {
+          "FaceType": "Wood_Beam"
+        },
+        {
+          "FaceType": "Fence"
+        },
+        {
+          "FaceType": "Fence_Corner"
+        },
+        {
+          "FaceType": "Wall"
+        },
+        {
+          "FaceType": "Wall_Corner"
+        }
+      ]
+    },
+    "BlockParticleSetId": "Wood",
+    "HitboxType": "Torch",
+    "MovementSettings": {},
+    "Particles": [
+      {
+        "SystemId": "Evoke_Void_Torch_Fire",
+        "TargetNodeName": "Flame",
+        "Scale": 0.7
+      }
+    ],
+    "Material": "Empty",
+    "InteractionHint": "server.interactionHints.turnoff",
+    "Interactions": {
+      "Use": {
+        "Interactions": [
+          {
+            "Type": "ChangeState",
+            "Changes": {
+              "default": "Off",
+              "Off": "default"
+            }
+          }
+        ]
+      }
+    },
+    "State": {
+      "Definitions": {
+        "Off": {
+          "InteractionHint": "server.interactionHints.turnon",
+          "Light": null,
+          "Particles": null,
+          "InteractionSoundEventId": "SFX_Torch_Off",
+          "AmbientSoundEventId": null,
+          "CustomModelAnimation": "Items/Torch/Torch_Off.blockyanim",
+          "BlockSoundSetId": "Wood"
+        }
+      }
+    },
+    "AmbientSoundEventId": "SFX_Torch_Default_Loop",
+    "Looping": true,
+    "ParticleColor": "#3a1f4a",
+    "VariantRotation": "NESW",
+    "TextureComputedColor": "#2E1A3C"
+  },
+  "PlayerAnimationsId": "Torch",
+  "IconProperties": {
+    "Scale": 0.445,
+    "Translation": [
+      0,
+      -17.7
+    ],
+    "Rotation": [
+      22.5,
+      45,
+      22.5
+    ]
+  },
+  "Icon": "Icons/ItemsGenerated/Void_Torch.png",
+  "ResourceTypes": [
+    {
+      "Id": "Fuel"
+    },
+    {
+      "Id": "Charcoal"
+    }
+  ],
+  "Scale": 1.6,
+  "Tags": {
+    "Type": [
+      "Furniture"
+    ],
+    "Family": [
+      "Crude"
+    ]
+  },
+  "ItemSoundSetId": "ISS_Blocks_Wood"
+}

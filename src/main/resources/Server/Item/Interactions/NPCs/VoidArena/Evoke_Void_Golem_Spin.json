@@ -1,0 +1,24 @@
+{
+  "Type": "Parallel",
+  "$Comment": "Vanilla short spin plus a marker effect when the spin starts, used by the Void Golem role to throw one Creeping Torch.",
+  "Interactions": [
+    {
+      "Interactions": [
+        "Golem_Crystal_Spin"
+      ]
+    },
+    {
+      "Interactions": [
+        {
+          "Type": "Simple",
+          "RunTime": 0.717,
+          "Next": {
+            "Type": "ApplyEffect",
+            "EffectId": "Evoke_Void_Golem_Spin_Throw_Single",
+            "Entity": "User"
+          }
+        }
+      ]
+    }
+  ]
+}

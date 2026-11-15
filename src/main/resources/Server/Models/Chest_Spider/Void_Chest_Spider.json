@@ -17,6 +17,10 @@
   },
   "MinScale": 1,
   "MaxScale": 1,
+  "Light": {
+    "Color": "#70b",
+    "Radius": 3
+  },
   "Phobia": "Arachnophobia",
   "PhobiaModelAssetId": "Chest_Spider_Block",
   "DefaultAttachments": [],

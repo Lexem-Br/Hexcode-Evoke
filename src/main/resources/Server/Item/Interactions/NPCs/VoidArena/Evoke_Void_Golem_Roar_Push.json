@@ -1,0 +1,34 @@
+{
+  "Type": "Selector",
+  "$Comment": "Void Golem half health roar: every player within 8 blocks around the golem is thrown away from it.",
+  "RunTime": 0.1,
+  "Effects": {
+    "WorldSoundEventId": "SFX_Golem_Earth_Slam_Impact"
+  },
+  "Selector": {
+    "Id": "Horizontal",
+    "Direction": "ToLeft",
+    "TestLineOfSight": false,
+    "ExtendTop": 2,
+    "ExtendBottom": 3,
+    "StartDistance": 0.5,
+    "EndDistance": 8,
+    "Length": 360,
+    "RollOffset": 0,
+    "YawStartOffset": -90
+  },
+  "HitEntityRules": [
+    {
+      "Matchers": [
+        {
+          "Type": "Player"
+        }
+      ],
+      "Next": {
+        "Interactions": [
+          "Evoke_Void_Golem_Roar_Knockback"
+        ]
+      }
+    }
+  ]
+}

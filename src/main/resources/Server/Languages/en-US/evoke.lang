@@ -39,6 +39,7 @@ npcRoles.Void_Creeping_Torch.name=Void Creeping Torch
 npcRoles.Void_Wisp_Torch.name=Void Wisp Torch
 npcRoles.Void_Chest_Spider.name=Void Chest Spider
 npcRoles.Void_Baby_Chest_Spider.name=Void Baby Chest Spider
+npcRoles.Void_Golem.name=Void Golem
 npcRoles.Hex_Pumpkin_Scary.name=Hex Pumpkin Scary
 npcRoles.Hex_Pumpkin_Cute.name=Hex Pumpkin Cute
 npcRoles.Hex_Pumpkin_Green.name=Hex Pumpkin Green
@@ -134,6 +135,8 @@ unlock.description={name} was registered in the Evoke Book
 
 items.Void_Arena_Key.name=Void Arena Key
 items.Void_Arena_Key.description=<b>Opens a rift to the Void Arena</b>\nHold <b>Secondary</b> to tear a portal open in front of you.\nThe rift stays open for <b>5 minutes</b> and any player can enter it until the battle begins.
+items.Void_Torch.name=Void Torch
+items.Void_Torch.description=A crude torch that burns with the <b>purple flame of the Void</b>.
 items.Evoke_Void_Arena_Portal.name=Void Rift
 items.Evoke_Void_Arena_Portal.description=A tear in reality that leads to the Void Arena.
 items.Evoke_Void_Arena_Exit_Portal.name=Void Arena Exit
