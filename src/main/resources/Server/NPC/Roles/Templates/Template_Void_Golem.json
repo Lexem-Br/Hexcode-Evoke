@@ -52,7 +52,7 @@
           "DamageCalculator": {
             "Type": "Absolute",
             "BaseDamage": {
-              "Physical": 20
+              "Physical": 24
             },
             "RandomPercentageModifier": 0.1
           },
@@ -76,7 +76,7 @@
           "DamageCalculator": {
             "Type": "Absolute",
             "BaseDamage": {
-              "Physical": 20
+              "Physical": 24
             },
             "RandomPercentageModifier": 0.1
           },
@@ -100,7 +100,7 @@
           "DamageCalculator": {
             "Type": "Absolute",
             "BaseDamage": {
-              "Physical": 20
+              "Physical": 24
             },
             "RandomPercentageModifier": 0.1
           },
@@ -124,7 +124,7 @@
           "DamageCalculator": {
             "Type": "Absolute",
             "BaseDamage": {
-              "Physical": 20
+              "Physical": 24
             },
             "RandomPercentageModifier": 0.1
           },
@@ -148,7 +148,7 @@
           "DamageCalculator": {
             "Type": "Absolute",
             "BaseDamage": {
-              "Physical": 20
+              "Physical": 24
             },
             "RandomPercentageModifier": 0.1
           },
@@ -172,7 +172,7 @@
           "DamageCalculator": {
             "Type": "Absolute",
             "BaseDamage": {
-              "Physical": 20
+              "Physical": 24
             },
             "RandomPercentageModifier": 0.1
           },
@@ -196,7 +196,7 @@
           "DamageCalculator": {
             "Type": "Absolute",
             "BaseDamage": {
-              "Physical": 20
+              "Physical": 24
             },
             "RandomPercentageModifier": 0.1
           },
@@ -324,7 +324,7 @@
       "Description": "Health fraction at which the golem roars once and throws the nearby players away."
     },
     "HalfRoarAttack": {
-      "Value": "Root_Evoke_Void_Golem_Roar_Push",
+      "Value": "Root_Void_Golem_Roar_Push",
       "Description": "Root interaction of the half health roar: throws every player within 8 blocks away from the golem."
     },
     "SummonKind": {
@@ -393,6 +393,50 @@
     }
   },
   "Instructions": [
+    {
+      "$Comment": "Half health trigger, like the Void Mannequin Mage blink: checked first on every tick, it spends the threshold right away and cancels the melee attack in progress, so the roar starts on the hit that crosses half health instead of waiting for the attack chain and its pause to end.",
+      "Continue": true,
+      "Sensor": {
+        "Type": "And",
+        "Sensors": [
+          {
+            "Type": "Flag",
+            "Name": "Void_Golem_Half_Roar_Done",
+            "Set": false
+          },
+          {
+            "Type": "Self",
+            "Filters": [
+              {
+                "Type": "Stat",
+                "Stat": "Health",
+                "StatTarget": "Value",
+                "RelativeTo": "Health",
+                "RelativeToTarget": "Max",
+                "ValueRange": {
+                  "Compute": "HalfRoarHealth"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "Actions": [
+        {
+          "Type": "SetFlag",
+          "Name": "Void_Golem_Half_Roar_Done",
+          "SetTo": true
+        },
+        {
+          "Type": "SetFlag",
+          "Name": "Void_Golem_Half_Roar_Active",
+          "SetTo": true
+        },
+        {
+          "Type": "Evoke:InterruptAttack"
+        }
+      ]
+    },
     {
       "$Comment": "Heavy spin: the Evoke_Void_Golem_Spin_Heavy interaction gives the golem the spin throw effect when the spin starts. The golem throws up two Creeping Torches that land around it, only as many as fit under 3 alive. The flag keeps it to one throw per spin.",
       "Continue": true,
@@ -842,31 +886,11 @@
       ]
     },
     {
-      "$Comment": "Half health roar, once: the flag is only set at the end, since the sensor is checked again on every action. The golem stops, roars with the Alerted animation and, at the same moment as the first roar summons, throws every player around it away.",
+      "$Comment": "Half health roar, started by the half health trigger: the active flag is only cleared at the end, since the sensor is checked again on every action. The golem stops, roars with the Alerted animation and, at the same moment as the first roar summons, throws every player around it away.",
       "Sensor": {
-        "Type": "And",
-        "Sensors": [
-          {
-            "Type": "Flag",
-            "Name": "Void_Golem_Half_Roar_Done",
-            "Set": false
-          },
-          {
-            "Type": "Self",
-            "Filters": [
-              {
-                "Type": "Stat",
-                "Stat": "Health",
-                "StatTarget": "Value",
-                "RelativeTo": "Health",
-                "RelativeToTarget": "Max",
-                "ValueRange": {
-                  "Compute": "HalfRoarHealth"
-                }
-              }
-            ]
-          }
-        ]
+        "Type": "Flag",
+        "Name": "Void_Golem_Half_Roar_Active",
+        "Set": true
       },
       "BodyMotion": {
         "Type": "Nothing"
@@ -902,8 +926,8 @@
         },
         {
           "Type": "SetFlag",
-          "Name": "Void_Golem_Half_Roar_Done",
-          "SetTo": true
+          "Name": "Void_Golem_Half_Roar_Active",
+          "SetTo": false
         }
       ]
     },

@@ -1,5 +1,5 @@
 {
   "IncludeRoles": [
-    "Void_Wisp_Torch"
+    "Void_Wisp_Torch*"
   ]
 }

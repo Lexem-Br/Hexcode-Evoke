@@ -1,0 +1,10 @@
+{
+  "Spawners": [
+    { "SpawnerId": "Void_Golem_Roar_Flash", "PositionOffset": { "Y": 0 }, "StartDelay": 0 },
+    { "SpawnerId": "Void_Golem_Roar_Ripple", "PositionOffset": { "Y": 0 }, "StartDelay": 0.02 }
+  ],
+  "LifeSpan": 0.8,
+  "CullDistance": 100,
+  "BoundingRadius": 10.0,
+  "IsImportant": true
+}

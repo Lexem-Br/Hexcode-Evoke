@@ -1,9 +1,17 @@
 {
   "Type": "Selector",
-  "$Comment": "Void Golem half health roar: every player within 8 blocks around the golem is thrown away from it.",
+  "$Comment": "Void Golem half health roar: every player within 8 blocks around the golem is thrown away from it. The round sonic impact is the Hexcode Beam_Impact in white, scaled up to the roar.",
   "RunTime": 0.1,
   "Effects": {
-    "WorldSoundEventId": "SFX_Golem_Earth_Slam_Impact"
+    "WorldSoundEventId": "SFX_Golem_Earth_Slam_Impact",
+    "Particles": [
+      {
+        "SystemId": "Void_Golem_Roar_Impact",
+        "TargetEntityPart": "Entity",
+        "PositionOffset": { "Y": 2 },
+        "Scale": 4
+      }
+    ]
   },
   "Selector": {
     "Id": "Horizontal",
@@ -26,7 +34,7 @@
       ],
       "Next": {
         "Interactions": [
-          "Evoke_Void_Golem_Roar_Knockback"
+          "Void_Golem_Roar_Knockback"
         ]
       }
     }

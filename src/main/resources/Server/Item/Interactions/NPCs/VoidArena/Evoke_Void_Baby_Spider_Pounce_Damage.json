@@ -14,9 +14,5 @@
       }
     ]
   },
-  "Next": {
-    "Type": "ApplyEffect",
-    "EffectId": "Evoke_Void_Mana_Drain",
-    "Entity": "Target"
-  }
+  "Next": "Void_Baby_Spider_Pounce_Mana_Drain"
 }

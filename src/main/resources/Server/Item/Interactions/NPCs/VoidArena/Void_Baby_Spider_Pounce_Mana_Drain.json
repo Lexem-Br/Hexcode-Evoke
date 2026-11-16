@@ -1,0 +1,5 @@
+{
+  "Type": "ApplyEffect",
+  "EffectId": "Evoke_Void_Mana_Drain",
+  "Entity": "Target"
+}

@@ -1,10 +1,10 @@
 {
   "IncludeRoles": [
     "Void_Mannequin*",
-    "Void_Creeping_Torch",
-    "Void_Wisp_Torch",
-    "Void_Chest_Spider",
-    "Void_Baby_Chest_Spider",
-    "Void_Golem"
+    "Void_Creeping_Torch*",
+    "Void_Wisp_Torch*",
+    "Void_Chest_Spider*",
+    "Void_Baby_Chest_Spider*",
+    "Void_Golem*"
   ]
 }

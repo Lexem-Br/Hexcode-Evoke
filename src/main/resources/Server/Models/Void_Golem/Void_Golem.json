@@ -3,6 +3,8 @@
   "Model": "NPC/Void_Golem/Model.blockymodel",
   "Texture": "NPC/Void_Golem/Void.png",
   "DefaultAttachments": [],
+  "MinScale": 1.2,
+  "MaxScale": 1.2,
   "Particles": [
     {
       "SystemId": "Evoke_Void_Golem_Shoulder_Fire",

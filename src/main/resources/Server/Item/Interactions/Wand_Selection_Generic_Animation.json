@@ -1,0 +1,8 @@
+{
+  "Type": "Simple",
+  "RunTime": 0.5,
+  "Effects": {
+    "ItemAnimationId": "Evoke_Wand_Primary",
+    "ClearAnimationOnFinish": true
+  }
+}

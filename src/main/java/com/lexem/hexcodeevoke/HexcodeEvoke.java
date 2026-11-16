@@ -207,6 +207,7 @@ public class HexcodeEvoke extends JavaPlugin {
         npcPlugin.registerCoreComponentType("Evoke:VoidArenaVictory", BuilderActionVoidArenaVictory::new);
         npcPlugin.registerCoreComponentType("Evoke:VoidArenaSpawn", BuilderActionVoidArenaSpawn::new);
         npcPlugin.registerCoreComponentType("Evoke:VoidArenaBlink", BuilderActionVoidArenaBlink::new);
+        npcPlugin.registerCoreComponentType("Evoke:InterruptAttack", BuilderActionInterruptAttack::new);
     }
 
     private void registerBodyMotions(NPCPlugin npcPlugin) {
