@@ -13,7 +13,7 @@ import com.hypixel.hytale.server.core.modules.block.BlockModule;
 import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.storage.ChunkStore;
 import com.lexem.hexcodeevoke.components.MannequinArmorComponent;
-import com.lexem.hexcodeevoke.utils.MannequinArmorUtils;
+import com.lexem.hexcodeevoke.utils.inventory.MannequinArmorUtils;
 import org.joml.Vector3i;
 
 import javax.annotation.Nonnull;

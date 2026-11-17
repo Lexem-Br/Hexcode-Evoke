@@ -20,18 +20,19 @@ import com.hypixel.hytale.server.core.universe.PlayerRef;
 import com.hypixel.hytale.server.core.universe.Universe;
 import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
-import com.hypixel.hytale.server.npc.entities.NPCEntity;
-import com.hypixel.hytale.server.npc.role.Role;
-import com.hypixel.hytale.server.npc.role.support.DisplayNameSupport;
 import com.lexem.hexcodeevoke.components.EvokerComponent;
 import com.lexem.hexcodeevoke.components.HexCreatureComponent;
+import com.lexem.hexcodeevoke.components.HexCreatureEntry;
 import com.lexem.hexcodeevoke.hexitems.AllowedHexItemsAsset;
 import com.lexem.hexcodeevoke.resources.HexCreatureRegistry;
-import com.lexem.hexcodeevoke.utils.HexCreatureDespawner;
-import com.lexem.hexcodeevoke.utils.HexCreatureUnlockUtils;
-import com.lexem.hexcodeevoke.utils.LifeEssenceUtils;
-import com.lexem.hexcodeevoke.utils.UnloadedHexCreatureDespawner;
-import com.lexem.hexcodeevoke.utils.WandIndicatorUtils;
+import com.lexem.hexcodeevoke.utils.common.UuidUtils;
+import com.lexem.hexcodeevoke.utils.essence.LifeEssenceUtils;
+import com.lexem.hexcodeevoke.utils.hexcreature.HexCreatureDespawner;
+import com.lexem.hexcodeevoke.utils.hexcreature.HexCreatureEntrySync;
+import com.lexem.hexcodeevoke.utils.hexcreature.HexCreatureNames;
+import com.lexem.hexcodeevoke.utils.hexcreature.HexCreatureUnlockUtils;
+import com.lexem.hexcodeevoke.utils.hexcreature.UnloadedHexCreatureDespawner;
+import com.lexem.hexcodeevoke.utils.wand.WandIndicatorUtils;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -174,7 +175,7 @@ public class EvokeBookPage extends InteractiveCustomUIPage<EvokeBookPage.EvokeBo
     }
 
     private static boolean isLoadedInAnyWorld(@Nonnull String uuid) {
-        UUID npcUUID = LifeEssenceUtils.parseUUID(uuid);
+        UUID npcUUID = UuidUtils.parse(uuid);
         if (npcUUID == null) return false;
 
         for (World world : Universe.get().getWorlds().values()) {
@@ -215,7 +216,7 @@ public class EvokeBookPage extends InteractiveCustomUIPage<EvokeBookPage.EvokeBo
         String hexCount = createHexCount(ref, store);
         commandBuilder.set("#HexCount.Text", hexCount);
 
-        HexCreatureComponent[] listHexCreatures = new HexCreatureComponent[0];
+        List<HexCreatureEntry> listHexCreatures = List.of();
         EvokerComponent evoker = store.getComponent(ref, EvokerComponent.getComponentType());
         if (evoker != null) {
             listHexCreatures = evoker.getListHexCreatures();
@@ -293,7 +294,7 @@ public class EvokeBookPage extends InteractiveCustomUIPage<EvokeBookPage.EvokeBo
                 } else {
                     commandBuilder.set(rowSelector + " #EntryButton.Text", LOCKED_TEXT);
                 }
-                commandBuilder.set(rowSelector + " #EntryIcon.ItemId", getItemIcon(hexItem.blockId));
+                commandBuilder.set(rowSelector + " #EntryIcon.ItemId", getItemIcon(hexItem.getBlockId()));
                 commandBuilder.set(rowSelector + " #EntryIcon.Visible", true);
                 commandBuilder.set(rowSelector + " #EntryIconSpacer.Visible", true);
             } else {
@@ -325,11 +326,11 @@ public class EvokeBookPage extends InteractiveCustomUIPage<EvokeBookPage.EvokeBo
         commandBuilder.append(container, CREATURE_PAGE_FILE);
 
         commandBuilder.set(selector + " #CreatureName.Text", HexCreatureUnlockUtils.getName(hexItem));
-        commandBuilder.set(selector + " #OriginIcon.ItemId", getItemIcon(hexItem.blockId));
-        commandBuilder.set(selector + " #OriginItem.TextSpans", Message.translation("evoke.book.creatures.origin").param("item", getItemName(hexItem.blockId)));
+        commandBuilder.set(selector + " #OriginIcon.ItemId", getItemIcon(hexItem.getBlockId()));
+        commandBuilder.set(selector + " #OriginItem.TextSpans", Message.translation("evoke.book.creatures.origin").param("item", getItemName(hexItem.getBlockId())));
 
-        if (hexItem.essenceCost > 0) {
-            commandBuilder.set(selector + " #EssenceCost.Text", Message.translation("evoke.book.creatures.cost").param("cost", hexItem.essenceCost));
+        if (hexItem.getEssenceCost() > 0) {
+            commandBuilder.set(selector + " #EssenceCost.Text", Message.translation("evoke.book.creatures.cost").param("cost", hexItem.getEssenceCost()));
         } else {
             commandBuilder.set(selector + " #EssenceCost.Text", Message.translation("evoke.book.creatures.no_cost"));
             commandBuilder.set(selector + " #EssenceIcon.Visible", false);
@@ -352,14 +353,14 @@ public class EvokeBookPage extends InteractiveCustomUIPage<EvokeBookPage.EvokeBo
             variants.addAll(entry.variants());
             for (int i = 0; i < variants.size(); i++) {
                 commandBuilder.append(selector + " #VariantIcons", VARIANT_ICON_FILE);
-                commandBuilder.set(selector + " #VariantIcons[" + i + "] #VariantIcon.ItemId", getItemIcon(variants.get(i).blockId));
+                commandBuilder.set(selector + " #VariantIcons[" + i + "] #VariantIcon.ItemId", getItemIcon(variants.get(i).getBlockId()));
             }
         }
 
         commandBuilder.set(selector + " #DescriptionTitle.Text", Message.translation("evoke.book.creatures.characteristics"));
-        String descriptionKey = hexItem.bookDescription == null || hexItem.bookDescription.isEmpty()
+        String descriptionKey = hexItem.getBookDescription() == null || hexItem.getBookDescription().isEmpty()
                 ? "evoke.book.creatures.no_description"
-                : hexItem.bookDescription;
+                : hexItem.getBookDescription();
         commandBuilder.set(selector + " #Description.Text", Message.translation(descriptionKey));
     }
 
@@ -369,8 +370,8 @@ public class EvokeBookPage extends InteractiveCustomUIPage<EvokeBookPage.EvokeBo
         commandBuilder.append(container, CREATURE_PAGE_FILE);
 
         commandBuilder.set(selector + " #CreatureName.Text", LOCKED_TEXT);
-        commandBuilder.set(selector + " #OriginIcon.ItemId", getItemIcon(hexItem.blockId));
-        commandBuilder.set(selector + " #OriginItem.TextSpans", Message.translation("evoke.book.creatures.origin").param("item", getItemName(hexItem.blockId)));
+        commandBuilder.set(selector + " #OriginIcon.ItemId", getItemIcon(hexItem.getBlockId()));
+        commandBuilder.set(selector + " #OriginItem.TextSpans", Message.translation("evoke.book.creatures.origin").param("item", getItemName(hexItem.getBlockId())));
 
         commandBuilder.set(selector + " #EssenceCost.Text", Message.translation("evoke.book.creatures.cost").param("cost", LOCKED_TEXT));
         commandBuilder.set(selector + " #EssenceIcon.Visible", false);
@@ -391,17 +392,17 @@ public class EvokeBookPage extends InteractiveCustomUIPage<EvokeBookPage.EvokeBo
         Map<String, CreatureEntry> entries = new LinkedHashMap<>();
         for (AllowedHexItemsAsset.HexItem hexItem : hexItems) {
             if (AllowedHexItemsAsset.isVariant(hexItem)) continue;
-            entries.putIfAbsent(hexItem.entityId, new CreatureEntry(hexItem, new ArrayList<>()));
+            entries.putIfAbsent(hexItem.getEntityId(), new CreatureEntry(hexItem, new ArrayList<>()));
         }
 
         for (AllowedHexItemsAsset.HexItem hexItem : hexItems) {
             if (!AllowedHexItemsAsset.isVariant(hexItem)) continue;
 
-            CreatureEntry main = entries.get(hexItem.variantOf);
+            CreatureEntry main = entries.get(hexItem.getVariantOf());
             if (main != null) {
                 main.variants().add(hexItem);
             } else {
-                entries.putIfAbsent(hexItem.entityId, new CreatureEntry(hexItem, new ArrayList<>()));
+                entries.putIfAbsent(hexItem.getEntityId(), new CreatureEntry(hexItem, new ArrayList<>()));
             }
         }
 
@@ -427,19 +428,18 @@ public class EvokeBookPage extends InteractiveCustomUIPage<EvokeBookPage.EvokeBo
         if (evoker == null) {
             return "0/1";
         } else {
-            String[] hexCreaturesUUIDs = evoker.getHexCreatureUUIDs();
-            return hexCreaturesUUIDs.length + "/" + evoker.getMaxHexCreatures();
+            return evoker.getHexCreatureCount() + "/" + evoker.getMaxHexCreatures();
         }
     }
 
     private void createHCCards(
             @Nonnull UICommandBuilder commandBuilder,
             @Nonnull UIEventBuilder eventBuilder,
-            HexCreatureComponent[] hexCreatures,
+            List<HexCreatureEntry> hexCreatures,
             @Nonnull Store<EntityStore> store
     ) {
-        List<HexCreatureComponent> visible = new ArrayList<>();
-        for (HexCreatureComponent hexCreature : hexCreatures) {
+        List<HexCreatureEntry> visible = new ArrayList<>();
+        for (HexCreatureEntry hexCreature : hexCreatures) {
             if (!hexCreature.isMarkedToDespawn()) visible.add(hexCreature);
         }
 
@@ -459,15 +459,15 @@ public class EvokeBookPage extends InteractiveCustomUIPage<EvokeBookPage.EvokeBo
         }
 
         for (int i = firstPage * CARDS_PER_PAGE; i < Math.min(visible.size(), (firstPage + 2) * CARDS_PER_PAGE); i++) {
-            HexCreatureComponent hexCreature = visible.get(i);
+            HexCreatureEntry hexCreature = visible.get(i);
             int pageOffset = i - firstPage * CARDS_PER_PAGE;
             String container = LIST_CONTAINERS[pageOffset / CARDS_PER_PAGE];
             String selector = container + "[" + (pageOffset % CARDS_PER_PAGE) + "]";
             commandBuilder.append(container, ("Pages/" + cardNameFile + ".ui"));
 
             commandBuilder.set(selector + " #HCIcon.ItemId", getBlockId(hexCreature));
-            commandBuilder.set(selector + " #HCName.Text", hexCreature.getName());
-            commandBuilder.set(selector + " #NameInput.Value", hexCreature.getName());
+            commandBuilder.set(selector + " #HCName.Text", HexCreatureNames.display(hexCreature));
+            commandBuilder.set(selector + " #NameInput.Value", HexCreatureNames.text(hexCreature, this.playerRef.getLanguage()));
             commandBuilder.set(selector + " #ShowName.Value", hexCreature.getShowName());
             setCardLifeEssence(commandBuilder, selector, hexCreature, store);
 
@@ -507,14 +507,15 @@ public class EvokeBookPage extends InteractiveCustomUIPage<EvokeBookPage.EvokeBo
     private static void setCardLifeEssence(
             @Nonnull UICommandBuilder commandBuilder,
             @Nonnull String selector,
-            @Nonnull HexCreatureComponent hexCreature,
+            @Nonnull HexCreatureEntry hexCreature,
             @Nonnull Store<EntityStore> store
     ) {
-        AllowedHexItemsAsset.HexItem hexItem = LifeEssenceUtils.getHexItem(hexCreature);
+        AllowedHexItemsAsset.HexItem hexItem = LifeEssenceUtils.getHexItem(hexCreature.getTypeId(), hexCreature.getBlockName());
         float capacity = LifeEssenceUtils.getCapacity(hexItem);
         if (capacity <= 0) return;
 
-        float stored = LifeEssenceUtils.getStored(getLoadedHexCreature(hexCreature, store), hexItem);
+        HexCreatureComponent loaded = getLoadedHexCreature(hexCreature, store);
+        float stored = loaded != null ? LifeEssenceUtils.getStored(loaded, hexItem) : hexCreature.getStoredLifeEssence(capacity);
         float drainPerMinute = LifeEssenceUtils.getDrainPerMinute(hexItem);
         Message text = Message.translation(drainPerMinute > 0 ? "evoke.book.list.essence_time" : "evoke.book.list.essence")
                 .param("stored", LifeEssenceUtils.formatAmount(stored))
@@ -525,12 +526,16 @@ public class EvokeBookPage extends InteractiveCustomUIPage<EvokeBookPage.EvokeBo
         commandBuilder.set(selector + " #HCEssence.Text", text);
     }
 
-    @Nonnull
-    private static HexCreatureComponent getLoadedHexCreature(@Nonnull HexCreatureComponent hexCreature, @Nonnull Store<EntityStore> store) {
-        UUID npcUUID = LifeEssenceUtils.parseUUID(hexCreature.getUUID());
-        Ref<EntityStore> npcRef = npcUUID != null ? store.getExternalData().getRefFromUUID(npcUUID) : null;
-        HexCreatureComponent loaded = npcRef != null && npcRef.isValid() ? store.getComponent(npcRef, HexCreatureComponent.getComponentType()) : null;
-        return loaded != null ? loaded : hexCreature;
+    @Nullable
+    private static HexCreatureComponent getLoadedHexCreature(@Nonnull HexCreatureEntry hexCreature, @Nonnull Store<EntityStore> store) {
+        Ref<EntityStore> npcRef = UuidUtils.getRef(store, hexCreature.getUUID());
+        HexCreatureComponent loaded = npcRef != null ? store.getComponent(npcRef, HexCreatureComponent.getComponentType()) : null;
+        return loaded;
+    }
+
+    private static void applyToLoadedHexCreature(@Nonnull HexCreatureEntry hexCreature, @Nonnull Store<EntityStore> store, @Nullable String language) {
+        Ref<EntityStore> npcRef = UuidUtils.getRef(store, hexCreature.getUUID());
+        if (npcRef != null) HexCreatureEntrySync.applyToLoaded(hexCreature, npcRef, store, language);
     }
 
     @Override
@@ -548,63 +553,38 @@ public class EvokeBookPage extends InteractiveCustomUIPage<EvokeBookPage.EvokeBo
                     nameHCMap.put(data.uuid, data.hexCreatureName);
                     break;
                 case "Save":
-                    for (Map.Entry<String, String> entry : nameHCMap.entrySet()) {
-                        EvokerComponent evoker = store.getComponent(ref, EvokerComponent.getComponentType());
-                        if (evoker == null) break;
+                    EvokerComponent renamingEvoker = store.getComponent(ref, EvokerComponent.getComponentType());
+                    if (renamingEvoker != null) {
+                        String language = this.playerRef.getLanguage();
+                        for (Map.Entry<String, String> entry : nameHCMap.entrySet()) {
+                            HexCreatureEntry hexCreature = renamingEvoker.getHexCreatureByUUID(entry.getKey());
+                            if (hexCreature == null) continue;
 
-                        HexCreatureComponent hexCreature = evoker.getHexCreatureByUUID(entry.getKey());
-                        hexCreature.setName(entry.getValue());
-
-                        Ref<EntityStore> npcESRef = store.getExternalData().getRefFromUUID(UUID.fromString(entry.getKey()));
-                        if (npcESRef == null) break;
-
-                        if (hexCreature.getShowName()) {
-                            DisplayNameSupport displayNameSupport = store.getComponent(npcESRef, DisplayNameSupport.getComponentType());
-                            if (displayNameSupport == null) break;
-
-                            displayNameSupport.nominateDisplayName(entry.getValue());
+                            HexCreatureNames.rename(hexCreature, entry.getValue(), language);
+                            applyToLoadedHexCreature(hexCreature, store, language);
                         }
                     }
                     this.isEditModeEnabled = !isEditModeEnabled;
                     refreshPage(ref, store);
                     break;
                 case "ShowName":
-                    if (!data.uuid.isEmpty()) {
-                        Ref<EntityStore> npcESRef = store.getExternalData().getRefFromUUID(UUID.fromString(data.uuid));
-                        if (npcESRef == null) break;
-
-                        NPCEntity npcEntity = store.getComponent(npcESRef, Objects.requireNonNull(NPCEntity.getComponentType()));
-                        if (npcEntity == null) break;
-
-                        Role role = npcEntity.getRole();
-                        if (role == null) break;
-
-                        DisplayNameSupport displayNameSupport = store.getComponent(npcESRef, DisplayNameSupport.getComponentType());
-                        if (displayNameSupport == null) break;
-
+                    if (data.uuid != null && !data.uuid.isEmpty()) {
                         EvokerComponent evoker = store.getComponent(ref, EvokerComponent.getComponentType());
-                        if (evoker == null) break;
+                        HexCreatureEntry hexCreature = evoker != null ? evoker.getHexCreatureByUUID(data.uuid) : null;
+                        if (hexCreature == null) break;
 
-                        HexCreatureComponent hexCreature = evoker.getHexCreatureByUUID(data.uuid);
                         hexCreature.setShowName(!hexCreature.getShowName());
-
-                        if (hexCreature.getShowName()){
-                            displayNameSupport.nominateDisplayName(hexCreature.getName());
-                        } else {
-                            displayNameSupport.nominateDisplayName("");
-                        }
+                        applyToLoadedHexCreature(hexCreature, store, this.playerRef.getLanguage());
                     }
                     refreshPage(ref, store);
                     break;
                 case "Despawn":
                     if (data.uuid != null) {
-                        UUID npcUUID = UUID.fromString(data.uuid);
-
                         EvokerComponent evoker = store.getComponent(ref, EvokerComponent.getComponentType());
                         if (evoker == null) break;
 
-                        Ref<EntityStore> npcRef = store.getExternalData().getRefFromUUID(npcUUID);
-                        if (npcRef != null && npcRef.isValid()) {
+                        Ref<EntityStore> npcRef = UuidUtils.getRef(store, data.uuid);
+                        if (npcRef != null) {
                             HexCreatureDespawner.despawnByOwner(store, npcRef, store);
                         } else {
                             UnloadedHexCreatureDespawner.despawn(data.uuid);
@@ -680,7 +660,7 @@ public class EvokeBookPage extends InteractiveCustomUIPage<EvokeBookPage.EvokeBo
         sendUpdate(commandBuilder, eventBuilder, false);
     }
 
-    private String getBlockId(HexCreatureComponent hexCreature) {
+    private String getBlockId(HexCreatureEntry hexCreature) {
         String blockId = hexCreature.getBlockName();
         if (AllowedHexItemsAsset.getByBlockId(blockId) == null) {
             return DEFAULT_ICON;

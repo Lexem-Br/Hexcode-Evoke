@@ -13,35 +13,35 @@ import java.util.EnumSet;
 
 public class BuilderActionVoidArenaVictory extends BuilderActionBase {
 
-   public BuilderActionVoidArenaVictory() {
-   }
+    public BuilderActionVoidArenaVictory() {
+    }
 
-   @Nonnull
-   @Override
-   public String getShortDescription() {
-      return "Finish the Void Arena fight with a victory.";
-   }
+    @Nonnull
+    @Override
+    public String getShortDescription() {
+        return "Finish the Void Arena fight with a victory.";
+    }
 
-   @Nonnull
-   @Override
-   public String getLongDescription() {
-      return "Encounter-only action used by Evoke_Void_Arena_Waves. Spends the altar, places the reward chest next to it and shows the victory title.";
-   }
+    @Nonnull
+    @Override
+    public String getLongDescription() {
+        return "Encounter-only action used by Evoke_Void_Arena_Waves. Spends the altar, places the reward chest next to it and shows the victory title.";
+    }
 
-   @Nonnull
-   public Action build(@Nonnull BuilderSupport builderSupport) {
-      return new ActionVoidArenaVictory(this);
-   }
+    @Nonnull
+    public Action build(@Nonnull BuilderSupport builderSupport) {
+        return new ActionVoidArenaVictory(this);
+    }
 
-   @Nonnull
-   @Override
-   public BuilderDescriptorState getBuilderDescriptorState() {
-      return BuilderDescriptorState.Stable;
-   }
+    @Nonnull
+    @Override
+    public BuilderDescriptorState getBuilderDescriptorState() {
+        return BuilderDescriptorState.Stable;
+    }
 
-   @Nonnull
-   public BuilderActionVoidArenaVictory readConfig(@Nonnull JsonElement data) {
-      this.requireInstructionType(EnumSet.of(InstructionType.Encounter, InstructionType.EncounterStateTransitions));
-      return this;
-   }
+    @Nonnull
+    public BuilderActionVoidArenaVictory readConfig(@Nonnull JsonElement data) {
+        this.requireInstructionType(EnumSet.of(InstructionType.Encounter, InstructionType.EncounterStateTransitions));
+        return this;
+    }
 }

@@ -14,7 +14,7 @@ import com.hypixel.hytale.server.npc.instructions.ExecutionSupport;
 import com.hypixel.hytale.server.npc.sensorinfo.IPositionProvider;
 import com.hypixel.hytale.server.npc.sensorinfo.InfoProvider;
 import com.lexem.hexcodeevoke.npc.actions.chest.builders.BuilderActionStoreItems;
-import com.lexem.hexcodeevoke.utils.InventoryUtils;
+import com.lexem.hexcodeevoke.utils.inventory.InventoryUtils;
 import org.joml.Vector3i;
 
 import javax.annotation.Nonnull;

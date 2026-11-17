@@ -33,6 +33,30 @@
     }
   ],
   "AnimationSets": {
+    "Alerted": {
+      "Animations": [
+        {
+          "Animation": "NPC/Common/Evoke_Empty.blockyanim",
+          "Looping": false
+        }
+      ]
+    },
+    "Laydown": {
+      "Animations": [
+        {
+          "Animation": "NPC/Common/Evoke_Empty.blockyanim",
+          "Looping": false
+        }
+      ]
+    },
+    "Wake": {
+      "Animations": [
+        {
+          "Animation": "NPC/Common/Evoke_Empty.blockyanim",
+          "Looping": false
+        }
+      ]
+    },
     "Spawn": {
       "Animations": [
         {

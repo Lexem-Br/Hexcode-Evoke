@@ -18,7 +18,7 @@ import com.hypixel.hytale.server.core.util.NotificationUtil;
 
 import javax.annotation.Nonnull;
 
-public class SendMessageInteraction extends SimpleInteraction {
+public class SendMessageInteraction extends EvokeSimpleInteraction {
     private static final HytaleLogger LOGGER = HytaleLogger.forEnclosingClass();
     private String title = "Error";
     private String description = "";
@@ -51,10 +51,9 @@ public class SendMessageInteraction extends SimpleInteraction {
                 );
             }
 
-            context.getState().state = InteractionState.Finished;
-            super.tick0(firstRun, time, type, context, cooldownHandler);
+            finish(firstRun, time, type, context, cooldownHandler);
         } catch (Exception e) {
-            LOGGER.atSevere().log("[hexcode evoke] SendMessageInteraction failed: %s", e.getMessage());
+            LOGGER.atSevere().withCause(e).log("[hexcode evoke] SendMessageInteraction failed");
             context.getState().state = InteractionState.Failed;
         }
     }

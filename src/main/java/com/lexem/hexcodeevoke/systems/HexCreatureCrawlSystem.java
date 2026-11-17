@@ -18,7 +18,7 @@ import com.hypixel.hytale.server.npc.entities.NPCEntity;
 import com.hypixel.hytale.server.npc.systems.MovementStatesSystem;
 import com.hypixel.hytale.server.npc.systems.RoleSystems;
 import com.lexem.hexcodeevoke.components.HexCreatureComponent;
-import com.lexem.hexcodeevoke.utils.SurfaceCrawlState;
+import com.lexem.hexcodeevoke.utils.movement.SurfaceCrawlState;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -45,7 +45,7 @@ public class HexCreatureCrawlSystem extends EntityTickingSystem<EntityStore> {
         MovementStatesComponent movementStatesComponent = archetypeChunk.getComponent(index, MovementStatesComponent.getComponentType());
         if (hexCreature == null || transform == null || movementStatesComponent == null) return;
 
-        SurfaceCrawlState crawl = hexCreature.getCrawlState();
+        SurfaceCrawlState crawl = hexCreature.getRuntime().getCrawlState();
         if (!crawl.isActive()) return;
 
         float[] rotation = crawl.getPoseRotation();

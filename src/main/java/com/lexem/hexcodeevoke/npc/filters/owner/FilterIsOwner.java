@@ -11,21 +11,21 @@ import javax.annotation.Nonnull;
 
 public class FilterIsOwner extends EntityFilterBase {
 
-   public FilterIsOwner() {}
+    public FilterIsOwner() {}
 
-   @Override
-   public boolean matchesEntity(@Nonnull Ref<EntityStore> ref, @Nonnull Ref<EntityStore> targetRef, @Nonnull ExecutionSupport executionSupport, @Nonnull Store<EntityStore> store) {
-       HexCreatureMinionComponent minionComponent = store.getComponent(ref, HexCreatureMinionComponent.getComponentType());
-       if (minionComponent == null) return false;
+    @Override
+    public boolean matchesEntity(@Nonnull Ref<EntityStore> ref, @Nonnull Ref<EntityStore> targetRef, @Nonnull ExecutionSupport executionSupport, @Nonnull Store<EntityStore> store) {
+        HexCreatureMinionComponent minionComponent = store.getComponent(ref, HexCreatureMinionComponent.getComponentType());
+        if (minionComponent == null) return false;
 
-       Ref<EntityStore> hcRef = minionComponent.getOwnerRef(store);
-       if (hcRef == null) { return false; }
+        Ref<EntityStore> hcRef = minionComponent.getOwnerRef(store);
+        if (hcRef == null) { return false; }
 
-       return hcRef.getIndex() == targetRef.getIndex();
-   }
+        return hcRef.getIndex() == targetRef.getIndex();
+    }
 
-   @Override
-   public int cost() {
-      return 300;
-   }
+    @Override
+    public int cost() {
+        return 300;
+    }
 }

@@ -11,34 +11,34 @@ import javax.annotation.Nonnull;
 
 public class BuilderActionTakeItemFromChestTask extends BuilderActionBase {
 
-   public BuilderActionTakeItemFromChestTask() {
-   }
+    public BuilderActionTakeItemFromChestTask() {
+    }
 
-   @Nonnull
-   @Override
-   public String getShortDescription() {
-      return "Take Item From Chest Task.";
-   }
+    @Nonnull
+    @Override
+    public String getShortDescription() {
+        return "Take Item From Chest Task.";
+    }
 
-   @Nonnull
-   @Override
-   public String getLongDescription() {
-      return this.getShortDescription();
-   }
+    @Nonnull
+    @Override
+    public String getLongDescription() {
+        return this.getShortDescription();
+    }
 
-   @Nonnull
-   public Action build(@Nonnull BuilderSupport builderSupport) {
-      return new ActionTakeItemFromChestTask(this);
-   }
+    @Nonnull
+    public Action build(@Nonnull BuilderSupport builderSupport) {
+        return new ActionTakeItemFromChestTask(this);
+    }
 
-   @Nonnull
-   @Override
-   public BuilderDescriptorState getBuilderDescriptorState() {
-      return BuilderDescriptorState.Stable;
-   }
+    @Nonnull
+    @Override
+    public BuilderDescriptorState getBuilderDescriptorState() {
+        return BuilderDescriptorState.Stable;
+    }
 
-   @Nonnull
-   public BuilderActionTakeItemFromChestTask readConfig(@Nonnull JsonElement data) {
-      return this;
-   }
+    @Nonnull
+    public BuilderActionTakeItemFromChestTask readConfig(@Nonnull JsonElement data) {
+        return this;
+    }
 }

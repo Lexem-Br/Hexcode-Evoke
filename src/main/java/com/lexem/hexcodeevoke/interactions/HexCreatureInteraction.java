@@ -16,16 +16,16 @@ import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.hypixel.hytale.server.core.util.TargetUtil;
 import com.lexem.hexcodeevoke.hexitems.AllowedHexItemsAsset;
-import com.lexem.hexcodeevoke.utils.BlockUtils;
-import com.lexem.hexcodeevoke.utils.ErrorMessageUtils;
-import com.lexem.hexcodeevoke.utils.FinderUtils;
-import com.lexem.hexcodeevoke.utils.HexCreatureReverter;
-import com.lexem.hexcodeevoke.utils.HexCreatureUtils;
+import com.lexem.hexcodeevoke.utils.block.BlockUtils;
+import com.lexem.hexcodeevoke.utils.block.FinderUtils;
+import com.lexem.hexcodeevoke.utils.common.ErrorMessageUtils;
+import com.lexem.hexcodeevoke.utils.hexcreature.HexCreatureReverter;
+import com.lexem.hexcodeevoke.utils.hexcreature.HexCreatureUtils;
 import org.joml.Vector3i;
 
 import javax.annotation.Nonnull;
 
-public class HexCreatureInteraction extends SimpleInteraction {
+public class HexCreatureInteraction extends EvokeSimpleInteraction {
     private static final HytaleLogger LOGGER = HytaleLogger.forEnclosingClass();
 
     public static final BuilderCodec<HexCreatureInteraction> CODEC =
@@ -38,30 +38,26 @@ public class HexCreatureInteraction extends SimpleInteraction {
         try {
             CommandBuffer<EntityStore> accessor = context.getCommandBuffer();
             if (accessor == null) {
-                context.getState().state = InteractionState.Failed;
-                super.tick0(firstRun, time, type, context, cooldownHandler);
+                fail(firstRun, time, type, context, cooldownHandler);
                 return;
             }
 
             Ref<EntityStore> refESPlayer = context.getOwningEntity();
             if (refESPlayer == null) {
-                context.getState().state = InteractionState.Failed;
-                super.tick0(firstRun, time, type, context, cooldownHandler);
+                fail(firstRun, time, type, context, cooldownHandler);
                 return;
             }
 
             Ref<EntityStore> targetEntity = TargetUtil.getTargetEntity(refESPlayer, accessor);
             if (HexCreatureReverter.getHexCreature(targetEntity, accessor) != null) {
                 boolean reverted = HexCreatureReverter.tryRevert(refESPlayer, targetEntity, accessor);
-                context.getState().state = reverted ? InteractionState.Finished : InteractionState.Failed;
-                super.tick0(firstRun, time, type, context, cooldownHandler);
+                complete(reverted, firstRun, time, type, context, cooldownHandler);
                 return;
             }
 
             BlockPosition blockPosition = context.getTargetBlock();
             if (blockPosition == null) {
-                context.getState().state = InteractionState.Failed;
-                super.tick0(firstRun, time, type, context, cooldownHandler);
+                fail(firstRun, time, type, context, cooldownHandler);
                 return;
             }
 
@@ -69,7 +65,7 @@ public class HexCreatureInteraction extends SimpleInteraction {
             TransformComponent transformComponent = accessor.getComponent(refESPlayer, TransformComponent.getComponentType());
             if (transformComponent == null) return;
 
-            Vector3i hexItemPosition = FinderUtils.findNearestBlockBFS(
+            Vector3i hexItemPosition = FinderUtils.findNearestBlock(
                     transformComponent.getPosition(),
                     3,
                     3,
@@ -78,8 +74,7 @@ public class HexCreatureInteraction extends SimpleInteraction {
             );
 
             if (hexItemPosition == null) {
-                context.getState().state = InteractionState.Failed;
-                super.tick0(firstRun, time, type, context, cooldownHandler);
+                fail(firstRun, time, type, context, cooldownHandler);
                 return;
             }
 
@@ -88,22 +83,19 @@ public class HexCreatureInteraction extends SimpleInteraction {
             if (hexItem == null) {
                 PlayerRef playerRef = accessor.getComponent(refESPlayer, PlayerRef.getComponentType());
                 ErrorMessageUtils.sendMessageError(playerRef, "errors.invalid_target", "errors.block_must_be_hex_item");
-                context.getState().state = InteractionState.Failed;
-                super.tick0(firstRun, time, type, context, cooldownHandler);
+                fail(firstRun, time, type, context, cooldownHandler);
                 return;
             }
 
             boolean spawned = HexCreatureUtils.trySpawnHexCreature(hexItemPosition, refESPlayer, accessor);
             if (!spawned) {
-                context.getState().state = InteractionState.Failed;
-                super.tick0(firstRun, time, type, context, cooldownHandler);
+                fail(firstRun, time, type, context, cooldownHandler);
                 return;
             }
 
-            context.getState().state = InteractionState.Finished;
-            super.tick0(firstRun, time, type, context, cooldownHandler);
+            finish(firstRun, time, type, context, cooldownHandler);
         } catch (Exception e) {
-            LOGGER.atSevere().log("[hexcode evoke] HexCreature failed: %s", e.getMessage());
+            LOGGER.atSevere().withCause(e).log("[hexcode evoke] HexCreature failed");
             context.getState().state = InteractionState.Failed;
         }
     }

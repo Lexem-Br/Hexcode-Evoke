@@ -19,6 +19,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicLong;
 
 public class AllowedHexCreatureMinionsAsset implements JsonAssetWithMap<String, DefaultAssetMap<String, AllowedHexCreatureMinionsAsset>> {
     public static final AssetBuilderCodec<String, AllowedHexCreatureMinionsAsset> CODEC;
@@ -78,26 +79,32 @@ public class AllowedHexCreatureMinionsAsset implements JsonAssetWithMap<String, 
         return this.id;
     }
 
-    private static volatile Map<String, HexMinion> byEntityId;
+    private static final AtomicLong GENERATION = new AtomicLong();
+    private static volatile Cache cache;
+
+    private record Cache(long generation, Map<String, HexMinion> byEntityId) {}
 
     public static void invalidateCache() {
-        byEntityId = null;
+        GENERATION.incrementAndGet();
+        cache = null;
     }
 
     @Nullable
     public static AllowedHexCreatureMinionsAsset.HexMinion getByEntityId(@Nonnull String entityId) {
-        Map<String, HexMinion> current = byEntityId;
-        if (current == null) {
-            current = new HashMap<>();
+        long generation = GENERATION.get();
+        Cache current = cache;
+        if (current == null || current.generation() != generation) {
+            Map<String, HexMinion> byEntityId = new HashMap<>();
             for (AllowedHexCreatureMinionsAsset asset : getAssetMap().getAssetMap().values()) {
                 if (asset.hexMinions == null) continue;
 
                 for (HexMinion minion : asset.hexMinions) {
-                    if (minion.entityId != null) current.putIfAbsent(minion.entityId, minion);
+                    if (minion.entityId != null) byEntityId.putIfAbsent(minion.entityId, minion);
                 }
             }
-            byEntityId = current;
+            current = new Cache(generation, byEntityId);
+            if (GENERATION.get() == generation) cache = current;
         }
-        return current.get(entityId);
+        return current.byEntityId().get(entityId);
     }
 }

@@ -32,7 +32,7 @@ public class ActionOpenChestAnimation extends ActionBase {
         super(builder);
         this.reverse = builder.getReverse();
         this.target = builder.getTarget();
-   }
+    }
 
     @Override
     public boolean execute(@Nonnull Ref<EntityStore> npcRef, @Nonnull ExecutionSupport executionSupport, @Nullable InfoProvider sensorInfo, double dt, @Nonnull Store<EntityStore> store) {

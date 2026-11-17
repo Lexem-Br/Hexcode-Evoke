@@ -1,4 +1,4 @@
 {
-  "Type": "ChangeStatWandParticles",
+  "Type": "Evoke:ChangeStatWandParticles",
   "StatModifier": "DeployablePreview"
 }

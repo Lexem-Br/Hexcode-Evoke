@@ -4,7 +4,7 @@
   "DefaultValue": {
     "Interactions": [
       {
-        "Type": "EvokeHCSelection",
+        "Type": "Evoke:HCSelection",
         "All": true,
         "Reverse": true,
         "Next": "Evoke_Wand_Selection_Generic",

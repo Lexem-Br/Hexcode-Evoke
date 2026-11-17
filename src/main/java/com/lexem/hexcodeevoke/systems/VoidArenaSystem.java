@@ -3,7 +3,7 @@ package com.lexem.hexcodeevoke.systems;
 import com.hypixel.hytale.component.Store;
 import com.hypixel.hytale.component.system.tick.TickingSystem;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
-import com.lexem.hexcodeevoke.utils.VoidArenaManager;
+import com.lexem.hexcodeevoke.utils.voidarena.VoidArenaManager;
 
 import javax.annotation.Nonnull;
 

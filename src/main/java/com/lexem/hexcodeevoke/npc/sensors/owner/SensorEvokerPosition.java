@@ -14,11 +14,11 @@ import com.hypixel.hytale.server.npc.sensorinfo.InfoProvider;
 import com.hypixel.hytale.server.npc.sensorinfo.PositionProvider;
 import com.lexem.hexcodeevoke.components.HexCreatureComponent;
 import com.lexem.hexcodeevoke.npc.sensors.owner.builders.BuilderSensorEvokerPosition;
+import com.lexem.hexcodeevoke.utils.hexcreature.HexCreatureUtils;
 import org.joml.Vector3d;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.UUID;
 
 public class SensorEvokerPosition extends SensorBase {
     private final double minRange;
@@ -267,7 +267,7 @@ public class SensorEvokerPosition extends SensorBase {
         HexCreatureComponent hexCreature = store.getComponent(ref, HexCreatureComponent.getComponentType());
         if (hexCreature == null || hexCreature.getEvokerUUID() == null) return null;
 
-        Ref<EntityStore> evokerRef = store.getExternalData().getRefFromUUID(UUID.fromString(hexCreature.getEvokerUUID()));
+        Ref<EntityStore> evokerRef = HexCreatureUtils.getOwnerRef(store, hexCreature);
         return evokerRef != null && evokerRef.isValid() ? evokerRef : null;
     }
 

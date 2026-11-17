@@ -9,6 +9,7 @@ import com.hypixel.hytale.component.ComponentAccessor;
 import com.hypixel.hytale.component.ComponentType;
 import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
+import com.lexem.hexcodeevoke.utils.common.UuidUtils;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -95,7 +96,7 @@ public class HexCreatureMinionComponent implements Component<EntityStore> {
 
     @Nullable
     public Ref<EntityStore> getOwnerRef(@Nonnull ComponentAccessor<EntityStore> accessor) {
-        return this.ownerUUID != null ? accessor.getExternalData().getRefFromUUID(java.util.UUID.fromString(this.ownerUUID)) : null;
+        return UuidUtils.getRef(accessor, this.ownerUUID);
     }
 
     public String getTypeId() {

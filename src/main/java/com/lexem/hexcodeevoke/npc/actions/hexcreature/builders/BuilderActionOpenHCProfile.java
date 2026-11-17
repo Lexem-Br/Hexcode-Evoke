@@ -11,34 +11,34 @@ import javax.annotation.Nonnull;
 
 public class BuilderActionOpenHCProfile extends BuilderActionBase {
 
-   public BuilderActionOpenHCProfile() {
-   }
+    public BuilderActionOpenHCProfile() {
+    }
 
-   @Nonnull
-   @Override
-   public String getShortDescription() {
-      return "Open Hex Creature Profile.";
-   }
+    @Nonnull
+    @Override
+    public String getShortDescription() {
+        return "Open Hex Creature Profile.";
+    }
 
-   @Nonnull
-   @Override
-   public String getLongDescription() {
-      return this.getShortDescription();
-   }
+    @Nonnull
+    @Override
+    public String getLongDescription() {
+        return this.getShortDescription();
+    }
 
-   @Nonnull
-   public Action build(@Nonnull BuilderSupport builderSupport) {
-      return new ActionOpenHCProfile(this);
-   }
+    @Nonnull
+    public Action build(@Nonnull BuilderSupport builderSupport) {
+        return new ActionOpenHCProfile(this);
+    }
 
-   @Nonnull
-   @Override
-   public BuilderDescriptorState getBuilderDescriptorState() {
-      return BuilderDescriptorState.Stable;
-   }
+    @Nonnull
+    @Override
+    public BuilderDescriptorState getBuilderDescriptorState() {
+        return BuilderDescriptorState.Stable;
+    }
 
-   @Nonnull
-   public BuilderActionOpenHCProfile readConfig(@Nonnull JsonElement data) {
-      return this;
-   }
+    @Nonnull
+    public BuilderActionOpenHCProfile readConfig(@Nonnull JsonElement data) {
+        return this;
+    }
 }

@@ -11,34 +11,34 @@ import javax.annotation.Nonnull;
 
 public class BuilderActionRefillWateringCan extends BuilderActionBase {
 
-   public BuilderActionRefillWateringCan() {
-   }
+    public BuilderActionRefillWateringCan() {
+    }
 
-   @Nonnull
-   @Override
-   public String getShortDescription() {
-      return "Fill the held watering can with the water found by the sensor.";
-   }
+    @Nonnull
+    @Override
+    public String getShortDescription() {
+        return "Fill the held watering can with the water found by the sensor.";
+    }
 
-   @Nonnull
-   @Override
-   public String getLongDescription() {
-      return this.getShortDescription();
-   }
+    @Nonnull
+    @Override
+    public String getLongDescription() {
+        return this.getShortDescription();
+    }
 
-   @Nonnull
-   public Action build(@Nonnull BuilderSupport builderSupport) {
-      return new ActionRefillWateringCan(this);
-   }
+    @Nonnull
+    public Action build(@Nonnull BuilderSupport builderSupport) {
+        return new ActionRefillWateringCan(this);
+    }
 
-   @Nonnull
-   @Override
-   public BuilderDescriptorState getBuilderDescriptorState() {
-      return BuilderDescriptorState.Stable;
-   }
+    @Nonnull
+    @Override
+    public BuilderDescriptorState getBuilderDescriptorState() {
+        return BuilderDescriptorState.Stable;
+    }
 
-   @Nonnull
-   public BuilderActionRefillWateringCan readConfig(@Nonnull JsonElement data) {
-      return this;
-   }
+    @Nonnull
+    public BuilderActionRefillWateringCan readConfig(@Nonnull JsonElement data) {
+        return this;
+    }
 }

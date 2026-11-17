@@ -11,49 +11,49 @@ import com.lexem.hexcodeevoke.npc.filters.inventory.FilterCanTransferItemsToTarg
 import javax.annotation.Nonnull;
 
 public class BuilderFilterCanTransferItemsToTargetNPC extends BuilderEntityFilterBase {
-   protected boolean reverse;
+    protected boolean reverse;
 
-   public BuilderFilterCanTransferItemsToTargetNPC() {}
+    public BuilderFilterCanTransferItemsToTargetNPC() {}
 
-   @Nonnull
-   @Override
-   public String getShortDescription() {
-      return "Checks if can transfer items between NPCs.";
-   }
+    @Nonnull
+    @Override
+    public String getShortDescription() {
+        return "Checks if can transfer items between NPCs.";
+    }
 
-   @Nonnull
-   @Override
-   public String getLongDescription() {
-      return getShortDescription();
-   }
+    @Nonnull
+    @Override
+    public String getLongDescription() {
+        return getShortDescription();
+    }
 
-   @Nonnull
-   public IEntityFilter build(@Nonnull BuilderSupport builderSupport) {
-      return new FilterCanTransferItemsToTargetNPC(this);
-   }
+    @Nonnull
+    public IEntityFilter build(@Nonnull BuilderSupport builderSupport) {
+        return new FilterCanTransferItemsToTargetNPC(this);
+    }
 
-   @Nonnull
-   @Override
-   public Builder<IEntityFilter> readConfig(@Nonnull JsonElement data) {
-      this.getBoolean(
-              data,
-              "Reverse",
-              s -> this.reverse = s,
-              false,
-              BuilderDescriptorState.Stable,
-              "If true, checks if cannot transfer items between NPCs",
-              ""
-      );
-      return this;
-   }
+    @Nonnull
+    @Override
+    public Builder<IEntityFilter> readConfig(@Nonnull JsonElement data) {
+        this.getBoolean(
+                data,
+                "Reverse",
+                s -> this.reverse = s,
+                false,
+                BuilderDescriptorState.Stable,
+                "If true, checks if cannot transfer items between NPCs",
+                ""
+        );
+        return this;
+    }
 
-   public boolean getReverse() {
-      return this.reverse;
-   }
+    public boolean getReverse() {
+        return this.reverse;
+    }
 
-   @Nonnull
-   @Override
-   public BuilderDescriptorState getBuilderDescriptorState() {
-      return BuilderDescriptorState.Stable;
-   }
+    @Nonnull
+    @Override
+    public BuilderDescriptorState getBuilderDescriptorState() {
+        return BuilderDescriptorState.Stable;
+    }
 }

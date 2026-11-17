@@ -10,7 +10,7 @@ import com.hypixel.hytale.server.npc.instructions.ExecutionSupport;
 import com.hypixel.hytale.server.npc.sensorinfo.InfoProvider;
 import com.lexem.hexcodeevoke.components.HexCreatureMinionComponent;
 import com.lexem.hexcodeevoke.npc.actions.chest.builders.BuilderActionTransferItemsToTargetNPC;
-import com.lexem.hexcodeevoke.utils.InventoryUtils;
+import com.lexem.hexcodeevoke.utils.inventory.InventoryUtils;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;

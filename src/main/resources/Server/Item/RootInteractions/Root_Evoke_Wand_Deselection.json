@@ -10,7 +10,7 @@
       "RunTime": 0,
       "Next": {
         "0": {
-          "Type": "EvokeHCSelection",
+          "Type": "Evoke:HCSelection",
           "Reverse": true,
           "Next": "Evoke_Wand_Selection_Generic",
           "Failed": "Evoke_Wand_Follow"

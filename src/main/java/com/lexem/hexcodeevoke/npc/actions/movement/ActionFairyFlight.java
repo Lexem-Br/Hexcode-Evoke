@@ -17,15 +17,15 @@ import com.hypixel.hytale.server.npc.sensorinfo.IPositionProvider;
 import com.hypixel.hytale.server.npc.sensorinfo.InfoProvider;
 import com.lexem.hexcodeevoke.components.HexCreatureComponent;
 import com.lexem.hexcodeevoke.npc.actions.movement.builders.BuilderActionFairyFlight;
-import com.lexem.hexcodeevoke.utils.FairyFlightSettings;
-import com.lexem.hexcodeevoke.utils.FairyFlightState;
+import com.lexem.hexcodeevoke.utils.hexcreature.HexCreatureUtils;
+import com.lexem.hexcodeevoke.utils.movement.FairyFlightSettings;
+import com.lexem.hexcodeevoke.utils.movement.FairyFlightState;
 import org.joml.Vector3d;
 import org.joml.Vector3dc;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
-import java.util.UUID;
 
 public class ActionFairyFlight extends ActionBase {
     private static final double MAX_STEP_SECONDS = 0.1;
@@ -67,7 +67,7 @@ public class ActionFairyFlight extends ActionBase {
         if (hexCreature == null || transform == null || dt <= 0) return false;
 
         Vector3d position = transform.getPosition();
-        FairyFlightState flight = hexCreature.getFlightState();
+        FairyFlightState flight = hexCreature.getRuntime().getFlightState();
         if (!flight.isActive()) {
             flight.begin(transform.getRotation().yaw(), transform.getRotation().pitch(), transform.getRotation().roll());
         }
@@ -197,7 +197,7 @@ public class ActionFairyFlight extends ActionBase {
     private Ref<EntityStore> getEvokerRef(@Nonnull HexCreatureComponent hexCreature, @Nonnull Store<EntityStore> store) {
         if (hexCreature.getEvokerUUID() == null) return null;
 
-        Ref<EntityStore> evokerRef = store.getExternalData().getRefFromUUID(UUID.fromString(hexCreature.getEvokerUUID()));
+        Ref<EntityStore> evokerRef = HexCreatureUtils.getOwnerRef(store, hexCreature);
         return evokerRef != null && evokerRef.isValid() ? evokerRef : null;
     }
 }

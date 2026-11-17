@@ -12,9 +12,9 @@ import com.hypixel.hytale.server.npc.sensorinfo.PositionProvider;
 import com.lexem.hexcodeevoke.components.HexCreatureComponent;
 import com.lexem.hexcodeevoke.hexitems.AllowedHexItemsAsset;
 import com.lexem.hexcodeevoke.npc.sensors.refuel.builders.BuilderSensorNeedsEssenceTray;
-import com.lexem.hexcodeevoke.utils.EssenceTrayUtils;
-import com.lexem.hexcodeevoke.utils.LifeEssenceUtils;
-import com.lexem.hexcodeevoke.utils.RefuelState;
+import com.lexem.hexcodeevoke.utils.essence.EssenceTrayUtils;
+import com.lexem.hexcodeevoke.utils.essence.LifeEssenceUtils;
+import com.lexem.hexcodeevoke.utils.essence.RefuelState;
 import org.joml.Vector3i;
 
 import javax.annotation.Nonnull;
@@ -45,7 +45,7 @@ public class SensorNeedsEssenceTray extends SensorBase {
         HexCreatureComponent hexCreature = store.getComponent(npcRef, HexCreatureComponent.getComponentType());
         TransformComponent transform = store.getComponent(npcRef, TransformComponent.getComponentType());
         if (hexCreature == null || transform == null || !this.needsLifeEssence(hexCreature)) return false;
-        if (hexCreature.getRefuelState().isOnCooldown() || RefuelState.isRefueling(executionSupport.getStateSupport())) return false;
+        if (hexCreature.getRuntime().getRefuelState().isOnCooldown() || RefuelState.isRefueling(executionSupport.getStateSupport())) return false;
 
         Vector3i tray = EssenceTrayUtils.findNearestFilledTray(store.getExternalData().getWorld(), transform.getPosition(), this.range);
         if (tray == null) return false;
@@ -55,7 +55,7 @@ public class SensorNeedsEssenceTray extends SensorBase {
     }
 
     private boolean needsLifeEssence(@Nonnull HexCreatureComponent hexCreature) {
-        if (hexCreature.getEvokerUUID() == null || hexCreature.isLifeEssenceDepleted() || !hexCreature.hasLifeEssence()) return false;
+        if (hexCreature.getEvokerUUID() == null || hexCreature.getRuntime().isLifeEssenceDepleted() || !hexCreature.hasLifeEssence()) return false;
 
         AllowedHexItemsAsset.HexItem hexItem = LifeEssenceUtils.getHexItem(hexCreature);
         if (!LifeEssenceUtils.consumesLifeEssence(hexItem)) return false;

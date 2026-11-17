@@ -11,41 +11,41 @@ import com.lexem.hexcodeevoke.npc.actions.minion.ActionSpawnMinion;
 import javax.annotation.Nonnull;
 
 public class BuilderActionSpawnMinion extends BuilderActionBase {
-   protected final StringHolder entityId = new StringHolder();
+    protected final StringHolder entityId = new StringHolder();
 
-   public BuilderActionSpawnMinion() {
-   }
+    public BuilderActionSpawnMinion() {
+    }
 
-   @Nonnull
-   @Override
-   public String getShortDescription() {
-      return "Spawn a minion for a Hex Creature.";
-   }
+    @Nonnull
+    @Override
+    public String getShortDescription() {
+        return "Spawn a minion for a Hex Creature.";
+    }
 
-   @Nonnull
-   @Override
-   public String getLongDescription() {
-      return this.getShortDescription();
-   }
+    @Nonnull
+    @Override
+    public String getLongDescription() {
+        return this.getShortDescription();
+    }
 
-   @Nonnull
-   public Action build(@Nonnull BuilderSupport builderSupport) {
-      return new ActionSpawnMinion(this, builderSupport);
-   }
+    @Nonnull
+    public Action build(@Nonnull BuilderSupport builderSupport) {
+        return new ActionSpawnMinion(this, builderSupport);
+    }
 
-   @Nonnull
-   @Override
-   public BuilderDescriptorState getBuilderDescriptorState() {
-      return BuilderDescriptorState.Stable;
-   }
+    @Nonnull
+    @Override
+    public BuilderDescriptorState getBuilderDescriptorState() {
+        return BuilderDescriptorState.Stable;
+    }
 
-   @Nonnull
-   public BuilderActionSpawnMinion readConfig(@Nonnull JsonElement data) {
-      this.requireString(data, "EntityId", this.entityId, null, BuilderDescriptorState.Stable, "Entity id from NPC to spawn", null);
-      return this;
-   }
+    @Nonnull
+    public BuilderActionSpawnMinion readConfig(@Nonnull JsonElement data) {
+        this.requireString(data, "EntityId", this.entityId, null, BuilderDescriptorState.Stable, "Entity id from NPC to spawn", null);
+        return this;
+    }
 
-   public String getEntityId(@Nonnull BuilderSupport support) {
-      return this.entityId.get(support.getExecutionContext());
-   }
+    public String getEntityId(@Nonnull BuilderSupport support) {
+        return this.entityId.get(support.getExecutionContext());
+    }
 }

@@ -16,8 +16,8 @@ import javax.annotation.Nullable;
 
 public class ActionOpenHCProfile extends ActionBase {
     public ActionOpenHCProfile(@Nonnull BuilderActionOpenHCProfile builder) {
-      super(builder);
-   }
+        super(builder);
+    }
 
     @Override
     public boolean execute(@Nonnull Ref<EntityStore> npcRef, @Nonnull ExecutionSupport executionSupport, @Nullable InfoProvider sensorInfo, double dt, @Nonnull Store<EntityStore> store) {

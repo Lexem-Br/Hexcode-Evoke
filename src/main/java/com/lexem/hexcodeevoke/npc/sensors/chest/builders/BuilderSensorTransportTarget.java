@@ -10,7 +10,7 @@ import com.hypixel.hytale.server.npc.asset.builder.validators.DoubleSingleValida
 import com.hypixel.hytale.server.npc.corecomponents.builders.BuilderSensorBase;
 import com.hypixel.hytale.server.npc.instructions.Sensor;
 import com.lexem.hexcodeevoke.npc.sensors.chest.SensorTransportTarget;
-import com.lexem.hexcodeevoke.utils.TransportState;
+import com.lexem.hexcodeevoke.utils.transport.TransportState;
 
 import javax.annotation.Nonnull;
 

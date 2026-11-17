@@ -2,7 +2,6 @@ package com.lexem.hexcodeevoke.npc.actions.movement;
 
 import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.component.Store;
-import com.hypixel.hytale.math.vector.Vector3dUtil;
 import com.hypixel.hytale.server.core.modules.entity.component.TransformComponent;
 import com.hypixel.hytale.server.core.modules.physics.util.PhysicsMath;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
@@ -17,11 +16,11 @@ import com.hypixel.hytale.server.npc.sensorinfo.InfoProvider;
 import com.lexem.hexcodeevoke.components.EvokerComponent;
 import com.lexem.hexcodeevoke.components.HexCreatureComponent;
 import com.lexem.hexcodeevoke.npc.actions.movement.builders.BuilderActionUnstuck;
+import com.lexem.hexcodeevoke.utils.hexcreature.HexCreatureUtils;
 import org.joml.Vector3d;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class ActionUnstuck extends ActionBase {
@@ -112,15 +111,12 @@ public class ActionUnstuck extends ActionBase {
         HexCreatureComponent hexCreature = store.getComponent(npcRef, HexCreatureComponent.getComponentType());
         if (hexCreature == null || hexCreature.getEvokerUUID() == null) return false;
 
-        Ref<EntityStore> evokerRef = store.getExternalData().getRefFromUUID(UUID.fromString(hexCreature.getEvokerUUID()));
+        Ref<EntityStore> evokerRef = HexCreatureUtils.getOwnerRef(store, hexCreature);
         if (evokerRef == null || !evokerRef.isValid()) return false;
 
         Vector3d basePosition = null;
         if (this.isSeekingPosition(npcRef, store)) {
-            EvokerComponent evoker = store.getComponent(evokerRef, EvokerComponent.getComponentType());
-            if (evoker != null && !evoker.getTargetPosition().equals(Vector3dUtil.MIN)) {
-                basePosition = evoker.getTargetPosition();
-            }
+            basePosition = HexCreatureUtils.getCommandTarget(hexCreature, store.getComponent(evokerRef, EvokerComponent.getComponentType()));
         }
 
         if (basePosition == null) {

@@ -7,7 +7,7 @@ import com.hypixel.hytale.server.npc.asset.builder.BuilderSupport;
 import com.hypixel.hytale.server.npc.corecomponents.EntityFilterBase;
 import com.hypixel.hytale.server.npc.instructions.ExecutionSupport;
 import com.lexem.hexcodeevoke.npc.filters.inventory.builders.BuilderFilterHasBrokenItemInHand;
-import com.lexem.hexcodeevoke.utils.HeldItemUtils;
+import com.lexem.hexcodeevoke.utils.inventory.HeldItemUtils;
 
 import javax.annotation.Nonnull;
 import java.util.List;

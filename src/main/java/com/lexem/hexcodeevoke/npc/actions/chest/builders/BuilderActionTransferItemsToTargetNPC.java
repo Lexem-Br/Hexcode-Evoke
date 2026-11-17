@@ -11,34 +11,34 @@ import javax.annotation.Nonnull;
 
 public class BuilderActionTransferItemsToTargetNPC extends BuilderActionBase {
 
-   public BuilderActionTransferItemsToTargetNPC() {
-   }
+    public BuilderActionTransferItemsToTargetNPC() {
+    }
 
-   @Nonnull
-   @Override
-   public String getShortDescription() {
-      return "Transfer items to target NPC.";
-   }
+    @Nonnull
+    @Override
+    public String getShortDescription() {
+        return "Transfer items to target NPC.";
+    }
 
-   @Nonnull
-   @Override
-   public String getLongDescription() {
-      return this.getShortDescription();
-   }
+    @Nonnull
+    @Override
+    public String getLongDescription() {
+        return this.getShortDescription();
+    }
 
-   @Nonnull
-   public Action build(@Nonnull BuilderSupport builderSupport) {
-      return new ActionTransferItemsToTargetNPC(this);
-   }
+    @Nonnull
+    public Action build(@Nonnull BuilderSupport builderSupport) {
+        return new ActionTransferItemsToTargetNPC(this);
+    }
 
-   @Nonnull
-   @Override
-   public BuilderDescriptorState getBuilderDescriptorState() {
-      return BuilderDescriptorState.Stable;
-   }
+    @Nonnull
+    @Override
+    public BuilderDescriptorState getBuilderDescriptorState() {
+        return BuilderDescriptorState.Stable;
+    }
 
-   @Nonnull
-   public BuilderActionTransferItemsToTargetNPC readConfig(@Nonnull JsonElement data) {
-      return this;
-   }
+    @Nonnull
+    public BuilderActionTransferItemsToTargetNPC readConfig(@Nonnull JsonElement data) {
+        return this;
+    }
 }

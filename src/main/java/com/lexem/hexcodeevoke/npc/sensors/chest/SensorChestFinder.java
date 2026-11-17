@@ -16,8 +16,8 @@ import com.hypixel.hytale.server.npc.instructions.ExecutionSupport;
 import com.hypixel.hytale.server.npc.sensorinfo.InfoProvider;
 import com.hypixel.hytale.server.npc.sensorinfo.PositionProvider;
 import com.lexem.hexcodeevoke.npc.sensors.chest.builders.BuilderSensorChestFinder;
-import com.lexem.hexcodeevoke.utils.FinderUtils;
-import com.lexem.hexcodeevoke.utils.InventoryUtils;
+import com.lexem.hexcodeevoke.utils.block.FinderUtils;
+import com.lexem.hexcodeevoke.utils.inventory.InventoryUtils;
 import org.joml.Vector3d;
 import org.joml.Vector3i;
 

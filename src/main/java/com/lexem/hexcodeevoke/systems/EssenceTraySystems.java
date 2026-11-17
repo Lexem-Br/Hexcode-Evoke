@@ -23,8 +23,8 @@ import com.hypixel.hytale.server.core.universe.world.chunk.BlockOperations;
 import com.hypixel.hytale.server.core.universe.world.chunk.section.BlockSection;
 import com.hypixel.hytale.server.core.universe.world.storage.ChunkStore;
 import com.lexem.hexcodeevoke.components.EssenceTrayComponent;
-import com.lexem.hexcodeevoke.utils.EssenceTrayUtils;
-import com.lexem.hexcodeevoke.utils.LifeEssenceUtils;
+import com.lexem.hexcodeevoke.utils.essence.EssenceTrayUtils;
+import com.lexem.hexcodeevoke.utils.essence.LifeEssenceUtils;
 import org.joml.Vector3i;
 
 import javax.annotation.Nonnull;

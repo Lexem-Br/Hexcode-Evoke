@@ -4,7 +4,6 @@ import com.hypixel.hytale.builtin.adventure.farming.states.TilledSoilBlock;
 import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.component.Store;
 import com.hypixel.hytale.math.util.ChunkUtil;
-import com.hypixel.hytale.server.core.asset.type.blocktype.config.BlockType;
 import com.hypixel.hytale.server.core.modules.time.WorldTimeResource;
 import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.chunk.section.BlockComponentSection;
@@ -16,16 +15,14 @@ import com.hypixel.hytale.server.npc.instructions.ExecutionSupport;
 import com.hypixel.hytale.server.npc.sensorinfo.IPositionProvider;
 import com.hypixel.hytale.server.npc.sensorinfo.InfoProvider;
 import com.lexem.hexcodeevoke.npc.actions.farming.builders.BuilderActionWaterSoil;
-import com.lexem.hexcodeevoke.utils.BlockUtils;
-import com.lexem.hexcodeevoke.utils.HeldItemUtils;
-import com.lexem.hexcodeevoke.utils.WateringCanUtils;
+import com.lexem.hexcodeevoke.utils.farming.WateringCanUtils;
+import com.lexem.hexcodeevoke.utils.inventory.HeldItemUtils;
 import org.joml.Vector3i;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
-import java.util.Objects;
 
 public class ActionWaterSoil extends ActionBase {
 
@@ -50,10 +47,7 @@ public class ActionWaterSoil extends ActionBase {
                 (int) Math.floor(positionProvider.getZ())
         );
 
-        BlockType blockType = BlockUtils.getBlockTypeByPosition(blockPosition, world);
-        if (blockType == null || blockType.getId() == null) return false;
-
-        if (!Objects.equals(blockType.getId(), "Soil_Dirt_Tilled")) return false;
+        if (!WateringCanUtils.isWettableSoil(blockPosition, world)) return false;
 
         ChunkStore chunkStore = world.getChunkStore();
         Store<ChunkStore> chunkStoreComponent = chunkStore.getStore();

@@ -24,186 +24,186 @@ import java.util.Objects;
 import java.util.function.Supplier;
 
 public class BodyMotionTeleportHexCreature extends BodyMotionBase {
-   protected static final ComponentType<EntityStore, TransformComponent> TRANSFORM_COMPONENT_TYPE = TransformComponent.getComponentType();
-   protected static final ComponentType<EntityStore, BoundingBox> BOUNDING_BOX_COMPONENT_TYPE = BoundingBox.getComponentType();
-   protected final double minOffset;
-   protected final double maxOffset;
-   protected final double minYOffset;
-   protected final double maxYOffset;
-   protected final float angle;
-   protected final Orientation orientation;
-   protected final Vector3d target = new Vector3d();
-   protected final Vector3d offsetVector = new Vector3d();
-   protected final Vector3d lastTriedTarget = new Vector3d();
-   protected final Vector3d originalTarget = new Vector3d();
-   protected final Vector3d candidate = new Vector3d();
-   protected static final double VERTICAL_SEARCH_STEP = 0.5;
-   protected int tries;
-   protected double cooldown;
+    protected static final ComponentType<EntityStore, TransformComponent> TRANSFORM_COMPONENT_TYPE = TransformComponent.getComponentType();
+    protected static final ComponentType<EntityStore, BoundingBox> BOUNDING_BOX_COMPONENT_TYPE = BoundingBox.getComponentType();
+    protected final double minOffset;
+    protected final double maxOffset;
+    protected final double minYOffset;
+    protected final double maxYOffset;
+    protected final float angle;
+    protected final Orientation orientation;
+    protected final Vector3d target = new Vector3d();
+    protected final Vector3d offsetVector = new Vector3d();
+    protected final Vector3d lastTriedTarget = new Vector3d();
+    protected final Vector3d originalTarget = new Vector3d();
+    protected final Vector3d candidate = new Vector3d();
+    protected static final double VERTICAL_SEARCH_STEP = 0.5;
+    protected int tries;
+    protected double cooldown;
 
-   public BodyMotionTeleportHexCreature(@Nonnull BuilderTeleportHexCreature builder) {
-      super(builder);
-      double[] offset = builder.getOffsetRadius();
-      this.minOffset = offset[0];
-      this.maxOffset = offset[1];
-      this.minYOffset = builder.getMinYOffset();
-      this.maxYOffset = builder.getMaxYOffset();
-      this.angle = builder.getSectorRadians() / 2.0F;
-      this.orientation = builder.getOrientation();
-   }
+    public BodyMotionTeleportHexCreature(@Nonnull BuilderTeleportHexCreature builder) {
+        super(builder);
+        double[] offset = builder.getOffsetRadius();
+        this.minOffset = offset[0];
+        this.maxOffset = offset[1];
+        this.minYOffset = builder.getMinYOffset();
+        this.maxYOffset = builder.getMaxYOffset();
+        this.angle = builder.getSectorRadians() / 2.0F;
+        this.orientation = builder.getOrientation();
+    }
 
-   @Override
-   public void activate(@Nonnull Ref<EntityStore> ref, @Nonnull ExecutionSupport executionSupport, @Nonnull ComponentAccessor<EntityStore> componentAccessor) {
-      this.tries = 10;
-   }
+    @Override
+    public void activate(@Nonnull Ref<EntityStore> ref, @Nonnull ExecutionSupport executionSupport, @Nonnull ComponentAccessor<EntityStore> componentAccessor) {
+        this.tries = 10;
+    }
 
-   @Override
-   public boolean computeSteering(
-           @Nonnull Ref<EntityStore> ref,
-           @Nonnull ExecutionSupport executionSupport,
-           @Nullable InfoProvider sensorInfo,
-           double dt,
-           @Nonnull Steering desiredSteering,
-           @Nonnull ComponentAccessor<EntityStore> componentAccessor
-   ) {
-      if (sensorInfo != null && Objects.requireNonNull(sensorInfo.getPositionProvider()).providePosition(this.target)) {
-         double dist = this.target.distanceSquared(this.lastTriedTarget);
-         if ((this.tries > 0 || !(dist < 1.0)) && !this.tickCooldown(dt)) {
-            if (dist > 1.0) {
-               this.tries = 10;
-            }
+    @Override
+    public boolean computeSteering(
+            @Nonnull Ref<EntityStore> ref,
+            @Nonnull ExecutionSupport executionSupport,
+            @Nullable InfoProvider sensorInfo,
+            double dt,
+            @Nonnull Steering desiredSteering,
+            @Nonnull ComponentAccessor<EntityStore> componentAccessor
+    ) {
+        if (sensorInfo != null && Objects.requireNonNull(sensorInfo.getPositionProvider()).providePosition(this.target)) {
+            double dist = this.target.distanceSquared(this.lastTriedTarget);
+            if ((this.tries > 0 || !(dist < 1.0)) && !this.tickCooldown(dt)) {
+                if (dist > 1.0) {
+                    this.tries = 10;
+                }
 
-            this.lastTriedTarget.set(this.target);
-            TransformComponent transformComponent = componentAccessor.getComponent(ref, TRANSFORM_COMPONENT_TYPE);
-            if (transformComponent == null) { return false; }
+                this.lastTriedTarget.set(this.target);
+                TransformComponent transformComponent = componentAccessor.getComponent(ref, TRANSFORM_COMPONENT_TYPE);
+                if (transformComponent == null) { return false; }
 
-            Vector3d selfPosition = transformComponent.getPosition();
-            double distance = selfPosition.distanceSquared(this.target);
-            double maxOffset2 = this.maxOffset * this.maxOffset;
-            if (distance <= maxOffset2 + 1.0E-5) {
-               return false;
-            } else {
-               this.offsetVector.set(selfPosition).sub(this.target).y = 0.0;
-               this.offsetVector.normalize(RandomExtra.randomRange(this.minOffset, this.maxOffset));
-               this.offsetVector.rotateY(RandomExtra.randomRange(-this.angle, this.angle));
-               this.target.add(this.offsetVector);
-               MotionController motionController = executionSupport.getMotionContextSupport().getActiveMotionController();
-               BoundingBox boundingBoxComponent = componentAccessor.getComponent(ref, BOUNDING_BOX_COMPONENT_TYPE);
-               if (motionController != null && this.findValidTarget(motionController, boundingBoxComponent, componentAccessor)) {
-                  Vector3d teleportPos = new Vector3d(this.target).add(0, this.minYOffset, 0);
-                  switch (this.orientation) {
-                     case Unchanged: {
-                        Rotation3f bodyRotation = transformComponent.getRotation();
-                        componentAccessor.addComponent(ref, Teleport.getComponentType(), Teleport.createExact(teleportPos, bodyRotation));
-                        break;
-                     }
-                     case TowardsTarget: {
-                        double x = this.lastTriedTarget.x() - this.target.x();
-                        double y = this.lastTriedTarget.y() - this.target.y();
-                        double z = this.lastTriedTarget.z() - this.target.z();
-                        Rotation3f bodyRotation = transformComponent.getRotation();
-                        float yaw;
-                        float pitch;
-                        if (x * x + z * z < 1.0E-5) {
-                           yaw = bodyRotation.yaw();
-                           pitch = bodyRotation.pitch();
-                        } else {
-                           yaw = PhysicsMath.normalizeTurnAngle(PhysicsMath.headingFromDirection(x, z));
-                           pitch = PhysicsMath.pitchFromDirection(x, y, z);
-                        }
+                Vector3d selfPosition = transformComponent.getPosition();
+                double distance = selfPosition.distanceSquared(this.target);
+                double maxOffset2 = this.maxOffset * this.maxOffset;
+                if (distance <= maxOffset2 + 1.0E-5) {
+                    return false;
+                } else {
+                    this.offsetVector.set(selfPosition).sub(this.target).y = 0.0;
+                    this.offsetVector.normalize(RandomExtra.randomRange(this.minOffset, this.maxOffset));
+                    this.offsetVector.rotateY(RandomExtra.randomRange(-this.angle, this.angle));
+                    this.target.add(this.offsetVector);
+                    MotionController motionController = executionSupport.getMotionContextSupport().getActiveMotionController();
+                    BoundingBox boundingBoxComponent = componentAccessor.getComponent(ref, BOUNDING_BOX_COMPONENT_TYPE);
+                    if (motionController != null && this.findValidTarget(motionController, boundingBoxComponent, componentAccessor)) {
+                        Vector3d teleportPos = new Vector3d(this.target).add(0, this.minYOffset, 0);
+                        switch (this.orientation) {
+                            case Unchanged: {
+                                Rotation3f bodyRotation = transformComponent.getRotation();
+                                componentAccessor.addComponent(ref, Teleport.getComponentType(), Teleport.createExact(teleportPos, bodyRotation));
+                                break;
+                            }
+                            case TowardsTarget: {
+                                double x = this.lastTriedTarget.x() - this.target.x();
+                                double y = this.lastTriedTarget.y() - this.target.y();
+                                double z = this.lastTriedTarget.z() - this.target.z();
+                                Rotation3f bodyRotation = transformComponent.getRotation();
+                                float yaw;
+                                float pitch;
+                                if (x * x + z * z < 1.0E-5) {
+                                    yaw = bodyRotation.yaw();
+                                    pitch = bodyRotation.pitch();
+                                } else {
+                                    yaw = PhysicsMath.normalizeTurnAngle(PhysicsMath.headingFromDirection(x, z));
+                                    pitch = PhysicsMath.pitchFromDirection(x, y, z);
+                                }
 
-                        componentAccessor.addComponent(
+                                componentAccessor.addComponent(
                                 ref, Teleport.getComponentType(), Teleport.createExact(teleportPos, new Rotation3f(yaw, pitch, bodyRotation.roll()))
-                        );
-                        break;
-                     }
-                     case UseTarget: {
-                        Ref<EntityStore> targetRef = sensorInfo.hasPosition() ? sensorInfo.getPositionProvider().getTarget() : null;
-                        if (targetRef == null) {
-                           return false;
+                                );
+                                break;
+                            }
+                            case UseTarget: {
+                                Ref<EntityStore> targetRef = sensorInfo.hasPosition() ? sensorInfo.getPositionProvider().getTarget() : null;
+                                if (targetRef == null) {
+                                    return false;
+                                }
+
+                                TransformComponent targetTransformComponent = componentAccessor.getComponent(targetRef, TRANSFORM_COMPONENT_TYPE);
+                                if (targetTransformComponent == null) { return false; }
+
+                                Rotation3f bodyRotation = targetTransformComponent.getRotation();
+                                componentAccessor.addComponent(ref, Teleport.getComponentType(), Teleport.createExact(teleportPos, bodyRotation));
+                            }
                         }
 
-                        TransformComponent targetTransformComponent = componentAccessor.getComponent(targetRef, TRANSFORM_COMPONENT_TYPE);
-                        if (targetTransformComponent == null) { return false; }
-
-                        Rotation3f bodyRotation = targetTransformComponent.getRotation();
-                        componentAccessor.addComponent(ref, Teleport.getComponentType(), Teleport.createExact(teleportPos, bodyRotation));
-                     }
-                  }
-
-                  this.tries = 10;
-                  this.cooldown = 0.5;
-                  desiredSteering.clear();
-                  return false;
-               } else {
-                  this.tries--;
-                  return true;
-               }
+                        this.tries = 10;
+                        this.cooldown = 0.5;
+                        desiredSteering.clear();
+                        return false;
+                    } else {
+                        this.tries--;
+                        return true;
+                    }
+                }
+            } else {
+                return false;
             }
-         } else {
+        } else {
             return false;
-         }
-      } else {
-         return false;
-      }
-   }
+        }
+    }
 
-   protected boolean findValidTarget(
-           @Nonnull MotionController motionController,
-           @Nullable BoundingBox boundingBoxComponent,
-           @Nonnull ComponentAccessor<EntityStore> componentAccessor
-   ) {
-      this.originalTarget.set(this.target);
-      if (motionController.translateToAccessiblePosition(
-              this.target,
-              boundingBoxComponent != null ? boundingBoxComponent.getBoundingBox() : null,
-              this.target.y - this.maxYOffset,
-              this.target.y + this.maxYOffset,
-              componentAccessor
-      ) && motionController.isValidPosition(this.target, componentAccessor)) {
-         return true;
-      }
-
-      for (double dy = VERTICAL_SEARCH_STEP; dy <= this.maxYOffset; dy += VERTICAL_SEARCH_STEP) {
-         if (this.trySetTarget(this.originalTarget.x, this.originalTarget.y + dy, this.originalTarget.z, motionController, componentAccessor)
-                 || this.trySetTarget(this.originalTarget.x, this.originalTarget.y - dy, this.originalTarget.z, motionController, componentAccessor)) {
+    protected boolean findValidTarget(
+            @Nonnull MotionController motionController,
+            @Nullable BoundingBox boundingBoxComponent,
+            @Nonnull ComponentAccessor<EntityStore> componentAccessor
+    ) {
+        this.originalTarget.set(this.target);
+        if (motionController.translateToAccessiblePosition(
+                this.target,
+                boundingBoxComponent != null ? boundingBoxComponent.getBoundingBox() : null,
+                this.target.y - this.maxYOffset,
+                this.target.y + this.maxYOffset,
+                componentAccessor
+        ) && motionController.isValidPosition(this.target, componentAccessor)) {
             return true;
-         }
-      }
+        }
 
-      return this.trySetTarget(this.lastTriedTarget.x, this.lastTriedTarget.y, this.lastTriedTarget.z, motionController, componentAccessor);
-   }
+        for (double dy = VERTICAL_SEARCH_STEP; dy <= this.maxYOffset; dy += VERTICAL_SEARCH_STEP) {
+            if (this.trySetTarget(this.originalTarget.x, this.originalTarget.y + dy, this.originalTarget.z, motionController, componentAccessor)
+                    || this.trySetTarget(this.originalTarget.x, this.originalTarget.y - dy, this.originalTarget.z, motionController, componentAccessor)) {
+                return true;
+            }
+        }
 
-   private boolean trySetTarget(double x, double y, double z, @Nonnull MotionController motionController, @Nonnull ComponentAccessor<EntityStore> componentAccessor) {
-      this.candidate.set(x, y + this.minYOffset, z);
-      if (!motionController.isValidPosition(this.candidate, componentAccessor)) return false;
+        return this.trySetTarget(this.lastTriedTarget.x, this.lastTriedTarget.y, this.lastTriedTarget.z, motionController, componentAccessor);
+    }
 
-      this.target.set(x, y, z);
-      return true;
-   }
+    private boolean trySetTarget(double x, double y, double z, @Nonnull MotionController motionController, @Nonnull ComponentAccessor<EntityStore> componentAccessor) {
+        this.candidate.set(x, y + this.minYOffset, z);
+        if (!motionController.isValidPosition(this.candidate, componentAccessor)) return false;
 
-   protected boolean tickCooldown(double dt) {
-      if (this.cooldown > 0.0) {
-         this.cooldown -= dt;
-         return true;
-      } else {
-         return false;
-      }
-   }
+        this.target.set(x, y, z);
+        return true;
+    }
 
-   public enum Orientation implements Supplier<String> {
-      Unchanged("Do not change orientation"),
-      TowardsTarget("Face towards the target"),
-      UseTarget("Use the target's orientation");
+    protected boolean tickCooldown(double dt) {
+        if (this.cooldown > 0.0) {
+            this.cooldown -= dt;
+            return true;
+        } else {
+            return false;
+        }
+    }
 
-      private final String description;
+    public enum Orientation implements Supplier<String> {
+        Unchanged("Do not change orientation"),
+        TowardsTarget("Face towards the target"),
+        UseTarget("Use the target's orientation");
 
-      Orientation(String description) {
-         this.description = description;
-      }
+        private final String description;
 
-      public String get() {
-         return this.description;
-      }
-   }
+        Orientation(String description) {
+            this.description = description;
+        }
+
+        public String get() {
+            return this.description;
+        }
+    }
 }

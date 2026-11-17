@@ -6,7 +6,7 @@ import com.hypixel.hytale.builtin.adventure.memories.component.PlayerMemories;
 import com.hypixel.hytale.builtin.adventure.memories.memories.Memory;
 import com.hypixel.hytale.builtin.adventure.memories.memories.MemoryProvider;
 import com.hypixel.hytale.builtin.adventure.memories.memories.npc.NPCMemory;
-import com.hypixel.hytale.codec.EmptyExtraInfo;
+import com.hypixel.hytale.codec.ExtraInfo;
 import com.hypixel.hytale.component.AddReason;
 import com.hypixel.hytale.component.Holder;
 import com.hypixel.hytale.component.Ref;
@@ -29,7 +29,7 @@ import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.hypixel.hytale.server.core.util.NotificationUtil;
 import com.hypixel.hytale.server.worldgen.chunk.ChunkGenerator;
 import com.lexem.hexcodeevoke.hexitems.AllowedHexItemsAsset;
-import com.lexem.hexcodeevoke.utils.HexCreatureUnlockUtils;
+import com.lexem.hexcodeevoke.utils.hexcreature.HexCreatureUnlockUtils;
 import org.bson.BsonDocument;
 import org.bson.BsonInt64;
 import org.bson.BsonString;
@@ -68,7 +68,7 @@ public class HexCreatureMemoryProvider extends MemoryProvider<NPCMemory> {
         Set<Memory> memories = new HashSet<>();
         for (AllowedHexItemsAsset.HexItem hexItem : AllowedHexItemsAsset.getAll()) {
             if (AllowedHexItemsAsset.getMainItem(hexItem) != hexItem) continue;
-            memories.add(new NPCMemory(hexItem.entityId, HexCreatureUnlockUtils.getTitleKey(hexItem)));
+            memories.add(new NPCMemory(hexItem.getEntityId(), HexCreatureUnlockUtils.getTitleKey(hexItem)));
         }
 
         Map<String, Set<Memory>> allMemories = new HashMap<>();
@@ -91,7 +91,7 @@ public class HexCreatureMemoryProvider extends MemoryProvider<NPCMemory> {
         if (playerRefComponent == null) return;
 
         String titleKey = HexCreatureUnlockUtils.getTitleKey(mainItem);
-        NPCMemory key = new NPCMemory(mainItem.entityId, titleKey);
+        NPCMemory key = new NPCMemory(mainItem.getEntityId(), titleKey);
         if (MemoriesPlugin.get().hasRecordedMemory(key) || playerMemories.getRecordedMemories().contains(key)) return;
 
         World world = store.getExternalData().getWorld();
@@ -100,7 +100,7 @@ public class HexCreatureMemoryProvider extends MemoryProvider<NPCMemory> {
                 ? findZoneNameKey(world, playerTransform.getPosition())
                 : NPCMemory.ZONE_NAME_UNKNOWN;
 
-        NPCMemory memory = createMemory(mainItem.entityId, titleKey, zoneNameKey);
+        NPCMemory memory = createMemory(mainItem.getEntityId(), titleKey, zoneNameKey);
         if (!playerMemories.recordMemory(memory)) {
             NotificationUtil.sendNotification(
                     playerRefComponent.getPacketHandler(),
@@ -132,7 +132,7 @@ public class HexCreatureMemoryProvider extends MemoryProvider<NPCMemory> {
         document.put("TranslationKey", new BsonString(titleKey));
         document.put("CapturedTimestamp", new BsonInt64(System.currentTimeMillis()));
         document.put("FoundLocationNameKey", new BsonString(zoneNameKey));
-        return NPCMemory.CODEC.decode(document, EmptyExtraInfo.EMPTY);
+        return NPCMemory.CODEC.decode(document, ExtraInfo.THREAD_LOCAL.get());
     }
 
     @Nonnull

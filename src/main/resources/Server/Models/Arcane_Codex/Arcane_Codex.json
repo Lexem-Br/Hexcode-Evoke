@@ -18,6 +18,14 @@
   "MinScale": 2,
   "MaxScale": 2,
   "AnimationSets": {
+    "Interact": {
+      "Animations": [
+        {
+          "Animation": "NPC/Common/Evoke_Empty.blockyanim",
+          "Looping": false
+        }
+      ]
+    },
     "ReadChest": {
       "Animations": [
         {

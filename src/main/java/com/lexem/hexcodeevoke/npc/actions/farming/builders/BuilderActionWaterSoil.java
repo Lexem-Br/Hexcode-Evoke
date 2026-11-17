@@ -11,34 +11,34 @@ import javax.annotation.Nonnull;
 
 public class BuilderActionWaterSoil extends BuilderActionBase {
 
-   public BuilderActionWaterSoil() {
-   }
+    public BuilderActionWaterSoil() {
+    }
 
-   @Nonnull
-   @Override
-   public String getShortDescription() {
-      return "Water the soil.";
-   }
+    @Nonnull
+    @Override
+    public String getShortDescription() {
+        return "Water the soil.";
+    }
 
-   @Nonnull
-   @Override
-   public String getLongDescription() {
-      return this.getShortDescription();
-   }
+    @Nonnull
+    @Override
+    public String getLongDescription() {
+        return this.getShortDescription();
+    }
 
-   @Nonnull
-   public Action build(@Nonnull BuilderSupport builderSupport) {
-      return new ActionWaterSoil(this);
-   }
+    @Nonnull
+    public Action build(@Nonnull BuilderSupport builderSupport) {
+        return new ActionWaterSoil(this);
+    }
 
-   @Nonnull
-   @Override
-   public BuilderDescriptorState getBuilderDescriptorState() {
-      return BuilderDescriptorState.Stable;
-   }
+    @Nonnull
+    @Override
+    public BuilderDescriptorState getBuilderDescriptorState() {
+        return BuilderDescriptorState.Stable;
+    }
 
-   @Nonnull
-   public BuilderActionWaterSoil readConfig(@Nonnull JsonElement data) {
-      return this;
-   }
+    @Nonnull
+    public BuilderActionWaterSoil readConfig(@Nonnull JsonElement data) {
+        return this;
+    }
 }

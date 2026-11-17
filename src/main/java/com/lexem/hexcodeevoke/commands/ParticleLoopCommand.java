@@ -12,7 +12,7 @@ import com.hypixel.hytale.server.core.command.system.basecommands.AbstractPlayer
 import com.hypixel.hytale.server.core.universe.PlayerRef;
 import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
-import com.lexem.hexcodeevoke.utils.ParticleLoops;
+import com.lexem.hexcodeevoke.utils.debug.ParticleLoops;
 import org.joml.Vector3d;
 
 import javax.annotation.Nonnull;
@@ -25,7 +25,7 @@ public class ParticleLoopCommand extends AbstractPlayerCommand {
     private final DefaultArg<Float> scaleArg;
 
     public ParticleLoopCommand() {
-        super("particleloop", "Spawn a particle system in front of you again and again until /evoker particlestop");
+        super("particleloop", "Spawn a particle system in front of you again and again until /evoker debug particlestop");
         this.idArg = this.withRequiredArg("id", "Particle system id", ArgTypes.STRING);
         this.intervalArg = this.withDefaultArg("interval", "Seconds between spawns", ArgTypes.DOUBLE, 1.0, "1");
         this.distanceArg = this.withDefaultArg("distance", "Blocks in front of you", ArgTypes.DOUBLE, 3.0, "3");
@@ -43,7 +43,7 @@ public class ParticleLoopCommand extends AbstractPlayerCommand {
     ) {
         String id = idArg.get(context);
         if (!ParticleSystem.getAssetMap().getAssetMap().containsKey(id)) {
-            playerRef.sendMessage(Message.raw("[Evoke] Unknown particle system " + id + ". Use /evoker particle list to see the Evoke ones"));
+            playerRef.sendMessage(Message.raw("[Evoke] Unknown particle system " + id + ". Use /evoker debug particle list to see the Evoke ones"));
             return;
         }
 
@@ -57,6 +57,6 @@ public class ParticleLoopCommand extends AbstractPlayerCommand {
         if (position == null) return;
 
         int running = ParticleLoops.start(playerRef.getUuid(), world, id, position, scaleArg.get(context), interval);
-        playerRef.sendMessage(Message.raw("[Evoke] Spawning " + id + " every " + interval + "s (" + running + " running). Use /evoker particlestop to stop"));
+        playerRef.sendMessage(Message.raw("[Evoke] Spawning " + id + " every " + interval + "s (" + running + " running). Use /evoker debug particlestop to stop"));
     }
 }

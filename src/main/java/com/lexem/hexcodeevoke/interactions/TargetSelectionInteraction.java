@@ -9,6 +9,7 @@ import com.hypixel.hytale.component.Store;
 import com.hypixel.hytale.logger.HytaleLogger;
 import com.hypixel.hytale.protocol.InteractionState;
 import com.hypixel.hytale.protocol.InteractionType;
+import com.hypixel.hytale.server.core.entity.Dirty;
 import com.hypixel.hytale.server.core.entity.InteractionContext;
 import com.hypixel.hytale.server.core.modules.interaction.interaction.CooldownHandler;
 import com.hypixel.hytale.server.core.modules.interaction.interaction.config.SimpleInteraction;
@@ -18,16 +19,19 @@ import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.hypixel.hytale.server.core.util.TargetUtil;
 import com.hypixel.hytale.server.npc.components.messaging.BeaconSupport;
 import com.lexem.hexcodeevoke.components.EvokerComponent;
-import com.lexem.hexcodeevoke.utils.ErrorMessageUtils;
-import com.lexem.hexcodeevoke.utils.TransportState;
-import com.lexem.hexcodeevoke.utils.TransportUtils;
+import com.lexem.hexcodeevoke.components.HexCreatureComponent;
+import com.lexem.hexcodeevoke.utils.common.ErrorMessageUtils;
+import com.lexem.hexcodeevoke.utils.common.UuidUtils;
+import com.lexem.hexcodeevoke.utils.transport.TransportState;
+import com.lexem.hexcodeevoke.utils.transport.TransportUtils;
 import org.joml.Vector3d;
 import org.joml.Vector3i;
 
 import javax.annotation.Nonnull;
-import java.util.UUID;
+import java.util.ArrayList;
+import java.util.List;
 
-public class TargetSelectionInteraction extends SimpleInteraction {
+public class TargetSelectionInteraction extends EvokeSimpleInteraction {
     private static final HytaleLogger LOGGER = HytaleLogger.forEnclosingClass();
     double maxDistance = 10;
     double maxTransportDistance = 100;
@@ -52,8 +56,7 @@ public class TargetSelectionInteraction extends SimpleInteraction {
         try {
             Ref<EntityStore> playerRef = context.getOwningEntity();
             if (playerRef == null) {
-                context.getState().state = InteractionState.Failed;
-                super.tick0(firstRun, time, type, context, cooldownHandler);
+                fail(firstRun, time, type, context, cooldownHandler);
                 return;
             }
 
@@ -61,15 +64,13 @@ public class TargetSelectionInteraction extends SimpleInteraction {
 
             CommandBuffer<EntityStore> accessor = context.getCommandBuffer();
             if (accessor == null) {
-                context.getState().state = InteractionState.Failed;
-                super.tick0(firstRun, time, type, context, cooldownHandler);
+                fail(firstRun, time, type, context, cooldownHandler);
                 return;
             }
 
             EvokerComponent evoker = store.getComponent(playerRef, EvokerComponent.getComponentType());
             if (evoker == null) {
-                context.getState().state = InteractionState.Failed;
-                super.tick0(firstRun, time, type, context, cooldownHandler);
+                fail(firstRun, time, type, context, cooldownHandler);
                 return;
             }
 
@@ -83,8 +84,7 @@ public class TargetSelectionInteraction extends SimpleInteraction {
                         (int) maxDistance,
                         "errors.max_distance.description2"
                 );
-                context.getState().state = InteractionState.Failed;
-                super.tick0(firstRun, time, type, context, cooldownHandler);
+                fail(firstRun, time, type, context, cooldownHandler);
                 return;
             }
 
@@ -96,9 +96,10 @@ public class TargetSelectionInteraction extends SimpleInteraction {
 
             boolean commanded = false;
             boolean tooFar = false;
-            String[] selectedHexCreatures = evoker.getSelectedHexCreatures();
+            List<Ref<EntityStore>> positionTargets = new ArrayList<>();
+            List<String> selectedHexCreatures = evoker.getSelectedHexCreatures();
             for (String npcUUID : selectedHexCreatures) {
-                Ref<EntityStore> npcRef = store.getExternalData().getRefFromUUID(UUID.fromString(npcUUID));
+                Ref<EntityStore> npcRef = UuidUtils.getRef(store, npcUUID);
                 if (npcRef == null) continue;
 
                 BeaconSupport beaconSupportComponent = accessor.getComponent(npcRef, BeaconSupport.getComponentType());
@@ -117,9 +118,23 @@ public class TargetSelectionInteraction extends SimpleInteraction {
                     }
                 }
 
+                positionTargets.add(npcRef);
+            }
+
+            if (!positionTargets.isEmpty()) {
                 evoker.setTargetPosition(targetPosition);
-                beaconSupportComponent.postMessage("EvokeTargetPosition", npcRef, 1);
-                commanded = true;
+                for (Ref<EntityStore> npcRef : positionTargets) {
+                    HexCreatureComponent hexCreature = accessor.getComponent(npcRef, HexCreatureComponent.getComponentType());
+                    if (hexCreature != null) {
+                        hexCreature.setTarget(targetPosition, positionTargets.size());
+                        Dirty dirty = accessor.getComponent(npcRef, Dirty.getComponentType());
+                        if (dirty != null) dirty.markDirty();
+                    }
+
+                    BeaconSupport beaconSupportComponent = accessor.getComponent(npcRef, BeaconSupport.getComponentType());
+                    if (beaconSupportComponent != null) beaconSupportComponent.postMessage("EvokeTargetPosition", npcRef, 1);
+                    commanded = true;
+                }
             }
 
             if (tooFar) {
@@ -134,15 +149,13 @@ public class TargetSelectionInteraction extends SimpleInteraction {
             }
 
             if (tooFar && !commanded) {
-                context.getState().state = InteractionState.Failed;
-                super.tick0(firstRun, time, type, context, cooldownHandler);
+                fail(firstRun, time, type, context, cooldownHandler);
                 return;
             }
 
-            context.getState().state = InteractionState.Finished;
-            super.tick0(firstRun, time, type, context, cooldownHandler);
+            finish(firstRun, time, type, context, cooldownHandler);
         } catch (Exception e) {
-            LOGGER.atSevere().log("[hexcode evoke] EvokeTargetPosition failed: %s", e.getMessage());
+            LOGGER.atSevere().withCause(e).log("[hexcode evoke] EvokeTargetPosition failed");
             context.getState().state = InteractionState.Failed;
         }
     }

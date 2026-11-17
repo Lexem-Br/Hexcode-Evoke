@@ -14,22 +14,23 @@ import com.hypixel.hytale.server.core.plugin.PluginBase;
 import com.hypixel.hytale.server.core.plugin.PluginManager;
 import com.hypixel.hytale.server.core.universe.Universe;
 import com.hypixel.hytale.server.core.universe.world.events.RemoveWorldEvent;
+import com.hypixel.hytale.server.core.util.Config;
 import com.hypixel.hytale.server.npc.NPCPlugin;
+import com.lexem.hexcodeevoke.assets.VoidArenaRewardsAsset;
 import com.lexem.hexcodeevoke.builtin.HexcodeBuiltin;
 import com.lexem.hexcodeevoke.commands.EvokerCommand;
 import com.lexem.hexcodeevoke.commands.VoidArenaCommand;
 import com.lexem.hexcodeevoke.components.DeflectableProjectileComponent;
+import com.lexem.hexcodeevoke.components.EssenceTrayComponent;
 import com.lexem.hexcodeevoke.components.EvokerComponent;
 import com.lexem.hexcodeevoke.components.HexCreatureComponent;
 import com.lexem.hexcodeevoke.components.HexCreatureMinionComponent;
-import com.lexem.hexcodeevoke.components.EssenceTrayComponent;
 import com.lexem.hexcodeevoke.components.MannequinArmorComponent;
 import com.lexem.hexcodeevoke.events.SaveHexCreatureEvent;
 import com.lexem.hexcodeevoke.events.SaveHexCreatureMinionEvent;
 import com.lexem.hexcodeevoke.handlers.SaveHexCreatureHandler;
 import com.lexem.hexcodeevoke.handlers.SaveHexCreatureMinionHandler;
 import com.lexem.hexcodeevoke.hexitems.AllowedHexCreatureMinionsAsset;
-import com.lexem.hexcodeevoke.assets.VoidArenaRewardsAsset;
 import com.lexem.hexcodeevoke.hexitems.AllowedHexItemsAsset;
 import com.lexem.hexcodeevoke.interactions.*;
 import com.lexem.hexcodeevoke.memories.HexCreatureMemoryProvider;
@@ -53,6 +54,7 @@ import com.lexem.hexcodeevoke.npc.sensors.owner.builders.*;
 import com.lexem.hexcodeevoke.npc.sensors.refuel.builders.*;
 import com.lexem.hexcodeevoke.resources.HexCreatureRegistry;
 import com.lexem.hexcodeevoke.resources.VoidArenaRegistry;
+import com.lexem.hexcodeevoke.systems.EssenceTraySystems;
 import com.lexem.hexcodeevoke.systems.HexCreatureBreathingSystem;
 import com.lexem.hexcodeevoke.systems.HexCreatureClimbStateSystem;
 import com.lexem.hexcodeevoke.systems.HexCreatureComponentsSystem;
@@ -64,7 +66,6 @@ import com.lexem.hexcodeevoke.systems.HexCreatureRevocationSystem;
 import com.lexem.hexcodeevoke.systems.HexCreatureStateRestoreSystem;
 import com.lexem.hexcodeevoke.systems.HexCreatureStateSaveSystem;
 import com.lexem.hexcodeevoke.systems.HexCreatureTrackingSystem;
-import com.lexem.hexcodeevoke.systems.EssenceTraySystems;
 import com.lexem.hexcodeevoke.systems.MannequinArmorSystems;
 import com.lexem.hexcodeevoke.systems.NPCDeathSystem;
 import com.lexem.hexcodeevoke.systems.OffHandItemStateResetSystem;
@@ -72,20 +73,22 @@ import com.lexem.hexcodeevoke.systems.PlayerJoinSystem;
 import com.lexem.hexcodeevoke.systems.ProjectileDeflectSystem;
 import com.lexem.hexcodeevoke.systems.VoidArenaSystem;
 import com.lexem.hexcodeevoke.systems.WorldStallWatchdogSystem;
-import com.lexem.hexcodeevoke.utils.ParticleLoops;
-import com.lexem.hexcodeevoke.utils.VoidArenaManager;
-import com.lexem.hexcodeevoke.utils.WorldStallWatchdog;
+import com.lexem.hexcodeevoke.utils.debug.ParticleLoops;
+import com.lexem.hexcodeevoke.utils.debug.WorldStallWatchdog;
+import com.lexem.hexcodeevoke.utils.voidarena.VoidArenaManager;
 import com.riprod.patchly.PatchManager;
-import org.checkerframework.checker.nullness.compatqual.NonNullDecl;
+
+import javax.annotation.Nonnull;
 
 public class HexcodeEvoke extends JavaPlugin {
 
     private final PatchManager patchManager;
+    private final Config<HexcodeEvokeConfig> config = withConfig(HexcodeEvokeConfig.CODEC);
     private static HexcodeEvoke instance;
 
     private static final HytaleLogger LOGGER = HytaleLogger.forEnclosingClass();
 
-    public HexcodeEvoke(@NonNullDecl JavaPluginInit init) {
+    public HexcodeEvoke(@Nonnull JavaPluginInit init) {
         super(init);
         patchManager = new PatchManager(this);
         instance = this;
@@ -95,7 +98,7 @@ public class HexcodeEvoke extends JavaPlugin {
     @Override
     protected void setup() {
         LOGGER.atInfo().log("Setting up plugin " + this.getName());
-        WorldStallWatchdog.start();
+        if (config.get().isWorldStallWatchdogEnabled()) WorldStallWatchdog.start();
         patchManager.install();
 
         if (isHexcodePresent()) {
@@ -144,19 +147,19 @@ public class HexcodeEvoke extends JavaPlugin {
         getEventRegistry().register(RemovedAssetsEvent.class, AllowedHexCreatureMinionsAsset.class, this::onHexMinionsRemoved);
     }
 
-    private void onHexItemsLoaded(@NonNullDecl LoadedAssetsEvent<String, AllowedHexItemsAsset, DefaultAssetMap<String, AllowedHexItemsAsset>> event) {
+    private void onHexItemsLoaded(@Nonnull LoadedAssetsEvent<String, AllowedHexItemsAsset, DefaultAssetMap<String, AllowedHexItemsAsset>> event) {
         AllowedHexItemsAsset.invalidateCache();
     }
 
-    private void onHexItemsRemoved(@NonNullDecl RemovedAssetsEvent<String, AllowedHexItemsAsset, DefaultAssetMap<String, AllowedHexItemsAsset>> event) {
+    private void onHexItemsRemoved(@Nonnull RemovedAssetsEvent<String, AllowedHexItemsAsset, DefaultAssetMap<String, AllowedHexItemsAsset>> event) {
         AllowedHexItemsAsset.invalidateCache();
     }
 
-    private void onHexMinionsLoaded(@NonNullDecl LoadedAssetsEvent<String, AllowedHexCreatureMinionsAsset, DefaultAssetMap<String, AllowedHexCreatureMinionsAsset>> event) {
+    private void onHexMinionsLoaded(@Nonnull LoadedAssetsEvent<String, AllowedHexCreatureMinionsAsset, DefaultAssetMap<String, AllowedHexCreatureMinionsAsset>> event) {
         AllowedHexCreatureMinionsAsset.invalidateCache();
     }
 
-    private void onHexMinionsRemoved(@NonNullDecl RemovedAssetsEvent<String, AllowedHexCreatureMinionsAsset, DefaultAssetMap<String, AllowedHexCreatureMinionsAsset>> event) {
+    private void onHexMinionsRemoved(@Nonnull RemovedAssetsEvent<String, AllowedHexCreatureMinionsAsset, DefaultAssetMap<String, AllowedHexCreatureMinionsAsset>> event) {
         AllowedHexCreatureMinionsAsset.invalidateCache();
     }
 
@@ -188,7 +191,6 @@ public class HexcodeEvoke extends JavaPlugin {
         npcPlugin.registerCoreComponentType("Evoke:TakeChestTask", BuilderActionTakeChestTask::new);
         npcPlugin.registerCoreComponentType("Evoke:TransferItemsToTargetNPC", BuilderActionTransferItemsToTargetNPC::new);
         npcPlugin.registerCoreComponentType("Evoke:MinionCreateSearchTasks", BuilderActionMinionCreateSearchTasks::new);
-        npcPlugin.registerCoreComponentType("Evoke:DespawnHC", BuilderDespawnHC::new);
         npcPlugin.registerCoreComponentType("Evoke:Unstuck", BuilderActionUnstuck::new);
         npcPlugin.registerCoreComponentType("Evoke:FairyFlight", BuilderActionFairyFlight::new);
         npcPlugin.registerCoreComponentType("Evoke:AbandonMinionTask", BuilderActionAbandonMinionTask::new);
@@ -234,7 +236,6 @@ public class HexcodeEvoke extends JavaPlugin {
         npcPlugin.registerCoreComponentType("Evoke:MinionHasActiveTask", BuilderFilterMinionHasActiveTask::new);
         npcPlugin.registerCoreComponentType("Evoke:CanTransferItemsToTargetNPC", BuilderFilterCanTransferItemsToTargetNPC::new);
         npcPlugin.registerCoreComponentType("Evoke:IsTargetCrouch", BuilderFilterIsTargetCrouch::new);
-        npcPlugin.registerCoreComponentType("Evoke:DespawnHC", BuilderFilterIsTargetCrouch::new);
     }
 
     private void registerSensors(NPCPlugin npcPlugin) {
@@ -259,53 +260,53 @@ public class HexcodeEvoke extends JavaPlugin {
     }
 
     private void registerComponents() {
-        var registery = getEntityStoreRegistry();
+        var registry = getEntityStoreRegistry();
 
-        var evokerType = registery.registerComponent(
+        var evokerType = registry.registerComponent(
                 EvokerComponent.class,
                 "Evoker_PlayerData",
                 EvokerComponent.CODEC
         );
         EvokerComponent.setComponentType(evokerType);
 
-        var hexCreatureType = registery.registerComponent(
+        var hexCreatureType = registry.registerComponent(
                 HexCreatureComponent.class,
                 "HexCreature_Data",
                 HexCreatureComponent.CODEC
         );
         HexCreatureComponent.setComponentType(hexCreatureType);
 
-        var hexCreatureMinionType = registery.registerComponent(
+        var hexCreatureMinionType = registry.registerComponent(
                 HexCreatureMinionComponent.class,
                 "HexCreatureMinion_Data",
                 HexCreatureMinionComponent.CODEC
         );
         HexCreatureMinionComponent.setComponentType(hexCreatureMinionType);
 
-        registery.registerSystem(new PlayerJoinSystem());
-        registery.registerSystem(new HexCreatureComponentsSystem());
-        registery.registerSystem(new HexCreatureRevocationSystem());
-        registery.registerSystem(new NPCDeathSystem());
-        registery.registerSystem(new HexCreatureTrackingSystem());
-        registery.registerSystem(new HexCreatureStateSaveSystem());
-        registery.registerSystem(new HexCreatureStateRestoreSystem());
-        registery.registerSystem(new HexCreaturePickupSystem());
-        registery.registerSystem(new HexCreatureLifeEssenceSystem());
-        registery.registerSystem(new HexCreatureClimbStateSystem());
-        registery.registerSystem(new HexCreatureCrawlSystem());
-        registery.registerSystem(new HexCreatureFlightSystem());
-        registery.registerSystem(new HexCreatureBreathingSystem());
-        registery.registerSystem(new OffHandItemStateResetSystem());
-        registery.registerSystem(new WorldStallWatchdogSystem());
-        registery.registerSystem(new VoidArenaSystem());
+        registry.registerSystem(new PlayerJoinSystem());
+        registry.registerSystem(new HexCreatureComponentsSystem());
+        registry.registerSystem(new HexCreatureRevocationSystem());
+        registry.registerSystem(new NPCDeathSystem());
+        registry.registerSystem(new HexCreatureTrackingSystem());
+        registry.registerSystem(new HexCreatureStateSaveSystem());
+        registry.registerSystem(new HexCreatureStateRestoreSystem());
+        registry.registerSystem(new HexCreaturePickupSystem());
+        registry.registerSystem(new HexCreatureLifeEssenceSystem());
+        registry.registerSystem(new HexCreatureClimbStateSystem());
+        registry.registerSystem(new HexCreatureCrawlSystem());
+        registry.registerSystem(new HexCreatureFlightSystem());
+        registry.registerSystem(new HexCreatureBreathingSystem());
+        registry.registerSystem(new OffHandItemStateResetSystem());
+        if (config.get().isWorldStallWatchdogEnabled()) registry.registerSystem(new WorldStallWatchdogSystem());
+        registry.registerSystem(new VoidArenaSystem());
 
-        DeflectableProjectileComponent.setComponentType(registery.registerComponent(
+        DeflectableProjectileComponent.setComponentType(registry.registerComponent(
                 DeflectableProjectileComponent.class,
                 () -> {
                     throw new UnsupportedOperationException();
                 }
         ));
-        registery.registerSystem(new ProjectileDeflectSystem());
+        registry.registerSystem(new ProjectileDeflectSystem());
 
         HexCreatureRegistry.setResourceType(Universe.registerResource(
                 HexCreatureRegistry.class,
@@ -353,12 +354,18 @@ public class HexcodeEvoke extends JavaPlugin {
     }
 
     private void registerHexItems() {
-        this.getCodecRegistry(Interaction.CODEC).register("EvokeHexCreature", HexCreatureInteraction.class, HexCreatureInteraction.CODEC);
-        this.getCodecRegistry(Interaction.CODEC).register("EvokeTargetSelection", TargetSelectionInteraction.class, TargetSelectionInteraction.CODEC);
-        this.getCodecRegistry(Interaction.CODEC).register("EvokeFollow", FollowInteraction.class, FollowInteraction.CODEC);
-        this.getCodecRegistry(Interaction.CODEC).register("OpenEvokeBook", OpenEvokeBookInteraction.class, OpenEvokeBookInteraction.CODEC);
-        this.getCodecRegistry(Interaction.CODEC).register("EvokeHCSelection", HCSelectionInteraction.class, HCSelectionInteraction.CODEC);
-        this.getCodecRegistry(Interaction.CODEC).register("ChangeStatWandParticles", ChangeStatWandParticlesInteraction.class, ChangeStatWandParticlesInteraction.CODEC);
+        this.getCodecRegistry(Interaction.CODEC).register("Evoke:HexCreature", HexCreatureInteraction.class, HexCreatureInteraction.CODEC);
+        this.getCodecRegistry(Interaction.CODEC).register("Evoke:TargetSelection", TargetSelectionInteraction.class, TargetSelectionInteraction.CODEC);
+        this.getCodecRegistry(Interaction.CODEC).register("Evoke:Follow", FollowInteraction.class, FollowInteraction.CODEC);
+        this.getCodecRegistry(Interaction.CODEC).register("Evoke:OpenBook", OpenEvokeBookInteraction.class, OpenEvokeBookInteraction.CODEC);
+        this.getCodecRegistry(Interaction.CODEC).register("Evoke:HCSelection", HCSelectionInteraction.class, HCSelectionInteraction.CODEC);
+        this.getCodecRegistry(Interaction.CODEC).register("Evoke:ChangeStatWandParticles", ChangeStatWandParticlesInteraction.class, ChangeStatWandParticlesInteraction.CODEC);
+        this.getCodecRegistry(Interaction.CODEC).register("EvokeHexCreature", InteractionAliases.HexCreature.class, InteractionAliases.HexCreature.CODEC);
+        this.getCodecRegistry(Interaction.CODEC).register("EvokeTargetSelection", InteractionAliases.TargetSelection.class, InteractionAliases.TargetSelection.CODEC);
+        this.getCodecRegistry(Interaction.CODEC).register("EvokeFollow", InteractionAliases.Follow.class, InteractionAliases.Follow.CODEC);
+        this.getCodecRegistry(Interaction.CODEC).register("OpenEvokeBook", InteractionAliases.OpenBook.class, InteractionAliases.OpenBook.CODEC);
+        this.getCodecRegistry(Interaction.CODEC).register("EvokeHCSelection", InteractionAliases.HCSelection.class, InteractionAliases.HCSelection.CODEC);
+        this.getCodecRegistry(Interaction.CODEC).register("ChangeStatWandParticles", InteractionAliases.ChangeStatWandParticles.class, InteractionAliases.ChangeStatWandParticles.CODEC);
         this.getCodecRegistry(Interaction.CODEC).register("Evoke:Summon", SummonInteraction.class, SummonInteraction.CODEC);
         this.getCodecRegistry(Interaction.CODEC).register("Evoke:IsHoldingCondition", IsHoldingConditionInteraction.class, IsHoldingConditionInteraction.CODEC);
         this.getCodecRegistry(Interaction.CODEC).register("Evoke:OffHandContextCondition", OffHandContextConditionInteraction.class, OffHandContextConditionInteraction.CODEC);

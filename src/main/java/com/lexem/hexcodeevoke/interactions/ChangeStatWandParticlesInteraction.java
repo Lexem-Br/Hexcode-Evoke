@@ -19,42 +19,42 @@ import it.unimi.dsi.fastutil.ints.Int2FloatOpenHashMap;
 import javax.annotation.Nonnull;
 
 public class ChangeStatWandParticlesInteraction extends ChangeStatWandParticlesBaseInteraction {
-   public static final BuilderCodec<ChangeStatWandParticlesInteraction> CODEC = BuilderCodec.builder(
-                   ChangeStatWandParticlesInteraction.class, ChangeStatWandParticlesInteraction::new, ChangeStatWandParticlesBaseInteraction.CODEC
-      )
-      .documentation("Changes the given stats.")
-      .build();
+    public static final BuilderCodec<ChangeStatWandParticlesInteraction> CODEC = BuilderCodec.builder(
+                    ChangeStatWandParticlesInteraction.class, ChangeStatWandParticlesInteraction::new, ChangeStatWandParticlesBaseInteraction.CODEC
+        )
+        .documentation("Changes the given stats.")
+        .build();
 
-   public ChangeStatWandParticlesInteraction() {
-   }
+    public ChangeStatWandParticlesInteraction() {
+    }
 
-   @Override
-   protected void firstRun(@Nonnull InteractionType type, @Nonnull InteractionContext context, @Nonnull CooldownHandler cooldownHandler) {
-      CommandBuffer<EntityStore> commandBuffer = context.getCommandBuffer();
-      if (commandBuffer == null) { return; }
+    @Override
+    protected void firstRun(@Nonnull InteractionType type, @Nonnull InteractionContext context, @Nonnull CooldownHandler cooldownHandler) {
+        CommandBuffer<EntityStore> commandBuffer = context.getCommandBuffer();
+        if (commandBuffer == null) { return; }
 
-      Ref<EntityStore> ref = context.getEntity();
-      EntityStatMap entityStatMapComponent = commandBuffer.getComponent(ref, EntityStatMap.getComponentType());
-      if (entityStatMapComponent == null) { return; }
+        Ref<EntityStore> ref = context.getEntity();
+        EntityStatMap entityStatMapComponent = commandBuffer.getComponent(ref, EntityStatMap.getComponentType());
+        if (entityStatMapComponent == null) { return; }
 
-      Store<EntityStore> store = ref.getStore();
-      CommandBuffer<EntityStore> accessor = context.getCommandBuffer();
-      if (accessor == null) { return; }
+        Store<EntityStore> store = ref.getStore();
+        CommandBuffer<EntityStore> accessor = context.getCommandBuffer();
+        if (accessor == null) { return; }
 
-      EvokerComponent evoker = store.getComponent(ref, EvokerComponent.getComponentType());
-      if (evoker == null) { return; }
+        EvokerComponent evoker = store.getComponent(ref, EvokerComponent.getComponentType());
+        if (evoker == null) { return; }
 
-      Int2FloatMap entityStatsNew = new Int2FloatOpenHashMap();
-      int index = EntityStatType.getAssetMap().getIndex(this.statModifier);
-      evoker.pruneSelection();
-      entityStatsNew.put(index, evoker.getSelectedHexCreatures().length);
+        Int2FloatMap entityStatsNew = new Int2FloatOpenHashMap();
+        int index = EntityStatType.getAssetMap().getIndex(this.statModifier);
+        evoker.pruneSelection();
+        entityStatsNew.put(index, evoker.getSelectedCount());
 
-      entityStatMapComponent.processStatChanges(EntityStatMap.Predictable.SELF, entityStatsNew, ValueType.Absolute, ChangeStatBehaviour.Set);
-   }
+        entityStatMapComponent.processStatChanges(EntityStatMap.Predictable.SELF, entityStatsNew, ValueType.Absolute, ChangeStatBehaviour.Set);
+    }
 
-   @Nonnull
-   @Override
-   public String toString() {
-      return "ChangeStatWandParticlesInteraction{}" + super.toString();
-   }
+    @Nonnull
+    @Override
+    public String toString() {
+        return "ChangeStatWandParticlesInteraction{}" + super.toString();
+    }
 }

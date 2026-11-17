@@ -12,7 +12,6 @@ import com.hypixel.hytale.common.util.ArrayUtil;
 import com.hypixel.hytale.component.CommandBuffer;
 import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.component.Store;
-import com.hypixel.hytale.component.spatial.SpatialResource;
 import com.hypixel.hytale.logger.HytaleLogger;
 import com.hypixel.hytale.math.vector.Rotation3f;
 import com.hypixel.hytale.protocol.BlockPosition;
@@ -20,7 +19,6 @@ import com.hypixel.hytale.protocol.InteractionState;
 import com.hypixel.hytale.protocol.InteractionType;
 import com.hypixel.hytale.server.core.asset.type.blocktype.config.RotationTuple;
 import com.hypixel.hytale.server.core.entity.InteractionContext;
-import com.hypixel.hytale.server.core.modules.entity.EntityModule;
 import com.hypixel.hytale.server.core.modules.entity.component.ModelComponent;
 import com.hypixel.hytale.server.core.modules.entity.component.TransformComponent;
 import com.hypixel.hytale.server.core.modules.interaction.interaction.CooldownHandler;
@@ -37,10 +35,9 @@ import it.unimi.dsi.fastutil.Pair;
 import org.joml.Vector3d;
 
 import javax.annotation.Nonnull;
-import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
-public class SummonInteraction extends SimpleInteraction {
+public class SummonInteraction extends EvokeSimpleInteraction {
     private static final HytaleLogger LOGGER = HytaleLogger.forEnclosingClass();
 
     public static final BuilderCodec<SummonInteraction> CODEC =
@@ -90,6 +87,7 @@ public class SummonInteraction extends SimpleInteraction {
     protected String particleId = "MagicPortal_VoidKeyArt";
     private double scale = 1.0;
     private double maxDuration = 2.0;
+    private static final double PORTAL_BEHIND_DISTANCE = 0.8;
     protected SummonInteraction.WeightedNPCSpawn[] weightedSpawns;
     protected IWeightedMap<String> weightedSpawnMap;
 
@@ -97,39 +95,22 @@ public class SummonInteraction extends SimpleInteraction {
     protected void tick0(boolean firstRun, float time, @Nonnull InteractionType type, @Nonnull InteractionContext context, @Nonnull CooldownHandler cooldownHandler) {
         try {
             CommandBuffer<EntityStore> accessor = context.getCommandBuffer();
-            if (accessor == null) {
-                context.getState().state = InteractionState.Failed;
-                super.tick0(firstRun, time, type, context, cooldownHandler);
-                return;
-            }
-
             BlockPosition blockPosition = context.getTargetBlock();
-            if (blockPosition == null) {
-                context.getState().state = InteractionState.Failed;
-                super.tick0(firstRun, time, type, context, cooldownHandler);
-                return;
+            String entityToSpawn = this.weightedSpawnMap != null ? this.weightedSpawnMap.get(ThreadLocalRandom.current()) : this.entityId;
+            int roleIndex = entityToSpawn != null ? NPCPlugin.get().getIndex(entityToSpawn) : -1;
+            if (roleIndex < 0) {
+                LOGGER.atWarning().log("[hexcode evoke] Unable to spawn %s: unknown NPC role", entityToSpawn);
             }
 
-            String entityToSpawn = this.entityId;
-            if (this.weightedSpawnMap != null) {
-                entityToSpawn = this.weightedSpawnMap.get(ThreadLocalRandom.current());
-            }
-
-            boolean spawned = trySpawn(blockPosition, entityToSpawn, accessor, context);
-            if (!spawned) {
-                context.getState().state = InteractionState.Failed;
-                super.tick0(firstRun, time, type, context, cooldownHandler);
-            }
-
-            context.getState().state = InteractionState.Finished;
-            super.tick0(firstRun, time, type, context, cooldownHandler);
+            boolean spawned = accessor != null && blockPosition != null && roleIndex >= 0 && trySpawn(blockPosition, entityToSpawn, roleIndex, accessor);
+            complete(spawned, firstRun, time, type, context, cooldownHandler);
         } catch (Exception e) {
-            LOGGER.atSevere().log("[hexcode evoke] Spawn failed: %s", e.getMessage());
+            LOGGER.atSevere().withCause(e).log("[hexcode evoke] Spawn failed");
             context.getState().state = InteractionState.Failed;
         }
     }
 
-    public boolean trySpawn(BlockPosition position, String entityId, CommandBuffer<EntityStore> accessor, InteractionContext context) {
+    private boolean trySpawn(@Nonnull BlockPosition position, @Nonnull String entityId, int roleIndex, @Nonnull CommandBuffer<EntityStore> accessor) {
         World world = accessor.getExternalData().getWorld();
         Ref<ChunkStore> section = world.getChunkStore().getChunkSectionReferenceAtBlock(position.x, position.y, position.z);
         if (section == null) return false;
@@ -141,54 +122,43 @@ public class SummonInteraction extends SimpleInteraction {
         RotationTuple rotation = RotationTuple.get(blockRotationIndex);
         Rotation3f blockRotation = new Rotation3f(0.0F, (float) (rotation.yaw().getRadians() + Math.PI), 0.0F);
 
-        accessor.run(_store -> {
-            int roleIndex = NPCPlugin.get().getIndex(entityId);
-            if (roleIndex >= 0) {
-                Vector3d blockVector = new Vector3d(position.x, position.y + 1, position.z);
-                Pair<Ref<EntityStore>, NPCEntity> npcPair =NPCPlugin.get().spawnEntity(_store, roleIndex, blockVector, blockRotation, null, null);
-                if (npcPair == null) {
-                    context.getState().state = InteractionState.Failed;
-                } else {
-                    this.spawnPortalParticleEffect(npcPair.first(), context.getEntity().getStore(), blockRotation);
-                }
-            }  else {
-                context.getState().state = InteractionState.Failed;
-                LOGGER.atWarning().log("Unable to spawn entity");
+        accessor.run(store -> {
+            Vector3d blockVector = new Vector3d(position.x, position.y + 1, position.z);
+            Pair<Ref<EntityStore>, NPCEntity> npcPair = NPCPlugin.get().spawnEntity(store, roleIndex, blockVector, blockRotation, null, null);
+            if (npcPair == null) {
+                LOGGER.atWarning().log("[hexcode evoke] Unable to spawn %s at %d %d %d", entityId, position.x, position.y, position.z);
+                return;
             }
+            this.spawnPortalParticleEffect(npcPair.first(), store, blockRotation);
         });
 
         return true;
     }
 
-    public void spawnPortalParticleEffect(@Nonnull Ref<EntityStore> ref, Store<EntityStore> store, Rotation3f rotation) {
+    private void spawnPortalParticleEffect(@Nonnull Ref<EntityStore> ref, @Nonnull Store<EntityStore> store, @Nonnull Rotation3f rotation) {
         TransformComponent transformComponent = store.getComponent(ref, TransformComponent.getComponentType());
-        if (transformComponent != null) {
-            float eyeHeight = 0.0F;
-            ModelComponent modelComponent = store.getComponent(ref, ModelComponent.getComponentType());
-            if (modelComponent != null) {
-                eyeHeight = modelComponent.getModel().getEyeHeight(ref, store);
-            }
+        if (transformComponent == null) return;
 
-            Vector3d particlePos = new Vector3d(transformComponent.getPosition());
-            particlePos.add(0.0F, eyeHeight, -0.8F);
-
-            SpatialResource<Ref<EntityStore>, EntityStore> playerSpatialResource = store.getResource(
-                    EntityModule.get().getPlayerSpatialResourceType()
-            );
-            List<Ref<EntityStore>> results = SpatialResource.getThreadLocalReferenceList();
-            playerSpatialResource.getSpatialStructure().collect(particlePos, 75.0, results);
-
-            ParticleUtil.spawnParticleEffect(
-                    this.particleId,
-                    particlePos,
-                    (float)Math.toRadians(rotation.x),
-                    (float)Math.toRadians(rotation.y),
-                    (float)Math.toRadians(rotation.z),
-                    (float)this.scale,
-                    (float)maxDuration,
-                    store
-            );
+        float eyeHeight = 0.0F;
+        ModelComponent modelComponent = store.getComponent(ref, ModelComponent.getComponentType());
+        if (modelComponent != null) {
+            eyeHeight = modelComponent.getModel().getEyeHeight(ref, store);
         }
+
+        float yaw = rotation.yaw();
+        Vector3d particlePos = new Vector3d(transformComponent.getPosition())
+                .add(Math.sin(yaw) * PORTAL_BEHIND_DISTANCE, eyeHeight, Math.cos(yaw) * PORTAL_BEHIND_DISTANCE);
+
+        ParticleUtil.spawnParticleEffect(
+                this.particleId,
+                particlePos,
+                (float) (yaw - Math.PI),
+                rotation.x(),
+                rotation.z(),
+                (float) this.scale,
+                (float) this.maxDuration,
+                store
+        );
     }
 
     protected static class WeightedNPCSpawn implements IWeightedElement {

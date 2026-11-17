@@ -7,8 +7,8 @@ import com.hypixel.hytale.server.npc.asset.builder.BuilderSupport;
 import com.hypixel.hytale.server.npc.corecomponents.EntityFilterBase;
 import com.hypixel.hytale.server.npc.instructions.ExecutionSupport;
 import com.lexem.hexcodeevoke.npc.filters.farming.builders.BuilderFilterHasWateringCan;
-import com.lexem.hexcodeevoke.utils.HeldItemUtils;
-import com.lexem.hexcodeevoke.utils.WateringCanUtils;
+import com.lexem.hexcodeevoke.utils.farming.WateringCanUtils;
+import com.lexem.hexcodeevoke.utils.inventory.HeldItemUtils;
 
 import javax.annotation.Nonnull;
 import java.util.List;

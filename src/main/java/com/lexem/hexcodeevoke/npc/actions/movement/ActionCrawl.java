@@ -11,8 +11,8 @@ import com.hypixel.hytale.server.npc.role.support.StateSupport;
 import com.hypixel.hytale.server.npc.sensorinfo.InfoProvider;
 import com.lexem.hexcodeevoke.components.HexCreatureComponent;
 import com.lexem.hexcodeevoke.npc.actions.movement.builders.BuilderActionCrawl;
-import com.lexem.hexcodeevoke.utils.SurfaceCrawlState;
-import com.lexem.hexcodeevoke.utils.SurfaceNavigator;
+import com.lexem.hexcodeevoke.utils.movement.SurfaceCrawlState;
+import com.lexem.hexcodeevoke.utils.movement.SurfaceNavigator;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -37,7 +37,7 @@ public class ActionCrawl extends ActionBase {
         TransformComponent transform = store.getComponent(npcRef, TransformComponent.getComponentType());
         if (hexCreature == null || transform == null) return false;
 
-        SurfaceCrawlState crawl = hexCreature.getCrawlState();
+        SurfaceCrawlState crawl = hexCreature.getRuntime().getCrawlState();
         SurfaceNavigator navigator = new SurfaceNavigator(store.getExternalData().getWorld());
         if (!crawl.advance(this.speed * dt, navigator)) return false;
 

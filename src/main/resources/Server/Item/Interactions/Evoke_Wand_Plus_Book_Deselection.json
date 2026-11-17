@@ -8,7 +8,7 @@
   "RunTime": 0,
   "Next": {
     "0": {
-      "Type": "EvokeHCSelection",
+      "Type": "Evoke:HCSelection",
       "Reverse": true,
       "Next": {
         "Type": "Serial",
@@ -22,7 +22,7 @@
             }
           },
           {
-            "Type": "ChangeStatWandParticles",
+            "Type": "Evoke:ChangeStatWandParticles",
             "StatModifier": "DeployablePreview"
           }
         ]
@@ -33,7 +33,7 @@
         "DefaultValue": {
           "Interactions": [
             {
-              "Type": "EvokeFollow",
+              "Type": "Evoke:Follow",
               "Next": "Evoke_Wand_Follow_Generic",
               "Failed": "Evoke_Interact_Fail"
             }
@@ -47,7 +47,7 @@
       "DefaultValue": {
         "Interactions": [
           {
-            "Type": "EvokeHCSelection",
+            "Type": "Evoke:HCSelection",
             "All": true,
             "Reverse": true,
             "Next": "Evoke_Wand_Selection_Generic",

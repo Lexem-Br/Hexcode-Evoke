@@ -10,10 +10,9 @@ import com.hypixel.hytale.server.core.universe.PlayerRef;
 import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.lexem.hexcodeevoke.components.EvokerComponent;
-import com.lexem.hexcodeevoke.components.HexCreatureComponent;
 
 import javax.annotation.Nonnull;
-import java.util.Arrays;
+import java.util.List;
 
 public class HexcreaturesListCommand extends AbstractPlayerCommand {
     private static final HytaleLogger LOGGER = HytaleLogger.forEnclosingClass();
@@ -36,9 +35,9 @@ public class HexcreaturesListCommand extends AbstractPlayerCommand {
             return;
         }
 
-        String[] uuids = evoker.getHexCreatureUUIDs();
+        List<String> uuids = evoker.getHexCreatureUUIDs();
 
-        playerRef.sendMessage(Message.raw("Hex creatures list: " + Arrays.toString(uuids)));
-        LOGGER.atInfo().log("Hex creatures list: " + Arrays.toString(uuids));
+        playerRef.sendMessage(Message.raw("Hex creatures list: " + uuids));
+        LOGGER.atInfo().log("Hex creatures list: " + uuids);
     }
 }

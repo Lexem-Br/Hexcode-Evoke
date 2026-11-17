@@ -13,10 +13,11 @@ import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.lexem.hexcodeevoke.components.EvokerComponent;
 import com.lexem.hexcodeevoke.components.HexCreatureComponent;
-import com.lexem.hexcodeevoke.utils.LifeEssenceUtils;
+import com.lexem.hexcodeevoke.utils.common.UuidUtils;
+import com.lexem.hexcodeevoke.utils.essence.LifeEssenceUtils;
 
 import javax.annotation.Nonnull;
-import java.util.UUID;
+import java.util.List;
 
 public class LifeEssenceCommand extends AbstractPlayerCommand {
     private final RequiredArg<Float> amountArg;
@@ -38,12 +39,11 @@ public class LifeEssenceCommand extends AbstractPlayerCommand {
         if (evoker == null) return;
 
         float amount = Math.max(0, amountArg.get(context));
-        String[] uuids = evoker.getSelectedHexCreatures().length > 0 ? evoker.getSelectedHexCreatures() : evoker.getHexCreatureUUIDs();
+        List<String> uuids = evoker.hasSelection() ? evoker.getSelectedHexCreatures() : evoker.getHexCreatureUUIDs();
 
         int count = 0;
         for (String uuidString : uuids) {
-            UUID uuid = LifeEssenceUtils.parseUUID(uuidString);
-            Ref<EntityStore> npcRef = uuid != null ? store.getExternalData().getRefFromUUID(uuid) : null;
+            Ref<EntityStore> npcRef = UuidUtils.getRef(store, uuidString);
             HexCreatureComponent hexCreature = npcRef != null ? store.getComponent(npcRef, HexCreatureComponent.getComponentType()) : null;
             if (hexCreature == null) continue;
 

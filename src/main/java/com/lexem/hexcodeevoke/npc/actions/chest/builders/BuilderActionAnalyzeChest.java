@@ -11,35 +11,35 @@ import javax.annotation.Nonnull;
 
 public class BuilderActionAnalyzeChest extends BuilderActionBase {
 
-   public BuilderActionAnalyzeChest() {
-   }
+    public BuilderActionAnalyzeChest() {
+    }
 
-   @Nonnull
-   @Override
-   public String getShortDescription() {
-      return "Analyze chest.";
-   }
+    @Nonnull
+    @Override
+    public String getShortDescription() {
+        return "Analyze chest.";
+    }
 
-   @Nonnull
-   @Override
-   public String getLongDescription() {
-      return this.getShortDescription();
-   }
+    @Nonnull
+    @Override
+    public String getLongDescription() {
+        return this.getShortDescription();
+    }
 
-   @Nonnull
-   public Action build(@Nonnull BuilderSupport builderSupport) {
-      return new ActionAnalyzeChest(this, builderSupport);
-   }
+    @Nonnull
+    public Action build(@Nonnull BuilderSupport builderSupport) {
+        return new ActionAnalyzeChest(this, builderSupport);
+    }
 
-   @Nonnull
-   @Override
-   public BuilderDescriptorState getBuilderDescriptorState() {
-      return BuilderDescriptorState.Stable;
-   }
+    @Nonnull
+    @Override
+    public BuilderDescriptorState getBuilderDescriptorState() {
+        return BuilderDescriptorState.Stable;
+    }
 
-   @Nonnull
-   public BuilderActionAnalyzeChest readConfig(@Nonnull JsonElement data) {
-      return this;
-   }
+    @Nonnull
+    public BuilderActionAnalyzeChest readConfig(@Nonnull JsonElement data) {
+        return this;
+    }
 
 }

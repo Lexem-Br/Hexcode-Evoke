@@ -9,7 +9,7 @@ import com.hypixel.hytale.server.npc.corecomponents.ActionBase;
 import com.hypixel.hytale.server.npc.instructions.ExecutionSupport;
 import com.hypixel.hytale.server.npc.sensorinfo.InfoProvider;
 import com.lexem.hexcodeevoke.npc.actions.voidarena.builders.BuilderActionVoidArenaWave;
-import com.lexem.hexcodeevoke.utils.VoidArenaManager;
+import com.lexem.hexcodeevoke.utils.voidarena.VoidArenaManager;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;

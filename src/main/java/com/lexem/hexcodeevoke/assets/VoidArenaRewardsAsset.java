@@ -91,6 +91,11 @@ public class VoidArenaRewardsAsset implements JsonAssetWithMap<String, DefaultAs
     public VoidArenaRewardsAsset() {
     }
 
+    VoidArenaRewardsAsset(int excellentUnderSeconds, int goodUpToSeconds) {
+        this.excellentUnderSeconds = excellentUnderSeconds;
+        this.goodUpToSeconds = goodUpToSeconds;
+    }
+
     public static AssetStore<String, VoidArenaRewardsAsset, DefaultAssetMap<String, VoidArenaRewardsAsset>> getAssetStore() {
         if (ASSET_STORE == null) {
             ASSET_STORE = AssetRegistry.getAssetStore(VoidArenaRewardsAsset.class);
@@ -115,7 +120,7 @@ public class VoidArenaRewardsAsset implements JsonAssetWithMap<String, DefaultAs
     }
 
     @Nonnull
-    private Result rate(long elapsedMillis) {
+    Result rate(long elapsedMillis) {
         long excellentLimit = Math.max(1L, excellentUnderSeconds) * 1000L;
         long goodLimit = Math.max(excellentLimit, Math.max(1L, goodUpToSeconds) * 1000L);
 

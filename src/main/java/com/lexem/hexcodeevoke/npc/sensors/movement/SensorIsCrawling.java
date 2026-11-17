@@ -22,7 +22,7 @@ public class SensorIsCrawling extends SensorBase {
         if (!super.matches(ref, executionSupport, dt, store)) return false;
 
         HexCreatureComponent hexCreature = store.getComponent(ref, HexCreatureComponent.getComponentType());
-        return hexCreature != null && hexCreature.getCrawlState().isActive();
+        return hexCreature != null && hexCreature.getRuntime().getCrawlState().isActive();
     }
 
     @Override

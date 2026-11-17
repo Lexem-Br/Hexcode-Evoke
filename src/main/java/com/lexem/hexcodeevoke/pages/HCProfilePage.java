@@ -41,8 +41,10 @@ import com.hypixel.hytale.server.core.universe.PlayerRef;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.lexem.hexcodeevoke.components.HexCreatureComponent;
 import com.lexem.hexcodeevoke.hexitems.AllowedHexItemsAsset;
-import com.lexem.hexcodeevoke.utils.HexCreatureDespawner;
-import com.lexem.hexcodeevoke.utils.LifeEssenceUtils;
+import com.lexem.hexcodeevoke.utils.common.UuidUtils;
+import com.lexem.hexcodeevoke.utils.essence.LifeEssenceUtils;
+import com.lexem.hexcodeevoke.utils.hexcreature.HexCreatureDespawner;
+import com.lexem.hexcodeevoke.utils.hexcreature.HexCreatureNames;
 import org.bson.BsonArray;
 import org.bson.BsonDocument;
 import org.bson.BsonInt32;
@@ -57,7 +59,6 @@ import java.util.EnumMap;
 import java.util.IdentityHashMap;
 import java.util.List;
 import java.util.Set;
-import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -478,10 +479,10 @@ public class HCProfilePage extends InteractiveCustomUIPage<HCProfilePage.HCProfi
         if (hexCreatureComponent == null) return;
 
         commandBuilder.set("#HCIcon.ItemId", hexCreatureComponent.getBlockName());
-        commandBuilder.set("#HCName.Text", hexCreatureComponent.getName());
+        commandBuilder.set("#HCName.Text", HexCreatureNames.display(hexCreatureComponent));
 
         String uuidString = hexCreatureComponent.getEvokerUUID();
-        Ref<EntityStore> evokerRef = uuidString != null ? store.getExternalData().getRefFromUUID(UUID.fromString(uuidString)) : null;
+        Ref<EntityStore> evokerRef = uuidString != null ? UuidUtils.getRef(store, uuidString) : null;
         PlayerRef evokerPlayerRef = evokerRef != null ? store.getComponent(evokerRef, PlayerRef.getComponentType()) : null;
         if (evokerPlayerRef != null) {
             commandBuilder.set("#EvokerName.Text", Message.translation("evoke.profile.evoker").param("name", evokerPlayerRef.getUsername()));
@@ -530,7 +531,7 @@ public class HCProfilePage extends InteractiveCustomUIPage<HCProfilePage.HCProfi
             BsonDocument slot = new BsonDocument();
             ItemStack itemStack = binding.get(index);
             if (!ItemStack.isEmpty(itemStack)) {
-                slot.put("ItemStack", ItemStack.CODEC.encode(displayStack(itemStack)));
+                slot.put("ItemStack", ItemStack.CODEC.encode(displayStack(itemStack), ExtraInfo.THREAD_LOCAL.get()));
             }
             if (inventorySection) {
                 slot.put("InventorySlotIndex", new BsonInt32(binding.slot(index)));

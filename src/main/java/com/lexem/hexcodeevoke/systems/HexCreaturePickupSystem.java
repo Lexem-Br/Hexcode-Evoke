@@ -13,7 +13,7 @@ import com.hypixel.hytale.server.core.inventory.ItemStack;
 import com.hypixel.hytale.server.core.inventory.container.ItemContainer;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.lexem.hexcodeevoke.components.HexCreatureComponent;
-import com.lexem.hexcodeevoke.utils.InventoryUtils;
+import com.lexem.hexcodeevoke.utils.inventory.InventoryUtils;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;

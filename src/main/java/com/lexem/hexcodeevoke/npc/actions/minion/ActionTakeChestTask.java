@@ -22,8 +22,8 @@ public class ActionTakeChestTask extends ActionBase {
     private static final Random RANDOM = new Random();
 
     public ActionTakeChestTask(@Nonnull BuilderActionTakeChestTask builder) {
-      super(builder);
-   }
+        super(builder);
+    }
 
     @Override
     public boolean execute(@Nonnull Ref<EntityStore> npcRef, @Nonnull ExecutionSupport executionSupport, @Nullable InfoProvider sensorInfo, double dt, @Nonnull Store<EntityStore> store) {
@@ -38,8 +38,7 @@ public class ActionTakeChestTask extends ActionBase {
         HexCreatureComponent hexCreatureComponent = store.getComponent(hcRef, HexCreatureComponent.getComponentType());
         if (hexCreatureComponent == null) return false;
 
-        ChestTaskComponent[] allTasks = hexCreatureComponent.getListChestTask();
-        if (allTasks == null || allTasks.length == 0) return false;
+        List<ChestTaskComponent> allTasks = hexCreatureComponent.getListChestTask();        if (allTasks.isEmpty()) return false;
 
         List<ChestTaskComponent> validTasks = new ArrayList<>();
         for (ChestTaskComponent task : allTasks) {

@@ -12,35 +12,35 @@ import javax.annotation.Nonnull;
 
 public class BuilderSensorIsCrawling extends BuilderSensorBase {
 
-   public BuilderSensorIsCrawling() {
-   }
+    public BuilderSensorIsCrawling() {
+    }
 
-   @Nonnull
-   @Override
-   public String getShortDescription() {
-      return "Test if the Hex Creature is crawling over block surfaces";
-   }
+    @Nonnull
+    @Override
+    public String getShortDescription() {
+        return "Test if the Hex Creature is crawling over block surfaces";
+    }
 
-   @Nonnull
-   @Override
-   public String getLongDescription() {
-      return "Matches while Evoke:Crawl is moving the Hex Creature or holding it on a wall or ceiling. No target is returned";
-   }
+    @Nonnull
+    @Override
+    public String getLongDescription() {
+        return "Matches while Evoke:Crawl is moving the Hex Creature or holding it on a wall or ceiling. No target is returned";
+    }
 
-   @Nonnull
-   public Sensor build(@Nonnull BuilderSupport builderSupport) {
-      return new SensorIsCrawling(this);
-   }
+    @Nonnull
+    public Sensor build(@Nonnull BuilderSupport builderSupport) {
+        return new SensorIsCrawling(this);
+    }
 
-   @Nonnull
-   @Override
-   public BuilderDescriptorState getBuilderDescriptorState() {
-      return BuilderDescriptorState.Stable;
-   }
+    @Nonnull
+    @Override
+    public BuilderDescriptorState getBuilderDescriptorState() {
+        return BuilderDescriptorState.Stable;
+    }
 
-   @Nonnull
-   @Override
-   public Builder<Sensor> readConfig(@Nonnull JsonElement data) {
-      return this;
-   }
+    @Nonnull
+    @Override
+    public Builder<Sensor> readConfig(@Nonnull JsonElement data) {
+        return this;
+    }
 }

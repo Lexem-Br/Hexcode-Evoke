@@ -10,49 +10,49 @@ import com.lexem.hexcodeevoke.npc.actions.chest.ActionStoreItems;
 import javax.annotation.Nonnull;
 
 public class BuilderActionStoreItems extends BuilderActionBase {
-   protected boolean skipHotbarSlotZero = true;
+    protected boolean skipHotbarSlotZero = true;
 
-   public BuilderActionStoreItems() {
-   }
+    public BuilderActionStoreItems() {
+    }
 
-   @Nonnull
-   @Override
-   public String getShortDescription() {
-      return "Store items.";
-   }
+    @Nonnull
+    @Override
+    public String getShortDescription() {
+        return "Store items.";
+    }
 
-   @Nonnull
-   @Override
-   public String getLongDescription() {
-      return this.getShortDescription();
-   }
+    @Nonnull
+    @Override
+    public String getLongDescription() {
+        return this.getShortDescription();
+    }
 
-   @Nonnull
-   public Action build(@Nonnull BuilderSupport builderSupport) {
-      return new ActionStoreItems(this);
-   }
+    @Nonnull
+    public Action build(@Nonnull BuilderSupport builderSupport) {
+        return new ActionStoreItems(this);
+    }
 
-   @Nonnull
-   @Override
-   public BuilderDescriptorState getBuilderDescriptorState() {
-      return BuilderDescriptorState.Stable;
-   }
+    @Nonnull
+    @Override
+    public BuilderDescriptorState getBuilderDescriptorState() {
+        return BuilderDescriptorState.Stable;
+    }
 
-   @Nonnull
-   public BuilderActionStoreItems readConfig(@Nonnull JsonElement data) {
-      this.getBoolean(
-              data,
-              "SkipHotbarSlotZero",
-              b -> this.skipHotbarSlotZero = b,
-              true,
-              BuilderDescriptorState.Stable,
-              "Field that determines whether the NPC's hotbar slot 0 should be ignored when storing items.",
-              null
-      );
-      return this;
-   }
+    @Nonnull
+    public BuilderActionStoreItems readConfig(@Nonnull JsonElement data) {
+        this.getBoolean(
+                data,
+                "SkipHotbarSlotZero",
+                b -> this.skipHotbarSlotZero = b,
+                true,
+                BuilderDescriptorState.Stable,
+                "Field that determines whether the NPC's hotbar slot 0 should be ignored when storing items.",
+                null
+        );
+        return this;
+    }
 
-   public boolean getSkipHotbarSlotZero() {
-      return this.skipHotbarSlotZero;
-   }
+    public boolean getSkipHotbarSlotZero() {
+        return this.skipHotbarSlotZero;
+    }
 }

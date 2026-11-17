@@ -26,10 +26,9 @@ import com.hypixel.hytale.server.npc.systems.MovementStatesSystem;
 import com.lexem.hexcodeevoke.components.HexCreatureComponent;
 import com.lexem.hexcodeevoke.components.HexCreatureMinionComponent;
 import com.lexem.hexcodeevoke.hexitems.AllowedHexItemsAsset;
-import com.lexem.hexcodeevoke.utils.BlockUtils;
+import com.lexem.hexcodeevoke.utils.block.BlockUtils;
 import org.joml.Vector3d;
 import org.joml.Vector3i;
-
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -70,13 +69,13 @@ public class HexCreatureClimbStateSystem extends EntityTickingSystem<EntityStore
         boolean ascending = motionController.getMotionKind() == MotionKind.ASCENDING;
         if (jumpSmallSteps) {
             if (!ascending) {
-                hexCreature.setAscentSmallStep(null);
+                hexCreature.getRuntime().setAscentSmallStep(null);
             } else {
-                Boolean smallStep = hexCreature.getAscentSmallStep();
+                Boolean smallStep = hexCreature.getRuntime().getAscentSmallStep();
                 if (smallStep == null) {
                     TransformComponent transform = archetypeChunk.getComponent(index, TransformComponent.getComponentType());
                     smallStep = transform == null || isSmallStep(transform, store.getExternalData().getWorld());
-                    hexCreature.setAscentSmallStep(smallStep);
+                    hexCreature.getRuntime().setAscentSmallStep(smallStep);
                 }
                 if (smallStep) {
                     movementStates.climbing = false;

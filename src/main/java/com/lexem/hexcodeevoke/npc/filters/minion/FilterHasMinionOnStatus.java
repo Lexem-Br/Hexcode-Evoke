@@ -9,9 +9,9 @@ import com.hypixel.hytale.server.npc.instructions.ExecutionSupport;
 import com.lexem.hexcodeevoke.components.HexCreatureComponent;
 import com.lexem.hexcodeevoke.components.HexCreatureMinionComponent;
 import com.lexem.hexcodeevoke.npc.filters.minion.builders.BuilderFilterHasMinionOnStatus;
+import com.lexem.hexcodeevoke.utils.common.UuidUtils;
 
 import javax.annotation.Nonnull;
-import java.util.UUID;
 
 public class FilterHasMinionOnStatus extends EntityFilterBase {
     protected HexCreatureMinionComponent.Status status;
@@ -33,13 +33,8 @@ public class FilterHasMinionOnStatus extends EntityFilterBase {
         HexCreatureComponent hexCreatureComponent = store.getComponent(npcRef, HexCreatureComponent.getComponentType());
         if (hexCreatureComponent == null) return false;
 
-        String[] minionUUIDs = hexCreatureComponent.getMinionUUIDs();
-        if (minionUUIDs == null) return false;
-
-        for (String uuidString : minionUUIDs) {
-            UUID uuid = UUID.fromString(uuidString);
-
-            Ref<EntityStore> minionRef = store.getExternalData().getRefFromUUID(uuid);
+        for (String uuidString : hexCreatureComponent.getMinionUUIDs()) {
+            Ref<EntityStore> minionRef = UuidUtils.getRef(store, uuidString);
             if (minionRef == null) continue;
 
             HexCreatureMinionComponent minionComponent = store.getComponent(minionRef, HexCreatureMinionComponent.getComponentType());

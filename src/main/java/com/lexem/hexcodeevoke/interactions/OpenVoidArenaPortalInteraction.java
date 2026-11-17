@@ -19,14 +19,15 @@ import com.hypixel.hytale.server.core.universe.PlayerRef;
 import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.hypixel.hytale.server.core.util.NotificationUtil;
-import com.lexem.hexcodeevoke.utils.VoidArenaManager;
+import com.lexem.hexcodeevoke.utils.voidarena.VoidArenaManager;
+import com.lexem.hexcodeevoke.utils.voidarena.VoidArenaPortals;
 import org.joml.Vector3i;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 public class OpenVoidArenaPortalInteraction extends SimpleInstantInteraction {
-    private String portalBlock = VoidArenaManager.PORTAL_BLOCK;
+    private String portalBlock = VoidArenaPortals.PORTAL_BLOCK;
     private int durationSeconds = 300;
     private double distance = 3.0;
 
@@ -76,7 +77,7 @@ public class OpenVoidArenaPortalInteraction extends SimpleInstantInteraction {
 
         HeadRotation headRotation = commandBuffer.getComponent(ref, HeadRotation.getComponentType());
         float yaw = headRotation != null ? headRotation.getRotation().yaw() : transform.getRotation().yaw();
-        Vector3i pos = VoidArenaManager.openPortal(world, transform.getPosition(), yaw, distance, portalBlock, durationSeconds, commandBuffer);
+        Vector3i pos = VoidArenaPortals.openPortal(world, transform.getPosition(), yaw, distance, portalBlock, durationSeconds, commandBuffer);
         if (pos == null) {
             fail(context, playerRef, "evoke.voidArena.key.noRoom");
             return;

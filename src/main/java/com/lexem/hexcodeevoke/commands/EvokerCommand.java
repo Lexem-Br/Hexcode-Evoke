@@ -5,13 +5,7 @@ import com.hypixel.hytale.server.core.command.system.basecommands.AbstractComman
 public class EvokerCommand extends AbstractCommandCollection {
 
     public EvokerCommand() {
-        super("evoker", "Evoker stats");
-        addSubCommand(new TargetPositionCommand());
-        addSubCommand(new HexcreaturesListCommand());
-        addSubCommand(new HexCreatureCommand());
-        addSubCommand(new LifeEssenceCommand());
-        addSubCommand(new ParticleTestCommand());
-        addSubCommand(new ParticleLoopCommand());
-        addSubCommand(new ParticleStopCommand());
+        super("evoker", "Evoker tools");
+        addSubCommand(new EvokerDebugCommand());
     }
 }

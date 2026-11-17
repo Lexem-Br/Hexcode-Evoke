@@ -24,7 +24,7 @@
         }
       },
       "0.8": {
-        "Type": "EvokeHexCreature",
+        "Type": "Evoke:HexCreature",
         "RunTime": 0.167,
         "OnItemChangeBehavior": "Ignore",
         "Next": {

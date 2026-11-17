@@ -9,8 +9,8 @@ import com.hypixel.hytale.server.npc.instructions.ExecutionSupport;
 import com.hypixel.hytale.server.npc.sensorinfo.InfoProvider;
 import com.lexem.hexcodeevoke.components.HexCreatureComponent;
 import com.lexem.hexcodeevoke.npc.actions.refuel.builders.BuilderActionTakeTrayEssence;
-import com.lexem.hexcodeevoke.utils.EssenceTrayUtils;
-import com.lexem.hexcodeevoke.utils.LifeEssenceUtils;
+import com.lexem.hexcodeevoke.utils.essence.EssenceTrayUtils;
+import com.lexem.hexcodeevoke.utils.essence.LifeEssenceUtils;
 import org.joml.Vector3i;
 
 import javax.annotation.Nonnull;
@@ -27,8 +27,8 @@ public class ActionTakeTrayEssence extends ActionBase {
         super.execute(npcRef, executionSupport, sensorInfo, dt, store);
 
         HexCreatureComponent hexCreature = store.getComponent(npcRef, HexCreatureComponent.getComponentType());
-        Vector3i tray = hexCreature != null ? hexCreature.getRefuelState().getTray() : null;
-        if (tray == null || hexCreature.isLifeEssenceDepleted()) return false;
+        Vector3i tray = hexCreature != null ? hexCreature.getRuntime().getRefuelState().getTray() : null;
+        if (tray == null || hexCreature.getRuntime().isLifeEssenceDepleted()) return false;
 
         float capacity = LifeEssenceUtils.getCapacity(LifeEssenceUtils.getHexItem(hexCreature));
         int missing = LifeEssenceUtils.getMissingUnits(hexCreature.getLifeEssence(), capacity);

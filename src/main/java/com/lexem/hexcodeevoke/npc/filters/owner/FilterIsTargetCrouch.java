@@ -11,16 +11,16 @@ import javax.annotation.Nonnull;
 
 public class FilterIsTargetCrouch extends EntityFilterBase {
 
-   public FilterIsTargetCrouch() {}
+    public FilterIsTargetCrouch() {}
 
-   @Override
-   public boolean matchesEntity(@Nonnull Ref<EntityStore> ref, @Nonnull Ref<EntityStore> targetRef, @Nonnull ExecutionSupport executionSupport, @Nonnull Store<EntityStore> store) {
-       final var movementStatesComponent = store.getComponent(targetRef, MovementStatesComponent.getComponentType());
-       return movementStatesComponent != null && movementStatesComponent.getMovementStates().crouching;
-   }
+    @Override
+    public boolean matchesEntity(@Nonnull Ref<EntityStore> ref, @Nonnull Ref<EntityStore> targetRef, @Nonnull ExecutionSupport executionSupport, @Nonnull Store<EntityStore> store) {
+        final var movementStatesComponent = store.getComponent(targetRef, MovementStatesComponent.getComponentType());
+        return movementStatesComponent != null && movementStatesComponent.getMovementStates().crouching;
+    }
 
-   @Override
-   public int cost() {
-      return 100;
-   }
+    @Override
+    public int cost() {
+        return 100;
+    }
 }

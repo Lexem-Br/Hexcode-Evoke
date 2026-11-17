@@ -4,7 +4,7 @@
   "DefaultValue": {
     "Interactions": [
       {
-        "Type": "EvokeFollow",
+        "Type": "Evoke:Follow",
         "Next": "Evoke_Wand_Follow_Generic",
         "Failed": "Evoke_Interact_Fail"
       }

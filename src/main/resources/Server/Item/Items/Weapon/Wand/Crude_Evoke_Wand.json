@@ -39,7 +39,7 @@
     "Evoke_Wand_Target_Selection_Var": {
       "Interactions": [
         {
-          "Type": "EvokeTargetSelection",
+          "Type": "Evoke:TargetSelection",
           "MaxDistance": 10,
           "Next": "Evoke_Wand_Selection_Generic",
           "Failed": "Evoke_Interact_Fail"
@@ -49,7 +49,7 @@
     "Evoke_Wand_Selection_All_Var": {
       "Interactions": [
         {
-          "Type": "EvokeHCSelection",
+          "Type": "Evoke:HCSelection",
           "All": true,
           "MaxSelection": 1,
           "MaxDistance": 10,
@@ -61,7 +61,7 @@
     "Evoke_Wand_Follow_Var": {
       "Interactions": [
         {
-          "Type": "EvokeFollow",
+          "Type": "Evoke:Follow",
           "MaxDistance": 10,
           "Next": "Evoke_Wand_Follow_Generic",
           "Failed": "Evoke_Interact_Fail"

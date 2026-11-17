@@ -12,35 +12,35 @@ import javax.annotation.Nonnull;
 
 public class BuilderFilterIsTargetCrouch extends BuilderEntityFilterBase {
 
-   public BuilderFilterIsTargetCrouch() {
-   }
+    public BuilderFilterIsTargetCrouch() {
+    }
 
-   @Nonnull
-   @Override
-   public String getShortDescription() {
-      return "Check if the target is crouching.";
-   }
+    @Nonnull
+    @Override
+    public String getShortDescription() {
+        return "Check if the target is crouching.";
+    }
 
-   @Nonnull
-   @Override
-   public String getLongDescription() {
-      return getShortDescription();
-   }
+    @Nonnull
+    @Override
+    public String getLongDescription() {
+        return getShortDescription();
+    }
 
-   @Nonnull
-   public IEntityFilter build(@Nonnull BuilderSupport builderSupport) {
-      return new FilterIsTargetCrouch();
-   }
-   @Nonnull
-   @Override
-   public Builder<IEntityFilter> readConfig(@Nonnull JsonElement data) {
-      return this;
-   }
+    @Nonnull
+    public IEntityFilter build(@Nonnull BuilderSupport builderSupport) {
+        return new FilterIsTargetCrouch();
+    }
+    @Nonnull
+    @Override
+    public Builder<IEntityFilter> readConfig(@Nonnull JsonElement data) {
+        return this;
+    }
 
-   @Nonnull
-   @Override
-   public BuilderDescriptorState getBuilderDescriptorState() {
-      return BuilderDescriptorState.Stable;
-   }
+    @Nonnull
+    @Override
+    public BuilderDescriptorState getBuilderDescriptorState() {
+        return BuilderDescriptorState.Stable;
+    }
 
 }

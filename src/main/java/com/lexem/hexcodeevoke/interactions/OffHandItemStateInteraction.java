@@ -13,7 +13,7 @@ import com.hypixel.hytale.server.core.inventory.ItemStack;
 import com.hypixel.hytale.server.core.modules.interaction.interaction.CooldownHandler;
 import com.hypixel.hytale.server.core.modules.interaction.interaction.config.SimpleInstantInteraction;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
-import com.lexem.hexcodeevoke.utils.OffHandItemStateUtils;
+import com.lexem.hexcodeevoke.utils.inventory.OffHandItemStateUtils;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -51,7 +51,7 @@ public class OffHandItemStateInteraction extends SimpleInstantInteraction {
                 context.setHeldItem(newItemStack);
             }
         } catch (Exception e) {
-            LOGGER.atSevere().log("[hexcode evoke] OffHandItemStateInteraction failed: %s", e.getMessage());
+            LOGGER.atSevere().withCause(e).log("[hexcode evoke] OffHandItemStateInteraction failed");
         }
     }
 }

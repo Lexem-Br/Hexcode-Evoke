@@ -19,20 +19,20 @@ public class FilterNeedsMoreMinions extends EntityFilterBase {
         this.desiredQuantity = builder.getHorizontalRange(support);
     }
 
-   @Override
-   public boolean matchesEntity(@Nonnull Ref<EntityStore> ref, @Nonnull Ref<EntityStore> targetRef, @Nonnull ExecutionSupport executionSupport, @Nonnull Store<EntityStore> store) {
-       HexCreatureComponent hexCreature = store.getComponent(ref, HexCreatureComponent.getComponentType());
-       if (hexCreature == null || hexCreature.getEvokerUUID() == null) { return false; }
+    @Override
+    public boolean matchesEntity(@Nonnull Ref<EntityStore> ref, @Nonnull Ref<EntityStore> targetRef, @Nonnull ExecutionSupport executionSupport, @Nonnull Store<EntityStore> store) {
+        HexCreatureComponent hexCreature = store.getComponent(ref, HexCreatureComponent.getComponentType());
+        if (hexCreature == null || hexCreature.getEvokerUUID() == null) { return false; }
 
-       World world = store.getExternalData().getWorld();
-       hexCreature.deleteUnusedMinionUUID(world);
+        World world = store.getExternalData().getWorld();
+        hexCreature.deleteUnusedMinionUUID(world);
 
-       int qtdMinions = hexCreature.getMinionUUIDs().length;
-       return (qtdMinions < desiredQuantity);
-   }
+        int minionCount = hexCreature.getMinionCount();
+        return (minionCount < desiredQuantity);
+    }
 
-   @Override
-   public int cost() {
-      return 100;
-   }
+    @Override
+    public int cost() {
+        return 100;
+    }
 }

@@ -6,18 +6,24 @@ plugins {
 }
 
 repositories {
+    mavenCentral()
     maven { url "https://www.cursemaven.com" }
 }
 
 configurations {
     shadowBundle
     implementation.extendsFrom(shadowBundle)
+    testImplementation.extendsFrom(compileOnly)
 }
 
 dependencies {
 //    vineImplementation files('lib/Hexcode-0.11.0.jar')
     vineImplementation('curse.maven:hexcode-1448311:9252588')
     shadowBundle('com.riprod:patchly:3.+')
+
+    testImplementation platform('org.junit:junit-bom:5.10.5')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
 
 hytaleTools {
@@ -33,7 +39,7 @@ hytaleTools {
     includesPack = project.includes_pack.toString().toBoolean()
     patchline = project.patchline.toString()
 
-    manifestOptionalDependencies='Riprod:Hexcode=^0.11.0,Riprod:Patchly=*'
+    manifestOptionalDependencies='Riprod:Hexcode=^0.11.0,Riprod:Patchly=*,Hytale:Memories=*'
 
     debugEnabled = true
     debugSuspend = false
@@ -48,6 +54,26 @@ tasks.shadowJar {
     relocate("com.riprod.patchly", "com.lexem.hexcodeevoke.shaded.patchly")
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     from("src/main/resources")
+}
+
+def asciiPath = { File file -> file.absolutePath ==~ /\p{ASCII}*/ }
+def testRunDir = new File(gradle.gradleUserHomeDir, "test-runs/${project.name}")
+
+def syncTestClasses = tasks.register('syncTestClasses', Sync) {
+    from(sourceSets.main.output.classesDirs) { into 'main' }
+    from(sourceSets.test.output.classesDirs) { into 'test' }
+    into testRunDir
+}
+
+tasks.test {
+    useJUnitPlatform()
+    systemProperty 'java.util.logging.manager', 'com.hypixel.hytale.logger.backend.HytaleLogManager'
+
+    if (!asciiPath(projectDir)) {
+        dependsOn syncTestClasses
+        testClassesDirs = files("$testRunDir/test")
+        classpath = files("$testRunDir/test", "$testRunDir/main") + sourceSets.test.runtimeClasspath.filter { asciiPath(it) }
+    }
 }
 
 tasks.build {

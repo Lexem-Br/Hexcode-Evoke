@@ -11,52 +11,52 @@ import com.lexem.hexcodeevoke.npc.actions.minion.ActionTakeChestTask;
 import javax.annotation.Nonnull;
 
 public class BuilderActionTakeChestTask extends BuilderActionBase {
-   protected ChestTaskComponent.TaskType taskType;
+    protected ChestTaskComponent.TaskType taskType;
 
-   public BuilderActionTakeChestTask() {
-   }
+    public BuilderActionTakeChestTask() {
+    }
 
-   @Nonnull
-   @Override
-   public String getShortDescription() {
-      return "Take a task to complete.";
-   }
+    @Nonnull
+    @Override
+    public String getShortDescription() {
+        return "Take a task to complete.";
+    }
 
-   @Nonnull
-   @Override
-   public String getLongDescription() {
-      return this.getShortDescription();
-   }
+    @Nonnull
+    @Override
+    public String getLongDescription() {
+        return this.getShortDescription();
+    }
 
-   @Nonnull
-   public Action build(@Nonnull BuilderSupport builderSupport) {
-      return new ActionTakeChestTask(this);
-   }
+    @Nonnull
+    public Action build(@Nonnull BuilderSupport builderSupport) {
+        return new ActionTakeChestTask(this);
+    }
 
-   @Nonnull
-   @Override
-   public BuilderDescriptorState getBuilderDescriptorState() {
-      return BuilderDescriptorState.Stable;
-   }
+    @Nonnull
+    @Override
+    public BuilderDescriptorState getBuilderDescriptorState() {
+        return BuilderDescriptorState.Stable;
+    }
 
-   @Nonnull
-   public BuilderActionTakeChestTask readConfig(@Nonnull JsonElement data) {
-      this.getEnum(
-              data,
-              "TaskType",
-              v -> this.taskType = v,
-              ChestTaskComponent.TaskType.class,
-              ChestTaskComponent.TaskType.Search,
-              BuilderDescriptorState.Stable,
-              "Specifies the task type",
-              null
-      );
-      return this;
-   }
+    @Nonnull
+    public BuilderActionTakeChestTask readConfig(@Nonnull JsonElement data) {
+        this.getEnum(
+                data,
+                "TaskType",
+                v -> this.taskType = v,
+                ChestTaskComponent.TaskType.class,
+                ChestTaskComponent.TaskType.Search,
+                BuilderDescriptorState.Stable,
+                "Specifies the task type",
+                null
+        );
+        return this;
+    }
 
-   public ChestTaskComponent.TaskType getTaskType() {
-      return this.taskType;
-   }
+    public ChestTaskComponent.TaskType getTaskType() {
+        return this.taskType;
+    }
 
 
 }

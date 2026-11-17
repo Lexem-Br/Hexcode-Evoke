@@ -14,11 +14,11 @@ import com.hypixel.hytale.server.core.inventory.ItemStack;
 import com.hypixel.hytale.server.core.modules.interaction.interaction.CooldownHandler;
 import com.hypixel.hytale.server.core.modules.interaction.interaction.config.SimpleInteraction;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
-import com.lexem.hexcodeevoke.utils.OffHandItemStateUtils;
+import com.lexem.hexcodeevoke.utils.inventory.OffHandItemStateUtils;
 
 import javax.annotation.Nonnull;
 
-public class IsHoldingConditionInteraction extends SimpleInteraction {
+public class IsHoldingConditionInteraction extends EvokeSimpleInteraction {
     private static final HytaleLogger LOGGER = HytaleLogger.forEnclosingClass();
 
     public static final BuilderCodec<IsHoldingConditionInteraction> CODEC =
@@ -42,8 +42,7 @@ public class IsHoldingConditionInteraction extends SimpleInteraction {
         try {
             CommandBuffer<EntityStore> accessor = context.getCommandBuffer();
             if (accessor == null) {
-                context.getState().state = InteractionState.Failed;
-                super.tick0(firstRun, time, type, context, cooldownHandler);
+                fail(firstRun, time, type, context, cooldownHandler);
                 return;
             }
 
@@ -52,8 +51,7 @@ public class IsHoldingConditionInteraction extends SimpleInteraction {
 
                 for (String item : items) {
                     if (OffHandItemStateUtils.matches(item, itemInHand)) {
-                        context.getState().state = InteractionState.Finished;
-                        super.tick0(firstRun, time, type, context, cooldownHandler);
+                        finish(firstRun, time, type, context, cooldownHandler);
                         return;
                     }
                 }
@@ -62,17 +60,15 @@ public class IsHoldingConditionInteraction extends SimpleInteraction {
                 final var itemInOffHand = utilityComponent != null ? utilityComponent.getActiveItem() : null;
                 for (String item : items) {
                     if (OffHandItemStateUtils.matches(item, itemInOffHand)) {
-                        context.getState().state = InteractionState.Finished;
-                        super.tick0(firstRun, time, type, context, cooldownHandler);
+                        finish(firstRun, time, type, context, cooldownHandler);
                         return;
                     }
                 }
             }
 
-            context.getState().state = InteractionState.Failed;
-            super.tick0(firstRun, time, type, context, cooldownHandler);
+            fail(firstRun, time, type, context, cooldownHandler);
         } catch (Exception e) {
-            LOGGER.atSevere().log("[hexcode evoke] IsHoldingConditionInteraction failed: %s", e.getMessage());
+            LOGGER.atSevere().withCause(e).log("[hexcode evoke] IsHoldingConditionInteraction failed");
             context.getState().state = InteractionState.Failed;
         }
     }

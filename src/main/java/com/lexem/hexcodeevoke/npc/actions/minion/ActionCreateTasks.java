@@ -17,8 +17,9 @@ import com.lexem.hexcodeevoke.components.ChestTaskComponent;
 import com.lexem.hexcodeevoke.components.HexCreatureComponent;
 import com.lexem.hexcodeevoke.components.HexCreatureMinionComponent;
 import com.lexem.hexcodeevoke.npc.actions.minion.builders.BuilderActionCreateTasks;
-import com.lexem.hexcodeevoke.utils.FinderUtils;
-import com.lexem.hexcodeevoke.utils.LifeEssenceUtils;
+import com.lexem.hexcodeevoke.utils.block.FinderUtils;
+import com.lexem.hexcodeevoke.utils.common.UuidUtils;
+import com.lexem.hexcodeevoke.utils.essence.LifeEssenceUtils;
 import org.joml.Vector3d;
 
 import javax.annotation.Nonnull;
@@ -26,147 +27,142 @@ import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.UUID;
 
 public class ActionCreateTasks extends ActionBase {
-   private final double horizontalRange;
-   private final double verticalRange;
+    private final double horizontalRange;
+    private final double verticalRange;
 
-   public ActionCreateTasks(@Nonnull BuilderActionCreateTasks builder,  @Nonnull BuilderSupport support) {
-      super(builder);
-      this.horizontalRange = builder.getHorizontalRange(support);
-      this.verticalRange = builder.getVerticalRange(support);
-   }
+    public ActionCreateTasks(@Nonnull BuilderActionCreateTasks builder,  @Nonnull BuilderSupport support) {
+        super(builder);
+        this.horizontalRange = builder.getHorizontalRange(support);
+        this.verticalRange = builder.getVerticalRange(support);
+    }
 
-   @Override
-   public boolean execute(@Nonnull Ref<EntityStore> npcRef, @Nonnull ExecutionSupport executionSupport, @Nullable InfoProvider sensorInfo, double dt, @Nonnull Store<EntityStore> store) {
-      super.execute(npcRef, executionSupport, sensorInfo, dt, store);
+    @Override
+    public boolean execute(@Nonnull Ref<EntityStore> npcRef, @Nonnull ExecutionSupport executionSupport, @Nullable InfoProvider sensorInfo, double dt, @Nonnull Store<EntityStore> store) {
+        super.execute(npcRef, executionSupport, sensorInfo, dt, store);
 
-      World world = store.getExternalData().getWorld();
+        World world = store.getExternalData().getWorld();
 
-      HexCreatureComponent hexCreatureComponent = store.getComponent(npcRef, HexCreatureComponent.getComponentType());
-      if (hexCreatureComponent == null) return false;
+        HexCreatureComponent hexCreatureComponent = store.getComponent(npcRef, HexCreatureComponent.getComponentType());
+        if (hexCreatureComponent == null) return false;
 
-      if (!hexCreatureComponent.isListChestTaskEmpty()) return false;
-      if (hasAnyTaskToFinish(hexCreatureComponent, store)) return false;
+        if (!hexCreatureComponent.isListChestTaskEmpty()) return false;
+        if (hasAnyTaskToFinish(hexCreatureComponent, store)) return false;
 
-      TransformComponent transformComponent = store.getComponent(npcRef, TransformComponent.getComponentType());
-      if (transformComponent == null) return false;
+        TransformComponent transformComponent = store.getComponent(npcRef, TransformComponent.getComponentType());
+        if (transformComponent == null) return false;
 
-      List<ItemData> listNPCChestItems = getChestItemsId(store, npcRef);
-      if (listNPCChestItems.isEmpty()) return false;
+        List<ItemData> listNPCChestItems = getChestItemsId(store, npcRef);
+        if (listNPCChestItems.isEmpty()) return false;
 
-      for (ItemData npcChestItem : listNPCChestItems) {
-         ChestMemoryComponent memoryWithItem = findChestMemoryByItemId(hexCreatureComponent, npcChestItem.itemId);
+        for (ItemData npcChestItem : listNPCChestItems) {
+            ChestMemoryComponent memoryWithItem = findChestMemoryByItemId(hexCreatureComponent, npcChestItem.itemId);
 
-         if (memoryWithItem != null && !hexCreatureComponent.isChestUnreachable(memoryWithItem.getChestPosition())) {
-            ChestTaskComponent storeTask = new ChestTaskComponent(
-                    ChestTaskComponent.TaskType.Store,
-                    memoryWithItem.getChestPosition(),
-                    npcChestItem.itemId,
-                    npcChestItem.itemQuantity,
-                    false
-            );
-            hexCreatureComponent.addChestTask(storeTask);
-         } else {
-            List<Vector3d> listChestsPosition = hexCreatureComponent.withoutUnreachableChests(FinderUtils.findAllChestsInRange(
-                    transformComponent.getPosition(),
-                    (int) Math.ceil(horizontalRange),
-                    (int) Math.ceil(verticalRange),
-                    world
-            ));
+            if (memoryWithItem != null && !hexCreatureComponent.getRuntime().isChestUnreachable(memoryWithItem.getChestPosition())) {
+                ChestTaskComponent storeTask = new ChestTaskComponent(
+                        ChestTaskComponent.TaskType.Store,
+                        memoryWithItem.getChestPosition(),
+                        npcChestItem.itemId,
+                        npcChestItem.itemQuantity,
+                        false
+                );
+                hexCreatureComponent.addChestTask(storeTask);
+            } else {
+                List<Vector3d> listChestsPosition = hexCreatureComponent.getRuntime().withoutUnreachableChests(FinderUtils.findAllChestsInRange(
+                        transformComponent.getPosition(),
+                        (int) Math.ceil(horizontalRange),
+                        (int) Math.ceil(verticalRange),
+                        world
+                ));
 
-            if (listChestsPosition.isEmpty()) continue;
+                if (listChestsPosition.isEmpty()) continue;
 
-            for (Vector3d chestPosition : listChestsPosition) {
-               ChestTaskComponent searchTask = new ChestTaskComponent(
-                       ChestTaskComponent.TaskType.Search,
-                       chestPosition,
-                       npcChestItem.itemId,
-                       npcChestItem.itemQuantity,
-                       false
-               );
-               hexCreatureComponent.addChestTask(searchTask);
+                for (Vector3d chestPosition : listChestsPosition) {
+                    ChestTaskComponent searchTask = new ChestTaskComponent(
+                            ChestTaskComponent.TaskType.Search,
+                            chestPosition,
+                            npcChestItem.itemId,
+                            npcChestItem.itemQuantity,
+                            false
+                    );
+                    hexCreatureComponent.addChestTask(searchTask);
+                }
             }
-         }
-      }
+        }
 
-      return true;
-   }
+        return true;
+    }
 
-   private static ChestMemoryComponent findChestMemoryByItemId(HexCreatureComponent hexCreatureComponent, String itemId) {
-      if (itemId == null || itemId.isEmpty() || hexCreatureComponent.getListChestMemory() == null) {
-         return null;
-      }
+    private static ChestMemoryComponent findChestMemoryByItemId(HexCreatureComponent hexCreatureComponent, String itemId) {
+        if (itemId == null || itemId.isEmpty() || hexCreatureComponent.getListChestMemory().isEmpty()) {
+            return null;
+        }
 
-      for (ChestMemoryComponent memory : hexCreatureComponent.getListChestMemory()) {
-         if (memory == null) continue;
+        for (ChestMemoryComponent memory : hexCreatureComponent.getListChestMemory()) {
+            if (memory == null) continue;
 
-         String[] items = memory.getListItemsId();
-         if (items == null) continue;
+            String[] items = memory.getListItemsId();
+            if (items == null) continue;
 
-         for (String id : items) {
-            if (itemId.equals(id)) {
-               return memory;
+            for (String id : items) {
+                if (itemId.equals(id)) {
+                    return memory;
+                }
             }
-         }
-      }
+        }
 
-      return null;
-   }
+        return null;
+    }
 
-   private List<ItemData> getChestItemsId(Store<EntityStore> store, Ref<EntityStore> npcRef) {
-      List<ItemData> listItemData = new ArrayList<>();
+    private List<ItemData> getChestItemsId(Store<EntityStore> store, Ref<EntityStore> npcRef) {
+        List<ItemData> listItemData = new ArrayList<>();
 
-      ItemContainer itemContainer = Objects.requireNonNull(store.getComponent(npcRef, InventoryComponent.Storage.getComponentType())).getInventory();
-      boolean keepsLifeEssence = LifeEssenceUtils.keepsLifeEssence(store, npcRef);
+        ItemContainer itemContainer = Objects.requireNonNull(store.getComponent(npcRef, InventoryComponent.Storage.getComponentType())).getInventory();
+        boolean keepsLifeEssence = LifeEssenceUtils.keepsLifeEssence(store, npcRef);
 
-      for (short slot = 0; slot < itemContainer.getCapacity(); slot++) {
-         ItemStack itemStack = itemContainer.getItemStack(slot);
-         if (keepsLifeEssence && LifeEssenceUtils.isLifeEssence(itemStack)) continue;
+        for (short slot = 0; slot < itemContainer.getCapacity(); slot++) {
+            ItemStack itemStack = itemContainer.getItemStack(slot);
+            if (keepsLifeEssence && LifeEssenceUtils.isLifeEssence(itemStack)) continue;
 
-         if (!ItemStack.isEmpty(itemStack)) {
-            String itemId = itemStack.getItem().getId();
-            int itemQuantity = itemStack.getQuantity();
+            if (!ItemStack.isEmpty(itemStack)) {
+                String itemId = itemStack.getItem().getId();
+                int itemQuantity = itemStack.getQuantity();
 
-            boolean found = false;
-            for (ItemData existingItem : listItemData) {
-               if (existingItem.itemId.equals(itemId)) {
-                  int newQuantity = existingItem.itemQuantity + itemQuantity;
-                  listItemData.remove(existingItem);
-                  listItemData.add(new ItemData(itemId, newQuantity));
-                  found = true;
-                  break;
-               }
+                boolean found = false;
+                for (ItemData existingItem : listItemData) {
+                    if (existingItem.itemId.equals(itemId)) {
+                        int newQuantity = existingItem.itemQuantity + itemQuantity;
+                        listItemData.remove(existingItem);
+                        listItemData.add(new ItemData(itemId, newQuantity));
+                        found = true;
+                        break;
+                    }
+                }
+
+                if (!found) {
+                    listItemData.add(new ItemData(itemId, itemQuantity));
+                }
             }
+        }
 
-            if (!found) {
-               listItemData.add(new ItemData(itemId, itemQuantity));
-            }
-         }
-      }
+        return listItemData;
+    }
 
-      return listItemData;
-   }
+    private boolean hasAnyTaskToFinish(HexCreatureComponent hexCreatureComponent, Store<EntityStore> store) {
+        for (String uuidString : hexCreatureComponent.getMinionUUIDs()) {
+            Ref<EntityStore> minionRef = UuidUtils.getRef(store, uuidString);
+            if (minionRef == null) continue;
 
-   private boolean hasAnyTaskToFinish(HexCreatureComponent hexCreatureComponent, Store<EntityStore> store) {
-      String[] minionUUIDs = hexCreatureComponent.getMinionUUIDs();
-      if (minionUUIDs == null) return false;
+            HexCreatureMinionComponent minionComponent = store.getComponent(minionRef, HexCreatureMinionComponent.getComponentType());
+            if (minionComponent == null) continue;
 
-      for (String uuidString : minionUUIDs) {
-         UUID uuid = UUID.fromString(uuidString);
-         Ref<EntityStore> minionRef = store.getExternalData().getRefFromUUID(uuid);
-         if (minionRef == null) continue;
+            ChestTaskComponent chestTask = minionComponent.getChestTask();
+            if (chestTask != null && !chestTask.isFinished()) return true;
+        }
 
-         HexCreatureMinionComponent minionComponent = store.getComponent(minionRef, HexCreatureMinionComponent.getComponentType());
-         if (minionComponent == null) continue;
+        return false;
+    }
 
-         ChestTaskComponent chestTask = minionComponent.getChestTask();
-         if (chestTask != null && !chestTask.isFinished()) return true;
-      }
-
-      return false;
-   }
-
-   private record ItemData(@Nonnull String itemId, int itemQuantity) {}
+    private record ItemData(@Nonnull String itemId, int itemQuantity) {}
 }

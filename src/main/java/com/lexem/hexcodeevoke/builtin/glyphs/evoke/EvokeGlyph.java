@@ -4,7 +4,7 @@ import com.hypixel.hytale.component.CommandBuffer;
 import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.lexem.hexcodeevoke.builtin.glyphs.evoke.style.EvokeStyle;
-import com.lexem.hexcodeevoke.utils.HexCreatureUtils;
+import com.lexem.hexcodeevoke.utils.hexcreature.HexCreatureUtils;
 import com.riprod.hexcode.api.event.GlyphFizzleEvent;
 import com.riprod.hexcode.api.execution.HexExecuter;
 import com.riprod.hexcode.core.common.execution.context.HexContext;

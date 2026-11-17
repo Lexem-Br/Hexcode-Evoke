@@ -16,54 +16,54 @@ import javax.annotation.Nullable;
 import java.util.EnumSet;
 
 public class BuilderFilterHasBrokenItemInHand extends BuilderEntityFilterBase {
-   protected final AssetArrayHolder items = new AssetArrayHolder();
+    protected final AssetArrayHolder items = new AssetArrayHolder();
 
-   public BuilderFilterHasBrokenItemInHand() {
-   }
+    public BuilderFilterHasBrokenItemInHand() {
+    }
 
-   @Nonnull
-   @Override
-   public String getShortDescription() {
-      return "Checks if the entity is holding one of the items and it is broken";
-   }
+    @Nonnull
+    @Override
+    public String getShortDescription() {
+        return "Checks if the entity is holding one of the items and it is broken";
+    }
 
-   @Nonnull
-   @Override
-   public String getLongDescription() {
-      return "Checks if the entity is holding one of the items in the main hand or off hand and the item is broken";
-   }
+    @Nonnull
+    @Override
+    public String getLongDescription() {
+        return "Checks if the entity is holding one of the items in the main hand or off hand and the item is broken";
+    }
 
-   @Nonnull
-   public IEntityFilter build(@Nonnull BuilderSupport builderSupport) {
-      return new FilterHasBrokenItemInHand(this, builderSupport);
-   }
+    @Nonnull
+    public IEntityFilter build(@Nonnull BuilderSupport builderSupport) {
+        return new FilterHasBrokenItemInHand(this, builderSupport);
+    }
 
-   @Nonnull
-   @Override
-   public Builder<IEntityFilter> readConfig(@Nonnull JsonElement data) {
-      this.getAssetArray(
-              data,
-              "Items",
-              this.items,
-              null,
-              1,
-              Integer.MAX_VALUE,
-              ItemExistsValidator.withConfig(EnumSet.of(AssetValidator.Config.MATCHER)),
-              BuilderDescriptorState.Stable,
-              "A set of items the entity must be holding",
-              null
-      );
-      return this;
-   }
+    @Nonnull
+    @Override
+    public Builder<IEntityFilter> readConfig(@Nonnull JsonElement data) {
+        this.getAssetArray(
+                data,
+                "Items",
+                this.items,
+                null,
+                1,
+                Integer.MAX_VALUE,
+                ItemExistsValidator.withConfig(EnumSet.of(AssetValidator.Config.MATCHER)),
+                BuilderDescriptorState.Stable,
+                "A set of items the entity must be holding",
+                null
+        );
+        return this;
+    }
 
-   @Nonnull
-   @Override
-   public BuilderDescriptorState getBuilderDescriptorState() {
-      return BuilderDescriptorState.Stable;
-   }
+    @Nonnull
+    @Override
+    public BuilderDescriptorState getBuilderDescriptorState() {
+        return BuilderDescriptorState.Stable;
+    }
 
-   @Nullable
-   public String[] getItems(@Nonnull BuilderSupport support) {
-      return this.items.get(support.getExecutionContext());
-   }
+    @Nullable
+    public String[] getItems(@Nonnull BuilderSupport support) {
+        return this.items.get(support.getExecutionContext());
+    }
 }

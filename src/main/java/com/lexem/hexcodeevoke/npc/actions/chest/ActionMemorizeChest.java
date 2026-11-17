@@ -10,8 +10,8 @@ import com.hypixel.hytale.server.npc.sensorinfo.InfoProvider;
 import com.lexem.hexcodeevoke.components.HexCreatureComponent;
 import com.lexem.hexcodeevoke.npc.actions.chest.builders.BuilderActionMemorizeChest;
 import com.lexem.hexcodeevoke.npc.sensors.chest.builders.BuilderSensorSearchedChestPosition;
-import com.lexem.hexcodeevoke.utils.ChestMemoryUtils;
-import com.lexem.hexcodeevoke.utils.InventoryUtils;
+import com.lexem.hexcodeevoke.utils.chest.ChestMemoryUtils;
+import com.lexem.hexcodeevoke.utils.inventory.InventoryUtils;
 import org.joml.Vector3d;
 
 import javax.annotation.Nonnull;
@@ -41,9 +41,9 @@ public class ActionMemorizeChest extends ActionBase {
             hexCreature.updateChestMemory(chestBlock, InventoryUtils.getItemIdsFromContainer(lookup.container()));
         }
 
-        hexCreature.markChestVisited(chestBlock);
+        hexCreature.getRuntime().markChestVisited(chestBlock);
         if (this.chestTarget == BuilderSensorSearchedChestPosition.ChestTarget.Explore) {
-            hexCreature.setExploreChestPosition(null);
+            hexCreature.getRuntime().setExploreChestPosition(null);
         }
         return true;
     }

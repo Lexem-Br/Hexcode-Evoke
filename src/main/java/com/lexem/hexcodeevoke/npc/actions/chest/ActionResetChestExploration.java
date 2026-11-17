@@ -30,10 +30,10 @@ public class ActionResetChestExploration extends ActionBase {
         TransformComponent transform = store.getComponent(npcRef, TransformComponent.getComponentType());
         if (hexCreature == null || transform == null) return false;
 
-        hexCreature.setExploreAnchor(new Vector3d(transform.getPosition()));
-        hexCreature.setExploreChestPosition(null);
-        hexCreature.setLastExploreSearch(0);
-        if (this.clearVisited) hexCreature.clearVisitedChests();
+        hexCreature.getRuntime().setExploreAnchor(new Vector3d(transform.getPosition()));
+        hexCreature.getRuntime().setExploreChestPosition(null);
+        hexCreature.getRuntime().setLastExploreSearch(0);
+        if (this.clearVisited) hexCreature.getRuntime().clearVisitedChests();
         return true;
     }
 }

@@ -10,7 +10,7 @@ import com.hypixel.hytale.server.npc.role.support.StateSupport;
 import com.hypixel.hytale.server.npc.sensorinfo.InfoProvider;
 import com.lexem.hexcodeevoke.components.HexCreatureComponent;
 import com.lexem.hexcodeevoke.npc.actions.refuel.builders.BuilderActionFinishRefuel;
-import com.lexem.hexcodeevoke.utils.RefuelState;
+import com.lexem.hexcodeevoke.utils.essence.RefuelState;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -30,7 +30,7 @@ public class ActionFinishRefuel extends ActionBase {
         HexCreatureComponent hexCreature = store.getComponent(npcRef, HexCreatureComponent.getComponentType());
         if (hexCreature == null) return false;
 
-        RefuelState refuel = hexCreature.getRefuelState();
+        RefuelState refuel = hexCreature.getRuntime().getRefuelState();
         String state = refuel.getReturnState();
         String subState = refuel.getReturnSubState();
         refuel.finish();

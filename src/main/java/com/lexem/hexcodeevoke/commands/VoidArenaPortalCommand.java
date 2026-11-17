@@ -12,7 +12,8 @@ import com.hypixel.hytale.server.core.modules.entity.component.TransformComponen
 import com.hypixel.hytale.server.core.universe.PlayerRef;
 import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
-import com.lexem.hexcodeevoke.utils.VoidArenaManager;
+import com.lexem.hexcodeevoke.utils.voidarena.VoidArenaManager;
+import com.lexem.hexcodeevoke.utils.voidarena.VoidArenaPortals;
 import org.joml.Vector3i;
 
 import javax.annotation.Nonnull;
@@ -44,7 +45,7 @@ public class VoidArenaPortalCommand extends AbstractPlayerCommand {
         HeadRotation headRotation = store.getComponent(ref, HeadRotation.getComponentType());
         float yaw = headRotation != null ? headRotation.getRotation().yaw() : transform.getRotation().yaw();
         int minutes = Math.max(0, minutesArg.get(context));
-        Vector3i pos = VoidArenaManager.openPortal(world, transform.getPosition(), yaw, 3.0, VoidArenaManager.PORTAL_BLOCK, minutes * 60, store);
+        Vector3i pos = VoidArenaPortals.openPortal(world, transform.getPosition(), yaw, 3.0, VoidArenaPortals.PORTAL_BLOCK, minutes * 60, store);
         if (pos == null) {
             playerRef.sendMessage(Message.raw("[Evoke] No room for a portal in front of you"));
             return;

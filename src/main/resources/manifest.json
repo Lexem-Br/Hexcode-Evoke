@@ -21,7 +21,8 @@
     },
     "OptionalDependencies": {
         "Riprod:Hexcode": "^0.11.0",
-        "Riprod:Patchly": "*"
+        "Riprod:Patchly": "*",
+        "Hytale:Memories": "*"
     },
     "DisabledByDefault": false,
     "IncludesAssetPack": true,

@@ -11,8 +11,8 @@ import com.hypixel.hytale.server.npc.sensorinfo.InfoProvider;
 import com.hypixel.hytale.server.npc.sensorinfo.PositionProvider;
 import com.lexem.hexcodeevoke.components.HexCreatureComponent;
 import com.lexem.hexcodeevoke.npc.sensors.movement.builders.BuilderSensorCrawlPath;
-import com.lexem.hexcodeevoke.utils.SurfaceCrawlState;
-import com.lexem.hexcodeevoke.utils.SurfaceNavigator;
+import com.lexem.hexcodeevoke.utils.movement.SurfaceCrawlState;
+import com.lexem.hexcodeevoke.utils.movement.SurfaceNavigator;
 import org.joml.Vector3d;
 
 import javax.annotation.Nonnull;
@@ -38,7 +38,7 @@ public class SensorCrawlPath extends SensorBase {
             return false;
         }
 
-        SurfaceCrawlState crawl = hexCreature.getCrawlState();
+        SurfaceCrawlState crawl = hexCreature.getRuntime().getCrawlState();
         if (crawl.needsPlan()) {
             plan(crawl, transform.getPosition(), store);
         }

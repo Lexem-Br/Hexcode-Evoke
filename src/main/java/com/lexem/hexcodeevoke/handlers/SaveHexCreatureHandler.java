@@ -3,7 +3,6 @@ package com.lexem.hexcodeevoke.handlers;
 import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.component.Store;
 import com.hypixel.hytale.logger.HytaleLogger;
-import com.hypixel.hytale.server.core.Message;
 import com.hypixel.hytale.server.core.entity.UUIDComponent;
 import com.hypixel.hytale.server.core.universe.PlayerRef;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
@@ -11,10 +10,11 @@ import com.hypixel.hytale.server.npc.entities.NPCEntity;
 import com.hypixel.hytale.server.npc.role.Role;
 import com.lexem.hexcodeevoke.components.EvokerComponent;
 import com.lexem.hexcodeevoke.components.HexCreatureComponent;
+import com.lexem.hexcodeevoke.components.HexCreatureEntry;
 import com.lexem.hexcodeevoke.events.SaveHexCreatureEvent;
 import com.lexem.hexcodeevoke.hexitems.AllowedHexItemsAsset;
-import com.lexem.hexcodeevoke.utils.HexCreatureUnlockUtils;
-import com.lexem.hexcodeevoke.utils.LifeEssenceUtils;
+import com.lexem.hexcodeevoke.utils.essence.LifeEssenceUtils;
+import com.lexem.hexcodeevoke.utils.hexcreature.HexCreatureUnlockUtils;
 
 import java.util.Objects;
 import java.util.function.Consumer;
@@ -41,25 +41,23 @@ public class SaveHexCreatureHandler implements Consumer<SaveHexCreatureEvent> {
 
             String npcUUID = uuidComponent.getUuid().toString();
             String playerUUID = playerRef.getUuid().toString();
-            String playerName = playerRef.getUsername();
             String blockId = AllowedHexItemsAsset.findBlockIdByEntityId(npcEntity.getNPCTypeId());
-            String npcName = npcEntity.getNPCTypeId();
             Role npcRole = npcEntity.getRole();
-            if (npcRole != null && npcRole.getNameTranslationKey() != null) {
-                npcName = Message.translation(npcRole.getNameTranslationKey()).getAnsiMessage();
-            }
+            String nameKey = npcRole != null ? npcRole.getNameTranslationKey() : null;
 
             HexCreatureComponent hexCreatureComponent = store.getComponent(refESNPC, HexCreatureComponent.getComponentType());
             if (hexCreatureComponent == null) return;
 
             hexCreatureComponent.setUUID(npcUUID);
             hexCreatureComponent.setEvokerUUID(playerUUID);
-            hexCreatureComponent.setName(npcName);
+            hexCreatureComponent.setName(null);
+            hexCreatureComponent.setNameKey(nameKey);
             hexCreatureComponent.setTypeId(npcEntity.getNPCTypeId());
             hexCreatureComponent.setBlockName(blockId);
-            hexCreatureComponent.setLifeEssence(LifeEssenceUtils.getCapacity(AllowedHexItemsAsset.getByEntityId(npcEntity.getNPCTypeId())));
+            float capacity = LifeEssenceUtils.getCapacity(AllowedHexItemsAsset.getByEntityId(npcEntity.getNPCTypeId()));
+            if (capacity > 0) hexCreatureComponent.setLifeEssence(capacity);
 
-            evoker.addHexCreature(hexCreatureComponent);
+            evoker.addHexCreature(HexCreatureEntry.of(hexCreatureComponent));
             HexCreatureUnlockUtils.onEvoked(store, event.refESPlayer(), evoker, npcEntity.getNPCTypeId(), refESNPC);
         } else {
             LOGGER.atWarning().log("EvokerComponent is null");

@@ -2444,7 +2444,7 @@
       "Description": "Groups not to take damage from."
     },
     "MaxHealth": {
-      "Value": 100,
+      "Value": 200,
       "Description": "Max health for the NPC."
     },
     "KnockbackScale": {

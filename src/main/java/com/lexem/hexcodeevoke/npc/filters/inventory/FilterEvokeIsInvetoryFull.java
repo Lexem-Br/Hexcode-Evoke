@@ -18,43 +18,43 @@ import java.util.List;
 public class FilterEvokeIsInvetoryFull extends EntityFilterBase {
     protected final List<String> inventoryTypes;
 
-   public FilterEvokeIsInvetoryFull(@Nonnull BuilderFilterIsInventoryFull builder, @Nonnull BuilderSupport support) {
-       String[] inventoryArray = builder.getInventoryTypes(support);
-       this.inventoryTypes = inventoryArray != null ? List.of(inventoryArray) : null;
-   }
+    public FilterEvokeIsInvetoryFull(@Nonnull BuilderFilterIsInventoryFull builder, @Nonnull BuilderSupport support) {
+        String[] inventoryArray = builder.getInventoryTypes(support);
+        this.inventoryTypes = inventoryArray != null ? List.of(inventoryArray) : null;
+    }
 
-   @Override
-   public boolean matchesEntity(@Nonnull Ref<EntityStore> ref, @Nonnull Ref<EntityStore> targetRef, @Nonnull ExecutionSupport executionSupport, @Nonnull Store<EntityStore> store) {
-       int freeSlots = 0;
-       for (String type : inventoryTypes) {
-          int freeSlotsType = switch (type) {
-              case "Armor" -> getFreeSlots(store.getComponent(ref, InventoryComponent.Armor.getComponentType()));
-              case "Hotbar" -> getFreeSlotsHotbar(store.getComponent(ref, InventoryComponent.Hotbar.getComponentType()));
-              case "Storage" -> getFreeSlots(store.getComponent(ref, InventoryComponent.Storage.getComponentType()));
-              case "Utility" -> getFreeSlots(store.getComponent(ref, InventoryComponent.Utility.getComponentType()));
-              case "Tool" -> getFreeSlots(store.getComponent(ref, InventoryComponent.Tool.getComponentType()));
-              case "Backpack" -> getFreeSlots(store.getComponent(ref, InventoryComponent.Backpack.getComponentType()));
-              default -> 0;
-          };
+    @Override
+    public boolean matchesEntity(@Nonnull Ref<EntityStore> ref, @Nonnull Ref<EntityStore> targetRef, @Nonnull ExecutionSupport executionSupport, @Nonnull Store<EntityStore> store) {
+        int freeSlots = 0;
+        for (String type : inventoryTypes) {
+            int freeSlotsType = switch (type) {
+                case "Armor" -> getFreeSlots(store.getComponent(ref, InventoryComponent.Armor.getComponentType()));
+                case "Hotbar" -> getFreeSlotsHotbar(store.getComponent(ref, InventoryComponent.Hotbar.getComponentType()));
+                case "Storage" -> getFreeSlots(store.getComponent(ref, InventoryComponent.Storage.getComponentType()));
+                case "Utility" -> getFreeSlots(store.getComponent(ref, InventoryComponent.Utility.getComponentType()));
+                case "Tool" -> getFreeSlots(store.getComponent(ref, InventoryComponent.Tool.getComponentType()));
+                case "Backpack" -> getFreeSlots(store.getComponent(ref, InventoryComponent.Backpack.getComponentType()));
+                default -> 0;
+            };
 
-          freeSlots += freeSlotsType;
-       }
+            freeSlots += freeSlotsType;
+        }
 
-       return freeSlots == 0;
-   }
+        return freeSlots == 0;
+    }
 
-   private int getFreeSlotsHotbar(InventoryComponent inventoryComponent) {
-      if (inventoryComponent != null) {
-         ItemContainer container = inventoryComponent.getInventory();
-         ItemStack itemStack = container.getItemStack((short) 0);
-         if (ItemStack.isEmpty(itemStack)) {
-             return InventoryHelper.countFreeSlots(container) - 1;
-         } else {
-             return InventoryHelper.countFreeSlots(container);
-         }
-      }
-      return 0;
-   }
+    private int getFreeSlotsHotbar(InventoryComponent inventoryComponent) {
+        if (inventoryComponent != null) {
+            ItemContainer container = inventoryComponent.getInventory();
+            ItemStack itemStack = container.getItemStack((short) 0);
+            if (ItemStack.isEmpty(itemStack)) {
+                return InventoryHelper.countFreeSlots(container) - 1;
+            } else {
+                return InventoryHelper.countFreeSlots(container);
+            }
+        }
+        return 0;
+    }
 
     private int getFreeSlots(InventoryComponent inventoryComponent) {
         if (inventoryComponent != null) {
@@ -64,8 +64,8 @@ public class FilterEvokeIsInvetoryFull extends EntityFilterBase {
         return 0;
     }
 
-   @Override
-   public int cost() {
-      return 300;
-   }
+    @Override
+    public int cost() {
+        return 300;
+    }
 }

@@ -22,6 +22,14 @@
     "Color": "#754"
   },
   "AnimationSets": {
+    "Interact": {
+      "Animations": [
+        {
+          "Animation": "NPC/Common/Evoke_Empty.blockyanim",
+          "Looping": false
+        }
+      ]
+    },
     "Walk": {
       "Animations": [
         {

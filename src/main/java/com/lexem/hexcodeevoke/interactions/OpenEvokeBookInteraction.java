@@ -19,7 +19,7 @@ import com.lexem.hexcodeevoke.pages.EvokeBookPage;
 
 import javax.annotation.Nonnull;
 
-public class OpenEvokeBookInteraction extends SimpleInteraction {
+public class OpenEvokeBookInteraction extends EvokeSimpleInteraction {
     private static final HytaleLogger LOGGER = HytaleLogger.forEnclosingClass();
     private String pageName = "EvokeBookPage";
     private String cardName = "CardHexCreatures";
@@ -58,10 +58,9 @@ public class OpenEvokeBookInteraction extends SimpleInteraction {
             EvokeBookPage evokeBookPage = new EvokeBookPage(playerRef, pageName, cardName);
             player.getPageManager().openCustomPage(refESPlayer, store, evokeBookPage);
 
-            context.getState().state = InteractionState.Finished;
-            super.tick0(firstRun, time, type, context, cooldownHandler);
+            finish(firstRun, time, type, context, cooldownHandler);
         } catch (Exception e) {
-            LOGGER.atSevere().log("[hexcode evoke] OpenEvokeBook failed: %s", e.getMessage());
+            LOGGER.atSevere().withCause(e).log("[hexcode evoke] OpenEvokeBook failed");
             context.getState().state = InteractionState.Failed;
         }
     }

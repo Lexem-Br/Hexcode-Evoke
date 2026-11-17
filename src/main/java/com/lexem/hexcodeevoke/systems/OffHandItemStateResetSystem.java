@@ -12,7 +12,7 @@ import com.hypixel.hytale.server.core.entity.entities.Player;
 import com.hypixel.hytale.server.core.inventory.InventoryComponent;
 import com.hypixel.hytale.server.core.modules.interaction.InteractionModule;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
-import com.lexem.hexcodeevoke.utils.OffHandItemStateUtils;
+import com.lexem.hexcodeevoke.utils.inventory.OffHandItemStateUtils;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;

@@ -10,7 +10,7 @@ import com.lexem.hexcodeevoke.components.ChestTaskComponent;
 import com.lexem.hexcodeevoke.components.HexCreatureComponent;
 import com.lexem.hexcodeevoke.components.HexCreatureMinionComponent;
 import com.lexem.hexcodeevoke.npc.actions.minion.builders.BuilderActionRemoveMinionTask;
-import com.lexem.hexcodeevoke.utils.ChestMemoryUtils;
+import com.lexem.hexcodeevoke.utils.chest.ChestMemoryUtils;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -18,8 +18,8 @@ import javax.annotation.Nullable;
 public class ActionRemoveTask extends ActionBase {
 
     public ActionRemoveTask(@Nonnull BuilderActionRemoveMinionTask builder) {
-      super(builder);
-   }
+        super(builder);
+    }
 
     @Override
     public boolean execute(@Nonnull Ref<EntityStore> npcRef, @Nonnull ExecutionSupport executionSupport, @Nullable InfoProvider sensorInfo, double dt, @Nonnull Store<EntityStore> store) {

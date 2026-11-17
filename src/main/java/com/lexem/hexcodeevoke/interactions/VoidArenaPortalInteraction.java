@@ -14,7 +14,7 @@ import com.hypixel.hytale.server.core.modules.interaction.interaction.CooldownHa
 import com.hypixel.hytale.server.core.universe.PlayerRef;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.hypixel.hytale.server.core.util.NotificationUtil;
-import com.lexem.hexcodeevoke.utils.VoidArenaManager;
+import com.lexem.hexcodeevoke.utils.voidarena.VoidArenaPortals;
 
 import javax.annotation.Nonnull;
 import java.util.Map;
@@ -34,13 +34,13 @@ public class VoidArenaPortalInteraction extends TeleportInstanceInteraction {
         CommandBuffer<EntityStore> commandBuffer = context.getCommandBuffer();
         BlockPosition targetBlock = context.getTargetBlock();
         if (commandBuffer != null && targetBlock != null) {
-            Message denial = VoidArenaManager.getPortalDenial(commandBuffer.getExternalData().getWorld(), targetBlock.x, targetBlock.y, targetBlock.z);
+            Message denial = VoidArenaPortals.getPortalDenial(commandBuffer.getExternalData().getWorld(), targetBlock.x, targetBlock.y, targetBlock.z);
             if (denial != null) {
                 notifyDenied(commandBuffer, context.getEntity(), denial);
                 context.getState().state = InteractionState.Failed;
                 return;
             }
-            VoidArenaManager.trackPortal(commandBuffer.getExternalData().getWorld(), targetBlock.x, targetBlock.y, targetBlock.z);
+            VoidArenaPortals.trackPortal(commandBuffer.getExternalData().getWorld(), targetBlock.x, targetBlock.y, targetBlock.z);
         }
 
         super.firstRun(type, context, cooldownHandler);
@@ -54,6 +54,7 @@ public class VoidArenaPortalInteraction extends TeleportInstanceInteraction {
         Long last = LAST_NOTIFY.get(playerRef.getUuid());
         if (last != null && now - last < NOTIFY_COOLDOWN_MILLIS) return;
 
+        LAST_NOTIFY.values().removeIf(sentAt -> now - sentAt >= NOTIFY_COOLDOWN_MILLIS);
         LAST_NOTIFY.put(playerRef.getUuid(), now);
         NotificationUtil.sendNotification(playerRef.getPacketHandler(), Message.translation("evoke.voidArena.portal.denied"), reason, NotificationStyle.Warning);
     }

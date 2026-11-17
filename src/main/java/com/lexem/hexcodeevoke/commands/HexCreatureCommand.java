@@ -11,8 +11,8 @@ import com.hypixel.hytale.server.core.universe.PlayerRef;
 import com.hypixel.hytale.server.core.universe.world.World;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.lexem.hexcodeevoke.components.EvokerComponent;
-import com.lexem.hexcodeevoke.components.HexCreatureComponent;
-import com.lexem.hexcodeevoke.utils.ErrorMessageUtils;
+import com.lexem.hexcodeevoke.components.HexCreatureEntry;
+import com.lexem.hexcodeevoke.utils.common.ErrorMessageUtils;
 
 import javax.annotation.Nonnull;
 
@@ -35,7 +35,7 @@ public class HexCreatureCommand extends AbstractPlayerCommand {
         EvokerComponent evoker = store.getComponent(ref, EvokerComponent.getComponentType());
         if (evoker == null) return;
 
-        HexCreatureComponent hexCreature = evoker.getHexCreatureByUUID(npcUUIDArg.get(context));
+        HexCreatureEntry hexCreature = evoker.getHexCreatureByUUID(npcUUIDArg.get(context));
         if (hexCreature == null) {
             ErrorMessageUtils.sendMessageError(playerRef, "errors.invalid_target", "errors.no_hex_creture_found");
             return;

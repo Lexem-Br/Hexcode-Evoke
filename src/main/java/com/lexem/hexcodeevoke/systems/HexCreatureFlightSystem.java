@@ -19,7 +19,7 @@ import com.hypixel.hytale.server.npc.systems.MovementStatesSystem;
 import com.hypixel.hytale.server.npc.systems.RoleSystems;
 import com.hypixel.hytale.server.npc.systems.SteeringSystem;
 import com.lexem.hexcodeevoke.components.HexCreatureComponent;
-import com.lexem.hexcodeevoke.utils.FairyFlightState;
+import com.lexem.hexcodeevoke.utils.movement.FairyFlightState;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -47,7 +47,7 @@ public class HexCreatureFlightSystem extends EntityTickingSystem<EntityStore> {
         MovementStatesComponent movementStatesComponent = archetypeChunk.getComponent(index, MovementStatesComponent.getComponentType());
         if (hexCreature == null || transform == null || movementStatesComponent == null) return;
 
-        FairyFlightState flight = hexCreature.getFlightState();
+        FairyFlightState flight = hexCreature.getRuntime().getFlightState();
         if (!flight.isActive()) return;
 
         transform.getRotation().setYaw(flight.getYaw());

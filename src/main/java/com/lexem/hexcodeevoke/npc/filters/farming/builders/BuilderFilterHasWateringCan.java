@@ -11,42 +11,42 @@ import com.lexem.hexcodeevoke.npc.filters.farming.FilterHasWateringCan;
 import javax.annotation.Nonnull;
 
 public class BuilderFilterHasWateringCan extends BuilderEntityFilterBase {
-   protected boolean filled = true;
+    protected boolean filled = true;
 
-   public BuilderFilterHasWateringCan() {
-   }
+    public BuilderFilterHasWateringCan() {
+    }
 
-   @Nonnull
-   @Override
-   public String getShortDescription() {
-      return "Checks if the entity is holding a watering can with or without water.";
-   }
+    @Nonnull
+    @Override
+    public String getShortDescription() {
+        return "Checks if the entity is holding a watering can with or without water.";
+    }
 
-   @Nonnull
-   @Override
-   public String getLongDescription() {
-      return getShortDescription();
-   }
+    @Nonnull
+    @Override
+    public String getLongDescription() {
+        return getShortDescription();
+    }
 
-   @Nonnull
-   public IEntityFilter build(@Nonnull BuilderSupport builderSupport) {
-      return new FilterHasWateringCan(this, builderSupport);
-   }
+    @Nonnull
+    public IEntityFilter build(@Nonnull BuilderSupport builderSupport) {
+        return new FilterHasWateringCan(this, builderSupport);
+    }
 
-   @Nonnull
-   @Override
-   public BuilderDescriptorState getBuilderDescriptorState() {
-      return BuilderDescriptorState.Stable;
-   }
+    @Nonnull
+    @Override
+    public BuilderDescriptorState getBuilderDescriptorState() {
+        return BuilderDescriptorState.Stable;
+    }
 
-   @Nonnull
-   @Override
-   public Builder<IEntityFilter> readConfig(@Nonnull JsonElement data) {
-      this.getBoolean(data, "Filled", aBoolean -> this.filled = aBoolean, true, BuilderDescriptorState.Stable, "True to check for a watering can with water, false for an empty one", null);
-      return this;
-   }
+    @Nonnull
+    @Override
+    public Builder<IEntityFilter> readConfig(@Nonnull JsonElement data) {
+        this.getBoolean(data, "Filled", aBoolean -> this.filled = aBoolean, true, BuilderDescriptorState.Stable, "True to check for a watering can with water, false for an empty one", null);
+        return this;
+    }
 
-   public boolean getFilled(@Nonnull BuilderSupport support) {
-      return this.filled;
-   }
+    public boolean getFilled(@Nonnull BuilderSupport support) {
+        return this.filled;
+    }
 }

@@ -14,44 +14,46 @@ import com.hypixel.hytale.server.npc.asset.builder.BuilderSupport;
 import com.hypixel.hytale.server.npc.corecomponents.EntityFilterBase;
 import com.hypixel.hytale.server.npc.instructions.ExecutionSupport;
 import com.lexem.hexcodeevoke.npc.filters.chest.builders.BuilderFilterHasChestNearby;
-import com.lexem.hexcodeevoke.utils.FinderUtils;
-import com.lexem.hexcodeevoke.utils.InventoryUtils;
+import com.lexem.hexcodeevoke.utils.block.BlockSearchCache;
+import com.lexem.hexcodeevoke.utils.block.FinderUtils;
+import com.lexem.hexcodeevoke.utils.inventory.InventoryUtils;
 import org.joml.Vector3i;
 
 import javax.annotation.Nonnull;
 
 public class FilterHasChestNearby extends EntityFilterBase {
+    private final BlockSearchCache search = new BlockSearchCache();
     private final double horizontalRange;
     private final double verticalRange;
     private boolean checkCanStore;
     private Ref<EntityStore> npcRef;
     private Store<EntityStore> store;
 
-   public FilterHasChestNearby(@Nonnull BuilderFilterHasChestNearby builder, @Nonnull BuilderSupport support) {
-       this.horizontalRange = builder.getHorizontalRange(support);
-       this.verticalRange = builder.getVerticalRange(support);
-       this.checkCanStore = builder.getCheckCanStore(support);
-   }
+    public FilterHasChestNearby(@Nonnull BuilderFilterHasChestNearby builder, @Nonnull BuilderSupport support) {
+        this.horizontalRange = builder.getHorizontalRange(support);
+        this.verticalRange = builder.getVerticalRange(support);
+        this.checkCanStore = builder.getCheckCanStore(support);
+    }
 
-   @Override
-   public boolean matchesEntity(@Nonnull Ref<EntityStore> npcRef, @Nonnull Ref<EntityStore> targetRef, @Nonnull ExecutionSupport executionSupport, @Nonnull Store<EntityStore> store) {
-       this.npcRef = npcRef;
-       this.store = store;
+    @Override
+    public boolean matchesEntity(@Nonnull Ref<EntityStore> npcRef, @Nonnull Ref<EntityStore> targetRef, @Nonnull ExecutionSupport executionSupport, @Nonnull Store<EntityStore> store) {
+        this.npcRef = npcRef;
+        this.store = store;
 
-       World world = store.getExternalData().getWorld();
-       TransformComponent transformComponent = store.getComponent(npcRef, TransformComponent.getComponentType());
-       if (transformComponent == null) return false;
+        World world = store.getExternalData().getWorld();
+        TransformComponent transformComponent = store.getComponent(npcRef, TransformComponent.getComponentType());
+        if (transformComponent == null) return false;
 
-       Vector3i chest = FinderUtils.findNearestBlockBFS(
-               transformComponent.getPosition(),
-               (int) Math.ceil(horizontalRange),
-               (int) Math.ceil(verticalRange),
-               chestValidator,
-               world
-       );
+        Vector3i chest = search.find(
+                transformComponent.getPosition(),
+                (int) Math.ceil(horizontalRange),
+                (int) Math.ceil(verticalRange),
+                chestValidator,
+                world
+        );
 
-       return chest != null;
-   }
+        return chest != null;
+    }
 
     private final FinderUtils.BlockValidator<World> chestValidator = (block, world) -> {
         long chunkIndex = ChunkUtil.indexChunkFromBlock(block.x, block.z);
@@ -77,8 +79,8 @@ public class FilterHasChestNearby extends EntityFilterBase {
         return InventoryUtils.canAddAnyItemToContainerNPC(chestContainer, npcRef, store, true);
     };
 
-   @Override
-   public int cost() {
-      return 100;
-   }
+    @Override
+    public int cost() {
+        return 100;
+    }
 }

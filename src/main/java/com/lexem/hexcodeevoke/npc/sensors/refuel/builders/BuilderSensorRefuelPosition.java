@@ -11,7 +11,7 @@ import com.hypixel.hytale.server.npc.asset.builder.validators.DoubleSingleValida
 import com.hypixel.hytale.server.npc.corecomponents.builders.BuilderSensorBase;
 import com.hypixel.hytale.server.npc.instructions.Sensor;
 import com.lexem.hexcodeevoke.npc.sensors.refuel.SensorRefuelPosition;
-import com.lexem.hexcodeevoke.utils.RefuelState;
+import com.lexem.hexcodeevoke.utils.essence.RefuelState;
 
 import javax.annotation.Nonnull;
 

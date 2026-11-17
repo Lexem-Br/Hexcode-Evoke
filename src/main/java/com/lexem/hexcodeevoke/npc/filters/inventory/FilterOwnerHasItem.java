@@ -10,7 +10,7 @@ import com.hypixel.hytale.server.npc.instructions.ExecutionSupport;
 import com.lexem.hexcodeevoke.components.HexCreatureComponent;
 import com.lexem.hexcodeevoke.components.HexCreatureMinionComponent;
 import com.lexem.hexcodeevoke.npc.filters.inventory.builders.BuilderFilterOwnerHasItem;
-import com.lexem.hexcodeevoke.utils.InventoryUtils;
+import com.lexem.hexcodeevoke.utils.inventory.InventoryUtils;
 
 import javax.annotation.Nonnull;
 
@@ -46,8 +46,8 @@ public class FilterOwnerHasItem extends EntityFilterBase {
         return reverse != hasItem;
     }
 
-   @Override
-   public int cost() {
-      return 300;
-   }
+    @Override
+    public int cost() {
+        return 300;
+    }
 }

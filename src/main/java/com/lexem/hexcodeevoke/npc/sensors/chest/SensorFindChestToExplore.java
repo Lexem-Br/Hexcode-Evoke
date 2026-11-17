@@ -14,8 +14,8 @@ import com.hypixel.hytale.server.npc.sensorinfo.PositionProvider;
 import com.lexem.hexcodeevoke.components.ChestMemoryComponent;
 import com.lexem.hexcodeevoke.components.HexCreatureComponent;
 import com.lexem.hexcodeevoke.npc.sensors.chest.builders.BuilderSensorFindChestToExplore;
-import com.lexem.hexcodeevoke.utils.ChestViewpointUtils;
-import com.lexem.hexcodeevoke.utils.FinderUtils;
+import com.lexem.hexcodeevoke.utils.block.FinderUtils;
+import com.lexem.hexcodeevoke.utils.chest.ChestViewpointUtils;
 import org.joml.Vector3d;
 
 import javax.annotation.Nonnull;
@@ -60,26 +60,26 @@ public class SensorFindChestToExplore extends SensorBase {
         }
 
         long now = System.currentTimeMillis();
-        Vector3d chest = hexCreature.getExploreChestPosition();
-        if (chest != null && now - hexCreature.getExploreChestSince() > GIVE_UP_MILLIS) {
-            hexCreature.markChestVisited(chest);
-            hexCreature.setExploreChestPosition(null);
+        Vector3d chest = hexCreature.getRuntime().getExploreChestPosition();
+        if (chest != null && now - hexCreature.getRuntime().getExploreChestSince() > GIVE_UP_MILLIS) {
+            hexCreature.getRuntime().markChestVisited(chest);
+            hexCreature.getRuntime().setExploreChestPosition(null);
             chest = null;
         }
 
         if (chest == null) {
-            if (now - hexCreature.getLastExploreSearch() < SEARCH_INTERVAL_MILLIS) {
+            if (now - hexCreature.getRuntime().getLastExploreSearch() < SEARCH_INTERVAL_MILLIS) {
                 this.positionProvider.clear();
                 return false;
             }
-            hexCreature.setLastExploreSearch(now);
+            hexCreature.getRuntime().setLastExploreSearch(now);
 
             chest = findNextChest(hexCreature, transform.getPosition(), store.getExternalData().getWorld());
             if (chest == null) {
                 this.positionProvider.clear();
                 return false;
             }
-            hexCreature.setExploreChestPosition(chest);
+            hexCreature.getRuntime().setExploreChestPosition(chest);
         }
 
         MotionController motionController = executionSupport.getMotionContextSupport().getActiveMotionController();
@@ -97,24 +97,21 @@ public class SensorFindChestToExplore extends SensorBase {
 
     @Nullable
     private Vector3d findNextChest(@Nonnull HexCreatureComponent hexCreature, @Nonnull Vector3d npcPosition, @Nonnull World world) {
-        if (hexCreature.getExploreAnchor() == null) {
-            hexCreature.setExploreAnchor(new Vector3d(npcPosition));
+        if (hexCreature.getRuntime().getExploreAnchor() == null) {
+            hexCreature.getRuntime().setExploreAnchor(new Vector3d(npcPosition));
         }
 
-        Vector3d anchor = hexCreature.getExploreAnchor();
+        Vector3d anchor = hexCreature.getRuntime().getExploreAnchor();
         List<Vector3d> chests = FinderUtils.findAllChestsInRange(anchor, this.horizontalRange, this.verticalRange, world);
 
-        ChestMemoryComponent[] memories = hexCreature.getListChestMemory();
-        if (memories != null) {
-            for (ChestMemoryComponent memory : memories) {
-                if (memory != null && isInRange(memory.getChestPosition(), anchor)) chests.add(memory.getChestPosition());
-            }
+        for (ChestMemoryComponent memory : hexCreature.getListChestMemory()) {
+            if (isInRange(memory.getChestPosition(), anchor)) chests.add(memory.getChestPosition());
         }
 
         Vector3d nearest = null;
         double nearestDistance = Double.MAX_VALUE;
         for (Vector3d chest : chests) {
-            if (hexCreature.wasChestVisitedRecently(chest, this.revisitDelayMillis) || hexCreature.isChestUnreachable(chest)) continue;
+            if (hexCreature.getRuntime().wasChestVisitedRecently(chest, this.revisitDelayMillis) || hexCreature.getRuntime().isChestUnreachable(chest)) continue;
 
             double distance = npcPosition.distanceSquared(chest);
             if (distance < nearestDistance) {

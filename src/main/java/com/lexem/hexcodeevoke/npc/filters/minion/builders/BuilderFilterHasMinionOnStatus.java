@@ -12,50 +12,50 @@ import com.lexem.hexcodeevoke.npc.filters.minion.FilterHasMinionOnStatus;
 import javax.annotation.Nonnull;
 
 public class BuilderFilterHasMinionOnStatus extends BuilderEntityFilterBase {
-   protected HexCreatureMinionComponent.Status status;
+    protected HexCreatureMinionComponent.Status status;
 
-   public BuilderFilterHasMinionOnStatus() {}
+    public BuilderFilterHasMinionOnStatus() {}
 
-   @Nonnull
-   @Override
-   public String getShortDescription() {
-      return "Checks if there is any minion with this status";
-   }
+    @Nonnull
+    @Override
+    public String getShortDescription() {
+        return "Checks if there is any minion with this status";
+    }
 
-   @Nonnull
-   @Override
-   public String getLongDescription() {
-      return getShortDescription();
-   }
+    @Nonnull
+    @Override
+    public String getLongDescription() {
+        return getShortDescription();
+    }
 
-   @Nonnull
-   public IEntityFilter build(@Nonnull BuilderSupport builderSupport) {
-      return new FilterHasMinionOnStatus(this);
-   }
+    @Nonnull
+    public IEntityFilter build(@Nonnull BuilderSupport builderSupport) {
+        return new FilterHasMinionOnStatus(this);
+    }
 
-   @Nonnull
-   @Override
-   public Builder<IEntityFilter> readConfig(@Nonnull JsonElement data) {
-      this.getEnum(
-              data,
-              "Status",
-              v -> this.status = v,
-              HexCreatureMinionComponent.Status.class,
-              HexCreatureMinionComponent.Status.Standby,
-              BuilderDescriptorState.Stable,
-              "Checks if there is any minion with this status",
-              null
-      );
-      return this;
-   }
+    @Nonnull
+    @Override
+    public Builder<IEntityFilter> readConfig(@Nonnull JsonElement data) {
+        this.getEnum(
+                data,
+                "Status",
+                v -> this.status = v,
+                HexCreatureMinionComponent.Status.class,
+                HexCreatureMinionComponent.Status.Standby,
+                BuilderDescriptorState.Stable,
+                "Checks if there is any minion with this status",
+                null
+        );
+        return this;
+    }
 
-   public HexCreatureMinionComponent.Status getStatus() {
-      return this.status;
-   }
+    public HexCreatureMinionComponent.Status getStatus() {
+        return this.status;
+    }
 
-   @Nonnull
-   @Override
-   public BuilderDescriptorState getBuilderDescriptorState() {
-      return BuilderDescriptorState.Stable;
-   }
+    @Nonnull
+    @Override
+    public BuilderDescriptorState getBuilderDescriptorState() {
+        return BuilderDescriptorState.Stable;
+    }
 }

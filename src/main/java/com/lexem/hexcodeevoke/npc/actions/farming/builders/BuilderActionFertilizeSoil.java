@@ -11,34 +11,34 @@ import javax.annotation.Nonnull;
 
 public class BuilderActionFertilizeSoil extends BuilderActionBase {
 
-   public BuilderActionFertilizeSoil() {
-   }
+    public BuilderActionFertilizeSoil() {
+    }
 
-   @Nonnull
-   @Override
-   public String getShortDescription() {
-      return "Fertilize the soil and consume the fertilizer in hand.";
-   }
+    @Nonnull
+    @Override
+    public String getShortDescription() {
+        return "Fertilize the soil and consume the fertilizer in hand.";
+    }
 
-   @Nonnull
-   @Override
-   public String getLongDescription() {
-      return this.getShortDescription();
-   }
+    @Nonnull
+    @Override
+    public String getLongDescription() {
+        return this.getShortDescription();
+    }
 
-   @Nonnull
-   public Action build(@Nonnull BuilderSupport builderSupport) {
-      return new ActionFertilizeSoil(this);
-   }
+    @Nonnull
+    public Action build(@Nonnull BuilderSupport builderSupport) {
+        return new ActionFertilizeSoil(this);
+    }
 
-   @Nonnull
-   @Override
-   public BuilderDescriptorState getBuilderDescriptorState() {
-      return BuilderDescriptorState.Stable;
-   }
+    @Nonnull
+    @Override
+    public BuilderDescriptorState getBuilderDescriptorState() {
+        return BuilderDescriptorState.Stable;
+    }
 
-   @Nonnull
-   public BuilderActionFertilizeSoil readConfig(@Nonnull JsonElement data) {
-      return this;
-   }
+    @Nonnull
+    public BuilderActionFertilizeSoil readConfig(@Nonnull JsonElement data) {
+        return this;
+    }
 }

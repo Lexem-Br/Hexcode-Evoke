@@ -8,9 +8,9 @@ import com.hypixel.hytale.server.core.entity.InteractionManager;
 import com.hypixel.hytale.server.core.modules.interaction.InteractionModule;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.hypixel.hytale.server.npc.corecomponents.ActionBase;
-import com.lexem.hexcodeevoke.npc.actions.voidarena.builders.BuilderActionInterruptAttack;
 import com.hypixel.hytale.server.npc.instructions.ExecutionSupport;
 import com.hypixel.hytale.server.npc.sensorinfo.InfoProvider;
+import com.lexem.hexcodeevoke.npc.actions.voidarena.builders.BuilderActionInterruptAttack;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;

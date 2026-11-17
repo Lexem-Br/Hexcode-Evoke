@@ -51,7 +51,7 @@ public class ActionAbandonMinionTask extends ActionBase {
         if (mother != null && chestTask != null && this.forgetChest) {
             mother.removeChestTask(chestTask);
             mother.forgetChest(chestTask.getChestPosition());
-            mother.markChestUnreachable(chestTask.getChestPosition(), (long) (this.unreachableSeconds * 1000));
+            mother.getRuntime().markChestUnreachable(chestTask.getChestPosition(), (long) (this.unreachableSeconds * 1000));
         }
 
         this.teleportNearMother(npcRef, motherRef, executionSupport, store);

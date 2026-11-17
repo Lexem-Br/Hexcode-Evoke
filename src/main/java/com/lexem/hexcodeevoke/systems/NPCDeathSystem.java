@@ -12,13 +12,13 @@ import com.lexem.hexcodeevoke.components.EvokerComponent;
 import com.lexem.hexcodeevoke.components.HexCreatureComponent;
 import com.lexem.hexcodeevoke.hexitems.AllowedHexCreatureMinionsAsset;
 import com.lexem.hexcodeevoke.hexitems.AllowedHexItemsAsset;
-import com.lexem.hexcodeevoke.utils.HexCreatureDespawner;
-import com.lexem.hexcodeevoke.utils.DespawnMinionUtils;
+import com.lexem.hexcodeevoke.utils.hexcreature.DespawnMinionUtils;
+import com.lexem.hexcodeevoke.utils.hexcreature.HexCreatureDespawner;
+import com.lexem.hexcodeevoke.utils.hexcreature.HexCreatureUtils;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Objects;
-import java.util.UUID;
 
 public class NPCDeathSystem extends DeathSystems.OnDeathSystem{
 
@@ -41,8 +41,7 @@ public class NPCDeathSystem extends DeathSystems.OnDeathSystem{
             HexCreatureComponent hexCreatureComponent = store.getComponent(ref, HexCreatureComponent.getComponentType());
             if (hexCreatureComponent == null || hexCreatureComponent.getEvokerUUID() == null) return;
 
-            UUID playerUUID = UUID.fromString(hexCreatureComponent.getEvokerUUID());
-            Ref<EntityStore> playerRef = store.getExternalData().getRefFromUUID(playerUUID);
+            Ref<EntityStore> playerRef = HexCreatureUtils.getOwnerRef(store, hexCreatureComponent);
             if (playerRef == null) return;
 
             EvokerComponent evoker = store.getComponent(playerRef, EvokerComponent.getComponentType());

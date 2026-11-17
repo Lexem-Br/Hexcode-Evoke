@@ -40,7 +40,7 @@ public class ActionStartRefuel extends ActionBase {
         String subState = stateHelper != null ? stateHelper.getSubStateName(stateSupport.getStateIndex(), stateSupport.getSubStateIndex()) : null;
 
         Vector3i tray = new Vector3i((int) Math.floor(this.trayPosition.x), (int) Math.floor(this.trayPosition.y), (int) Math.floor(this.trayPosition.z));
-        hexCreature.getRefuelState().start(tray, transform.getPosition(), state, subState);
+        hexCreature.getRuntime().getRefuelState().start(tray, transform.getPosition(), state, subState);
         return true;
     }
 }

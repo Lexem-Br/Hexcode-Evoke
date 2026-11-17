@@ -12,7 +12,7 @@ import com.hypixel.hytale.server.npc.entities.NPCEntity;
 import com.hypixel.hytale.server.npc.systems.RoleSystems;
 import com.lexem.hexcodeevoke.components.HexCreatureComponent;
 import com.lexem.hexcodeevoke.resources.HexCreatureRegistry;
-import com.lexem.hexcodeevoke.utils.HexCreatureDespawner;
+import com.lexem.hexcodeevoke.utils.hexcreature.HexCreatureDespawner;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;

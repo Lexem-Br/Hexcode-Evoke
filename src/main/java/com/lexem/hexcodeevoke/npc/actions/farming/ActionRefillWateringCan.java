@@ -8,8 +8,8 @@ import com.hypixel.hytale.server.npc.instructions.ExecutionSupport;
 import com.hypixel.hytale.server.npc.sensorinfo.IPositionProvider;
 import com.hypixel.hytale.server.npc.sensorinfo.InfoProvider;
 import com.lexem.hexcodeevoke.npc.actions.farming.builders.BuilderActionRefillWateringCan;
-import com.lexem.hexcodeevoke.utils.HeldItemUtils;
-import com.lexem.hexcodeevoke.utils.WateringCanUtils;
+import com.lexem.hexcodeevoke.utils.farming.WateringCanUtils;
+import com.lexem.hexcodeevoke.utils.inventory.HeldItemUtils;
 import org.joml.Vector3i;
 
 import javax.annotation.Nonnull;

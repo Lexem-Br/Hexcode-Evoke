@@ -21,7 +21,8 @@ import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.hypixel.hytale.server.npc.role.support.StateSupport;
 import com.lexem.hexcodeevoke.components.ChestMemoryComponent;
 import com.lexem.hexcodeevoke.components.HexCreatureComponent;
-import com.lexem.hexcodeevoke.utils.ErrorMessageUtils;
+import com.lexem.hexcodeevoke.utils.common.ErrorMessageUtils;
+import com.lexem.hexcodeevoke.utils.hexcreature.HexCreatureNames;
 import org.joml.Vector3d;
 
 import javax.annotation.Nonnull;
@@ -71,7 +72,7 @@ public class ArcaneCodexSearchPage extends InteractiveCustomUIPage<ArcaneCodexSe
         HexCreatureComponent hexCreature = npcRef.isValid() ? store.getComponent(npcRef, HexCreatureComponent.getComponentType()) : null;
         if (hexCreature != null) {
             commandBuilder.set("#HCIcon.ItemId", hexCreature.getBlockName());
-            commandBuilder.set("#HCName.Text", hexCreature.getName());
+            commandBuilder.set("#HCName.Text", HexCreatureNames.display(hexCreature));
         }
 
         buildItems(commandBuilder, eventBuilder, hexCreature);
@@ -167,7 +168,7 @@ public class ArcaneCodexSearchPage extends InteractiveCustomUIPage<ArcaneCodexSe
         Vector3d chestPosition = findChestWithItem(hexCreature, transform.getPosition(), selectedItemId);
         if (chestPosition == null) return false;
 
-        hexCreature.setSearchChestPosition(chestPosition);
+        hexCreature.getRuntime().setSearchChestPosition(chestPosition);
         stateSupport.setState(npcRef, SEARCH_STATE, null, store);
         return true;
     }

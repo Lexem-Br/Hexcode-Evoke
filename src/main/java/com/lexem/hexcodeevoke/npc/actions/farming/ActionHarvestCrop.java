@@ -11,14 +11,14 @@ import com.hypixel.hytale.server.core.universe.world.chunk.BlockChunk;
 import com.hypixel.hytale.server.core.universe.world.chunk.section.BlockSection;
 import com.hypixel.hytale.server.core.universe.world.storage.ChunkStore;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
-import com.hypixel.hytale.server.npc.corecomponents.ActionBase;
 import com.hypixel.hytale.server.npc.asset.builder.BuilderSupport;
+import com.hypixel.hytale.server.npc.corecomponents.ActionBase;
 import com.hypixel.hytale.server.npc.instructions.ExecutionSupport;
 import com.hypixel.hytale.server.npc.sensorinfo.IPositionProvider;
 import com.hypixel.hytale.server.npc.sensorinfo.InfoProvider;
 import com.lexem.hexcodeevoke.npc.actions.farming.builders.BuilderActionHarvestCrop;
-import com.lexem.hexcodeevoke.utils.BlockUtils;
-import com.lexem.hexcodeevoke.utils.HeldItemUtils;
+import com.lexem.hexcodeevoke.utils.block.BlockUtils;
+import com.lexem.hexcodeevoke.utils.inventory.HeldItemUtils;
 import org.joml.Vector3i;
 
 import javax.annotation.Nonnull;

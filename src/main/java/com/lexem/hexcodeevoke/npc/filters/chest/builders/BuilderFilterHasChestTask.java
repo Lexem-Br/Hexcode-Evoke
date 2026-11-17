@@ -12,50 +12,50 @@ import com.lexem.hexcodeevoke.npc.filters.chest.FilterHasChestTask;
 import javax.annotation.Nonnull;
 
 public class BuilderFilterHasChestTask extends BuilderEntityFilterBase {
-   protected ChestTaskComponent.TaskType taskType;
+    protected ChestTaskComponent.TaskType taskType;
 
-   public BuilderFilterHasChestTask() {}
+    public BuilderFilterHasChestTask() {}
 
-   @Nonnull
-   @Override
-   public String getShortDescription() {
-      return "Checks if has a chest task";
-   }
+    @Nonnull
+    @Override
+    public String getShortDescription() {
+        return "Checks if has a chest task";
+    }
 
-   @Nonnull
-   @Override
-   public String getLongDescription() {
-      return getShortDescription();
-   }
+    @Nonnull
+    @Override
+    public String getLongDescription() {
+        return getShortDescription();
+    }
 
-   @Nonnull
-   public IEntityFilter build(@Nonnull BuilderSupport builderSupport) {
-      return new FilterHasChestTask(this);
-   }
+    @Nonnull
+    public IEntityFilter build(@Nonnull BuilderSupport builderSupport) {
+        return new FilterHasChestTask(this);
+    }
 
-   @Nonnull
-   @Override
-   public Builder<IEntityFilter> readConfig(@Nonnull JsonElement data) {
-      this.getEnum(
-              data,
-              "TaskType",
-              v -> this.taskType = v,
-              ChestTaskComponent.TaskType.class,
-              ChestTaskComponent.TaskType.Search,
-              BuilderDescriptorState.Stable,
-              "Specifies the task type",
-              null
-      );
-      return this;
-   }
+    @Nonnull
+    @Override
+    public Builder<IEntityFilter> readConfig(@Nonnull JsonElement data) {
+        this.getEnum(
+                data,
+                "TaskType",
+                v -> this.taskType = v,
+                ChestTaskComponent.TaskType.class,
+                ChestTaskComponent.TaskType.Search,
+                BuilderDescriptorState.Stable,
+                "Specifies the task type",
+                null
+        );
+        return this;
+    }
 
-   public ChestTaskComponent.TaskType getTaskType() {
-      return this.taskType;
-   }
+    public ChestTaskComponent.TaskType getTaskType() {
+        return this.taskType;
+    }
 
-   @Nonnull
-   @Override
-   public BuilderDescriptorState getBuilderDescriptorState() {
-      return BuilderDescriptorState.Stable;
-   }
+    @Nonnull
+    @Override
+    public BuilderDescriptorState getBuilderDescriptorState() {
+        return BuilderDescriptorState.Stable;
+    }
 }

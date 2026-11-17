@@ -3,7 +3,7 @@ package com.lexem.hexcodeevoke.systems;
 import com.hypixel.hytale.component.Store;
 import com.hypixel.hytale.component.system.tick.TickingSystem;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
-import com.lexem.hexcodeevoke.utils.WorldStallWatchdog;
+import com.lexem.hexcodeevoke.utils.debug.WorldStallWatchdog;
 
 import javax.annotation.Nonnull;
 

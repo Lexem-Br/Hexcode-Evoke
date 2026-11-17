@@ -10,8 +10,8 @@ import com.hypixel.hytale.server.npc.instructions.ExecutionSupport;
 import com.hypixel.hytale.server.npc.sensorinfo.InfoProvider;
 import com.lexem.hexcodeevoke.components.HexCreatureComponent;
 import com.lexem.hexcodeevoke.npc.actions.chest.builders.BuilderActionTransportItems;
-import com.lexem.hexcodeevoke.utils.TransportState;
-import com.lexem.hexcodeevoke.utils.TransportUtils;
+import com.lexem.hexcodeevoke.utils.transport.TransportState;
+import com.lexem.hexcodeevoke.utils.transport.TransportUtils;
 import org.joml.Vector3d;
 
 import javax.annotation.Nonnull;

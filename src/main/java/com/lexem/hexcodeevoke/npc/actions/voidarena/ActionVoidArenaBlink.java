@@ -20,7 +20,7 @@ import com.hypixel.hytale.server.npc.instructions.ExecutionSupport;
 import com.hypixel.hytale.server.npc.movement.controllers.MotionController;
 import com.hypixel.hytale.server.npc.sensorinfo.InfoProvider;
 import com.lexem.hexcodeevoke.npc.actions.voidarena.builders.BuilderActionVoidArenaBlink;
-import com.lexem.hexcodeevoke.utils.BlockUtils;
+import com.lexem.hexcodeevoke.utils.block.BlockUtils;
 import org.joml.Vector3d;
 import org.joml.Vector3i;
 

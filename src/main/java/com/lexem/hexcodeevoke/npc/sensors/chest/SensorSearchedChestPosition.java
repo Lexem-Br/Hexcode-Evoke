@@ -12,7 +12,7 @@ import com.hypixel.hytale.server.npc.sensorinfo.InfoProvider;
 import com.hypixel.hytale.server.npc.sensorinfo.PositionProvider;
 import com.lexem.hexcodeevoke.components.HexCreatureComponent;
 import com.lexem.hexcodeevoke.npc.sensors.chest.builders.BuilderSensorSearchedChestPosition;
-import com.lexem.hexcodeevoke.utils.ChestViewpointUtils;
+import com.lexem.hexcodeevoke.utils.chest.ChestViewpointUtils;
 import org.joml.Vector3d;
 
 import javax.annotation.Nonnull;

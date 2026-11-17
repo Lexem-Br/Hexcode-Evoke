@@ -1,7 +1,6 @@
 package com.lexem.hexcodeevoke.interactions;
 
 import com.hypixel.hytale.codec.builder.BuilderCodec;
-import com.hypixel.hytale.protocol.InteractionState;
 import com.hypixel.hytale.protocol.InteractionType;
 import com.hypixel.hytale.protocol.WaitForDataFrom;
 import com.hypixel.hytale.server.core.entity.InteractionContext;
@@ -11,7 +10,7 @@ import com.hypixel.hytale.server.core.modules.interaction.interaction.config.Sim
 
 import javax.annotation.Nonnull;
 
-public class OffHandContextConditionInteraction extends SimpleInteraction {
+public class OffHandContextConditionInteraction extends EvokeSimpleInteraction {
     public static final BuilderCodec<OffHandContextConditionInteraction> CODEC =
             BuilderCodec.builder(OffHandContextConditionInteraction.class, OffHandContextConditionInteraction::new,
                             SimpleInteraction.CODEC)
@@ -25,9 +24,6 @@ public class OffHandContextConditionInteraction extends SimpleInteraction {
 
     @Override
     protected void tick0(boolean firstRun, float time, @Nonnull InteractionType type, @Nonnull InteractionContext context, @Nonnull CooldownHandler cooldownHandler) {
-        context.getState().state = context.getHeldItemSectionId() == InventoryComponent.UTILITY_SECTION_ID
-                ? InteractionState.Finished
-                : InteractionState.Failed;
-        super.tick0(firstRun, time, type, context, cooldownHandler);
+        complete(context.getHeldItemSectionId() == InventoryComponent.UTILITY_SECTION_ID, firstRun, time, type, context, cooldownHandler);
     }
 }

@@ -15,7 +15,7 @@
           "DefaultValue": {
             "Interactions": [
               {
-                "Type": "EvokeHCSelection",
+                "Type": "Evoke:HCSelection",
                 "Next": "Evoke_Wand_Selection_Generic",
                 "Failed": "Evoke_Wand_Target_Selection"
               }
@@ -29,7 +29,7 @@
           "DefaultValue": {
             "Interactions": [
               {
-                "Type": "EvokeHCSelection",
+                "Type": "Evoke:HCSelection",
                 "All": true,
                 "Next": "Evoke_Wand_Selection_Generic",
                 "Failed": "Evoke_Interact_Fail"

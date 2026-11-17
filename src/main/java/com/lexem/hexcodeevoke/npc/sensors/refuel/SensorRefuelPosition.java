@@ -11,8 +11,8 @@ import com.hypixel.hytale.server.npc.sensorinfo.InfoProvider;
 import com.hypixel.hytale.server.npc.sensorinfo.PositionProvider;
 import com.lexem.hexcodeevoke.components.HexCreatureComponent;
 import com.lexem.hexcodeevoke.npc.sensors.refuel.builders.BuilderSensorRefuelPosition;
-import com.lexem.hexcodeevoke.utils.EssenceTrayUtils;
-import com.lexem.hexcodeevoke.utils.RefuelState;
+import com.lexem.hexcodeevoke.utils.essence.EssenceTrayUtils;
+import com.lexem.hexcodeevoke.utils.essence.RefuelState;
 import org.joml.Vector3d;
 import org.joml.Vector3i;
 
@@ -45,7 +45,7 @@ public class SensorRefuelPosition extends SensorBase {
         TransformComponent transform = store.getComponent(npcRef, TransformComponent.getComponentType());
         if (hexCreature == null || transform == null) return false;
 
-        RefuelState refuel = hexCreature.getRefuelState();
+        RefuelState refuel = hexCreature.getRuntime().getRefuelState();
         if (this.timeout > 0 && refuel.getPhaseSeconds(this.target) > this.timeout) return false;
 
         Vector3d position = this.getTargetPosition(refuel, store);

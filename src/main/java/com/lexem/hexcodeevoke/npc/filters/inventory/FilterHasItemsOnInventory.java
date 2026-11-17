@@ -8,11 +8,11 @@ import com.hypixel.hytale.server.core.inventory.ItemStack;
 import com.hypixel.hytale.server.core.inventory.container.CombinedItemContainer;
 import com.hypixel.hytale.server.core.inventory.container.ItemContainer;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
-import com.hypixel.hytale.server.npc.corecomponents.EntityFilterBase;
 import com.hypixel.hytale.server.npc.asset.builder.BuilderSupport;
+import com.hypixel.hytale.server.npc.corecomponents.EntityFilterBase;
 import com.hypixel.hytale.server.npc.instructions.ExecutionSupport;
 import com.lexem.hexcodeevoke.npc.filters.inventory.builders.BuilderFilterHasItemsOnInventory;
-import com.lexem.hexcodeevoke.utils.LifeEssenceUtils;
+import com.lexem.hexcodeevoke.utils.essence.LifeEssenceUtils;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
@@ -39,10 +39,10 @@ public class FilterHasItemsOnInventory extends EntityFilterBase {
 
     @Override
     public boolean matchesEntity(
-            @Nonnull Ref<EntityStore> npcRef,
-            @Nonnull Ref<EntityStore> targetRef,
-            @Nonnull ExecutionSupport executionSupport,
-            @Nonnull Store<EntityStore> store
+                @Nonnull Ref<EntityStore> npcRef,
+                @Nonnull Ref<EntityStore> targetRef,
+                @Nonnull ExecutionSupport executionSupport,
+                @Nonnull Store<EntityStore> store
     ) {
         if (inventoryTypes.length == 0) return false;
 
@@ -81,8 +81,8 @@ public class FilterHasItemsOnInventory extends EntityFilterBase {
         };
     }
 
-   @Override
-   public int cost() {
-      return 300;
-   }
+    @Override
+    public int cost() {
+        return 300;
+    }
 }

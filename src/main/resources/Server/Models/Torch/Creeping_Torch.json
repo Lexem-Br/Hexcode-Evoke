@@ -29,6 +29,14 @@
     "Radius": 9
   },
   "AnimationSets": {
+    "Interact": {
+      "Animations": [
+        {
+          "Animation": "NPC/Common/Evoke_Empty.blockyanim",
+          "Looping": false
+        }
+      ]
+    },
     "Spawn": {
       "Animations": [
         {

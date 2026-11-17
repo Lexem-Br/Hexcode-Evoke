@@ -11,50 +11,50 @@ import com.lexem.hexcodeevoke.npc.filters.inventory.FilterOwnerHasItem;
 import javax.annotation.Nonnull;
 
 public class BuilderFilterOwnerHasItem extends BuilderEntityFilterBase {
-   protected boolean reverse;
+    protected boolean reverse;
 
-   public BuilderFilterOwnerHasItem() {
-   }
+    public BuilderFilterOwnerHasItem() {
+    }
 
-   @Nonnull
-   @Override
-   public String getShortDescription() {
-      return "Checks if the owner has the item.";
-   }
+    @Nonnull
+    @Override
+    public String getShortDescription() {
+        return "Checks if the owner has the item.";
+    }
 
-   @Nonnull
-   @Override
-   public String getLongDescription() {
-      return getShortDescription();
-   }
+    @Nonnull
+    @Override
+    public String getLongDescription() {
+        return getShortDescription();
+    }
 
-   @Nonnull
-   public IEntityFilter build(@Nonnull BuilderSupport builderSupport) {
-      return new FilterOwnerHasItem(this);
-   }
+    @Nonnull
+    public IEntityFilter build(@Nonnull BuilderSupport builderSupport) {
+        return new FilterOwnerHasItem(this);
+    }
 
-   @Nonnull
-   @Override
-   public Builder<IEntityFilter> readConfig(@Nonnull JsonElement data) {
-      this.getBoolean(
-              data,
-              "Reverse",
-              s -> this.reverse = s,
-              false,
-              BuilderDescriptorState.Stable,
-              "If true, it checks whether the owner does not have the item.",
-              ""
-      );
-      return this;
-   }
+    @Nonnull
+    @Override
+    public Builder<IEntityFilter> readConfig(@Nonnull JsonElement data) {
+        this.getBoolean(
+                data,
+                "Reverse",
+                s -> this.reverse = s,
+                false,
+                BuilderDescriptorState.Stable,
+                "If true, it checks whether the owner does not have the item.",
+                ""
+        );
+        return this;
+    }
 
-   @Nonnull
-   @Override
-   public BuilderDescriptorState getBuilderDescriptorState() {
-      return BuilderDescriptorState.Stable;
-   }
+    @Nonnull
+    @Override
+    public BuilderDescriptorState getBuilderDescriptorState() {
+        return BuilderDescriptorState.Stable;
+    }
 
-   public boolean getReverse() {
-      return this.reverse;
-   }
+    public boolean getReverse() {
+        return this.reverse;
+    }
 }

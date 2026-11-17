@@ -13,46 +13,46 @@ import com.lexem.hexcodeevoke.npc.filters.minion.FilterNeedsMoreMinions;
 import javax.annotation.Nonnull;
 
 public class BuilderFilterNeedsMoreMinions extends BuilderEntityFilterBase {
-   protected final IntHolder desiredQuantity = new IntHolder();
+    protected final IntHolder desiredQuantity = new IntHolder();
 
-   public BuilderFilterNeedsMoreMinions() {
-   }
+    public BuilderFilterNeedsMoreMinions() {
+    }
 
-   @Nonnull
-   @Override
-   public String getShortDescription() {
-      return "Checks if more minions should be added.";
-   }
+    @Nonnull
+    @Override
+    public String getShortDescription() {
+        return "Checks if more minions should be added.";
+    }
 
-   @Nonnull
-   @Override
-   public String getLongDescription() {
-      return getShortDescription();
-   }
+    @Nonnull
+    @Override
+    public String getLongDescription() {
+        return getShortDescription();
+    }
 
-   @Nonnull
-   public IEntityFilter build(@Nonnull BuilderSupport builderSupport) {
-      return new FilterNeedsMoreMinions(this, builderSupport);
-   }
+    @Nonnull
+    public IEntityFilter build(@Nonnull BuilderSupport builderSupport) {
+        return new FilterNeedsMoreMinions(this, builderSupport);
+    }
 
-   @Nonnull
-   @Override
-   public BuilderDescriptorState getBuilderDescriptorState() {
-      return BuilderDescriptorState.Stable;
-   }
+    @Nonnull
+    @Override
+    public BuilderDescriptorState getBuilderDescriptorState() {
+        return BuilderDescriptorState.Stable;
+    }
 
-   @Nonnull
-   @Override
-   public Builder<IEntityFilter> readConfig(@Nonnull JsonElement data) {
-      this.requireInt(data, "DesiredQuantity", this.desiredQuantity, IntSingleValidator.greater0(), BuilderDescriptorState.Stable, "Desired number of minions", null);
-      return this;
-   }
+    @Nonnull
+    @Override
+    public Builder<IEntityFilter> readConfig(@Nonnull JsonElement data) {
+        this.requireInt(data, "DesiredQuantity", this.desiredQuantity, IntSingleValidator.greater0(), BuilderDescriptorState.Stable, "Desired number of minions", null);
+        return this;
+    }
 
-   public int getHorizontalRange(@Nonnull BuilderSupport support) {
-      return this.desiredQuantity.get(support.getExecutionContext());
-   }
+    public int getHorizontalRange(@Nonnull BuilderSupport support) {
+        return this.desiredQuantity.get(support.getExecutionContext());
+    }
 
-   public int getVerticalRange(@Nonnull BuilderSupport support) {
-      return this.desiredQuantity.get(support.getExecutionContext());
-   }
+    public int getVerticalRange(@Nonnull BuilderSupport support) {
+        return this.desiredQuantity.get(support.getExecutionContext());
+    }
 }

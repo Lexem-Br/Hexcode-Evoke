@@ -12,35 +12,35 @@ import javax.annotation.Nonnull;
 
 public class BuilderActionStartRefuel extends BuilderActionBase {
 
-   public BuilderActionStartRefuel() {
-   }
+    public BuilderActionStartRefuel() {
+    }
 
-   @Nonnull
-   @Override
-   public String getShortDescription() {
-      return "Remember the Essence Tray given by the sensor, the current state and the current position.";
-   }
+    @Nonnull
+    @Override
+    public String getShortDescription() {
+        return "Remember the Essence Tray given by the sensor, the current state and the current position.";
+    }
 
-   @Nonnull
-   @Override
-   public String getLongDescription() {
-      return "Used with Evoke:NeedsEssenceTray right before switching to the Refuel state, so Evoke:RefuelPosition knows where the tray is and where to come back to, and Evoke:FinishRefuel restores the state";
-   }
+    @Nonnull
+    @Override
+    public String getLongDescription() {
+        return "Used with Evoke:NeedsEssenceTray right before switching to the Refuel state, so Evoke:RefuelPosition knows where the tray is and where to come back to, and Evoke:FinishRefuel restores the state";
+    }
 
-   @Nonnull
-   public Action build(@Nonnull BuilderSupport builderSupport) {
-      return new ActionStartRefuel(this);
-   }
+    @Nonnull
+    public Action build(@Nonnull BuilderSupport builderSupport) {
+        return new ActionStartRefuel(this);
+    }
 
-   @Nonnull
-   @Override
-   public BuilderDescriptorState getBuilderDescriptorState() {
-      return BuilderDescriptorState.Stable;
-   }
+    @Nonnull
+    @Override
+    public BuilderDescriptorState getBuilderDescriptorState() {
+        return BuilderDescriptorState.Stable;
+    }
 
-   @Nonnull
-   public BuilderActionStartRefuel readConfig(@Nonnull JsonElement data) {
-      this.requireFeature(Feature.AnyPosition);
-      return this;
-   }
+    @Nonnull
+    public BuilderActionStartRefuel readConfig(@Nonnull JsonElement data) {
+        this.requireFeature(Feature.AnyPosition);
+        return this;
+    }
 }

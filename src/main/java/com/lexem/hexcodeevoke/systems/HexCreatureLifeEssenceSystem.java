@@ -28,9 +28,10 @@ import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.hypixel.hytale.server.npc.entities.NPCEntity;
 import com.lexem.hexcodeevoke.components.HexCreatureComponent;
 import com.lexem.hexcodeevoke.hexitems.AllowedHexItemsAsset;
-import com.lexem.hexcodeevoke.utils.HexCreatureReverter;
-import com.lexem.hexcodeevoke.utils.InventoryUtils;
-import com.lexem.hexcodeevoke.utils.LifeEssenceUtils;
+import com.lexem.hexcodeevoke.utils.essence.LifeEssenceUtils;
+import com.lexem.hexcodeevoke.utils.hexcreature.HexCreatureNames;
+import com.lexem.hexcodeevoke.utils.hexcreature.HexCreatureReverter;
+import com.lexem.hexcodeevoke.utils.inventory.InventoryUtils;
 import org.joml.Vector3d;
 
 import javax.annotation.Nonnull;
@@ -57,7 +58,7 @@ public class HexCreatureLifeEssenceSystem extends EntityTickingSystem<EntityStor
         if (archetypeChunk.getArchetype().contains(DeathComponent.getComponentType())) return;
 
         HexCreatureComponent hexCreature = archetypeChunk.getComponent(index, HexCreatureComponent.getComponentType());
-        if (hexCreature == null || hexCreature.getEvokerUUID() == null || hexCreature.isLifeEssenceDepleted()) return;
+        if (hexCreature == null || hexCreature.getEvokerUUID() == null || hexCreature.getRuntime().isLifeEssenceDepleted()) return;
 
         AllowedHexItemsAsset.HexItem hexItem = LifeEssenceUtils.getHexItem(hexCreature);
         float capacity = LifeEssenceUtils.getCapacity(hexItem);
@@ -72,12 +73,12 @@ public class HexCreatureLifeEssenceSystem extends EntityTickingSystem<EntityStor
 
         float drainPerMinute = LifeEssenceUtils.getDrainPerMinute(hexItem);
         if (drainPerMinute > 0) {
-            if (hexCreature.pollLifeEssenceCheck(dt, CHECK_INTERVAL)) {
+            if (hexCreature.getRuntime().pollLifeEssenceCheck(dt, CHECK_INTERVAL)) {
                 changed |= LifeEssenceUtils.rechargeFromInventory(commandBuffer, ref, hexCreature, capacity) > 0;
                 queuePickUp(ref, archetypeChunk.getComponent(index, TransformComponent.getComponentType()), store, commandBuffer);
             }
 
-            int drainSteps = hexCreature.pollLifeEssenceDrainSteps(dt, DRAIN_INTERVAL);
+            int drainSteps = hexCreature.getRuntime().pollLifeEssenceDrainSteps(dt, DRAIN_INTERVAL);
             if (drainSteps > 0) {
                 hexCreature.setLifeEssence(hexCreature.getLifeEssence() - drainPerMinute * DRAIN_INTERVAL / 60f * drainSteps);
                 LifeEssenceUtils.rechargeFromInventory(commandBuffer, ref, hexCreature, capacity);
@@ -104,17 +105,17 @@ public class HexCreatureLifeEssenceSystem extends EntityTickingSystem<EntityStor
         float stored = hexCreature.getLifeEssence();
         boolean low = stored <= capacity * LOW_LIFE_ESSENCE_RATIO;
         if (!low) {
-            hexCreature.setLowLifeEssenceWarned(false);
+            hexCreature.getRuntime().setLowLifeEssenceWarned(false);
             return;
         }
-        if (hexCreature.isLowLifeEssenceWarned()) return;
+        if (hexCreature.getRuntime().isLowLifeEssenceWarned()) return;
 
-        hexCreature.setLowLifeEssenceWarned(true);
+        hexCreature.getRuntime().setLowLifeEssenceWarned(true);
         LifeEssenceUtils.notifyOwner(
                 hexCreature,
                 "evoke.life_essence.low.title",
                 Message.translation("evoke.life_essence.low.description")
-                        .param("name", hexCreature.getName())
+                        .param("name", HexCreatureNames.display(hexCreature))
                         .param("stored", LifeEssenceUtils.formatAmount(stored))
                         .param("capacity", LifeEssenceUtils.formatAmount(capacity)),
                 NotificationStyle.Warning
@@ -127,7 +128,7 @@ public class HexCreatureLifeEssenceSystem extends EntityTickingSystem<EntityStor
             @Nonnull CommandBuffer<EntityStore> commandBuffer
     ) {
         hexCreature.setLifeEssence(0);
-        hexCreature.setLifeEssenceDepleted(true);
+        hexCreature.getRuntime().setLifeEssenceDepleted(true);
 
         commandBuffer.run(store -> {
             if (!ref.isValid()) return;
@@ -137,7 +138,7 @@ public class HexCreatureLifeEssenceSystem extends EntityTickingSystem<EntityStor
             LifeEssenceUtils.notifyOwner(
                     hexCreature,
                     "evoke.life_essence.depleted.title",
-                    Message.translation("evoke.life_essence.depleted.description").param("name", hexCreature.getName()),
+                    Message.translation("evoke.life_essence.depleted.description").param("name", HexCreatureNames.display(hexCreature)),
                     NotificationStyle.Danger
             );
         });
@@ -172,7 +173,7 @@ public class HexCreatureLifeEssenceSystem extends EntityTickingSystem<EntityStor
 
         HexCreatureComponent hexCreature = store.getComponent(ref, HexCreatureComponent.getComponentType());
         TransformComponent transform = store.getComponent(ref, TransformComponent.getComponentType());
-        if (hexCreature == null || transform == null || hexCreature.isLifeEssenceDepleted()) return;
+        if (hexCreature == null || transform == null || hexCreature.getRuntime().isLifeEssenceDepleted()) return;
 
         float capacity = LifeEssenceUtils.getCapacity(LifeEssenceUtils.getHexItem(hexCreature));
         InventoryComponent.Hotbar hotbar = store.getComponent(ref, InventoryComponent.Hotbar.getComponentType());
