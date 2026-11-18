@@ -20,10 +20,12 @@ import javax.annotation.Nonnull;
 
 public class VoidArenaPortalCommand extends AbstractPlayerCommand {
     private final DefaultArg<Integer> minutesArg;
+    private final DefaultArg<Integer> tierArg;
 
     public VoidArenaPortalCommand() {
         super("portal", "Open a Void Arena portal in front of you");
         this.minutesArg = this.withDefaultArg("minutes", "Minutes the portal stays open, 0 keeps it open", ArgTypes.INTEGER, 5, "5");
+        this.tierArg = this.withDefaultArg("tier", "Void Arena the portal leads to, from 1 to " + VoidArenaManager.MAX_TIER, ArgTypes.INTEGER, 1, "1");
     }
 
     @Override
@@ -45,13 +47,14 @@ public class VoidArenaPortalCommand extends AbstractPlayerCommand {
         HeadRotation headRotation = store.getComponent(ref, HeadRotation.getComponentType());
         float yaw = headRotation != null ? headRotation.getRotation().yaw() : transform.getRotation().yaw();
         int minutes = Math.max(0, minutesArg.get(context));
-        Vector3i pos = VoidArenaPortals.openPortal(world, transform.getPosition(), yaw, 3.0, VoidArenaPortals.PORTAL_BLOCK, minutes * 60, store);
+        int tier = VoidArenaManager.clampTier(tierArg.get(context));
+        Vector3i pos = VoidArenaPortals.openPortal(world, transform.getPosition(), yaw, 3.0, VoidArenaPortals.portalBlock(tier), minutes * 60, store);
         if (pos == null) {
             playerRef.sendMessage(Message.raw("[Evoke] No room for a portal in front of you"));
             return;
         }
 
         String duration = minutes > 0 ? "for " + minutes + " minute(s)" : "until it is removed";
-        playerRef.sendMessage(Message.raw("[Evoke] Void Arena portal opened at " + pos.x + " " + pos.y + " " + pos.z + " " + duration));
+        playerRef.sendMessage(Message.raw("[Evoke] Void Arena " + tier + " portal opened at " + pos.x + " " + pos.y + " " + pos.z + " " + duration));
     }
 }

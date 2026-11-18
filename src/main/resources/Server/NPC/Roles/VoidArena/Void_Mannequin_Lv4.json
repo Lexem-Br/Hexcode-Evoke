@@ -1,6 +1,6 @@
 {
   "Type": "Variant",
-  "Reference": "Template_Intelligent",
+  "Reference": "Template_Void_Mannequin_Lv4",
   "Parameters": {
     "WanderRadius": {
       "Value": 3,
@@ -24,7 +24,7 @@
       "Description": "When set to false, NPCs wont try to avoid each other or player, it can lead to them stacking together, but can help to avoid jerky-like movemenet in enclosed space."
     },
     "NameTranslationKey": {
-      "Value": "server.npcRoles.Skeleton_Archer.name",
+      "Value": "evoke.npcRoles.Void_Mannequin_Lv4.name",
       "Description": "Translation key for NPC name display"
     }
   },
@@ -33,9 +33,7 @@
       "Skeleton"
     ],
     "DeathParticles": "Effect_Death_Bones",
-    "MaxHealth": 60,
-    "HitInterruptEnabled": true,
-    "KnockbackScale": 0.3,
+    "MaxHealth": 100,
     "HearingRange": 30,
     "ViewSector": 360,
     "WakingPeriod": [
@@ -45,8 +43,9 @@
     "DropList": "Empty",
     "Appearance": "Void_Mannequin",
     "Weapons": [
-      "Weapon_Shortbow_Iron_Void_Rusty"
+      "Weapon_Longsword_Praetorian"
     ],
+    "OffHand": [],
     "FlockArray": {
       "Compute": "FlockArray"
     },
@@ -59,17 +58,42 @@
     "WanderRadius": {
       "Compute": "WanderRadius"
     },
-    "Attack": "Skeleton_Archer_Bow_Shoot",
-    "CombatBackOffAfterAttack": false,
-    "AttackDistance": 15,
-    "CombatFleeIfTooCloseDistance": 4,
+    "_InteractionVars": {
+      "Melee_Damage": {
+        "Interactions": [
+          {
+            "Parent": "NPC_Attack_Melee_Damage",
+            "DamageCalculator": {
+              "Type": "Absolute",
+              "BaseDamage": {
+                "Physical": 24
+              },
+              "RandomPercentageModifier": 0.1
+            },
+            "DamageEffects": {
+              "Knockback": {
+                "Type": "Directional",
+                "Force": 0.5,
+                "RelativeX": 0,
+                "RelativeZ": -1,
+                "VelocityY": 1,
+                "VelocityType": "Set"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "HitInterruptEnabled": true,
+    "Attack": "Root_NPC_Skeleton_Knight_Attack",
+    "AttackDistance": 3,
     "DesiredAttackDistanceRange": [
-      5,
-      14.5
+      2,
+      2.5
     ],
-    "CombatBehaviorDistance": 15,
-    "TargetRange": 15,
-    "LeashMinPlayerDistance": 18,
+    "CombatMessageTargetGroups": [
+      "Skeleton"
+    ],
     "ApplySeparation": {
       "Compute": "ApplySeparation"
     },
@@ -81,6 +105,7 @@
     "AbsoluteDetectionRange": 30,
     "AlertedRange": 60,
     "LeashDistance": 60,
-    "HardLeashDistance": 80
+    "HardLeashDistance": 80,
+    "MaxSpeed": 12
   }
 }

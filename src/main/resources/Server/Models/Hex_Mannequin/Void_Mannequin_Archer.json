@@ -1,0 +1,21 @@
+{
+  "Parent": "Void_Mannequin",
+  "DefaultAttachments": [
+    {
+      "Model": "NPC/Mannequin/Attachments/Void_Crystal.blockymodel",
+      "Texture": "NPC/Mannequin/Attachments/Void_Crystal.png"
+    },
+    {
+      "Model": "NPC/Mannequin/Attachments/Root.blockymodel",
+      "Texture": "NPC/Mannequin/Attachments/Root.png"
+    },
+    {
+      "Model": "NPC/Mannequin/Attachments/Eyes_Mannequin.blockymodel",
+      "Texture": "NPC/Mannequin/Attachments/Eyes_Mannequin.png"
+    },
+    {
+      "Model": "Items/Back/Quiver.blockymodel",
+      "Texture": "Items/Back/Quiver_Texture.png"
+    }
+  ]
+}

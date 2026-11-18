@@ -22,8 +22,8 @@ final class VoidArenaRewards {
     }
 
     @Nonnull
-    static VoidArenaRewardsAsset.Result evaluate(long elapsedMillis) {
-        return VoidArenaRewardsAsset.evaluate(elapsedMillis >= 0L ? elapsedMillis : Long.MAX_VALUE);
+    static VoidArenaRewardsAsset.Result evaluate(@Nonnull String rewardsId, long elapsedMillis) {
+        return VoidArenaRewardsAsset.evaluate(rewardsId, elapsedMillis >= 0L ? elapsedMillis : Long.MAX_VALUE);
     }
 
     static void fillRewardChest(@Nonnull World world, @Nonnull Vector3i pos, @Nonnull String dropList) {

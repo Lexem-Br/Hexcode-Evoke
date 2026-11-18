@@ -37,20 +37,8 @@
             }
           },
           "Failed": {
-            "Type": "Serial",
-            "Interactions": [
-              {
-                "Type": "Simple",
-                "RunTime": 0,
-                "Effects": {
-                  "WorldSoundEventId": "SFX_Skeleton_Mage_Spellbook_Impact"
-                }
-              },
-              {
-                "Type": "RemoveEntity",
-                "Entity": "User"
-              }
-            ]
+            "Type": "Simple",
+            "RunTime": 0
           },
           "Blocked": {
             "Type": "Serial",

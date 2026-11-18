@@ -113,8 +113,9 @@ public class VoidArenaRewardsAsset implements JsonAssetWithMap<String, DefaultAs
     }
 
     @Nonnull
-    public static Result evaluate(long elapsedMillis) {
-        VoidArenaRewardsAsset config = getAssetMap().getAsset(ID);
+    public static Result evaluate(@Nonnull String id, long elapsedMillis) {
+        VoidArenaRewardsAsset config = getAssetMap().getAsset(id);
+        if (config == null) config = getAssetMap().getAsset(ID);
         if (config == null) config = DEFAULTS;
         return config.rate(elapsedMillis);
     }

@@ -12,6 +12,7 @@ import com.hypixel.hytale.server.core.asset.type.soundevent.config.SoundEvent;
 import com.hypixel.hytale.server.core.entity.InteractionContext;
 import com.hypixel.hytale.server.core.modules.interaction.interaction.CooldownHandler;
 import com.hypixel.hytale.server.core.modules.projectile.ProjectileModule;
+import com.hypixel.hytale.server.core.modules.projectile.component.PierceProjectile;
 import com.hypixel.hytale.server.core.modules.projectile.config.ProjectileConfig;
 import com.hypixel.hytale.server.core.modules.projectile.interaction.ProjectileInteraction;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
@@ -27,6 +28,8 @@ public class DeflectableProjectileInteraction extends ProjectileInteraction {
     private float deflectedLifetime = 4.0f;
     private String deflectParticles;
     private String deflectSoundEventId;
+    private boolean pierce;
+    private double pierceDistance = 48.0;
 
     public static final BuilderCodec<DeflectableProjectileInteraction> CODEC = BuilderCodec
             .builder(DeflectableProjectileInteraction.class, DeflectableProjectileInteraction::new, ProjectileInteraction.CODEC)
@@ -59,6 +62,16 @@ public class DeflectableProjectileInteraction extends ProjectileInteraction {
             .addValidator(SoundEvent.VALIDATOR_CACHE.getValidator().late())
             .documentation("Sound played where the projectile is deflected.")
             .add()
+            .append(new KeyedCodec<>("Pierce", Codec.BOOLEAN),
+                    (o, v) -> o.pierce = v,
+                    o -> o.pierce)
+            .documentation("When true the projectile flies through every entity it touches and runs its hit chain once on each; the chain decides whether it stops (e.g. RemoveEntity on a player hit).")
+            .add()
+            .append(new KeyedCodec<>("PierceDistance", Codec.DOUBLE),
+                    (o, v) -> o.pierceDistance = v,
+                    o -> o.pierceDistance)
+            .documentation("Maximum distance a piercing projectile travels before ending.")
+            .add()
             .build();
 
     @Override
@@ -74,6 +87,17 @@ public class DeflectableProjectileInteraction extends ProjectileInteraction {
         Ref<EntityStore> projectileRef = ProjectileModule.get().spawnProjectile(
                 null, null, creatorRef, commandBuffer, projectileConfig,
                 new Vector3d(look.getPosition()), new Vector3d(look.getDirection()), (long) (lifetime * 1000));
+
+        if (pierce) {
+            Vector3d origin = new Vector3d(look.getPosition());
+            float pierceLifetime = lifetime;
+            commandBuffer.run(store -> {
+                if (projectileRef.isValid()) {
+                    store.putComponent(projectileRef, PierceProjectile.getComponentType(),
+                            new PierceProjectile(origin, pierceDistance, pierceLifetime));
+                }
+            });
+        }
 
         if (deflectedConfig == null || deflectedConfig.isEmpty()) return;
 

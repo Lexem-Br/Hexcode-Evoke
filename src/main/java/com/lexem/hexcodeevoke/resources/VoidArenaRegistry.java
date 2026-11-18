@@ -35,12 +35,20 @@ public class VoidArenaRegistry {
                     },
                     registry -> registry.sealedInstances
             ).add()
+            .append(new KeyedCodec<>("InstanceTiers", new MapCodec<>(Codec.INTEGER, HashMap<String, Integer>::new)),
+                    (registry, value) -> {
+                        registry.instanceTiers.clear();
+                        if (value != null) registry.instanceTiers.putAll(value);
+                    },
+                    registry -> registry.instanceTiers
+            ).add()
             .build();
 
     private static UniverseResourceType<VoidArenaRegistry> TYPE;
 
     private final Map<String, TemporaryPortal> temporaryPortals = new ConcurrentHashMap<>();
     private final Map<String, Long> sealedInstances = new ConcurrentHashMap<>();
+    private final Map<String, Integer> instanceTiers = new ConcurrentHashMap<>();
 
     public VoidArenaRegistry() {
     }
@@ -84,6 +92,20 @@ public class VoidArenaRegistry {
     public boolean isSealed(@Nonnull UUID instanceUUID) {
         Long sealedAt = sealedInstances.get(instanceUUID.toString());
         return sealedAt != null && System.currentTimeMillis() - sealedAt <= SEAL_MILLIS;
+    }
+
+    public boolean setTier(@Nonnull UUID instanceUUID, int tier) {
+        Integer previous = instanceTiers.put(instanceUUID.toString(), tier);
+        return previous == null || previous != tier;
+    }
+
+    public int getTier(@Nonnull UUID instanceUUID) {
+        Integer tier = instanceTiers.get(instanceUUID.toString());
+        return tier != null ? tier : 1;
+    }
+
+    public boolean removeTier(@Nonnull UUID instanceUUID) {
+        return instanceTiers.remove(instanceUUID.toString()) != null;
     }
 
     @Nonnull

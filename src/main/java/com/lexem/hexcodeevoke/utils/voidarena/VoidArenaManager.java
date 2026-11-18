@@ -54,6 +54,7 @@ public final class VoidArenaManager {
     private static final String ENCOUNTER = "Evoke_Void_Arena_Waves";
 
     public static final int MAX_PLAYERS = 4;
+    public static final int MAX_TIER = 3;
     private static final long EVENT_CHECK_MILLIS = 30_000L;
 
     private static final Map<UUID, Arena> ARENAS = new ConcurrentHashMap<>();
@@ -69,6 +70,7 @@ public final class VoidArenaManager {
         private volatile UUID encounterUUID;
         private volatile int wave;
         private volatile int totalWaves;
+        private volatile int tier = 1;
         private volatile long startedAt;
         private final Queue<VoidArenaEmerge.Emerging> emerging = new ConcurrentLinkedQueue<>();
     }
@@ -78,6 +80,24 @@ public final class VoidArenaManager {
 
     public static boolean isArenaWorld(@Nonnull World world) {
         return GAMEPLAY_CONFIG.equals(world.getWorldConfig().getGameplayConfig());
+    }
+
+    public static int clampTier(int tier) {
+        return Math.max(1, Math.min(MAX_TIER, tier));
+    }
+
+    @Nonnull
+    static String encounterFor(int tier) {
+        return tier <= 1 ? ENCOUNTER : ENCOUNTER + "_" + tier;
+    }
+
+    @Nonnull
+    static String rewardsFor(int tier) {
+        return tier <= 1 ? VoidArenaRewardsAsset.ID : VoidArenaRewardsAsset.ID + "_" + tier;
+    }
+
+    public static void assignTier(@Nonnull UUID instanceUUID, int tier) {
+        if (VoidArenaRegistry.get().setTier(instanceUUID, clampTier(tier))) VoidArenaRegistry.flush();
     }
 
     @Nonnull
@@ -104,6 +124,7 @@ public final class VoidArenaManager {
             arena.altar = new Vector3i(altar);
             arena.wave = 0;
             arena.totalWaves = 0;
+            arena.tier = isArenaWorld(world) ? clampTier(VoidArenaRegistry.get().getTier(world.getWorldConfig().getUuid())) : 1;
             arena.startedAt = 0L;
         }
 
@@ -183,8 +204,12 @@ public final class VoidArenaManager {
         UUID worldUUID = world.getWorldConfig().getUuid();
         VoidArenaPortals.onWorldRemoved(world);
 
+        boolean hadTier = VoidArenaRegistry.get().removeTier(worldUUID);
         Arena arena = ARENAS.remove(worldUUID);
-        if (arena == null || arena.phase != Phase.COMPLETED) return;
+        if (arena == null || arena.phase != Phase.COMPLETED) {
+            if (hadTier) VoidArenaRegistry.flush();
+            return;
+        }
 
         VoidArenaRegistry.get().seal(worldUUID);
         VoidArenaRegistry.flush();
@@ -217,11 +242,20 @@ public final class VoidArenaManager {
         Vector3d center = VoidArenaFeedback.aboveBlock(altar, 1.0);
         UUIDComponent uuid = UUIDComponent.randomUUID();
 
+        String encounter = encounterFor(arena.tier);
+        int encounterIndex = NPCPlugin.get().getIndex(encounter);
+        if (encounterIndex < 0) {
+            LOGGER.atWarning().log("[Evoke Void Arena] Encounter %s is missing, %s uses %s", encounter, world.getName(), ENCOUNTER);
+            arena.tier = 1;
+            encounter = ENCOUNTER;
+            encounterIndex = NPCPlugin.get().getIndex(ENCOUNTER);
+        }
+
         Holder<EntityStore> holder = EntityStore.REGISTRY.newHolder();
-        holder.addComponent(EncounterManager.getComponentType(), new EncounterManager(ENCOUNTER, NPCPlugin.get().getIndex(ENCOUNTER)));
+        holder.addComponent(EncounterManager.getComponentType(), new EncounterManager(encounter, encounterIndex));
         holder.addComponent(TransformComponent.getComponentType(), new TransformComponent(center, new Rotation3f(0.0F, VoidArenaEmerge.YAW, 0.0F)));
         holder.addComponent(UUIDComponent.getComponentType(), uuid);
-        holder.addComponent(Nameplate.getComponentType(), new Nameplate(ENCOUNTER));
+        holder.addComponent(Nameplate.getComponentType(), new Nameplate(encounter));
         holder.ensureComponent(HiddenFromAdventurePlayers.getComponentType());
         Model marker = EncounterManagerPlugin.get().getMarkerModel();
         if (marker != null) {
@@ -231,7 +265,7 @@ public final class VoidArenaManager {
 
         Ref<EntityStore> encounterRef = store.addEntity(holder, AddReason.SPAWN);
         if (encounterRef == null || !encounterRef.isValid()) {
-            LOGGER.atWarning().log("[Evoke Void Arena] Could not start the encounter %s in %s", ENCOUNTER, world.getName());
+            LOGGER.atWarning().log("[Evoke Void Arena] Could not start the encounter %s in %s", encounter, world.getName());
             arena.phase = Phase.IDLE;
             return;
         }
@@ -244,7 +278,7 @@ public final class VoidArenaManager {
 
     private static void completeArena(@Nonnull World world, @Nonnull Arena arena, long elapsedMillis) {
         Store<EntityStore> store = world.getEntityStore().getStore();
-        VoidArenaRewardsAsset.Result result = VoidArenaRewards.evaluate(elapsedMillis);
+        VoidArenaRewardsAsset.Result result = VoidArenaRewards.evaluate(rewardsFor(arena.tier), elapsedMillis);
         Vector3i altar = arena.altar;
         if (altar != null) {
             BlockUtils.swapBlock(world, altar, ALTAR_SPENT);

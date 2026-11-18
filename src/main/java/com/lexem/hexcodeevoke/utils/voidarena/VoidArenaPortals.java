@@ -22,10 +22,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
 
 public final class VoidArenaPortals {
     public static final String PORTAL_BLOCK = "Evoke_Void_Arena_Portal";
+    private static final Set<String> PORTAL_BLOCKS = Set.of(PORTAL_BLOCK, PORTAL_BLOCK + "_2", PORTAL_BLOCK + "_3");
 
     private static final int[] PORTAL_HEIGHTS = {0, 1, -1, 2, -2, -3};
     private static final long PORTAL_CHECK_MILLIS = 1000L;
@@ -37,6 +39,37 @@ public final class VoidArenaPortals {
     }
 
     private VoidArenaPortals() {
+    }
+
+    @Nonnull
+    public static String portalBlock(int tier) {
+        int clamped = VoidArenaManager.clampTier(tier);
+        return clamped <= 1 ? PORTAL_BLOCK : PORTAL_BLOCK + "_" + clamped;
+    }
+
+    public static boolean isPortalBlock(@Nullable BlockType blockType) {
+        return blockType != null && PORTAL_BLOCKS.contains(blockType.getId());
+    }
+
+    public static void assignTier(@Nonnull World world, int x, int y, int z, int tier) {
+        Ref<ChunkStore> blockRef = BlockModule.getBlockEntity(world, x, y, z);
+        if (blockRef == null || !blockRef.isValid()) return;
+
+        InstanceBlock instanceBlock = world.getChunkStore().getStore().getComponent(blockRef, InstanceBlock.getComponentType());
+        if (instanceBlock == null) return;
+
+        UUID instanceUUID = instanceBlock.getWorldUUID();
+        if (instanceUUID != null) {
+            VoidArenaManager.assignTier(instanceUUID, tier);
+            return;
+        }
+
+        CompletableFuture<World> future = instanceBlock.getWorldFuture();
+        if (future != null) {
+            future.thenAccept(instanceWorld -> {
+                if (instanceWorld != null) VoidArenaManager.assignTier(instanceWorld.getWorldConfig().getUuid(), tier);
+            });
+        }
     }
 
     public static void trackPortal(@Nonnull World world, int x, int y, int z) {
@@ -148,7 +181,7 @@ public final class VoidArenaPortals {
 
         Vector3i pos = new Vector3i(site.x(), site.y(), site.z());
         BlockType current = BlockUtils.getBlockTypeByPosition(pos, origin);
-        if (current == null || !PORTAL_BLOCK.equals(current.getId())) {
+        if (!isPortalBlock(current)) {
             PORTAL_SITES.remove(site);
             return;
         }
@@ -167,7 +200,7 @@ public final class VoidArenaPortals {
         if (section == null || !section.isValid()) return;
 
         BlockType current = BlockUtils.getBlockTypeByPosition(pos, world);
-        if (current != null && PORTAL_BLOCK.equals(current.getId())) {
+        if (isPortalBlock(current)) {
             ComponentAccessor<EntityStore> store = world.getEntityStore().getStore();
             BlockUtils.removeBlock(world, pos, SetBlockSettings.PERFORM_BLOCK_UPDATE);
             Vector3d center = new Vector3d(pos.x + 0.5, pos.y + 1.0, pos.z + 0.5);

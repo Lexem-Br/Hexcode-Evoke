@@ -3,7 +3,7 @@
   "Model": "NPC_Spawn_Marker",
   "NPCs": [
     {
-      "Name": "Void_Mannequin",
+      "Name": "Void_Mannequin_Lv2",
       "Weight": 100,
       "RealtimeRespawnTime": 1000000
     }

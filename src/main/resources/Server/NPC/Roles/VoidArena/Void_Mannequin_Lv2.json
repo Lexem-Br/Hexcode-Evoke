@@ -1,0 +1,16 @@
+{
+  "Type": "Variant",
+  "Reference": "Void_Mannequin_Lv1",
+  "Modify": {
+    "NameTranslationKey": "evoke.npcRoles.Void_Mannequin_Lv2.name",
+    "DisableDamageGroups": [
+      "Skeleton"
+    ],
+    "MaxHealth": 100,
+    "OffHand": [
+      "Weapon_Shield_Void_Rusty"
+    ],
+    "DefaultOffHandSlot": 0,
+    "BlockProbability": 50
+  }
+}

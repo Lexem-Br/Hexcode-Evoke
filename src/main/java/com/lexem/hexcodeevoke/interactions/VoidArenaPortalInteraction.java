@@ -1,7 +1,10 @@
 package com.lexem.hexcodeevoke.interactions;
 
 import com.hypixel.hytale.builtin.instances.interactions.TeleportInstanceInteraction;
+import com.hypixel.hytale.codec.Codec;
+import com.hypixel.hytale.codec.KeyedCodec;
 import com.hypixel.hytale.codec.builder.BuilderCodec;
+import com.hypixel.hytale.codec.validation.Validators;
 import com.hypixel.hytale.component.CommandBuffer;
 import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.protocol.BlockPosition;
@@ -14,6 +17,7 @@ import com.hypixel.hytale.server.core.modules.interaction.interaction.CooldownHa
 import com.hypixel.hytale.server.core.universe.PlayerRef;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.hypixel.hytale.server.core.util.NotificationUtil;
+import com.lexem.hexcodeevoke.utils.voidarena.VoidArenaManager;
 import com.lexem.hexcodeevoke.utils.voidarena.VoidArenaPortals;
 
 import javax.annotation.Nonnull;
@@ -25,8 +29,15 @@ public class VoidArenaPortalInteraction extends TeleportInstanceInteraction {
     private static final long NOTIFY_COOLDOWN_MILLIS = 2000L;
     private static final Map<UUID, Long> LAST_NOTIFY = new ConcurrentHashMap<>();
 
+    private int tier = 1;
+
     public static final BuilderCodec<VoidArenaPortalInteraction> CODEC = BuilderCodec
             .builder(VoidArenaPortalInteraction.class, VoidArenaPortalInteraction::new, TeleportInstanceInteraction.CODEC)
+            .append(new KeyedCodec<>("Tier", Codec.INTEGER),
+                    (config, value) -> config.tier = value,
+                    config -> config.tier)
+            .addValidator(Validators.range(1, VoidArenaManager.MAX_TIER))
+            .add()
             .build();
 
     @Override
@@ -44,6 +55,10 @@ public class VoidArenaPortalInteraction extends TeleportInstanceInteraction {
         }
 
         super.firstRun(type, context, cooldownHandler);
+
+        if (commandBuffer != null && targetBlock != null) {
+            VoidArenaPortals.assignTier(commandBuffer.getExternalData().getWorld(), targetBlock.x, targetBlock.y, targetBlock.z, tier);
+        }
     }
 
     private static void notifyDenied(@Nonnull CommandBuffer<EntityStore> commandBuffer, @Nonnull Ref<EntityStore> ref, @Nonnull Message reason) {

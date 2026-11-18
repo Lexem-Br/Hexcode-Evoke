@@ -10,6 +10,8 @@
     },
     "Config": "Projectile_Config_Evoke_Void_Wisp_Fireball",
     "Lifetime": 5,
+    "Pierce": true,
+    "PierceDistance": 48,
     "DeflectedConfig": "Projectile_Config_Evoke_Void_Wisp_Fireball_Deflected",
     "DeflectRange": 3,
     "DeflectedLifetime": 4,

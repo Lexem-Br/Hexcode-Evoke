@@ -73,7 +73,7 @@
                 },
                 {
                   "Type": "Evoke:VoidArenaSpawn",
-                  "Kind": "Void_Mannequin",
+                  "Kind": "Void_Mannequin_Lv2",
                   "SpawnAngle": 360,
                   "DistanceRange": [
                     5,
@@ -90,7 +90,7 @@
                 },
                 {
                   "Type": "Evoke:VoidArenaSpawn",
-                  "Kind": "Void_Mannequin_Archer",
+                  "Kind": "Void_Mannequin_Archer_Lv1",
                   "SpawnAngle": 360,
                   "DistanceRange": [
                     5,

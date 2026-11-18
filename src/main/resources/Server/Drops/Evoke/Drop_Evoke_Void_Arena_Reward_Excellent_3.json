@@ -1,0 +1,51 @@
+{
+  "$Comment": "Void Arena 3 reward chest loot for the fastest clears. Which list applies and the time limits are set in Server/Evoke/VoidArenaRewards/Evoke_Void_Arena_Rewards_3.json.",
+  "Container": {
+    "Type": "Multiple",
+    "Containers": [
+      {
+        "Type": "Single",
+        "Item": {
+          "ItemId": "Ingredient_Void_Essence",
+          "QuantityMin": 36,
+          "QuantityMax": 56
+        }
+      },
+      {
+        "Type": "Single",
+        "Item": {
+          "ItemId": "Ingredient_Crystal_Void",
+          "QuantityMin": 16,
+          "QuantityMax": 28
+        }
+      },
+      {
+        "Type": "Single",
+        "Item": {
+          "ItemId": "Ingredient_Voidheart",
+          "QuantityMin": 6,
+          "QuantityMax": 10
+        }
+      },
+      {
+        "Type": "Choice",
+        "Weight": 100,
+        "Containers": [
+          {
+            "Type": "Empty",
+            "Weight": 25
+          },
+          {
+            "Type": "Single",
+            "Weight": 75,
+            "Item": {
+              "ItemId": "Void_Arena_Key_3",
+              "QuantityMin": 1,
+              "QuantityMax": 2
+            }
+          }
+        ]
+      }
+    ]
+  }
+}
