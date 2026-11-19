@@ -72,6 +72,8 @@ public final class VoidArenaManager {
         private volatile int totalWaves;
         private volatile int tier = 1;
         private volatile long startedAt;
+        private volatile boolean used;
+        private volatile boolean closed;
         private final Queue<VoidArenaEmerge.Emerging> emerging = new ConcurrentLinkedQueue<>();
     }
 
@@ -126,6 +128,7 @@ public final class VoidArenaManager {
             arena.totalWaves = 0;
             arena.tier = isArenaWorld(world) ? clampTier(VoidArenaRegistry.get().getTier(world.getWorldConfig().getUuid())) : 1;
             arena.startedAt = 0L;
+            arena.used = true;
         }
 
         world.execute(() -> startFight(world, arena));
@@ -166,8 +169,9 @@ public final class VoidArenaManager {
 
     public static void tick(@Nonnull World world) {
         Arena arena = ARENAS.get(world.getWorldConfig().getUuid());
-        if (arena != null && arena.phase == Phase.FIGHTING && world.getPlayerCount() == 0) {
-            abort(world, arena, "the arena is empty");
+        if (arena != null && world.getPlayerCount() == 0) {
+            if (arena.phase == Phase.FIGHTING) abort(world, arena, "the arena is empty");
+            if (arena.used && !arena.closed && isArenaWorld(world)) closeArena(world, arena);
         }
 
         long now = System.currentTimeMillis();
@@ -196,6 +200,7 @@ public final class VoidArenaManager {
             arena.phase = Phase.IDLE;
             if (arena.altar != null) BlockUtils.swapBlock(world, arena.altar, ALTAR_IDLE);
         }
+        arena.used = false;
         return true;
     }
 
@@ -206,11 +211,27 @@ public final class VoidArenaManager {
 
         boolean hadTier = VoidArenaRegistry.get().removeTier(worldUUID);
         Arena arena = ARENAS.remove(worldUUID);
-        if (arena == null || arena.phase != Phase.COMPLETED) {
+        boolean spent = arena != null && (arena.phase == Phase.COMPLETED || (arena.used && isArenaWorld(world)));
+        if (!spent) {
             if (hadTier) VoidArenaRegistry.flush();
             return;
         }
 
+        if (!arena.closed) sealAndClosePortals(worldUUID);
+    }
+
+    // A fought arena never reopens, finished or not: once nobody is left inside, its portals collapse.
+    private static void closeArena(@Nonnull World world, @Nonnull Arena arena) {
+        synchronized (arena) {
+            if (arena.closed) return;
+            arena.closed = true;
+        }
+
+        sealAndClosePortals(world.getWorldConfig().getUuid());
+        LOGGER.atInfo().log("[Evoke Void Arena] %s was closed because every player left", world.getName());
+    }
+
+    private static void sealAndClosePortals(@Nonnull UUID worldUUID) {
         VoidArenaRegistry.get().seal(worldUUID);
         VoidArenaRegistry.flush();
         VoidArenaPortals.closePortalsTo(worldUUID);

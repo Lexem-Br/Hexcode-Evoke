@@ -164,7 +164,6 @@ voidArena.event.name=Void Rift
 voidArena.event.title.primary=A Void Rift tears open
 voidArena.event.title.secondary=Enter the rift and face the Void Arena
 voidArena.discovery.title=Void Arena
-voidArena.discovery.subtitle=Try to open the Void chest to begin the battle
 voidArena.fight.title=The Void Arena awakens
 voidArena.wave.title=Wave {wave} of {total}
 voidArena.wave.subtitle=More enemies emerge from the Void

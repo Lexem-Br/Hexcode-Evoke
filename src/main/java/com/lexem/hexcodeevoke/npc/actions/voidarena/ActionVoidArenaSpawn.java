@@ -3,6 +3,7 @@ package com.lexem.hexcodeevoke.npc.actions.voidarena;
 import com.hypixel.hytale.component.Ref;
 import com.hypixel.hytale.component.Store;
 import com.hypixel.hytale.math.random.RandomExtra;
+import com.hypixel.hytale.server.core.modules.entity.component.HealthRegenState;
 import com.hypixel.hytale.server.core.modules.entity.component.TransformComponent;
 import com.hypixel.hytale.server.core.modules.physics.util.PhysicsConstants;
 import com.hypixel.hytale.server.core.modules.physics.util.PhysicsMath;
@@ -38,11 +39,17 @@ public class ActionVoidArenaSpawn extends ActionSpawn {
 
     @Override
     protected void postSpawn(@Nonnull NPCEntity npcComponent, @Nonnull Ref<EntityStore> ref, @Nonnull Store<EntityStore> store) {
+        disableHealthRegen(ref, store);
         placeOnSpawner(ref, store);
         playSpawnParticles(ref, store);
         super.postSpawn(npcComponent, ref, store);
         scatter(npcComponent, ref, store);
         if (emerge) VoidArenaManager.beginEmerge(ref, store);
+    }
+
+    private static void disableHealthRegen(@Nonnull Ref<EntityStore> ref, @Nonnull Store<EntityStore> store) {
+        HealthRegenState regenState = store.getComponent(ref, HealthRegenState.getComponentType());
+        if (regenState != null) regenState.setRegenEnabled(false);
     }
 
     private void scatter(@Nonnull NPCEntity npcComponent, @Nonnull Ref<EntityStore> ref, @Nonnull Store<EntityStore> store) {

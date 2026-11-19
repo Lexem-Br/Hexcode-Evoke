@@ -164,7 +164,6 @@ voidArena.event.name=Fenda do Vazio
 voidArena.event.title.primary=Uma Fenda do Vazio se abre
 voidArena.event.title.secondary=Entre na fenda e enfrente a Arena do Vazio
 voidArena.discovery.title=Arena do Vazio
-voidArena.discovery.subtitle=Tente abrir o baú do Vazio para começar a batalha
 voidArena.fight.title=A Arena do Vazio desperta
 voidArena.wave.title=Onda {wave} de {total}
 voidArena.wave.subtitle=Mais inimigos emergem do Vazio

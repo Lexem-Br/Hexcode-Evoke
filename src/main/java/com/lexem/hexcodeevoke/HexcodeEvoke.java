@@ -111,6 +111,7 @@ public class HexcodeEvoke extends JavaPlugin {
         this.registerNPCComponents();
         this.registerComponents();
         this.registerEvents();
+        com.lexem.hexcodeevoke.pages.HCProfilePage.registerPacketFilter();
         this.registerCommands();
         this.registerHexItems();
         HexCreatureMemoryProvider.register();

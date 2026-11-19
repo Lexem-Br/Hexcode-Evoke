@@ -59,12 +59,14 @@ public final class VoidArenaPortals {
         if (instanceBlock == null) return;
 
         UUID instanceUUID = instanceBlock.getWorldUUID();
-        if (instanceUUID != null) {
+        // The block keeps the UUID of an instance that was already removed, so a pending future means a new one is being created.
+        boolean staleUUID = instanceUUID != null && Universe.get().getWorld(instanceUUID) == null;
+        CompletableFuture<World> future = instanceBlock.getWorldFuture();
+        if (instanceUUID != null && !(staleUUID && future != null)) {
             VoidArenaManager.assignTier(instanceUUID, tier);
             return;
         }
 
-        CompletableFuture<World> future = instanceBlock.getWorldFuture();
         if (future != null) {
             future.thenAccept(instanceWorld -> {
                 if (instanceWorld != null) VoidArenaManager.assignTier(instanceWorld.getWorldConfig().getUuid(), tier);
@@ -93,7 +95,12 @@ public final class VoidArenaPortals {
             world.execute(() -> removePortalBlock(world, pos));
             return Message.translation("evoke.voidArena.portal.collapsed");
         }
-        if (instanceWorld.getPlayerCount() >= VoidArenaManager.MAX_PLAYERS) {
+        if (VoidArenaRegistry.get().isSealed(instanceUUID)) {
+            Vector3i pos = new Vector3i(x, y, z);
+            world.execute(() -> removePortalBlock(world, pos));
+            return Message.translation("evoke.voidArena.portal.collapsed");
+        }
+        if (instanceWorld.getPlayerCount() >=VoidArenaManager.MAX_PLAYERS) {
             return Message.translation("evoke.voidArena.portal.full").param("max", VoidArenaManager.MAX_PLAYERS);
         }
         return VoidArenaManager.getPhase(instanceUUID) == VoidArenaManager.Phase.FIGHTING ? Message.translation("evoke.voidArena.portal.fighting") : null;

@@ -18,6 +18,9 @@ import com.hypixel.hytale.protocol.packets.interface_.CustomUICommand;
 import com.hypixel.hytale.protocol.packets.interface_.CustomUICommandType;
 import com.hypixel.hytale.protocol.packets.interface_.CustomUIEventBindingType;
 import com.hypixel.hytale.protocol.packets.interface_.Page;
+import com.hypixel.hytale.protocol.packets.inventory.SmartMoveItemStack;
+import com.hypixel.hytale.server.core.io.adapter.PacketAdapters;
+import com.hypixel.hytale.server.core.io.adapter.PlayerPacketFilter;
 import com.hypixel.hytale.server.core.Message;
 import com.hypixel.hytale.server.core.entity.UUIDComponent;
 import com.hypixel.hytale.server.core.entity.entities.Player;
@@ -58,8 +61,11 @@ import java.util.Collections;
 import java.util.EnumMap;
 import java.util.IdentityHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -217,6 +223,10 @@ public class HCProfilePage extends InteractiveCustomUIPage<HCProfilePage.HCProfi
     private Move lastMove;
     private volatile boolean closed;
 
+    private static final Map<UUID, HCProfilePage> OPEN_PAGES = new ConcurrentHashMap<>();
+
+    private final UUID viewerUuid;
+
     private HCProfilePage(
             @Nonnull PlayerRef playerRefReal,
             @Nonnull Ref<EntityStore> npcRef,
@@ -225,6 +235,72 @@ public class HCProfilePage extends InteractiveCustomUIPage<HCProfilePage.HCProfi
         super(playerRefReal, CustomPageLifetime.CanDismissOrCloseThroughInteraction, HCProfileEventData.CODEC);
         this.pageDocument = "Pages/" + pageNameFile + ".ui";
         this.npcRef = npcRef;
+        this.viewerUuid = playerRefReal.getUuid();
+    }
+
+    /**
+     * Quick transfer (shift click) of an armor piece from the player inventory replaces the piece the
+     * Hex Creature is already wearing. The default behavior only fills empty slots.
+     */
+    public static void registerPacketFilter() {
+        PacketAdapters.registerInbound((PlayerPacketFilter) (playerRef, packet) -> {
+            if (!(packet instanceof SmartMoveItemStack move)) return false;
+            if (move.moveType != SmartMoveType.PutInHotbarOrWindow) return false;
+            if (move.fromSectionId != InventoryComponent.HOTBAR_SECTION_ID
+                    && move.fromSectionId != InventoryComponent.STORAGE_SECTION_ID
+                    && move.fromSectionId != InventoryComponent.BACKPACK_SECTION_ID) return false;
+
+            HCProfilePage page = OPEN_PAGES.get(playerRef.getUuid());
+            Ref<EntityStore> ref = playerRef.getReference();
+            if (page == null || page.closed || ref == null || !ref.isValid()) return false;
+
+            int fromSectionId = move.fromSectionId;
+            int fromSlotId = move.fromSlotId;
+            int quantity = move.quantity;
+            ref.getStore().getExternalData().getWorld().execute(() -> page.quickMoveFromPlayer(ref, fromSectionId, fromSlotId, quantity));
+            return true;
+        });
+    }
+
+    private void quickMoveFromPlayer(@Nonnull Ref<EntityStore> ref, int fromSectionId, int fromSlotId, int quantity) {
+        if (closed || !ref.isValid()) return;
+
+        Store<EntityStore> currentStore = ref.getStore();
+        this.viewerRef = ref;
+        this.store = currentStore;
+        if (!npcRef.isValid()) {
+            close();
+            return;
+        }
+
+        hexCreatureComponent = currentStore.getComponent(npcRef, HexCreatureComponent.getComponentType());
+        updateBindings();
+
+        ItemContainer from = InventoryUtils.getSectionById(ref, fromSectionId, currentStore);
+        if (from == null || fromSlotId < 0 || fromSlotId >= from.getCapacity()) return;
+
+        ItemStack itemStack = from.getItemStack((short) fromSlotId);
+        if (ItemStack.isEmpty(itemStack)) return;
+
+        var armor = itemStack.getItem().getArmor();
+        if (armor != null) {
+            int armorIndex = armor.getArmorSlot().ordinal();
+            if (armorIndex >= 0 && armorIndex < Section.ARMOR.length) {
+                Section target = Section.ARMOR[armorIndex];
+                GridBinding binding = bindings.get(target);
+                Integer targetSectionId = sectionId(target);
+                if (binding != null && targetSectionId != null) {
+                    InventoryUtils.moveItem(ref, fromSectionId, fromSlotId, Math.max(1, Math.min(quantity, itemStack.getQuantity())),
+                            targetSectionId, binding.slot(0), currentStore);
+                    refreshPage(true);
+                    return;
+                }
+            }
+        }
+
+        PlayerSettings settings = currentStore.getComponent(ref, PlayerSettings.getComponentType());
+        if (settings == null) settings = PlayerSettings.defaults();
+        InventoryUtils.smartMoveItem(ref, fromSectionId, fromSlotId, quantity, SmartMoveType.PutInHotbarOrWindow, settings, currentStore);
     }
 
     public static void open(
@@ -240,6 +316,7 @@ public class HCProfilePage extends InteractiveCustomUIPage<HCProfilePage.HCProfi
         page.store = store;
         page.hexCreatureComponent = store.getComponent(npcRef, HexCreatureComponent.getComponentType());
         page.updateBindings();
+        OPEN_PAGES.put(page.viewerUuid, page);
 
         ContainerWindow[] windows = page.createWindows();
         if (windows.length > 0 && player.getPageManager().openCustomPageWithWindows(viewerRef, store, page, windows)) return;
@@ -718,6 +795,7 @@ public class HCProfilePage extends InteractiveCustomUIPage<HCProfilePage.HCProfi
     @Override
     public void onDismiss(@Nonnull Ref<EntityStore> ref, @Nonnull Store<EntityStore> store) {
         closed = true;
+        OPEN_PAGES.remove(viewerUuid, this);
         for (EventRegistration<?, ?> registration : containerListeners) {
             registration.unregister();
         }
