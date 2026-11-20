@@ -1,0 +1,7 @@
+{
+  "Type": "Variant",
+  "Reference": "Template_Void_Wisp_Torch",
+  "Modify": {
+    "DropList": "Empty"
+  }
+}

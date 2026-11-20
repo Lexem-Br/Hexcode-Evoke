@@ -19,7 +19,7 @@
   "NameTranslationKey": {
     "Compute": "NameTranslationKey"
   },
-  "DropList": "Empty",
+  "DropList": "Drop_Evoke_Void_Chest_Spider",
   "BreathesInWater": true,
   "DeathAnimationTime": 1,
   "ApplySeparation": true,

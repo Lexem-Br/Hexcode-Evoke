@@ -19,7 +19,9 @@
   "NameTranslationKey": {
     "Compute": "NameTranslationKey"
   },
-  "DropList": "Empty",
+  "DropList": {
+    "Compute": "DropList"
+  },
   "BreathesInWater": false,
   "DeathAnimationTime": 0.5,
   "ApplySeparation": true,
@@ -50,6 +52,10 @@
     }
   ],
   "Parameters": {
+    "DropList": {
+      "Value": "Drop_Evoke_Void_Creeping_Torch",
+      "Description": "Drop Items"
+    },
     "Appearance": {
       "Value": "Void_Creeping_Torch",
       "Description": "Model to be used."

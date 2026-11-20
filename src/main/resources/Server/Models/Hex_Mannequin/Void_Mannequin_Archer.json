@@ -15,7 +15,7 @@
     },
     {
       "Model": "Items/Back/Quiver.blockymodel",
-      "Texture": "Items/Back/Quiver_Texture.png"
+      "Texture": "NPC/Mannequin/Attachments/Quiver.png"
     }
   ]
 }

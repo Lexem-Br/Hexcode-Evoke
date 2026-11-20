@@ -1,0 +1,11 @@
+{
+  "$Comment": "Void Mannequin Archer Lv2 death drops.",
+  "Container": {
+    "Type": "Single",
+    "Item": {
+      "ItemId": "Ingredient_Void_Essence",
+      "QuantityMin": 1,
+      "QuantityMax": 1
+    }
+  }
+}

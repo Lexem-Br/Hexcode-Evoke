@@ -7,24 +7,8 @@
         "Type": "Single",
         "Item": {
           "ItemId": "Ingredient_Void_Essence",
-          "QuantityMin": 18,
-          "QuantityMax": 30
-        }
-      },
-      {
-        "Type": "Single",
-        "Item": {
-          "ItemId": "Ingredient_Crystal_Void",
-          "QuantityMin": 8,
-          "QuantityMax": 14
-        }
-      },
-      {
-        "Type": "Single",
-        "Item": {
-          "ItemId": "Ingredient_Voidheart",
-          "QuantityMin": 3,
-          "QuantityMax": 5
+          "QuantityMin": 15,
+          "QuantityMax": 15
         }
       },
       {
@@ -33,13 +17,51 @@
         "Containers": [
           {
             "Type": "Empty",
-            "Weight": 50
+            "Weight": 90
           },
           {
             "Type": "Single",
-            "Weight": 50,
+            "Weight": 10,
+            "Item": {
+              "ItemId": "Void_Arena_Key",
+              "QuantityMin": 1,
+              "QuantityMax": 1
+            }
+          }
+        ]
+      },
+      {
+        "Type": "Choice",
+        "Weight": 100,
+        "Containers": [
+          {
+            "Type": "Empty",
+            "Weight": 90
+          },
+          {
+            "Type": "Single",
+            "Weight": 10,
             "Item": {
               "ItemId": "Void_Arena_Key_2",
+              "QuantityMin": 1,
+              "QuantityMax": 1
+            }
+          }
+        ]
+      },
+      {
+        "Type": "Choice",
+        "Weight": 100,
+        "Containers": [
+          {
+            "Type": "Empty",
+            "Weight": 90
+          },
+          {
+            "Type": "Single",
+            "Weight": 10,
+            "Item": {
+              "ItemId": "Void_Arena_Key_3",
               "QuantityMin": 1,
               "QuantityMax": 1
             }

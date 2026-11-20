@@ -7,6 +7,7 @@
       "Skeleton"
     ],
     "MaxHealth": 100,
+    "DropList": "Drop_Evoke_Void_Mannequin_Lv2",
     "OffHand": [
       "Weapon_Shield_Void_Rusty"
     ],

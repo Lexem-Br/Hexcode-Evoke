@@ -1,0 +1,16 @@
+{
+  "$Comment": "Void Golem death drops.",
+  "Container": {
+    "Type": "Multiple",
+    "Containers": [
+      {
+        "Type": "Single",
+        "Item": {
+          "ItemId": "Ingredient_Void_Essence",
+          "QuantityMin": 3,
+          "QuantityMax": 3
+        }
+      }
+    ]
+  }
+}

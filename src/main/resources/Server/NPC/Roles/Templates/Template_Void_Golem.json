@@ -19,7 +19,7 @@
   "NameTranslationKey": {
     "Compute": "NameTranslationKey"
   },
-  "DropList": "Empty",
+  "DropList": "Drop_Evoke_Void_Golem",
   "BreathesInWater": true,
   "DeathAnimationTime": 1.5,
   "ApplySeparation": true,
@@ -272,7 +272,7 @@
       "Description": "Attack pause of the melee chain, the vanilla default."
     },
     "ThrowKind": {
-      "Value": "Void_Creeping_Torch",
+      "Value": "Void_Creeping_Torch_Minion",
       "Description": "The NPC thrown at the player."
     },
     "ThrowMinDistance": {
@@ -328,7 +328,7 @@
       "Description": "Root interaction of the half health roar: throws every player within 8 blocks away from the golem."
     },
     "SummonKind": {
-      "Value": "Void_Wisp_Torch",
+      "Value": "Void_Wisp_Torch_Minion",
       "Description": "The NPC that comes out of the shoulder flames."
     },
     "SummonInitialCountRange": {

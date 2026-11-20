@@ -1,0 +1,7 @@
+{
+  "Type": "Variant",
+  "Reference": "Void_Mannequin_Lv1",
+  "Modify": {
+    "DropList": "Empty"
+  }
+}

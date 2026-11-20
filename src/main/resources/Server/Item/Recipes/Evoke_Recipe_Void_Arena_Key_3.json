@@ -2,15 +2,11 @@
   "Input": [
     {
       "ItemId": "Ingredient_Void_Essence",
-      "Quantity": 30
+      "Quantity": 40
     },
     {
       "ItemId": "Ingredient_Bar_Iron",
-      "Quantity": 8
-    },
-    {
-      "ItemId": "Rock_Gem_Voidstone",
-      "Quantity": 3
+      "Quantity": 1
     }
   ],
   "PrimaryOutput": {
