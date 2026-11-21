@@ -2,6 +2,11 @@ package com.lexem.hexcodeevoke.components;
 
 import org.junit.jupiter.api.Test;
 
+import com.hypixel.hytale.codec.ExtraInfo;
+import org.bson.BsonArray;
+import org.bson.BsonDocument;
+import org.bson.BsonString;
+
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -122,5 +127,94 @@ class EvokerComponentTest {
         HexCreatureEntry copied = clone.getHexCreatureByUUID("a");
         assertNotNull(copied);
         assertNotSame(original, copied);
+    }
+
+    @Test
+    void eachWorldHasItsOwnBook() {
+        EvokerComponent evoker = new EvokerComponent();
+        evoker.setActiveWorld("default");
+        evoker.addHexCreature(entry("a"));
+        evoker.addHexCreature(entry("b"));
+        evoker.addSelectedHexCreature("a");
+
+        evoker.setActiveWorld("other");
+        assertEquals(0, evoker.getHexCreatureCount());
+        assertFalse(evoker.hasSelection());
+        assertFalse(evoker.hexCreatureBelongsToPlayer("a"));
+        evoker.addHexCreature(entry("c"));
+
+        assertEquals(List.of("c"), evoker.getHexCreatureUUIDs());
+        assertEquals(List.of("a", "b", "c"), evoker.getHexCreatureUUIDsInAllWorlds());
+
+        evoker.setActiveWorld("default");
+        assertEquals(List.of("a", "b"), evoker.getHexCreatureUUIDs());
+        assertEquals(List.of("a"), evoker.getSelectedHexCreatures());
+    }
+
+    @Test
+    void removeHexCreatureFindsItInAnyWorld() {
+        EvokerComponent evoker = new EvokerComponent();
+        evoker.setActiveWorld("default");
+        evoker.addHexCreature(entry("a"));
+        evoker.addSelectedHexCreature("a");
+        evoker.setActiveWorld("other");
+
+        assertTrue(evoker.removeHexCreatureByUUID("a"));
+        assertFalse(evoker.removeHexCreatureByUUID("a"));
+
+        evoker.setActiveWorld("default");
+        assertEquals(0, evoker.getHexCreatureCount());
+        assertFalse(evoker.hasSelection());
+    }
+
+    @Test
+    void worldBooksSurviveEncoding() {
+        EvokerComponent evoker = new EvokerComponent();
+        evoker.setActiveWorld("default");
+        evoker.addHexCreature(entry("a"));
+        evoker.setActiveWorld("other");
+        evoker.addHexCreature(entry("b"));
+        evoker.addSelectedHexCreature("b");
+        evoker.setActiveWorld("empty");
+        evoker.getHexCreatureCount();
+
+        ExtraInfo extraInfo = new ExtraInfo();
+        BsonDocument document = EvokerComponent.CODEC.encode(evoker, extraInfo).asDocument();
+        EvokerComponent decoded = EvokerComponent.CODEC.decode(document, extraInfo);
+
+        assertFalse(document.containsKey("ListHexCreatures"));
+        assertFalse(document.getDocument("Worlds").containsKey("empty"));
+        assertFalse(decoded.hasLegacyData());
+        decoded.setActiveWorld("other");
+        assertEquals(List.of("b"), decoded.getSelectedHexCreatures());
+        decoded.setActiveWorld("default");
+        assertEquals(List.of("a"), decoded.getHexCreatureUUIDs());
+    }
+
+    @Test
+    void legacyBookIsSplitByWorldOfEachCreature() {
+        EvokerComponent old = new EvokerComponent();
+        old.setActiveWorld("default");
+        old.addHexCreature(entry("a"));
+        old.addHexCreature(entry("b"));
+        old.addSelectedHexCreature("a");
+        old.addSelectedHexCreature("b");
+        ExtraInfo extraInfo = new ExtraInfo();
+        BsonDocument book = EvokerComponent.CODEC.encode(old, extraInfo).asDocument().getDocument("Worlds").getDocument("default");
+        BsonDocument legacy = new BsonDocument()
+                .append("ListHexCreatures", book.get("ListHexCreatures"))
+                .append("SelectedHexCreatures", new BsonArray(List.of(new BsonString("a"), new BsonString("b"))));
+
+        EvokerComponent evoker = EvokerComponent.CODEC.decode(legacy, extraInfo);
+        assertTrue(evoker.hasLegacyData());
+        evoker.setActiveWorld("current");
+        evoker.migrateLegacyData(uuid -> uuid.equals("b") ? "far" : null);
+
+        assertFalse(evoker.hasLegacyData());
+        assertEquals(List.of("a"), evoker.getHexCreatureUUIDs());
+        assertEquals(List.of("a"), evoker.getSelectedHexCreatures());
+        evoker.setActiveWorld("far");
+        assertEquals(List.of("b"), evoker.getHexCreatureUUIDs());
+        assertEquals(List.of("b"), evoker.getSelectedHexCreatures());
     }
 }

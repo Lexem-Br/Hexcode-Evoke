@@ -119,9 +119,8 @@ public class HexCreatureTrackingSystem extends RefSystem<EntityStore> {
             return;
         }
 
-        if (!evoker.hexCreatureBelongsToPlayer(npcUUID)) return;
+        if (!evoker.removeHexCreatureByUUID(npcUUID)) return;
 
-        evoker.removeHexCreatureByUUID(npcUUID);
         WandIndicatorUtils.refresh(ownerRef, store);
     }
 

@@ -27,10 +27,15 @@ public class PlayerJoinSystem extends RefSystem<EntityStore> {
         if (addReason != AddReason.LOAD) return;
 
         EvokerComponent evoker = store.getComponent(ref, EvokerComponent.getComponentType());
+        String worldName = store.getExternalData().getWorld().getName();
 
         if (evoker == null) {
-            commandBuffer.addComponent(ref, EvokerComponent.getComponentType(), new EvokerComponent());
+            EvokerComponent newEvoker = new EvokerComponent();
+            newEvoker.setActiveWorld(worldName);
+            commandBuffer.addComponent(ref, EvokerComponent.getComponentType(), newEvoker);
         } else {
+            evoker.setActiveWorld(worldName);
+            migrateLegacyBook(evoker);
             migrateMarkedToDespawn(evoker);
             removeCreaturesLostWhileAway(evoker);
             HexCreatureUnlockUtils.unlockOwned(evoker);
@@ -40,9 +45,19 @@ public class PlayerJoinSystem extends RefSystem<EntityStore> {
         }
     }
 
+    private static void migrateLegacyBook(EvokerComponent evoker) {
+        if (!evoker.hasLegacyData()) return;
+
+        HexCreatureRegistry registry = HexCreatureRegistry.get();
+        evoker.migrateLegacyData(uuid -> {
+            HexCreatureRegistry.LastKnownLocation location = registry.getLastKnownLocation(uuid);
+            return location != null ? location.getWorldName() : null;
+        });
+    }
+
     private static void removeCreaturesLostWhileAway(EvokerComponent evoker) {
         HexCreatureRegistry registry = HexCreatureRegistry.get();
-        for (String uuid : evoker.getHexCreatureUUIDs()) {
+        for (String uuid : evoker.getHexCreatureUUIDsInAllWorlds()) {
             if (uuid != null && registry.consumeRemovedWhileOwnerAway(uuid)) {
                 evoker.removeHexCreatureByUUID(uuid);
             }
@@ -51,12 +66,11 @@ public class PlayerJoinSystem extends RefSystem<EntityStore> {
 
     private static void migrateMarkedToDespawn(EvokerComponent evoker) {
         boolean migrated = false;
-        for (HexCreatureEntry hexCreature : evoker.getListHexCreatures()) {
+        for (HexCreatureEntry hexCreature : evoker.getHexCreaturesInAllWorlds()) {
             if (!hexCreature.isMarkedToDespawn() || hexCreature.getUUID() == null) continue;
 
             HexCreatureRegistry.get().revoke(hexCreature.getUUID());
             evoker.removeHexCreatureByUUID(hexCreature.getUUID());
-            evoker.removeSelectedHexCreature(hexCreature.getUUID());
             migrated = true;
         }
 

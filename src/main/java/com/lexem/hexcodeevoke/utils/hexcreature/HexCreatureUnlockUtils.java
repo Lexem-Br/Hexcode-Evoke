@@ -48,7 +48,7 @@ public class HexCreatureUnlockUtils {
     }
 
     public static void unlockOwned(@Nonnull EvokerComponent evoker) {
-        for (HexCreatureEntry hexCreature : evoker.getListHexCreatures()) {
+        for (HexCreatureEntry hexCreature : evoker.getHexCreaturesInAllWorlds()) {
             String typeId = hexCreature.getTypeId();
             if (typeId == null || AllowedHexItemsAsset.getByEntityId(typeId) == null) continue;
 
