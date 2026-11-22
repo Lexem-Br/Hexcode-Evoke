@@ -438,7 +438,7 @@
       ]
     },
     {
-      "$Comment": "Heavy spin: the Evoke_Void_Golem_Spin_Heavy interaction gives the golem the spin throw effect when the spin starts. The golem throws up two Creeping Torches that land around it, only as many as fit under 3 alive. The flag keeps it to one throw per spin.",
+      "$Comment": "Heavy spin: the Evoke_Void_Golem_Spin_Heavy interaction gives the golem the spin throw effect when the spin starts. The golem throws Creeping Torches that land around it, only as many as the limit of alive torches allows. The flag keeps it to one throw per spin.",
       "Continue": true,
       "Sensor": {
         "Type": "And",
@@ -543,7 +543,7 @@
       ]
     },
     {
-      "$Comment": "Short spin: the Evoke_Void_Golem_Spin interaction gives the golem the single spin throw effect when the spin starts. The golem throws up one Creeping Torch that lands around it, only while fewer than 3 are alive. The flag keeps it to one throw per spin.",
+      "$Comment": "Short spin: the Evoke_Void_Golem_Spin interaction gives the golem the single spin throw effect when the spin starts. The golem throws a Creeping Torch that lands around it, only while the limit of alive torches is not reached. The flag keeps it to one throw per spin.",
       "Continue": true,
       "Sensor": {
         "Type": "And",
@@ -814,7 +814,7 @@
       ]
     },
     {
-      "$Comment": "First roar, right after emerging, like the Void Mannequin Mage ritual: it stops every other behavior while one Wisp Torch comes out of each shoulder, and starts the summon timer. It runs with or without a player around.",
+      "$Comment": "First roar, right after emerging, like the Void Mannequin Mage ritual: it stops every other behavior while a Wisp Torch comes out of each shoulder, and starts the summon timer. It runs with or without a player around.",
       "Sensor": {
         "Type": "Flag",
         "Name": "Void_Golem_Initial_Summon_Done",
@@ -932,7 +932,7 @@
       ]
     },
     {
-      "$Comment": "Every SummonInterval seconds, one more Wisp Torch comes out of the next shoulder if there is room for it. The timer restarts either way. A broken shoulder no longer summons; with one flame left the interval doubles from the next cycle on, and with none the golem stops summoning.",
+      "$Comment": "Every SummonInterval seconds, one more Wisp Torch comes out of the next shoulder if there is room for it. The timer restarts either way. A broken shoulder no longer summons; with only one flame left the interval gets longer from the next cycle on, and with none the golem stops summoning.",
       "Continue": true,
       "Sensor": {
         "Type": "Timer",

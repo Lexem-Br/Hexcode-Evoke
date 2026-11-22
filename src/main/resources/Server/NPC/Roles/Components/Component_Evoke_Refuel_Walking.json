@@ -1,5 +1,5 @@
 {
-  "$Comment": "Walks to the Essence Tray, consumes as much life essence as it can, walks back to where it was and resumes the previous task. Used inside the Refuel state",
+  "$Comment": "Walks to the Essence Tray, consumes as much life essence as it can, walks back to where it was and resumes the previous task",
   "Class": "Instruction",
   "DefaultState": ".Tray",
   "ResetOnStateChange": true,
@@ -66,7 +66,7 @@
             }
           },
           {
-            "$Comment": "The tray is empty, gone or was not reached in 30 seconds",
+            "$Comment": "The tray is empty, gone or was not reached in time",
             "Sensor": {
               "Type": "Any"
             },

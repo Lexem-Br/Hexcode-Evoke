@@ -1,5 +1,5 @@
 {
-  "$Comment": "Marks the Void Golem left shoulder flame as destroyed by a deflected Wisp Torch fireball. The golem role reads it with a Self sensor: the flame goes out and no more Wisp Torches come out of that shoulder.",
+  "$Comment": "Marks the Void Golem left shoulder flame as destroyed by a deflected Wisp Torch fireball. The golem role reads it with a Self sensor: the flame goes out and that shoulder stops summoning Wisp Torches.",
   "Infinite": true,
   "OverlapBehavior": "Ignore"
 }

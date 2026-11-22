@@ -1,5 +1,5 @@
 {
-  "$Comment": "Two of these are placed in the Void Rift portal prefab. They guard the rift once, without respawning.",
+  "$Comment": "Placed in the Void Rift portal prefab. They guard the rift once, without respawning.",
   "Model": "NPC_Spawn_Marker",
   "NPCs": [
     {

@@ -268,7 +268,7 @@
   ],
   "StateTransitions": [
     {
-      "$Comment": "Always clear target and reset instructions when going back to idle.",
+      "$Comment": "Clears the target and resets instructions when going back to idle.",
       "States": [
         {
           "To": [ "Idle" ],
@@ -285,7 +285,7 @@
       ]
     },
     {
-      "$Comment": "Always equip main weapon when going back to Idle or switching to combat.",
+      "$Comment": "Equips the main weapon when going back to Idle or switching to combat.",
       "States": [
         {
           "To": [ "Idle", "Combat" ],
@@ -302,7 +302,7 @@
       ]
     },
     {
-      "$Comment": "Equip when leaving Spawn, so the NPC is armed even if the summoner's fight pulls it into Combat before SpawnEquipDelay ends.",
+      "$Comment": "Equips when leaving Spawn, so the NPC is armed even if the summoner's fight pulls it into Combat before SpawnEquipDelay ends.",
       "States": [
         {
           "To": [ "Idle", "Combat" ],
@@ -330,7 +330,7 @@
     "Melee_Damage": {
       "Interactions": [
         {
-          "$Comment": "When NPC overrides the InteractionVars, this info is not applicable anymore",
+          "$Comment": "Not applicable once the NPC overrides the InteractionVars",
           "Parent": "NPC_Attack_Melee_Damage",
           "DamageCalculator": {
             "Type": "Absolute",
@@ -429,7 +429,7 @@
           ]
         },
         {
-          "$Comment": "Respond to damage taken by or dealt by the summoner as long as not already engaged with a target.",
+          "$Comment": "Reacts to damage taken or dealt by the summoner while not engaged with a target.",
           "Sensor": {
             "Type": "And",
             "Sensors": [
@@ -533,7 +533,7 @@
         },
         {
           "Enabled": { "Compute": "UseCombatActionEvaluator" },
-          "$Comment": "Combat action evaluator logic. Replaces other combat state if enabled.",
+          "$Comment": "Combat action evaluator (CAE). Replaces the other combat state when enabled.",
           "Sensor": {
             "Type": "State",
             "State": "Combat"
@@ -624,7 +624,7 @@
               },
               "Instructions": [
                 {
-                  "$Comment": "Store the CAE target in the regular marked target slot so it works with the leash and chase components.",
+                  "$Comment": "Stores the CAE target in the regular marked target slot, so the leash and chase components work with it.",
                   "Continue": true,
                   "Sensor": {
                     "Type": "Or",
@@ -898,7 +898,7 @@
               "ActionsBlocking": true,
               "Actions": [
                 {
-                  "$Comment": "TODO: Brief delay before attack so NPC can stop moving. Do we  need it?",
+                  "$Comment": "Short delay before attacking so the NPC can stop moving.",
                   "Type": "Timeout",
                   "Delay": { "Compute": "CombatAttackPreDelay" }
                 },
@@ -908,7 +908,7 @@
                   "AttackPauseRange": { "Compute": "AttackPauseRange" }
                 },
                 {
-                  "$Comment": "Brief delay to prevent the NPC potentially strafing/backing away and missing the shot.",
+                  "$Comment": "Short delay so the NPC does not strafe or back away and miss the shot.",
                   "Type": "Timeout",
                   "Delay": { "Compute": "CombatAttackPostDelay" }
                 },
@@ -1028,7 +1028,7 @@
               ]
             },
             {
-              "$Comment": "Execute combat-oriented movement.",
+              "$Comment": "Combat movement.",
               "Type": "Random",
               "ExecuteFor": [ 5, 5 ],
               "Sensor": {
@@ -1037,7 +1037,7 @@
               },
               "Instructions": [
                 {
-                  "$Comment": "Strafe around the target while fighting. - this strafes to a very short distance, changing it to maintain > attack distance will lead to npc never attacking",
+                  "$Comment": "Strafes around the target while fighting. The strafe distance is short: making it longer than the attack distance would stop the NPC from ever attacking.",
                   "Enabled": { "Compute": "CombatStrafeWeight > 0" },
                   "Weight": { "Compute": "CombatStrafeWeight" },
                   "Sensor": {
@@ -1057,7 +1057,7 @@
                   }
                 },
                 {
-                  "$Comment": "Attack the target without strafing.",
+                  "$Comment": "Attacks the target without strafing.",
                   "Enabled": { "Compute": "CombatDirectWeight > 0" },
                   "Weight": { "Compute": "CombatDirectWeight" },
                   "Sensor": {
@@ -1073,7 +1073,7 @@
                   }
                 },
                 {
-                  "$Comment": "Always charge at the target while attacking.",
+                  "$Comment": "Always charges at the target while attacking.",
                   "Enabled": { "Compute": "CombatAlwaysMovingWeight > 0" },
                   "Weight": { "Compute": "CombatAlwaysMovingWeight" },
                   "Sensor": {

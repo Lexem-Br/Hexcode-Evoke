@@ -1,5 +1,5 @@
 {
-  "$Comment": "Carries the items to the container chosen with the wand and waits where it was for more, or takes items from the first container and carries them to the second in a loop. Waits in front of the container while the source is empty or the destination is full, and next to where it should be while it is missing. Used inside the Transport state",
+  "$Comment": "Carries items to the container chosen with the wand, or from the first container to the second in a loop. Waits while the source is empty, the destination is full or a container is missing. Used inside the Transport state",
   "Class": "Instruction",
   "Parameters": {
     "ViewRange": {

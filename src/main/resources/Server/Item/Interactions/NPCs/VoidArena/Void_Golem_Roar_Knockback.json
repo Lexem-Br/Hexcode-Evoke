@@ -1,6 +1,6 @@
 {
   "Type": "DamageEntity",
-  "$Comment": "Knockback of the Void Golem half health roar, away from the golem. The server only applies knockback with some damage, so the roar deals 1.2, like the vanilla Gobliterator knock up.",
+  "$Comment": "Knockback of the Void Golem half health roar, away from the golem. The server only applies knockback together with some damage, so the roar deals a little, like the vanilla Gobliterator knock up.",
   "DamageCalculator": {
     "Type": "Absolute",
     "BaseDamage": {

@@ -1,5 +1,5 @@
 {
-  "$Comment": "Emits for 1 second, the Arcane Codex respawns it every second while waiting above the chest",
+  "$Comment": "Emits briefly. The Arcane Codex respawns it repeatedly while waiting above the chest",
   "RenderMode": "Erosion",
   "Shape": "Cube",
   "EmitOffset": {

@@ -116,7 +116,7 @@
               ]
             }
           ],
-          "$Comment": "Started by the altar of an Evoke_Void_Arena instance entered through a Void Arena Key 2 rift. Each wave waits for its spawns to appear, then for the arena to be empty of Evoke_Void_Arena_Enemies."
+          "$Comment": "Started by the altar of the Void Arena opened with Void Arena Key 2. Each wave waits for its spawns to appear, then for the arena to be cleared of enemies."
         },
         {
           "Sensor": {
@@ -150,7 +150,7 @@
               ]
             },
             {
-              "$Comment": "Spawns that found no room leave the wave empty. Move on so the fight cannot stall.",
+              "$Comment": "If the spawns find no room the wave stays empty. Move on so the fight cannot stall.",
               "Sensor": {
                 "Type": "Timer",
                 "Name": "SpawnGrace",
@@ -311,7 +311,7 @@
               ]
             },
             {
-              "$Comment": "Spawns that found no room leave the wave empty. Move on so the fight cannot stall.",
+              "$Comment": "If the spawns find no room the wave stays empty. Move on so the fight cannot stall.",
               "Sensor": {
                 "Type": "Timer",
                 "Name": "SpawnGrace",
@@ -472,7 +472,7 @@
               ]
             },
             {
-              "$Comment": "Spawns that found no room leave the wave empty. Move on so the fight cannot stall.",
+              "$Comment": "If the spawns find no room the wave stays empty. Move on so the fight cannot stall.",
               "Sensor": {
                 "Type": "Timer",
                 "Name": "SpawnGrace",
@@ -650,7 +650,7 @@
               ]
             },
             {
-              "$Comment": "Spawns that found no room leave the wave empty. Move on so the fight cannot stall.",
+              "$Comment": "If the spawns find no room the wave stays empty. Move on so the fight cannot stall.",
               "Sensor": {
                 "Type": "Timer",
                 "Name": "SpawnGrace",
@@ -811,7 +811,7 @@
               ]
             },
             {
-              "$Comment": "Spawns that found no room leave the wave empty. Move on so the fight cannot stall.",
+              "$Comment": "If the spawns find no room the wave stays empty. Move on so the fight cannot stall.",
               "Sensor": {
                 "Type": "Timer",
                 "Name": "SpawnGrace",

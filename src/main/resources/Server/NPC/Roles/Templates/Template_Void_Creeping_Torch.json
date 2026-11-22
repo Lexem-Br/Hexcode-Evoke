@@ -250,7 +250,7 @@
           ]
         },
         {
-          "$Comment": "Another torch is charging: stay back and push the own turn further away.",
+          "$Comment": "Another torch is charging: stays back and pushes its own turn further away.",
           "Sensor": {
             "Type": "Beacon",
             "Message": "Evoke_Void_Torch_Charging",
@@ -357,7 +357,7 @@
       ]
     },
     {
-      "$Comment": "Charge: walks to the player and detonates under 1 block. Keeps announcing itself so the others hold back.",
+      "$Comment": "Charge: walks to the player and detonates when very close. Keeps announcing itself so the others hold back.",
       "Sensor": {
         "Type": "State",
         "State": "Charge"

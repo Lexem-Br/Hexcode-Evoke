@@ -121,8 +121,8 @@
     },
     "WebPauseRange": {
       "Value": [
-        2,
-        3
+        2.2,
+        2.8
       ],
       "Description": "Seconds from one web shot to the next, counted by a Timeout after the shot instead of an attack pause, so it never delays the retreat jump."
     },
@@ -173,7 +173,7 @@
   },
   "Instructions": [
     {
-      "$Comment": "First brood, right after emerging. Starts the release timer; it runs with or without a player around.",
+      "$Comment": "First brood, right after emerging. Starts the release timer, which runs with or without a player around.",
       "Continue": true,
       "Sensor": {
         "Type": "Flag",
@@ -318,7 +318,7 @@
       ]
     },
     {
-      "$Comment": "Closes the chest after a release. Restarting the timer only repeats a close that is already showing, which the animation slot ignores. It has to stay below the three releases so it never runs before the timer is started in the same tick.",
+      "$Comment": "Closes the chest after a release. It has to stay below the releases so it never runs before the timer is started in the same tick. Restarting the timer only repeats a close that is already showing, which the animation slot ignores.",
       "Continue": true,
       "Sensor": {
         "Type": "Timer",
@@ -497,7 +497,7 @@
       ]
     },
     {
-      "$Comment": "The retreat jump, then one more spiderling released from the opened chest. Runs as one blocking sequence, so nothing else moves the spider (it stands still and keeps watching the player) until it has landed and released the spiderling. The jump starts as soon as the web interaction in progress ends: the webs are paced by a Timeout instead of an attack pause, which would hold the jump back for seconds.",
+      "$Comment": "The retreat jump, then one more spiderling released from the opened chest. Runs as one blocking sequence, so nothing else moves the spider (it stands still and keeps watching the player) until it has landed and released the spiderling. The jump starts as soon as the web interaction in progress ends: the webs are paced by a Timeout instead of an attack pause, which would hold the jump back.",
       "Sensor": {
         "Type": "And",
         "Sensors": [
@@ -647,7 +647,7 @@
       ]
     },
     {
-      "$Comment": "Combat: keeps KeepDistanceRange from the player with short sideways runs to a random side and long pauses, shooting webs whenever there is a clear line.",
+      "$Comment": "Combat: keeps KeepDistanceRange from the player with short sideways runs and long pauses, shooting webs whenever there is a clear line.",
       "Sensor": {
         "Type": "State",
         "State": "Combat"
@@ -674,7 +674,7 @@
           ]
         },
         {
-          "$Comment": "No new web while a retreat jump is pending. The web is a blocking Attack + Timeout (the pause between webs) instead of the Attack pause, because that pause is global and would hold the retreat jump back for seconds. Timers are not used here: TimerStart only initialises once.",
+          "$Comment": "No new web while a retreat jump is pending. The web is a blocking Attack + Timeout (the pause between webs) instead of the Attack pause, because that pause is global and would hold the retreat jump back. Timers are not used here: TimerStart only initialises once.",
           "Continue": true,
           "Sensor": {
             "Type": "Not",

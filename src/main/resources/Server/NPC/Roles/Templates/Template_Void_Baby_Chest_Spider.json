@@ -74,13 +74,13 @@
     },
     "CircleDistanceRange": {
       "Value": [
-        2.5,
+        3,
         3.5
       ],
       "Description": "Distance kept from the player while circling it."
     },
     "CircleRelativeSpeed": {
-      "Value": 1.2,
+      "Value": 1,
       "Description": "Relative speed while circling."
     },
     "PounceIntervalRange": {
@@ -90,13 +90,17 @@
       ],
       "Description": "Seconds from the start of a leap to the moment the spiderling goes for the next one."
     },
-    "PounceDistance": {
+    "PounceMinDistance": {
       "Value": 3,
-      "Description": "Distance to the player the spiderling takes before leaping."
+      "Description": "Closest distance to the player the spiderling leaps from."
+    },
+    "PounceMaxDistance": {
+      "Value": 4,
+      "Description": "Farthest distance to the player the spiderling leaps from. It leaps as soon as it is between PounceMinDistance and this, so the leap distance varies."
     },
     "PounceDistanceTolerance": {
       "Value": 0.15,
-      "Description": "How far from PounceDistance the spiderling may be when it leaps."
+      "Description": "Extra margin on both edges of the leap band. Must stay above the MoveThreshold (0.1) of the approach, or a spiderling just outside the band stands still until PounceSetupTimeLimit runs out."
     },
     "PounceApproachRelativeSpeed": {
       "Value": 0.6,
@@ -119,6 +123,21 @@
         0.9
       ],
       "Description": "Seconds the spiderling stays still while the leap plays, before it goes back to circling."
+    },
+    "TouchRange": {
+      "Value": 1.2,
+      "Description": "Distance to the player at which the spiderling bites on contact."
+    },
+    "TouchAttack": {
+      "Value": "Evoke_Void_Baby_Spider_Touch",
+      "Description": "Root interaction of the contact bite."
+    },
+    "TouchCooldown": {
+      "Value": [
+        1,
+        1
+      ],
+      "Description": "Seconds between two contact bites."
     },
     "DisableDamageGroups": {
       "Value": [
@@ -211,7 +230,7 @@
       ]
     },
     {
-      "$Comment": "Circle: strafes around the player inside CircleDistanceRange until the pounce timer runs out. Every spiderling keeps its own timer, so the brood circles together but leaps at different times.",
+      "$Comment": "Circle: strafes around the player inside CircleDistanceRange until the pounce timer ends. Each spiderling has its own timer, so the brood circles together but leaps at different times.",
       "Sensor": {
         "Type": "State",
         "State": "Circle"
@@ -234,6 +253,50 @@
             {
               "Type": "State",
               "State": "Idle"
+            }
+          ]
+        },
+        {
+          "$Comment": "Contact bite: Continue lets the instructions below keep moving the spiderling on the same tick.",
+          "Continue": true,
+          "Sensor": {
+            "Type": "And",
+            "Sensors": [
+              {
+                "Type": "Target",
+                "Range": {
+                  "Compute": "TouchRange"
+                }
+              },
+              {
+                "Type": "Timer",
+                "Name": "Void_Baby_Touch",
+                "State": "Stopped"
+              }
+            ]
+          },
+          "Actions": [
+            {
+              "Type": "TimerStart",
+              "Name": "Void_Baby_Touch",
+              "StartValueRange": {
+                "Compute": "TouchCooldown"
+              },
+              "RestartValueRange": {
+                "Compute": "TouchCooldown"
+              }
+            },
+            {
+              "Type": "TimerRestart",
+              "Name": "Void_Baby_Touch"
+            },
+            {
+              "Type": "Attack",
+              "Attack": {
+                "Compute": "TouchAttack"
+              },
+              "SkipAiming": true,
+              "AvoidFriendlyFire": false
             }
           ]
         },
@@ -289,7 +352,7 @@
       ]
     },
     {
-      "$Comment": "Pounce: stops strafing and takes exactly PounceDistance from the player, then leaps.",
+      "$Comment": "Pounce: stops strafing and leaps as soon as it is inside the PounceMinDistance to PounceMaxDistance band from the player; outside it, it walks to the nearest edge first.",
       "Sensor": {
         "Type": "State",
         "State": "Pounce"
@@ -312,6 +375,50 @@
             {
               "Type": "State",
               "State": "Idle"
+            }
+          ]
+        },
+        {
+          "$Comment": "Contact bite: Continue lets the instructions below keep moving the spiderling on the same tick.",
+          "Continue": true,
+          "Sensor": {
+            "Type": "And",
+            "Sensors": [
+              {
+                "Type": "Target",
+                "Range": {
+                  "Compute": "TouchRange"
+                }
+              },
+              {
+                "Type": "Timer",
+                "Name": "Void_Baby_Touch",
+                "State": "Stopped"
+              }
+            ]
+          },
+          "Actions": [
+            {
+              "Type": "TimerStart",
+              "Name": "Void_Baby_Touch",
+              "StartValueRange": {
+                "Compute": "TouchCooldown"
+              },
+              "RestartValueRange": {
+                "Compute": "TouchCooldown"
+              }
+            },
+            {
+              "Type": "TimerRestart",
+              "Name": "Void_Baby_Touch"
+            },
+            {
+              "Type": "Attack",
+              "Attack": {
+                "Compute": "TouchAttack"
+              },
+              "SkipAiming": true,
+              "AvoidFriendlyFire": false
             }
           ]
         },
@@ -339,7 +446,7 @@
               {
                 "Type": "Target",
                 "Range": {
-                  "Compute": "PounceDistance + PounceDistanceTolerance"
+                  "Compute": "PounceMaxDistance + PounceDistanceTolerance"
                 },
                 "Filters": [
                   {
@@ -352,7 +459,7 @@
                 "Sensor": {
                   "Type": "Target",
                   "Range": {
-                    "Compute": "PounceDistance - PounceDistanceTolerance"
+                    "Compute": "PounceMinDistance - PounceDistanceTolerance"
                   }
                 }
               }
@@ -381,7 +488,7 @@
           "BodyMotion": {
             "Type": "MaintainDistance",
             "DesiredDistanceRange": {
-              "Compute": "makeRange(PounceDistance)"
+              "Compute": "[PounceMinDistance, PounceMaxDistance]"
             },
             "MoveThreshold": 0.1,
             "StrafingDurationRange": [
@@ -399,7 +506,7 @@
       ]
     },
     {
-      "$Comment": "Leap: the pounce interaction jumps towards where the head points, so the head keeps watching the player. The body stays still so the walk steering does not fight the jump.",
+      "$Comment": "Leap: the pounce interaction jumps toward where the head points, so the head keeps watching the player. The body stays still so the walk steering does not fight the jump.",
       "Sensor": {
         "Type": "State",
         "State": "Leap"

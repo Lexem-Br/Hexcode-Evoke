@@ -84,7 +84,7 @@
             ]
           },
           {
-            "$Comment": "The tray is empty, gone or was not reached in 30 seconds",
+            "$Comment": "The tray is empty, gone or was not reached in time",
             "Sensor": {
               "Type": "Any"
             },

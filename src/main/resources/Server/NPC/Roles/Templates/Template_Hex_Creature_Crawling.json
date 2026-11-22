@@ -337,7 +337,7 @@
               ]
             },
             {
-              "$Comment": "Less than 5 block away from the leader, stays slightly ahead of where they walk, on the nearest side, and keeps that point while they stand still",
+              "$Comment": "Close to the leader, stays slightly ahead of where they walk, on the nearest side, and keeps that point while they stand still",
               "Sensor": {
                 "Type": "Evoke:EvokerPosition",
                 "Range": 5,
@@ -357,7 +357,7 @@
               }
             },
             {
-              "$Comment": "Less than 15 blocks away from the leader, runs to the same point ahead of them",
+              "$Comment": "Farther from the leader, runs to the same point ahead of them",
               "Sensor": {
                 "Type": "Evoke:EvokerPosition",
                 "Range": 15,

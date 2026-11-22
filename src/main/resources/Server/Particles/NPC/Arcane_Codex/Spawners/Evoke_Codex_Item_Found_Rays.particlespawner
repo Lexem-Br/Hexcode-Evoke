@@ -1,5 +1,5 @@
 {
-  "$Comment": "Light rays coming out of the book, emits for 1 second, the Arcane Codex respawns it every second while waiting above the chest",
+  "$Comment": "Light rays coming out of the book. Emits briefly; the Arcane Codex respawns it repeatedly while waiting above the chest",
   "RenderMode": "BlendAdd",
   "ParticleRotationInfluence": "BillboardVelocity",
   "LinearFiltering": true,

@@ -162,7 +162,7 @@
       ]
     },
     {
-      "$Comment": "Less than 1 block away from the player",
+      "$Comment": "Right next to the player",
       "Sensor": {
         "Type": "Player",
         "Range": 1

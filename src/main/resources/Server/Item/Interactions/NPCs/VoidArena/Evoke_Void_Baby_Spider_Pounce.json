@@ -1,21 +1,14 @@
 {
   "Type": "Parallel",
-  "$Comment": "The leap and the bite run side by side: the bite checks the area around the spiderling for the whole flight, so it lands on whoever it passes through.",
+  "$Comment": "The leap and the bite run side by side: the bite checks the area around the spiderling during the whole flight, so it hits whoever it passes through.",
   "Interactions": [
     {
       "Interactions": [
         {
-          "Type": "Simple",
-          "$Comment": "Short crouch before the leap.",
-          "RunTime": 0.2,
-          "Effects": {
-            "WorldSoundEventId": "SFX_Spider_Run"
-          }
-        },
-        {
           "Type": "ApplyForce",
-          "$Comment": "Leaps where the head points, which the spiderling keeps on the player. Force tuned in the test kit as 18 at KnockbackScale 0.5 (effective 9); with KnockbackScale 0.7 the force is 12.9 to keep the same landing: from 3 blocks it lands about 0.3 blocks from the target. Ends on landing, or after RunTime if the ground is never found.",
+          "$Comment": "Leaps right away, without crouching, toward where the head points (the spiderling keeps it on the player). The speed comes from Force and the role KnockbackScale. Ends on landing, or after RunTime if the ground is never found.",
           "Effects": {
+            "WorldSoundEventId": "SFX_Spider_Run",
             "ItemPlayerAnimationsId": "Spider_Default",
             "ItemAnimationId": "Bite"
           },
@@ -25,31 +18,29 @@
           "ChangeVelocityType": "Set",
           "Direction": {
             "X": 0,
-            "Y": 1,
+            "Y": 0.8,
             "Z": -1
           },
-          "Force": 12.9
+          "Force": 20
         }
       ]
     },
     {
       "Interactions": [
         {
-          "Type": "Simple",
-          "RunTime": 0.2
-        },
-        {
           "Type": "Selector",
-          "RunTime": 0.6,
+          "RunTime": 1,
           "Effects": {
             "WorldSoundEventId": "SFX_NPC_Unarmed_Swing"
           },
+          "$Comment": "Cylinder around the spiderling's feet that also reaches above them. The leap passes over the target, out of reach of an AOECircle (a sphere around the feet).",
           "Selector": {
-            "Id": "AOECircle",
+            "Id": "AOECylinder",
             "Range": 1.1,
+            "Height": 2.6,
             "Offset": {
               "X": 0,
-              "Y": 0,
+              "Y": -2,
               "Z": -0.3
             }
           },

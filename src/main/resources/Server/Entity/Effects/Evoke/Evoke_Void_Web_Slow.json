@@ -1,5 +1,5 @@
 {
-  "$Comment": "Hit by the Void Chest Spider web: half the walking speed for 3 seconds. A new hit restarts the time.",
+  "$Comment": "Hit by the Void Chest Spider web: slows the walking speed for a short time. A new hit restarts the time.",
   "ApplicationEffects": {
     "EntityTopTint": "#e6dcff",
     "EntityBottomTint": "#6a48b0",

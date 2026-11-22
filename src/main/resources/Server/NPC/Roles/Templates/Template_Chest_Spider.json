@@ -147,7 +147,7 @@
       ]
     },
     {
-      "$Comment": "Less than 1 block away from the player",
+      "$Comment": "Right next to the player",
       "Sensor": {
         "Type": "Player",
         "Range": 1
@@ -205,7 +205,7 @@
           },
           "Instructions": [
             {
-              "$Comment": "Spawns a baby spider if it has less than 3",
+              "$Comment": "Spawns a baby spider if it has fewer than the limit",
               "Sensor": {
                 "Type": "Self",
                 "Once": true,

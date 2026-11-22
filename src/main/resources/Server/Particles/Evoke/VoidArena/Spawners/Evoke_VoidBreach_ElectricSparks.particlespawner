@@ -29,7 +29,7 @@
       }
     }
   ],
-  "$Comment": "Smol sparks for the circle portal",
+  "$Comment": "Small sparks for the circle portal",
   "EmitOffset": {
     "X": {
       "Min": 1,

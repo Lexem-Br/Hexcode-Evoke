@@ -1,0 +1,14 @@
+{
+  "Type": "Selector",
+  "$Comment": "Contact bite: hits whoever stands right next to the spiderling. The cooldown lives in the role (timer Void_Baby_Touch), not in AttackPauseRange, which would also delay the leap.",
+  "RunTime": 0.1,
+  "Selector": {
+    "Id": "AOECircle",
+    "Range": 1.3
+  },
+  "HitEntity": {
+    "Interactions": [
+      "Evoke_Void_Baby_Spider_Touch_Damage"
+    ]
+  }
+}

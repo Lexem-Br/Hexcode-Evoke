@@ -130,7 +130,7 @@
       ]
     },
     {
-      "$Comment": "After the wand command, dashes straight to 1.5 blocks above the target point through any block, then hovers there. Pointed at a wall, it stops 1 block before touching it",
+      "$Comment": "After the wand command, dashes straight to just above the target point through any block, then hovers there. Pointed at a wall, it stops just before touching it",
       "Sensor": {
         "Type": "State",
         "State": "SeekPosition"

@@ -23,7 +23,7 @@
     "Melee_Damage": {
       "Interactions": [
         {
-          "$Comment": "When NPC overrides the InteractionVars, this info is not applicable anymore",
+          "$Comment": "Not applicable once the NPC overrides the InteractionVars",
           "Parent": "NPC_Attack_Melee_Damage",
           "DamageCalculator": {
             "Type": "Absolute",
@@ -87,7 +87,7 @@
           },
           "Instructions": [
             {
-              "$Comment": "Potentially go to look to see what's happening if getting a message.",
+              "$Comment": "May go and check what is happening when it gets a message.",
               "Sensor": {
                 "Type": "Beacon",
                 "Message": "Under_Attack",
@@ -102,7 +102,7 @@
               ]
             },
             {
-              "$Comment": "Switch to combat state if any flock member engages a target.",
+              "$Comment": "Joins combat when any flock member engages a target.",
               "Enabled": { "Compute": "!isEmptyStringArray(FlockArray)" },
               "Sensor": {
                 "Type": "Beacon",
@@ -125,7 +125,7 @@
               }
             },
             {
-              "$Comment": "Check if there are any potential threats nearby",
+              "$Comment": "Checks for nearby threats",
               "Sensor": {
                 "Reference": "Component_Sensor_Standard_Detection",
                 "Modify": {
@@ -144,7 +144,7 @@
               ]
             },
             {
-              "$Comment": "Set the offhand item depending on if its night or day.",
+              "$Comment": "Sets the offhand item depending on whether it is day or night.",
               "Enabled": { "Compute": "NighttimeOffhandSlot > -1" },
               "Continue": true,
               "Instructions": [
@@ -177,7 +177,7 @@
               ]
             },
             {
-              "$Comment": "Execute waking idle behaviors.",
+              "$Comment": "Idle behaviors while awake.",
               "Sensor": {
                 "Type": "Time",
                 "Period": { "Compute": "WakingPeriod" },
@@ -199,7 +199,7 @@
                   ]
                 },
                 {
-                  "$Comment": "Prefer to follow a path if it exists",
+                  "$Comment": "Follows a path if there is one",
                   "Enabled": { "Compute": "FollowPatrolPath" },
                   "Sensor": {
                     "Type": "Path",
@@ -213,7 +213,7 @@
                   }
                 },
                 {
-                  "$Comment": "Patrol behavior is always run if enabled. We use the .Default state explicitly so that we can skip down to random behaviors on .Break.",
+                  "$Comment": "Patrol always runs when enabled. The .Default state lets it skip down to random behaviors on .Break.",
                   "Enabled": { "Compute": "Patrol" },
                   "Sensor": {
                     "Type": "Or",
@@ -230,7 +230,7 @@
                   },
                   "Instructions": [
                     {
-                      "$Comment": "Leader dictates the motion, others follow.",
+                      "$Comment": "The leader sets the movement, the others follow.",
                       "Sensor": {
                         "Type": "Or",
                         "Sensors": [
@@ -301,7 +301,7 @@
                               ]
                             },
                             {
-                              "$Comment": "Wander a distance away along a single path, then command the troop to take a break.",
+                              "$Comment": "Wanders along a single path, then tells the troop to take a break.",
                               "Sensor": {
                                 "Type": "State",
                                 "State": ".WanderAway"
@@ -364,7 +364,7 @@
                       ]
                     },
                     {
-                      "$Comment": "Leader commands patrol to take a break.",
+                      "$Comment": "The leader tells the patrol to take a break.",
                       "Enabled": { "Compute": "!isEmptyStringArray(FlockArray)" },
                       "Sensor": {
                         "Type": "Beacon",
@@ -409,7 +409,7 @@
                   ]
                 },
                 {
-                  "$Comment": "Handle being on a break from patrolling.",
+                  "$Comment": "Break from patrolling.",
                   "Continue": true,
                   "Enabled": { "Compute": "Patrol" },
                   "Sensor": {
@@ -431,7 +431,7 @@
                       ]
                     },
                     {
-                      "$Comment": "Leader issues command to resume patrolling after a set period of time.",
+                      "$Comment": "The leader tells the patrol to resume after a while.",
                       "Sensor": {
                         "Type": "Or",
                         "Sensors": [
@@ -477,7 +477,7 @@
                     },
                     {
                       "Enabled": { "Compute": "!isEmptyStringArray(FlockArray)" },
-                      "$Comment": "Leader commands regrouping to continue patrolling.",
+                      "$Comment": "The leader tells the troop to regroup and keep patrolling.",
                       "Sensor": {
                         "Type": "Beacon",
                         "Message": "Flock_Regroup"
@@ -513,7 +513,7 @@
                       ]
                     },
                     {
-                      "$Comment": "Play a daytime flavor animation.",
+                      "$Comment": "Plays a daytime animation.",
                       "Enabled": { "Compute": "!isEmpty(DayFlavorAnimation)" },
                       "Weight": 3,
                       "Instructions": [
@@ -564,12 +564,12 @@
               },
               "Instructions": [
                 {
-                  "$Comment": "Try to reach our bed.",
+                  "$Comment": "Tries to reach its bed.",
                   "Enabled": { "Compute": "!isEmpty(BedBlockSet)" },
                   "TreeMode": true,
                   "Instructions": [
                     {
-                      "$Comment": "Give up and just sleep if we can't reach a bed.",
+                      "$Comment": "Sleeps where it is if it can't reach a bed.",
                       "Continue": true,
                       "Actions": [
                         {
@@ -631,7 +631,7 @@
           },
           "Instructions": [
             {
-              "$Comment": "Wake up if an enemy attacks a flock member.",
+              "$Comment": "Wakes up if an enemy attacks a flock member.",
               "Enabled": { "Compute": "!isEmptyStringArray(FlockArray)" },
               "Sensor": {
                 "Type": "Beacon",
@@ -879,7 +879,7 @@
         },
         {
           "Enabled": { "Compute": "UseCombatActionEvaluator" },
-          "$Comment": "Combat action evaluator logic. Replaces other combat state if enabled.",
+          "$Comment": "Combat action evaluator (CAE). Replaces the other combat state when enabled.",
           "Sensor": {
             "Type": "State",
             "State": "Combat"
@@ -929,7 +929,7 @@
               },
               "Instructions": [
                 {
-                  "$Comment": "Store the CAE target in the regular marked target slot so it works with the leash and chase components.",
+                  "$Comment": "Stores the CAE target in the regular marked target slot, so the leash and chase components work with it.",
                   "Continue": true,
                   "Sensor": {
                     "Type": "Or",
@@ -1043,7 +1043,7 @@
                   ]
                 },
                 {
-                  "$Comment": "Charge state: charge at the target",
+                  "$Comment": "Charge state: charges at the target",
                   "Sensor": {
                     "Type": "State",
                     "State": ".Charge",
@@ -1186,7 +1186,7 @@
                           ]
                         },
                         {
-                          "$Comment": "If the NPC finishes the charge or collides with a block it can't destroy, get stunned",
+                          "$Comment": "Gets stunned when the charge ends or it hits a block it can't destroy",
                           "Sensor": {
                             "Type": "ChargeState",
                             "Once": true,
@@ -1258,7 +1258,7 @@
           },
           "Instructions": [
             {
-              "$Comment": "Always look at the target",
+              "$Comment": "Always looks at the target",
               "Continue": true,
               "Sensor": {
                 "Type": "Target",
@@ -1396,7 +1396,7 @@
               "ActionsBlocking": true,
               "Actions": [
                 {
-                  "$Comment": "TODO: Brief delay before attack so NPC can stop moving. Do we  need it?",
+                  "$Comment": "Short delay before attacking so the NPC can stop moving.",
                   "Type": "Timeout",
                   "Delay": { "Compute": "CombatAttackPreDelay" }
                 },
@@ -1406,7 +1406,7 @@
                   "AttackPauseRange": { "Compute": "AttackPauseRange" }
                 },
                 {
-                  "$Comment": "Brief delay to prevent the NPC potentially strafing/backing away and missing the shot.",
+                  "$Comment": "Short delay so the NPC does not strafe or back away and miss the shot.",
                   "Type": "Timeout",
                   "Delay": { "Compute": "CombatAttackPostDelay" }
                 },
@@ -1529,7 +1529,7 @@
               ]
             },
             {
-              "$Comment": "Execute combat-oriented movement.",
+              "$Comment": "Combat movement.",
               "Type": "Random",
               "ExecuteFor": [ 5, 5 ],
               "Sensor": {
@@ -1538,7 +1538,7 @@
               },
               "Instructions": [
                 {
-                  "$Comment": "Strafe around the target while fighting. - this strafes to a very short distance, changing it to maintain > attack distance will lead to npc never attacking",
+                  "$Comment": "Strafes around the target while fighting. The strafe distance is short: making it longer than the attack distance would stop the NPC from ever attacking.",
                   "Enabled": { "Compute": "CombatStrafeWeight > 0" },
                   "Weight": { "Compute": "CombatStrafeWeight" },
                   "Sensor": {
@@ -1555,7 +1555,7 @@
                   }
                 },
                 {
-                  "$Comment": "Attack the target without strafing.",
+                  "$Comment": "Attacks the target without strafing.",
                   "Enabled": { "Compute": "CombatDirectWeight > 0" },
                   "Weight": { "Compute": "CombatDirectWeight" },
                   "Sensor": {
@@ -1571,7 +1571,7 @@
                   }
                 },
                 {
-                  "$Comment": "Always charge at the target while attacking.",
+                  "$Comment": "Always charges at the target while attacking.",
                   "Enabled": { "Compute": "CombatAlwaysMovingWeight > 0" },
                   "Weight": { "Compute": "CombatAlwaysMovingWeight" },
                   "Sensor": {
@@ -1677,7 +1677,7 @@
           },
           "Instructions": [
             {
-              "$Comment": "Potentially go to look to see what's happening if getting a message.",
+              "$Comment": "May go and check what is happening when it gets a message.",
               "Sensor": {
                 "Type": "Beacon",
                 "Message": "Under_Attack",
@@ -1692,7 +1692,7 @@
               ]
             },
             {
-              "$Comment": "Switch to combat state if any flock member engages a target.",
+              "$Comment": "Joins combat when any flock member engages a target.",
               "Enabled": { "Compute": "!isEmptyStringArray(FlockArray)" },
               "Sensor": {
                 "Type": "Beacon",
@@ -1721,7 +1721,7 @@
               ]
             },
             {
-              "$Comment": "Act confused for a short period where detection range is drastically lowered so the target has a chance to get away properly",
+              "$Comment": "Acts confused for a short time with a much lower detection range, so the target can get away.",
               "Sensor": {
                 "Type": "State",
                 "State": ".Confused"
@@ -1785,7 +1785,7 @@
               ]
             },
             {
-              "$Comment": "Search the area for a bit with the expectation of going straight into combat if you find something.",
+              "$Comment": "Searches the area for a while, going straight into combat if it finds something.",
               "Sensor": {
                 "Type": "State",
                 "State": ".Prowl"
@@ -2246,7 +2246,7 @@
   },
   "StateTransitions": [
     {
-      "$Comment": "Put away nighttime item when going to sleep",
+      "$Comment": "Puts away the night item when going to sleep.",
       "States": [
         {
           "From": [ "Idle" ],
@@ -2283,7 +2283,7 @@
       }
     },
     {
-      "$Comment": "Always clear animation when moving from Alerted state.",
+      "$Comment": "Clears the animation when leaving the Alerted state.",
       "States": [
         {
           "To": [ ],
@@ -2303,7 +2303,7 @@
       ]
     },
     {
-      "$Comment": "Always clear target and reset instructions when going back to idle.",
+      "$Comment": "Clears the target and resets instructions when going back to idle.",
       "States": [
         {
           "To": [ "Idle" ],
@@ -2320,7 +2320,7 @@
       ]
     },
     {
-      "$Comment": "Always equip main weapon when going back to Idle or switching to combat.",
+      "$Comment": "Equips the main weapon when going back to Idle or switching to combat.",
       "States": [
         {
           "To": [ "Idle", "Investigate", "Alerted", "Combat" ],

@@ -1,5 +1,5 @@
 {
-  "$Comment": "The rift stays open for 10 minutes. Ending the event rolls the pasted portal back. Players already inside the arena keep their instance and leave through its exit portal.",
+  "$Comment": "The rift stays open for a limited time. Ending the event rolls the pasted portal back. Players already inside the arena keep their instance and leave through its exit portal.",
   "Forks": [
     {
       "Conditions": [

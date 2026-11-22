@@ -177,7 +177,7 @@
             ]
           },
           {
-            "$Comment": "Search for an chest on the chest task",
+            "$Comment": "Search for a chest on the chest task",
             "Continue": true,
             "Sensor":  {
               "Type": "Evoke:SearchChestTaskPosition",

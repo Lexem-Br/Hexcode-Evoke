@@ -1,5 +1,5 @@
 {
-  "$Comment": "Reward chest loot for a slow clear (the base reward). Rolled once per player inside the arena (up to 4 rolls) when the Void chest unlocks. Which list applies and the time limits are set in Server/Evoke/VoidArenaRewards/Evoke_Void_Arena_Rewards.json.",
+  "$Comment": "Reward chest loot for a slow clear (the base reward). Rolled once per player inside the arena when the Void chest unlocks. Which list applies and the time limits are set in Server/Evoke/VoidArenaRewards/Evoke_Void_Arena_Rewards.json.",
   "Container": {
     "Type": "Multiple",
     "Containers": [

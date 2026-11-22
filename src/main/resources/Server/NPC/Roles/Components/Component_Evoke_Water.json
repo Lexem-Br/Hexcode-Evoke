@@ -1,5 +1,5 @@
 {
-  "$Comment": "Harvest the dry soil",
+  "$Comment": "Water the dry soil",
   "Class": "Instruction",
   "Parameters": {
     "_ImportStates": ["Main"]

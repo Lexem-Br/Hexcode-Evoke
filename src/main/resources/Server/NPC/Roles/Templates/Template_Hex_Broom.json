@@ -181,7 +181,7 @@
       ]
     },
     {
-      "$Comment": "Less than 1 block away from the player",
+      "$Comment": "Right next to the player",
       "Sensor": {
         "Type": "Player",
         "Range": 1
@@ -446,7 +446,7 @@
       },
       "Instructions": [
         {
-          "$Comment": "Less than 5 block away from the leader",
+          "$Comment": "Close to the leader",
           "Sensor": {
             "Type": "Player",
             "Range": 5,
@@ -471,7 +471,7 @@
           }
         },
         {
-          "$Comment": "Less than 30 blocks away from the leader",
+          "$Comment": "Farther from the leader",
           "Sensor": {
             "Type": "Player",
             "Range": 30,

@@ -7,7 +7,7 @@
   "RunTime": 0.223,
   "Next": {
     "Type": "Parallel",
-    "$Comment": "Make sure this parallel interaction is needed and can't be optimized away",
+    "$Comment": "Check that this parallel interaction is really needed.",
     "Interactions": [
       {
         "Interactions": [
