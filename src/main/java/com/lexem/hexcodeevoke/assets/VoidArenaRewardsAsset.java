@@ -1,6 +1,7 @@
 package com.lexem.hexcodeevoke.assets;
 
 import com.hypixel.hytale.assetstore.AssetExtraInfo;
+import com.hypixel.hytale.assetstore.AssetKeyValidator;
 import com.hypixel.hytale.assetstore.AssetRegistry;
 import com.hypixel.hytale.assetstore.AssetStore;
 import com.hypixel.hytale.assetstore.codec.AssetBuilderCodec;
@@ -8,14 +9,17 @@ import com.hypixel.hytale.assetstore.map.DefaultAssetMap;
 import com.hypixel.hytale.assetstore.map.JsonAssetWithMap;
 import com.hypixel.hytale.codec.Codec;
 import com.hypixel.hytale.codec.KeyedCodec;
+import com.hypixel.hytale.codec.validation.ValidatorCache;
 import com.hypixel.hytale.codec.validation.Validators;
 import com.hypixel.hytale.server.core.asset.type.item.config.ItemDropList;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 public class VoidArenaRewardsAsset implements JsonAssetWithMap<String, DefaultAssetMap<String, VoidArenaRewardsAsset>> {
     public static final String ID = "Evoke_Void_Arena_Rewards";
     public static final AssetBuilderCodec<String, VoidArenaRewardsAsset> CODEC;
+    public static final ValidatorCache<String> VALIDATOR_CACHE = new ValidatorCache<>(new AssetKeyValidator<>(VoidArenaRewardsAsset::getAssetStore));
     private static AssetStore<String, VoidArenaRewardsAsset, DefaultAssetMap<String, VoidArenaRewardsAsset>> ASSET_STORE;
 
     private static final int DEFAULT_EXCELLENT_SECONDS = 180;
@@ -123,6 +127,10 @@ public class VoidArenaRewardsAsset implements JsonAssetWithMap<String, DefaultAs
         if (config == null) config = getAssetMap().getAsset(ID);
         if (config == null) config = DEFAULTS;
         return config.rate(elapsedMillis);
+    }
+
+    public static boolean exists(@Nullable String id) {
+        return id != null && getAssetMap().getAsset(id) != null;
     }
 
     @Nonnull

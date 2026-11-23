@@ -33,6 +33,7 @@ import org.joml.Vector3d;
 import org.joml.Vector3i;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.Map;
 import java.util.Queue;
 import java.util.UUID;
@@ -71,6 +72,7 @@ public final class VoidArenaManager {
         private volatile int wave;
         private volatile int totalWaves;
         private volatile int tier = 1;
+        private volatile String rewards;
         private volatile long startedAt;
         private volatile boolean used;
         private volatile boolean closed;
@@ -98,8 +100,22 @@ public final class VoidArenaManager {
         return tier <= 1 ? VoidArenaRewardsAsset.ID : VoidArenaRewardsAsset.ID + "_" + tier;
     }
 
-    public static void assignTier(@Nonnull UUID instanceUUID, int tier) {
-        if (VoidArenaRegistry.get().setTier(instanceUUID, clampTier(tier))) VoidArenaRegistry.flush();
+    @Nonnull
+    private static String rewardsOf(@Nonnull World world, @Nonnull Arena arena) {
+        String rewards = arena.rewards;
+        if (rewards == null) return rewardsFor(arena.tier);
+        if (VoidArenaRewardsAsset.exists(rewards)) return rewards;
+
+        String fallback = rewardsFor(arena.tier);
+        LOGGER.atWarning().log("[Evoke Void Arena] Rewards %s are missing, %s uses %s", rewards, world.getName(), fallback);
+        return fallback;
+    }
+
+    public static void assignArena(@Nonnull UUID instanceUUID, int tier, @Nullable String rewardsId) {
+        VoidArenaRegistry registry = VoidArenaRegistry.get();
+        boolean tierChanged = registry.setTier(instanceUUID, clampTier(tier));
+        boolean rewardsChanged = registry.setRewards(instanceUUID, rewardsId);
+        if (tierChanged || rewardsChanged) VoidArenaRegistry.flush();
     }
 
     @Nonnull
@@ -127,6 +143,7 @@ public final class VoidArenaManager {
             arena.wave = 0;
             arena.totalWaves = 0;
             arena.tier = isArenaWorld(world) ? clampTier(VoidArenaRegistry.get().getTier(world.getWorldConfig().getUuid())) : 1;
+            arena.rewards = isArenaWorld(world) ? VoidArenaRegistry.get().getRewards(world.getWorldConfig().getUuid()) : null;
             arena.startedAt = 0L;
             arena.used = true;
         }
@@ -210,10 +227,11 @@ public final class VoidArenaManager {
         VoidArenaPortals.onWorldRemoved(world);
 
         boolean hadTier = VoidArenaRegistry.get().removeTier(worldUUID);
+        boolean hadRewards = VoidArenaRegistry.get().removeRewards(worldUUID);
         Arena arena = ARENAS.remove(worldUUID);
         boolean spent = arena != null && (arena.phase == Phase.COMPLETED || (arena.used && isArenaWorld(world)));
         if (!spent) {
-            if (hadTier) VoidArenaRegistry.flush();
+            if (hadTier || hadRewards) VoidArenaRegistry.flush();
             return;
         }
 
@@ -299,7 +317,8 @@ public final class VoidArenaManager {
 
     private static void completeArena(@Nonnull World world, @Nonnull Arena arena, long elapsedMillis) {
         Store<EntityStore> store = world.getEntityStore().getStore();
-        VoidArenaRewardsAsset.Result result = VoidArenaRewards.evaluate(rewardsFor(arena.tier), elapsedMillis);
+        String rewards = rewardsOf(world, arena);
+        VoidArenaRewardsAsset.Result result = VoidArenaRewards.evaluate(rewards, elapsedMillis);
         Vector3i altar = arena.altar;
         if (altar != null) {
             BlockUtils.swapBlock(world, altar, ALTAR_SPENT);
@@ -308,7 +327,7 @@ public final class VoidArenaManager {
         }
 
         VoidArenaFeedback.announceVictory(world, elapsedMillis, result.rank());
-        VoidArenaRewards.unlockRecipes(world, store, rewardsFor(arena.tier));
+        VoidArenaRewards.unlockRecipes(world, store, rewards);
 
         // Outside an arena instance the altar is a test tool, so the world can host another fight.
         if (!isArenaWorld(world)) arena.phase = Phase.IDLE;

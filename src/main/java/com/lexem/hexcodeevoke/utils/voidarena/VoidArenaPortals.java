@@ -27,7 +27,8 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public final class VoidArenaPortals {
     public static final String PORTAL_BLOCK = "Evoke_Void_Arena_Portal";
-    private static final Set<String> PORTAL_BLOCKS = Set.of(PORTAL_BLOCK, PORTAL_BLOCK + "_2", PORTAL_BLOCK + "_3");
+    public static final String EVENT_PORTAL_BLOCK = "Void_Arena_Event_Portal";
+    private static final Set<String> PORTAL_BLOCKS = Set.of(PORTAL_BLOCK, PORTAL_BLOCK + "_2", PORTAL_BLOCK + "_3", EVENT_PORTAL_BLOCK);
 
     private static final int[] PORTAL_HEIGHTS = {0, 1, -1, 2, -2, -3};
     private static final long PORTAL_CHECK_MILLIS = 1000L;
@@ -51,7 +52,7 @@ public final class VoidArenaPortals {
         return blockType != null && PORTAL_BLOCKS.contains(blockType.getId());
     }
 
-    public static void assignTier(@Nonnull World world, int x, int y, int z, int tier) {
+    public static void assignArena(@Nonnull World world, int x, int y, int z, int tier, @Nullable String rewardsId) {
         Ref<ChunkStore> blockRef = BlockModule.getBlockEntity(world, x, y, z);
         if (blockRef == null || !blockRef.isValid()) return;
 
@@ -63,13 +64,13 @@ public final class VoidArenaPortals {
         boolean staleUUID = instanceUUID != null && Universe.get().getWorld(instanceUUID) == null;
         CompletableFuture<World> future = instanceBlock.getWorldFuture();
         if (instanceUUID != null && !(staleUUID && future != null)) {
-            VoidArenaManager.assignTier(instanceUUID, tier);
+            VoidArenaManager.assignArena(instanceUUID, tier, rewardsId);
             return;
         }
 
         if (future != null) {
             future.thenAccept(instanceWorld -> {
-                if (instanceWorld != null) VoidArenaManager.assignTier(instanceWorld.getWorldConfig().getUuid(), tier);
+                if (instanceWorld != null) VoidArenaManager.assignArena(instanceWorld.getWorldConfig().getUuid(), tier, rewardsId);
             });
         }
     }

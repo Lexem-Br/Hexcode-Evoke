@@ -9,251 +9,251 @@
       "x": -1,
       "y": 1,
       "z": -1,
-      "name": "Evoke_Void_Arena_Portal",
+      "name": "Void_Arena_Event_Portal",
       "filler": 1023
     },
     {
       "x": -1,
       "y": 1,
       "z": 0,
-      "name": "Evoke_Void_Arena_Portal",
+      "name": "Void_Arena_Event_Portal",
       "filler": 31
     },
     {
       "x": -1,
       "y": 1,
       "z": 1,
-      "name": "Evoke_Void_Arena_Portal",
+      "name": "Void_Arena_Event_Portal",
       "filler": 63
     },
     {
       "x": 0,
       "y": 1,
       "z": -1,
-      "name": "Evoke_Void_Arena_Portal",
+      "name": "Void_Arena_Event_Portal",
       "filler": 992
     },
     {
       "x": 0,
       "y": 1,
       "z": 0,
-      "name": "Evoke_Void_Arena_Portal"
+      "name": "Void_Arena_Event_Portal"
     },
     {
       "x": 0,
       "y": 1,
       "z": 1,
-      "name": "Evoke_Void_Arena_Portal",
+      "name": "Void_Arena_Event_Portal",
       "filler": 32
     },
     {
       "x": 1,
       "y": 1,
       "z": -1,
-      "name": "Evoke_Void_Arena_Portal",
+      "name": "Void_Arena_Event_Portal",
       "filler": 993
     },
     {
       "x": 1,
       "y": 1,
       "z": 0,
-      "name": "Evoke_Void_Arena_Portal",
+      "name": "Void_Arena_Event_Portal",
       "filler": 1
     },
     {
       "x": 1,
       "y": 1,
       "z": 1,
-      "name": "Evoke_Void_Arena_Portal",
+      "name": "Void_Arena_Event_Portal",
       "filler": 33
     },
     {
       "x": -1,
       "y": 2,
       "z": -1,
-      "name": "Evoke_Void_Arena_Portal",
+      "name": "Void_Arena_Event_Portal",
       "filler": 2047
     },
     {
       "x": -1,
       "y": 2,
       "z": 0,
-      "name": "Evoke_Void_Arena_Portal",
+      "name": "Void_Arena_Event_Portal",
       "filler": 1055
     },
     {
       "x": -1,
       "y": 2,
       "z": 1,
-      "name": "Evoke_Void_Arena_Portal",
+      "name": "Void_Arena_Event_Portal",
       "filler": 1087
     },
     {
       "x": 0,
       "y": 2,
       "z": -1,
-      "name": "Evoke_Void_Arena_Portal",
+      "name": "Void_Arena_Event_Portal",
       "filler": 2016
     },
     {
       "x": 0,
       "y": 2,
       "z": 0,
-      "name": "Evoke_Void_Arena_Portal",
+      "name": "Void_Arena_Event_Portal",
       "filler": 1024
     },
     {
       "x": 0,
       "y": 2,
       "z": 1,
-      "name": "Evoke_Void_Arena_Portal",
+      "name": "Void_Arena_Event_Portal",
       "filler": 1056
     },
     {
       "x": 1,
       "y": 2,
       "z": -1,
-      "name": "Evoke_Void_Arena_Portal",
+      "name": "Void_Arena_Event_Portal",
       "filler": 2017
     },
     {
       "x": 1,
       "y": 2,
       "z": 0,
-      "name": "Evoke_Void_Arena_Portal",
+      "name": "Void_Arena_Event_Portal",
       "filler": 1025
     },
     {
       "x": 1,
       "y": 2,
       "z": 1,
-      "name": "Evoke_Void_Arena_Portal",
+      "name": "Void_Arena_Event_Portal",
       "filler": 1057
     },
     {
       "x": -1,
       "y": 3,
       "z": -1,
-      "name": "Evoke_Void_Arena_Portal",
+      "name": "Void_Arena_Event_Portal",
       "filler": 3071
     },
     {
       "x": -1,
       "y": 3,
       "z": 0,
-      "name": "Evoke_Void_Arena_Portal",
+      "name": "Void_Arena_Event_Portal",
       "filler": 2079
     },
     {
       "x": -1,
       "y": 3,
       "z": 1,
-      "name": "Evoke_Void_Arena_Portal",
+      "name": "Void_Arena_Event_Portal",
       "filler": 2111
     },
     {
       "x": 0,
       "y": 3,
       "z": -1,
-      "name": "Evoke_Void_Arena_Portal",
+      "name": "Void_Arena_Event_Portal",
       "filler": 3040
     },
     {
       "x": 0,
       "y": 3,
       "z": 0,
-      "name": "Evoke_Void_Arena_Portal",
+      "name": "Void_Arena_Event_Portal",
       "filler": 2048
     },
     {
       "x": 0,
       "y": 3,
       "z": 1,
-      "name": "Evoke_Void_Arena_Portal",
+      "name": "Void_Arena_Event_Portal",
       "filler": 2080
     },
     {
       "x": 1,
       "y": 3,
       "z": -1,
-      "name": "Evoke_Void_Arena_Portal",
+      "name": "Void_Arena_Event_Portal",
       "filler": 3041
     },
     {
       "x": 1,
       "y": 3,
       "z": 0,
-      "name": "Evoke_Void_Arena_Portal",
+      "name": "Void_Arena_Event_Portal",
       "filler": 2049
     },
     {
       "x": 1,
       "y": 3,
       "z": 1,
-      "name": "Evoke_Void_Arena_Portal",
+      "name": "Void_Arena_Event_Portal",
       "filler": 2081
     },
     {
       "x": -1,
       "y": 4,
       "z": -1,
-      "name": "Evoke_Void_Arena_Portal",
+      "name": "Void_Arena_Event_Portal",
       "filler": 4095
     },
     {
       "x": -1,
       "y": 4,
       "z": 0,
-      "name": "Evoke_Void_Arena_Portal",
+      "name": "Void_Arena_Event_Portal",
       "filler": 3103
     },
     {
       "x": -1,
       "y": 4,
       "z": 1,
-      "name": "Evoke_Void_Arena_Portal",
+      "name": "Void_Arena_Event_Portal",
       "filler": 3135
     },
     {
       "x": 0,
       "y": 4,
       "z": -1,
-      "name": "Evoke_Void_Arena_Portal",
+      "name": "Void_Arena_Event_Portal",
       "filler": 4064
     },
     {
       "x": 0,
       "y": 4,
       "z": 0,
-      "name": "Evoke_Void_Arena_Portal",
+      "name": "Void_Arena_Event_Portal",
       "filler": 3072
     },
     {
       "x": 0,
       "y": 4,
       "z": 1,
-      "name": "Evoke_Void_Arena_Portal",
+      "name": "Void_Arena_Event_Portal",
       "filler": 3104
     },
     {
       "x": 1,
       "y": 4,
       "z": -1,
-      "name": "Evoke_Void_Arena_Portal",
+      "name": "Void_Arena_Event_Portal",
       "filler": 4065
     },
     {
       "x": 1,
       "y": 4,
       "z": 0,
-      "name": "Evoke_Void_Arena_Portal",
+      "name": "Void_Arena_Event_Portal",
       "filler": 3073
     },
     {
       "x": 1,
       "y": 4,
       "z": 1,
-      "name": "Evoke_Void_Arena_Portal",
+      "name": "Void_Arena_Event_Portal",
       "filler": 3105
     }
   ],

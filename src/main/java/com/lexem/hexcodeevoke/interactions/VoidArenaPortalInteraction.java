@@ -17,6 +17,7 @@ import com.hypixel.hytale.server.core.modules.interaction.interaction.CooldownHa
 import com.hypixel.hytale.server.core.universe.PlayerRef;
 import com.hypixel.hytale.server.core.universe.world.storage.EntityStore;
 import com.hypixel.hytale.server.core.util.NotificationUtil;
+import com.lexem.hexcodeevoke.assets.VoidArenaRewardsAsset;
 import com.lexem.hexcodeevoke.utils.voidarena.VoidArenaManager;
 import com.lexem.hexcodeevoke.utils.voidarena.VoidArenaPortals;
 
@@ -30,6 +31,7 @@ public class VoidArenaPortalInteraction extends TeleportInstanceInteraction {
     private static final Map<UUID, Long> LAST_NOTIFY = new ConcurrentHashMap<>();
 
     private int tier = 1;
+    private String rewards;
 
     public static final BuilderCodec<VoidArenaPortalInteraction> CODEC = BuilderCodec
             .builder(VoidArenaPortalInteraction.class, VoidArenaPortalInteraction::new, TeleportInstanceInteraction.CODEC)
@@ -37,6 +39,11 @@ public class VoidArenaPortalInteraction extends TeleportInstanceInteraction {
                     (config, value) -> config.tier = value,
                     config -> config.tier)
             .addValidator(Validators.range(1, VoidArenaManager.MAX_TIER))
+            .add()
+            .append(new KeyedCodec<>("Rewards", Codec.STRING),
+                    (config, value) -> config.rewards = value,
+                    config -> config.rewards)
+            .addValidatorLate(() -> VoidArenaRewardsAsset.VALIDATOR_CACHE.getValidator().late())
             .add()
             .build();
 
@@ -57,7 +64,7 @@ public class VoidArenaPortalInteraction extends TeleportInstanceInteraction {
         super.firstRun(type, context, cooldownHandler);
 
         if (commandBuffer != null && targetBlock != null) {
-            VoidArenaPortals.assignTier(commandBuffer.getExternalData().getWorld(), targetBlock.x, targetBlock.y, targetBlock.z, tier);
+            VoidArenaPortals.assignArena(commandBuffer.getExternalData().getWorld(), targetBlock.x, targetBlock.y, targetBlock.z, tier, rewards);
         }
     }
 

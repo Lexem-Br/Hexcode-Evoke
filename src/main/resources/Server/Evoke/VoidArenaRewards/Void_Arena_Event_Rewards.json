@@ -1,0 +1,12 @@
+{
+  "$Comment": "Void Arena rewards for arenas entered through the Void Rift world event portal (Void_Arena_Event_Portal). Same fight and time ranks as Void Arena 1, but the chest gives an Evoke Book instead of a Hex Creature Page. Time counts from when the altar is activated until the last wave is cleared. Under ExcellentUnderSeconds is Excellent, up to GoodUpToSeconds is Good, anything slower is Normal. Each rank rolls its own drop list.",
+  "ExcellentUnderSeconds": 150,
+  "GoodUpToSeconds": 240,
+  "ExcellentDropList": "Drop_Void_Arena_Event_Reward_Excellent",
+  "GoodDropList": "Drop_Void_Arena_Event_Reward_Good",
+  "NormalDropList": "Drop_Void_Arena_Event_Reward_Normal",
+  "UnlockRecipes": [
+    "Evoke_Book",
+    "Crude_Evoke_Wand"
+  ]
+}

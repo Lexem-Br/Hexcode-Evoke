@@ -8,6 +8,7 @@ import com.hypixel.hytale.server.core.universe.Universe;
 import com.hypixel.hytale.server.core.universe.resources.UniverseResourceType;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -42,6 +43,13 @@ public class VoidArenaRegistry {
                     },
                     registry -> registry.instanceTiers
             ).add()
+            .append(new KeyedCodec<>("InstanceRewards", new MapCodec<>(Codec.STRING, HashMap<String, String>::new)),
+                    (registry, value) -> {
+                        registry.instanceRewards.clear();
+                        if (value != null) registry.instanceRewards.putAll(value);
+                    },
+                    registry -> registry.instanceRewards
+            ).add()
             .build();
 
     private static UniverseResourceType<VoidArenaRegistry> TYPE;
@@ -49,6 +57,7 @@ public class VoidArenaRegistry {
     private final Map<String, TemporaryPortal> temporaryPortals = new ConcurrentHashMap<>();
     private final Map<String, Long> sealedInstances = new ConcurrentHashMap<>();
     private final Map<String, Integer> instanceTiers = new ConcurrentHashMap<>();
+    private final Map<String, String> instanceRewards = new ConcurrentHashMap<>();
 
     public VoidArenaRegistry() {
     }
@@ -106,6 +115,20 @@ public class VoidArenaRegistry {
 
     public boolean removeTier(@Nonnull UUID instanceUUID) {
         return instanceTiers.remove(instanceUUID.toString()) != null;
+    }
+
+    public boolean setRewards(@Nonnull UUID instanceUUID, @Nullable String rewardsId) {
+        if (rewardsId == null || rewardsId.isEmpty()) return removeRewards(instanceUUID);
+        return !rewardsId.equals(instanceRewards.put(instanceUUID.toString(), rewardsId));
+    }
+
+    @Nullable
+    public String getRewards(@Nonnull UUID instanceUUID) {
+        return instanceRewards.get(instanceUUID.toString());
+    }
+
+    public boolean removeRewards(@Nonnull UUID instanceUUID) {
+        return instanceRewards.remove(instanceUUID.toString()) != null;
     }
 
     @Nonnull
