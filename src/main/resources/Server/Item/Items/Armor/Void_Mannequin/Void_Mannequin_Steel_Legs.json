@@ -1,5 +1,18 @@
 {
   "Parent": "Armor_Steel_Ancient_Legs",
   "Model": "Items/Armors/Steel/Legs.blockymodel",
-  "Texture": "NPC/Mannequin/Armor/Void_Steel/Legs.png"
+  "Texture": "NPC/Mannequin/Armor/Void_Steel/Legs.png",
+  "Icon": "Icons/ItemsGenerated/Void_Mannequin_Steel_Legs.png",
+  "IconProperties": {
+    "Scale": 0.4,
+    "Rotation": [
+      22.5,
+      45,
+      22.5
+    ],
+    "Translation": [
+      0,
+      -24
+    ]
+  }
 }

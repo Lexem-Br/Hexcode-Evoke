@@ -74,6 +74,11 @@ public class HexCreatureUtils {
         EvokerComponent evoker = store.getComponent(refESPlayer, EvokerComponent.getComponentType());
         if (evoker == null) { return false; }
 
+        if (!HexCreatureUnlockUtils.isUnlocked(evoker, hexItem)) {
+            HexCreatureUnlockUtils.sendLocked(accessor.getComponent(refESPlayer, PlayerRef.getComponentType()), hexItem);
+            return false;
+        }
+
         int roleIndex = NPCPlugin.get().getIndex(hexItem.getEntityId());
         if (roleIndex >= 0) {
             try {

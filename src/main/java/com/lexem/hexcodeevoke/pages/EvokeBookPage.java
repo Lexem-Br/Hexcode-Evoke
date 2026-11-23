@@ -43,14 +43,13 @@ public class EvokeBookPage extends InteractiveCustomUIPage<EvokeBookPage.EvokeBo
     private static final String TEXT_PAGE_FILE = "Pages/EvokeBookTextPage.ui";
     private static final String CREATURE_PAGE_FILE = "Pages/EvokeBookCreaturePage.ui";
     private static final String VARIANT_ICON_FILE = "Pages/EvokeBookVariantIcon.ui";
-    private static final String EQUIPMENT_ENTRY_FILE = "Pages/EvokeBookEquipmentEntry.ui";
     private static final String SUMMARY_PAGE_FILE = "Pages/EvokeBookSummaryPage.ui";
     private static final String SUMMARY_ENTRY_FILE = "Pages/EvokeBookSummaryEntry.ui";
     private static final int SUMMARY_ENTRIES_PER_PAGE = 14;
     private static final String LOCKED_TEXT = "????";
     private static final int CARDS_PER_PAGE = 6;
     private static final String[] LIST_CONTAINERS = {"#ItemList", "#ItemListRight"};
-    private static final String[] GUIDE_PAGES = {"introduction", "evoking", "life_essence", "essence_tray", "wands", "behaviour", "managing", "reverting", "tips"};
+    private static final String[] GUIDE_PAGES = {"introduction", "evoking", "unlocking", "life_essence", "essence_tray", "wands", "behaviour", "managing", "reverting", "tips"};
     private boolean isEditModeEnabled = false;
     private Category category = Category.LIST;
     private int guideSpread = 0;
@@ -373,17 +372,12 @@ public class EvokeBookPage extends InteractiveCustomUIPage<EvokeBookPage.EvokeBo
         commandBuilder.set(selector + " #OriginIcon.ItemId", getItemIcon(hexItem.getBlockId()));
         commandBuilder.set(selector + " #OriginItem.TextSpans", Message.translation("evoke.book.creatures.origin").param("item", getItemName(hexItem.getBlockId())));
 
-        commandBuilder.set(selector + " #EssenceCost.Text", Message.translation("evoke.book.creatures.cost").param("cost", LOCKED_TEXT));
+        commandBuilder.set(selector + " #EssenceCost.Text", "");
         commandBuilder.set(selector + " #EssenceIcon.Visible", false);
-        commandBuilder.set(selector + " #EssenceDrain.Text", Message.translation("evoke.book.creatures.locked_drain"));
+        commandBuilder.set(selector + " #EssenceDrain.Visible", false);
 
-        commandBuilder.set(selector + " #VariantsSection.Visible", true);
-        commandBuilder.set(selector + " #VariantsTitle.Text", Message.translation("evoke.book.creatures.variants"));
-        commandBuilder.append(selector + " #VariantIcons", EQUIPMENT_ENTRY_FILE);
-        commandBuilder.set(selector + " #VariantIcons[0].Text", LOCKED_TEXT);
-
-        commandBuilder.set(selector + " #DescriptionTitle.Text", Message.translation("evoke.book.creatures.characteristics"));
-        commandBuilder.set(selector + " #Description.Text", LOCKED_TEXT);
+        commandBuilder.set(selector + " #DescriptionTitle.Text", Message.translation("evoke.book.creatures.location"));
+        commandBuilder.set(selector + " #Description.Text", HexCreatureUnlockUtils.getLocation(hexItem));
     }
 
     @Nonnull
@@ -406,7 +400,9 @@ public class EvokeBookPage extends InteractiveCustomUIPage<EvokeBookPage.EvokeBo
             }
         }
 
-        return new ArrayList<>(entries.values());
+        List<CreatureEntry> sorted = new ArrayList<>(entries.values());
+        sorted.sort(Comparator.comparing(entry -> !AllowedHexItemsAsset.isEvokeHexCreature(entry.hexItem().getEntityId())));
+        return sorted;
     }
 
     @Nonnull
@@ -426,7 +422,7 @@ public class EvokeBookPage extends InteractiveCustomUIPage<EvokeBookPage.EvokeBo
     ) {
         EvokerComponent evoker = store.getComponent(ref, EvokerComponent.getComponentType());
         if (evoker == null) {
-            return "0/1";
+            return "0/" + new EvokerComponent().getMaxHexCreatures();
         } else {
             return evoker.getHexCreatureCount() + "/" + evoker.getMaxHexCreatures();
         }

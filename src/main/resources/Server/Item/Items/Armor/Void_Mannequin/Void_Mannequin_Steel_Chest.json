@@ -1,5 +1,18 @@
 {
   "Parent": "Armor_Steel_Ancient_Chest",
   "Model": "Items/Armors/Steel/Chest.blockymodel",
-  "Texture": "NPC/Mannequin/Armor/Void_Steel/Chest.png"
+  "Texture": "NPC/Mannequin/Armor/Void_Steel/Chest.png",
+  "Icon": "Icons/ItemsGenerated/Void_Mannequin_Steel_Chest.png",
+  "IconProperties": {
+    "Scale": 0.4,
+    "Rotation": [
+      22.5,
+      45,
+      22.5
+    ],
+    "Translation": [
+      0,
+      -21
+    ]
+  }
 }

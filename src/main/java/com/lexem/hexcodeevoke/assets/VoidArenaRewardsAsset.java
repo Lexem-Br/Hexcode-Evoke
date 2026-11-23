@@ -29,6 +29,7 @@ public class VoidArenaRewardsAsset implements JsonAssetWithMap<String, DefaultAs
     private String excellentDropList = "Drop_Evoke_Void_Arena_Reward_Excellent";
     private String goodDropList = "Drop_Evoke_Void_Arena_Reward_Good";
     private String normalDropList = "Drop_Evoke_Void_Arena_Reward_Normal";
+    private String[] unlockRecipes = new String[0];
 
     public enum Rank {
         EXCELLENT("evoke.voidArena.rank.excellent"),
@@ -85,6 +86,10 @@ public class VoidArenaRewardsAsset implements JsonAssetWithMap<String, DefaultAs
                 .addValidator(Validators.nonNull())
                 .addValidator(ItemDropList.VALIDATOR_CACHE.getValidator().late())
                 .add()
+                .append(new KeyedCodec<>("UnlockRecipes", Codec.STRING_ARRAY),
+                        (asset, value) -> asset.unlockRecipes = value,
+                        asset -> asset.unlockRecipes)
+                .add()
                 .build();
     }
 
@@ -118,6 +123,13 @@ public class VoidArenaRewardsAsset implements JsonAssetWithMap<String, DefaultAs
         if (config == null) config = getAssetMap().getAsset(ID);
         if (config == null) config = DEFAULTS;
         return config.rate(elapsedMillis);
+    }
+
+    @Nonnull
+    public static String[] getUnlockRecipes(@Nonnull String id) {
+        VoidArenaRewardsAsset config = getAssetMap().getAsset(id);
+        if (config == null || config.unlockRecipes == null) return new String[0];
+        return config.unlockRecipes.clone();
     }
 
     @Nonnull

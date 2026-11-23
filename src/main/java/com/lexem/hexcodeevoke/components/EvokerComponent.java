@@ -17,6 +17,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -25,7 +26,7 @@ import java.util.Set;
 import java.util.function.Function;
 
 public class EvokerComponent implements Component<EntityStore> {
-    private static final int BASE_MAX_HEX_CREATURES = 1;
+    private static final int BASE_MAX_HEX_CREATURES = 0;
     private static final String NO_WORLD = "";
 
     private String activeWorld = NO_WORLD;
@@ -162,8 +163,12 @@ public class EvokerComponent implements Component<EntityStore> {
 
     public int getMaxHexCreatures() {
         int max = BASE_MAX_HEX_CREATURES;
-        for (String entityId : unlockedHexCreatures) {
-            if (AllowedHexItemsAsset.isEvokeHexCreature(entityId) && AllowedHexItemsAsset.getMainEntityId(entityId).equals(entityId)) max++;
+        Set<String> counted = new HashSet<>();
+        for (AllowedHexItemsAsset.HexItem hexItem : AllowedHexItemsAsset.getAll()) {
+            AllowedHexItemsAsset.HexItem mainItem = AllowedHexItemsAsset.getMainItem(hexItem);
+            String entityId = mainItem.getEntityId();
+            if (!AllowedHexItemsAsset.isEvokeHexCreature(entityId) || !counted.add(entityId)) continue;
+            if (!mainItem.requiresUnlock() || unlockedHexCreatures.contains(entityId)) max++;
         }
         return max;
     }

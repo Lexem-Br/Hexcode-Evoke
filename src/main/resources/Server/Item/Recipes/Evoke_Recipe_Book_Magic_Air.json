@@ -26,5 +26,6 @@
       "Categories": ["Arcane_Hexcode_Evoke"]
     }
   ],
-  "TimeSeconds": 1
+  "TimeSeconds": 1,
+  "KnowledgeRequired": true
 }

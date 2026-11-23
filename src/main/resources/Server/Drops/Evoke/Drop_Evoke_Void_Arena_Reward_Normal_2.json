@@ -6,6 +6,14 @@
       {
         "Type": "Single",
         "Item": {
+          "ItemId": "Hex_Creature_Page_2",
+          "QuantityMin": 1,
+          "QuantityMax": 1
+        }
+      },
+      {
+        "Type": "Single",
+        "Item": {
           "ItemId": "Ingredient_Void_Essence",
           "QuantityMin": 10,
           "QuantityMax": 10

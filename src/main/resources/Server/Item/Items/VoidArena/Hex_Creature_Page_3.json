@@ -1,0 +1,65 @@
+{
+  "TranslationProperties": {
+    "Name": "evoke.items.Hex_Creature_Page_3.name",
+    "Description": "evoke.items.Hex_Creature_Page_3.description"
+  },
+  "Icon": "Icons/ItemsGenerated/Recipe_Page.png",
+  "Quality": "Epic",
+  "Categories": [
+    "Items.Recipes"
+  ],
+  "PlayerAnimationsId": "Item",
+  "Model": "Items/Consumables/Recipes/Recipe.blockymodel",
+  "Texture": "Items/Consumables/Recipes/Recipe_Texture.png",
+  "IconProperties": {
+    "Scale": 0.76,
+    "Rotation": [
+      135,
+      135,
+      0
+    ],
+    "Translation": [
+      -1,
+      5
+    ]
+  },
+  "Consumable": true,
+  "Interactions": {
+    "Primary": {
+      "Interactions": [
+        {
+          "Type": "Evoke:UnlockHexCreature",
+          "HexCreatures": [
+            "Chest_Spider",
+            "Homunculus"
+          ],
+          "Next": {
+            "Type": "ModifyInventory",
+            "AdjustHeldItemQuantity": -1
+          }
+        }
+      ]
+    },
+    "Secondary": {
+      "Interactions": [
+        {
+          "Type": "Evoke:UnlockHexCreature",
+          "HexCreatures": [
+            "Chest_Spider",
+            "Homunculus"
+          ],
+          "Next": {
+            "Type": "ModifyInventory",
+            "AdjustHeldItemQuantity": -1
+          }
+        }
+      ]
+    }
+  },
+  "Tags": {
+    "Type": [
+      "Recipe"
+    ]
+  },
+  "MaxStack": 10
+}

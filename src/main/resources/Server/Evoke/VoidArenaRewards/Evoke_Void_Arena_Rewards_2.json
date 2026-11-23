@@ -4,5 +4,6 @@
   "GoodUpToSeconds": 300,
   "ExcellentDropList": "Drop_Evoke_Void_Arena_Reward_Excellent_2",
   "GoodDropList": "Drop_Evoke_Void_Arena_Reward_Good_2",
-  "NormalDropList": "Drop_Evoke_Void_Arena_Reward_Normal_2"
+  "NormalDropList": "Drop_Evoke_Void_Arena_Reward_Normal_2",
+  "UnlockRecipes": ["Wooden_Evoke_Wand"]
 }

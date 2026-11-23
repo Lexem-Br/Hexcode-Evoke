@@ -28,6 +28,7 @@
     ]
   },
   "Recipe": {
+    "KnowledgeRequired": true,
     "TimeSeconds": 1,
     "Input": [
       {

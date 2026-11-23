@@ -5,6 +5,7 @@
   },
   "PlayerAnimationsId": "Block",
   "Recipe": {
+    "KnowledgeRequired": true,
     "TimeSeconds": 1,
     "Input": [
       {
@@ -29,7 +30,7 @@
       }
     ]
   },
-  "Quality": "Uncommon",
+  "Quality": "Common",
   "MaxStack": 1,
   "Set": "Furniture_Human",
   "BlockType": {

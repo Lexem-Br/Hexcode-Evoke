@@ -84,6 +84,10 @@ public class AllowedHexItemsAsset implements JsonAssetWithMap<String, DefaultAss
                                         .add()
                                         .append(new KeyedCodec<>("VariantOf", Codec.STRING), (item, s) -> item.variantOf = s, item -> item.variantOf)
                                         .add()
+                                        .append(new KeyedCodec<>("RequiresUnlock", Codec.BOOLEAN), (item, s) -> item.requiresUnlock = s, item -> item.requiresUnlock)
+                                        .add()
+                                        .append(new KeyedCodec<>("BookLocation", Codec.STRING), (item, s) -> item.bookLocation = s, item -> item.bookLocation)
+                                        .add()
                                         .build(),
                                 AllowedHexItemsAsset.HexItem[]::new
                         )),
@@ -113,6 +117,8 @@ public class AllowedHexItemsAsset implements JsonAssetWithMap<String, DefaultAss
         private String bookName = "";
         private String bookDescription = "";
         private String variantOf = "";
+        private boolean requiresUnlock = false;
+        private String bookLocation = "";
 
         public HexItem() {}
 
@@ -133,6 +139,8 @@ public class AllowedHexItemsAsset implements JsonAssetWithMap<String, DefaultAss
         public String getBookName() { return bookName; }
         public String getBookDescription() { return bookDescription; }
         public String getVariantOf() { return variantOf; }
+        public boolean requiresUnlock() { return requiresUnlock; }
+        public String getBookLocation() { return bookLocation; }
     }
 
     public static AssetStore<String, AllowedHexItemsAsset, DefaultAssetMap<String, AllowedHexItemsAsset>> getAssetStore() {

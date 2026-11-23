@@ -10,6 +10,7 @@
   "Texture": "Items/Weapons/EvokeWand/Wooden/Texture.png",
   "Icon": "Icons/ItemsGenerated/Wooden_Evoke_Wand.png",
   "Recipe": {
+    "KnowledgeRequired": true,
     "TimeSeconds": 1,
     "Input": [
       {

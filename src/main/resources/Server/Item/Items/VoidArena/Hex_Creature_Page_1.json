@@ -1,0 +1,67 @@
+{
+  "TranslationProperties": {
+    "Name": "evoke.items.Hex_Creature_Page_1.name",
+    "Description": "evoke.items.Hex_Creature_Page_1.description"
+  },
+  "Icon": "Icons/ItemsGenerated/Recipe_Page.png",
+  "Quality": "Uncommon",
+  "Categories": [
+    "Items.Recipes"
+  ],
+  "PlayerAnimationsId": "Item",
+  "Model": "Items/Consumables/Recipes/Recipe.blockymodel",
+  "Texture": "Items/Consumables/Recipes/Recipe_Texture.png",
+  "IconProperties": {
+    "Scale": 0.76,
+    "Rotation": [
+      135,
+      135,
+      0
+    ],
+    "Translation": [
+      -1,
+      5
+    ]
+  },
+  "Consumable": true,
+  "Interactions": {
+    "Primary": {
+      "Interactions": [
+        {
+          "Type": "Evoke:UnlockHexCreature",
+          "HexCreatures": [
+            "Creeping_Torch",
+            "Wisp_Torch",
+            "Hex_Pumpkin_Scary"
+          ],
+          "Next": {
+            "Type": "ModifyInventory",
+            "AdjustHeldItemQuantity": -1
+          }
+        }
+      ]
+    },
+    "Secondary": {
+      "Interactions": [
+        {
+          "Type": "Evoke:UnlockHexCreature",
+          "HexCreatures": [
+            "Creeping_Torch",
+            "Wisp_Torch",
+            "Hex_Pumpkin_Scary"
+          ],
+          "Next": {
+            "Type": "ModifyInventory",
+            "AdjustHeldItemQuantity": -1
+          }
+        }
+      ]
+    }
+  },
+  "Tags": {
+    "Type": [
+      "Recipe"
+    ]
+  },
+  "MaxStack": 10
+}

@@ -58,7 +58,7 @@ public class SaveHexCreatureHandler implements Consumer<SaveHexCreatureEvent> {
             if (capacity > 0) hexCreatureComponent.setLifeEssence(capacity);
 
             evoker.addHexCreature(HexCreatureEntry.of(hexCreatureComponent));
-            HexCreatureUnlockUtils.onEvoked(store, event.refESPlayer(), evoker, npcEntity.getNPCTypeId(), refESNPC);
+            HexCreatureUnlockUtils.onEvoked(store, event.refESPlayer(), npcEntity.getNPCTypeId(), refESNPC);
         } else {
             LOGGER.atWarning().log("EvokerComponent is null");
         }

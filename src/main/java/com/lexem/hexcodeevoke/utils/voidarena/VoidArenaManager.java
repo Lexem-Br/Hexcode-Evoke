@@ -308,6 +308,7 @@ public final class VoidArenaManager {
         }
 
         VoidArenaFeedback.announceVictory(world, elapsedMillis, result.rank());
+        VoidArenaRewards.unlockRecipes(world, store, rewardsFor(arena.tier));
 
         // Outside an arena instance the altar is a test tool, so the world can host another fight.
         if (!isArenaWorld(world)) arena.phase = Phase.IDLE;

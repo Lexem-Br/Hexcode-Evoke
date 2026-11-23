@@ -4,7 +4,7 @@
     "Name": "evoke.items.HexItems.Hex_Fairy_Cyan.name"
   },
   "Icon": "Icons/ItemsGenerated/Hex_Fairy_Cyan_Block.png",
-  "Quality": "Uncommon",
+  "Quality": "Common",
   "Recipe": {
     "TimeSeconds": 1,
     "Input": [

@@ -11,6 +11,7 @@
   "Icon": "Icons/ItemsGenerated/Crude_Evoke_Wand.png",
   "Scale": 0.7,
   "Recipe": {
+    "KnowledgeRequired": true,
     "TimeSeconds": 1,
     "Input": [
       {

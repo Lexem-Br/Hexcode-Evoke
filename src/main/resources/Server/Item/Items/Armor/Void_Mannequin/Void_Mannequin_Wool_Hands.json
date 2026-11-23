@@ -1,5 +1,18 @@
 {
   "Parent": "Armor_Cloth_Wool_Hands",
   "Model": "Items/Armors/Leather_Light/Hands.blockymodel",
-  "Texture": "NPC/Mannequin/Armor/Void_Wool/Hands.png"
+  "Texture": "NPC/Mannequin/Armor/Void_Wool/Hands.png",
+  "Icon": "Icons/ItemsGenerated/Void_Mannequin_Wool_Hands.png",
+  "IconProperties": {
+    "Scale": 0.58823,
+    "Rotation": [
+      22.5,
+      45,
+      22.5
+    ],
+    "Translation": [
+      0,
+      -3
+    ]
+  }
 }

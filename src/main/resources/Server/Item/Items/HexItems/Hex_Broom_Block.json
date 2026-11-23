@@ -5,6 +5,7 @@
   },
   "Icon": "Icons/ItemsGenerated/Hex_Broom.png",
   "Recipe": {
+    "KnowledgeRequired": true,
     "TimeSeconds": 1,
     "Input": [
       {
@@ -69,7 +70,7 @@
     ]
   },
   "ItemSoundSetId": "ISS_Blocks_Wood",
-  "Quality": "Uncommon",
+  "Quality": "Common",
   "MaxStack": 1,
   "Scale": 1.6
 }

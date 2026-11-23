@@ -39,6 +39,7 @@ public class PlayerJoinSystem extends RefSystem<EntityStore> {
             migrateMarkedToDespawn(evoker);
             removeCreaturesLostWhileAway(evoker);
             HexCreatureUnlockUtils.unlockOwned(evoker);
+            HexCreatureUnlockUtils.learnUnlockedRecipes(ref, commandBuffer, evoker);
             PlayerRef playerRef = store.getComponent(ref, PlayerRef.getComponentType());
             HexCreatureEntrySync.applyToLoaded(evoker, store, playerRef != null ? playerRef.getLanguage() : null);
             WandIndicatorUtils.refresh(ref, store);

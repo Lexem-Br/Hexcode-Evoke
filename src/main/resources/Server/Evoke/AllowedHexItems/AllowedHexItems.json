@@ -90,6 +90,8 @@
     {
       "BlockId": "Alive_Homunculus_Jar",
       "EntityId": "Homunculus",
+      "RequiresUnlock": true,
+      "BookLocation": "evoke.book.creatures.location.void_arena_3",
       "EssenceCost": 100,
       "LifeEssencePerMinute": 0.5,
       "HasLeftHandSlot": true,
@@ -101,6 +103,8 @@
     {
       "BlockId": "Furniture_Tavern_Chest_Small",
       "EntityId": "Chest_Spider",
+      "RequiresUnlock": true,
+      "BookLocation": "evoke.book.creatures.location.void_arena_3",
       "EssenceCost": 200,
       "LifeEssencePerMinute": 0.5,
       "BookDescription": "evoke.book.creatures.Chest_Spider.description"
@@ -108,6 +112,8 @@
     {
       "BlockId": "Deco_Halloween_Pumpkin_Scary",
       "EntityId": "Hex_Pumpkin_Scary",
+      "RequiresUnlock": true,
+      "BookLocation": "evoke.book.creatures.location.void_arena_1",
       "EssenceCost": 30,
       "LifeEssencePerMinute": 0.1,
       "HasHotbarSlot": true,
@@ -149,6 +155,8 @@
     {
       "BlockId": "Hex_Broom_Block",
       "EntityId": "Hex_Broom",
+      "RequiresUnlock": true,
+      "BookLocation": "evoke.book.creatures.location.void_arena_2",
       "EssenceCost": 30,
       "LifeEssencePerMinute": 0.1,
       "BookDescription": "evoke.book.creatures.Hex_Broom.description"
@@ -156,6 +164,8 @@
     {
       "BlockId": "Recipe_Book_Magic_Void",
       "EntityId": "Arcane_Codex_Void",
+      "RequiresUnlock": true,
+      "BookLocation": "evoke.book.creatures.location.void_arena_2",
       "EssenceCost": 100,
       "LifeEssencePerMinute": 0.5,
       "HasHotbarSlot": true,
@@ -173,6 +183,8 @@
     {
       "BlockId": "Wood_Torch_Wall",
       "EntityId": "Wisp_Torch",
+      "RequiresUnlock": true,
+      "BookLocation": "evoke.book.creatures.location.void_arena_1",
       "EssenceCost": 10,
       "LifeEssencePerMinute": 0.75,
       "HasHotbarSlot": true,
@@ -182,6 +194,8 @@
     {
       "BlockId": "Furniture_Crude_Torch",
       "EntityId": "Creeping_Torch",
+      "RequiresUnlock": true,
+      "BookLocation": "evoke.book.creatures.location.void_arena_1",
       "EssenceCost": 7,
       "LifeEssencePerMinute": 0.5,
       "HasHotbarSlot": true,
