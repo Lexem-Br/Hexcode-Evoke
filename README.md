@@ -1,3 +1,6 @@
+### Curseforge: https://www.curseforge.com/hytale/mods/hexcode-evoke
+### Modifold: https://modifold.com/mod/hexcode-evoke
+
 ## ✦ Description:
 
 Hexcode Evoke is an expansion for Riprod's [Hexcode](https://www.curseforge.com/hytale/mods/hexcode) mod, where you can bring objects to life that will follow you on your adventures and help you automate your home and farms.
