@@ -1,0 +1,77 @@
+{
+  "TranslationProperties": {
+    "Name": "evoke.items.Void_Arena_Recipe.name",
+    "Description": "evoke.items.Void_Arena_Recipe.description"
+  },
+  "Icon": "Icons/ItemsGenerated/Recipe_Page.png",
+  "Quality": "Rare",
+  "Categories": [
+    "Items.Recipes"
+  ],
+  "PlayerAnimationsId": "Item",
+  "Model": "Items/Consumables/Recipes/Recipe.blockymodel",
+  "Texture": "Items/Consumables/Recipes/Recipe_Texture.png",
+  "IconProperties": {
+    "Scale": 0.76,
+    "Rotation": [
+      135,
+      135,
+      0
+    ],
+    "Translation": [
+      -1,
+      5
+    ]
+  },
+  "Consumable": true,
+  "Interactions": {
+    "Primary": {
+      "Interactions": [
+        {
+          "Type": "Evoke:UnlockRecipe",
+          "Recipes": [
+            "Void_Torch",
+            "Weapon_Sword_Void_Steel_Rusty",
+            "Weapon_Shield_Void_Rusty",
+            "Weapon_Longsword_Void_Praetorian",
+            "Armor_Void_Steel_Ancient_Head",
+            "Armor_Void_Steel_Ancient_Chest",
+            "Armor_Void_Steel_Ancient_Hands",
+            "Armor_Void_Steel_Ancient_Legs"
+          ],
+          "Next": {
+            "Type": "ModifyInventory",
+            "AdjustHeldItemQuantity": -1
+          }
+        }
+      ]
+    },
+    "Secondary": {
+      "Interactions": [
+        {
+          "Type": "Evoke:UnlockRecipe",
+          "Recipes": [
+            "Void_Torch",
+            "Weapon_Sword_Void_Steel_Rusty",
+            "Weapon_Shield_Void_Rusty",
+            "Weapon_Longsword_Void_Praetorian",
+            "Armor_Void_Steel_Ancient_Head",
+            "Armor_Void_Steel_Ancient_Chest",
+            "Armor_Void_Steel_Ancient_Hands",
+            "Armor_Void_Steel_Ancient_Legs"
+          ],
+          "Next": {
+            "Type": "ModifyInventory",
+            "AdjustHeldItemQuantity": -1
+          }
+        }
+      ]
+    }
+  },
+  "Tags": {
+    "Type": [
+      "Recipe"
+    ]
+  },
+  "MaxStack": 10
+}

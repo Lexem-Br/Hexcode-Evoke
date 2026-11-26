@@ -41,7 +41,7 @@
     },
     "Weapons": {
       "Value": [
-        "Weapon_Sword_Steel_Void_Rusty"
+        "Weapon_Sword_Void_Steel_Rusty"
       ],
       "TypeHint": "String",
       "Description": "NPC weapons (main hand items)."
@@ -60,7 +60,7 @@
       "Description": "The probability this NPC will block when backing away if it has an off-hand shield."
     },
     "DropList": {
-      "Value": "Drop_Evoke_Void_Mannequin_Lv1",
+      "Value": "Drop_Void_Mannequin_Lv1",
       "Description": "Drop Items"
     }
   },

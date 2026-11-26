@@ -1,5 +1,5 @@
 {
-  "$Comment": "Void Arena 3 reward chest loot for a clear between the Excellent and Normal times. Which list applies and the time limits are set in Server/Evoke/VoidArenaRewards/Evoke_Void_Arena_Rewards_3.json.",
+  "$Comment": "Void Arena 3 reward chest loot for a slow clear (the base reward). Rolled once per player inside the arena when the Void chest unlocks. Which list applies and the time limits are set in Server/Evoke/VoidArenaRewards/Evoke_Void_Arena_Rewards_3.json.",
   "Container": {
     "Type": "Multiple",
     "Containers": [
@@ -15,8 +15,8 @@
         "Type": "Single",
         "Item": {
           "ItemId": "Ingredient_Void_Essence",
-          "QuantityMin": 20,
-          "QuantityMax": 20
+          "QuantityMin": 15,
+          "QuantityMax": 15
         }
       },
       {
@@ -70,6 +70,25 @@
             "Weight": 10,
             "Item": {
               "ItemId": "Void_Arena_Key_3",
+              "QuantityMin": 1,
+              "QuantityMax": 1
+            }
+          }
+        ]
+      },
+      {
+        "Type": "Choice",
+        "Weight": 100,
+        "Containers": [
+          {
+            "Type": "Empty",
+            "Weight": 70
+          },
+          {
+            "Type": "Single",
+            "Weight": 30,
+            "Item": {
+              "ItemId": "Void_Arena_Recipe",
               "QuantityMin": 1,
               "QuantityMax": 1
             }

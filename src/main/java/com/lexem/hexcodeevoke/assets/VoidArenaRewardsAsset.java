@@ -30,9 +30,9 @@ public class VoidArenaRewardsAsset implements JsonAssetWithMap<String, DefaultAs
     protected String id;
     private int excellentUnderSeconds = DEFAULT_EXCELLENT_SECONDS;
     private int goodUpToSeconds = DEFAULT_GOOD_SECONDS;
-    private String excellentDropList = "Drop_Evoke_Void_Arena_Reward_Excellent";
-    private String goodDropList = "Drop_Evoke_Void_Arena_Reward_Good";
-    private String normalDropList = "Drop_Evoke_Void_Arena_Reward_Normal";
+    private String excellentDropList = "Drop_Void_Arena_Reward_Excellent";
+    private String goodDropList = "Drop_Void_Arena_Reward_Good";
+    private String normalDropList = "Drop_Void_Arena_Reward_Normal";
     private String[] unlockRecipes = new String[0];
 
     public enum Rank {

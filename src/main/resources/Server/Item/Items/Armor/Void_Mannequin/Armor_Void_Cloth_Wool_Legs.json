@@ -1,5 +1,9 @@
 {
   "Parent": "Armor_Cloth_Wool_Legs",
+  "TranslationProperties": {
+    "Name": "evoke.items.Armor_Void_Cloth_Wool_Legs.name"
+  },
+  "Quality": "Common",
   "Model": "Items/Armors/Leather_Light/Legs.blockymodel",
   "Texture": "NPC/Mannequin/Armor/Void_Wool/Legs.png"
 }

@@ -41,7 +41,7 @@
           {
             "Type": "Single",
             "Item": {
-              "ItemId": "Weapon_Sword_Steel_Void_Rusty",
+              "ItemId": "Weapon_Sword_Void_Steel_Rusty",
               "QuantityMin": 1,
               "QuantityMax": 1
             },

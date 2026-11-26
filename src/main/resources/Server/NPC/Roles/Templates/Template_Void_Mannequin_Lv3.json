@@ -16,7 +16,7 @@
   "DropList": { "Compute": "DropList" },
   "FlockAllowedNPC": { "Compute": "FlockArray" },
   "FlockSpawnTypes": { "Compute": "FlockArray" },
-  "Armor": [ "Void_Mannequin_Steel_Chest", "Void_Mannequin_Steel_Hands", "Void_Mannequin_Steel_Legs" ],
+  "Armor": [ "Armor_Void_Steel_Ancient_Chest", "Armor_Void_Steel_Ancient_Hands", "Armor_Void_Steel_Ancient_Legs" ],
   "HotbarItems": { "Compute": "Weapons" },
   "HotbarSize": 3,
   "InteractionVars": {

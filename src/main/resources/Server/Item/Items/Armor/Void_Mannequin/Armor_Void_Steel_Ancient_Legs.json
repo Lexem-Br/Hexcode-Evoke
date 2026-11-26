@@ -1,0 +1,50 @@
+{
+  "Parent": "Armor_Steel_Ancient_Legs",
+  "TranslationProperties": {
+    "Name": "evoke.items.Armor_Void_Steel_Ancient_Legs.name"
+  },
+  "Quality": "Uncommon",
+  "Model": "Items/Armors/Steel/Legs.blockymodel",
+  "Texture": "NPC/Mannequin/Armor/Void_Steel/Legs.png",
+  "Icon": "Icons/ItemsGenerated/Armor_Void_Steel_Ancient_Legs.png",
+  "IconProperties": {
+    "Scale": 0.4,
+    "Rotation": [
+      22.5,
+      45,
+      22.5
+    ],
+    "Translation": [
+      0,
+      -24
+    ]
+  },
+  "Recipe": {
+    "KnowledgeRequired": true,
+    "TimeSeconds": 2,
+    "Input": [
+      {
+        "ItemId": "Ingredient_Bar_Iron",
+        "Quantity": 13
+      },
+      {
+        "ItemId": "Ingredient_Leather_Light",
+        "Quantity": 6
+      },
+      {
+        "ItemId": "Ingredient_Void_Essence",
+        "Quantity": 8
+      }
+    ],
+    "OutputQuantity": 1,
+    "BenchRequirement": [
+      {
+        "Id": "Arcanebench",
+        "Type": "Crafting",
+        "Categories": [
+          "Arcane_Hexcode_Evoke"
+        ]
+      }
+    ]
+  }
+}

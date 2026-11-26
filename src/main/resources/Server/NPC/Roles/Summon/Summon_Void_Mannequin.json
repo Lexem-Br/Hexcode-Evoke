@@ -9,7 +9,7 @@
     "Appearance": "Hex_Void_Mannequin",
     "Weapons": [],
     "OffHand": [],
-    "SpawnWeapons": "Weapon_Sword_Steel_Void_Rusty",
+    "SpawnWeapons": "Weapon_Sword_Void_Steel_Rusty",
     "SpawnOffHand": "Weapon_Shield_Void_Rusty",
     "SpawnEquipDelay": 1.1,
     "DefaultOffHandSlot": 0,

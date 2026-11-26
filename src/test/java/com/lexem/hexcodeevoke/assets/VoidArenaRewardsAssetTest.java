@@ -22,9 +22,9 @@ class VoidArenaRewardsAssetTest {
     void eachRankUsesItsDropList() {
         VoidArenaRewardsAsset rewards = new VoidArenaRewardsAsset();
 
-        assertEquals("Drop_Evoke_Void_Arena_Reward_Excellent", rewards.rate(1_000).dropList());
-        assertEquals("Drop_Evoke_Void_Arena_Reward_Good", rewards.rate(200_000).dropList());
-        assertEquals("Drop_Evoke_Void_Arena_Reward_Normal", rewards.rate(400_000).dropList());
+        assertEquals("Drop_Void_Arena_Reward_Excellent", rewards.rate(1_000).dropList());
+        assertEquals("Drop_Void_Arena_Reward_Good", rewards.rate(200_000).dropList());
+        assertEquals("Drop_Void_Arena_Reward_Normal", rewards.rate(400_000).dropList());
     }
 
     @Test

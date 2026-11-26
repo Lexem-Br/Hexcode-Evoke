@@ -1,0 +1,50 @@
+{
+  "Parent": "Armor_Steel_Ancient_Chest",
+  "TranslationProperties": {
+    "Name": "evoke.items.Armor_Void_Steel_Ancient_Chest.name"
+  },
+  "Quality": "Uncommon",
+  "Model": "Items/Armors/Steel/Chest.blockymodel",
+  "Texture": "NPC/Mannequin/Armor/Void_Steel/Chest.png",
+  "Icon": "Icons/ItemsGenerated/Armor_Void_Steel_Ancient_Chest.png",
+  "IconProperties": {
+    "Scale": 0.4,
+    "Rotation": [
+      22.5,
+      45,
+      22.5
+    ],
+    "Translation": [
+      0,
+      -21
+    ]
+  },
+  "Recipe": {
+    "KnowledgeRequired": true,
+    "TimeSeconds": 2,
+    "Input": [
+      {
+        "ItemId": "Ingredient_Bar_Iron",
+        "Quantity": 16
+      },
+      {
+        "ItemId": "Ingredient_Leather_Light",
+        "Quantity": 7
+      },
+      {
+        "ItemId": "Ingredient_Void_Essence",
+        "Quantity": 10
+      }
+    ],
+    "OutputQuantity": 1,
+    "BenchRequirement": [
+      {
+        "Id": "Arcanebench",
+        "Type": "Crafting",
+        "Categories": [
+          "Arcane_Hexcode_Evoke"
+        ]
+      }
+    ]
+  }
+}

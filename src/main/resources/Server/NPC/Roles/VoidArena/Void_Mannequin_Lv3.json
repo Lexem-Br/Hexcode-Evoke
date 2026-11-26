@@ -40,10 +40,10 @@
       0,
       24
     ],
-    "DropList": "Drop_Evoke_Void_Mannequin_Lv3",
+    "DropList": "Drop_Void_Mannequin_Lv3",
     "Appearance": "Void_Mannequin",
     "Weapons": [
-      "Weapon_Sword_Steel_Void_Rusty"
+      "Weapon_Sword_Void_Steel_Rusty"
     ],
     "OffHand": [
       "Weapon_Shield_Void_Rusty"

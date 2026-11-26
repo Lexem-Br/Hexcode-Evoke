@@ -16,6 +16,7 @@
     "Secondary": "Block_Secondary"
   },
   "Recipe": {
+    "KnowledgeRequired": true,
     "TimeSeconds": 1,
     "Input": [
       {

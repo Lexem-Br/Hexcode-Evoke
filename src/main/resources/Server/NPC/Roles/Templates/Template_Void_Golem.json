@@ -19,7 +19,7 @@
   "NameTranslationKey": {
     "Compute": "NameTranslationKey"
   },
-  "DropList": "Drop_Evoke_Void_Golem",
+  "DropList": "Drop_Void_Golem",
   "BreathesInWater": true,
   "DeathAnimationTime": 1.5,
   "ApplySeparation": true,

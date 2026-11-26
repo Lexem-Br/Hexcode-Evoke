@@ -1,5 +1,5 @@
 {
-  "$Comment": "Void Mannequin Lv3 death drops. Each entry rolls independently.",
+  "$Comment": "Void Mannequin Lv4 death drops. Each entry rolls independently.",
   "Container": {
     "Type": "Multiple",
     "Containers": [
@@ -17,35 +17,16 @@
         "Containers": [
           {
             "Type": "Empty",
-            "Weight": 95
+            "Weight": 90
           },
           {
             "Type": "Single",
             "Item": {
-              "ItemId": "Weapon_Shield_Void_Rusty",
+              "ItemId": "Weapon_Longsword_Void_Praetorian",
               "QuantityMin": 1,
               "QuantityMax": 1
             },
-            "Weight": 5
-          }
-        ]
-      },
-      {
-        "Type": "Choice",
-        "Weight": 100,
-        "Containers": [
-          {
-            "Type": "Empty",
-            "Weight": 95
-          },
-          {
-            "Type": "Single",
-            "Item": {
-              "ItemId": "Weapon_Sword_Steel_Void_Rusty",
-              "QuantityMin": 1,
-              "QuantityMax": 1
-            },
-            "Weight": 5
+            "Weight": 10
           }
         ]
       },
@@ -60,7 +41,7 @@
           {
             "Type": "Single",
             "Item": {
-              "ItemId": "Void_Mannequin_Steel_Chest",
+              "ItemId": "Armor_Void_Steel_Ancient_Head",
               "QuantityMin": 1,
               "QuantityMax": 1
             },
@@ -79,7 +60,7 @@
           {
             "Type": "Single",
             "Item": {
-              "ItemId": "Void_Mannequin_Steel_Hands",
+              "ItemId": "Armor_Void_Steel_Ancient_Chest",
               "QuantityMin": 1,
               "QuantityMax": 1
             },
@@ -98,7 +79,26 @@
           {
             "Type": "Single",
             "Item": {
-              "ItemId": "Void_Mannequin_Steel_Legs",
+              "ItemId": "Armor_Void_Steel_Ancient_Hands",
+              "QuantityMin": 1,
+              "QuantityMax": 1
+            },
+            "Weight": 2.5
+          }
+        ]
+      },
+      {
+        "Type": "Choice",
+        "Weight": 100,
+        "Containers": [
+          {
+            "Type": "Empty",
+            "Weight": 97.5
+          },
+          {
+            "Type": "Single",
+            "Item": {
+              "ItemId": "Armor_Void_Steel_Ancient_Legs",
               "QuantityMin": 1,
               "QuantityMax": 1
             },

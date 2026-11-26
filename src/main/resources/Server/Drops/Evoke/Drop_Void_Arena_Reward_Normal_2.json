@@ -1,12 +1,12 @@
 {
-  "$Comment": "Void Arena 3 reward chest loot for the fastest clears. Which list applies and the time limits are set in Server/Evoke/VoidArenaRewards/Evoke_Void_Arena_Rewards_3.json.",
+  "$Comment": "Void Arena 2 reward chest loot for a slow clear (the base reward). Rolled once per player inside the arena when the Void chest unlocks. Which list applies and the time limits are set in Server/Evoke/VoidArenaRewards/Evoke_Void_Arena_Rewards_2.json.",
   "Container": {
     "Type": "Multiple",
     "Containers": [
       {
         "Type": "Single",
         "Item": {
-          "ItemId": "Hex_Creature_Page_3",
+          "ItemId": "Hex_Creature_Page_2",
           "QuantityMin": 1,
           "QuantityMax": 1
         }
@@ -15,8 +15,8 @@
         "Type": "Single",
         "Item": {
           "ItemId": "Ingredient_Void_Essence",
-          "QuantityMin": 25,
-          "QuantityMax": 25
+          "QuantityMin": 10,
+          "QuantityMax": 10
         }
       },
       {
@@ -70,6 +70,25 @@
             "Weight": 10,
             "Item": {
               "ItemId": "Void_Arena_Key_3",
+              "QuantityMin": 1,
+              "QuantityMax": 1
+            }
+          }
+        ]
+      },
+      {
+        "Type": "Choice",
+        "Weight": 100,
+        "Containers": [
+          {
+            "Type": "Empty",
+            "Weight": 80
+          },
+          {
+            "Type": "Single",
+            "Weight": 20,
+            "Item": {
+              "ItemId": "Void_Arena_Recipe",
               "QuantityMin": 1,
               "QuantityMax": 1
             }

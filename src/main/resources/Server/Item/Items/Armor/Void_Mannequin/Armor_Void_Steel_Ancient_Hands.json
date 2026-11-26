@@ -1,0 +1,50 @@
+{
+  "Parent": "Armor_Steel_Ancient_Hands",
+  "TranslationProperties": {
+    "Name": "evoke.items.Armor_Void_Steel_Ancient_Hands.name"
+  },
+  "Quality": "Uncommon",
+  "Model": "Items/Armors/Steel/Hands.blockymodel",
+  "Texture": "NPC/Mannequin/Armor/Void_Steel/Hands.png",
+  "Icon": "Icons/ItemsGenerated/Armor_Void_Steel_Ancient_Hands.png",
+  "IconProperties": {
+    "Scale": 0.4,
+    "Rotation": [
+      22.5,
+      45,
+      22.5
+    ],
+    "Translation": [
+      4,
+      -38
+    ]
+  },
+  "Recipe": {
+    "KnowledgeRequired": true,
+    "TimeSeconds": 2,
+    "Input": [
+      {
+        "ItemId": "Ingredient_Bar_Iron",
+        "Quantity": 7
+      },
+      {
+        "ItemId": "Ingredient_Leather_Light",
+        "Quantity": 3
+      },
+      {
+        "ItemId": "Ingredient_Void_Essence",
+        "Quantity": 5
+      }
+    ],
+    "OutputQuantity": 1,
+    "BenchRequirement": [
+      {
+        "Id": "Arcanebench",
+        "Type": "Crafting",
+        "Categories": [
+          "Arcane_Hexcode_Evoke"
+        ]
+      }
+    ]
+  }
+}

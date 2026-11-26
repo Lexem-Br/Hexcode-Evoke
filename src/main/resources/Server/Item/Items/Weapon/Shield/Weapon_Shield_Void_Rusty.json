@@ -1,5 +1,37 @@
 {
   "Parent": "Weapon_Shield_Rusty",
+  "TranslationProperties": {
+    "Name": "evoke.items.Weapon_Shield_Void_Rusty.name"
+  },
+  "Quality": "Uncommon",
   "Texture": "Items/Weapons/Shield/Void_Rusty_Texture.png",
-  "Icon": "Icons/ItemsGenerated/Weapon_Shield_Void_Rusty.png"
+  "Icon": "Icons/ItemsGenerated/Weapon_Shield_Void_Rusty.png",
+  "Recipe": {
+    "KnowledgeRequired": true,
+    "TimeSeconds": 2,
+    "Input": [
+      {
+        "ItemId": "Ingredient_Bar_Iron",
+        "Quantity": 4
+      },
+      {
+        "ItemId": "Ingredient_Leather_Light",
+        "Quantity": 3
+      },
+      {
+        "ItemId": "Ingredient_Void_Essence",
+        "Quantity": 4
+      }
+    ],
+    "OutputQuantity": 1,
+    "BenchRequirement": [
+      {
+        "Id": "Arcanebench",
+        "Type": "Crafting",
+        "Categories": [
+          "Arcane_Hexcode_Evoke"
+        ]
+      }
+    ]
+  }
 }

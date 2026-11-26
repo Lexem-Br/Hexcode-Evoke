@@ -1,14 +1,22 @@
 {
-  "$Comment": "Void Mannequin Lv4 death drops. Each entry rolls independently.",
+  "$Comment": "Void Arena 2 reward chest loot for a clear between the Excellent and Normal times. Which list applies and the time limits are set in Server/Evoke/VoidArenaRewards/Evoke_Void_Arena_Rewards_2.json.",
   "Container": {
     "Type": "Multiple",
     "Containers": [
       {
         "Type": "Single",
         "Item": {
-          "ItemId": "Ingredient_Void_Essence",
+          "ItemId": "Hex_Creature_Page_2",
           "QuantityMin": 1,
           "QuantityMax": 1
+        }
+      },
+      {
+        "Type": "Single",
+        "Item": {
+          "ItemId": "Ingredient_Void_Essence",
+          "QuantityMin": 15,
+          "QuantityMax": 15
         }
       },
       {
@@ -21,12 +29,12 @@
           },
           {
             "Type": "Single",
+            "Weight": 10,
             "Item": {
-              "ItemId": "Weapon_Longsword_Void_Mannequin",
+              "ItemId": "Void_Arena_Key",
               "QuantityMin": 1,
               "QuantityMax": 1
-            },
-            "Weight": 10
+            }
           }
         ]
       },
@@ -36,16 +44,16 @@
         "Containers": [
           {
             "Type": "Empty",
-            "Weight": 97.5
+            "Weight": 90
           },
           {
             "Type": "Single",
+            "Weight": 10,
             "Item": {
-              "ItemId": "Void_Mannequin_Steel_Head",
+              "ItemId": "Void_Arena_Key_2",
               "QuantityMin": 1,
               "QuantityMax": 1
-            },
-            "Weight": 2.5
+            }
           }
         ]
       },
@@ -55,16 +63,16 @@
         "Containers": [
           {
             "Type": "Empty",
-            "Weight": 97.5
+            "Weight": 90
           },
           {
             "Type": "Single",
+            "Weight": 10,
             "Item": {
-              "ItemId": "Void_Mannequin_Steel_Chest",
+              "ItemId": "Void_Arena_Key_3",
               "QuantityMin": 1,
               "QuantityMax": 1
-            },
-            "Weight": 2.5
+            }
           }
         ]
       },
@@ -74,35 +82,16 @@
         "Containers": [
           {
             "Type": "Empty",
-            "Weight": 97.5
+            "Weight": 80
           },
           {
             "Type": "Single",
+            "Weight": 20,
             "Item": {
-              "ItemId": "Void_Mannequin_Steel_Hands",
+              "ItemId": "Void_Arena_Recipe",
               "QuantityMin": 1,
               "QuantityMax": 1
-            },
-            "Weight": 2.5
-          }
-        ]
-      },
-      {
-        "Type": "Choice",
-        "Weight": 100,
-        "Containers": [
-          {
-            "Type": "Empty",
-            "Weight": 97.5
-          },
-          {
-            "Type": "Single",
-            "Item": {
-              "ItemId": "Void_Mannequin_Steel_Legs",
-              "QuantityMin": 1,
-              "QuantityMax": 1
-            },
-            "Weight": 2.5
+            }
           }
         ]
       }

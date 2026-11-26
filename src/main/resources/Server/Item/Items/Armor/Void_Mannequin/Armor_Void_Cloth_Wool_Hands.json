@@ -1,8 +1,12 @@
 {
   "Parent": "Armor_Cloth_Wool_Hands",
+  "TranslationProperties": {
+    "Name": "evoke.items.Armor_Void_Cloth_Wool_Hands.name"
+  },
+  "Quality": "Common",
   "Model": "Items/Armors/Leather_Light/Hands.blockymodel",
   "Texture": "NPC/Mannequin/Armor/Void_Wool/Hands.png",
-  "Icon": "Icons/ItemsGenerated/Void_Mannequin_Wool_Hands.png",
+  "Icon": "Icons/ItemsGenerated/Armor_Void_Cloth_Wool_Hands.png",
   "IconProperties": {
     "Scale": 0.58823,
     "Rotation": [

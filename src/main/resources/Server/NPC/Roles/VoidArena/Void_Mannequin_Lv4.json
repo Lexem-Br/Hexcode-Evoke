@@ -40,10 +40,10 @@
       0,
       24
     ],
-    "DropList": "Drop_Evoke_Void_Mannequin_Lv4",
+    "DropList": "Drop_Void_Mannequin_Lv4",
     "Appearance": "Void_Mannequin",
     "Weapons": [
-      "Weapon_Longsword_Void_Mannequin"
+      "Weapon_Longsword_Void_Praetorian"
     ],
     "OffHand": [],
     "FlockArray": {

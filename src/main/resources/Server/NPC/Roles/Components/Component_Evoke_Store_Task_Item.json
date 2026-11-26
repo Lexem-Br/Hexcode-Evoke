@@ -197,7 +197,7 @@
             "Sensor":  {
               "Type": "Evoke:SearchChestTaskPosition",
               "HorizontalRange": 2,
-              "VerticalRange": 3
+              "VerticalRange": 0.6
             },
             "ActionsBlocking": true,
             "Actions": [

@@ -1,0 +1,9 @@
+{
+  "Parent": "Weapon_Shortbow_Iron_Rusty",
+  "TranslationProperties": {
+    "Name": "evoke.items.Weapon_Shortbow_Void_Iron_Rusty.name"
+  },
+  "Quality": "Common",
+  "Texture": "Items/Weapons/Shortbow/Void_Iron_Texture.png",
+  "Icon": "Icons/ItemsGenerated/Weapon_Shortbow_Void_Iron_Rusty.png"
+}

@@ -1,0 +1,50 @@
+{
+  "Parent": "Armor_Steel_Ancient_Head",
+  "TranslationProperties": {
+    "Name": "evoke.items.Armor_Void_Steel_Ancient_Head.name"
+  },
+  "Quality": "Uncommon",
+  "Model": "Items/Armors/Steel/Head.blockymodel",
+  "Texture": "NPC/Mannequin/Armor/Void_Steel/Head.png",
+  "Icon": "Icons/ItemsGenerated/Armor_Void_Steel_Ancient_Head.png",
+  "IconProperties": {
+    "Scale": 0.5,
+    "Rotation": [
+      22.5,
+      45,
+      22.5
+    ],
+    "Translation": [
+      0,
+      -13.5
+    ]
+  },
+  "Recipe": {
+    "KnowledgeRequired": true,
+    "TimeSeconds": 2,
+    "Input": [
+      {
+        "ItemId": "Ingredient_Bar_Iron",
+        "Quantity": 9
+      },
+      {
+        "ItemId": "Ingredient_Leather_Light",
+        "Quantity": 4
+      },
+      {
+        "ItemId": "Ingredient_Void_Essence",
+        "Quantity": 6
+      }
+    ],
+    "OutputQuantity": 1,
+    "BenchRequirement": [
+      {
+        "Id": "Arcanebench",
+        "Type": "Crafting",
+        "Categories": [
+          "Arcane_Hexcode_Evoke"
+        ]
+      }
+    ]
+  }
+}

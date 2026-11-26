@@ -57,7 +57,7 @@
   ],
   "Parameters": {
     "DropList": {
-      "Value": "Drop_Evoke_Void_Wisp_Torch",
+      "Value": "Drop_Void_Wisp_Torch",
       "Description": "Drop Items"
     },
     "Appearance": {

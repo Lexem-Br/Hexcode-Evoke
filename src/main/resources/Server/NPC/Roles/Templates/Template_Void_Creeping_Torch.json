@@ -53,7 +53,7 @@
   ],
   "Parameters": {
     "DropList": {
-      "Value": "Drop_Evoke_Void_Creeping_Torch",
+      "Value": "Drop_Void_Creeping_Torch",
       "Description": "Drop Items"
     },
     "Appearance": {

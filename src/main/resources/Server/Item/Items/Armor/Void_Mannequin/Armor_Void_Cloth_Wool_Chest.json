@@ -1,8 +1,12 @@
 {
   "Parent": "Armor_Cloth_Wool_Chest",
+  "TranslationProperties": {
+    "Name": "evoke.items.Armor_Void_Cloth_Wool_Chest.name"
+  },
+  "Quality": "Common",
   "Model": "Items/Armors/Leather_Light/Chest.blockymodel",
   "Texture": "NPC/Mannequin/Armor/Void_Wool/Chest.png",
-  "Icon": "Icons/ItemsGenerated/Void_Mannequin_Wool_Chest.png",
+  "Icon": "Icons/ItemsGenerated/Armor_Void_Cloth_Wool_Chest.png",
   "IconProperties": {
     "Scale": 0.4,
     "Rotation": [

@@ -1,0 +1,37 @@
+{
+  "Parent": "Weapon_Sword_Steel_Rusty",
+  "TranslationProperties": {
+    "Name": "evoke.items.Weapon_Sword_Void_Steel_Rusty.name"
+  },
+  "Quality": "Uncommon",
+  "Texture": "Items/Weapons/Sword/Void_Steel_Rusty_Texture.png",
+  "Icon": "Icons/ItemsGenerated/Weapon_Sword_Void_Steel_Rusty.png",
+  "Recipe": {
+    "KnowledgeRequired": true,
+    "TimeSeconds": 2,
+    "Input": [
+      {
+        "ItemId": "Ingredient_Bar_Iron",
+        "Quantity": 6
+      },
+      {
+        "ItemId": "Ingredient_Leather_Light",
+        "Quantity": 3
+      },
+      {
+        "ItemId": "Ingredient_Void_Essence",
+        "Quantity": 4
+      }
+    ],
+    "OutputQuantity": 1,
+    "BenchRequirement": [
+      {
+        "Id": "Arcanebench",
+        "Type": "Crafting",
+        "Categories": [
+          "Arcane_Hexcode_Evoke"
+        ]
+      }
+    ]
+  }
+}
